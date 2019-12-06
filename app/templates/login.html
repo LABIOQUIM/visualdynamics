@@ -1,0 +1,30 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-start">
+        <form class="align-items-center text-center" action="/login" method="post" onsubmit="return validateForm()">
+            <label for="username" class="form-control-label text-center mt-3">Usuário ou E-mail</label>
+            <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" placeholder="Ex: davi12@hotmail.com">
+            <label for="password" class="form-control-label mt-3">Senha</label>
+            <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
+            <input class="m-2 btn-ln btn-primary" type="submit" value="Login" name="submit">
+        </form>
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        email = document.forms[0][0].value;
+        password = document.forms[0][1].value;
+        if (email==null || email=="") {
+            alert("Email deve ser preenchido");
+            return false;
+            }
+        if (password==null || password=="") {
+            alert("Senha deve ser preenchida");
+            return false;
+            }
+    };
+</script>
+{% endblock %}

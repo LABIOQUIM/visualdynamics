@@ -1,0 +1,13 @@
+.git/
+.vscode/
+__pycache__
+migrations
+
+# virtualenv
+.venv
+venv/
+ENV/
+pyvenv.cfg
+bin/
+lib64
+share
