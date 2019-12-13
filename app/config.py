@@ -7,7 +7,7 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.expanduser('~') + '/VDfiles/'
-    STATIC_FOLDER = os.path.expanduser('~') + '/visualdynamics/app'
+    STATIC_FOLDER = os.path.expanduser('~') + '/Visualdynamics/app'
     ALLOWED_EXTENSIONS = {'pdb'}
     SOURCE_COMMAND = '/bin/bash -c source /usr/local/gromacs/bin/GMXRC'
-    MDP_LOCATION_FOLDER = os.path.expanduser('~') + '/visualdynamics/mdpfiles'
+    MDP_LOCATION_FOLDER = os.path.expanduser('~') + '/Visualdynamics/mdpfiles'
