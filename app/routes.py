@@ -152,7 +152,7 @@ def logout():
 @admin_required
 def admin():
     UserData = User.query.all()
-    return render_template('admin.html', UserData=UserData)
+    return render_template('admin.html', actadmin = 'active', UserData=UserData)
 
 @app.route('/admin/edit/<int:id>', methods=['GET', 'POST'])
 @admin_required
