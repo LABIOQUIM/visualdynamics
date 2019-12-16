@@ -24,7 +24,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, filenameLig):
 
     for l in lines:
         if l[0] == '#':
-            WriteUserDynamics(line)
+            WriteUserDynamics(l)
         
         else:
             #estabelecer o diretorio de trabalho
