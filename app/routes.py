@@ -121,13 +121,13 @@ def ligante():
 @app.route('/executarlig/<comp>/<mol>/<lig>/<filename>/<filenamelig>')
 @login_required
 def executarlig(comp,mol,lig,filename,filenamelig):
-    filename = mol+'_'+lig
+    moleculaLig = mol+'_'+lig
     AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                    current_user.username,filename, 'run',
-                    'logs/', filename)
+                    current_user.username,moleculaLig, 'run',
+                    'logs/', filename, filenamelig)
     exc = executelig(AbsFileName, comp, current_user.username, mol, lig)
     flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-    return redirect(url_for('index'))
+    return redirect(url_for('ligante'))
 
 
 @app.route('/imgfiles')
