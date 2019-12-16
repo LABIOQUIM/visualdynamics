@@ -4,7 +4,9 @@ from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
 from .generate import generate
+from .generateLig import generateLig
 from .execute import execute
+from .executeLig import executelig
 from .upload_file import upload_file
 from .checkuserdynamics import CheckUserDynamics, CheckDynamicsSteps
 from .admin_required import admin_required
@@ -106,13 +108,27 @@ def executar(comp,mol,filename):
     return redirect(url_for('index'))
 
 
-@app.route('/ligante')
+@app.route('/ligante', methods=['GET','POST'])
 @login_required
 def ligante():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        
     if CheckUserDynamics(current_user.username) == True:
         flash('','steps')   
-    flash('Esta funcionalidade ainda está em desenvolvimento','success') 
     return render_template('ligante.html', actlig = 'active')
+
+@app.route('/executarlig/<comp>/<mol>/<lig>/<filename>/<filenamelig>')
+@login_required
+def executarlig(comp,mol,lig,filename,filenamelig):
+    filename = mol+'_'+lig
+    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username,filename, 'run',
+                    'logs/', filename)
+    exc = executelig(AbsFileName, comp, current_user.username, mol, lig)
+    flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+    return redirect(url_for('index'))
+
 
 @app.route('/imgfiles')
 @login_required
