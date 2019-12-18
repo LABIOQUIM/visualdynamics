@@ -124,10 +124,20 @@
    
 
     function validateProcessing() {
-        var filename = document.querySelector('#file').value;
+        var filename = document.querySelector('#file')
+        var filenameitp = document.querySelector('#fileitp').value;
+        var filenamegro = document.querySelector('#filegro').value;
         var distance = document.querySelector('#distanciacaixa').value;
         if (filename === "" || filename == null) {
             alert('Deve ser selecionado um arquivo');
+            return false
+        }
+        if (filenameitp === "" || filenameitp == null) {
+            alert('Deve ser selecionada a distancia');
+            return false
+        }
+        if (filenamegro === "" || filenamegro == null) {
+            alert('Deve ser selecionada a distancia');
             return false
         }
         if (distance === "" || distance == null) {
