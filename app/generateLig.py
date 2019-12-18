@@ -52,19 +52,6 @@ def generateLig(
     + ' ' + parametro9 + ' ' + parametro10 + ' ' + parametro11)
     comandos.write('\n\n')
     
-    #abrindo arquivo _livre.top e incluindo o ligant topology
-    diretorio = pasta +'/run/'+arquivo_itp 
-    f = open(diretorio,'r')
-    filetop = f.read()
-    i = filetop.find('system')
-    
-
-
-
-
-
-
-
 
 
     return CompleteFileName
