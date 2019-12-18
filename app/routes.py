@@ -7,7 +7,7 @@ from .generate import generate
 from .generateLig import generateLig
 from .execute import execute
 from .executeLig import executelig
-from .upload_file import upload_file
+from .upload_file import upload_file, upload_file_ligante
 from .checkuserdynamics import CheckUserDynamics, CheckDynamicsSteps
 from .admin_required import admin_required
 import ast
@@ -113,19 +113,55 @@ def executar(comp,mol,filename):
 def ligante():
     if request.method == 'POST':
         file = request.files.get('file')
+        fileitp = request.files.get('fileitp')
+        filegro = request.files.get('filegro')
+        CompleteFileName = generateLig(file.filename,
+                                    fileitp.filename,
+                                    filegro.filename,
+                                    request.form.get('campoforca'),
+                                    request.form.get('modeloagua'),
+                                    request.form.get('tipocaixa'),
+                                    request.form.get('distanciacaixa'),
+                                    request.form.get('neutralize'),
+                                    request.form.get('double'),
+                                    request.form.get('ignore'),
+                                    current_user
+                                    )  
         
+        if request.form.get('execute') == 'Executar':
+            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #checar se servidor esta em execução
+                    try:
+                        f = open(Config.UPLOAD_FOLDER+'executing','x+')
+                        f.writelines('{}\n'.format(current_user.username))
+                        f.close()
+                    except OSError as e:
+                        if e.errno == errno.EEXIST:
+                            flash('O servidor está em execução', 'danger')
+                            return redirect(url_for('index'))
+                    #preparar para executar
+                    MoleculeName = file.filename.split('.')[0]
+                    liganteitpName = file.filename.split('.')[0]
+                    ligantegroName = file.filename.split('.')[0]
+                    return redirect(url_for('executarlig', comp=CompleteFileName,
+                        mol=MoleculeName,ligitp=liganteitpName,liggro =ligantegroName,
+                        filename=file.filename, itpname=fileitp.filename, groname=filegro.filename)) 
+            else:
+                 flash('A extensão dos arquivos está incorreta', 'danger')
+            
+            
+
     if CheckUserDynamics(current_user.username) == True:
         flash('','steps')   
     return render_template('ligante.html', actlig = 'active')
 
-@app.route('/executarlig/<comp>/<mol>/<lig>/<filename>/<filenamelig>')
+@app.route('/executarlig/<comp>/<mol>/<ligitp>/<liggro>/<filename>/<itpname>/<groname>')
 @login_required
-def executarlig(comp,mol,lig,filename,filenamelig):
-    moleculaLig = mol+'_'+lig
+def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
+    moleculaLig = mol+'_'+ligitp
     AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
                     current_user.username,moleculaLig, 'run',
-                    'logs/', filename, filenamelig)
-    exc = executelig(AbsFileName, comp, current_user.username, mol, lig)
+                    'logs/', filename, itpname, groname)
+    exc = executelig(AbsFileName, comp, current_user.username, mol, ligitp, liggro)
     flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
     return redirect(url_for('ligante'))
 

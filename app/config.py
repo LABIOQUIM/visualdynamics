@@ -8,6 +8,6 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.expanduser('~') + '/VDfiles/'
     STATIC_FOLDER = os.path.expanduser('~') + '/Visualdynamics/app'
-    ALLOWED_EXTENSIONS = {'pdb'}
+    ALLOWED_EXTENSIONS = {'pdb', 'itp', 'gro'}
     SOURCE_COMMAND = '/bin/bash -c source /usr/local/gromacs/bin/GMXRC'
     MDP_LOCATION_FOLDER = os.path.expanduser('~') + '/Visualdynamics/mdpfiles'

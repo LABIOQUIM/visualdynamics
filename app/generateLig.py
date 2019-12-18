@@ -49,5 +49,6 @@ def generateLig(
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 \
     + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
-    comandos.write('#\n\n')
+    comandos.write('\n\n')
     
+    return CompleteFileName

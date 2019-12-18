@@ -3,11 +3,11 @@ from datetime import datetime
 import subprocess, os, sys, shutil
 
 
-def executelig(LogFileName, CommandsFileName, username, filename, filenameLig):
-    LogFile = create_log(filename,filenameLig, username) #cria o arquivo log
+def executelig(LogFileName, CommandsFileName, username, filename, ligitp,liggro):
+    LogFile = create_log(filename,ligitp, username) #cria o arquivo log
 
     #transferir os arquivos mdp necessarios para a execução
-    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename+'_'+filenameLig + '/run/' #pasta q vai rodar
+    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename+'_'+ligitp + '/run/' #pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
     MDPList = os.listdir(SecureMdpFolder)
 
