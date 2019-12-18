@@ -127,6 +127,11 @@ def ligante():
                                     request.form.get('ignore'),
                                     current_user
                                     )  
+        if request.form.get('download') == 'Baixar Lista de Comandos':
+            name = file.filename.split('.')[0]+'_'+fileitp.filename.split('.')[0]
+            return redirect(url_for('commandsdownload',
+                    filename={"complete" : CompleteFileName,
+                    "name": name}))
         
         if request.form.get('execute') == 'Executar':
             if upload_file_ligante(file, fileitp, filegro, current_user.username):    #checar se servidor esta em execução
@@ -140,8 +145,8 @@ def ligante():
                             return redirect(url_for('index'))
                     #preparar para executar
                     MoleculeName = file.filename.split('.')[0]
-                    liganteitpName = file.filename.split('.')[0]
-                    ligantegroName = file.filename.split('.')[0]
+                    liganteitpName = fileitp.filename.split('.')[0]
+                    ligantegroName = filegro.filename.split('.')[0]
                     return redirect(url_for('executarlig', comp=CompleteFileName,
                         mol=MoleculeName,ligitp=liganteitpName,liggro =ligantegroName,
                         filename=file.filename, itpname=fileitp.filename, groname=filegro.filename)) 
@@ -160,8 +165,8 @@ def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
     moleculaLig = mol+'_'+ligitp
     AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
                     current_user.username,moleculaLig, 'run',
-                    'logs/', filename, itpname, groname)
-    exc = executelig(AbsFileName, comp, current_user.username, mol, ligitp, liggro)
+                    'logs/', moleculaLig)
+    exc = executelig(AbsFileName, comp, current_user.username, moleculaLig, liggro)
     flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
     return redirect(url_for('ligante'))
 

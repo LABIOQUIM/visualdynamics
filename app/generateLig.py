@@ -31,6 +31,7 @@ def generateLig(
     comandos = open(pasta + CompleteFileName, "w")
     os.chdir(pasta)          
 
+    #executando o comando inicial
     gmx = '/usr/local/gromacs/bin/gmx_d' if double else '/usr/local/gromacs/bin/gmx'
     comando = 'pdb2gmx' 
     parametro1 = '-f'
@@ -39,16 +40,31 @@ def generateLig(
     parametro4 = arquivo_livre_gro
     parametro5 = '-p'
     parametro6 = arquivo_livre_top
-    parametro6 = '-ff'
-    parametro7 = 'gromos54a7'
-    parametro8 = '-water spc'
-    parametro9 = '-ignh'
-    parametro10 = 'missing'
+    parametro7 = '-ff'
+    parametro8 = 'gromos54a7'
+    parametro9 = '-water spc'
+    parametro10 = '-ignh'
+    parametro11 = '-missing'
 
     comandos.write('#topology\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 \
-    + ' ' + parametro8 + ' ' + parametro9 + ' ' + parametro10)
+    + ' ' + parametro9 + ' ' + parametro10 + ' ' + parametro11)
     comandos.write('\n\n')
     
+    #abrindo arquivo _livre.top e incluindo o ligant topology
+    diretorio = pasta +'/run/'+arquivo_itp 
+    f = open(diretorio,'r')
+    filetop = f.read()
+    i = filetop.find('system')
+    
+
+
+
+
+
+
+
+
+
     return CompleteFileName

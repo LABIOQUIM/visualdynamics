@@ -3,11 +3,11 @@ from datetime import datetime
 import subprocess, os, sys, shutil
 
 
-def executelig(LogFileName, CommandsFileName, username, filename, ligitp,liggro):
-    LogFile = create_log(filename,ligitp, username) #cria o arquivo log
+def executelig(LogFileName, CommandsFileName, username, filename, liggro):
+    LogFile = create_log(LogFileName, username) #cria o arquivo log
 
     #transferir os arquivos mdp necessarios para a execução
-    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename+'_'+ligitp + '/run/' #pasta q vai rodar
+    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
     MDPList = os.listdir(SecureMdpFolder)
 
@@ -45,21 +45,16 @@ def executelig(LogFileName, CommandsFileName, username, filename, ligitp,liggro)
     os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
 
 
-def create_log(filename,filenameLig, username):
+def create_log(LogFileName, username):
     #formatando nome do arquivo log
-    filename = filename.split('.')
-    filename.pop()
-    filenameLig = filenameLig.split('.')
-    filenameLig.pop()
-    LogFileName = filename+'_'+filenameLig
-    LogFileName = ".".join(LogFileName)+\
-            "-{}-{}-{}[{}:{}:{}]{}".format(
-            datetime.now().year, datetime.now().month,
-            datetime.now().day, datetime.now().hour,
-            datetime.now().minute, datetime.now().second,
-            '.log.txt'
-            )
-    
+    LogFileName = LogFileName+"-{}-{}-{}[{}:{}:{}]{}".format(datetime.now().year,
+                                                            datetime.now().month,
+                                                            datetime.now().day,
+                                                            datetime.now().hour,
+                                                            datetime.now().minute,
+                                                            datetime.now().second,
+                                                            '.log.txt')
+        
     LogFile = open(LogFileName, "w+")
     f = open(Config.UPLOAD_FOLDER+username+'/DirectoryLog', 'w')
     f.write(LogFileName)
