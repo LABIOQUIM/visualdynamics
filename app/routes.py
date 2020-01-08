@@ -166,7 +166,7 @@ def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
     AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
                     current_user.username,moleculaLig, 'run',
                     'logs/', moleculaLig)
-    exc = executelig(AbsFileName, comp, current_user.username, moleculaLig, itpname, mol)
+    exc = executelig(AbsFileName, comp, current_user.username, moleculaLig, itpname, groname, mol)
     flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
     return redirect(url_for('ligante'))
 

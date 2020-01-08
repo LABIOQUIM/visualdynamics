@@ -3,7 +3,7 @@ from datetime import datetime
 import subprocess, os, sys, shutil
 
 
-def executelig(LogFileName, CommandsFileName, username, filename, itpname, mol):
+def executelig(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
     LogFile = create_log(LogFileName, username) #cria o arquivo log
 
     #transferir os arquivos mdp necessarios para a execução
@@ -41,51 +41,82 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, mol):
                     return (e.args)
         
         #breakpoint adicionado para possibilitar a interação com os arquivos em tempo de execução
-        if l == '#break':
-            diretorio = RunFolder + mol +'_livre.top'
-            file_top =  open(diretorio,'r')
-            file_top = file_top.readlines()
-            #abrindo arquivo _livre.top e incluindo o ligant topology
-            for i, text in enumerate(file_top):
-                if text.find('system') > -1:
-                    file = open(diretorio,'w')
-                    file_top[i-5] = "\n; Include ligand topology\n"+"#include"+' '+itpname+"\n"
-                    file.writelines(file_top)
-                    file.close()
-        
+        if l == '#break': 
+            #cria o novo arquivo com a molecula complexada
+            #pronto 
             diretorio_ltop = RunFolder + mol +'_livre.top'
+            diretorio_complx_top = RunFolder + mol +'_complx.top'
+            file_ltop =  open(diretorio_ltop,'r')
+            file_ltop = file_ltop.read()
+            file_complx_top = open(diretorio_complx_top,'w')
+            file_complx_top.writelines(file_ltop)
+
+            #cria o novo arquivo com a molecula complexada
+            #pronto
+            file_complx_top = open(diretorio_complx_top,'r')
+            file_complx_top = file_complx_top.readlines()
+            for i, text in enumerate(file_complx_top):
+                if text.find('system') > -1:
+                    file = open(diretorio_complx_top,'w')
+                    file_complx_top[i-5] = '\n; Include ligand topology\n'+'#include'+' '+'"'+itpname+'"'+"\n"
+                    file.writelines(file_complx_top)
+                    file.close()
+            
+            #acessando arquivo .itp para pegar o moleculetype
+            #pronto
             diretorio_itp = RunFolder + itpname
             file = open(diretorio_itp,'r')
             file_itp = file.readlines()         
             for i, text in enumerate(file_itp):
-                if text.find('atoms') > -1:
-                    #Adaptando os dados da linha que sera inserida no arquivo _livre.top
-                    valor = file_itp[i-1]
-                    valor = valor.split(' ')
-                    id = valor[0]
-                    i = len(valor) - 1 
-                    valor = valor.pop(i)
-                    #deixando no padrão de espaçamento 
-                    valor = id+'                '+valor
-                    file.close()
-                    #acessando o arquivo _livre.top para incluir os dados
-                    file_top = open(diretorio_ltop,'r')
-                    file_top = file_top.readlines()
-                    file_top.append(valor)
+                if text.find('moleculetype') > -1:
+                    valor = file_itp[i+2]
+                    #acessando o arquivo _complx.top para incluir os dados
+                    file_complx_top = open(diretorio_complx_top,'r')
+                    file_complx_top = file_complx_top.readlines()
+                    file_complx_top.append(valor)
                     #acessa para salvar a alteração
-                    file = open(diretorio_ltop,'w')
-                    file.writelines(file_top)
+                    file = open(diretorio_complx_top,'w')
+                    file.writelines(file_complx_top)
                     file.close()
+             
+            #modificando o arquivo .gro
+            #pronto
+            diretorio_gro = RunFolder + groname
+            file = open(diretorio_gro,'r')
+            file_gro = file.readlines()
+            valor_gro = file_gro[1]
+            valor_gro = int(valor_gro)
+            file_gro.pop()
+            file_gro.pop(0)
 
-            #cria o novo arquivo com a molecula complexada 
-            file_top = open(diretorio_ltop,'r')
-            file = file_top.read()
-            Newdiretorio = RunFolder + mol +'_complx.top'
-            file_complx = open(Newdiretorio,'w')
-            file_complx.writelines(file)
-            file_top.close()
-            file_complx.close()
-                           
+            #copiando as coordenadas dos atomos
+            diretorio_lgro = RunFolder + mol +'_livre.gro'
+            diretorio_complx_gro =  RunFolder + mol +'_complx.gro'
+            file_complx_gro = open(diretorio_complx_gro,'w')
+            file_lgro = open(diretorio_lgro,'r')
+            file_lgro = file_lgro.readlines()
+            i = len(file_lgro)-1
+            last_line = file_lgro[i]
+            file_lgro.pop()
+            file_complx_gro.writelines(file_lgro)
+            file_gro.pop(0)
+            file_gro.append(last_line)
+            file_complx_gro.writelines(file_gro)
+            file_complx_gro.close()            
+            
+            #somando a quantidade de atomos da enzima
+            #pronto
+            file_complx_gro = open(diretorio_complx_gro,'r')
+            file_complx_gro = file_complx_gro.readlines()
+            valor_complx_gro = file_complx_gro[1]
+            valor_complx_gro = int(valor_complx_gro)
+            total = valor_gro + valor_complx_gro
+            total = str(total)
+            file_complx_gro[1] = ' '+total+'\n'
+            file = open(diretorio_complx_gro,'w')
+            file.writelines(file_complx_gro)
+            file.close()
+
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER+'executing')
     os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
