@@ -58,7 +58,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             for i, text in enumerate(file_complx_top):
                 if text.find('system') > -1:
                     file = open(diretorio_complx_top,'w')
-                    file_complx_top[i-5] = '\n; Include ligand topology\n'+'#include'+' '+'"'+itpname+'"'+"\n"
+                    file_complx_top[i-1] = '\n; Include ligand topology\n'+'#include'+' '+'"'+itpname+'"'+"\n\n"
                     file.writelines(file_complx_top)
                     file.close()
             
@@ -69,11 +69,13 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             file_itp = file.readlines()         
             for i, text in enumerate(file_itp):
                 if text.find('moleculetype') > -1:
-                    valor = file_itp[i+2]
+                    molecula = file_itp[i+2]
+                    molecula = molecula.split(' ')[0]
+                    molecula = molecula+'                 '+'1\n'
                     #acessando o arquivo _complx.top para incluir os dados
                     file_complx_top = open(diretorio_complx_top,'r')
                     file_complx_top = file_complx_top.readlines()
-                    file_complx_top.append(valor)
+                    file_complx_top.append(molecula)
                     #acessa para salvar a alteração
                     file = open(diretorio_complx_top,'w')
                     file.writelines(file_complx_top)

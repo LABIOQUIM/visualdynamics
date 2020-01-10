@@ -78,7 +78,7 @@
             <input class="form-control col-4 input-sm" type="number" min="0" name="distanciacaixa" id="distanciacaixa">
         </div>
         <div>
-        <input class="form-check-input ml-2" type="checkbox" name="neutralize" id="neutralize">
+        <input class="form-check-input ml-2" type="checkbox" checked="checked" disabled="disabled" name="neutralize" id="neutralize">
         <label class="form-check-label ml-4" for="neutralize">Neutralizar o Sistema?</label>
         </div>
         <div>
@@ -101,6 +101,44 @@
     </label>
 </form>
 </div>
+
+
+<div id="steps" class="col d-flex flex-column justify-content-start align-items-center">
+    {% with steps = get_flashed_messages(category_filter=["steps"]) %}
+    {% if steps %}
+    <img class="figure-img" src="{{ url_for('static', filename='svg/spinner.svg') }}" width="75">
+        <figcaption class="figure-caption">Você tem uma dinâmica em andamento</figcaption>
+        {% endif %}
+        {% if steplist %}
+        {% set btnOK = 'btn-success' %}
+        <script>
+            setInterval(function(){ document.location.reload() }, 10000);
+        </script>
+        <button id="topology" class="btn-secondary btn m-auto {{ btnOK if '#topology' in steplist }}">Definir Topologia</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+        <button id="solvate" class="btn-secondary btn m-auto {{ btnOK if '#solvate' in steplist }}">Definir Caixa e Solvatar</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+        <button id="ions" class="btn-secondary btn m-auto {{ btnOK if '#ions' in steplist }}">Adicionar Ions</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+        <button id="minimizationsteepdesc" class="btn-secondary btn m-auto {{ btnOK if '#minimizationsteepdesc' in steplist }}">Minimização Método Steep Descent</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+        <button id="minimizationconjgrad" class="btn-secondary btn m-auto {{ btnOK if '#minimizationconjgrad' in steplist }}">Minimização Método Conjugate Gradient</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+        <button id="equilibrationnvt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnvt' in steplist }}">Restrição NVT</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+        <button id="equilibrationnpt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnpt' in steplist }}">Restrição NPT</button>
+            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+        <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">Produção MD</button>        
+            
+            {% if '#productionmd' in steplist %}
+                <br>
+                <label id="datefinish" class="border text-primary" > {{ date_finish }} </label>
+            {% endif %}
+        
+        {% endif %} 
+    {% endwith %}
+</div>
+
 
 <script>
     document.querySelector('.image-upload input').addEventListener("input", function(){

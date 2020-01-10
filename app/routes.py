@@ -153,10 +153,11 @@ def ligante():
             else:
                  flash('A extensão dos arquivos está incorreta', 'danger')
             
-            
-
     if CheckUserDynamics(current_user.username) == True:
-        flash('','steps')   
+        flash('','steps')
+        steplist = CheckDynamicsSteps(current_user.username)
+        return render_template('ligante.html', actlig = 'active', steplist=steplist) 
+    
     return render_template('ligante.html', actlig = 'active')
 
 @app.route('/executarlig/<comp>/<mol>/<ligitp>/<liggro>/<filename>/<itpname>/<groname>')
