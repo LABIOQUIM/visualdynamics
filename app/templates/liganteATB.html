@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form class="align-items-start" method="POST" action="/liganteATB" onsubmit="return validateProcessing()" enctype="multipart/form-data">
+                <div class="image-upload">
+                    <label for="file">Upload da Proteína Livre (.pdb) 
+                        <svg width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                    </label>
+                
+                    <input type="file" name="file" id="file" accept=".pdb">
+                </div>
+
+                <div class="image-upload" id="itp">
+                    <label for="fileitp">Upload do Arquivo .itp do Ligante  
+                        <svg width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                    </label>
+                    
+                    <input type="file" name="fileitp" id="fileitp" accept=".itp">
+                </div>
+            
+                <div class="image-upload" id="gro">
+                    <label for="filegro">Upload do Arquivo .gro ou .pdb do Ligante 
+                        <svg width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                    </label>
+                    
+                    <input type="file" name="filegro" id="filegro" accept=".gro, .pdb">
+                </div>
+
+                <label for="campoforca">Campo de Força</label>
+                <select class="form-control" name="campoforca" id="campoforca">
+                    <option selected="selected" value="gromos53a5">GROMOS 53a6 force field</option>
+                </select>
+
+                <label for="modeloagua">Modelo Agua</label>
+                <select class="form-control" name="modeloagua" id="modeloagua">
+                    <option selected="selected" value="spc">SPC simple point charge (recomendado para GROMOS)</option>
+                    <option value="spce">SPC/E extended simple point charge</option>
+                    <option value="none">None</option>
+                    <option value="tip3p">TIP3P (disponível para AMBER e OPLS apenas)</option>
+                    <option value="tip4p">TIP4P (disponível para AMBER e OPLS apenas)</option>
+                    <option value="tip5p">TIP5P (disponível para AMBER e OPLS apenas)</option>
+                </select>
+
+                <label for="tipocaixa">Tipo Caixa</label>
+                <select class="form-control" name="tipocaixa" id="tipocaixa">
+                    <option selected="selected" value="cubic">Cubic</option>
+                    <option value="triclinic">Triclinic</option>
+                    <option value="dodecahedron">Dodecahedron</option>
+                    <option value="octahedron">Octahedron</option>
+                </select>
+
+                <label class="form-control-label" for="distanciacaixa">Distância entre a proteína e a borda da caixa 
+                (
+                    <img src="static/svg/angstrom.svg" width="13">
+                )
+                </label>
+                <div class="input-group mb-3">
+                    <input class="form-control col-4 input-sm" type="number" min="0" name="distanciacaixa" id="distanciacaixa">
+                </div>
+                <div>
+                    <input class="form-check-input ml-2" type="checkbox" checked="checked" disabled="disabled" name="neutralize" id="neutralize">
+                    <label class="form-check-label ml-4" for="neutralize">Neutralizar o Sistema?</label>
+                </div>
+                <div>
+                    <input class="form-check-input ml-2" type="checkbox" checked="checked" disabled="disabled" id="double">
+                    <label class="form-check-label ml-4" for="double">Calcular em Dupla precisão?</label>
+                    <input type="hidden" name="double" value="True">
+                </div>
+                <div>
+                    <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore">
+                    <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
+                </div>
+                    <input type="submit" class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
+                    <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="download">
+            </form>
+        </div>
+        
+        <div id="steps" class="col d-flex flex-column justify-content-start align-items-center">
+            {% with steps = get_flashed_messages(category_filter=["steps"]) %}
+            {% if steps %}
+            <img class="figure-img" src="{{ url_for('static', filename='svg/spinner.svg') }}" width="75">
+                <figcaption class="figure-caption">Você tem uma dinâmica em andamento</figcaption>
+                {% endif %}
+                {% if steplist %}
+                {% set btnOK = 'btn-success' %}
+                <script>
+                    setInterval(function(){ document.location.reload(true) }, 10000);
+                </script>
+                <button id="topology" class="btn-secondary btn m-auto {{ btnOK if '#topology' in steplist }}">Definir Topologia</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="break" class="btn-secondary btn m-auto {{ btnOK if '#break' in steplist }}">Editando Topologia e Estrutura</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="solvate" class="btn-secondary btn m-auto {{ btnOK if '#solvate' in steplist }}">Definir Caixa e Solvatar</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="ions" class="btn-secondary btn m-auto {{ btnOK if '#ions' in steplist }}">Adicionar Ions</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="minimizationsteepdesc" class="btn-secondary btn m-auto {{ btnOK if '#minimizationsteepdesc' in steplist }}">Minimização Método Steep Descent</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="minimizationconjgrad" class="btn-secondary btn m-auto {{ btnOK if '#minimizationconjgrad' in steplist }}">Minimização Método Conjugate Gradient</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="equilibrationnvt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnvt' in steplist }}">Restrição NVT</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="equilibrationnpt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnpt' in steplist }}">Restrição NPT</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">Produção MD</button>        
+                    
+                    {% if '#productionmd' in steplist %}
+                        <br>
+                        <label id="datefinish" class="border text-primary" > {{ date_finish }} </label>
+                    {% endif %}
+                
+                {% endif %} 
+            {% endwith %}
+        </div>
+    </div>
+    
+    <div class="row">
+        <form action="/imgfiles" method="GET" class="col">
+            <input type="submit" class="mt-2 btn btn-success" value="Baixar Gráficos de Análise" name="graphics">
+            <div>
+                <label for="graphics" class="mt-auto ml-2 text-secondary">
+                    (Nesta versão, apenas as imagens da ultima dinâmica do usuário serão armazenadas)
+                </label>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.image-upload input').addEventListener("input", function(){
+        var filename = document.querySelector('#file').value;
+        var label = document.querySelector('.image-upload label');
+        label.innerHTML += filename;
+    });
+    
+    document.querySelector('#itp input').addEventListener("input", function(){
+        var filename = document.querySelector('#fileitp').value;
+        var label = document.querySelector('#itp label');
+        label.innerHTML += filename;
+    });
+
+     document.querySelector('#gro input').addEventListener("input", function(){
+        var filename = document.querySelector('#filegro').value;
+        var label = document.querySelector('#gro label');
+        label.innerHTML += filename;
+    });
+   
+
+    function validateProcessing() {
+        var filename = document.querySelector('#file').value;
+        var filenameitp = document.querySelector('#fileitp').value;
+        var filenamegro = document.querySelector('#filegro').value;
+        var distance = document.querySelector('#distanciacaixa').value;
+        if (filename === "" || filename == null) {
+            alert('Deve ser selecionado um arquivo (.pdb)');
+            return false
+        }
+        if (filenameitp === "" || filenameitp == null) {
+            alert('Deve ser selecionado um arquivo (.itp)');
+            return false
+        }
+        if (filenamegro === "" || filenamegro == null) {
+            alert('Deve ser selecionado um arquivo (.gro ou .pdb)');
+            return false
+        }
+        if (distance === "" || distance == null) {
+            alert('Deve ser selecionada a distância');
+            return false
+        }
+    };
+
+</script>
+
+{% endblock %}

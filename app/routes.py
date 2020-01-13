@@ -208,6 +208,12 @@ def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
     return redirect(url_for('ligante'))
 
 
+@app.route('/liganteATB', methods=['GET','POST'])
+@login_required
+def liganteATB():
+    return render_template('liganteATB.html', actligATB = 'active')
+
+
 @app.route('/imgfiles')
 @login_required
 def imgsdownload():
