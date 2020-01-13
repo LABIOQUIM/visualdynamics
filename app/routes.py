@@ -211,6 +211,7 @@ def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
 @app.route('/liganteATB', methods=['GET','POST'])
 @login_required
 def liganteATB():
+    flash('Esta funcionalidade está em desenvolvimento', 'danger')
     return render_template('liganteATB.html', actligATB = 'active')
 
 
