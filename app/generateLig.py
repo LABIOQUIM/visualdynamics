@@ -18,6 +18,7 @@ def generateLig(
         if e.errno != errno.EEXIST:
             raise
 
+    #arquivos gerados pelos comandos
     arquivo_livre_gro = nome_arquivo + '_livre.gro'
     arquivo_livre_top = nome_arquivo + '_livre.top'
     arquivo_complx_gro = nome_arquivo + '_complx.gro'
@@ -26,127 +27,345 @@ def generateLig(
     arquivo_complx_charged_tpr = nome_arquivo + '_complx_charged.tpr'
     arquivo_complx_neutral_gro = nome_arquivo + '_complx_neutral.gro'
     arquivo_complx_em_tpr = nome_arquivo + '_complx_em.tpr'
-    arquivo_complx_sd_em_edr = nome_arquivo+'_complx_sd_em.edr'
+    arquivo_complx_sd_em = nome_arquivo + '_complx_sd_em'
+    arquivo_complx_potentialsd = nome_arquivo + '_complx_potentialsd'
+    arquivo_complx_cg_em = nome_arquivo + '_complx_cg_em'
+    arquivo_complx_potentialcg_xvg = nome_arquivo + '_complx_potentialcg'
+    arquivo_complx_nvt = nome_arquivo + '_complx_nvt'
+    arquivo_complx_temperature_nvt = nome_arquivo + '_complx_temperature_nvt'
+    arquivo_complx_npt = nome_arquivo + '_complx_npt'
+    arquivo_complx_temperature_npt = nome_arquivo + '_temperature_npt'
+    arquivo_complx_pr = nome_arquivo + '_complx_pr'
+    arquivo_complx_rmsd_prod = nome_arquivo + '_complx_rmsd_prod'
 
+    #nome completo do arquivo
     CompleteFileName = "{} - {}-{}-{} [{}:{}:{}].txt".format(
             nome_arquivo+'_'+nome_ligante, datetime.now().year, datetime.now().month,
             datetime.now().day, datetime.now().hour,
             datetime.now().minute, datetime.now().second
             )
     
-    # trabalhando parametros
+    #Gravando os comandos e os parametros
     comandos = open(pasta + CompleteFileName, "w")
     os.chdir(pasta)          
 
     gmx = '/usr/local/gromacs/bin/gmx_d' if double else '/usr/local/gromacs/bin/gmx'
+    '''
     comando = 'pdb2gmx' 
-    parametro1 = '-f'
-    parametro2 = arquivo
-    parametro3 = '-o'
-    parametro4 = arquivo_livre_gro
-    parametro5 = '-p'
-    parametro6 = arquivo_livre_top
-    parametro7 = '-ff'
-    parametro8 = 'gromos53a6'
-    parametro9 = '-water spc'
-    parametro10 = '-ignh'
-    parametro11 = '-missing'
+    parametro1 = '-f ' + arquivo
+    parametro2 = '-o ' + arquivo_livre_gro
+    parametro3 = '-p ' + arquivo_livre_top
+    parametro4 = '-ff'
+    parametro5 = 'gromos53a6'
+    parametro6 = '-water spc'
+    parametro7 = '-ignh'
+    parametro8 = '-missing'
 
     comandos.write('#topology\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
-    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 \
-    + ' ' + parametro9 + ' ' + parametro10 + ' ' + parametro11)
+    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
     comandos.write('\n\n#break')
     comandos.write('\n\n')
     
     #comando editconf
     comando = 'editconf'
-    parametro1 = '-f'
-    parametro2 = arquivo_complx_gro
-    parametro3 = '-c -d 1' 
-    parametro4 = '-bt'
-    parametro5 = 'cubic -o'
-    parametro6 = arquivo_complx_gro
+    parametro1 = '-f ' + arquivo_complx_gro
+    parametro2 = '-c -d 1' 
+    parametro3 = '-bt'
+    parametro4 = 'cubic -o ' + arquivo_complx_gro
 
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
-    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6)
+    + ' ' + parametro4)
     comandos.write('\n\n')
 
     #comando solvate
     comando = 'solvate'
-    parametro1 = '-cp' 
-    parametro2 = arquivo_complx_gro 
-    parametro3 = '-cs'
-    parametro4 = 'spc216.gro'
-    parametro5 = '-p'
-    parametro6 = arquivo_complx_top
-    parametro7 = '-o' 
-    parametro8 = arquivo_complx_box_gro    
+    parametro1 = '-cp ' + arquivo_complx_gro 
+    parametro2 = '-cs'
+    parametro3 = 'spc216.gro'
+    parametro4 = '-p ' + arquivo_complx_top
+    parametro5 = '-o ' + arquivo_complx_box_gro    
 
     comandos.write('#solvate\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
-    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6+ ' ' + parametro7 + ' ' + parametro8)
+    + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
+    
+    #comando grompp
+    comando = 'grompp'
+    parametro1 = '-f '
+    parametro2 = 'ions.mdp'
+    parametro3 = '-c ' + arquivo_complx_box_gro
+    parametro4 = '-p ' + arquivo_complx_top
+    parametro5 = '-o ' + arquivo_complx_charged_tpr
+    parametro6 = '-maxwarn 2'
+
+    comandos.write('#ions\n\n')
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6)
+    comandos.write('\n\n')
+
+    #comando genion
+    resposta = 'echo "SOL"'
+    pipe = '|'
+    comando = 'genion'
+    parametro1 = '-s ' + arquivo_complx_charged_tpr
+    parametro2 = '-p ' + arquivo_complx_top
+    parametro3 = '-o ' + arquivo_complx_neutral_gro
+    parametro4 = '-neutral'
+    
+    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4)
+    comandos.write('\n\n')
+    
+    #comando grompp minimização
+    comando = 'grompp'
+    parametro1 = '-f'
+    parametro2 = 'PME_em.mdp'
+    parametro3 = '-c ' + arquivo_complx_neutral_gro
+    parametro4 = '-p ' + arquivo_complx_top
+    parametro5 = '-o ' + arquivo_complx_em_tpr 
+    parametro6 = '-maxwarn 2'
+
+    comandos.write('##minimization\n\n')
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6)
+    comandos.write('\n\n')
+
+    #comando mdrun
+    comando = 'mdrun' 
+    parametro1 = '-v'
+    parametro2 = '-s ' + arquivo_complx_em_tpr 
+    parametro3 = '-deffnm'
+    parametro4 =  arquivo_complx_sd_em
+    
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4)
+    comandos.write('\n\n')
+    
+    #comando energy
+    resposta = 'echo "10 0"'
+    pipe = '|'
+    comando = 'energy'
+    parametro1 = '-f ' + arquivo_complx_sd_em + '.edr'
+    parametro2 = '-o ' + arquivo_complx_potentialsd + '.xvg'
+    
+    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2)
+    comandos.write('\n\n')
+    
+    #comando grace
+    comando = 'grace'
+    parametro1 = '-nxy ' + arquivo_complx_potentialsd + '.xvg' 
+    parametro2 = '-hdevice'
+    parametro3 = 'PNG -hardcopy'
+    parametro4 = '-printfile'
+    parametro5 = '../../' + arquivo_complx_potentialsd + '.PNG'
+    
+    comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5)
     comandos.write('\n\n')
     
     #comando grompp
     comando = 'grompp'
     parametro1 = '-f'
-    parametro2 = 'ions.mdp'
-    parametro3 = '-c'
-    parametro4 = arquivo_complx_box_gro
-    parametro5 = '-p'
-    parametro6 = arquivo_complx_top
-    parametro7 = '-o'
-    parametro8 =  arquivo_complx_charged_tpr
-    parametro9 = '-maxwarn 2'
+    parametro2 = 'PME_cg_em.mdp'
+    parametro3 = '-c ' + arquivo_complx_sd_em + '.gro' 
+    parametro4 = '-p ' + arquivo_complx_top
+    parametro5 = '-o ' + arquivo_complx_cg_em + '.tpr'
+    parametro6 = '-maxwarn 2'
 
-    comandos.write('#ions\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
-    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9)
+    + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6)
     comandos.write('\n\n')
 
-    
-    #comando genion
-    resposta = 'echo "SOL"'
+    #comando mdrun
+    comando = 'mdrun'
+    parametro1 = '-v'
+    parametro2 = '-s ' + arquivo_complx_cg_em + '.tpr'
+    parametro3 = '-deffnm'
+    parametro4 = arquivo_complx_cg_em
+
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4)
+    comandos.write('\n\n')
+
+    #comando energy
+    resposta = 'echo "10 0"'
     pipe = '|'
-    comando = 'genion'
-    parametro1 = '-s'
-    parametro2 = arquivo_complx_charged_tpr
-    parametro3 = '-p'
-    parametro4 = arquivo_complx_top
-    parametro5 = '-o'
-    parametro6 = arquivo_complx_neutral_gro
-    parametro7 = '-neutral'
-    
-    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
-    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7)
+    comando = 'energy'
+    parametro1 = '-f ' + arquivo_complx_cg_em + '.edr'
+    parametro2 = '-o ' + arquivo_complx_potentialcg + '.xvg'
+
+    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2)
     comandos.write('\n\n')
+    
+    #comando grace
+    comando = 'grace'
+    parametro1 = '-nxy ' + arquivo_complx_potentialcg + '.xvg'
+    parametro2 = '-hdevice'
+    parametro3 = 'PNG -hardcopy' 
+    parametro4 = '-printfile'
+    parametro5 = '../../' + arquivo_complx_potentialcg + '.PNG'
 
-
-    #comando grompp minimização
+    comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
+    '''
+    #comando grompp
     comando = 'grompp'
     parametro1 = '-f'
-    parametro2 = 'PME_em.mdp'
-    parametro3 = '-c' 
-    parametro4 = arquivo_complx_neutral_gro
-    parametro5 = '-p'
-    parametro6 = arquivo_complx_top
-    parametro7 = '-o'
-    parametro8 = arquivo_complx_em_tpr 
-    parametro9 = '-maxwarn 2'
+    parametro2 = 'nvt.mdp'
+    parametro3 = '-c ' + arquivo_complx_cg_em + '.gro'
+    parametro4 = '-r ' + arquivo_complx_cg_em + '.gro'
+    parametro5 = '-p ' + arquivo_complx_top 
+    parametro6 = '-o ' + arquivo_complx_nvt + '.tpr'
+    parametro7 = '-maxwarn 2'
 
-    comandos.write('##minimization\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
-    + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8 + ' ' + parametro9)
+    + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6 + ' '+ parametro7)
     comandos.write('\n\n')
 
-    comando = 'mdrun' 
+    #comando mdrun
+    comando = 'mdrun'
     parametro1 = '-v'
-    parametro2 = '-s'
-    parametro3 = arquivo_complx_em_tpr 
-    parametro4 = '-deffnm'
-    parametro5 =  arquivo_complx_sd_em_edr
-    #parei aqui
+    parametro2 = '-s ' + arquivo_complx_nvt + '.tpr' 
+    parametro3 = '-deffnm'
+    parametro4 = arquivo_complx_nvt
 
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4)
+    comandos.write('\n\n')
+
+    #comando energy
+    resposta = 'echo "16 0"'
+    pipe = '|'
+    comando = 'energy'
+    parametro1 = '-f ' + arquivo_complx_nvt + '.edr'
+    parametro2 = '-o ' + arquivo_complx_temperature_nvt + '.xvg'
+    
+    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2)
+    comandos.write('\n\n')
+
+    #comando grace   
+    comando = 'grace'
+    parametro1 = '-nxy ' + arquivo_complx_temperature_nvt + '.xvg'
+    parametro2 = '-hdevice'
+    parametro3 = 'PNG -hardcopy'
+    parametro4 = '-printfile'
+    parametro5 = '../../' + arquivo_complx_temperature_nvt + '.PNG'
+
+    comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
+
+    #comando grompp
+    comando = 'grompp' 
+    parametro1 = '-f'
+    parametro2 = 'npt.mdp'
+    parametro3 = '-c ' + arquivo_complx_nvt + '.gro' 
+    parametro4 = '-r ' + arquivo_complx_nvt + '.gro'
+    parametro5 = '-p ' + arquivo_livre_top 
+    parametro6 = '-o ' + arquivo_complx_npt + '.tpr' 
+    parametro7 = '-maxwarn 2'
+
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6 + ' '+ parametro7)
+    comandos.write('\n\n')
+
+    #comando mdrun
+    comando = 'mdrun'
+    parametro1 = '-v' 
+    parametro2 = '-s ' + arquivo_complx_npt + '.tpr' 
+    parametro3 = '-deffnm'
+    parametro4 = arquivo_complx_npt
+
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4)
+    comandos.write('\n\n')
+
+    #comando energy
+    resposta = 'echo "16 0"'
+    pipe = '|'
+    comando = 'energy'
+    parametro1 = '-f ' + arquivo_complx_npt + '.edr'
+    parametro2 = '-o ' + arquivo_complx_temperature_npt + '.xvg'
+    
+    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2)
+    comandos.write('\n\n')
+    
+    #comando grace
+    comando = 'grace'
+    parametro1 = '-nxy ' + arquivo_complx_temperature_npt + '.xvg'
+    parametro2 = '-hdevice'
+    parametro3 = 'PNG -hardcopy'
+    parametro4 = '-printfile'
+    parametro5 = '../../' + arquivo_complx_temperature_npt + '.PNG'
+
+    comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
+
+    #comando grompp
+    comando = 'grompp'
+    parametro1 = '-f'
+    parametro2 = 'md_pr.mdp'
+    parametro3 = '-c ' + arquivo_complx_npt + '.gro'
+    parametro4 = '-p ' + arquivo_complx_top 
+    parametro5 = '-o ' + arquivo_complx_pr + '.tpr'
+    parametro6 = '-maxwarn 2'
+
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6)
+    comandos.write('\n\n')
+    
+    #comando mdrun
+    comando = 'mdrun'
+    parametro1 = '-v'
+    parametro2 = '-s ' + arquivo_complx_pr + '.tpr' 
+    parametro3 = '-deffnm'
+    parametro4 = arquivo_complx_pr
+
+    comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4)
+    comandos.write('\n\n')
+
+    #comando trjconv
+    resposta = 'echo "1 0"'
+    pipe = '|'
+    comando = 'trjconv'
+    parametro1 = '-s ' + arquivo_complx_pr + '.tpr'
+    parametro2 = '-f ' + arquivo_complx_pr + '.xtc' 
+    parametro3 = '-o ' + arquivo_complx_pr + '_PBC.xtc'
+    parametro4 = '-pbc mol'
+    parametro5 = '-center'
+        
+    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 \
+    + ' ' + parametro3 + ' ' + parametro4 + ' '+ parametro5)
+    comandos.write('\n\n')
+
+    #comando rms
+    resposta = 'echo "4 4"'
+    pipe = '|' 
+    comando = 'rms'
+    parametro1 = '-s ' + arquivo_complx_pr + '.tpr'
+    parametro2 = '-f ' + arquivo_complx_pr + '_PBC.xtc'
+    parametro3 = '-o ' + arquivo_complx_rmsd_prod + '.xvg' 
+    parametro4 = '-tu ns'
+
+    comandos.writelines(resposta + ' ' + pipe + ' ' + gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 \
+    + ' ' + parametro3 + ' ' + parametro4)
+    comandos.write('\n\n')
+    
+    #comando grace
+    comando = 'grace'
+    parametro1 = '-nxy' + arquivo_complx_rmsd_prod + '.xvg'
+    parametro2 = '-hdevice'
+    parametro3 = 'PNG -hardcopy'
+    parametro4 = '-printfile'
+    parametro5 = '../../' + arquivo_complx_rmsd_prod + '.PNG'
+
+    comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
+    + ' ' + parametro4 + ' ' + parametro5)
+    comandos.write('\n\n')
 
     return CompleteFileName
