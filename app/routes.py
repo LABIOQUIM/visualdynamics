@@ -8,7 +8,7 @@ from .generateLig import generateLig
 from .execute import execute
 from .executeLig import executelig
 from .upload_file import upload_file, upload_file_ligante
-from .checkuserdynamics import CheckUserDynamics, CheckDynamicsSteps
+from .checkuserdynamics import CheckUserDynamics, CheckUserDynamicsLig, CheckDynamicsSteps, CheckDynamicsStepsLig
 from .admin_required import admin_required
 import ast
 import errno
@@ -61,7 +61,15 @@ def index():
                 except OSError as e:
                     if e.errno == errno.EEXIST:
                         flash('O servidor está em execução', 'danger')
-                        return redirect(url_for('index'))
+                        return redirect(url_for('index'))    
+                try: 
+                    f = open(Config.UPLOAD_FOLDER+'executingLig', 'r')
+                    f.close()
+                except OSError as e:
+                    if e.errno == errno.EEXIST:
+                        flash('O servidor está em execução', 'danger')
+                        return redirect(url_for('ligante'))
+            
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
                 return redirect(url_for('executar', comp=CompleteFileName,
@@ -135,29 +143,57 @@ def ligante():
         
         if request.form.get('execute') == 'Executar':
             if upload_file_ligante(file, fileitp, filegro, current_user.username):    #checar se servidor esta em execução
-                    try:
-                        f = open(Config.UPLOAD_FOLDER+'executing','x+')
-                        f.writelines('{}\n'.format(current_user.username))
-                        f.close()
-                    except OSError as e:
-                        if e.errno == errno.EEXIST:
-                            flash('O servidor está em execução', 'danger')
-                            return redirect(url_for('index'))
-                    #preparar para executar
-                    MoleculeName = file.filename.split('.')[0]
-                    liganteitpName = fileitp.filename.split('.')[0]
-                    ligantegroName = filegro.filename.split('.')[0]
-                    return redirect(url_for('executarlig', comp=CompleteFileName,
-                        mol=MoleculeName,ligitp=liganteitpName,liggro =ligantegroName,
-                        filename=file.filename, itpname=fileitp.filename, groname=filegro.filename)) 
+                try:
+                    f = open(Config.UPLOAD_FOLDER+'executingLig','x+')
+                    f.writelines('{}\n'.format(current_user.username))
+                    f.close()
+                except OSError as e:
+                    if e.errno == errno.EEXIST:
+                        flash('O servidor está em execução', 'danger')
+                        return redirect(url_for('ligante'))
+                try: 
+                    f = open(Config.UPLOAD_FOLDER+'executing', 'r')
+                    f.close()
+                except OSError as e:
+                    if e.errno == errno.EEXIST:
+                        flash('O servidor está em execução', 'danger')
+                        return redirect(url_for('ligante'))
+                
+                #preparar para executar
+                MoleculeName = file.filename.split('.')[0]
+                liganteitpName = fileitp.filename.split('.')[0]
+                ligantegroName = filegro.filename.split('.')[0]
+                return redirect(url_for('executarlig', comp=CompleteFileName,
+                mol=MoleculeName,ligitp=liganteitpName,liggro =ligantegroName,
+                filename=file.filename, itpname=fileitp.filename, groname=filegro.filename)) 
             else:
-                 flash('A extensão dos arquivos está incorreta', 'danger')
+                flash('A extensão dos arquivos está incorreta', 'danger')
             
-    if CheckUserDynamics(current_user.username) == True:
+    if CheckUserDynamicsLig(current_user.username) == True:
         flash('','steps')
-        steplist = CheckDynamicsSteps(current_user.username)
+        steplist = CheckDynamicsStepsLig(current_user.username)
+        archive = open(Config.UPLOAD_FOLDER+"executingLig", "r")
+        f = archive.readlines()
+        last_line = f[len(f)-1]     
+        #verifica se a execução já está  em produçãomd
+        if last_line == '#productionmd\n':
+            #acessa o diretorio do log de execução
+            archive = open(Config.UPLOAD_FOLDER+current_user.username+'/DirectoryLog', 'r')
+            directory = archive.readline()
+            #acessa o log de execução
+            archive = open(directory,'r')
+            lines = archive.readlines()
+            #busca a ultima linha do log
+            last_line = lines[len(lines)-1]
+            if last_line.find('step ') > -1:
+                #recebe a quantidade de step e a data de termino.
+                date_finish = last_line        
+                archive.close()
+                return render_template('ligante.html', actlig = 'active', steplist=steplist, date_finish=date_finish)
+        
+        archive.close()
         return render_template('ligante.html', actlig = 'active', steplist=steplist) 
-    
+        
     return render_template('ligante.html', actlig = 'active')
 
 @app.route('/executarlig/<comp>/<mol>/<ligitp>/<liggro>/<filename>/<itpname>/<groname>')

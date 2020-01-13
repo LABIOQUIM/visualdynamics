@@ -32,7 +32,7 @@
         <nav class="container">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link text-dark {{ actindex }}" id="index-tab" data-toggle="tab" href="{{ url_for('index') }}" role="tab" aria-controls="index" aria-selected="true">APO Enzima</a>
-                <a class="nav-item nav-link text-dark {{ actlig }}" id="ligante-tab" data-toggle="tab" href="{{ url_for('ligante') }}" role="tab" aria-controls="ligante" aria-selected="false">Enzima + Ligante (Em construção)</a>
+                <a class="nav-item nav-link text-dark {{ actlig }}" id="ligante-tab" data-toggle="tab" href="{{ url_for('ligante') }}" role="tab" aria-controls="ligante" aria-selected="false">Enzima + Ligante (Com PRODRG)</a>
                 {% if current_user.username == 'admin' %}
                     <a class="nav-item nav-link text-dark {{ actadmin }}" id="Admin-tab" data-toggle="tab" href="{{ url_for('admin') }}" role="tab" aria-controls="admin" aria-selected="false">Painel Admin</a>
                 {% endif %}

@@ -36,7 +36,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
                 process.check_returncode()
             except subprocess.CalledProcessError as e:
                     LogFile.close()
-                    os.remove(Config.UPLOAD_FOLDER+'executing')
+                    os.remove(Config.UPLOAD_FOLDER+'executingLig')
                     os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
                     return (e.args)
         
@@ -120,7 +120,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             file.close()
 
     LogFile.close()
-    os.remove(Config.UPLOAD_FOLDER+'executing')
+    os.remove(Config.UPLOAD_FOLDER+'executingLig')
     os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
 
 
@@ -141,7 +141,7 @@ def create_log(LogFileName, username):
 
 
 def WriteUserDynamics(line):
-    filename = Config.UPLOAD_FOLDER + 'executing'
+    filename = Config.UPLOAD_FOLDER + 'executingLig'
     try:
         f = open(filename,'a')
         f.write(line + '\n')

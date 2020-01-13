@@ -44,8 +44,8 @@
 
                 <label for="tipocaixa">Tipo Caixa</label>
                 <select class="form-control" name="tipocaixa" id="tipocaixa">
-                    <option value="triclinic">Triclinic</option>
                     <option selected="selected" value="cubic">Cubic</option>
+                    <option value="triclinic">Triclinic</option>
                     <option value="dodecahedron">Dodecahedron</option>
                     <option value="octahedron">Octahedron</option>
                 </select>
@@ -72,7 +72,7 @@
                 <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
                 </div>
                 <!-- onclick="setTimeout(function(){ window.location.reload() }, 2500);" -->
-                <input type="submit" class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload() }, 2500);">
+                <input type="submit" class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
                 <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="download">
             </form>
         </div>
@@ -86,7 +86,7 @@
             {% if steplist %}
             {% set btnOK = 'btn-success' %}
             <script>
-                setInterval(function(){ document.location.reload() }, 10000);
+                setInterval(function(){ document.location.reload(true) }, 10000);
             </script>
             <button id="topology" class="btn-secondary btn m-auto {{ btnOK if '#topology' in steplist }}">Definir Topologia</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">

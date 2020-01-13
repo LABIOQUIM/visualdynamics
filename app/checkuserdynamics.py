@@ -9,6 +9,17 @@ def CheckUserDynamics(username):
         with open(fname,'r') as f:
             if f.readline().rstrip() == username:
                 return True
+    
+    return False
+
+def CheckUserDynamicsLig(username):
+    #Verifica se a dinamica  executada é com ligante
+    fnamelig = Config.UPLOAD_FOLDER +'executingLig'
+    if os.path.exists(fnamelig):
+        with open(fnamelig,'r') as f:
+            if f.readline().rstrip() == username:
+                return True 
+
     return False
 
 def CheckDynamicsSteps(username):
@@ -18,5 +29,13 @@ def CheckDynamicsSteps(username):
     fname = Config.UPLOAD_FOLDER + 'executing'
     if os.path.exists(fname):
         with open(fname, 'r') as f:
+            lines = f.readlines()
+            return [line.rstrip() for line in lines if line.rstrip() != username]
+    
+    
+def CheckDynamicsStepsLig(username):
+    fnamelig = Config.UPLOAD_FOLDER +'executingLig'
+    if os.path.exists(fnamelig):
+        with open(fnamelig, 'r') as f:
             lines = f.readlines()
             return [line.rstrip() for line in lines if line.rstrip() != username]
