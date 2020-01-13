@@ -37,6 +37,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             except subprocess.CalledProcessError as e:
                     LogFile.close()
                     os.remove(Config.UPLOAD_FOLDER+'executingLig')
+                    os.remove(Config.UPLOAD_FOLDER+'executing')
                     os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
                     return (e.args)
         
@@ -121,6 +122,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
 
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER+'executingLig')
+    os.remove(Config.UPLOAD_FOLDER+'executing')
     os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
 
 

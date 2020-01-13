@@ -63,10 +63,10 @@ def index():
                         flash('O servidor está em execução', 'danger')
                         return redirect(url_for('index'))    
                 try: 
-                    f = open(Config.UPLOAD_FOLDER+'executingLig', 'r')
+                    f = open(Config.UPLOAD_FOLDER+'executingLig', 'x')
                     f.close()
                 except OSError as e:
-                    if e.errno == errno.EEXIST:
+                    if e.errno == errno.EEXIST:   
                         flash('O servidor está em execução', 'danger')
                         return redirect(url_for('ligante'))
             
@@ -152,7 +152,7 @@ def ligante():
                         flash('O servidor está em execução', 'danger')
                         return redirect(url_for('ligante'))
                 try: 
-                    f = open(Config.UPLOAD_FOLDER+'executing', 'r')
+                    f = open(Config.UPLOAD_FOLDER+'executing', 'x')
                     f.close()
                 except OSError as e:
                     if e.errno == errno.EEXIST:
