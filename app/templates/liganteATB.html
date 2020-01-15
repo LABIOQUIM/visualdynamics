@@ -73,8 +73,8 @@
                     <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore">
                     <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
                 </div>
-                    <input type="submit" class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
-                    <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="download">
+                    <input type="submit" class="btn btn-primary" disabled="disabled" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
+                    <input type="submit" class="btn btn-success" disabled="disabled" value="Baixar Lista de Comandos" name="download">
             </form>
         </div>
         
@@ -119,7 +119,7 @@
     
     <div class="row">
         <form action="/imgfiles" method="GET" class="col">
-            <input type="submit" class="mt-2 btn btn-success" value="Baixar Gráficos de Análise" name="graphics">
+            <input type="submit" class="mt-2 btn btn-success" disabled="disabled" value="Baixar Gráficos de Análise" name="graphics">
             <div>
                 <label for="graphics" class="mt-auto ml-2 text-secondary">
                     (Nesta versão, apenas as imagens da ultima dinâmica do usuário serão armazenadas)
