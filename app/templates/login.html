@@ -1,6 +1,96 @@
-{% extends 'base.html' %} 
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link  rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Visual Dynamics</title>
+    </head>
+    <body>
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login-title">
+                    <h1>Visual Dynamics</h1>
+                    <h2>Dinâmica Molecular com o Gromacs</h2>
+                    <div class="wrap-login100">
+                        <div class="login100-pic js-tilt" data-tilt>
+                            <img src="/static/img/fiocruzro.png" class="col-md-2 col-sm-3 ml-5">
+                            <img src="/static/img/labioquim.png" class="col-md-4 col sm-6 mr-5">
+                        </div>
+        
+                        <form class="login100-form validate-form" action="/login" method="post" onsubmit="return validateForm()">
+                            <span class="login100-form-title">LOGIN</span>
+                            <!--Flash para mostrar erros no login-->
+                            {% with messages = get_flashed_messages(with_categories=true) %} 
+                                {% if messages %}
+                                    <ul class=flashes>
+                                        {% for category, message in messages %}
+                                            <li class="alert alert-{{category}} mr-0" style="list-style:none" role="alert">{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %} 
+                            {% endwith %}
+                            <div class="wrap-input100 validate-input">
+                                <input class="input100" type="text" name="username" id="username" placeholder="Usuário">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                </span>
+                            </div>
+        
+                            <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                                <input class="input100" type="password" name="password" id="password" placeholder="Senha">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>
+                                </span>
+                            </div>
+        
+                            <div class="container-login100-form-btn">
+                                <button class="login100-form-btn">Acessar</button>
+                            </div>
+                        </form>
+                    </div>                        
+                    <div class="text-muted text-center py-3">
+                        <p class="m-0 small">Desenvolvido por:</p>
+                        <p class="m-0 small">Eduardo Buganemi Botelho</p>
+                        <p class="m-0 small">Dr. Fernando Berton Zanchi</p>
+                        <p class="m-0 small">Dr. Rafael Andrade Caceres</p>
+                        <p class="m-0 small">Thales Junior de Souza Gomes</p>
+                        <p class="m-2">Envie um e-mail para <ins><strong>fernando.zanchi@fiocruz.br</strong></ins> solicitando acesso</p>
+                    </div>
+                </div>
+ 
+                <script>
+                    function validateForm() {
+                        email = document.forms[0][0].value;
+                        password = document.forms[0][1].value;
+                        if (email==null || email=="") {
+                            alert("Email deve ser preenchido");
+                            return false;
+                            }
+                        if (password==null || password=="") {
+                            alert("Senha deve ser preenchida");
+                            return false;
+                            }
+                    };
+                </script>
+            </div>
+        </div>  
+    </body>
+</html>
 
-{% block content %}
+
+
+
+
+
+
+
+
+<!-- 
 <div class="container">
     <div class="row justify-content-center align-items-start">
         <form class="align-items-center text-center" action="/login" method="post" onsubmit="return validateForm()">
@@ -26,5 +116,4 @@
             return false;
             }
     };
-</script>
-{% endblock %}
+</script>-->

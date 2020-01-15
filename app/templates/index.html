@@ -110,98 +110,10 @@
                 {% endif %}
             
             {% endif %}
-
-            <!-- {% for step in exc %}
-            <button style="cursor:default;" class="btn-secondary btn m-auto btn-success">{{step}}</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            {% endfor %} -->
-            <!-- <button id="topology" class="btn-secondary btn m-auto btn-info">{{step}}</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18"> -->
-            <!-- <button id="solvate" class="btn-secondary btn m-auto">Definir Caixa e Solvatar</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="ions" class="btn-secondary btn m-auto">Adicionar Ions</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="minimizationsteepdesc" class="btn-secondary btn m-auto">Minimização SD</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="minimizationconjgrad" class="btn-secondary btn m-auto">Minimização CG</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="equilibrationnvt" class="btn-secondary btn m-auto ">Equilibração NVT</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="equilibrationnpt" class="btn-secondary btn m-auto ">Equilabração NPT</button>
-            <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="productionmd" class="btn-secondary btn m-auto">Produção MD</button>
-             -->
-            <!-- <i id="step" style="visibility:hidden">{% for step in exc %}{{step}}{% endfor %}</i>    -->
-            
-        {% endwith %}
-        
-      
+            {% endwith %}
         </div>
 
-    <!-- Tentando implementar a visualização das moleculas
-    {% if not steplist %}
-        
-        <div id = "icn3dwrap"> </div>
-    
-        <textarea style='display: none;' id='pdb-element_src'></textarea>    
-        <div id='3Dmoljs'></div>
-        
-        <script>
-         
-            $( document ).ready(function() {
-                var options = {};
-                options['color'] = 'spectrum'
-
-                var cfg = {
-                    divid: 'icn3dwrap',
-                    width: '360px',
-                    height: '380px',
-                    resize: true,
-                    rotate: 'right',
-                    mobilemenu: true,
-                    showcommand: false,
-                    showtitle: false
-                };
-               
-                cfg['pdbid'] = '';
-                cfg['options'] = options;
-                var icn3dui = new iCn3DUI(cfg);
-
-                icn3dui.show3DStructure();
-            });
-
-        </script>
-
-        <script>
-
-            window.onload = function () {
-                var fileSelected = document.getElementById('file');
-                fileSelected.addEventListener('change', function (e) {
-                    //pega o objeto file
-                    var fileTobeRead = fileSelected.files[0];
-                    //Inicialize o objeto FileReader para ler o file
-                    var fileReader = new FileReader();
-                    fileReader.onload = function (e) {
-                        var fileContents = document.getElementById('pdb-element_src');
-                        fileContents.innerHTML = fileReader.result;
-                    }
-
-                    fileReader.readAsText(fileTobeRead);
-
-                    div = document.getElementById('3Dmoljs');
-                    var atualizardiv = '<div style="height: 380px; width: 360px; position: relative;" id="3Dmoljs" class="viewer_3Dmoljs" data-element= "pdb-element_src" data-backgroundcolor="0xffffff" data-style="cartoon:color=spectrum"></div>';  
-                    div.innerHTML = atualizardiv;
-                }, false);
-            }
-
-        </script>
-
-    {% endif %}-->
-    
-    
-
-</div>
-
+    </div>
     <div class="row">
         <form action="/imgfiles" method="GET" class="col">
             <input type="submit" class="mt-2 btn btn-success" value="Baixar Gráficos de Análise" name="graphics">

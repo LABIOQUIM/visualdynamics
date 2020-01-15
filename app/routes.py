@@ -20,7 +20,7 @@ def login():
         form_entry = request.form.get('username')
         user = User.query.filter((User.username == form_entry) | (User.email == form_entry)).first()
         if user is None or not user.check_password(request.form.get('password')):
-            flash('Email ou senha inválidos', 'danger')
+            flash('Usuário ou senha inválidos', 'danger')
         else :
             login_user(user)
             return redirect(url_for('protected'))
@@ -29,7 +29,7 @@ def login():
 @app.route('/protected')
 @login_required
 def protected():
-    flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'success')
+    flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'primary')
     return redirect(url_for('index'))
 
 @app.route('/', methods=['GET', 'POST'])
@@ -241,7 +241,6 @@ def commandsdownload(filename):
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    flash('Por favor, faça Login', 'warning')
     return redirect(url_for('login'))
 
 @app.route('/logout')
@@ -269,7 +268,7 @@ def edit_user(id):
             UserData.email = email
             db.session.add(UserData)
             db.session.commit()
-            flash('Nome de Usuário e E-mail alterados com sucesso', 'success')
+            flash('Nome de Usuário e E-mail alterados com sucesso', 'primary')
             return redirect(url_for('index'))
         elif password == passconfirm:
             UserData = User.query.get(int(id))
@@ -278,7 +277,7 @@ def edit_user(id):
             UserData.set_password(password)
             db.session.add(UserData)
             db.session.commit()
-            flash('Senha alterada com sucesso', 'success')
+            flash('Senha alterada com sucesso', 'primary')
             return redirect(url_for('index'))
         flash('Erro ao criar usuário', 'danger')
         return redirect(url_for('index'))
@@ -298,7 +297,7 @@ def newuser():
             new.set_password(password)
             db.session.add(new)
             db.session.commit()
-            flash('Usuário criado com sucesso!', 'success')
+            flash('Usuário criado com sucesso!', 'primary')
             return redirect(url_for('index'))
         flash('Erro ao criar usuário', 'danger')
         return redirect(url_for('index'))
@@ -311,7 +310,7 @@ def removeuser(id):
     if UserData.username != 'admin':
         db.session.delete(UserData)
         db.session.commit()
-        flash('Usuário removido com sucesso', 'success')
+        flash('Usuário removido com sucesso', 'primary')
         return redirect(url_for('admin'))
     flash('Não é possível remover o admin', 'danger')
     return redirect(url_for('index'))
@@ -348,7 +347,7 @@ def edit_md():
                 archive.writelines(file) 
 
 
-        flash('atualização realizada com sucesso.', 'success')
+        flash('atualização realizada com sucesso.', 'primary')
         return redirect(url_for('edit_md'))
         
     #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
