@@ -22,7 +22,7 @@
         
                         <form class="login100-form validate-form" action="/login" method="post" onsubmit="return validateForm()">
                             <span class="login100-form-title">LOGIN</span>
-                            <!--Flash para mostrar erros no login-->
+                            <!--\\\\\\\\\\\\\\Flash para mostrar erros no login////////////////////-->
                             {% with messages = get_flashed_messages(with_categories=true) %} 
                                 {% if messages %}
                                     <ul class=flashes>
@@ -32,6 +32,7 @@
                                     </ul>
                                 {% endif %} 
                             {% endwith %}
+                            <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
                             <div class="wrap-input100 validate-input">
                                 <input class="input100" type="text" name="username" id="username" placeholder="Usuário">
                                 <span class="focus-input100"></span>
