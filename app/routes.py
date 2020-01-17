@@ -232,6 +232,24 @@ def imgsdownload():
 
     return (send_file(ziplocation, as_attachment=True))
 
+
+@app.route('/downloadmdpfiles')
+@login_required
+def downloadmdpfiles():
+    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
+    ziplocation = os.path.join(current_location, 'mdpfiles.zip')
+    mdplist = os.listdir(os.chdir(Config.MDP_LOCATION_FOLDER))
+
+    zf = zipfile.ZipFile(ziplocation,'w')
+
+    for file in mdplist:
+        if file.endswith('.mdp'):
+            zf.write(file, compress_type = zipfile.ZIP_DEFLATED)
+    
+    zf.close()
+    return (send_file(ziplocation, as_attachment=True))
+
+
 @app.route('/download/<filename>')
 @login_required
 def commandsdownload(filename):
