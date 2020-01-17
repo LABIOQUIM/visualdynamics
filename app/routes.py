@@ -220,26 +220,28 @@ def liganteATB():
 def imgsdownload():
     current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
     ziplocation = os.path.join(current_location, 'imagens.zip')
+    try:
+        zf = zipfile.ZipFile(ziplocation,'w')
+
+        for folder, subfolders, files in os.walk(current_location):
     
-    zf = zipfile.ZipFile(ziplocation,'w')
+            for file in files:
+                if file.endswith('.PNG'):
+                    zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
+        zf.close()
 
-    for folder, subfolders, files in os.walk(current_location):
- 
-        for file in files:
-            if file.endswith('.PNG'):
-                zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
-    zf.close()
-
-    return (send_file(ziplocation, as_attachment=True))
-
+        return (send_file(ziplocation, as_attachment=True))
+    
+    except:
+        flash('O usuário deve executar uma dinâmica para que possa baixar os gráficos', 'danger')
+        return redirect(url_for('index'))
 
 @app.route('/downloadmdpfiles')
 @login_required
 def downloadmdpfiles():
-    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
-    ziplocation = os.path.join(current_location, 'mdpfiles.zip')
+    ziplocation = os.path.join(Config.UPLOAD_FOLDER, 'mdpfiles.zip')
     mdplist = os.listdir(os.chdir(Config.MDP_LOCATION_FOLDER))
-
+    
     zf = zipfile.ZipFile(ziplocation,'w')
 
     for file in mdplist:
