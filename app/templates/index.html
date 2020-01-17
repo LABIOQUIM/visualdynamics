@@ -73,7 +73,7 @@
                 </div>
                 <!-- onclick="setTimeout(function(){ window.location.reload() }, 2500);" -->
                 <input type="submit" class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
-                <input type="submit" class="btn btn-success" value="Baixar Lista de Comandos" name="download">
+                <input type="submit" class="ml-1 btn btn-success" value="Baixar Lista de Comandos" name="download">
             </form>
         </div>
         
@@ -115,8 +115,15 @@
 
     </div>
     <div class="row">
-        <a class="mt-2 ml-3 btn btn-success" id="downloadmdpfiles" href="{{ url_for('imgsdownload') }}"aria-controls="index">Baixar Gráficos de Análise</a>
-        <a class="mt-2 ml-1 btn btn-success" id="downloadmdpfiles" href="{{ url_for('downloadmdpfiles') }}"aria-controls="index-mdp">Baixar Arquivos mdpfiles</a>
+        <form>
+            <a class="mt-2 ml-3 btn btn-success" id="downloadgraphics" href="{{ url_for('imgsdownload') }}"aria-controls="index">Baixar Gráficos de Análise</a>
+            <a class="mt-2 ml-1 btn btn-success" id="downloadmdpfiles" href="{{ url_for('downloadmdpfiles') }}"aria-controls="index-mdp">Baixar mdpfiles</a>
+            <div class="mt-1 ml-3">
+                <label for="graphics" class="text-secundary border border-danger rounded">
+                    Nesta versão, apenas as imagens da última dinâmica do usuário serão armazenadas.
+                </label>
+            </div>
+        </form>
     </div>
 
 </div>
