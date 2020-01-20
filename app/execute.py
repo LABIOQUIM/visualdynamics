@@ -26,11 +26,10 @@ def execute(LogFileName, CommandsFileName, username, filename):
     # lendo cada linha do arquivo texto
     for l in lines:
         if l[0] == '#':
-            WriteUserDynamics(l)
+            WriteUserDynamics(l,username)
         else:
             #estabelecer o diretorio de trabalho
             os.chdir(RunFolder)
-
             #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
             #parametro stout=LogFile pra escrever log
             process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
@@ -39,18 +38,18 @@ def execute(LogFileName, CommandsFileName, username, filename):
                 process.check_returncode()
             except subprocess.CalledProcessError as e:
                     LogFile.close()
-                    os.remove(Config.UPLOAD_FOLDER+'executing')
-                    os.remove(Config.UPLOAD_FOLDER+'executingLig')
-                    os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
+                    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
+                    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
+                    os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
                     return (e.args)
         
         #except subprocess.CalledProcessError as e:
     #raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
     
     LogFile.close()
-    os.remove(Config.UPLOAD_FOLDER+'executing')
-    os.remove(Config.UPLOAD_FOLDER+'executingLig')
-    os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
+    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
+    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
+    os.remove(Config.UPLOAD_FOLDER + username +'/DirectoryLog')
 
 
 def create_log(LogFileName, username):
@@ -66,12 +65,12 @@ def create_log(LogFileName, username):
             )
     
     LogFile = open(LogFileName, "w+")
-    f = open(Config.UPLOAD_FOLDER+username+'/DirectoryLog', 'w')
+    f = open(Config.UPLOAD_FOLDER + username + '/DirectoryLog', 'w')
     f.write(LogFileName)
     return LogFile
 
-def WriteUserDynamics(line):
-    filename = Config.UPLOAD_FOLDER + 'executing'
+def WriteUserDynamics(line,username):
+    filename = Config.UPLOAD_FOLDER + username + '/executing'
     try:
         f = open(filename,'a')
         f.write(line + '\n')

@@ -24,7 +24,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
 
     for l in lines:
         if l[0] == '#':
-            WriteUserDynamics(l)
+            WriteUserDynamics(l,username)
 
         else:
             #estabelecer o diretorio de trabalho
@@ -36,9 +36,9 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
                 process.check_returncode()
             except subprocess.CalledProcessError as e:
                     LogFile.close()
-                    os.remove(Config.UPLOAD_FOLDER+'executingLig')
-                    os.remove(Config.UPLOAD_FOLDER+'executing')
-                    os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
+                    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
+                    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
+                    os.remove(Config.UPLOAD_FOLDER + username +'/DirectoryLog')
                     return (e.args)
         
         #breakpoint adicionado para possibilitar a interação com os arquivos em tempo de execução
@@ -121,9 +121,9 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             file.close()
 
     LogFile.close()
-    os.remove(Config.UPLOAD_FOLDER+'executingLig')
-    os.remove(Config.UPLOAD_FOLDER+'executing')
-    os.remove(Config.UPLOAD_FOLDER+username+'/DirectoryLog')
+    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
+    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
+    os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
 
 
 def create_log(LogFileName, username):
@@ -137,13 +137,13 @@ def create_log(LogFileName, username):
                                                             '.log.txt')
         
     LogFile = open(LogFileName, "w+")
-    f = open(Config.UPLOAD_FOLDER+username+'/DirectoryLog', 'w')
+    f = open(Config.UPLOAD_FOLDER+username +'/DirectoryLog', 'w')
     f.write(LogFileName)
     return LogFile
 
 
-def WriteUserDynamics(line):
-    filename = Config.UPLOAD_FOLDER + 'executingLig'
+def WriteUserDynamics(line,username):
+    filename = Config.UPLOAD_FOLDER + username +'/executingLig'
     try:
         f = open(filename,'a')
         f.write(line + '\n')

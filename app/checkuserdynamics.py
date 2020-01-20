@@ -4,7 +4,7 @@ def CheckUserDynamics(username):
     '''
     Return True if the executing dynamic belongs to the logged user
     '''
-    fname = Config.UPLOAD_FOLDER + 'executing'
+    fname = Config.UPLOAD_FOLDER + username + '/executing'
     if os.path.exists(fname):
         with open(fname,'r') as f:
             if f.readline().rstrip() == username:
@@ -14,7 +14,7 @@ def CheckUserDynamics(username):
 
 def CheckUserDynamicsLig(username):
     #Verifica se a dinamica  executada é com ligante
-    fnamelig = Config.UPLOAD_FOLDER +'executingLig'
+    fnamelig = Config.UPLOAD_FOLDER + username + '/executingLig'
     if os.path.exists(fnamelig):
         with open(fnamelig,'r') as f:
             if f.readline().rstrip() == username:
@@ -26,7 +26,7 @@ def CheckDynamicsSteps(username):
     '''
     Return a list with all the steps till now
     '''
-    fname = Config.UPLOAD_FOLDER + 'executing'
+    fname = Config.UPLOAD_FOLDER + username + '/executing'
     if os.path.exists(fname):
         with open(fname, 'r') as f:
             lines = f.readlines()
@@ -34,7 +34,7 @@ def CheckDynamicsSteps(username):
     
     
 def CheckDynamicsStepsLig(username):
-    fnamelig = Config.UPLOAD_FOLDER +'executingLig'
+    fnamelig = Config.UPLOAD_FOLDER + username + '/executingLig'
     if os.path.exists(fnamelig):
         with open(fnamelig, 'r') as f:
             lines = f.readlines()

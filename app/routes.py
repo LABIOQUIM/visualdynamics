@@ -30,11 +30,17 @@ def login():
 @login_required
 def protected():
     flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'primary')
-    return redirect(url_for('index'))
+    return redirect(url_for('livre'))
+
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
+    
+
+@app.route('/livre', methods=['GET', 'POST'])
+@login_required
+def livre():
     if request.method == 'POST':
         file = request.files.get('file')
         CompleteFileName = generate(file.filename,
@@ -55,19 +61,19 @@ def index():
             if upload_file(file, current_user.username):
                 #checar se servidor esta em execução
                 try:
-                    f = open(Config.UPLOAD_FOLDER+'executing','x+')
+                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executing','x+')
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
                 except OSError as e:
                     if e.errno == errno.EEXIST:
-                        flash('O servidor está em execução', 'danger')
-                        return redirect(url_for('index'))    
+                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                        return redirect(url_for('livre'))    
                 try: 
-                    f = open(Config.UPLOAD_FOLDER+'executingLig', 'x')
+                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig', 'x')
                     f.close()
                 except OSError as e:
                     if e.errno == errno.EEXIST:   
-                        flash('O servidor está em execução', 'danger')
+                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
                         return redirect(url_for('ligante'))
             
                 #preparar para executar
@@ -80,13 +86,13 @@ def index():
     if CheckUserDynamics(current_user.username) == True:
             flash('','steps')    
             steplist = CheckDynamicsSteps(current_user.username)
-            archive = open(Config.UPLOAD_FOLDER+"executing", "r")
+            archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
             f = archive.readlines()
             last_line = f[len(f)-1]     
             #verifica se a execução já está  em produçãomd
             if last_line == '#productionmd\n':
                 #acessa o diretorio do log de execução
-                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/DirectoryLog', 'r')
+                archive = open(Config.UPLOAD_FOLDER + current_user.username+ '/DirectoryLog', 'r')
                 directory = archive.readline()
                 #acessa o log de execução
                 archive = open(directory,'r')
@@ -97,12 +103,12 @@ def index():
                     #recebe a quantidade de step e a data de termino.
                     date_finish = last_line        
                     archive.close()
-                    return render_template('index.html', actindex = 'active', steplist=steplist, date_finish=date_finish)
+                    return render_template('livre.html', actlivre = 'active', steplist=steplist, date_finish=date_finish)
             
             archive.close()
-            return render_template('index.html', actindex = 'active', steplist=steplist) 
+            return render_template('livre.html', actlivre = 'active', steplist=steplist) 
     
-    return render_template('index.html', actindex = 'active')
+    return render_template('livre.html', actlivre = 'active')
     
 
 @app.route('/executar/<comp>/<mol>/<filename>')
@@ -113,7 +119,7 @@ def executar(comp,mol,filename):
                     'logs/', filename)
     exc = execute(AbsFileName, comp, current_user.username, mol)
     flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-    return redirect(url_for('index'))
+    return redirect(url_for('livre'))
 
 
 @app.route('/ligante', methods=['GET','POST'])
@@ -144,19 +150,19 @@ def ligante():
         if request.form.get('execute') == 'Executar':
             if upload_file_ligante(file, fileitp, filegro, current_user.username):    #checar se servidor esta em execução
                 try:
-                    f = open(Config.UPLOAD_FOLDER+'executingLig','x+')
+                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','x+')
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
                 except OSError as e:
                     if e.errno == errno.EEXIST:
-                        flash('O servidor está em execução', 'danger')
+                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
                         return redirect(url_for('ligante'))
                 try: 
-                    f = open(Config.UPLOAD_FOLDER+'executing', 'x')
+                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', 'x')
                     f.close()
                 except OSError as e:
                     if e.errno == errno.EEXIST:
-                        flash('O servidor está em execução', 'danger')
+                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
                         return redirect(url_for('ligante'))
                 
                 #preparar para executar
@@ -172,13 +178,13 @@ def ligante():
     if CheckUserDynamicsLig(current_user.username) == True:
         flash('','steps')
         steplist = CheckDynamicsStepsLig(current_user.username)
-        archive = open(Config.UPLOAD_FOLDER+"executingLig", "r")
+        archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
         f = archive.readlines()
         last_line = f[len(f)-1]     
         #verifica se a execução já está  em produçãomd
         if last_line == '#productionmd\n':
             #acessa o diretorio do log de execução
-            archive = open(Config.UPLOAD_FOLDER+current_user.username+'/DirectoryLog', 'r')
+            archive = open(Config.UPLOAD_FOLDER + current_user.username + '/DirectoryLog', 'r')
             directory = archive.readline()
             #acessa o log de execução
             archive = open(directory,'r')
@@ -234,7 +240,7 @@ def imgsdownload():
     
     except:
         flash('O usuário deve executar uma dinâmica para que possa baixar os gráficos', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('livre'))
 
 @app.route('/downloadmdpfiles')
 @login_required
@@ -289,7 +295,7 @@ def edit_user(id):
             db.session.add(UserData)
             db.session.commit()
             flash('Nome de Usuário e E-mail alterados com sucesso', 'primary')
-            return redirect(url_for('index'))
+            return redirect(url_for('livre'))
         elif password == passconfirm:
             UserData = User.query.get(int(id))
             UserData.username = user
@@ -298,9 +304,9 @@ def edit_user(id):
             db.session.add(UserData)
             db.session.commit()
             flash('Senha alterada com sucesso', 'primary')
-            return redirect(url_for('index'))
+            return redirect(url_for('livre'))
         flash('Erro ao criar usuário', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('livre'))
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
 
@@ -318,9 +324,9 @@ def newuser():
             db.session.add(new)
             db.session.commit()
             flash('Usuário criado com sucesso!', 'primary')
-            return redirect(url_for('index'))
+            return redirect(url_for('livre'))
         flash('Erro ao criar usuário', 'danger')
-        return redirect(url_for('index'))
+        return redirect(url_for('livre'))
     return render_template('new_user.html')
 
 @app.route('/admin/remove/<int:id>')
@@ -333,7 +339,7 @@ def removeuser(id):
         flash('Usuário removido com sucesso', 'primary')
         return redirect(url_for('admin'))
     flash('Não é possível remover o admin', 'danger')
-    return redirect(url_for('index'))
+    return redirect(url_for('livre'))
 
 @login_manager.user_loader
 def load_user(id):
