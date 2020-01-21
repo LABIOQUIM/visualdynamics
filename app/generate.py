@@ -12,8 +12,9 @@ def generate(
 
     #pasta = os.path.dirname(selecao_arquivo)
     pasta = Config.UPLOAD_FOLDER + current_user.username + '/' + nome_arquivo + '/'
-    try:
-        os.makedirs(pasta + '/run/logs/') #criando todas as pastas
+    try: #criando todas as pastas
+        os.makedirs(pasta + 'graficos')
+        os.makedirs(pasta + 'run/logs/')
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
@@ -201,7 +202,7 @@ def generate(
         tipo_img = 'PNG'
         parametro3 = '-hardcopy'
         parametro4 = '-printfile'
-        nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
+        nome_imagem = '../graficos/' + nome_grafico + '.' + tipo_img
         comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg,
             parametro2, tipo_img, parametro3, parametro4, nome_imagem))
         comandos.write('\n\n')
@@ -260,7 +261,7 @@ def generate(
     tipo_img = 'PNG'
     parametro3 = '-hardcopy'
     parametro4 = '-printfile'
-    nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
+    nome_imagem = '../graficos/' + nome_grafico + '.' + tipo_img
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
     tipo_img, parametro3, parametro4, nome_imagem))
     comandos.write('\n\n')
@@ -318,7 +319,7 @@ def generate(
     tipo_img = 'PNG'
     parametro3 = '-hardcopy'
     parametro4 = '-printfile'
-    nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
+    nome_imagem = '../graficos/' + nome_grafico + '.' + tipo_img
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
     tipo_img, parametro3, parametro4, nome_imagem))
     comandos.write('\n\n')
@@ -376,7 +377,7 @@ def generate(
     tipo_img = 'PNG'
     parametro3 = '-hardcopy'
     parametro4 = '-printfile'
-    nome_imagem = '../../'+ nome_grafico + '.' + tipo_img
+    nome_imagem = '../graficos/' + nome_grafico + '.' + tipo_img
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, arquivo_xvg, parametro2,
     tipo_img, parametro3, parametro4, nome_imagem))
     comandos.write('\n\n')
@@ -457,7 +458,7 @@ def generate(
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    parametro7 = '../../' + nome_arquivo + '_rmsd_prod.PNG'
+    parametro7 = '../graficos/' + nome_arquivo + '_rmsd_prod.PNG'
        
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
@@ -490,7 +491,7 @@ def generate(
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    parametro7 = '../../' + nome_arquivo + '_rmsd_cris.PNG'
+    parametro7 = '../graficos/' + nome_arquivo + '_rmsd_cris.PNG'
        
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
@@ -506,7 +507,7 @@ def generate(
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    parametro7 = '../../' + nome_arquivo + '_rmsd_prod_cris.PNG'
+    parametro7 = '../graficos/' + nome_arquivo + '_rmsd_prod_cris.PNG'
        
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
@@ -537,7 +538,7 @@ def generate(
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    parametro7 = '../../' + nome_arquivo + '_gyrate.PNG'
+    parametro7 = '../graficos/' + nome_arquivo + '_gyrate.PNG'
        
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
@@ -569,7 +570,7 @@ def generate(
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    parametro7 = '../../' + nome_arquivo + '_rmsf_residue.PNG'
+    parametro7 = '../graficos/' + nome_arquivo + '_rmsf_residue.PNG'
        
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
@@ -605,7 +606,7 @@ def generate(
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    parametro7 = '../../' + nome_arquivo + '_solvent_accessible_surface.PNG'
+    parametro7 = '../graficos/' + nome_arquivo + '_solvent_accessible_surface.PNG'
        
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
@@ -620,7 +621,7 @@ def generate(
     parametro4 = 'PNG'
     parametro5 = '-hardcopy'
     parametro6 = '-printfile'
-    parametro7 = '../../' + nome_arquivo + '_sas_residue.PNG'
+    parametro7 = '../graficos/' + nome_arquivo + '_sas_residue.PNG'
     
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))

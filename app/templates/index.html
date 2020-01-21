@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  h3{
+      text-align: center;
+  }
+</style>
+
+<h3>Lista de Dinâmicas Realizadas</h3>
+<table class="table table-striped">
+    <thead>
+    </thead>
+    <tbody>
+    {% for u in list_dynamics %}
+      <tr>
+        <th scope="row">{{u}}</th>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><a class="fa fa-download btn btn-outline-success" id="downloadcomands" href="/dynamiccomandsdownload/{{u}}"aria-controls="download"> Baixar Lista de Comandos</a></td>
+        <td><a class="fa fa-download btn btn-outline-primary" id="downloadgraphics" href="/imgfiles/{{u}}" aria-controls="livre"> Baixar Gráficos de Análise</a></td>
+        <td><a class="fa fa-download btn btn-outline-primary" id="downloadmdpfiles" href="{{ url_for('downloadmdpfiles') }}"aria-controls="livre-mdp"> Baixar mdpfiles</a></td>
+      </tr>
+    {% endfor %}    
+    </tbody>
+  </table>
+{% endblock %}

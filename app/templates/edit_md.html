@@ -11,8 +11,8 @@
                 <label class="form-control-label" for="edit"> Valor do dt: </label> 
                 <input type="number" name="editDt" step="0.001" id = "editDt" class="form-control-label text-center mt-3" value="{{ dt }}">
             </div>
-                <input class="m-2 btn-ln btn-primary" type="submit" value="Salvar Atualização" name="submit">
-                
+                <input class="m-2 btn btn-primary" type="submit" value="Salvar Atualização" name="submit">
+                <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}">Cancelar</a>
         </form>
 </div>
 

@@ -13,6 +13,7 @@ from .admin_required import admin_required
 import ast
 import errno
 import zipfile
+import glob
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -30,13 +31,20 @@ def login():
 @login_required
 def protected():
     flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'primary')
-    return redirect(url_for('livre'))
+    return redirect(url_for('index'))
 
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-    
+    try:
+        directory = Config.UPLOAD_FOLDER + '/' + current_user.username +'/info_dynamics'
+        info_dynamics = open(directory,'r')
+        list_dynamics = info_dynamics.readlines()
+        return render_template('index.html', actindex = 'active', list_dynamics = list_dynamics)
+    except:
+        flash('Você ainda não realizou nenhuma dinâmica', 'danger')
+        return render_template('index.html', actindex = 'active')
 
 @app.route('/livre', methods=['GET', 'POST'])
 @login_required
@@ -221,26 +229,22 @@ def liganteATB():
     return render_template('liganteATB.html', actligATB = 'active')
 
 
-@app.route('/imgfiles')
+@app.route('/imgfiles/<filename>')
 @login_required
-def imgsdownload():
-    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
+def imgsdownload(filename):
+    filename = filename.split(' ')[1]
+    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename, 'graficos')
     ziplocation = os.path.join(current_location, 'imagens.zip')
-    try:
-        zf = zipfile.ZipFile(ziplocation,'w')
+    zf = zipfile.ZipFile(ziplocation,'w')
 
-        for folder, subfolders, files in os.walk(current_location):
-    
-            for file in files:
-                if file.endswith('.PNG'):
-                    zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
-        zf.close()
+    for folder, subfolders, files in os.walk(current_location):
 
-        return (send_file(ziplocation, as_attachment=True))
-    
-    except:
-        flash('O usuário deve executar uma dinâmica para que possa baixar os gráficos', 'danger')
-        return redirect(url_for('livre'))
+        for file in files:
+            if file.endswith('.PNG'):
+                zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
+    zf.close()
+
+    return (send_file(ziplocation, as_attachment=True))
 
 @app.route('/downloadmdpfiles')
 @login_required
@@ -257,6 +261,16 @@ def downloadmdpfiles():
     zf.close()
     return (send_file(ziplocation, as_attachment=True))
 
+@app.route('/dynamiccomandsdownload/<filename>')
+@login_required
+def dynamiccomandsdownload(filename):
+    filename = filename.split(' ')[1]
+    os.chdir(Config.UPLOAD_FOLDER+'/'+current_user.username+'/'+filename)
+    files = glob.glob("*.txt")
+    files.sort(key=os.path.getmtime)
+    file_comands = files[len(files)-1]
+    directory = Config.UPLOAD_FOLDER+'/'+current_user.username+'/'+filename+'/'+file_comands
+    return (send_file(directory, as_attachment=True))
 
 @app.route('/download/<filename>')
 @login_required
@@ -294,8 +308,8 @@ def edit_user(id):
             UserData.email = email
             db.session.add(UserData)
             db.session.commit()
-            flash('Nome de Usuário e E-mail alterados com sucesso', 'primary')
-            return redirect(url_for('livre'))
+            flash('Dados do(a) usuário(a) {} alterados com sucesso.'.format(user), 'primary')
+            return redirect(url_for('admin'))
         elif password == passconfirm:
             UserData = User.query.get(int(id))
             UserData.username = user
@@ -303,9 +317,9 @@ def edit_user(id):
             UserData.set_password(password)
             db.session.add(UserData)
             db.session.commit()
-            flash('Senha alterada com sucesso', 'primary')
-            return redirect(url_for('livre'))
-        flash('Erro ao criar usuário', 'danger')
+            flash('Dados do(a) usuário(a) {} alterados com sucesso.'.format(user), 'primary')
+            return redirect(url_for('admin'))
+        flash('Erro ao editar usuário(a) {}.'.format(user), 'danger')
         return redirect(url_for('livre'))
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
@@ -323,10 +337,10 @@ def newuser():
             new.set_password(password)
             db.session.add(new)
             db.session.commit()
-            flash('Usuário criado com sucesso!', 'primary')
-            return redirect(url_for('livre'))
+            flash('Usuário(a) {} criado(a) com sucesso.'.format(user), 'primary')
+            return redirect(url_for('admin'))
         flash('Erro ao criar usuário', 'danger')
-        return redirect(url_for('livre'))
+        return redirect(url_for('admin'))
     return render_template('new_user.html')
 
 @app.route('/admin/remove/<int:id>')
@@ -336,10 +350,10 @@ def removeuser(id):
     if UserData.username != 'admin':
         db.session.delete(UserData)
         db.session.commit()
-        flash('Usuário removido com sucesso', 'primary')
+        flash('Usuário(a) {} removido(a) com sucesso.'.format(UserData.username), 'primary')
         return redirect(url_for('admin'))
     flash('Não é possível remover o admin', 'danger')
-    return redirect(url_for('livre'))
+    return redirect(url_for('admin'))
 
 @login_manager.user_loader
 def load_user(id):
@@ -374,7 +388,7 @@ def edit_md():
 
 
         flash('atualização realizada com sucesso.', 'primary')
-        return redirect(url_for('edit_md'))
+        return redirect(url_for('admin'))
         
     #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
     # i é o indice (posição)

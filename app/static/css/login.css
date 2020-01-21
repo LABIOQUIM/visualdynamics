@@ -3237,7 +3237,7 @@ iframe {
 }
 
 .input100 {
-  font-family: Poppins-Medium;
+  font-family: Arial;
   font-size: 15px;
   line-height: 1.5;
   color: #666666;
@@ -3249,8 +3249,9 @@ iframe {
   border-radius: 25px;
   padding: 0 30px 0 68px;
 }
-
-
+.text-muted{
+	font-family: Arial, Helvetica, sans-serif;
+} 
 /*------------------------------------------------------------------
 [ Focus ]*/
 .focus-input100 {

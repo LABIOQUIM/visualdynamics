@@ -1,6 +1,7 @@
 from .config import Config
 from datetime import datetime
 import subprocess, os, sys, shutil
+import errno
 
 
 def executelig(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
@@ -17,6 +18,23 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
     
+    diretorio = Config.UPLOAD_FOLDER + username + '/info_dynamics'
+    try:
+        f = open(diretorio,'x+')
+        data = '{}-{}-{}-[{}:{}:{}]'.format(datetime.now().day, datetime.now().month, datetime.now().year,
+                                            datetime.now().hour, datetime.now().minute, datetime.now().second)
+        info = data + ' ' + filename+'\n'
+        f.write(info)
+        f.close()
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            f = open(diretorio,'a')
+            data = '{}-{}-{}-[{}:{}:{}]'.format(datetime.now().day, datetime.now().month, datetime.now().year,
+                                            datetime.now().hour, datetime.now().minute, datetime.now().second)
+            info = data + ' ' + filename
+            f.write(info)
+                     
+
     #abrir arquivo
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
         content = f.readlines()
@@ -119,6 +137,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             file = open(diretorio_complx_gro,'w')
             file.writelines(file_complx_gro)
             file.close()
+
 
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')

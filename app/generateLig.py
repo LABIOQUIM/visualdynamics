@@ -12,8 +12,9 @@ def generateLig(
     (nome_ligante, extensao) = arquivo_itp.split('.')
 
     pasta = Config.UPLOAD_FOLDER + current_user.username + '/' + nome_arquivo+'_'+nome_ligante + '/'
-    try:
-        os.makedirs(pasta + '/run/logs/') #criando todas as pastas
+    try: #criando todas as pastas
+        os.makedirs(pasta + 'graficos/')
+        os.makedirs(pasta + 'run/logs/')
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
@@ -52,7 +53,7 @@ def generateLig(
     
     #Gravando os comandos e os parametros
     comandos = open(pasta + CompleteFileName, "w")
-    os.chdir(pasta)          
+    os.chdir(pasta)
 
     gmx = '/usr/local/gromacs/bin/gmx_d' if double else '/usr/local/gromacs/bin/gmx'
     comando = 'pdb2gmx' 
@@ -146,7 +147,7 @@ def generateLig(
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4)
     comandos.write('\n\n')
-    
+
     #comando energy
     resposta = 'echo "10 0"'
     pipe = '|'
@@ -163,7 +164,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_potentialsd + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_potentialsd + '.PNG'
     
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -210,7 +211,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy' 
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_potentialcg + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_potentialcg + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -258,7 +259,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_temperature_nvt + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_temperature_nvt + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -306,7 +307,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_temperature_npt + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_temperature_npt + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -370,7 +371,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_rmsd_prod + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_rmsd_prod + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -395,7 +396,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_rmsd_cris + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_rmsd_cris + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -408,7 +409,7 @@ def generateLig(
     parametro3 = '-hdevice'
     parametro4 = 'PNG -hardcopy'
     parametro5 = '-printfile'
-    parametro6 = '../../' + arquivo_complx_rmsd_prod + '_cris.PNG'
+    parametro6 = '../graficos/' + arquivo_complx_rmsd_prod + '_cris.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6)
@@ -432,7 +433,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_gyrate + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_gyrate + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -457,7 +458,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo_complx_rmsf_residue + '.PNG'
+    parametro5 = '../graficos/' + arquivo_complx_rmsf_residue + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -482,7 +483,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo__complx_solvent_accessible_surface + '.PNG'
+    parametro5 = '../graficos/' + arquivo__complx_solvent_accessible_surface + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
@@ -494,7 +495,7 @@ def generateLig(
     parametro2 = '-hdevice'
     parametro3 = 'PNG -hardcopy'
     parametro4 = '-printfile'
-    parametro5 = '../../' + arquivo__complx_sas_residue + '.PNG'
+    parametro5 = '../graficos/' + arquivo__complx_sas_residue + '.PNG'
 
     comandos.writelines(comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)

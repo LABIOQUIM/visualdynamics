@@ -1,12 +1,18 @@
 {% extends 'base.html' %} 
 
 {% block content %}
+
+<style>
+    h2,p{
+        text-align: center;
+    }
+</style>
+
 <div class="container">
+    <h2><strong>Editar Usuário</strong></h2>
+    <p>Para editar somente usuário e/ou email, deixe o campo de senha em branco</p>
     <div class="row justify-content-center align-items-start">
-        
-        <form class="align-items-center text-center" action="/admin/edit/{{UserData.id}}" method="post" onsubmit="return validateForm()">
-            <p><strong>Cadastrar Usuário</strong></p>
-            <p>Para editar somente usuário e/ou email, deixe o campo de senha em branco</p>
+        <form class="align-items-center text-center mt-0" action="/admin/edit/{{UserData.id}}" method="post" onsubmit="return validateForm()">
             <label for="username" class="form-control-label text-center mt-3">Nome do Usuário</label>
             <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" value="{{UserData.username}}">
             <label for="username" class="form-control-label text-center mt-3">Email</label>
@@ -14,9 +20,9 @@
             <label for="password" class="form-control-label mt-3">Nova Senha</label>
             <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
             <label for="password" class="form-control-label mt-3">Confirmar Nova Senha</label>
-            <input class="form-control" name="passwordconfirm" id="password" type="password" placeholder="Senha">
-            <br>
-            <input class="m-2 btn-ln btn-primary" type="submit" value="Editar Usuário" name="submit">
+            <input class="form-control mb-3" name="passwordconfirm" id="password" type="password" placeholder="Senha">
+            <input class="m-2 btn btn-primary" type="submit" value="Editar Usuário" name="submit">
+            <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}">Cancelar</a>
         </form>
     </div>
 </div>

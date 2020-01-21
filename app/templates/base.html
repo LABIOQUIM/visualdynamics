@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">    
         <title>Visual Dynamics</title>
     </head>
 
@@ -17,9 +17,10 @@
             <img src="/static/img/labioquim.png" class="col-md-2 col sm-3 mr-5">
         </nav>
         
-        <nav class="nav container-fluid jumbotron pt-1 pb-0 pl-0 mb-2">
+        <nav class="nav container-fluid jumbotron pt-1 pb-0 pl-0 mb-4">
             <nav class="container">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link text-dark {{ actindex }}" id="index" data-toggle="tab" href="{{ url_for('index') }}" role="tab" aria-controls="index" aria-selected="false">Painel do Usuário</a>
                     <a class="nav-item nav-link text-dark {{ actlivre }}" id="livre-tab" data-toggle="tab" href="{{ url_for('livre') }}" role="tab" aria-controls="livre" aria-selected="true">APO Enzima</a>
                     <a class="nav-item nav-link text-dark {{ actlig }}" id="ligante-tab" data-toggle="tab" href="{{ url_for('ligante') }}" role="tab" aria-controls="ligante" aria-selected="false">Enzima + Ligante (PRODRG)</a>
                     <a class="nav-item nav-link text-dark {{ actligATB }}" id="ligante-tab-ATB" data-toggle="tab" href="{{ url_for('liganteATB') }}" role="tab" aria-controls="liganteATB" aria-selected="false">Enzima + Ligante (ATB - Em Desenvolvimento)</a>

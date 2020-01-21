@@ -1,6 +1,7 @@
 from .config import Config
 from datetime import datetime
 import subprocess, os, sys, shutil
+import errno
 
 def execute(LogFileName, CommandsFileName, username, filename):
     LogFile = create_log(LogFileName, username) #cria o arquivo log
@@ -16,6 +17,22 @@ def execute(LogFileName, CommandsFileName, username, filename):
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
 
+    diretorio = Config.UPLOAD_FOLDER + username + '/info_dynamics'
+    try:
+        f = open(diretorio,'x+')
+        data = '{}-{}-{}-[{}:{}:{}]'.format(datetime.now().day, datetime.now().month, datetime.now().year,
+                                            datetime.now().hour, datetime.now().minute, datetime.now().second)
+        info = data + ' ' + filename
+        f.write(info)
+        f.close()
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            f = open(diretorio,'a')
+            data = '{}-{}-{}-[{}:{}:{}]'.format(datetime.now().day, datetime.now().month, datetime.now().year,
+                                            datetime.now().hour, datetime.now().minute, datetime.now().second)
+            info = data + ' ' + filename+'\n'
+            f.write(info)
+    
     #abrir arquivo
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
     #with open('{}{}/{}/teste.txt'.format(Config.UPLOAD_FOLDER, username, filename)) as f: #Código para TESTE
@@ -42,7 +59,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
                     os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
                     os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
                     return (e.args)
-        
+
         #except subprocess.CalledProcessError as e:
     #raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
     
