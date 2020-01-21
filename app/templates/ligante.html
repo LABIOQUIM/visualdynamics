@@ -6,17 +6,17 @@
         <div class="col">
             <form class="align-items-start" method="POST" action="/ligante" onsubmit="return validateProcessing()" enctype="multipart/form-data">
                 <div class="custom-file">
-                    <input type="file" name="file" id="file" accept=".pdb" required>
+                    <input type="file" class="custom-file-input" id="file" accept=".pdb" required>
                     <label class="custom-file-label" for="file">Upload da Proteína Livre (.pdb)</label>
                 </div>
                 
                 <div class="custom-file mt-2" id ="itp">
-                    <input type="file" name="fileitp" id="fileitp" accept=".itp" required>
+                    <input type="file" class="custom-file-input" name="fileitp" id="fileitp" accept=".itp" required>
                     <label class="custom-file-label" for="fileitp">Upload do Arquivo .itp do Ligante</label>
                 </div>
                 
                 <div class="custom-file mt-2 mb-4" id ="gro">
-                    <input type="file" name="filegro" id="filegro" accept=".gro, .pdb" required>
+                    <input type="file" class="custom-file-input" name="filegro" id="filegro" accept=".gro, .pdb" required>
                     <label class="custom-file-label"for="filegro">Upload do Arquivo .gro ou .pdb do Ligante</label>
                 </div>
             
@@ -111,7 +111,7 @@
 </div>
 
 <script>
-    document.querySelector('.custom-file input').addEventListener("input", function(){
+    document.querySelector('.custom-file-input input').addEventListener("input", function(){
         var filename = document.querySelector('#file').value;
         var label = document.querySelector('.custom-file-label');
         label.innerHTML = filename;

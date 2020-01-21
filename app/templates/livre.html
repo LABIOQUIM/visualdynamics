@@ -6,7 +6,7 @@
         <div class="col">
             <form class="align-items-start" method="POST" action="/livre" onsubmit="return validateProcessing()" enctype="multipart/form-data">
                 <div class="custom-file mb-4">
-                    <input type="file" name="file" id="file" accept=".pdb" required>
+                    <input type="file" class="custom-file-input" name="file" id="file" accept=".pdb" required>
                     <label class="custom-file-label" for="file">Upload da Proteína Livre (.pdb)</label>
                 </div>
                 
@@ -116,7 +116,7 @@
 
 <script>
 
-    document.querySelector('.custom-file input').addEventListener("input", function(){
+    document.querySelector('.custom-file-input input').addEventListener("input", function(){
         var filename = document.querySelector('#file').value;
         var label = document.querySelector('.custom-file-label');
         label.innerHTML = filename;
