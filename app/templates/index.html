@@ -10,6 +10,16 @@
 <h3>Lista de Dinâmicas Realizadas</h3>
 <table class="table table-striped">
     <thead>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
     </thead>
     <tbody>
     {% for u in list_dynamics %}
@@ -21,9 +31,9 @@
         <td></td>
         <td></td>
         <td></td>
-        <td><a class="fa fa-download btn btn-outline-success" id="downloadcomands" href="/dynamiccomandsdownload/{{u}}"aria-controls="download"> Baixar Lista de Comandos</a></td>
-        <td><a class="fa fa-download btn btn-outline-primary" id="downloadgraphics" href="/imgfiles/{{u}}" aria-controls="livre"> Baixar Gráficos de Análise</a></td>
-        <td><a class="fa fa-download btn btn-outline-primary" id="downloadmdpfiles" href="{{ url_for('downloadmdpfiles') }}"aria-controls="livre-mdp"> Baixar mdpfiles</a></td>
+        <td><a class="btn btn-outline-success" id="downloadcomands" href="/dynamiccomandsdownload/{{u}}"aria-controls="download"><i class="fas fa-file-download " aria-hidden="true"></i> Baixar Lista de Comandos</a></td>
+        <td><a class="btn btn-outline-primary" id="downloadgraphics" href="/imgfiles/{{u}}" aria-controls="livre"><i class="fas fa-file-archive" aria-hidden="true"></i> Baixar Gráficos de Análise</a></td>
+        <td><a class="btn btn-outline-primary" id="downloadmdpfiles" href="{{ url_for('downloadmdpfiles') }}"aria-controls="livre-mdp"><i class="fas fa-file-archive" aria-hidden="true"></i> Baixar mdpfiles</a></td>
       </tr>
     {% endfor %}    
     </tbody>

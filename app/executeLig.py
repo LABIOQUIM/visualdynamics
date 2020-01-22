@@ -31,7 +31,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             f = open(diretorio,'a')
             data = '{}-{}-{}-[{}:{}:{}]'.format(datetime.now().day, datetime.now().month, datetime.now().year,
                                             datetime.now().hour, datetime.now().minute, datetime.now().second)
-            info = data + ' ' + filename
+            info = data + ' ' + filename+'\n'
             f.write(info)
                      
 

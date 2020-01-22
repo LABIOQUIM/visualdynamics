@@ -61,7 +61,7 @@ def livre():
                                     request.form.get('ignore'),
                                     current_user
                                     )  
-        if request.form.get('download') == 'Baixar Lista de Comandos':
+        if request.form.get('download') == 'Download':
             return redirect(url_for('commandsdownload',
                     filename={"complete" : CompleteFileName,
                     "name": file.filename.split('.')[0]}))
@@ -149,7 +149,7 @@ def ligante():
                                     request.form.get('ignore'),
                                     current_user
                                     )  
-        if request.form.get('download') == 'Baixar Lista de Comandos':
+        if request.form.get('download') == 'Download':
             name = file.filename.split('.')[0]+'_'+fileitp.filename.split('.')[0]
             return redirect(url_for('commandsdownload',
                     filename={"complete" : CompleteFileName,
@@ -234,7 +234,7 @@ def liganteATB():
 def imgsdownload(filename):
     filename = filename.split(' ')[1]
     current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename, 'graficos')
-    ziplocation = os.path.join(current_location, 'imagens.zip')
+    ziplocation = os.path.join(current_location, filename+'-graficos.zip')
     zf = zipfile.ZipFile(ziplocation,'w')
 
     for folder, subfolders, files in os.walk(current_location):
@@ -249,7 +249,7 @@ def imgsdownload(filename):
 @app.route('/downloadmdpfiles')
 @login_required
 def downloadmdpfiles():
-    ziplocation = os.path.join(Config.UPLOAD_FOLDER, 'mdpfiles.zip')
+    ziplocation = os.path.join(Config.UPLOAD_FOLDER, current_user.username,'mdpfiles.zip')
     mdplist = os.listdir(os.chdir(Config.MDP_LOCATION_FOLDER))
     
     zf = zipfile.ZipFile(ziplocation,'w')

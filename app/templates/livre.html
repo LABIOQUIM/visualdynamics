@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <form class="align-items-start" method="POST" action="/livre" onsubmit="return validateProcessing()" enctype="multipart/form-data">
-                <div class="custom-file mb-4">
+                <div class="custom-file mb-4 mt-4">
                     <input type="file" class="custom-file-input" name="file" id="file" accept=".pdb" required>
                     <label class="custom-file-label" for="file">Upload da Proteína Livre (.pdb)</label>
                 </div>
@@ -70,8 +70,8 @@
                 <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
                 </div>
                 <br>
-                <input type="submit" class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
-                <input type="submit" class="ml-1 btn btn-success" value="Baixar Lista de Comandos" name="download">
+                <button class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fas fa-cogs" aria-hidden="true"></i> Executar</button>
+                <button class="ml-1 btn btn-success" value="Download" name="download"><i class="fas fa-file-download " aria-hidden="true"></i> Baixar Lista de Comandos</button>
             </form>
         </div>
         

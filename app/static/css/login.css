@@ -3175,6 +3175,7 @@ iframe {
 	width: 1000px;
 	font-style: bold;
 	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
 	background: #fff;
 	box-shadow: 0px 0px 8px 6px rgba(0, 0, 0, 0.5);
 	border-radius: 10px;
@@ -3218,8 +3219,9 @@ iframe {
 
 .login100-form-title {
   font-size: 24px;
+  font-family: Arial, Helvetica, sans-serif;
   font-style: bold;
-  color: #333333;
+  color: #000000;
   line-height: 1.2;
   text-align: center;
   width: 100%;
@@ -3233,7 +3235,7 @@ iframe {
   position: relative;
   width: 100%;
   z-index: 1;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .input100 {
@@ -3249,9 +3251,7 @@ iframe {
   border-radius: 25px;
   padding: 0 30px 0 68px;
 }
-.text-muted{
-	font-family: Arial, Helvetica, sans-serif;
-} 
+ 
 /*------------------------------------------------------------------
 [ Focus ]*/
 .focus-input100 {
@@ -3327,8 +3327,16 @@ iframe {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding-top: 20px;
+  padding: 10px 50px 0px 50px;
 }
+
+.btn-primary{
+	width: 50%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	text-align: center;
+}
+
 
 .login100-form-btn {
   font-size: 15px;
@@ -3467,3 +3475,5 @@ iframe {
     opacity: 1;
   }
 }
+
+

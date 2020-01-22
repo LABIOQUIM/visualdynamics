@@ -22,7 +22,7 @@ def execute(LogFileName, CommandsFileName, username, filename):
         f = open(diretorio,'x+')
         data = '{}-{}-{}-[{}:{}:{}]'.format(datetime.now().day, datetime.now().month, datetime.now().year,
                                             datetime.now().hour, datetime.now().minute, datetime.now().second)
-        info = data + ' ' + filename
+        info = data + ' ' + filename+'\n'
         f.write(info)
         f.close()
     except OSError as e:
