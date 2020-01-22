@@ -18,22 +18,21 @@
             <img src="/static/img/labioquim.png" class="col-md-2 col sm-3 mr-5">
         </nav>
         
-        <nav class="nav container-fluid jumbotron pt-1 pb-0 pl-0 mb-2">
+        <nav class="container-fluid jumbotron pt-1 pb-0 pl-0 mb-2">
             <nav class="container">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link text-dark {{ actindex }}" id="index" data-toggle="tab" href="{{ url_for('index') }}" role="tab" aria-controls="index" aria-selected="false">Painel do Usuário</a>
-                    <a class="nav-item nav-link text-dark {{ actlivre }}" id="livre-tab" data-toggle="tab" href="{{ url_for('livre') }}" role="tab" aria-controls="livre" aria-selected="true">APO Enzima</a>
-                    <a class="nav-item nav-link text-dark {{ actlig }}" id="ligante-tab" data-toggle="tab" href="{{ url_for('ligante') }}" role="tab" aria-controls="ligante" aria-selected="false">Enzima + Ligante (PRODRG)</a>
-                    <a class="nav-item nav-link text-dark {{ actligATB }}" id="ligante-tab-ATB" data-toggle="tab" href="{{ url_for('liganteATB') }}" role="tab" aria-controls="liganteATB" aria-selected="false">Enzima + Ligante (ATB - Em Desenvolvimento)</a>
-                    {% if current_user.username == 'admin' %}
-                        <a class="nav-item nav-link text-dark {{ actadmin }}" id="Admin-tab" data-toggle="tab" href="{{ url_for('admin') }}" role="tab" aria-controls="admin" aria-selected="false">Painel Admin</a>
-                    {% endif %}
-                    <a class="nav-item nav-link text-danger border border-danger mb-auto ml-auto {{ actlogout }} {{'invisible' if not current_user.username else ''}}" id="logout-tab" data-toggle="tab" href="{{ url_for('logout') }}" role="tab" aria-control="logout" aria-selected="false" >
-                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sair</a>
+                    <a class="nav-item nav-link text-dark border-right {{ actindex }}" id="index" data-toggle="tab" href="{{ url_for('index') }}" role="tab" aria-controls="index" aria-selected="true">Painel do Usuário</a>
+                        <a class="nav-item nav-link text-dark border-right {{ actlivre }}" id="livre-tab" data-toggle="tab" href="{{ url_for('livre') }}" role="tab" aria-controls="livre" aria-selected="false">APO Enzima</a>
+                        <a class="nav-item nav-link text-dark border-right {{ actlig }}" id="ligante-tab" data-toggle="tab" href="{{ url_for('ligante') }}" role="tab" aria-controls="ligante" aria-selected="false">Enzima + Ligante (PRODRG)</a>
+                        <a class="nav-item nav-link text-dark border-right {{ actligATB }}" id="ligante-tab-ATB" data-toggle="tab" href="{{ url_for('liganteATB') }}" role="tab" aria-controls="liganteATB" aria-selected="false">Enzima + Ligante (ATB - Em Desenvolvimento)</a>
+                        {% if current_user.username == 'admin' %}
+                            <a class="nav-item nav-link text-dark  {{ actadmin }}" id="Admin-tab" data-toggle="tab" href="{{ url_for('admin') }}" role="tab" aria-controls="admin" aria-selected="false">Painel Admin</a>
+                        {% endif %}
+                        <a class="nav-item nav-link text-danger border border-danger mb-auto ml-auto {{ actlogout }} {{'invisible' if not current_user.username else ''}}" id="logout-tab" data-toggle="tab" href="{{ url_for('logout') }}" role="tab" aria-control="logout" aria-selected="false" >
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sair</a>
                 </div>
             </nav>
         </nav>
-        
 
         {% with messages = get_flashed_messages(with_categories=true) %} 
             {% if messages %}

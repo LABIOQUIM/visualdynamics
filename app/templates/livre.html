@@ -11,7 +11,7 @@
                 </div>
                 
                 
-                <label for="campoforca">Campo de Força</label>
+                <label class="mb-0" for="campoforca">Campo de Força</label>
                 <select class="form-control" name="campoforca" id="campoforca">
                     <option value="amber03">AMBER03 protein, nucleic AMBER94</option>
                     <option value="amber94">AMBER94 force field</option>
@@ -30,7 +30,7 @@
                     <option value="oplsaa">OPLS-AA/L all-atom force</option>
                 </select>
 
-                <label for="modeloagua">Modelo Agua</label>
+                <label class="mt-3 mb-0" for="modeloagua">Modelo Agua</label>
                 <select class="form-control" name="modeloagua" id="modeloagua">
                     <option value="spc">SPC simple point charge (recomendado para GROMOS)</option>
                     <option value="spce">SPC/E extended simple point charge</option>
@@ -40,7 +40,7 @@
                     <option value="tip5p">TIP5P (disponível para AMBER e OPLS apenas)</option>
                 </select>
 
-                <label for="tipocaixa">Tipo Caixa</label>
+                <label class="mt-3 mb-0" for="tipocaixa">Tipo Caixa</label>
                 <select class="form-control" name="tipocaixa" id="tipocaixa">
                     <option selected="selected" value="cubic">Cubic</option>
                     <option value="triclinic">Triclinic</option>
@@ -48,7 +48,7 @@
                     <option value="octahedron">Octahedron</option>
                 </select>
 
-                <label class="form-control-label" for="distanciacaixa">Distância entre a proteína e a borda da caixa 
+                <label class="form-control-label mt-3 mb-0" for="distanciacaixa">Distância entre a proteína e a borda da caixa 
                     (
                     <img src="{{ url_for('static', filename='svg/angstrom.svg') }}" width="13">
                     )
@@ -69,9 +69,8 @@
                 <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore">
                 <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
                 </div>
-                <br>
-                <button class="btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fas fa-cogs" aria-hidden="true"></i> Executar</button>
-                <button class="ml-1 btn btn-success" value="Download" name="download"><i class="fas fa-file-download " aria-hidden="true"></i> Baixar Lista de Comandos</button>
+                <button class="mt-3 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fas fa-cogs" aria-hidden="true"></i> Executar</button>
+                <button class="mt-3 ml-1 btn btn-success" value="Download" name="download"><i class="fas fa-file-download " aria-hidden="true"></i> Baixar Lista de Comandos</button>
             </form>
         </div>
         
