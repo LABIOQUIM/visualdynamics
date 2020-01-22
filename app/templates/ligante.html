@@ -6,18 +6,18 @@
         <div class="col">
             <form class="align-items-start" method="POST" action="/ligante" onsubmit="return validateProcessing()" enctype="multipart/form-data">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="file" accept=".pdb" required>
+                    <input type="file" class="custom-file-input" name="file" id="file" accept=".pdb" required>
                     <label class="custom-file-label" for="file">Upload da Proteína Livre (.pdb)</label>
                 </div>
                 
                 <div class="custom-file mt-2" id ="itp">
                     <input type="file" class="custom-file-input" name="fileitp" id="fileitp" accept=".itp" required>
-                    <label class="custom-file-label" for="fileitp">Upload do Arquivo .itp do Ligante</label>
+                    <label class="custom-file-label" for="fileitp" id="fileitp-label">Upload do Arquivo .itp do Ligante</label>
                 </div>
                 
                 <div class="custom-file mt-2 mb-4" id ="gro">
                     <input type="file" class="custom-file-input" name="filegro" id="filegro" accept=".gro, .pdb" required>
-                    <label class="custom-file-label"for="filegro">Upload do Arquivo .gro ou .pdb do Ligante</label>
+                    <label class="custom-file-label"for="filegro" id="filegro-label">Upload do Arquivo .gro ou .pdb do Ligante</label>
                 </div>
             
                 <label for="campoforca">Campo de Força</label>
@@ -111,21 +111,21 @@
 </div>
 
 <script>
-    document.querySelector('.custom-file-input input').addEventListener("input", function(){
+    document.querySelector('.custom-file-input').addEventListener("input", function(){
         var filename = document.querySelector('#file').value;
         var label = document.querySelector('.custom-file-label');
         label.innerHTML = filename;
     });
     
-    document.querySelector('#itp input').addEventListener("input", function(){
+    document.querySelector('#itp').addEventListener("input", function(){
         var filename = document.querySelector('#fileitp').value;
-        var label = document.querySelector('#itp label');
+        var label = document.querySelector('#fileitp-label');
         label.innerHTML = filename;
     });
 
-     document.querySelector('#gro input').addEventListener("input", function(){
+     document.querySelector('#gro').addEventListener("input", function(){
         var filename = document.querySelector('#filegro').value;
-        var label = document.querySelector('#gro label');
+        var label = document.querySelector('#filegro-label');
         label.innerHTML = filename;
     });
    
