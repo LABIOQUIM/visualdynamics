@@ -3226,7 +3226,7 @@ iframe {
   text-align: center;
   width: 100%;
   display: block;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 
@@ -3337,6 +3337,23 @@ iframe {
 	text-align: center;
 }
 
+.btn-success{
+	width: 70%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	text-align: center;
+	padding-left: 1%;
+	padding-right: 1%;
+}
+
+.btn-danger{
+	width: 50%;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	text-align: center;
+	padding-left: 1%;
+	padding-right: 1%;
+}
 
 .login100-form-btn {
   font-size: 15px;

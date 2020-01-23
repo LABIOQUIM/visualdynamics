@@ -8,7 +8,7 @@
     }
 </style>
 
-<div class="container">
+<div class="container mt-4">
     <h2><strong>Cadastrar Usuário</strong></h2>
     <div class="row justify-content-center align-items-start">
         <form class="align-items-center text-center mt-0" action="/admin/new" method="post" onsubmit="return validateForm()">
@@ -20,8 +20,8 @@
             <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
             <label for="password" class="form-control-label mt-3">Confirmar Senha</label>
             <input class="form-control mb-3" name="passwordconfirm" id="password" type="password" placeholder="Senha">
-            <input class="m-2 btn btn-primary" type="submit" value="Criar Usuário" name="submit">
-            <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}">Cancelar</a>
+            <button class="m-2 btn btn-primary" type="submit" name="submit"><i class="fa fa-check" aria-hidden="true"></i> Criar Usuário</button>
+            <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
         </form>
     </div>
 </div>

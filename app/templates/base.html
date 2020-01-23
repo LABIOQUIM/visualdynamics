@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css')}}">
-        <script src="https://kit.fontawesome.com/9b561c40c0.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Visual Dynamics</title>
     </head>
 
@@ -29,7 +29,7 @@
                             <a class="nav-item nav-link text-dark  {{ actadmin }}" id="Admin-tab" data-toggle="tab" href="{{ url_for('admin') }}" role="tab" aria-controls="admin" aria-selected="false">Painel Admin</a>
                         {% endif %}
                         <a class="nav-item nav-link text-danger border border-danger mb-auto ml-auto {{ actlogout }} {{'invisible' if not current_user.username else ''}}" id="logout-tab" data-toggle="tab" href="{{ url_for('logout') }}" role="tab" aria-control="logout" aria-selected="false" >
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sair</a>
+                            <i class="fa fa-sign-out" aria-hidden="true"></i> Sair</a>
                 </div>
             </nav>
         </nav>

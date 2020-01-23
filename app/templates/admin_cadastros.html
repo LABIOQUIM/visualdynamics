@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    h3{
+        text-align: center;
+    }
+  </style>
+  
+<h3 class="mt-4">Lista de Cadastros Solicitados</h3>
+<table class="table table-striped mt-2">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome Completo</th>
+        <th scope="col">Usuário</th>
+        <th scope="col">E-mail</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for u in NewUserData %}
+      <tr>
+        <th scope="row">{{u.id}}</th>
+        <td>{{u.name}}</td>
+        <td>{{u.username}}</td>
+        <td>{{u.email}}</td>
+        <td></td>
+        <td><a href="/admin/accept_newUser/{{u.id}}" class="btn btn-outline-primary"><i class="fa fa-check-square-o" aria-hidden="true"></i> Aceitar</a></td>        
+        <td><a href="/admin/remove_newUser/{{u.id}}" class="btn btn-outline-danger "><i class="fa fa-times" aria-hidden="true"></i> Recusar</a></td>
+      </tr>
+    {% endfor %}    
+    </tbody>
+  </table>
+
+    <div class="align-items-center text-center mt-4">
+        <a href="/admin" class="btn btn-primary btn mr-2 "><i class="fa fa-check" aria-hidden="true"></i> Concluir</a>
+    </div>
+
+{% endblock %}

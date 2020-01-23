@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="d-flex">
-    <a href="/admin/new" class="btn btn-success btn mb-2 ml-2"><i class="fas fa-user-plus" aria-hidden="true"></i> Criar Novo Usuário</a>
-    <a href="/admin/edit-md" class="btn btn-primary mb-2 ml-auto mr-2"><i class="fas fa-edit" aria-hidden="true"></i> Editar Arquivo md_pr</a>
-</div>
+<div class="d-flex mt-2">
+    <a href="/admin/cadastros" class="btn btn-success btn mb-2 ml-2"><i class="fa fa-user-plus" aria-hidden="true"></i> Solicitações de Cadastro</a>
+    <a href="/admin/edit-md" class="btn btn-primary mb-2 ml-auto mr-2"><i class="fa fa-pencil-square" aria-hidden="true"></i> Editar Arquivo md_pr</a>
+  </div>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -24,10 +24,10 @@
         <td>{{u.username}}</td>
         <td>{{u.email}}</td>
         <td></td>
-        <td><a href="/admin/edit/{{u.id}}" class="btn btn-outline-primary"><i class="far fa-edit" aria-hidden="true"></i> Editar</a></td>        
+        <td><a href="/admin/edit/{{u.id}}" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></td>        
         <td>
         {% if u.username != 'admin' %}  
-          <a href="/admin/remove/{{u.id}}" class="btn btn-outline-danger "><i class="far fa-trash-alt" aria-hidden="true"></i> Excluir</a>
+          <a href="/admin/remove/{{u.id}}" class="btn btn-outline-danger "><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a>
         {% endif %}
       </td>
       </tr>

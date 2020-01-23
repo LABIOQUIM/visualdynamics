@@ -1,6 +1,6 @@
 from app import app, login_manager, db
 from flask import render_template, request, redirect, url_for, flash, send_file, current_app
-from .models import User
+from .models import User, NewUser
 from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
 from .generate import generate
@@ -14,6 +14,37 @@ import ast
 import errno
 import zipfile
 import glob
+
+
+@app.route('/cadastro', methods=['GET', 'POST'])
+def cadastro():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        user = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        passconfirm = request.form.get('passwordconfirm')
+        #faz checagem para verificar se usuário ou senha já são utilizados    
+        check_email = NewUser.query.filter(NewUser.email == email).first()
+        check_user = NewUser.query.filter(NewUser.username == user).first()
+        if check_email is None and check_user is None:
+            check_email = User.query.filter(User.email == email).first()
+            check_user = User.query.filter(User.username == user).first()
+            if check_email is None and check_user is None:
+                new = NewUser(name=name,username=user,email=email,password=password)
+                db.session.add(new)
+                db.session.commit()
+                flash('Solicitação de cadastro do(a) Usuário(a) {} realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.'.format(user), 'primary')
+                return redirect(url_for('login'))
+            else:
+                flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
+                return redirect(url_for('cadastro'))
+        else:
+            flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
+            return redirect(url_for('cadastro'))
+    flash('Por favor, preencha os dados corretamente. Em caso de dados incorretos a solicitação de cadastro será cancelada.', 'danger')
+    return render_template('cadastro.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -294,6 +325,43 @@ def admin():
     UserData = User.query.all()
     return render_template('admin.html', actadmin = 'active', UserData=UserData)
 
+@app.route('/admin/cadastros', methods=['GET', 'POST'])
+@admin_required
+def admin_cadastros():
+    NewUserData = NewUser.query.all()
+    return render_template('admin_cadastros.html', NewUserData=NewUserData)
+
+
+@app.route('/admin/accept_newUser/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def accept_newUser(id):
+    #acessa a tabela NewUser para pegar os dados do usuário com cadastro aceito.
+    NewUserData = NewUser.query.get(int(id))
+    username = NewUserData.username
+    email = NewUserData.email
+    password = NewUserData.password
+    #deleta os dados do usuário com cadastro aceito da tabela NewUser
+    db.session.delete(NewUserData)
+    db.session.commit()
+    #adiciona os dados do usuário com cadastro aceito a tabela User (Usuários com Cadastro aceitos)
+    new = User(username=username,email=email)
+    new.set_password(password)
+    db.session.add(new)
+    db.session.commit()
+    flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(username), 'primary')
+    return redirect(url_for('admin_cadastros'))
+
+
+@app.route('/admin/remove_newUser/<int:id>')
+@admin_required
+def remove_newUser(id):
+    NewUserData = NewUser.query.get(int(id))
+    db.session.delete(NewUserData)
+    db.session.commit()
+    flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(NewUserData.username), 'primary')
+    return redirect(url_for('admin_cadastros'))
+
+
 @app.route('/admin/edit/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def edit_user(id):
@@ -324,6 +392,7 @@ def edit_user(id):
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
 
+'''
 @app.route('/admin/new', methods=['GET', 'POST'])
 @admin_required
 def newuser():
@@ -332,16 +401,22 @@ def newuser():
         email = request.form.get('email')
         password = request.form.get('password')
         passconfirm = request.form.get('passwordconfirm')
-        if password == passconfirm:
+        #faz checagem para verificar se usuário ou senha já são utilizados
+        check_email = User.query.filter( User.email == email).first()
+        check_user = User.query.filter(User.username == user).first()
+        if check_email is None and check_user is None:
             new = User(username=user,email=email)
             new.set_password(password)
             db.session.add(new)
             db.session.commit()
             flash('Usuário(a) {} criado(a) com sucesso.'.format(user), 'primary')
             return redirect(url_for('admin'))
-        flash('Erro ao criar usuário', 'danger')
-        return redirect(url_for('admin'))
+        else:
+            flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
+            return redirect(url_for('admin'))
+    
     return render_template('new_user.html')
+'''
 
 @app.route('/admin/remove/<int:id>')
 @admin_required
@@ -354,10 +429,6 @@ def removeuser(id):
         return redirect(url_for('admin'))
     flash('Não é possível remover o admin', 'danger')
     return redirect(url_for('admin'))
-
-@login_manager.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
 @app.route('/admin/edit-md', methods = ['GET', 'POST'])
 @admin_required
@@ -420,5 +491,3 @@ def edit_md():
     archive.close()
     
     return render_template('edit_md.html', nsteps = nsteps, dt = dt)
-
-

@@ -1,8 +1,9 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<div class="container align-items-center">
+<div class="container align-items-center mt-4">
         <form class="align-items-center text-center" action="" method="post">
+            <h4>Editar arquivo (md_pr.mdp)</h4>
             <div class="form-group mr-2">
                 <label class="form-control-label" for="edit"> Valor do nsteps: </label> 
                 <input type="number" name="editnstep" step="100" id = "editnstep" class="form-control-label text-center mt-3" value="{{ nsteps }}">
@@ -11,8 +12,8 @@
                 <label class="form-control-label" for="edit"> Valor do dt: </label> 
                 <input type="number" name="editDt" step="0.001" id = "editDt" class="form-control-label text-center mt-3" value="{{ dt }}">
             </div>
-                <input class="m-2 btn btn-primary" type="submit" value="Salvar Atualização" name="submit">
-                <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}">Cancelar</a>
+                <button class="m-2 btn btn-primary" type="submit" name="submit"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
+                <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
         </form>
 </div>
 

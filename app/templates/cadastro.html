@@ -20,7 +20,7 @@
                             <img src="/static/img/labioquim.png" class="col-md-4 col sm-6 mr-5">
                         </div>
                         <div>
-                            <form class="login100-form validate-form" action="/login" method="post" onsubmit="return validateForm()">
+                            <form class="login100-form validate-form" action="/cadastro" method="post" onsubmit="return validateForm()">
                                 <span class="login100-form-title">LOGIN</span>
                                 <!--\\\\\\\\\\\\\\Flash para mostrar erros no login////////////////////-->
                                 {% with messages = get_flashed_messages(with_categories=true) %} 
@@ -34,13 +34,29 @@
                                 {% endwith %}
                                 <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
                                 <div class="wrap-input100 validate-input">
-                                    <input class="input100" type="text" name="username" id="username" placeholder="Usuário ou E-mail">
+                                    <input class="input100" type="text" name="name" id="name" placeholder="Nome Completo">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+
+                                <div class="wrap-input100 validate-input">
+                                    <input class="input100" type="text" name="username" id="username" placeholder="Usuário">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                     </span>
                                 </div>
             
+                                <div class="wrap-input100 validate-input">
+                                    <input class="input100" type="text" name="email" id="email" placeholder="E-mail">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                                
                                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
                                     <input class="input100" type="password" name="password" id="password" placeholder="Senha">
                                     <span class="focus-input100"></span>
@@ -48,10 +64,18 @@
                                         <i class="fa fa-lock" aria-hidden="true"></i>
                                     </span>
                                 </div>
-                        
-                                <button class="btn btn-primary btn-lg mt-1"><i class="fa fa-sign-in" aria-hidden="true" ></i> Entrar</button>  
+
+                                <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                                    <input class="input100" type="password" name="passwordconfirm" id="passwordconfirm" placeholder="Confirmar Senha">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+
+                                <button class="btn btn-primary btn-lg mt-1"><i class="fa fa-sign-in" aria-hidden="true" ></i> Enviar</button>  
                             </form>
-                            <a href="/cadastro" class="btn btn-success mt-2"><i class="fa fa-sign-in" aria-hidden="true" ></i> Solicitar Cadastro</a> 
+                            <a class="m-2 btn btn-danger" href="{{ url_for('login') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a> 
                         </div>
                     </div>                        
                     
@@ -69,14 +93,40 @@
  
                 <script>
                     function validateForm() {
-                        username = document.forms[0][0].value;
-                        password = document.forms[0][1].value;
+                        //RE valida o email
+                        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        name = document.forms[0][0].value;
+                        username = document.forms[0][1].value;
+                        email = document.forms[0][2].value;
+                        password = document.forms[0][3].value;
+                        passwordconfirm = document.forms[0][4].value;
+                        if (name==null || name=="") {
+                            alert("Nome Completo deve ser preenchido");
+                            return false;
+                            }
+                    
                         if (username==null || username=="") {
                             alert("Usuário deve ser preenchido");
                             return false;
                             }
+
+                        if (email==null || email=="") {
+                            alert("Usuário deve ser preenchido");
+                            return false;
+                            }
+                        
                         if (password==null || password=="") {
                             alert("Senha deve ser preenchida");
+                            return false;
+                            }
+                        
+                        if (re.test(email) == false) {
+                            alert("Email inválido")
+                            return false;
+                            }
+                        
+                        if (password != passwordconfirm){
+                            alert("As senhas digitadas são diferentes")
                             return false;
                             }
                     };
