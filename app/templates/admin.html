@@ -10,7 +10,8 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Nome do Usuário</th>
+        <th scope="col">Nome Completo</th>
+        <th scope="col">Usuário</th>
         <th scope="col">E-mail</th>
         <th scope="col"></th>
         <th scope="col"></th>
@@ -21,6 +22,7 @@
     {% for u in UserData %}
       <tr>
         <th scope="row">{{u.id}}</th>
+        <td>{{u.name}}</td>
         <td>{{u.username}}</td>
         <td>{{u.email}}</td>
         <td></td>

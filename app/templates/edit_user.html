@@ -13,7 +13,9 @@
     <p>Para editar somente usuário e/ou email, deixe o campo de senha em branco</p>
     <div class="row justify-content-center align-items-start">
         <form class="align-items-center text-center mt-0" action="/admin/edit/{{UserData.id}}" method="post" onsubmit="return validateForm()">
-            <label for="username" class="form-control-label text-center mt-3">Nome do Usuário</label>
+            <label for="username" class="form-control-label text-center mt-3">Nome Completo</label>
+            <input class="form-control" name='name' id='name' type="input" aria-describedby="emailHelp" value="{{UserData.name}}">
+            <label for="username" class="form-control-label text-center mt-3">Usuário</label>
             <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" value="{{UserData.username}}">
             <label for="username" class="form-control-label text-center mt-3">Email</label>
             <input class="form-control" name='email' id='username' type="input" aria-describedby="emailHelp" value="{{UserData.email}}">
@@ -31,12 +33,17 @@
     function validateForm() {
         //RE q valida email
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        user = document.forms[0][0].value;
-        email = document.forms[0][1].value;
-        password = document.forms[0][2].value;
-        passwordconfirm = document.forms[0][3].value;
-        if (user === null || user === "") {
-            alert("Nome de usuário deve ser preenchido");
+        name = document.forms[0][0].value;
+        username = document.forms[0][1].value;
+        email = document.forms[0][2].value;
+        password = document.forms[0][3].value;
+        passwordconfirm = document.forms[0][4].value;
+        if (name === null || name === "") {
+            alert("Nome Completo deve ser preenchido");
+            return false;
+            }
+        if (username === null || username === "") {
+            alert("Usuário deve ser preenchido");
             return false;
             }
         if (email === null || email === "") {

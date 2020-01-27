@@ -1,6 +1,6 @@
 from app import app, login_manager, db
 from flask import render_template, request, redirect, url_for, flash, send_file, current_app
-from .models import User, NewUser
+from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
 from .generate import generate
@@ -14,6 +14,8 @@ import ast
 import errno
 import zipfile
 import glob
+import smtplib
+from email.mime.text import MIMEText
 
 
 @app.route('/cadastro', methods=['GET', 'POST'])
@@ -25,23 +27,20 @@ def cadastro():
         password = request.form.get('password')
         passconfirm = request.form.get('passwordconfirm')
         #faz checagem para verificar se usuário ou senha já são utilizados    
-        check_email = NewUser.query.filter(NewUser.email == email).first()
-        check_user = NewUser.query.filter(NewUser.username == user).first()
+        check_email = User.query.filter(User.email == email).first()
+        check_user = User.query.filter(User.username == user).first()
         if check_email is None and check_user is None:
-            check_email = User.query.filter(User.email == email).first()
-            check_user = User.query.filter(User.username == user).first()
-            if check_email is None and check_user is None:
-                new = NewUser(name=name,username=user,email=email,password=password)
-                db.session.add(new)
-                db.session.commit()
-                flash('Solicitação de cadastro do(a) Usuário(a) {} realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.'.format(user), 'primary')
-                return redirect(url_for('login'))
-            else:
-                flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
-                return redirect(url_for('cadastro'))
+            #register = False
+            new = User(name=name,username=user,email=email,register='False')
+            new.set_password(password)
+            db.session.add(new)
+            db.session.commit()
+            flash('Solicitação de cadastro do(a) Usuário(a) {} realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.'.format(user), 'primary')
+            return redirect(url_for('login'))
         else:
             flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
             return redirect(url_for('cadastro'))
+
     flash('Por favor, preencha os dados corretamente. Em caso de dados incorretos a solicitação de cadastro será cancelada.', 'danger')
     return render_template('cadastro.html')
 
@@ -51,8 +50,13 @@ def login():
     if request.method == 'POST':
         form_entry = request.form.get('username')
         user = User.query.filter((User.username == form_entry) | (User.email == form_entry)).first()
+        #verifica se o usuário existe
         if user is None or not user.check_password(request.form.get('password')):
             flash('Usuário ou senha inválidos', 'danger')
+            return render_template('login.html')
+        #verifica se o cadastro do usuário é aceito.
+        if user.register == 'False':
+            flash('Seu cadastro ainda não foi aceito, aguarde o Email de confirmação.', 'danger')     
         else :
             login_user(user)
             return redirect(url_for('protected'))
@@ -322,43 +326,52 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
 def admin():
-    UserData = User.query.all()
+    UserData = User.query.filter(User.register == 'True')
     return render_template('admin.html', actadmin = 'active', UserData=UserData)
 
 @app.route('/admin/cadastros', methods=['GET', 'POST'])
 @admin_required
 def admin_cadastros():
-    NewUserData = NewUser.query.all()
+    NewUserData = User.query.filter(User.register == 'False')
     return render_template('admin_cadastros.html', NewUserData=NewUserData)
 
 
 @app.route('/admin/accept_newUser/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def accept_newUser(id):
-    #acessa a tabela NewUser para pegar os dados do usuário com cadastro aceito.
-    NewUserData = NewUser.query.get(int(id))
-    username = NewUserData.username
-    email = NewUserData.email
-    password = NewUserData.password
-    #deleta os dados do usuário com cadastro aceito da tabela NewUser
-    db.session.delete(NewUserData)
+    #ativa o cadastro do usuário.
+    UserData = User.query.get(int(id))
+    UserData.register = 'True'
+    name = UserData.name
+    email = UserData.email
+    db.session.add(UserData)
     db.session.commit()
-    #adiciona os dados do usuário com cadastro aceito a tabela User (Usuários com Cadastro aceitos)
-    new = User(username=username,email=email)
-    new.set_password(password)
-    db.session.add(new)
-    db.session.commit()
-    flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(username), 'primary')
+    
+    msg = MIMEText('<h3>Olá '+ name +', seu cadastro no Visual Dynamics foi aprovado.</h3>\
+    Acesse http://157.86.248.13:8080 para utilizar o sistema.\
+    <h5>E-mail gerado automáticamente, por favor não responder.</h5>','html', 'utf-8')
+
+    #Criar email da oficial para o sistema
+    
+    msg['From'] = 'labioquim.rondonia.fiocruz@gmail.com'
+    msg['To'] = email
+    msg['Subject'] = 'Cadastro Visual Dynamics'
+    raw = msg.as_string()
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
+    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, raw)
+    server.quit()
+    flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
 
 
 @app.route('/admin/remove_newUser/<int:id>')
 @admin_required
 def remove_newUser(id):
-    NewUserData = NewUser.query.get(int(id))
-    db.session.delete(NewUserData)
+    UserData = User.query.get(int(id))
+    db.session.delete(UserData)
     db.session.commit()
-    flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(NewUserData.username), 'primary')
+    flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
 
 
@@ -366,12 +379,14 @@ def remove_newUser(id):
 @admin_required
 def edit_user(id):
     if request.method == 'POST':
+        name = request.form.get('name')
         user = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
         passconfirm = request.form.get('passwordconfirm')
         if password == '' and passconfirm == '':
             UserData = User.query.get(int(id))
+            UserData.name = name
             UserData.username = user
             UserData.email = email
             db.session.add(UserData)
@@ -380,6 +395,7 @@ def edit_user(id):
             return redirect(url_for('admin'))
         elif password == passconfirm:
             UserData = User.query.get(int(id))
+            UserData.name = name
             UserData.username = user
             UserData.email = email
             UserData.set_password(password)

@@ -12,10 +12,12 @@
     <h2><strong>Cadastrar Usuário</strong></h2>
     <div class="row justify-content-center align-items-start">
         <form class="align-items-center text-center mt-0" action="/admin/new" method="post" onsubmit="return validateForm()">
-            <label for="username" class="form-control-label text-center mt-3">Nome do Usuário</label>
+            <label for="username" class="form-control-label text-center mt-3">Nome Completo</label>
+            <input class="form-control" name='name' id='name' type="input" aria-describedby="emailHelp" placeholder="Nome e Sobrenome">
+            <label for="username" class="form-control-label text-center mt-3">Usuário</label>
             <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" placeholder="Ex: davi12">
             <label for="username" class="form-control-label text-center mt-3">Email</label>
-            <input class="form-control" name='email' id='username' type="input" aria-describedby="emailHelp" placeholder="Ex: davi12@hotmail.com">
+            <input class="form-control" name='email' id='username' type="input" aria-describedby="emailHelp" placeholder="Ex: davi12@gmail.com">
             <label for="password" class="form-control-label mt-3">Senha</label>
             <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
             <label for="password" class="form-control-label mt-3">Confirmar Senha</label>
@@ -30,27 +32,32 @@
     function validateForm() {
         //RE q valida email
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        user = document.forms[0][0].value;
-        email = document.forms[0][1].value;
-        password = document.forms[0][2].value;
-        passwordconfirm = document.forms[0][3].value;
-        if (user==null || user=="") {
+        name = document.forms[0][0].value;
+        username = document.forms[0][1].value;
+        email = document.forms[0][2].value;
+        password = document.forms[0][3].value;
+        passwordconfirm = document.forms[0][4].value;
+        if (name === null || name === "") {
+            alert("Nome Completo deve ser preenchido");
+            return false;
+            }
+        if (username === null || username === "") {
             alert("Nome de usuário deve ser preenchido");
             return false;
             }
-        if (email==null || email=="") {
+        if (email === null || email === "") {
             alert("Email deve ser preenchido");
             return false;
-            }
+            }        
+        if (re.test(email) === false) {
+            alert("Email inválido")
+            return false
+        }
         if (password==null || password=="") {
             alert("Senha deve ser preenchida");
             return false;
             }
-        if (re.test(email) == false) {
-            alert("Email inválido")
-            return false
-        }
-        if (password != passwordconfirm) {
+        if (password !== passwordconfirm) {
             alert("As senhas digitadas são diferentes")
             return false
         }
