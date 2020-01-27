@@ -44,7 +44,6 @@ def cadastro():
     flash('Por favor, preencha os dados corretamente. Em caso de dados incorretos a solicitação de cadastro será cancelada.', 'danger')
     return render_template('cadastro.html')
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -67,7 +66,6 @@ def login():
 def protected():
     flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'primary')
     return redirect(url_for('index'))
-
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -153,7 +151,6 @@ def livre():
     
     return render_template('livre.html', actlivre = 'active')
     
-
 @app.route('/executar/<comp>/<mol>/<filename>')
 @login_required
 def executar(comp,mol,filename):
@@ -163,7 +160,6 @@ def executar(comp,mol,filename):
     exc = execute(AbsFileName, comp, current_user.username, mol)
     flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
     return redirect(url_for('livre'))
-
 
 @app.route('/ligante', methods=['GET','POST'])
 @login_required
@@ -256,13 +252,11 @@ def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
     flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
     return redirect(url_for('ligante'))
 
-
 @app.route('/liganteATB', methods=['GET','POST'])
 @login_required
 def liganteATB():
     flash('Esta funcionalidade está em desenvolvimento', 'danger')
     return render_template('liganteATB.html', actligATB = 'active')
-
 
 @app.route('/imgfiles/<filename>')
 @login_required
@@ -352,7 +346,6 @@ def accept_newUser(id):
     <h5>E-mail gerado automáticamente, por favor não responder.</h5>','html', 'utf-8')
 
     #Criar email da oficial para o sistema
-    
     msg['From'] = 'labioquim.rondonia.fiocruz@gmail.com'
     msg['To'] = email
     msg['Subject'] = 'Cadastro Visual Dynamics'
@@ -369,8 +362,25 @@ def accept_newUser(id):
 @admin_required
 def remove_newUser(id):
     UserData = User.query.get(int(id))
+    name = UserData.name
+    email = UserData.email
     db.session.delete(UserData)
     db.session.commit()
+
+    msg = MIMEText('<h3>Olá '+ name +', seu cadastro no Visual Dynamics não foi aprovado.</h3>\
+    Acesse http://157.86.248.13:8080 para tentar novamente.\
+    <h5>E-mail gerado automáticamente, por favor não responder.</h5>','html', 'utf-8')
+
+    #Criar email da oficial para o sistema
+    msg['From'] = 'labioquim.rondonia.fiocruz@gmail.com'
+    msg['To'] = email
+    msg['Subject'] = 'Cadastro Visual Dynamics'
+    raw = msg.as_string()
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
+    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, raw)
+    server.quit()
+   
     flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
 
