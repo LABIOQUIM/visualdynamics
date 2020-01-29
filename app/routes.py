@@ -310,7 +310,7 @@ def commandsdownload(filename):
 
 @login_manager.unauthorized_handler
 def unauthorized_handler():
-    return redirect(url_for('login'))
+    return redirect(url_for('logout'))
 
 @app.route('/logout')
 def logout():
@@ -346,7 +346,7 @@ def accept_newUser(id):
     <h5>E-mail gerado automáticamente, por favor não responder.</h5>','html', 'utf-8')
 
     #Criar email da oficial para o sistema
-    msg['From'] = 'labioquim.rondonia.fiocruz@gmail.com'
+    msg['From'] = 'LABIOQUIM FIOCRUZ - RO'
     msg['To'] = email
     msg['Subject'] = 'Cadastro Visual Dynamics'
     raw = msg.as_string()

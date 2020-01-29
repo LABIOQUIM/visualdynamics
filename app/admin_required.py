@@ -1,10 +1,15 @@
 from .routes import current_app, current_user
 from functools import wraps
 
+#atualização para evitar que a pagina quebre
 def admin_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if current_user.username != 'admin':
+        try:
+            user = current_user.username
+        except:
+            user = ""
+        if user != 'admin':
             return current_app.login_manager.unauthorized()
         else:
             return fn(*args, **kwargs)
