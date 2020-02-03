@@ -3198,7 +3198,23 @@ iframe {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-	padding: 30px 140px 0px 0px;
+	padding: 30px 140px 0px 0px
+}
+
+.wrap-cad100 {	
+	width: 960px;
+	text-align: center;
+	background: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 30px 140px 0px 0px
 }
 
 /*------------------------------------------------------------------
@@ -3214,7 +3230,12 @@ iframe {
 /*------------------------------------------------------------------
 [  ]*/
 .login100-form {
-  width: 290px;
+  width: 120%;
+}
+
+.cad100-form{
+	width:50%;
+	margin-left: 25%;
 }
 
 .login100-form-title {
@@ -3331,26 +3352,24 @@ iframe {
 }
 
 .btn-primary{
-	width: 50%;
+	width:70%;
 	padding-top: 1%;
 	padding-bottom: 1%;
-	text-align: center;
+	
 }
 
 .btn-success{
-	width: 70%;
+	width: 96%;
 	padding-top: 1%;
 	padding-bottom: 1%;
-	text-align: center;
 	padding-left: 1%;
 	padding-right: 1%;
 }
 
 .btn-danger{
-	width: 50%;
+	width: 60%;
 	padding-top: 1%;
 	padding-bottom: 1%;
-	text-align: center;
 	padding-left: 1%;
 	padding-right: 1%;
 }

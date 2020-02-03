@@ -14,14 +14,16 @@
                 <div class="wrap-login-title">
                     <h1>Visual Dynamics</h1>
                     <h2>Dinâmica Molecular com o Gromacs</h2>
-                    <div class="wrap-login100">
+                    <div class="wrap-cad100 ml-3 mb-3">
                         <div class="login100-pic js-tilt" data-tilt>
-                            <img src="/static/img/fiocruzro.png" class="col-md-2 col-sm-3 ml-5">
+                            <img src="/static/img/fiocruzro.png" class="col-md-2 col-sm-3 ml-3 mt-4">
+                        </div>
+                        <div class="login100-pic js-tilt" data-tilt>
                             <img src="/static/img/labioquim.png" class="col-md-4 col sm-6 mr-5">
                         </div>
                         <div>
-                            <form class="login100-form validate-form" action="/cadastro" method="post" onsubmit="return validateForm()">
-                                <span class="login100-form-title">LOGIN</span>
+                            <form class="cad100-form validate-form" action="/cadastro" method="post" onsubmit="return validateForm()">
+                                <span class="login100-form-title">Solicitação de Cadastro</span>
                                 <!--\\\\\\\\\\\\\\Flash para mostrar erros no login////////////////////-->
                                 {% with messages = get_flashed_messages(with_categories=true) %} 
                                     {% if messages %}
@@ -74,8 +76,8 @@
                                 </div>
 
                                 <button class="btn btn-primary btn-lg mt-1"><i class="fa fa-sign-in" aria-hidden="true" ></i> Enviar</button>  
+                                <a class="m-2 btn btn-danger" href="{{ url_for('login') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a> 
                             </form>
-                            <a class="m-2 btn btn-danger" href="{{ url_for('login') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a> 
                         </div>
                     </div>                        
                     
