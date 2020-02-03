@@ -3230,7 +3230,7 @@ iframe {
 /*------------------------------------------------------------------
 [  ]*/
 .login100-form {
-  width: 120%;
+  width: 100%;
 }
 
 .cad100-form{
@@ -3352,14 +3352,14 @@ iframe {
 }
 
 .btn-primary{
-	width:70%;
+	width:60%;
 	padding-top: 1%;
 	padding-bottom: 1%;
 	
 }
 
 .btn-success{
-	width: 96%;
+	width: 60%;
 	padding-top: 1%;
 	padding-bottom: 1%;
 	padding-left: 1%;
@@ -3367,7 +3367,7 @@ iframe {
 }
 
 .btn-danger{
-	width: 60%;
+	width: 50%;
 	padding-top: 1%;
 	padding-bottom: 1%;
 	padding-left: 1%;
@@ -3411,37 +3411,103 @@ iframe {
 
 
 @media (max-width: 992px) {
-  .wrap-login100 {
-    padding: 177px 90px 33px 85px;
-  }
+	.wrap-login100 {
+		padding: 177px 90px 33px 85px;
+	}
 
-  .login100-pic {
-    width: 35%;
-  }
+	.login100-pic {
+		width: 35%;
+	}
 
-  .login100-form {
-    width: 50%;
-  }
+	.login100-form {
+		width: 80%;
+	}
+
+	.btn-primary{
+		width:60%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		
+	}
+
+	.btn-success{
+		width: 60%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		padding-left: 1%;
+		padding-right: 1%;
+	}
+
+	.btn-danger{
+		width: 60%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		padding-left: 1%;
+		padding-right: 1%;
+	}
 }
 
 @media (max-width: 768px) {
-  .wrap-login100 {
-    padding: 100px 80px 33px 80px;
-  }
+	.wrap-login100 {
+		padding: 100px 80px 33px 80px;
+	}
 
-  .login100-pic {
-    display: none;
-  }
+	.login100-pic {
+		display: none;
+	}
 
-  .login100-form {
-    width: 100%;
-  }
+	.login100-form {
+		width: 100%;
+	}
+
+  	.btn-primary{
+		width:50%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+	}
+
+	.btn-success{
+		width: 96%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		padding-left: 1%;
+		padding-right: 1%;
+	}
+
+	.btn-danger{
+		width: 60%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		padding-left: 1%;
+		padding-right: 1%;
+	}
 }
 
 @media (max-width: 576px) {
-  .wrap-login100 {
-    padding: 100px 15px 33px 15px;
-  }
+	.wrap-login100 {
+    	padding: 100px 15px 33px 15px;
+	}
+	.btn-primary{
+		width:70%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+	}
+
+	.btn-success{
+		width: 96%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		padding-left: 1%;
+		padding-right: 1%;
+	}
+
+	.btn-danger{
+		width: 60%;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		padding-left: 1%;
+		padding-right: 1%;
+	}	
 }
 
 
