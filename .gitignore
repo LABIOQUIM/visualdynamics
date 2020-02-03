@@ -109,4 +109,4 @@ share
 
 #flask DB
 migrations/
-routes/app.db
+app/app.db
