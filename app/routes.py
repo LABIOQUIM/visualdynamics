@@ -349,10 +349,10 @@ def accept_newUser(id):
     msg['From'] = 'LABIOQUIM FIOCRUZ - RO'
     msg['To'] = email
     msg['Subject'] = 'Cadastro Visual Dynamics'
-    raw = msg.as_string()
+    message = msg.as_string()
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
-    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, raw)
+    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, message)
     server.quit()
     flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
@@ -375,10 +375,10 @@ def remove_newUser(id):
     msg['From'] = 'labioquim.rondonia.fiocruz@gmail.com'
     msg['To'] = email
     msg['Subject'] = 'Cadastro Visual Dynamics'
-    raw = msg.as_string()
+    message = msg.as_string()
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
-    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, raw)
+    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, message)
     server.quit()
    
     flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')

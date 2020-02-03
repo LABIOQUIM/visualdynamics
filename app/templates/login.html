@@ -23,16 +23,18 @@
                             <form class="login100-form validate-form" action="/login" method="post" onsubmit="return validateForm()">
                                 <span class="login100-form-title">LOGIN</span>
                                 <!--\\\\\\\\\\\\\\Flash para mostrar erros no login////////////////////-->
-                                {% with messages = get_flashed_messages(with_categories=true) %} 
-                                    {% if messages %}
-                                        <ul class=flashes>
-                                            {% for category, message in messages %}
-                                                <li class="alert alert-{{category}} mr-0" style="list-style:none" role="alert">{{ message }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endif %} 
-                                {% endwith %}
-                                <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
+                                <div class="flash-message">
+                                    {% with messages = get_flashed_messages(with_categories=true) %} 
+                                        {% if messages %}
+                                            <ul class=flashes>
+                                                {% for category, message in messages %}
+                                                    <li class="alert alert-{{category}} mr-0" style="list-style:none" role="alert">{{ message }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %} 
+                                    {% endwith %}
+                                </div>
+                                    <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
                                 <div class="wrap-input100 validate-input">
                                     <input class="input100" type="text" name="username" id="username" placeholder="Usuário ou E-mail">
                                     <span class="focus-input100"></span>
@@ -54,7 +56,7 @@
                             </form> 
                         </div>
                     </div>                        
-                    
+                    <br>
                     <div class="rodape-dev text-muted">
                         <h4 class="m-0 small">Desenvolvido por:</h4>
                         <h4 class="m-0 small mt-1">Eduardo Buganemi Botelho</h4>
