@@ -109,4 +109,3 @@ share
 
 #flask DB
 migrations/
-app/app.db
