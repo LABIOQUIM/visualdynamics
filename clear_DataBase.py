@@ -6,6 +6,8 @@ import random
 import os
 import sqlite3
 
+#Cuidado!!! Ao executar esse script o Banco de dados exclui todos os usuarios.
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 #TRUCATE na tabela
