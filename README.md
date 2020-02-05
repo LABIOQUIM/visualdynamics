@@ -1,6 +1,6 @@
 # Project Visual Dynamics - LABIOQUIM FIOCRUZ RONDÔNIA
-! [Logo Fiocruz](fiocruz.png){.text-left}
-! [Logo Labioquim](labioquim.png){.text-right}
+![Logo Fiocruz](fiocruz.png){.text-left}
+![Logo Labioquim](labioquim.png){.text-right}
 ### Para realizar as dinâmicas é necessário ter instalado o GROMACS series 2019 ou 2020.
 ### To perform the dynamics, it is necessary to have installed the GROMACS 2019 or 2020 series.
 - Acesse o link para realizar a instalação e siga o installation guide do site: <http://manual.gromacs.org/documentation/>
@@ -48,10 +48,10 @@ ________________________________________________________________________________
 ~~~
 ________________________________________________________________________________________________________
 
-## Desenvolvido por:
-### Eduardo Buganemi Botelho
-### Dr. Fernando Berton Zanchi
-### Dr. Rafael Andrade Caceres
-### Thales Junior de Souza Gomes
+### Desenvolvido por:
+- Eduardo Buganemi Botelho
+- Dr. Fernando Berton Zanchi
+- Dr. Rafael Andrade Caceres
+- Thales Junior de Souza Gomes
 - Duvidas? Envie um e-mail para <fernando.zanchi@fiocruz.br>
 #### Copyright © LABIOQUIM - FIOCRUZ RONDÔNIA
