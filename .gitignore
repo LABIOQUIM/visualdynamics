@@ -109,3 +109,5 @@ share
 
 #flask DB
 migrations/
+
+login.txt
