@@ -35,8 +35,8 @@ Instalar(Install) git:
 ### Ao fim da instalação o servidor será iniciado.
 ### At the end of the installation the server will start.
 
-###### Caso tenha saido da pasta visualdynamics acesse ela novamente pelo terminal.
-###### If you left the visualdynamics folder, access it again through the terminal.
+##### Caso tenha saido da pasta visualdynamics acesse ela novamente pelo terminal.
+##### If you left the visualdynamics folder, access it again through the terminal.
 - Para executar a aplicação após a instalação, execute o comando:
 - To run the application after installation, run the command:
 ~~~Shell scripts
