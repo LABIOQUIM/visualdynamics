@@ -5,7 +5,7 @@ echo "Se for a primeira instalacao nao se preocupe com isso, sera gerado um novo
 echo "Caso voce já tenha o visual dynamics instalado, cuidado! Se realizar a instalacao novamente o banco de dados sera totalmente limpo."
 echo "Confirmar instalacao?(y = confirmar/n = cancelar)"
 read resp
-if [ $resp = 'y'];
+if [ $resp = y];
     then
         #install python3.7 e pip
         sudo apt install python3.7
@@ -33,7 +33,7 @@ if [ $resp = 'y'];
         echo "Para finalizar a excução precione Ctrl + c"
         flask run
 
-elif [ $resp = 'n'];
+elif [ $resp = n];
     then
         echo "Instacao cancelada."
 
