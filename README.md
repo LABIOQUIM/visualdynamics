@@ -1,6 +1,6 @@
 # Project Visual Dynamics - LABIOQUIM FIOCRUZ RONDÔNIA
-![Logo Fiocruz](https://github.com/LABIOQUIM/visualdynamics/issues/2#issue-560428351)
-![Logo Labioquim](https://github.com/LABIOQUIM/visualdynamics/issues/3#issue-560428723)
+![fiocruzro](https://user-images.githubusercontent.com/41759966/73852968-7a796080-4806-11ea-9dd1-5a7ed0733450.png)
+![labioquim](https://user-images.githubusercontent.com/41759966/73853044-9a108900-4806-11ea-8e3f-1f07e54ced8d.png)
 ### Para realizar as dinâmicas é necessário ter instalado o GROMACS series 2019 ou 2020.
 ### To perform the dynamics, it is necessary to have installed the GROMACS 2019 or 2020 series.
 - Acesse o link para realizar a instalação e siga o installation guide do site: <http://manual.gromacs.org/documentation/>
