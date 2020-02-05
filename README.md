@@ -14,7 +14,6 @@
 Instalar(Install) git: 
 ~~~Shell scripts 
 > sudo apt-get install git
-> sudo apt-get install git
 ~~~
 - Clone o repositório do projeto visualdynamics:
 - Clone the visualdynamics project repository:
