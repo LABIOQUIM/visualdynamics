@@ -1,6 +1,6 @@
 # Project Visual Dynamics - LABIOQUIM FIOCRUZ RONDÔNIA
 <div style="display:inline-block">
-    <img src="https://user-images.githubusercontent.com/41759966/73852968-7a796080-4806-11ea-9dd1-5a7ed0733450.png" alt="drawing"  width="200" height="90"/>
+    <img src="https://user-images.githubusercontent.com/41759966/73852968-7a796080-4806-11ea-9dd1-5a7ed0733450.png" alt="drawing" class="col-md-2 col-sm-3 ml-5" width="200" height="90"/>
     <img src="https://user-images.githubusercontent.com/41759966/73853044-9a108900-4806-11ea-8e3f-1f07e54ced8d.png" alt="drawing" width="200" height="150"/>
 </div>
 
