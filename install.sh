@@ -39,4 +39,6 @@ elif [ $resp = 'n'];
 
 else 
     echo "Opcao invalida."
+
+fi
 #End
