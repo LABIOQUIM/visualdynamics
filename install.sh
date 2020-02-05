@@ -25,7 +25,6 @@ if [ $resp = 'y' ];
         source venv/bin/activate
         #install requirements
         pip3 install -r requirements.txt
-	git update-index --assume-unchanged login.txt
         python clear_DataBase.py 
         chmod +x run.sh
         #init server
