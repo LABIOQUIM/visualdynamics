@@ -1,7 +1,7 @@
 # Project Visual Dynamics
 <div style="display:inline-block">
     <img src="https://user-images.githubusercontent.com/41759966/73852968-7a796080-4806-11ea-9dd1-5a7ed0733450.png" alt="drawing" width="200" height="90"/>
-    <h4 class="text-white p-1 col-md-5 col-sm-4 text-center"> LABIOQUIM FIOCRUZ - RONDÔNIA </h4>
+    <h6> LABIOQUIM FIOCRUZ - RONDÔNIA </h6>
     <img src="https://user-images.githubusercontent.com/41759966/73853044-9a108900-4806-11ea-8e3f-1f07e54ced8d.png" alt="drawing" width="200" height="100"/>
 </div>
 
