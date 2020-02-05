@@ -1,6 +1,8 @@
-# Visual Dynamics
-## Para realizar as dinâmicas é necessário ter instalado o GROMACS series 2019 ou 2020.
-## To perform the dynamics, it is necessary to have installed the GROMACS 2019 or 2020 series.
+# Project Visual Dynamics - LABIOQUIM FIOCRUZ RONDÔNIA
+! [Logo Fiocruz](fiocruz.png){.text-left}
+! [Logo Labioquim](labioquim.png){.text-right}
+### Para realizar as dinâmicas é necessário ter instalado o GROMACS series 2019 ou 2020.
+### To perform the dynamics, it is necessary to have installed the GROMACS 2019 or 2020 series.
 - Acesse o link para realizar a instalação e siga o installation guide do site: <http://manual.gromacs.org/documentation/>
 - Access the link to perform the installation follow the installation guide from the website: <http://manual.gromacs.org/documentation/>
 
@@ -34,13 +36,22 @@ Instalar(Install) git:
 
 ### Ao fim da instalação o servidor será iniciado.
 ### At the end of the installation the server will start.
-
-##### Caso tenha saido da pasta visualdynamics acesse ela novamente pelo terminal.
-##### If you left the visualdynamics folder, access it again through the terminal.
+- Para finalizar pressione Ctrl + c
+- To finish press Ctrl + c.
+________________________________________________________________________________________________________
+#### Caso tenha saido da pasta visualdynamics acesse ela novamente pelo terminal.
+#### If you left the visualdynamics folder, access it again through the terminal.
 - Para executar a aplicação após a instalação, execute o comando:
 - To run the application after installation, run the command:
 ~~~Shell scripts
 ./run.sh
 ~~~
+________________________________________________________________________________________________________
 
-
+## Desenvolvido por:
+### Eduardo Buganemi Botelho
+### Dr. Fernando Berton Zanchi
+### Dr. Rafael Andrade Caceres
+### Thales Junior de Souza Gomes
+- Duvidas? Envie um e-mail para <fernando.zanchi@fiocruz.br>
+#### Copyright © LABIOQUIM - FIOCRUZ RONDÔNIA
