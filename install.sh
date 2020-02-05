@@ -26,6 +26,7 @@ if [ $resp = 'y' ];
         #install requirements
         pip3 install -r requirements.txt
         python clear_DataBase.py
+	git update-index --assume-unchanged login.txt 
         chmod +x run.sh
         #init server
         export FLASK_ENV=development
