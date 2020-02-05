@@ -35,7 +35,7 @@ if [ $resp = 'y' ];
 
 elif [ $resp = 'n' ];
     then
-        echo "Instacao cancelada."
+        echo "Instalacao cancelada."
 
 else 
     echo "Opcao invalida."
