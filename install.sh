@@ -22,7 +22,7 @@ python cleardb.py
 chmod +x run.sh
 #init server
 export FLASK_ENV=development
-echo "Para executar a aplicacao novamente depois desta instalacao, execute o arquivo run.sh que esta na pasta visualdynamics." 
+echo "Para executar a aplicacao novamente depois da instalacao, execute o arquivo run.sh que esta na pasta visualdynamics." 
 echo "Para finalizar a excução precione Ctrl + c"
 flask run
 
