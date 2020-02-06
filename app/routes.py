@@ -15,6 +15,7 @@ import errno
 import zipfile
 import glob
 import smtplib
+import shutil
 from email.mime.text import MIMEText
 
 
@@ -266,10 +267,17 @@ def imgsdownload(filename):
     ziplocation = os.path.join(current_location, filename+'-graficos.zip')
     zf = zipfile.ZipFile(ziplocation,'w')
 
-    for folder, subfolders, files in os.walk(current_location):
-
+    #move os arquivos .xvg para a pasta graficos.
+    directory_xvg = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run')
+    for folder, subfolders, files in os.walk(directory_xvg):
         for file in files:
-            if file.endswith('.PNG'):
+            if file.endswith('.xvg'):
+                file = directory_xvg +'/'+file 
+                shutil.move(file, current_location)
+
+    for folder, subfolders, files in os.walk(current_location):
+        for file in files:
+            if not file.endswith('.zip'):
                 zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
 
