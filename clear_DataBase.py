@@ -5,7 +5,7 @@ from app.models import User
 import random
 import os
 import sqlite3
-
+import hashlib
 #Cuidado!!! Ao executar esse script o Banco de dados exclui todos os usuarios.
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -22,10 +22,12 @@ conexao.close()
 #numero aleatório para senha.
 num = str(random.randrange(10000)*10000)
 #novo admin.
-name = "Administrador"
+name = 'Administrador'
 user = 'admin'
 email = 'your.email@a.com'
-password = 'vs'+num+'dynamics'
+password = user+num
+hash = hashlib.sha1(password.encode())
+password = hash.hexdigest()
 
 #anota o usuario e senha gerado automaticamente
 directory = basedir+'/login.txt'
