@@ -469,7 +469,7 @@ def removeuser(id):
 def edit_md():
     os.chdir(Config.MDP_LOCATION_FOLDER)
     #modifica o valor do nsteps no arquivo ions.mdp
-    if request.method == 'POST':    
+    if request.method == 'POST':   
         new_nsteps = request.form.get('editnstep')
         new_dt = request.form.get('editDt')
         archive = open("md_pr.mdp","r") 
@@ -491,16 +491,15 @@ def edit_md():
                 file[i] = "dt          = "+ new_dt +"     ; 2 fs \n"
                 archive.writelines(file) 
 
-
         flash('atualização realizada com sucesso.', 'primary')
         return redirect(url_for('admin'))
-        
+
     #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
     # i é o indice (posição)
     try:
         archive = open("md_pr.mdp","r")
     except:
-        flash('Arquivo md_pr.mdp não Localizado.', 'danger')
+        flash('Ocorreu um erro ao localizar arquivo, tente novamente mais tarde.', 'danger')
         return redirect(url_for('admin'))
 
     file = archive.readlines()
