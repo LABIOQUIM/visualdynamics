@@ -78,7 +78,7 @@
         {% with steps = get_flashed_messages(category_filter=["steps"]) %}
         {% if steps %}
         <img class="figure-img" src="{{ url_for('static', filename='svg/spinner.svg') }}" width="75">
-            <figcaption class="figure-caption">Você tem uma dinâmica em andamento</figcaption>
+            <figcaption class="figure-caption">Você tem uma dinâmicas <strong>{{ name_dynamic }}</strong> em andamento.</figcaption>
             {% endif %}
             {% if steplist %}
             {% set btnOK = 'btn-success' %}

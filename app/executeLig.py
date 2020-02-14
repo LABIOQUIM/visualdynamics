@@ -7,6 +7,11 @@ import errno
 def executelig(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
     LogFile = create_log(LogFileName, username) #cria o arquivo log
 
+    #salvando nome da dinamica para exibir na execução
+    f = open(Config.UPLOAD_FOLDER+username+'/'+'namedynamic.txt','w')
+    f.write(filename)
+
+
     #transferir os arquivos mdp necessarios para a execução
     RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
