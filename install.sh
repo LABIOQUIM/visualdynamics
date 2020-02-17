@@ -19,6 +19,9 @@ if [ $resp = 'y' ];
         cd app
         git update-index --assume-unchanged app.db
         cd ..
+        cd mdpfiles
+        git update-index --assume-unchanged md_pr.mdp
+        cd ..
         #create venv
         virtualenv venv
         #init venv
