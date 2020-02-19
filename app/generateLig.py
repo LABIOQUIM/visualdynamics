@@ -501,9 +501,13 @@ def generateLig(
     + ' ' + parametro4 + ' ' + parametro5)
     comandos.write('\n\n')
 
+    comandos.close()
     try:
+        comandos = open(pasta + CompleteFileName, "a")
+        comandos.write('thales')
         comandos.close()
     except:
-        comandos.write('thales')
-    
+        f = open(pasta+'erro_open.txt','w')
+        f.close()
+        
     return CompleteFileName

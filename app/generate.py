@@ -626,10 +626,13 @@ def generate(
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
     comandos.write('\n\n')
-    
+
+    comandos.close()
     try:
+        comandos = open(pasta + CompleteFileName, "a")
+        comandos.write('thales')
         comandos.close()
     except:
-        comandos.write('thales')
-    
+        f = open(pasta+'erro_open.txt','w')
+        f.close()
     return CompleteFileName
