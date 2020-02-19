@@ -46,91 +46,8 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
 
     for l in lines:
-        if l == '#break': 
-            #cria o novo arquivo com a molecula complexada
-            #pronto 
-            diretorio_ltop = RunFolder + mol +'_livre.top'
-            diretorio_complx_top = RunFolder + mol +'_complx.top'
-            file =  open(diretorio_ltop,'r')
-            file_ltop = file.read()
-            file_complx_top = open(diretorio_complx_top,'w')
-            file_complx_top.writelines(file_ltop)
-            file.close()
-            file_complx_top.close()
-
-            #cria o novo arquivo com a molecula complexada
-            #pronto
-            file = open(diretorio_complx_top,'r')
-            file_complx_top = file.readlines()
-            file.close()
-            for i, text in enumerate(file_complx_top):
-                if text.find('system') > -1:
-                    file = open(diretorio_complx_top,'w')
-                    file_complx_top[i-1] = '\n; Include ligand topology\n'+'#include'+' '+'"'+itpname+'"'+"\n\n"
-                    file.writelines(file_complx_top)
-                    file.close()
-            
-            #acessando arquivo .itp para pegar o moleculetype
-            #pronto
-            diretorio_itp = RunFolder + itpname
-            file = open(diretorio_itp,'r')
-            file_itp = file.readlines()
-            file.close()         
-            for i, text in enumerate(file_itp):
-                if text.find('moleculetype') > -1:
-                    molecula = file_itp[i+2]
-                    molecula = molecula.split(' ')[0]
-                    molecula = molecula+'                 '+'1\n'
-                    #acessando o arquivo _complx.top para incluir os dados
-                    file = open(diretorio_complx_top,'r')
-                    file_complx_top = file.readlines()
-                    file.close()
-                    file_complx_top.append(molecula)
-                    #acessa para salvar a alteração
-                    file = open(diretorio_complx_top,'w')
-                    file.writelines(file_complx_top)
-                    file.close()
-             
-            #modificando o arquivo .gro
-            #pronto
-            diretorio_gro = RunFolder + groname
-            file = open(diretorio_gro,'r')
-            file_gro = file.readlines()
-            file.close()
-            valor_gro = file_gro[1]
-            valor_gro = int(valor_gro)
-            file_gro.pop()
-            file_gro.pop(0)
-
-            #copiando as coordenadas dos atomos
-            diretorio_lgro = RunFolder + mol +'_livre.gro'
-            diretorio_complx_gro =  RunFolder + mol +'_complx.gro'
-            file_complx_gro = open(diretorio_complx_gro,'w')
-            file = open(diretorio_lgro,'r')
-            file_lgro = file.readlines()
-            file.close()
-            i = len(file_lgro)-1
-            last_line = file_lgro[i]
-            file_lgro.pop()
-            file_complx_gro.writelines(file_lgro)
-            file_gro.pop(0)
-            file_gro.append(last_line)
-            file_complx_gro.writelines(file_gro)
-            file_complx_gro.close()            
-            
-            #somando a quantidade de atomos da enzima
-            #pronto
-            file = open(diretorio_complx_gro,'r')
-            file_complx_gro = file.readlines()
-            file.close()
-            valor_complx_gro = file_complx_gro[1]
-            valor_complx_gro = int(valor_complx_gro)
-            total = valor_gro + valor_complx_gro
-            total = str(total)
-            file_complx_gro[1] = ' '+total+'\n'
-            file = open(diretorio_complx_gro,'w')
-            file.writelines(file_complx_gro)
-            file.close()
+        if l[0] == '#':
+            WriteUserDynamics(l,username)
        
         else:
             #estabelecer o diretorio de trabalho
@@ -159,3 +76,14 @@ def create_log(LogFileName, username):
     f.write(LogFileName)
     f.close()
     return LogFile
+
+
+def WriteUserDynamics(line,username):
+    filename = Config.UPLOAD_FOLDER + username +'/executingLig'
+    try:
+        f = open(filename,'a')
+        f.write(line + '\n')
+        f.close()
+    except OSError:
+        print('erro ao adicionar linha no arquivo de dinamica-usuario')
+        raise
