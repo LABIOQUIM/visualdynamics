@@ -502,4 +502,7 @@ def generateLig(
     comandos.write('\n\n')
 
     comandos.close()
+    comandos = open(pasta + CompleteFileName, "a")
+    comandos.write('thales')
+    comandis.close()
     return CompleteFileName

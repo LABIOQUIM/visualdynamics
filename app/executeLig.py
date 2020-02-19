@@ -70,15 +70,18 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             #pronto 
             diretorio_ltop = RunFolder + mol +'_livre.top'
             diretorio_complx_top = RunFolder + mol +'_complx.top'
-            file_ltop =  open(diretorio_ltop,'r')
-            file_ltop = file_ltop.read()
+            file =  open(diretorio_ltop,'r')
+            file_ltop = file.read()
             file_complx_top = open(diretorio_complx_top,'w')
             file_complx_top.writelines(file_ltop)
+            file.close()
+            file_complx_top.close()
 
             #cria o novo arquivo com a molecula complexada
             #pronto
-            file_complx_top = open(diretorio_complx_top,'r')
-            file_complx_top = file_complx_top.readlines()
+            file = open(diretorio_complx_top,'r')
+            file_complx_top = file.readlines()
+            file.close()
             for i, text in enumerate(file_complx_top):
                 if text.find('system') > -1:
                     file = open(diretorio_complx_top,'w')
@@ -90,15 +93,17 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             #pronto
             diretorio_itp = RunFolder + itpname
             file = open(diretorio_itp,'r')
-            file_itp = file.readlines()         
+            file_itp = file.readlines()
+            file.close()         
             for i, text in enumerate(file_itp):
                 if text.find('moleculetype') > -1:
                     molecula = file_itp[i+2]
                     molecula = molecula.split(' ')[0]
                     molecula = molecula+'                 '+'1\n'
                     #acessando o arquivo _complx.top para incluir os dados
-                    file_complx_top = open(diretorio_complx_top,'r')
-                    file_complx_top = file_complx_top.readlines()
+                    file = open(diretorio_complx_top,'r')
+                    file_complx_top = file.readlines()
+                    file.close()
                     file_complx_top.append(molecula)
                     #acessa para salvar a alteração
                     file = open(diretorio_complx_top,'w')
@@ -110,6 +115,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             diretorio_gro = RunFolder + groname
             file = open(diretorio_gro,'r')
             file_gro = file.readlines()
+            file.close()
             valor_gro = file_gro[1]
             valor_gro = int(valor_gro)
             file_gro.pop()
@@ -119,8 +125,9 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             diretorio_lgro = RunFolder + mol +'_livre.gro'
             diretorio_complx_gro =  RunFolder + mol +'_complx.gro'
             file_complx_gro = open(diretorio_complx_gro,'w')
-            file_lgro = open(diretorio_lgro,'r')
-            file_lgro = file_lgro.readlines()
+            file = open(diretorio_lgro,'r')
+            file_lgro = file.readlines()
+            file.close()
             i = len(file_lgro)-1
             last_line = file_lgro[i]
             file_lgro.pop()
@@ -132,8 +139,9 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             
             #somando a quantidade de atomos da enzima
             #pronto
-            file_complx_gro = open(diretorio_complx_gro,'r')
-            file_complx_gro = file_complx_gro.readlines()
+            file = open(diretorio_complx_gro,'r')
+            file_complx_gro = file.readlines()
+            file.close()
             valor_complx_gro = file_complx_gro[1]
             valor_complx_gro = int(valor_complx_gro)
             total = valor_gro + valor_complx_gro
@@ -163,6 +171,7 @@ def create_log(LogFileName, username):
     LogFile = open(LogFileName, "w+")
     f = open(Config.UPLOAD_FOLDER+username +'/DirectoryLog', 'w')
     f.write(LogFileName)
+    f.close()
     return LogFile
 
 
