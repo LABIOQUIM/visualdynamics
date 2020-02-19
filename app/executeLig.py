@@ -40,16 +40,26 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             f.write(info)
                      
 '''
-    #abrir arquivo
+    with open(CommandsFileName) as f:
+        lines = f.readlines()
+    command = lines[0]
+
+    os.chdir(RunFolder)
+    process = subprocess.run(command, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+    try:
+        process.check_returncode()
+    except subprocess.CalledProcessError as e:
+        LogFile.close()
+        return (e.args)
+
+    directory_commands = Config.UPLOAD_FOLDER + username + '/' + filename
+    os.chdir(directory_commands)
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
         content = f.readlines()
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
-
+    lines.pop(0)
     for l in lines:
-        
-        #estabelecer o diretorio de trabalho
         os.chdir(RunFolder)
-
         process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
 
         try:
@@ -74,7 +84,7 @@ def create_log(LogFileName, username):
     f.close()
     return LogFile
 
-
+'''
 def WriteUserDynamics(line,username):
     filename = Config.UPLOAD_FOLDER + username +'/executingLig'
     try:
@@ -84,3 +94,4 @@ def WriteUserDynamics(line,username):
     except OSError:
         print('erro ao adicionar linha no arquivo de dinamica-usuario')
         raise
+'''

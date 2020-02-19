@@ -45,7 +45,7 @@ def generateLig(
     arquivo__complx_sas_residue = nome_arquivo + '_complx_sas_residue'
 
     #nome completo do arquivo
-    CompleteFileName = "{} - {}-{}-{} [{}:{}:{}].txt".format(
+    CompleteFileName = "{}-{}-{}-{}[{}:{}:{}].txt".format(
             nome_arquivo+'_'+nome_ligante, datetime.now().year, datetime.now().month,
             datetime.now().day, datetime.now().hour,
             datetime.now().minute, datetime.now().second
