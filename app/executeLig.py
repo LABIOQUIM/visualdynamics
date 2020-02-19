@@ -45,14 +45,14 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
     command = lines[0]
         
     os.chdir(RunFolder)
-    resultado_process = subprocess.run(command, shell=True)
+    resultado_process = subprocess.run('/usr/local/gromacs/bin/gmx_d pdb2gmx -f BATROXRHAGIN.pdb -o BATROXRHAGIN_livre.gro -p BATROXRHAGIN_livre.top -ff gromos53a6 -water spc -ignh -missing', shell=True)
     try:
         resultado_process.check_returncode()
     except subprocess.CalledProcessError as e:
         LogFile.close()
         return (e.args)
     
-            
+    
     #cria o novo arquivo com a molecula complexada
     #pronto 
     diretorio_ltop = RunFolder + mol +'_livre.top'
