@@ -626,9 +626,10 @@ def generate(
     comandos.writelines('{} {} {} {} {} {} {} {}'.format(comando, parametro1, parametro2, parametro3, \
     parametro4,parametro5,parametro6,parametro7))
     comandos.write('\n\n')
-
-    comandos.close()
-    comandos = open(pasta + CompleteFileName, "a")
-    comandos.write('thales')
-    comandis.close()
+    
+    try:
+        comandos.close()
+    except:
+        comandos.write('thales')
+    
     return CompleteFileName
