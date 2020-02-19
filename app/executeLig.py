@@ -45,7 +45,8 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
     command = lines[0]
         
     os.chdir(RunFolder)
-    resultado_process = subprocess.run(command, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+    resultado_process = subprocess.run('/usr/local/gromacs/bin/gmx_d pdb2gmx -f BATROXRHAGIN.pdb -o BATROXRHAGIN_livre.gro -p BATROXRHAGIN_livre.top -ff gromos53a6 -water spc -ignh -missing \
+', shell=True, stdin='testin.txt', stdout='testout.txt', stderr='testerr.txt')
     try:
         resultado_process.check_returncode()
     except subprocess.CalledProcessError as e:
