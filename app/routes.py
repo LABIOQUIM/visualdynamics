@@ -146,15 +146,15 @@ def livre():
                     #recebe a quantidade de step e a data de termino.
                     date_finish = last_line        
                     archive.close()
-                    archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-                    name_dynamic = archive.readline()
-                    archive.close()
+                    #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                    name_dynamic = 'teste'
+                    #archive.close()
                     return render_template('livre.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
             
             archive.close()
-            archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-            name_dynamic = archive.readline()
-            archive.close()        
+            #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+            name_dynamic = 'teste'
+            #archive.close()        
             return render_template('livre.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic) 
     
     return render_template('livre.html', actlivre = 'active')
@@ -243,15 +243,15 @@ def ligante():
                 #recebe a quantidade de step e a data de termino.
                 date_finish = last_line        
                 archive.close()
-                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-                name_dynamic = archive.readline()
-                archive.close()    
+                #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                name_dynamic = 'teste'
+                #archive.close()    
                 return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
         archive.close()
-        archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-        name_dynamic = archive.readline()
-        archive.close()                    
+        #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+        name_dynamic = 'teste'
+        #archive.close()                    
         return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('ligante.html', actlig = 'active')
