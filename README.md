@@ -9,6 +9,8 @@
 - Acesse o link para realizar a instalação e siga o installation guide do site: <http://manual.gromacs.org/documentation/>
 - Access the link to perform the installation follow the installation guide from the website: <http://manual.gromacs.org/documentation/>
 
+### Aconselhamos a instação do Anaconda Python 3.7.
+
 ### Manual para instalação do Visual Dynamics em distribuições baseadas no Debian.
 ### Installation guide Visual Dynamics on Debian-based distributions.
 
