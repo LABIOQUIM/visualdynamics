@@ -66,10 +66,10 @@ def generateLig(
     parametro7 = '-ignh'
     parametro8 = '-missing'
 
-    #comandos.write('#topology\n\n')
+    comandos.write('#topology\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
-    comandos.write('\n\n#break')
+    #comandos.write('\n\n#break')
     comandos.write('\n\n')
     
     #comando editconf
@@ -91,7 +91,7 @@ def generateLig(
     parametro4 = '-p ' + arquivo_complx_top
     parametro5 = '-o ' + arquivo_complx_box_gro    
 
-    #comandos.write('#solvate\n\n')
+    comandos.write('#solvate\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5)
     comandos.write('\n\n')
@@ -105,7 +105,7 @@ def generateLig(
     parametro5 = '-o ' + arquivo_complx_charged_tpr
     parametro6 = '-maxwarn 2'
 
-    #comandos.write('#ions\n\n')
+    comandos.write('#ions\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6)
     comandos.write('\n\n')
@@ -132,7 +132,7 @@ def generateLig(
     parametro5 = '-o ' + arquivo_complx_em_tpr 
     parametro6 = '-maxwarn 2'
 
-    #comandos.write('#minimizationsteepdesc\n\n')
+    comandos.write('#minimizationsteepdesc\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6)
     comandos.write('\n\n')
@@ -179,7 +179,7 @@ def generateLig(
     parametro5 = '-o ' + arquivo_complx_cg_em + '.tpr'
     parametro6 = '-maxwarn 2'
 
-    #comandos.write('#minimizationconjgrad\n\n')
+    comandos.write('#minimizationconjgrad\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6)
     comandos.write('\n\n')
@@ -227,7 +227,7 @@ def generateLig(
     parametro6 = '-o ' + arquivo_complx_nvt + '.tpr'
     parametro7 = '-maxwarn 2'
 
-    #comandos.write('#equilibrationnvt\n\n')
+    comandos.write('#equilibrationnvt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6 + ' '+ parametro7)
     comandos.write('\n\n')
@@ -275,7 +275,7 @@ def generateLig(
     parametro6 = '-o ' + arquivo_complx_npt + '.tpr' 
     parametro7 = '-maxwarn 2'
 
-    #comandos.write('#equilibrationnpt\n\n')
+    comandos.write('#equilibrationnpt\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6 + ' '+ parametro7)
     comandos.write('\n\n')
@@ -322,7 +322,7 @@ def generateLig(
     parametro5 = '-o ' + arquivo_complx_pr + '.tpr'
     parametro6 = '-maxwarn 2'
 
-    #comandos.write('#productionmd\n\n')
+    comandos.write('#productionmd\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' '+ parametro6)
     comandos.write('\n\n')
