@@ -46,7 +46,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
 
     for l in lines:
-         if l == '#break': 
+        if l == '#break': 
             #cria o novo arquivo com a molecula complexada
             #pronto 
             diretorio_ltop = RunFolder + mol +'_livre.top'
