@@ -5,7 +5,7 @@ import errno
 
 
 def executelig(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
-    LogFile = create_log(LogFileName, username) #cria o arquivo log
+    #LogFile = create_log(LogFileName, username) #cria o arquivo log
 
     #salvando nome da dinamica para exibir na execução
     f = open(Config.UPLOAD_FOLDER+username+'/'+'namedynamic.txt','w')
@@ -39,11 +39,11 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
             info = data + ' ' + filename+'\n'
             f.write(info)
                      
-'''
+
     with open(CommandsFileName) as f:
         lines = f.readlines()
     command = lines[0]
-        
+'''        
     os.chdir(RunFolder)
     resultado_process = subprocess.run('/usr/local/gromacs/bin/gmx_d pdb2gmx -f BATROXRHAGIN.pdb -o BATROXRHAGIN_livre.gro -p BATROXRHAGIN_livre.top -ff gromos53a6 -water spc -ignh -missing', shell=True)
     try:
@@ -52,7 +52,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
         LogFile.close()
         return (e.args)
     
-    
+    '''
     #cria o novo arquivo com a molecula complexada
     #pronto 
     diretorio_ltop = RunFolder + mol +'_livre.top'
@@ -138,7 +138,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
     file.writelines(file_complx_gro)
     file.close()
 
-
+'''
 
     '''
     directory_commands = Config.UPLOAD_FOLDER + username + '/' + filename
