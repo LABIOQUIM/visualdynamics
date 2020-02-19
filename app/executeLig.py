@@ -46,20 +46,17 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
 
     for l in lines:
-        if l[0] == '#':
-            WriteUserDynamics(l,username)
-       
-        else:
-            #estabelecer o diretorio de trabalho
-            os.chdir(RunFolder)
+        
+        #estabelecer o diretorio de trabalho
+        os.chdir(RunFolder)
 
-            process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+        process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
 
-            try:
-                process.check_returncode()
-            except subprocess.CalledProcessError as e:
-                LogFile.close()
-                return (e.args)
+        try:
+            process.check_returncode()
+        except subprocess.CalledProcessError as e:
+            LogFile.close()
+            return (e.args)
 
 def create_log(LogFileName, username):
     #formatando nome do arquivo log
