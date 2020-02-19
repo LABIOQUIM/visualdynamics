@@ -628,11 +628,7 @@ def generate(
     comandos.write('\n\n')
 
     comandos.close()
-    try:
-        comandos = open(pasta + CompleteFileName, "a")
-        comandos.write('thales')
-        comandos.close()
-    except:
-        f = open(pasta+'erro_open.txt','w')
-        f.close()
+    comandos = open(pasta + CompleteFileName, "a")
+    comandos.write('thales')
+    comandos.close()
     return CompleteFileName
