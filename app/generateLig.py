@@ -50,7 +50,7 @@ def generateLig(
             datetime.now().day, datetime.now().hour,
             datetime.now().minute, datetime.now().second
             )
-    '''
+    
     #Gravando os comandos e os parametros
     comandos = open(pasta + CompleteFileName, "w")
     os.chdir(pasta)
@@ -502,5 +502,5 @@ def generateLig(
     comandos.write('\n\n')
 
     comandos.close()
-    '''    
+        
     return CompleteFileName
