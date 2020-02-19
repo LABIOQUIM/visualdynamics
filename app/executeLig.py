@@ -42,8 +42,10 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
 '''
     with open(CommandsFileName) as f:
         lines = f.readlines()
-    command = lines[0]
-
+        file = open(Config.UPLOAD_FOLDER+username+'/teste.txt', 'w')
+        file.writelines(lines)
+    #command = lines[0]
+    '''
     os.chdir(RunFolder)
     process = subprocess.run(command, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
     try:
@@ -51,7 +53,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
     except subprocess.CalledProcessError as e:
         LogFile.close()
         return (e.args)
-
+    
     directory_commands = Config.UPLOAD_FOLDER + username + '/' + filename
     os.chdir(directory_commands)
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
@@ -67,6 +69,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
         except subprocess.CalledProcessError as e:
             LogFile.close()
             return (e.args)
+    '''
 
 def create_log(LogFileName, username):
     #formatando nome do arquivo log
