@@ -69,7 +69,7 @@ def generateLig(
     #comandos.write('#topology\n\n')
     comandos.writelines(gmx + ' ' + comando + ' ' + parametro1 + ' ' + parametro2 + ' ' + parametro3 \
     + ' ' + parametro4 + ' ' + parametro5 + ' ' + parametro6 + ' ' + parametro7 + ' ' + parametro8)
-    #comandos.write('\n\n#break')
+    comandos.write('\n\n#break')
     comandos.write('\n\n')
     
     #comando editconf
