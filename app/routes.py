@@ -102,21 +102,22 @@ def livre():
         if request.form.get('execute') == 'Executar':
             if upload_file(file, current_user.username):
                 #checar se servidor esta em execução
-                try:
-                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executing','x+')
+                executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
+                if not os.path.exists(executing):
+                    f = open(executing,'w')
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
-                except OSError as e:
-                    if e.errno == errno.EEXIST:
-                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                        return redirect(url_for('livre'))    
-                try: 
-                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig', 'x')
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('livre'))    
+                
+                executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
+                if not os.path.exists(executingLig):
+                    f = open(executingLig, 'w')
                     f.close()
-                except OSError as e:
-                    if e.errno == errno.EEXIST:   
-                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                        return redirect(url_for('ligante'))
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('livre'))
             
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
@@ -195,22 +196,23 @@ def ligante():
         
         if request.form.get('execute') == 'Executar':
             if upload_file_ligante(file, fileitp, filegro, current_user.username):    #checar se servidor esta em execução
-                try:
-                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','x+')
+                executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
+                if not os.path.exists(executingLig):
+                    f = open(executingLig,'w')
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
-                except OSError as e:
-                    if e.errno == errno.EEXIST:
-                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                        return redirect(url_for('ligante'))
-                try: 
-                    f = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', 'x')
-                    f.close()
-                except OSError as e:
-                    if e.errno == errno.EEXIST:
-                        flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                        return redirect(url_for('ligante'))
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('ligante'))    
                 
+                executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
+                if not os.path.exists(executing):
+                    f = open(executing, 'w')
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('ligante'))
+            
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
                 liganteitpName = fileitp.filename.split('.')[0]
