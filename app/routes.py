@@ -195,7 +195,7 @@ def ligante():
                     "name": name}))
         
         if request.form.get('execute') == 'Executar':
-            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #checar se servidor esta em execução
+            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
                 executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
                 if not os.path.exists(executingLig):
                     f = open(executingLig,'w')

@@ -9,7 +9,8 @@ def execute(LogFileName, CommandsFileName, username, filename):
     #salvando nome da dinamica para exibir na execução
     f = open(Config.UPLOAD_FOLDER+username+'/'+'namedynamic.txt','w')
     f.write(filename)
-
+    f.close()
+    
     #transferir os arquivos mdp necessarios para a execução
     RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
