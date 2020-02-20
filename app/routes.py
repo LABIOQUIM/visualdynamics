@@ -217,9 +217,28 @@ def ligante():
                 MoleculeName = file.filename.split('.')[0]
                 liganteitpName = fileitp.filename.split('.')[0]
                 ligantegroName = filegro.filename.split('.')[0]
-                return redirect(url_for('executarlig', comp=CompleteFileName,
-                mol=MoleculeName,ligitp=liganteitpName,liggro =ligantegroName,
-                filename=file.filename, itpname=fileitp.filename, groname=filegro.filename)) 
+                moleculaLig = MoleculeName+'_'+liganteitpName
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                                    current_user.username,moleculaLig, 'run',
+                                    'logs/', moleculaLig)
+                
+                exc = executelig(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, filegro.filename, MoleculeName)
+                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                return redirect(url_for('ligante'))
+                #Achamos o diabo
+                #return redirect(url_for('executarlig', comp=CompleteFileName, mol=MoleculeName,ligitp=liganteitpName,liggro =ligantegroName, filename=file.filename, itpname=fileitp.filename, groname=filegro.filename)) 
+                '''
+                @app.route('/executarlig/<comp>/<mol>/<ligitp>/<liggro>/<filename>/<itpname>/<groname>')
+                @login_required
+                def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
+                    moleculaLig = mol+'_'+ligitp
+                    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                                    current_user.username,moleculaLig, 'run',
+                                    'logs/', moleculaLig)
+                    exc = executelig(AbsFileName, comp, current_user.username, moleculaLig, itpname, groname, mol)
+                    flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                    return redirect(url_for('ligante'))
+                '''
             else:
                 flash('A extensão dos arquivos está incorreta', 'danger')
             
@@ -255,17 +274,6 @@ def ligante():
         return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('ligante.html', actlig = 'active')
-
-@app.route('/executarlig/<comp>/<mol>/<ligitp>/<liggro>/<filename>/<itpname>/<groname>')
-@login_required
-def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
-    moleculaLig = mol+'_'+ligitp
-    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                    current_user.username,moleculaLig, 'run',
-                    'logs/', moleculaLig)
-    exc = executelig(AbsFileName, comp, current_user.username, moleculaLig, itpname, groname, mol)
-    flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-    return redirect(url_for('ligante'))
 
 @app.route('/liganteATB', methods=['GET','POST'])
 @login_required
