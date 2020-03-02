@@ -121,8 +121,14 @@ def livre():
             
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
-                return redirect(url_for('executar', comp=CompleteFileName,
-                    mol=MoleculeName, filename=file.filename)) 
+                filename = file.filename
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username, MoleculeName , 'run',
+                    'logs/', filename)
+
+                exc = execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
+                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+
             else:
                 flash('Extensão do arquivo está incorreta', 'danger')
     
@@ -146,28 +152,18 @@ def livre():
                     #recebe a quantidade de step e a data de termino.
                     date_finish = last_line        
                     archive.close()
-                    #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-                    name_dynamic = 'teste'
-                    #archive.close()
+                    archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                    name_dynamic = archive.readline()
+                    archive.close()
                     return render_template('livre.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
             
             archive.close()
-            #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-            name_dynamic = 'teste'
-            #archive.close()        
+            archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+            name_dynamic = archive.readline()
+            archive.close()        
             return render_template('livre.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic) 
     
     return render_template('livre.html', actlivre = 'active')
-    
-@app.route('/executar/<comp>/<mol>/<filename>')
-@login_required
-def executar(comp,mol,filename):
-    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                    current_user.username, mol , 'run',
-                    'logs/', filename)
-    exc = execute(AbsFileName, comp, current_user.username, mol)
-    flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-    return redirect(url_for('livre'))
 
 @app.route('/ligante', methods=['GET','POST'])
 @login_required
@@ -225,20 +221,7 @@ def ligante():
                 exc = executelig(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, filegro.filename, MoleculeName)
                 flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
                 return redirect(url_for('ligante'))
-                #Achamos o diabo
-                #return redirect(url_for('executarlig', comp=CompleteFileName, mol=MoleculeName,ligitp=liganteitpName,liggro =ligantegroName, filename=file.filename, itpname=fileitp.filename, groname=filegro.filename)) 
-                '''
-                @app.route('/executarlig/<comp>/<mol>/<ligitp>/<liggro>/<filename>/<itpname>/<groname>')
-                @login_required
-                def executarlig(comp,mol,ligitp,liggro,filename,itpname,groname):
-                    moleculaLig = mol+'_'+ligitp
-                    AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                                    current_user.username,moleculaLig, 'run',
-                                    'logs/', moleculaLig)
-                    exc = executelig(AbsFileName, comp, current_user.username, moleculaLig, itpname, groname, mol)
-                    flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-                    return redirect(url_for('ligante'))
-                '''
+            
             else:
                 flash('A extensão dos arquivos está incorreta', 'danger')
             
@@ -262,15 +245,15 @@ def ligante():
                 #recebe a quantidade de step e a data de termino.
                 date_finish = last_line        
                 archive.close()
-                #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-                name_dynamic = 'teste'
-                #archive.close()    
+                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                name_dynamic = archive.readline()
+                archive.close()    
                 return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
         archive.close()
-        #archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-        name_dynamic = 'teste'
-        #archive.close()                    
+        archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+        name_dynamic = archive.readline()
+        archive.close()                    
         return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('ligante.html', actlig = 'active')

@@ -31,6 +31,7 @@ def executelig(LogFileName, CommandsFileName, username, filename, itpname, grona
         info = data + ' ' + filename+'\n'
         f.write(info)
         f.close()
+        
     except OSError as e:
         if e.errno == errno.EEXIST:
             f = open(diretorio,'a')

@@ -6,17 +6,17 @@
         <div class="col">
             <form class="align-items-start" method="POST" action="/liganteATB" onsubmit="return validateProcessing()" enctype="multipart/form-data">
                 <div class="custom-file mt-2">
-                    <input type="file" name="file" id="file" accept=".pdb" required>
+                    <input type="file" name="file" id="file" accept=".pdb" disabled="disabled" required>
                     <label class="custom-file-label" for="file">Upload da Proteína Livre (.pdb)</label>
                 </div>
                 
                 <div class="custom-file mt-2" id ="itp">
-                    <input type="file" name="fileitp" id="fileitp" accept=".itp" required>
+                    <input type="file" name="fileitp" id="fileitp" accept=".itp" disabled="disabled" required>
                     <label class="custom-file-label" for="fileitp">Upload do Arquivo .itp do Ligante</label>
                 </div>
                 
                 <div class="custom-file mt-2 mb-4" id ="gro">
-                    <input type="file" name="filegro" id="filegro" accept=".gro, .pdb" required>
+                    <input type="file" name="filegro" id="filegro" accept=".gro, .pdb" disabled="disabled" required>
                     <label class="custom-file-label"for="filegro">Upload do Arquivo .gro ou .pdb do Ligante</label>
                 </div>
             
@@ -49,7 +49,7 @@
                 )
                 </label>
                 <div class="input-group mb-3">
-                    <input class="form-control col-4 input-sm" type="number" min="0" name="distanciacaixa" id="distanciacaixa">
+                    <input class="form-control col-4 input-sm" type="number" min="0" name="distanciacaixa" id="distanciacaixa" disabled="disabled">
                 </div>
                 <div>
                     <input class="form-check-input ml-2" type="checkbox" checked="checked" disabled="disabled" name="neutralize" id="neutralize">
@@ -61,11 +61,11 @@
                     <input type="hidden" name="double" value="True">
                 </div>
                 <div>
-                    <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore">
+                    <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore" disabled="disabled">
                     <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
                 </div>
-                <button class="mt-3 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fa fa-cogs" aria-hidden="true"></i> Executar</button>
-                <button class="mt-3 ml-1 btn btn-success" value="Download" name="download"><i class="fa fa-file" aria-hidden="true"></i> Baixar Lista de Comandos</button>
+                <button class="mt-3 btn btn-primary" value="Executar" name="execute" disabled="disabled" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fa fa-cogs" aria-hidden="true"></i> Executar</button>
+                <button class="mt-3 ml-1 btn btn-success" value="Download" name="download" disabled="disabled" ><i class="fa fa-file" aria-hidden="true"></i> Baixar Lista de Comandos</button>
             </form>
         </div>
         
