@@ -411,22 +411,32 @@ def edit_user(id):
             UserData.name = name
             UserData.username = user
             UserData.email = email
-            db.session.add(UserData)
-            db.session.commit()
-            flash('Dados do(a) usuário(a) {} alterados com sucesso.'.format(user), 'primary')
-            return redirect(url_for('admin'))
+            try:
+                db.session.add(UserData)
+                db.session.commit()
+                flash('Dados do(a) usuário(a) {} alterados com sucesso.'.format(user), 'primary')
+                return redirect(url_for('admin'))
+            except:
+                flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
+                return redirect(url_for('edit_user', id=id))
+
         elif password == passconfirm:
             UserData = User.query.get(int(id))
             UserData.name = name
             UserData.username = user
             UserData.email = email
-            UserData.set_password(password)
-            db.session.add(UserData)
-            db.session.commit()
-            flash('Dados do(a) usuário(a) {} alterados com sucesso.'.format(user), 'primary')
-            return redirect(url_for('admin'))
+            try:
+                UserData.set_password(password)
+                db.session.add(UserData)
+                db.session.commit()
+                flash('Dados do(a) usuário(a) {} alterados com sucesso.'.format(user), 'primary')
+                return redirect(url_for('admin'))
+            except:
+                flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
+                return redirect(url_for('edit_user', id=id))
+
         flash('Erro ao editar usuário(a) {}.'.format(user), 'danger')
-        return redirect(url_for('livre'))
+        return redirect(url_for('admin'))
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
 
