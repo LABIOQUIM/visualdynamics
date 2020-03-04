@@ -31,7 +31,6 @@ def cadastro():
         check_email = User.query.filter(User.email == email).first()
         check_user = User.query.filter(User.username == user).first()
         if check_email is None and check_user is None:
-            #register = False
             new = User(name=name,username=user,email=email,register='False')
             new.set_password(password)
             db.session.add(new)
@@ -431,31 +430,32 @@ def edit_user(id):
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
 
-'''
-@app.route('/admin/new', methods=['GET', 'POST'])
+
+@app.route('/admin/newUser', methods=['GET', 'POST'])
 @admin_required
 def newuser():
     if request.method == 'POST':
+        name = request.form.get('name')
         user = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
         passconfirm = request.form.get('passwordconfirm')
-        #faz checagem para verificar se usuário ou senha já são utilizados
-        check_email = User.query.filter( User.email == email).first()
+        #faz checagem para verificar se usuário ou senha já são utilizados    
+        check_email = User.query.filter(User.email == email).first()
         check_user = User.query.filter(User.username == user).first()
         if check_email is None and check_user is None:
-            new = User(username=user,email=email)
+            new = User(name=name,username=user,email=email,register='True')
             new.set_password(password)
             db.session.add(new)
             db.session.commit()
-            flash('Usuário(a) {} criado(a) com sucesso.'.format(user), 'primary')
+            flash('Cadastro do(a) Usuário(a) {} realizado com sucesso.'.format(user), 'primary')
             return redirect(url_for('admin'))
         else:
             flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
-            return redirect(url_for('admin'))
-    
+            return redirect(url_for('newuser'))
+  
     return render_template('new_user.html')
-'''
+
 
 @app.route('/admin/remove/<int:id>')
 @admin_required

@@ -3,7 +3,7 @@
 {% block content %}
 
 <style>
-    h2{
+    h2,p{
         text-align: center;
     }
 </style>
@@ -11,18 +11,18 @@
 <div class="container mt-4">
     <h2><strong>Cadastrar Usuário</strong></h2>
     <div class="row justify-content-center align-items-start">
-        <form class="align-items-center text-center mt-0" action="/admin/new" method="post" onsubmit="return validateForm()">
+        <form class="align-items-center text-center mt-0" action="/admin/newUser" method="post" onsubmit="return validateForm()">
             <label for="username" class="form-control-label text-center mt-3">Nome Completo</label>
-            <input class="form-control" name='name' id='name' type="input" aria-describedby="emailHelp" placeholder="Nome e Sobrenome">
+            <input class="form-control" name='name' id='name' type="input" aria-describedby="emailHelp" placeholder="Nome Completo">
             <label for="username" class="form-control-label text-center mt-3">Usuário</label>
-            <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" placeholder="Ex: davi12">
+            <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" placeholder="Usuário">
             <label for="username" class="form-control-label text-center mt-3">Email</label>
-            <input class="form-control" name='email' id='username' type="input" aria-describedby="emailHelp" placeholder="Ex: davi12@gmail.com">
+            <input class="form-control" name='email' id='username' type="input" aria-describedby="emailHelp" placeholder="Email">
             <label for="password" class="form-control-label mt-3">Senha</label>
             <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
             <label for="password" class="form-control-label mt-3">Confirmar Senha</label>
             <input class="form-control mb-3" name="passwordconfirm" id="password" type="password" placeholder="Senha">
-            <button class="m-2 btn btn-primary" type="submit" name="submit"><i class="fa fa-check" aria-hidden="true"></i> Criar Usuário</button>
+            <button class="m-2 btn btn-primary" type="submit" name="submit"><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
             <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
         </form>
     </div>
@@ -42,7 +42,7 @@
             return false;
             }
         if (username === null || username === "") {
-            alert("Nome de usuário deve ser preenchido");
+            alert("Usuário deve ser preenchido");
             return false;
             }
         if (email === null || email === "") {
@@ -53,10 +53,6 @@
             alert("Email inválido")
             return false
         }
-        if (password==null || password=="") {
-            alert("Senha deve ser preenchida");
-            return false;
-            }
         if (password !== passwordconfirm) {
             alert("As senhas digitadas são diferentes")
             return false
