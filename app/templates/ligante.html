@@ -109,6 +109,20 @@
                 
                 {% endif %} 
             {% endwith %}
+            
+            <!--carregando video de explicação de como realizar a dinâmica-->
+            {% if not steplist %}
+                      
+                <label class="mt-3 border border-primary" for="">Gerando arquivos com PRODRG.</label>
+                <video width="420" height="270" controls>
+                    <source src="{{ url_for('static', filename = 'video/arquivosPRODRG.mp4') }}" type="video/mp4">
+                </video>         
+            
+                <label class="mt-3 border border-primary" for="">Tutorial de como realizar a dinâmica.</label>
+                <video width="420" height="270" controls>
+                    <source src="{{ url_for('static', filename = 'video/dinamicaPRODRG.mp4') }}" type="video/mp4">
+                </video>          
+            {% endif %}
         </div>
     </div>
     <div>
