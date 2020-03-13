@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  h3{
+      text-align: center;
+  }
+</style>
+
+<h3 class="mt-4">Lista de Dinâmicas em Andamento</h3>
+<table class="table table-striped mt-2">
+    <thead>
+      <th></th>
+      <th scope="col">Usuário</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th scope="col">Dinâmica</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th scope="col">Data de Conclusão</th>
+      <th></th>
+    </thead>
+    <tbody>
+      {% for u in currentDynamics %}
+      <tr>
+        <td></td>
+        <td>{{u.username}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{u.name_dynamic}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{u.date_finish}}</td>
+        <td></td>
+      </tr> 
+      {% endfor %}   
+    </tbody>
+  </table>
+{% endblock %}

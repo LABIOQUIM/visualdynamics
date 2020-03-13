@@ -18,7 +18,6 @@ import smtplib
 import shutil
 from email.mime.text import MIMEText
 
-
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -135,22 +134,24 @@ def livre():
             flash('','steps')    
             steplist = CheckDynamicsSteps(current_user.username)
             archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
-            f = archive.readlines()
-            last_line = f[len(f)-1]     
+            lines = archive.readlines()
+            archive.close()
+            last_line = lines[len(lines)-1]     
             #verifica se a execução já está  em produçãomd
             if last_line == '#productionmd\n':
                 #acessa o diretorio do log de execução
                 archive = open(Config.UPLOAD_FOLDER + current_user.username+ '/DirectoryLog', 'r')
                 directory = archive.readline()
+                archive.close()
                 #acessa o log de execução
                 archive = open(directory,'r')
                 lines = archive.readlines()
+                archive.close()
                 #busca a ultima linha do log
                 last_line = lines[len(lines)-1]
                 if last_line.find('step ') > -1:
                     #recebe a quantidade de step e a data de termino.
                     date_finish = last_line        
-                    archive.close()
                     archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                     name_dynamic = archive.readline()
                     archive.close()
@@ -228,28 +229,29 @@ def ligante():
         flash('','steps')
         steplist = CheckDynamicsStepsLig(current_user.username)
         archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
-        f = archive.readlines()
-        last_line = f[len(f)-1]     
+        lines = archive.readlines()
+        archive.close()
+        last_line = lines[len(lines)-1]     
         #verifica se a execução já está  em produçãomd
         if last_line == '#productionmd\n':
             #acessa o diretorio do log de execução
             archive = open(Config.UPLOAD_FOLDER + current_user.username + '/DirectoryLog', 'r')
             directory = archive.readline()
+            archive.close()
             #acessa o log de execução
             archive = open(directory,'r')
             lines = archive.readlines()
+            archive.close()
             #busca a ultima linha do log
             last_line = lines[len(lines)-1]
             if last_line.find('step ') > -1:
                 #recebe a quantidade de step e a data de termino.
                 date_finish = last_line        
-                archive.close()
                 archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                 name_dynamic = archive.readline()
                 archive.close()    
                 return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
-        archive.close()
         archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
         name_dynamic = archive.readline()
         archive.close()                    
@@ -357,7 +359,6 @@ def admin_cadastros():
     NewUserData = User.query.filter(User.register == 'False')
     return render_template('admin_cadastros.html', NewUserData=NewUserData)
 
-
 @app.route('/admin/accept_newUser/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def accept_newUser(id):
@@ -385,7 +386,6 @@ def accept_newUser(id):
     flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
 
-
 @app.route('/admin/remove_newUser/<int:id>')
 @admin_required
 def remove_newUser(id):
@@ -411,7 +411,6 @@ def remove_newUser(id):
    
     flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
-
 
 @app.route('/admin/edit/<int:id>', methods=['GET', 'POST'])
 @admin_required
@@ -456,7 +455,6 @@ def edit_user(id):
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
 
-
 @app.route('/admin/newUser', methods=['GET', 'POST'])
 @admin_required
 def newuser():
@@ -481,7 +479,6 @@ def newuser():
             return redirect(url_for('newuser'))
   
     return render_template('new_user.html')
-
 
 @app.route('/admin/remove/<int:id>')
 @admin_required
@@ -555,3 +552,98 @@ def edit_md():
     archive.close()
     
     return render_template('edit_md.html', nsteps = nsteps, dt = dt)
+
+@app.route('/admin/current-dynamics', methods=['GET', 'POST'])
+@admin_required
+def current_dynamics():
+    #lista de dinâmicas em andamento
+    list_dynamics = list()
+    list_directory = os.listdir(Config.UPLOAD_FOLDER)
+    #ordena a lista de diretórios em ordem alfabética.
+    list_directory.sort()
+    #lista as pastas dos usuários.
+    for pasta in list_directory:
+        try:
+            directory = Config.UPLOAD_FOLDER + pasta
+            #lendo os usuários e verificando se eles estão com alguma dinâmica em andamento.
+            #verifica se a execução é de enzima livre
+            if os.stat(directory + '/executing').st_size != 0:
+                archive = open(directory + '/executing', 'r')
+                #captura o nome do usuário
+                username = archive.readline()
+                archive.close()
+                #captura o nome da dinâmica
+                archive = open(directory + '/namedynamic.txt','r')
+                name_dynamic = archive.readline()
+                archive.close()
+                
+                #captura a data final da dinâmica.
+                archive = open(directory + '/executing','r')
+                lines = archive.readlines()
+                archive.close()
+                last_line = lines[len(lines)-1]     
+                #verifica se a execução já está  em produçãomd
+                if last_line == '#productionmd\n':
+                    #acessa o diretorio do log de execução
+                    archive = open(directory + '/DirectoryLog', 'r')
+                    directorylog = archive.readline()
+                    archive.close()
+                    #acessa o log de execução
+                    archive = open(directorylog,'r')
+                    lines = archive.readlines()
+                    archive.close()
+                    #busca a ultima linha do log
+                    last_line = lines[len(lines)-1]
+                    if last_line.find('step ') > -1:
+                        #recebe a quantidade de step e a data de termino.
+                        date_finish = last_line   
+                        currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Ainda não entrou em Produção."}
+                        list_dynamics.append(currentDynamics) 
+                        
+                currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Ainda não entrou em Produção."}
+                list_dynamics.append(currentDynamics)
+                
+                #verifica se a execução é de enzima + ligante
+            elif os.stat(directory + '/executingLig').st_size != 0:
+                archive = open(directory + '/executingLig', 'r')
+                #captura o nome do usuário
+                username = archive.readline()
+                archive.close()
+                #captura o nome da dinâmica
+                archive = open(directory + '/namedynamic.txt','r')
+                name_dynamic = archive.readline()
+                archive.close()
+                
+                #captura a data final da dinâmica.
+                archive = open(directory + '/executingLig','r')
+                lines = archive.readlines()
+                archive.close()
+                last_line = lines[len(lines)-1]     
+                #verifica se a execução já está  em produçãomd
+                if last_line == '#productionmd\n':
+                    #acessa o diretorio do log de execução
+                    archive = open(directory + '/DirectoryLog', 'r')
+                    directorylog = archive.readline()
+                    archive.close()
+                    #acessa o log de execução
+                    archive = open(directorylog,'r')
+                    lines = archive.readlines()
+                    archive.close()
+                    #busca a ultima linha do log
+                    last_line = lines[len(lines)-1]
+                    if last_line.find('step ') > -1:
+                        #recebe a quantidade de step e a data de termino.
+                        date_finish = last_line
+                        currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":date_finish}   
+                        list_dynamics.append(currentDynamics)
+                        
+                currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Ainda não entrou em Produção"}
+                list_dynamics.append(currentDynamics)
+        except:
+            list_directory += list() 
+
+    return render_template('current_dynamics.html', currentDynamics=list_dynamics)
+            
+    #except:
+        #flash('Nenhum usuário está realizando dinâmicas no momento', 'danger')
+        #return render_template('current_dynamics.html')
