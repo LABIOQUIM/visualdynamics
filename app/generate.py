@@ -628,7 +628,4 @@ def generate(
     comandos.write('\n\n')
 
     comandos.close()
-    comandos = open(pasta + CompleteFileName, "a")
-    comandos.write('thales')
-    comandos.close()
     return CompleteFileName

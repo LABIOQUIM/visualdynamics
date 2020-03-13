@@ -320,6 +320,22 @@ def commandsdownload(filename):
     return send_file('{}{}/{}/{}'.format(Config.UPLOAD_FOLDER,
             current_user.username,filename["name"],filename["complete"]), as_attachment=True)
 
+@app.route('/downloadlogs/<filename>')
+@login_required
+def downloalogs(filename):
+    filename = filename.split(' ')[1]
+    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run','logs')
+    ziplocation = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run','logs',filename+'-logs.zip')
+    zf = zipfile.ZipFile(ziplocation,'w')
+
+    for folder, subfolders, files in os.walk(current_location):
+        for file in files:
+            if not file.endswith('.zip'):
+                zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
+
+    zf.close()
+    return (send_file(ziplocation, as_attachment=True))
+
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     return redirect(url_for('logout'))
