@@ -600,7 +600,7 @@ def current_dynamics():
                         currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Ainda não entrou em Produção."}
                         list_dynamics.append(currentDynamics) 
                         
-                currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Ainda não entrou em Produção."}
+                currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":last_line}
                 list_dynamics.append(currentDynamics)
                 
                 #verifica se a execução é de enzima + ligante
@@ -637,7 +637,7 @@ def current_dynamics():
                         currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":date_finish}   
                         list_dynamics.append(currentDynamics)
                         
-                currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Ainda não entrou em Produção"}
+                currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":last_line}
                 list_dynamics.append(currentDynamics)
         except:
             list_directory += list() 
