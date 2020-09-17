@@ -59,6 +59,6 @@ ________________________________________________________________________________
 - Eduardo Buganemi Botelho
 - Dr. Fernando Berton Zanchi
 - Dr. Rafael Andrade Caceres
-- Thales Junior de Souza Gomes
+- [Thales Junior de Souza Gomes](https://github.com/ThalesGomesJr)
 - Duvidas? Envie um e-mail para <fernando.zanchi@fiocruz.br>
 #### Copyright © LABIOQUIM - FIOCRUZ RONDÔNIA
