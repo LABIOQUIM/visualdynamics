@@ -630,18 +630,43 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/admin', methods=['GET', 'POST'])
+###### admin br ######
+
+@app.route('/admin', methods=['GET', 'POST'], endpoint='admin')
 @admin_required
 def admin():
     UserData = User.query.filter(User.register == 'True')
     return render_template('admin.html', actadmin = 'active', UserData=UserData)
+#####################
 
-@app.route('/admin/cadastros', methods=['GET', 'POST'])
+###### admin en #####
+
+@app.route('/admin_en', methods=['GET', 'POST'], endpoint='admin_en')
+@admin_required
+def admin_en():
+    UserData = User.query.filter(User.register == 'True')
+    return render_template('admin_en.html', actadmin = 'active', UserData=UserData)
+#####################
+
+
+##### admin cadastro br #####
+@app.route('/admin/cadastros', methods=['GET', 'POST'], endpoint='admin_cadastro')
 @admin_required
 def admin_cadastros():
     NewUserData = User.query.filter(User.register == 'False')
     return render_template('admin_cadastros.html', NewUserData=NewUserData)
+#############################
 
+###### admin cadastro en ######
+@app.route('/admin/cadastros_en', methods=['GET', 'POST'], endpoint='admin_cadastro_en')
+@admin_required
+def admin_cadastros_en():
+    NewUserData = User.query.filter(User.register == 'False')
+    return render_template('admin_cadastros_en.html', NewUserData=NewUserData)
+#############################
+
+
+############# new user ################
 @app.route('/admin/accept_newUser/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def accept_newUser(id):
@@ -669,6 +694,43 @@ def accept_newUser(id):
     flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
 
+#####################################
+
+############# new user en ###########
+
+@app.route('/admin/accept_newUser_en/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def accept_newUser_en(id):
+    #ativa o cadastro do usuário.
+    UserData = User.query.get(int(id))
+    UserData.register = 'True'
+    name = UserData.name
+    email = UserData.email
+    db.session.add(UserData)
+    db.session.commit()
+    
+    msg = MIMEText('<h3>Hi '+ name +', your Visual Dynamics registration has been approved.</h3>\
+    Acess http://157.86.248.13:8080 to use the System.\
+    <h5>Automatically generated email, please dont answer.</h5>','html', 'utf-8')
+
+    #Criar email da oficial para o sistema
+    msg['From'] = 'LABIOQUIM FIOCRUZ - RO'
+    msg['To'] = email
+    msg['Subject'] = 'Visual Dynamics Register'
+    message = msg.as_string()
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
+    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, message)
+    server.quit()
+    flash('User registration request {} successfully accepted.'.format(UserData.username), 'primary')
+    return redirect(url_for('admin_cadastros_en'))
+
+
+
+#####################################
+
+
+####### admin_remove_br #########
 @app.route('/admin/remove_newUser/<int:id>')
 @admin_required
 def remove_newUser(id):
@@ -694,7 +756,40 @@ def remove_newUser(id):
    
     flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('admin_cadastros'))
+################################
+##### admin remove en ########
+@app.route('/admin/remove_newUser_en/<int:id>')
+@admin_required
+def remove_newUser_en(id):
+    UserData = User.query.get(int(id))
+    name = UserData.name
+    email = UserData.email
+    db.session.delete(UserData)
+    db.session.commit()
 
+    msg = MIMEText('<h3>Hi '+ name +', your Visual Dynamics registration has not been approved.</h3>\
+    Acess http://157.86.248.13:8080 to try again.\
+    <h5>Automatically generated email, please dont answer.</h5>','html', 'utf-8')
+
+    #Criar email da oficial para o sistema
+    msg['From'] = 'labioquim.rondonia.fiocruz@gmail.com'
+    msg['To'] = email
+    msg['Subject'] = 'Cadastro Visual Dynamics'
+    message = msg.as_string()
+    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
+    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, message)
+    server.quit()
+   
+    flash('User registration request {} removed successfully. '.format(UserData.username), 'primary')
+    return redirect(url_for('admin_cadastros_en'))
+
+
+############################
+
+
+
+########## admin edit br ###########3
 @app.route('/admin/edit/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def edit_user(id):
@@ -737,8 +832,55 @@ def edit_user(id):
         return redirect(url_for('admin'))
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
+#########################
+###### admin edit en #############333
+@app.route('/admin/edit_en/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def edit_user_en(id):
+    if request.method == 'POST':
+        name = request.form.get('name')
+        user = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        passconfirm = request.form.get('passwordconfirm')
+        if password == '' and passconfirm == '':
+            UserData = User.query.get(int(id))
+            UserData.name = name
+            UserData.username = user
+            UserData.email = email
+            try:
+                db.session.add(UserData)
+                db.session.commit()
+                flash('User data {} changed successfully. '.format(user), 'primary')
+                return redirect(url_for('admin_en'))
+            except:
+                flash('Error, email or user are already being used.', 'danger')
+                return redirect(url_for('edit_user_en', id=id))
 
-@app.route('/admin/newUser', methods=['GET', 'POST'])
+        elif password == passconfirm:
+            UserData = User.query.get(int(id))
+            UserData.name = name
+            UserData.username = user
+            UserData.email = email
+            try:
+                UserData.set_password(password)
+                db.session.add(UserData)
+                db.session.commit()
+                flash('User data {} changed successfully.'.format(user), 'primary')
+                return redirect(url_for('admin_en'))
+            except:
+                flash('Error, email or user are already being used.', 'danger')
+                return redirect(url_for('edit_user_en', id=id))
+
+        flash('Error editing user {}.'.format(user), 'danger')
+        return redirect(url_for('admin_en'))
+    UserData = User.query.get(int(id))
+    return render_template('edit_user_en.html', UserData=UserData)
+
+############################
+
+##### admin newUser br ########
+@app.route('/admin/newUser', methods=['GET', 'POST'], endpoint='newUser')
 @admin_required
 def newuser():
     if request.method == 'POST':
@@ -762,7 +904,38 @@ def newuser():
             return redirect(url_for('newuser'))
   
     return render_template('new_user.html')
+#################################
 
+####### admin newUser en #######
+@app.route('/admin/newUser_en', methods=['GET', 'POST'], endpoint='newUser_en')
+@admin_required
+def newuser_en():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        user = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        passconfirm = request.form.get('passwordconfirm')
+        #faz checagem para verificar se usuário ou senha já são utilizados    
+        check_email = User.query.filter(User.email == email).first()
+        check_user = User.query.filter(User.username == user).first()
+        if check_email is None and check_user is None:
+            new = User(name=name,username=user,email=email,register='True')
+            new.set_password(password)
+            db.session.add(new)
+            db.session.commit()
+            flash('User registration {} carried out successfully.'.format(user), 'primary')
+            return redirect(url_for('admin_en'))
+        else:
+            flash('Error, email or user are already being used.', 'danger')
+            return redirect(url_for('newuser_en'))
+  
+    return render_template('new_user_en.html')
+
+################################
+
+
+##### admin remove br ######
 @app.route('/admin/remove/<int:id>')
 @admin_required
 def removeuser(id):
@@ -774,7 +947,9 @@ def removeuser(id):
         return redirect(url_for('admin'))
     flash('Não é possível remover o admin', 'danger')
     return redirect(url_for('admin'))
+############################
 
+#### admin edit-md br ####
 @app.route('/admin/edit-md', methods = ['GET', 'POST'])
 @admin_required
 def edit_md():
@@ -835,7 +1010,74 @@ def edit_md():
     archive.close()
     
     return render_template('edit_md.html', nsteps = nsteps, dt = dt)
+##############################
 
+##### admin edit-md en ######
+@app.route('/admin/edit-md_en', methods = ['GET', 'POST'])
+@admin_required
+def edit_md_en():
+    os.chdir(Config.MDP_LOCATION_FOLDER)
+    #modifica o valor do nsteps no arquivo ions.mdp
+    if request.method == 'POST':   
+        new_nsteps = request.form.get('editnstep')
+        new_dt = request.form.get('editDt')
+        archive = open("md_pr.mdp","r") 
+        file = archive.readlines()
+        
+        #altera o valor do nsteps
+        for i, text in enumerate(file):
+            if text.find('nsteps') > -1:
+                archive = open("md_pr.mdp","w")       
+                # altera a linha inteira do nsteps        
+                file[i] = "nsteps      = "+ new_nsteps +"    ; 2 * 50000 = 1000 ps (1 ns) \n"
+                archive.writelines(file) 
+
+        #altera o valor do emstep
+        for i, text in enumerate(file):
+            if text.find('dt') > -1:
+                archive = open("md_pr.mdp","w")
+                # altera a linha inteira do nsteps
+                file[i] = "dt          = "+ new_dt +"     ; 2 fs \n"
+                archive.writelines(file) 
+
+        flash('update performed successfully.', 'primary')
+        return redirect(url_for('admin_en'))
+
+    #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
+    # i é o indice (posição)
+    try:
+        archive = open("md_pr.mdp","r")
+    except:
+        flash('There was an error locating file, please try again later.', 'danger')
+        return redirect(url_for('admin_en'))
+
+    file = archive.readlines()
+    #le o valor atual do nsteps
+    for text in file:
+        if text.find('nsteps') > -1:
+            i = text.find('= ')        
+            i+=2
+            text = text[i:].split(';')
+            nsteps = text[0]
+            nsteps = int(nsteps)
+
+    #le o valor atual do emstep
+    for text in file:
+        if text.find('dt') > -1:
+            i = text.find('= ')
+            i+=2
+            text = text[i:].split(';')
+            dt = text[0]
+            dt = float(dt)
+    
+    archive.close()
+    
+    return render_template('edit_md_en.html', nsteps = nsteps, dt = dt)
+
+###############################
+
+
+##### admin current dynamics br ########
 @app.route('/admin/current-dynamics', methods=['GET', 'POST'])
 @admin_required
 def current_dynamics():
@@ -942,3 +1184,115 @@ def current_dynamics():
     except:
         flash('No momento nenhuma dinâmica está em execução.', 'danger')
         return render_template('current_dynamics.html')
+###########################################
+
+##### admin current dynamics en #########
+@app.route('/admin/current-dynamics_en', methods=['GET', 'POST'])
+@admin_required
+def current_dynamics_en():
+    #lista de dinâmicas em andamento.
+    list_dynamics = list()
+    try:
+        #lista as pastas dos usuários.
+        list_directory = os.listdir(Config.UPLOAD_FOLDER)
+        #ordena a lista de diretórios em ordem alfabética.
+        list_directory.sort()
+        
+        for pasta in list_directory:
+            try:
+                directory = Config.UPLOAD_FOLDER + pasta
+                #lendo os usuários e verificando se eles estão com alguma dinâmica em andamento.
+                #verifica se a execução é de enzima livre.
+                if os.stat(directory + '/executing').st_size != 0:
+                    archive = open(directory + '/executing', 'r')
+                    #captura o nome do usuário.
+                    username = archive.readline()
+                    archive.close()
+                    #captura o nome da dinâmica.
+                    archive = open(directory + '/namedynamic.txt','r')
+                    name_dynamic = archive.readline()
+                    archive.close()
+                    #captura a data final da dinâmica.
+                    archive = open(directory + '/executing','r')
+                    lines = archive.readlines()
+                    archive.close()
+                    last_line = lines[len(lines)-1]     
+                    #verifica se a execução já está em productionmd.
+                    if last_line == '#productionmd\n':
+                        #acessa o diretorio do log de execução.
+                        archive = open(directory + '/DirectoryLog', 'r')
+                        directorylog = archive.readline()
+                        archive.close()
+                        #acessa o log de execução.
+                        archive = open(directorylog,'r')
+                        lines = archive.readlines()
+                        archive.close()
+                        #busca a ultima linha do log.
+                        last_line = lines[len(lines)-1]
+                        if last_line.find('step ') > -1:
+                            #recebe a quantidade de step e a data de termino.
+                            date_finish = last_line
+                            #criando objeto com informações da dinâmica para exibir no front-end.   
+                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Has not yet entered production."}
+                            #adicionando objeto a lista de dinamicas.
+                            list_dynamics.append(currentDynamics) 
+                    else:
+                        #caso não esteja em productionmd, é enviado o nome da etapa que a dinâmica esta.     
+                        #criando objeto com informações da dinâmica para exibir no front-end. 
+                        currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":last_line}
+                        #adicionando objeto a lista de dinamicas.
+                        list_dynamics.append(currentDynamics)
+                    
+                    #verifica se a execução é de enzima + ligante.
+                elif os.stat(directory + '/executingLig').st_size != 0:
+                    archive = open(directory + '/executingLig', 'r')
+                    #captura o nome do usuário.
+                    username = archive.readline()
+                    archive.close()
+                    #captura o nome da dinâmica.
+                    archive = open(directory + '/namedynamic.txt','r')
+                    name_dynamic = archive.readline()
+                    archive.close()
+                    #captura a data final da dinâmica.
+                    archive = open(directory + '/executingLig','r')
+                    lines = archive.readlines()
+                    archive.close()
+                    last_line = lines[len(lines)-1]     
+                    #verifica se a execução já está  em productionmd.
+                    if last_line == '#productionmd\n':
+                        #acessa o diretorio do log de execução.
+                        archive = open(directory + '/DirectoryLog', 'r')
+                        directorylog = archive.readline()
+                        archive.close()
+                        #acessa o log de execução.
+                        archive = open(directorylog,'r')
+                        lines = archive.readlines()
+                        archive.close()
+                        #busca a ultima linha do log.
+                        last_line = lines[len(lines)-1]
+                        if last_line.find('step ') > -1:
+                            #recebe a quantidade de step e a data de termino.
+                            date_finish = last_line
+                            #criando objeto com informações da dinâmica para exibir no front-end. 
+                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":date_finish}   
+                            #adicionando objeto a lista de dinamicas.
+                            list_dynamics.append(currentDynamics)
+                    else:
+                        #caso não esteja em productionmd, é enviado o nome da etapa que a dinâmica esta.     
+                        #criando objeto com informações da dinâmica para exibir no front-end.
+                        currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":last_line}
+                        #adicionando objeto a lista de dinamicas.
+                        list_dynamics.append(currentDynamics)
+
+            except:
+                #caso os arquivos estejam todos vazios, apenas renova a lista e vai para a proxima pasta.
+                list_directory += list() 
+
+        return render_template('current_dynamics_en.html', currentDynamics=list_dynamics)
+    
+    except:
+        flash('No dynamics are currently running.', 'danger')
+        return render_template('current_dynamics_en.html')
+
+
+#########################################

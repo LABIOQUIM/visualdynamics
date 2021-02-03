@@ -12,7 +12,7 @@
     <h2><strong>Edit User</strong></h2>
     <p>To edit user and/or email only, leave the password field blank </p>
     <div class="row justify-content-center align-items-start">
-        <form class="align-items-center text-center mt-0" action="/admin/edit/{{UserData.id}}" method="post" onsubmit="return validateForm()">
+        <form class="align-items-center text-center mt-0" action="/admin/edit_en/{{UserData.id}}" method="post" onsubmit="return validateForm()">
             <label for="username" class="form-control-label text-center mt-3">Full name</label>
             <input class="form-control" name='name' id='name' type="input" aria-describedby="emailHelp" value="{{UserData.name}}">
             <label for="username" class="form-control-label text-center mt-3">User</label>
@@ -24,7 +24,7 @@
             <label for="password" class="form-control-label mt-3">Confirm new password</label>
             <input class="form-control mb-3" name="passwordconfirm" id="password" type="password" placeholder="Senha">
             <button class="m-2 btn btn-primary" type="submit" name="submit"><i class="fa fa-check" aria-hidden="true"></i> Confirm</button>
-            <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
+            <a class="m-2 btn btn-danger" href="{{ url_for('admin_en') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
         </form>
     </div>
 </div>
