@@ -12,7 +12,7 @@
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login-title">
-                    <div class="row">
+                        <div class="row">
                         <div class="col-0">
                             <a class="navbar-brand" href="{{ url_for('login') }}">
                                 <img src="/static/svg/br.svg" width="15" height="15" alt="">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="col-11">
                     <h1>Visual Dynamics</h1>
-                    <h2>Dinâmica Molecular com o Gromacs</h2>
+                    <h2>Molecular Dynamics with Gromacs</h2>
                     </div>
                     <div class="wrap-login100">
                         <div class="login100-pic js-tilt" data-tilt>
@@ -32,9 +32,9 @@
                             <img src="/static/img/labioquim.png" class="col-md-4 col sm-6 mr-5">
                         </div>
                         <div>
-                            <form class="login100-form validate-form" action="/login" method="post" onsubmit="return validateForm()">
+                            <form class="login100-form validate-form" action="/login_en" method="post" onsubmit="return validateForm()">
                                 <span class="login100-form-title">LOGIN</span>
-                                <!--\\\\\\\\\\\\\\Flash para mostrar erros no login////////////////////-->
+                                <!--\\\\\\\\\\\\\\Flash to show login errors ////////////////////-->
                                 <div class="flash-message">
                                     {% with messages = get_flashed_messages(with_categories=true) %} 
                                         {% if messages %}
@@ -48,7 +48,7 @@
                                 </div>
                                     <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
                                 <div class="wrap-input100 validate-input">
-                                    <input class="input100" type="text" name="username" id="username" placeholder="Usuário ou E-mail">
+                                    <input class="input100" type="text" name="username" id="username" placeholder="User or Email">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-user" aria-hidden="true"></i>
@@ -56,27 +56,27 @@
                                 </div>
             
                                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                                    <input class="input100" type="password" name="password" id="password" placeholder="Senha">
+                                    <input class="input100" type="password" name="password" id="password" placeholder="Password">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-lock" aria-hidden="true"></i>
                                     </span>
                                 </div>
                         
-                                <button class="btn btn-primary btn-lg mt-1"><i class="fa fa-sign-in" aria-hidden="true" ></i> Entrar</button>  
-                             <a href="/cadastro" class="btn btn-success mt-2"><i class="fa fa-sign-in" aria-hidden="true" ></i> Solicitar Cadastro</a>
+                                <button class="btn btn-primary btn-lg mt-1"><i class="fa fa-sign-in" aria-hidden="true" ></i> Login</button>  
+                             <a href="/cadastro_en" class="btn btn-success mt-2"><i class="fa fa-sign-in" aria-hidden="true" ></i> Request Registration</a>
                             </form> 
                         </div>
                     </div>                        
                     <br>
                     <div class="rodape-dev text-muted">
-                        <h4 class="m-0 small">Desenvolvido por:</h4>
+                        <h4 class="m-0 small">Developed by:</h4>
                         <h4 class="m-0 small mt-1">Bruno Lincon de Souza Bordin</h4>
                         <h4 class="m-0 small mt-1">Dr. Fernando Berton Zanchi</h4>
                         <h4 class="m-0 small mt-1">Dr. Rafael Andrade Caceres</h4>
                         <h4 class="m-0 small mt-1">Thales Junior de Souza Gomes</h4>
                         <h4 class="m-0 small mt-1">Eduardo Buganemi Botelho</h4>
-                        <h6 class="mt-2"> Esqueceu sua senha? Envie um e-mail para <ins><strong>fernando.zanchi@fiocruz.br</strong></ins> solicitando atualização.</h6>
+                        <h6 class="mt-2"> Forgot your password? Send an email to <ins><strong>fernando.zanchi@fiocruz.br</strong></ins> requesting update. .</h6>
                         <br>
                         <h4 class="mb-1 small">Copyright © LABIOQUIM - FIOCRUZ RONDÔNIA</h4>
                     </div>
@@ -87,11 +87,11 @@
                         username = document.forms[0][0].value;
                         password = document.forms[0][1].value;
                         if (username==null || username=="") {
-                            alert("Usuário deve ser preenchido");
+                            alert("User must be filled");
                             return false;
                             }
                         if (password==null || password=="") {
-                            alert("Senha deve ser preenchida");
+                            alert("Password must be filled");
                             return false;
                             }
                     };

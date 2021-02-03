@@ -1,0 +1,42 @@
+{% extends 'base_en.html' %}
+
+{% block content %}
+<div class="d-flex mt-2">
+    <a href="/admin/cadastros" class="btn btn-success btn mb-2 ml-2"><i class="fa fa-user-plus" aria-hidden="true"></i> Registration Requests</a>
+    <a href="/admin/newUser" class="btn btn-success btn mb-2 ml-2"><i class="fa fa-user-plus" aria-hidden="true"></i> Register User</a>
+    <a href="/admin/current-dynamics" class="btn btn-primary mb-2 ml-auto"><i class="fa fa-cogs" aria-hidden="true"></i> Running Dynamics</a>  
+    <a href="/admin/edit-md" class="btn btn-primary mb-2 ml-2 mr-2"><i class="fa fa-pencil-square" aria-hidden="true"></i> Edit file md_pr</a>
+  </div>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Full name</th>
+        <th scope="col">User</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for u in UserData %}
+      <tr>
+        <th scope="row">{{u.id}}</th>
+        <td>{{u.name}}</td>
+        <td>{{u.username}}</td>
+        <td>{{u.email}}</td>
+        <td></td>
+        <td><a href="/admin/edit/{{u.id}}" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a></td>        
+        <td>
+        {% if u.username != 'admin' %}  
+          <a href="/admin/remove/{{u.id}}" class="btn btn-outline-danger "><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a>
+        {% endif %}
+      </td>
+      </tr>
+    {% endfor %}    
+    </tbody>
+  </table>
+
+{% endblock %}

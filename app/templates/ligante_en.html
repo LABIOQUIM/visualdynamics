@@ -1,0 +1,178 @@
+{% extends 'base_en.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form class="align-items-start" method="POST" action="/ligante" onsubmit="return validateProcessing()" enctype="multipart/form-data">
+                <div class="custom-file mt-4">
+                    <input type="file" class="custom-file-input" name="file" id="file" accept=".pdb" required>
+                    <label class="custom-file-label" for="file">Free Protein Upload (.pdb)</label>
+                </div>
+                
+                <div class="custom-file mt-2" id ="itp">
+                    <input type="file" class="custom-file-input" name="fileitp" id="fileitp" accept=".itp" required>
+                    <label class="custom-file-label" for="fileitp" id="fileitp-label">Upload the Ligand .itp File</label>
+                </div>
+                
+                <div class="custom-file mt-2 mb-4" id ="gro">
+                    <input type="file" class="custom-file-input" name="filegro" id="filegro" accept=".gro, .pdb" required>
+                    <label class="custom-file-label"for="filegro" id="filegro-label">Upload the Ligand .gro or .pdb File</label>
+                </div>
+            
+                <label class="mb-0" for="campoforca">Force Field</label>
+                <select class="form-control" name="campoforca" id="campoforca">
+                    <option selected="selected" value="gromos53a5">GROMOS 53a6 force field</option>
+                </select>
+
+                <label class="mt-3 mb-0" for="modeloagua">Water Model</label>
+                <select class="form-control" name="modeloagua" id="modeloagua">
+                    <option selected="selected" value="spc">SPC simple point charge (Recommended for GROMOS)</option>
+                    <option value="spce">SPC/E extended simple point charge</option>
+                    <option value="none">None</option>
+                    <option value="tip3p">TIP3P (available for AMBER and OPLS only)</option>
+                    <option value="tip4p">TIP4P (available for AMBER and OPLS only)</option>
+                    <option value="tip5p">TIP5P (available for AMBER and OPLS only)</option>
+                </select>
+
+                <label class="mt-3 mb-0" for="tipocaixa">Box Type</label>
+                <select class="form-control" name="tipocaixa" id="tipocaixa">
+                    <option selected="selected" value="cubic">Cubic</option>
+                    <option value="triclinic">Triclinic</option>
+                    <option value="dodecahedron">Dodecahedron</option>
+                    <option value="octahedron">Octahedron</option>
+                </select>
+
+                <label class="form-control-label mt-3 mb-0" for="distanciacaixa">Distance between the protein and the edge of the box 
+                (
+                    <img src="static/svg/angstrom.svg" width="13">
+                )
+                </label>
+                <div class="input-group">
+                    <input class="form-control col-4 input-sm" type="number" min="0" name="distanciacaixa" id="distanciacaixa">
+                </div>
+                <label class="form-control-label mt-2 mb-0" for="ns"> Simulation Time (ns)</label>
+                <div class="input-group mb-3">
+                    <input class="form-control col-4 input-sm" type="number" value="2" disabled="disabled">
+                </div>
+                <div>
+                    <input class="form-check-input ml-2" type="checkbox" checked="checked" disabled="disabled" name="neutralize" id="neutralize">
+                    <label class="form-check-label ml-4" for="neutralize">Neutralize the System?</label>
+                </div>
+                <div>
+                    <input class="form-check-input ml-2" type="checkbox" checked="checked" disabled="disabled" id="double">
+                    <label class="form-check-label ml-4" for="double">Calculate in Double Precision?</label>
+                    <input type="hidden" name="double" value="True">
+                </div>
+                <div>
+                    <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore">
+                    <label class="form-check-label ml-4" for="ignore">Ignore Hydrogens?</label>
+                </div>
+                <button class="mt-3 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fa fa-cogs" aria-hidden="true"></i> Run</button>
+                <button class="mt-3 ml-1 btn btn-success" value="Download" name="download"><i class="fa fa-file" aria-hidden="true"></i> Download Command List</button>
+            </form>
+        </div>
+        
+        <div id="steps" class="col d-flex flex-column justify-content-start align-items-center">
+            {% with steps = get_flashed_messages(category_filter=["steps"]) %}
+            {% if steps %}
+            <img class="figure-img" src="{{ url_for('static', filename='svg/spinner.svg') }}" width="75">
+                <figcaption class="figure-caption">You have a dynamic <strong>{{ name_dynamic }}</strong> in progress</figcaption>
+                {% endif %}
+                {% if steplist %}
+                {% set btnOK = 'btn-success' %}
+                <script>
+                    setInterval(function(){ document.location.reload(true) }, 10000);
+                </script>
+                <button id="topology" class="btn-secondary btn m-auto {{ btnOK if '#topology' in steplist }}">Define Topology</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="break" class="btn-secondary btn m-auto {{ btnOK if '#break' in steplist }}">Editing Topology and Structure</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="solvate" class="btn-secondary btn m-auto {{ btnOK if '#solvate' in steplist }}">Set Box and Solvate</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="ions" class="btn-secondary btn m-auto {{ btnOK if '#ions' in steplist }}">Add Ions</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="minimizationsteepdesc" class="btn-secondary btn m-auto {{ btnOK if '#minimizationsteepdesc' in steplist }}">Minimization Steep Descent Method</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="minimizationconjgrad" class="btn-secondary btn m-auto {{ btnOK if '#minimizationconjgrad' in steplist }}">Minimization Conjugate Gradient Method</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="equilibrationnvt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnvt' in steplist }}">NVT Restriction</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="equilibrationnpt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnpt' in steplist }}">NPT Restriction</button>
+                    <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
+                <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">MD Production</button>        
+                    
+                    {% if '#productionmd' in steplist %}
+                        <br>
+                        <label id="datefinish" class="border text-primary" > {{ date_finish }} </label>
+                    {% endif %}
+                
+                {% endif %} 
+            {% endwith %}
+            
+            <!--loading video explaining how to perform the dynamics-->
+            {% if not steplist %}
+                      
+                <label class="mt-3 border border-primary" for="">Generating files with PRODRG.</label>
+                <video width="420" height="270" controls>
+                    <source src="{{ url_for('static', filename = 'video/arquivosPRODRG.mp4') }}" type="video/mp4">
+                </video>         
+            
+                <label class="mt-3 border border-primary" for="">Tutorial on how to perform the dynamics.</label>
+                <video width="420" height="270" controls>
+                    <source src="{{ url_for('static', filename = 'video/dinamicaPRODRG.mp4') }}" type="video/mp4">
+                </video>          
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <label class="form-check-label ml-0 mt-2 border border-danger" for="ignore">If you want to cancel a dynamic in progress, send an email to <strong>fernando.zanchi@fiocruz.br</strong> requesting the cancellation.</label>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.custom-file-input').addEventListener("input", function(){
+        var filename = document.querySelector('#file').value;
+        var label = document.querySelector('.custom-file-label');
+        label.innerHTML = filename;
+    });
+    
+    document.querySelector('#itp').addEventListener("input", function(){
+        var filename = document.querySelector('#fileitp').value;
+        var label = document.querySelector('#fileitp-label');
+        label.innerHTML = filename;
+    });
+
+     document.querySelector('#gro').addEventListener("input", function(){
+        var filename = document.querySelector('#filegro').value;
+        var label = document.querySelector('#filegro-label');
+        label.innerHTML = filename;
+    });
+   
+
+    function validateProcessing() {
+        var filename = document.querySelector('#file').value;
+        var filenameitp = document.querySelector('#fileitp').value;
+        var filenamegro = document.querySelector('#filegro').value;
+        var distance = document.querySelector('#distanciacaixa').value;
+        if (filename === "" || filename == null) {
+            alert('A file (.pdb) must be selected');
+            return false
+        }
+        if (filenameitp === "" || filenameitp == null) {
+            alert('A file (.itp) must be selected');
+            return false
+        }
+        if (filenamegro === "" || filenamegro == null) {
+            alert('A file (.gro ou .pdb) must be selected');
+            return false
+        }
+        if (distance === "" || distance == null) {
+            alert('Distance must be selected');
+            return false
+        }
+    };
+
+</script>
+
+{% endblock %}

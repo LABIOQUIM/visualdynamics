@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-11">
                     <h1>Visual Dynamics</h1>
-                    <h2>Dinâmica Molecular com o Gromacs</h2>
+                    <h2>Molecular Dynamics with Gromacs</h2>
                     </div>
                     <div class="wrap-cad100 ml-3 mb-3">
                         <div class="login100-pic js-tilt" data-tilt>
@@ -30,9 +30,9 @@
                             <img src="/static/img/labioquim.png" class="col-md-4 col sm-6 mr-5">
                         </div>
                         <div>
-                            <form class="cad100-form validate-form" action="/cadastro" method="post" onsubmit="return validateForm()">
-                                <span class="login100-form-title">Solicitação de Cadastro</span>
-                                <!--\\\\\\\\\\\\\\Flash para mostrar erros no login////////////////////-->
+                            <form class="cad100-form validate-form" action="/cadastro_en" method="post" onsubmit="return validateForm()">
+                                <span class="login100-form-title">Registration Request</span>
+                                <!--\\\\\\\\\\\\\\Flash to show login errors////////////////////-->
                                 {% with messages = get_flashed_messages(with_categories=true) %} 
                                     {% if messages %}
                                         <ul class=flashes>
@@ -44,7 +44,7 @@
                                 {% endwith %}
                                 <!--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\-->
                                 <div class="wrap-input100 validate-input">
-                                    <input class="input100" type="text" name="name" id="name" placeholder="Nome Completo">
+                                    <input class="input100" type="text" name="name" id="name" placeholder="Full name">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-user" aria-hidden="true"></i>
@@ -52,7 +52,7 @@
                                 </div>
 
                                 <div class="wrap-input100 validate-input">
-                                    <input class="input100" type="text" name="username" id="username" placeholder="Usuário">
+                                    <input class="input100" type="text" name="username" id="username" placeholder="User">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-user" aria-hidden="true"></i>
@@ -60,7 +60,7 @@
                                 </div>
             
                                 <div class="wrap-input100 validate-input">
-                                    <input class="input100" type="text" name="email" id="email" placeholder="E-mail">
+                                    <input class="input100" type="text" name="email" id="email" placeholder="Email">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -68,7 +68,7 @@
                                 </div>
                                 
                                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                                    <input class="input100" type="password" name="password" id="password" placeholder="Senha">
+                                    <input class="input100" type="password" name="password" id="password" placeholder="Password">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-lock" aria-hidden="true"></i>
@@ -76,28 +76,28 @@
                                 </div>
 
                                 <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                                    <input class="input100" type="password" name="passwordconfirm" id="passwordconfirm" placeholder="Confirmar Senha">
+                                    <input class="input100" type="password" name="passwordconfirm" id="passwordconfirm" placeholder="Confirm password">
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
                                         <i class="fa fa-lock" aria-hidden="true"></i>
                                     </span>
                                 </div>
 
-                                <button class="btn btn-primary btn-lg mt-1"><i class="fa fa-sign-in" aria-hidden="true" ></i> Confirmar</button>  
-                                <a class="m-2 btn btn-danger" href="{{ url_for('login') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a> 
+                                <button class="btn btn-primary btn-lg mt-1"><i class="fa fa-sign-in" aria-hidden="true" ></i> Confirm</button>  
+                                <a class="m-2 btn btn-danger" href="{{ url_for('login_en') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a> 
                             
                             </form>
                         </div>
                     </div>                        
                     
                     <div class="rodape-dev text-muted">
-                        <h4 class="m-0 small">Desenvolvido por:</h4>
+                        <h4 class="m-0 small">Developed by:</h4>
                         <h4 class="m-0 small mt-1">Bruno Lincon de Souza Bordin</h4>
                         <h4 class="m-0 small mt-1">Dr. Fernando Berton Zanchi</h4>
                         <h4 class="m-0 small mt-1">Dr. Rafael Andrade Caceres</h4>
                         <h4 class="m-0 small mt-1">Thales Junior de Souza Gomes</h4>
                         <h4 class="m-0 small mt-1">Eduardo Buganemi Botelho</h4>
-                        <h6 class="mt-2"> Esqueceu sua senha? Envie um e-mail para <ins><strong>fernando.zanchi@fiocruz.br</strong></ins> solicitando atualização.</h6>
+                        <h6 class="mt-2"> Forgot your password? Send an email to <ins><strong>fernando.zanchi@fiocruz.br</strong></ins> requesting an update.</h6>
                         <br>
                         <h4 class="mb-1 small">Copyright © LABIOQUIM - FIOCRUZ RONDÔNIA</h4>
                     </div>
@@ -113,32 +113,32 @@
                         password = document.forms[0][3].value;
                         passwordconfirm = document.forms[0][4].value;
                         if (name==null || name=="") {
-                            alert("Nome Completo deve ser preenchido");
+                            alert("Full name must be filled");
                             return false;
                             }
                     
                         if (username==null || username=="") {
-                            alert("Usuário deve ser preenchido");
+                            alert("User must be filled");
                             return false;
                             }
 
                         if (email==null || email=="") {
-                            alert("Usuário deve ser preenchido");
+                            alert("User must be filled");
                             return false;
                             }
                         
                         if (password==null || password=="") {
-                            alert("Senha deve ser preenchida");
+                            alert("Password must be filled");
                             return false;
                             }
                         
                         if (re.test(email) == false) {
-                            alert("Email inválido")
+                            alert("Invalid email")
                             return false;
                             }
                         
                         if (password != passwordconfirm){
-                            alert("As senhas digitadas são diferentes")
+                            alert("Passwords entered are different")
                             return false;
                             }
                     };

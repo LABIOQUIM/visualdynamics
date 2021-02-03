@@ -1,0 +1,62 @@
+{% extends 'base_en.html' %} 
+
+{% block content %}
+
+<style>
+    h2{
+        text-align: center;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2><strong>Register User</strong></h2>
+    <div class="row justify-content-center align-items-start">
+        <form class="align-items-center text-center mt-0" action="/admin/newUser" method="post" onsubmit="return validateForm()">
+            <label for="username" class="form-control-label text-center mt-3">Full name</label>
+            <input class="form-control" name='name' id='name' type="input" aria-describedby="emailHelp" placeholder="Full name">
+            <label for="username" class="form-control-label text-center mt-3">User</label>
+            <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" placeholder="User">
+            <label for="username" class="form-control-label text-center mt-3">Email</label>
+            <input class="form-control" name='email' id='username' type="input" aria-describedby="emailHelp" placeholder="Email">
+            <label for="password" class="form-control-label mt-3">Password</label>
+            <input class="form-control" name="password" id="password" type="password" placeholder="Password">
+            <label for="password" class="form-control-label mt-3">Confirm Ṕassword</label>
+            <input class="form-control mb-3" name="passwordconfirm" id="password" type="password" placeholder="Password">
+            <button class="m-2 btn btn-primary" type="submit" name="submit"><i class="fa fa-check" aria-hidden="true"></i> Confirm</button>
+            <a class="m-2 btn btn-danger" href="{{ url_for('admin_en') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancel</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        //RE q valida email
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        name = document.forms[0][0].value;
+        username = document.forms[0][1].value;
+        email = document.forms[0][2].value;
+        password = document.forms[0][3].value;
+        passwordconfirm = document.forms[0][4].value;
+        if (name === null || name === "") {
+            alert("Full name must be filled");
+            return false;
+            }
+        if (username === null || username === "") {
+            alert("User must be filled");
+            return false;
+            }
+        if (email === null || email === "") {
+            alert("Email must be filled");
+            return false;
+            }        
+        if (re.test(email) === false) {
+            alert("Invalid Email")
+            return false
+        }
+        if (password !== passwordconfirm) {
+            alert("Passwords entered are different")
+            return false
+        }
+    };
+</script>
+{% endblock %}

@@ -1,17 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base_en.html' %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col">
-            <form class="align-items-start" method="POST" action="/livre" onsubmit="return validateProcessing()" enctype="multipart/form-data">
+            <form class="align-items-start" method="POST" action="/livre_en" onsubmit="return validateProcessing()" enctype="multipart/form-data">
                 <div class="custom-file mb-4 mt-4">
                     <input type="file" class="custom-file-input" name="file" id="file" accept=".pdb" required>
-                    <label class="custom-file-label" for="file">Upload da Proteína Livre (.pdb)</label>
+                    <label class="custom-file-label" for="file">Free Protein Upload (.pdb)</label>
                 </div>
                 
                 
-                <label class="mb-0" for="campoforca">Campo de Força</label>
+                <label class="mb-0" for="campoforca">Force Field</label>
                 <select class="form-control" name="campoforca" id="campoforca">
                     <option value="amber03">AMBER03 protein, nucleic AMBER94</option>
                     <option value="amber94">AMBER94 force field</option>
@@ -30,17 +30,17 @@
                     <option value="oplsaa">OPLS-AA/L all-atom force</option>
                 </select>
 
-                <label class="mt-3 mb-0" for="modeloagua">Modelo Agua</label>
+                <label class="mt-3 mb-0" for="modeloagua">Water Model</label>
                 <select class="form-control" name="modeloagua" id="modeloagua">
-                    <option value="spc">SPC simple point charge (recomendado para GROMOS)</option>
+                    <option value="spc">SPC simple point charge (Recommended for GROMOS)</option>
                     <option value="spce">SPC/E extended simple point charge</option>
                     <option value="none">None</option>
-                    <option value="tip3p">TIP3P (disponível para AMBER e OPLS apenas)</option>
-                    <option value="tip4p">TIP4P (disponível para AMBER e OPLS apenas)</option>
-                    <option value="tip5p">TIP5P (disponível para AMBER e OPLS apenas)</option>
+                    <option value="tip3p">TIP3P (available for AMBER and OPLS only)</option>
+                    <option value="tip4p">TIP4P (available for AMBER and OPLS only)</option>
+                    <option value="tip5p">TIP5P (available for AMBER and OPLS only)</option>
                 </select>
 
-                <label class="mt-3 mb-0" for="tipocaixa">Tipo Caixa</label>
+                <label class="mt-3 mb-0" for="tipocaixa">Box Type</label>
                 <select class="form-control" name="tipocaixa" id="tipocaixa">
                     <option selected="selected" value="cubic">Cubic</option>
                     <option value="triclinic">Triclinic</option>
@@ -48,7 +48,7 @@
                     <option value="octahedron">Octahedron</option>
                 </select>
 
-                <label class="form-control-label mt-3 mb-0" for="distanciacaixa">Distância entre a proteína e a borda da caixa 
+                <label class="form-control-label mt-3 mb-0" for="distanciacaixa">Distance between the protein and the edge of the box 
                     (
                     <img src="{{ url_for('static', filename='svg/angstrom.svg') }}" width="13">
                     )
@@ -56,25 +56,25 @@
                 <div class="input-group">
                     <input class="form-control col-4 input-sm" type="number" min="0" name="distanciacaixa" id="distanciacaixa">
                 </div>
-                <label class="form-control-label mt-2 mb-0" for="ns"> Tempo de Simulação (ns)</label>
+                <label class="form-control-label mt-2 mb-0" for="ns"> Simulation Time (ns)</label>
                 <div class="input-group mb-3">
                     <input class="form-control col-4 input-sm" type="number" value="2" disabled="disabled">
                 </div>
                 <div>
                 <input class="form-check-input ml-2" type="checkbox" name="neutralize" id="neutralize">
-                <label class="form-check-label ml-4" for="neutralize">Neutralizar o Sistema?</label>
+                <label class="form-check-label ml-4" for="neutralize">Neutralize the System?</label>
                 </div>
                 <div>
                 <input class="form-check-input ml-2" type="checkbox" checked="checked" disabled="disabled" id="double">
-                <label class="form-check-label ml-4" for="double">Calcular em Dupla precisão?</label>
+                <label class="form-check-label ml-4" for="double">Calculate in Double Precision?</label>
                 <input type="hidden" name="double" value="True">
                 </div>
                 <div>
                 <input class="form-check-input ml-2" type="checkbox" name="ignore" id="ignore">
-                <label class="form-check-label ml-4" for="ignore">Ignorar Hidrogênios?</label>
+                <label class="form-check-label ml-4" for="ignore">Ignore Hydrogens?</label>
                 </div>
-                <button class="mt-3 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fa fa-cogs" aria-hidden="true"></i> Executar</button>
-                <button class="mt-3 ml-1 btn btn-success" value="Download" name="download"><i class="fa fa-file" aria-hidden="true"></i> Baixar Lista de Comandos</button>
+                <button class="mt-3 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"><i class="fa fa-cogs" aria-hidden="true"></i> Run</button>
+                <button class="mt-3 ml-1 btn btn-success" value="Download" name="download"><i class="fa fa-file" aria-hidden="true"></i> Download Command List</button>
             </form>
         </div>
         
@@ -82,28 +82,28 @@
         {% with steps = get_flashed_messages(category_filter=["steps"]) %}
         {% if steps %}
         <img class="figure-img" src="{{ url_for('static', filename='svg/spinner.svg') }}" width="75">
-            <figcaption class="figure-caption">Você tem uma dinâmicas <strong>{{ name_dynamic }}</strong> em andamento.</figcaption>
+            <figcaption class="figure-caption">You have a dynamic <strong>{{ name_dynamic }}</strong> in progress.</figcaption>
             {% endif %}
             {% if steplist %}
             {% set btnOK = 'btn-success' %}
             <script>
                 setInterval(function(){ document.location.reload(true) }, 10000);
             </script>
-            <button id="topology" class="btn-secondary btn m-auto {{ btnOK if '#topology' in steplist }}">Definir Topologia</button>
+            <button id="topology" class="btn-secondary btn m-auto {{ btnOK if '#topology' in steplist }}">Define Topology</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="solvate" class="btn-secondary btn m-auto {{ btnOK if '#solvate' in steplist }}">Definir Caixa e Solvatar</button>
+            <button id="solvate" class="btn-secondary btn m-auto {{ btnOK if '#solvate' in steplist }}">Set Box e Solvate</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="ions" class="btn-secondary btn m-auto {{ btnOK if '#ions' in steplist }}">Adicionar Ions</button>
+            <button id="ions" class="btn-secondary btn m-auto {{ btnOK if '#ions' in steplist }}">Add Ions</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="minimizationsteepdesc" class="btn-secondary btn m-auto {{ btnOK if '#minimizationsteepdesc' in steplist }}">Minimização Método Steep Descent</button>
+            <button id="minimizationsteepdesc" class="btn-secondary btn m-auto {{ btnOK if '#minimizationsteepdesc' in steplist }}">Minimization Steep Descent Method</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="minimizationconjgrad" class="btn-secondary btn m-auto {{ btnOK if '#minimizationconjgrad' in steplist }}">Minimização Método Conjugate Gradient</button>
+            <button id="minimizationconjgrad" class="btn-secondary btn m-auto {{ btnOK if '#minimizationconjgrad' in steplist }}">Minimization Conjugate Gradient Method</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="equilibrationnvt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnvt' in steplist }}">Restrição NVT</button>
+            <button id="equilibrationnvt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnvt' in steplist }}">NVT Restriction</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="equilibrationnpt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnpt' in steplist }}">Restrição NPT</button>
+            <button id="equilibrationnpt" class="btn-secondary btn m-auto {{ btnOK if '#equilibrationnpt' in steplist }}">NPT Restriction</button>
                 <img src="{{ url_for('static', filename='svg/arrow-down.svg') }}" width="18">
-            <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">Produção MD</button>        
+            <button id="productionmd" class="btn-secondary btn m-auto {{ 'btn-warning' if '#productionmd' in steplist }}">MD Production</button>        
                 
                 {% if '#productionmd' in steplist %}
                     <br>
@@ -116,7 +116,7 @@
 
     </div>
     <div>
-        <label class="form-check-label ml-0 mt-2 border border-danger" for="ignore"> Caso deseje cancelar uma dinâmica em andamento, envie um email para <strong>fernando.zanchi@fiocruz.br</strong> solicitando o cancelamento.</label>
+        <label class="form-check-label ml-0 mt-2 border border-danger" for="ignore"> If you want to cancel a dynamic in progress, send an email to <strong>fernando.zanchi@fiocruz.br</strong> requesting the cancellation.</label>
     </div>
 </div>
 
@@ -132,11 +132,11 @@
         var filename = document.querySelector('#file').value;
         var distance = document.querySelector('#distanciacaixa').value;
         if (filename === "" || filename == null) {
-            alert('Deve ser selecionado um arquivo (.pdb)');
+            alert('A file (.pdb) must be selected');
             return false
         }
         if (distance === "" || distance == null) {
-            alert('Deve ser selecionada a distancia');
+            alert('Distance must be selected');
             return false
         }
     };

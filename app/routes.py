@@ -18,6 +18,7 @@ import smtplib
 import shutil
 from email.mime.text import MIMEText
 
+### cadastro br ###
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -43,6 +44,37 @@ def cadastro():
     flash('Por favor, preencha os dados corretamente. Em caso de dados incorretos a solicitação de cadastro será cancelada.', 'danger')
     return render_template('cadastro.html')
 
+### cadastro en ###
+@app.route('/cadastro_en', methods=['GET', 'POST'])
+def cadastro_en():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        user = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        passconfirm = request.form.get('passwordconfirm')
+        #checks to see if a username or password is already used  
+        check_email = User.query.filter(User.email == email).first()
+        check_user = User.query.filter(User.username == user).first()
+        if check_email is None and check_user is None:
+            new = User(name=name,username=user,email=email,register='False')
+            new.set_password(password)
+            db.session.add(new)
+            db.session.commit()
+            flash('User registration request {} carried out successfully. We will respond by email shortly if the request has been accepted. '.format(user), 'primary')
+            return redirect(url_for('login_en'))
+        else:
+            flash('Error, email or user are already being used.', 'danger')
+            return redirect(url_for('cadastro_en'))
+
+    flash('Please fill in the data correctly. In case of incorrect data, the registration request will be canceled.', 'danger')
+    return render_template('cadastro_en.html')
+########################
+
+
+
+####login br#####
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -66,7 +98,7 @@ def protected():
     flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'primary')
     return redirect(url_for('index'))
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'], endpoint='index')
 @login_required
 def index():
     try:
@@ -77,8 +109,50 @@ def index():
     except:
         flash('Você ainda não realizou nenhuma dinâmica.', 'danger')
         return render_template('index.html', actindex = 'active')
+########################
 
-@app.route('/livre', methods=['GET', 'POST'])
+#####login_en#####
+@app.route('/login_en', methods=['GET', 'POST'])
+def login_en():
+    if request.method == 'POST':
+        form_entry = request.form.get('username')
+        user = User.query.filter((User.username == form_entry) | (User.email == form_entry)).first()
+        #checks if the user exists
+        if user is None or not user.check_password(request.form.get('password')):
+            flash('Username or password is invalid ', 'danger')
+            return render_template('login_en.html')
+        #checks if the user registration is accepted.
+        if user.register == 'False':
+            flash('Your registration has not yet been accepted, wait for the confirmation email.', 'danger')     
+        else :
+            login_user(user)
+            return redirect(url_for('protected_en'))
+    return render_template('login_en.html')
+
+@app.route('/protected_en')
+@login_required
+def protected_en():
+    flash('Hi {}, Welcome'.format(current_user.username), 'primary')
+    return redirect(url_for('index_en'))
+
+@app.route('/en', methods=['GET', 'POST'], endpoint='index_en')
+@login_required
+def index_en():
+    try:
+        directory = Config.UPLOAD_FOLDER + '/' + current_user.username +'/info_dynamics'
+        info_dynamics = open(directory,'r')
+        list_dynamics = info_dynamics.readlines()
+        return render_template('index_en.html', actindex = 'active', list_dynamics = list_dynamics)
+    except:
+        flash('You havent performed any dynamics yet.', 'danger')
+        return render_template('index_en.html', actindex = 'active')
+
+#################################
+
+
+### livre br ###
+
+@app.route('/livre', methods=['GET', 'POST'], endpoint='livre')
 @login_required
 def livre():
     if request.method == 'POST':
@@ -164,8 +238,105 @@ def livre():
             return render_template('livre.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic) 
     
     return render_template('livre.html', actlivre = 'active')
+################
 
-@app.route('/ligante', methods=['GET','POST'])
+##### livre en #####
+
+
+@app.route('/livre_en', methods=['GET', 'POST'], endpoint='livre_en')
+@login_required
+def livre_en():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        CompleteFileName = generate(file.filename,
+                                    request.form.get('campoforca'),
+                                    request.form.get('modeloagua'),
+                                    request.form.get('tipocaixa'),
+                                    request.form.get('distanciacaixa'),
+                                    request.form.get('neutralize'),
+                                    request.form.get('double'),
+                                    request.form.get('ignore'),
+                                    current_user
+                                    )  
+        if request.form.get('download') == 'Download':
+            return redirect(url_for('commandsdownload',
+                    filename={"complete" : CompleteFileName,
+                    "name": file.filename.split('.')[0]}))
+        if request.form.get('execute') == 'Executar':
+            if upload_file(file, current_user.username):
+                #checar se servidor esta em execução
+                executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
+                if not os.path.exists(executing):
+                    f = open(executing,'w')
+                    f.writelines('{}\n'.format(current_user.username))
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('livre_en'))    
+                
+                executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
+                if not os.path.exists(executingLig):
+                    f = open(executingLig, 'w')
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('livre_en'))
+            
+                #preparar para executar
+                MoleculeName = file.filename.split('.')[0]
+                filename = file.filename
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username, MoleculeName , 'run',
+                    'logs/', filename)
+
+                exc = execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
+                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+
+            else:
+                flash('Extensão do arquivo está incorreta', 'danger')
+    
+    if CheckUserDynamics(current_user.username) == True:
+            flash('','steps')    
+            steplist = CheckDynamicsSteps(current_user.username)
+            archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
+            lines = archive.readlines()
+            archive.close()
+            last_line = lines[len(lines)-1]     
+            #verifica se a execução já está  em produçãomd
+            if last_line == '#productionmd\n':
+                #acessa o diretorio do log de execução
+                archive = open(Config.UPLOAD_FOLDER + current_user.username+ '/DirectoryLog', 'r')
+                directory = archive.readline()
+                archive.close()
+                #acessa o log de execução
+                archive = open(directory,'r')
+                lines = archive.readlines()
+                archive.close()
+                #busca a ultima linha do log
+                last_line = lines[len(lines)-1]
+                if last_line.find('step ') > -1:
+                    #recebe a quantidade de step e a data de termino.
+                    date_finish = last_line        
+                    archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                    name_dynamic = archive.readline()
+                    archive.close()
+                    return render_template('livre_en.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+            
+            archive.close()
+            archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+            name_dynamic = archive.readline()
+            archive.close()        
+            return render_template('livre_en.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic) 
+    
+    return render_template('livre_en.html', actlivre = 'active')
+
+
+
+
+#######################
+
+##### ligante br #####
+@app.route('/ligante', methods=['GET','POST'], endpoint='ligante')
 @login_required
 def ligante():
     if request.method == 'POST':
@@ -258,12 +429,123 @@ def ligante():
         return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('ligante.html', actlig = 'active')
+###################
 
-@app.route('/liganteATB', methods=['GET','POST'])
+########## ligante en #############
+
+@app.route('/ligante_en', methods=['GET','POST'], endpoint='ligante_en')
+@login_required
+def ligante_en():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        fileitp = request.files.get('fileitp')
+        filegro = request.files.get('filegro')
+        CompleteFileName = generateLig(file.filename,
+                                    fileitp.filename,
+                                    filegro.filename,
+                                    request.form.get('campoforca'),
+                                    request.form.get('modeloagua'),
+                                    request.form.get('tipocaixa'),
+                                    request.form.get('distanciacaixa'),
+                                    request.form.get('neutralize'),
+                                    request.form.get('double'),
+                                    request.form.get('ignore'),
+                                    current_user
+                                    )  
+        if request.form.get('download') == 'Download':
+            name = file.filename.split('.')[0]+'_'+fileitp.filename.split('.')[0]
+            return redirect(url_for('commandsdownload',
+                    filename={"complete" : CompleteFileName,
+                    "name": name}))
+        
+        if request.form.get('execute') == 'Executar':
+            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
+                executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
+                if not os.path.exists(executingLig):
+                    f = open(executingLig,'w')
+                    f.writelines('{}\n'.format(current_user.username))
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('ligante_en'))    
+                
+                executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
+                if not os.path.exists(executing):
+                    f = open(executing, 'w')
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('ligante_en'))
+            
+                #preparar para executar
+                MoleculeName = file.filename.split('.')[0]
+                liganteitpName = fileitp.filename.split('.')[0]
+                ligantegroName = filegro.filename.split('.')[0]
+                moleculaLig = MoleculeName+'_'+liganteitpName
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                                    current_user.username,moleculaLig, 'run',
+                                    'logs/', moleculaLig)
+                
+                exc = executelig(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, filegro.filename, MoleculeName)
+                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                return redirect(url_for('ligante_en'))
+            
+            else:
+                flash('A extensão dos arquivos está incorreta', 'danger')
+            
+    if CheckUserDynamicsLig(current_user.username) == True:
+        flash('','steps')
+        steplist = CheckDynamicsStepsLig(current_user.username)
+        archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
+        lines = archive.readlines()
+        archive.close()
+        last_line = lines[len(lines)-1]     
+        #verifica se a execução já está  em produçãomd
+        if last_line == '#productionmd\n':
+            #acessa o diretorio do log de execução
+            archive = open(Config.UPLOAD_FOLDER + current_user.username + '/DirectoryLog', 'r')
+            directory = archive.readline()
+            archive.close()
+            #acessa o log de execução
+            archive = open(directory,'r')
+            lines = archive.readlines()
+            archive.close()
+            #busca a ultima linha do log
+            last_line = lines[len(lines)-1]
+            if last_line.find('step ') > -1:
+                #recebe a quantidade de step e a data de termino.
+                date_finish = last_line        
+                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                name_dynamic = archive.readline()
+                archive.close()    
+                return render_template('ligante_en.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+        
+        archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+        name_dynamic = archive.readline()
+        archive.close()                    
+        return render_template('ligante_en.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic) 
+        
+    return render_template('ligante_en.html', actlig = 'active')
+
+#######################
+
+
+##### liganteATB br #####
+@app.route('/liganteATB', methods=['GET','POST'], endpoint='liganteATB')
 @login_required
 def liganteATB():
     flash('Esta funcionalidade está em desenvolvimento', 'danger')
     return render_template('liganteATB.html', actligATB = 'active')
+##################
+
+###### liganteATB en ######
+@app.route('/liganteATB_en', methods=['GET','POST'], endpoint='liganteATB_en')
+@login_required
+def liganteATB_en():
+    flash('Esta funcionalidade está em desenvolvimento', 'danger')
+    return render_template('liganteATB_en.html', actligATB = 'active')
+
+##############
 
 @app.route('/imgfiles/<filename>')
 @login_required
@@ -346,6 +628,7 @@ def unauthorized_handler():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
 
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
