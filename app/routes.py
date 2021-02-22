@@ -542,7 +542,7 @@ def liganteATB():
 @app.route('/liganteATB_en', methods=['GET','POST'], endpoint='liganteATB_en')
 @login_required
 def liganteATB_en():
-    flash('Esta funcionalidade está em desenvolvimento', 'danger')
+    flash('This feature is in development', 'danger')
     return render_template('liganteATB_en.html', actligATB = 'active')
 
 ##############
