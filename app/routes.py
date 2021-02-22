@@ -271,7 +271,7 @@ def livre_en():
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
                 else:
-                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    flash('The same user is not allowed to perform two simultaneous dynamics.', 'danger')
                     return redirect(url_for('livre_en'))    
                 
                 executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
@@ -279,7 +279,7 @@ def livre_en():
                     f = open(executingLig, 'w')
                     f.close()
                 else:
-                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    flash('The same user is not allowed to perform two simultaneous dynamics.', 'danger')
                     return redirect(url_for('livre_en'))
             
                 #preparar para executar
@@ -290,10 +290,10 @@ def livre_en():
                     'logs/', filename)
 
                 exc = execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
-                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                flash('There was an error in the command {} with status {}'.format(exc[1],exc[0]), 'danger')
 
             else:
-                flash('Extensão do arquivo está incorreta', 'danger')
+                flash('File extension is incorrect', 'danger')
     
     if CheckUserDynamics(current_user.username) == True:
             flash('','steps')    
@@ -466,7 +466,7 @@ def ligante_en():
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
                 else:
-                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    flash('The same user is not allowed to perform two simultaneous dynamics.', 'danger')
                     return redirect(url_for('ligante_en'))    
                 
                 executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
@@ -474,7 +474,7 @@ def ligante_en():
                     f = open(executing, 'w')
                     f.close()
                 else:
-                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    flash('The same user is not allowed to perform two simultaneous dynamics.', 'danger')
                     return redirect(url_for('ligante_en'))
             
                 #preparar para executar
@@ -487,11 +487,11 @@ def ligante_en():
                                     'logs/', moleculaLig)
                 
                 exc = executelig(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, filegro.filename, MoleculeName)
-                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                flash('There was an error in the command {} with status {}'.format(exc[1],exc[0]), 'danger')
                 return redirect(url_for('ligante_en'))
             
             else:
-                flash('A extensão dos arquivos está incorreta', 'danger')
+                flash('The file extension is incorrect', 'danger')
             
     if CheckUserDynamicsLig(current_user.username) == True:
         flash('','steps')
