@@ -1124,7 +1124,7 @@ def current_dynamics():
                             #recebe a quantidade de step e a data de termino.
                             date_finish = last_line
                             #criando objeto com informações da dinâmica para exibir no front-end.   
-                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Ainda não entrou em Produção."}
+                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":date_finish}
                             #adicionando objeto a lista de dinamicas.
                             list_dynamics.append(currentDynamics) 
                     else:
@@ -1233,7 +1233,7 @@ def current_dynamics_en():
                             #recebe a quantidade de step e a data de termino.
                             date_finish = last_line
                             #criando objeto com informações da dinâmica para exibir no front-end.   
-                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":"Has not yet entered production."}
+                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":date_finish}
                             #adicionando objeto a lista de dinamicas.
                             list_dynamics.append(currentDynamics) 
                     else:
