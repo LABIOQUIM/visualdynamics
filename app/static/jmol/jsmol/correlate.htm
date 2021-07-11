@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CORRELATE: Jmol SMILES for Model Comparison</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript" src="JSmol.min.js"></script>
+
+<script type="text/javascript">
+
+// simple2.htm: demonstration of using platform-aware Jmol with jQuery
+// author: Bob Hanson hansonr@stolaf.edu 8/11/2012 8:21:03 AM
+
+// ---------------------------------------------------------------------------------
+
+////// special stuff just for this particular page
+
+var defaultDisplay = ';set antialiasdisplay;set measurementUnits angstroms;set zoomlarge false;'
+
+var script = 'set errorCallback "myCallback";set loadstructcallback "loadCallback";'
+	+ defaultDisplay
+	+'set echo top left;echo loading XXXX...;refresh;'
+	+'load ":XXXX";set echo top center;echo XXXX;'
+
+var s = unescape(document.location.search);
+var xxxx = s.split("_USE=")[0]
+if (xxxx.length < 2) {
+  xxxx = "ethanol"
+} else {
+  xxxx = xxxx.substring(1);
+  if (xxxx.indexOf("load ") >= 0) {
+    script = xxxx 	+ defaultDisplay
+
+    xxxx = ""
+  }
+}
+if (xxxx)
+  script = script.replace(/XXXX/g, xxxx)
+
+// --------------------------------------------------------------------------
+
+////// every page will need one variable and one Info object for each applet object
+
+var Info = {
+	width: 450,
+	height: 450,
+	script: script,
+	use: "HTML5",
+	jarPath: "java",
+	j2sPath: "j2s",
+	jarFile: "JmolAppletSigned.jar",
+	isSigned: false,
+	addSelectionOptions: false,
+	serverURL: "https://chemapps.stolaf.edu/jmol/jsmol/php/jsmol.php",
+	readyFunction: null,
+	console: "jmol_infodiv",
+	disableInitialConsole: true,
+	defaultModel: null,
+	debug: false
+}
+
+
+
+if (!Info.script) {
+	Info.defaultModel = "$tylenol";
+	Info.script = "#alt:LOAD :tylenol";
+}
+
+
+
+var Sources = {};
+var Titles = [];
+doReset = false;
+var lastName = "tylenol";
+
+function checkNumbering() {
+  doReset = true;
+  var name = prompt("Compound name?", lastName);
+  if (name) {
+	lastname = name;
+      getNCI(name, 0);
+  }
+}
+
+
+function getJmolVal(x) { return Jmol.evaluateVar(jmol, x) };
+function setOutput(s) {   $("#datatable").html(s); }
+
+
+function loadCallback(app,from) {
+
+  var source = (from.indexOf(".ncbi.") >= 0 ? "pubchem" : from.indexOf(".nci.")>=0 ? "nci" : "?");  
+  var nModels = getJmolVal('{"*"}.modelIndex.all.max + 1');
+  var smiles = getJmolVal("{1.1}.find('SMILES')").trim();
+  var data = {source:source, smiles:smiles};
+
+  if (doReset) {
+	Titles = [];
+	Sources = {};
+	doReset = false;
+  }
+  
+  setOutput("");
+  var task = "";
+  switch (source) {
+  case "?":
+    Sources = {user:data};
+    Titles = ["yours"];
+    task = getNCI;
+    break;
+  case "nci":
+    Sources.nci = data;
+    Titles.push("NCI");
+    task = (nModels == 1 || !Sources.pubchem ? getPubChem : go);
+    break;
+  case "pubchem":
+    Sources.pubchem = data;
+    Titles.push("PubChem");
+    task = (nModels == 1 || !Sources.nci ? getNCI : go);
+    break;
+  }
+  setTimeout(function() { task(smiles, nModels) }, 100);
+}
+
+function getNCI(smiles, nModels) {
+  Jmol.script(jmol, "echo checking NCI/CADD...")
+  Jmol.script(jmol,(nModels == 0 ? "zap;" : "") + "load append $" + smiles);
+}
+
+function getPubChem(smiles, nModels) {
+  Jmol.script(jmol, "echo checking PubChem...")
+  Jmol.script(jmol,(nModels == 0 ? "zap;" : "") + "load append :smiles:" + smiles);
+}
+
+function go() {
+  var list = getJmolVal("{1.1}.find({2.1},'map','name').MAP1to2");
+  if (Titles.length == 3) {
+
+  	var list2 = getJmolVal("{1.1}.find({3.1},'map','name').MAP1to2");
+
+	for (var i = 0; i < list.length; i++) {
+ 		list[i].push(list2[i][1]);
+	}
+  }
+  
+  var s = "<table padding=10>"
+	+ "<tr><th width=40>" + Titles.join("</th><th width=40>") + "</th></tr>"
+	+ "<tr><td>" + list.join("</td></tr><tr><td>").replace(/,/g,"</td><td>")+"</td></tr>"
+	+ "</table>";
+
+  setOutput(s);
+  Jmol.script(jmol, "set echo off");
+}
+
+
+$(document).ready(function(){	
+
+
+  Jmol.setButtonCss(null, "style='width:160px'");	
+
+
+ 
+var s = Jmol.getAppletHtml("jmol", Info)
+		+ "<br>"
+		+ Jmol.jmolButton(jmol,"frame 1", "frame 1")
+		+ Jmol.jmolButton(jmol,"frame 2", "frame 2")
+		+ Jmol.jmolButton(jmol,"frame 3", "frame 3")
+ 		+ "<br>"
+		+ Jmol.jmolButton(jmol,"select !_H;labels %a;color labels black;\
+			select modelIndex=0;background labels yellow;\
+			select modelIndex=1;background labels white;\
+			select modelIndex=2;background labels lightgreen;\
+			", "Labels on")
+		+ Jmol.jmolButton(jmol,"select *;labels off", "Labels off")
+		+ Jmol.jmolButton(jmol,"frame *;compare {2.1} {1.1} SMILES rotate translate;\
+			if ({*}[0].modelIndex == 2){compare {3.1} {1.1} SMILES rotate translate}", "SMILES-Align")
+	
+		s += "<br>"
+
+    s += Jmol.jmolButton(jmol,"console");
+		
+    s += Jmol.jmolCommandInput(jmol);
+
+$("#middlepanel").html(s);
+  
+  $("#leftpanel").html(
+ 
+"<h2>Correlate.htm</h2> This page demonstrates the power of Jmol SMILES in several different contexts. "
++"First, we use SMILES to load the same compound from two different sources. "
++"Then we use SMILES behind the scenes in <b>{1.1}.find({2.1},\"map\")</b> to correlate atoms in two or more structures. We use SMILES again to make a 1:1 mapping of atoms that we can use to align models spacially with  <b>COMPARE {2.1} {1.1} SMILES ROTATE TRANSLATE</b>. Check it out! "
++"This page is a work in progress. It doesn't tell you, for example, when one othe sources fails to return a model (not uncommon with PubChem). We could add an H atom option with just \"map hydrogen\", and we could make atom picking interactive. I'll leave those additions to others."
++"<br><br>Start by loading a compound from either PubChem "
++" or NCI/CADD. This page will load the other model (if it exists) and produce a table of atom correlations. "
++"Or, if you have your own structure, just drag-drop it into JSmol. This page will check to see if it is present "
++"in NCI/CADD or PubChem (using Jmol SMILES of course!), and, if so, produce a table of atom correlations. <br><br>"
+
+		+ Jmol.jmolButton(jmol,"javascript doReset=true ; if (!molname) { molname = 'tylenol'};\
+			var x = prompt('Enter the name or identifier (SMILES, InChI, CAS) of a molecule',molname);\
+			if (!x) { quit }; molname = x; load @{'$' + molname} #alt:LOAD $??Enter a model name","Load MOL (NCI)")
+		+ Jmol.jmolButton(jmol,"javascript doReset=true ; if (!molname) { molname = 'tylenol'};\
+			var x = prompt('Enter the name of a compound',molname);if (!x) { quit }; molname = x; \
+			load @{':' + molname} #alt:LOAD :??Enter a model name","Load MOL (PubChem)")
+		+ "<br>"
+		+ Jmol.jmolButton(jmol,"javascript doReset=true ; load ? ","Load File or URL")
+
+);
+
+$("#rightpanel").html( "<div style='position:relative;top:50px' id=datatable></div>");
+	
+	// lower panel:
+			
+Jmol.setButtonCss(null,"style='width:120px'");
+
+//$("#lowerpanel").html(s);
+
+})
+
+//]]>
+
+</script>
+</head>
+<body>
+<table style="width:1000px;margin-left:auto; margin-right:auto;">
+	<tr>
+		<td style="width:350px" valign=top><div id="leftpanel"></div></td>
+		<td valign=top><div id="middlepanel"></div></td>
+		<td valign=top rowspan=10><div id="rightpanel"></div></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td valign=top style="text-align:center"><div id="lowerpanel"></div></td>
+	</tr>
+</table>
+<div id="console"></div>
+</body>
+</html>

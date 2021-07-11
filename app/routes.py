@@ -1,3 +1,4 @@
+from os import path, remove
 from app import app, login_manager, db
 from flask import render_template, request, redirect, url_for, flash, send_file, current_app
 from .models import User
@@ -788,8 +789,7 @@ def remove_newUser_en(id):
 ############################
 
 
-
-########## admin edit br ###########3
+########## admin edit br ###########
 @app.route('/admin/edit/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def edit_user(id):
@@ -833,7 +833,8 @@ def edit_user(id):
     UserData = User.query.get(int(id))
     return render_template('edit_user.html', UserData=UserData)
 #########################
-###### admin edit en #############333
+
+###### admin edit en #############
 @app.route('/admin/edit_en/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def edit_user_en(id):
@@ -934,6 +935,25 @@ def newuser_en():
 
 ################################
 
+##############admin limpar pasta##########
+@app.route('/admin/limpar/<int:id>')
+@admin_required
+def cleanfolder(id):
+    UserData = User.query.get(int(id))
+    user = UserData.username
+    path = Config.UPLOAD_FOLDER + user
+    if os.path.exists(path):
+        try:
+            shutil.rmtree(path)
+        except OSError as e:
+            flash("Error: %s - %s " % (e.filename, e.strerror))
+        try:
+            os.mkdir(path)
+        except FileExistsError as e:
+            flash('Pasta {path} já existe.')
+        flash('Os Arquivos na pasta {} foram apagados com sucesso.'.format(user), 'primary')
+    return redirect(url_for('admin'))
+##############################################
 
 ##### admin remove br ######
 @app.route('/admin/remove/<int:id>')
