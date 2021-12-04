@@ -35,6 +35,7 @@
                     <a class="nav-item nav-link text-dark border-right {{ actindex }}" id="index" data-toggle="tab" href="{{ url_for('index_en') }}" role="tab" aria-controls="index" aria-selected="true">User Panel </a>
                         <a class="nav-item nav-link text-dark border-right {{ actlivre }}" id="livre-tab" data-toggle="tab" href="{{ url_for('livre_en') }}" role="tab" aria-controls="livre" aria-selected="false">APO Enzyme</a>
                         <a class="nav-item nav-link text-dark border-right {{ actlig }}" id="ligante-tab" data-toggle="tab" href="{{ url_for('ligante_en') }}" role="tab" aria-controls="ligante" aria-selected="false">Enzyme + Ligand (PRODRG)</a>
+                        <a class="nav-item nav-link text-dark border-right {{ actligACPYPE }}" id="ligante-tab-ACPYPE" data-toggle="tab" href="{{ url_for('liganteACPYPE_en') }}" role="tab" aria-controls="liganteACPYPE" aria-selected="false">Enzyme + Ligand (ACPYPE)</a>
                         <a class="nav-item nav-link text-dark border-right {{ actligATB }}" id="ligante-tab-ATB" data-toggle="tab" href="{{ url_for('liganteATB_en') }}" role="tab" aria-controls="liganteATB" aria-selected="false">Enzyme + Ligand (ATB - Developing)</a>
                         {% if current_user.username == 'admin' %}
                             <a class="nav-item nav-link text-dark  {{ actadmin }}" id="Admin-tab" data-toggle="tab" href="{{ url_for('admin_en') }}" role="tab" aria-controls="admin" aria-selected="false">Admin Panel</a>

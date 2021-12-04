@@ -29,13 +29,14 @@
                 </div>
             </nav>
             
-        <nav class="container-fluid jumbotron pt-1 pb-0 pl-0 mb-2">
-            <nav class="container">
+        <nav class="container jumbotron pt-1 pb-0 pl-0 mb-2">
+            <nav class="container-fluid ">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link text-dark border-right {{ actindex }}" id="index" data-toggle="tab" href="{{ url_for('index') }}" role="tab" aria-controls="index" aria-selected="true">Painel do Usuário</a>
                         <a class="nav-item nav-link text-dark border-right {{ actlivre }}" id="livre-tab" data-toggle="tab" href="{{ url_for('livre') }}" role="tab" aria-controls="livre" aria-selected="false">APO Enzima</a>
                         <a class="nav-item nav-link text-dark border-right {{ actlig }}" id="ligante-tab" data-toggle="tab" href="{{ url_for('ligante') }}" role="tab" aria-controls="ligante" aria-selected="false">Enzima + Ligante (PRODRG)</a>
-                        <a class="nav-item nav-link text-dark border-right {{ actligATB }}" id="ligante-tab-ATB" data-toggle="tab" href="{{ url_for('liganteATB') }}" role="tab" aria-controls="liganteATB" aria-selected="false">Enzima + Ligante (ATB - Em Desenvolvimento)</a>
+                        <a class="nav-item nav-link text-dark border-right {{ actligACPYPE }}" id="ligante-tab-ACPYPE" data-toggle="tab" href="{{ url_for('liganteACPYPE') }}" role="tab" aria-controls="liganteACPYPE" aria-selected="false">Enzima + Ligante (ACPYPE)</a>
+                        <a class="nav-item nav-link text-dark border-left {{ actligATB }}" id="ligante-tab-ATB" data-toggle="tab" href="{{ url_for('liganteATB') }}" role="tab" aria-controls="liganteATB" aria-selected="false">Enzima + Ligante (ATB)</a>
                         {% if current_user.username == 'admin' %}
                             <a class="nav-item nav-link text-dark  {{ actadmin }}" id="Admin-tab" data-toggle="tab" href="{{ url_for('admin') }}" role="tab" aria-controls="admin" aria-selected="false">Painel Admin</a>
                         {% endif %}
@@ -49,7 +50,7 @@
             {% if messages %}
                 <ul class=flashes>
                     {% for category, message in messages %}
-                        <li class="alert alert-{{category}} mr-4" style="list-style:none" role="alert">{{ message }}</li>
+                        <li class="alert alert-{{category}} mr-6" style="list-style:none" role="alert">{{ message }}</li>
                     {% endfor %}
                 </ul>
             {% endif %} 

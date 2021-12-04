@@ -6,8 +6,10 @@ from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
 from .generate import generate
 from .generateLig import generateLig
+from .generateLigACPYPE import generateLigACPYPE
 from .execute import execute
 from .executeLig import executelig
+from .executeLigACPYPE import executeLigACPYPE
 from .upload_file import upload_file, upload_file_ligante
 from .checkuserdynamics import CheckUserDynamics, CheckUserDynamicsLig, CheckDynamicsSteps, CheckDynamicsStepsLig
 from .admin_required import admin_required
@@ -18,6 +20,7 @@ import glob
 import smtplib
 import shutil
 from email.mime.text import MIMEText
+
 
 ### cadastro br ###
 @app.route('/cadastro', methods=['GET', 'POST'])
@@ -529,6 +532,201 @@ def ligante_en():
     return render_template('ligante_en.html', actlig = 'active')
 
 #######################
+
+###### ligante ACPYPE BR ######
+##### ligante br #####
+@app.route('/liganteACPYPE', methods=['GET','POST'], endpoint='liganteACPYPE')
+@login_required
+def liganteACPYPE():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        fileitp = request.files.get('fileitp')
+        filegro = request.files.get('filegro')
+        CompleteFileName = generateLigACPYPE(file.filename,
+                                    fileitp.filename,
+                                    filegro.filename,
+                                    request.form.get('campoforca'),
+                                    request.form.get('modeloagua'),
+                                    request.form.get('tipocaixa'),
+                                    request.form.get('distanciacaixa'),
+                                    request.form.get('neutralize'),
+                                    request.form.get('double'),
+                                    request.form.get('ignore'),
+                                    current_user
+                                    )  
+        if request.form.get('download') == 'Download':
+            name = file.filename.split('.')[0]+'_'+fileitp.filename.split('.')[0]
+            return redirect(url_for('commandsdownload',
+                    filename={"complete" : CompleteFileName,
+                    "name": name}))
+        
+        if request.form.get('execute') == 'Executar':
+            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
+                executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
+                if not os.path.exists(executingLig):
+                    f = open(executingLig,'w')
+                    f.writelines('{}\n'.format(current_user.username))
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('liganteACPYPE'))    
+                
+                executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
+                if not os.path.exists(executing):
+                    f = open(executing, 'w')
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('liganteACPYPE'))
+            
+                #preparar para executar
+                MoleculeName = file.filename.split('.')[0]
+                liganteitpName = fileitp.filename.split('.')[0]
+                ligantegroName = filegro.filename.split('.')[0]
+                moleculaLig = MoleculeName+'_'+liganteitpName
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                                    current_user.username,moleculaLig, 'run',
+                                    'logs/', moleculaLig)
+                
+                exc = executeLigACPYPE(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, ligantegroName, MoleculeName)
+                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                return redirect(url_for('liganteACPYPE'))
+            
+            else:
+                flash('A extensão dos arquivos está incorreta', 'danger')
+            
+    if CheckUserDynamicsLig(current_user.username) == True:
+        flash('','steps')
+        steplist = CheckDynamicsStepsLig(current_user.username)
+        archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
+        lines = archive.readlines()
+        archive.close()
+        last_line = lines[len(lines)-1]     
+        #verifica se a execução já está  em produçãomd
+        if last_line == '#productionmd\n':
+            #acessa o diretorio do log de execução
+            archive = open(Config.UPLOAD_FOLDER + current_user.username + '/DirectoryLog', 'r')
+            directory = archive.readline()
+            archive.close()
+            #acessa o log de execução
+            archive = open(directory,'r')
+            lines = archive.readlines()
+            archive.close()
+            #busca a ultima linha do log
+            last_line = lines[len(lines)-1]
+            if last_line.find('step ') > -1:
+                #recebe a quantidade de step e a data de termino.
+                date_finish = last_line        
+                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                name_dynamic = archive.readline()
+                archive.close()    
+                return render_template('liganteACPYPE.html', actligACPYPE = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+        
+        archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+        name_dynamic = archive.readline()
+        archive.close()                    
+        return render_template('liganteACPYPE.html', actligACPYPE = 'active', steplist=steplist, name_dynamic=name_dynamic) 
+        
+    return render_template('liganteACPYPE.html', actligACPYPE = 'active')
+###################
+
+##### ligante ACPYPE en #####
+@app.route('/liganteACPYPE_en', methods=['GET','POST'], endpoint='liganteACPYPE_en')
+@login_required
+def liganteACPYPE_en():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        fileitp = request.files.get('fileitp')
+        filegro = request.files.get('filegro')
+        CompleteFileName = generateLigACPYPE(file.filename,
+                                    fileitp.filename,
+                                    filegro.filename,
+                                    request.form.get('campoforca'),
+                                    request.form.get('modeloagua'),
+                                    request.form.get('tipocaixa'),
+                                    request.form.get('distanciacaixa'),
+                                    request.form.get('neutralize'),
+                                    request.form.get('double'),
+                                    request.form.get('ignore'),
+                                    current_user
+                                    )  
+        if request.form.get('download') == 'Download':
+            name = file.filename.split('.')[0]+'_'+fileitp.filename.split('.')[0]
+            return redirect(url_for('commandsdownload',
+                    filename={"complete" : CompleteFileName,
+                    "name": name}))
+        
+        if request.form.get('execute') == 'Executar':
+            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
+                executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
+                if not os.path.exists(executingLig):
+                    f = open(executingLig,'w')
+                    f.writelines('{}\n'.format(current_user.username))
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('liganteACPYPE_en'))    
+                
+                executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
+                if not os.path.exists(executing):
+                    f = open(executing, 'w')
+                    f.close()
+                else:
+                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
+                    return redirect(url_for('liganteACPYPE_en'))
+            
+                #preparar para executar
+                MoleculeName = file.filename.split('.')[0]
+                liganteitpName = fileitp.filename.split('.')[0]
+                ligantegroName = filegro.filename.split('.')[0]
+                moleculaLig = MoleculeName+'_'+liganteitpName
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                                    current_user.username,moleculaLig, 'run',
+                                    'logs/', moleculaLig)
+                
+                exc = executeLigACPYPE(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, ligantegroName, MoleculeName)
+                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                return redirect(url_for('liganteACPYPE_en'))
+            
+            else:
+                flash('A extensão dos arquivos está incorreta', 'danger')
+            
+    if CheckUserDynamicsLig(current_user.username) == True:
+        flash('','steps')
+        steplist = CheckDynamicsStepsLig(current_user.username)
+        archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
+        lines = archive.readlines()
+        archive.close()
+        last_line = lines[len(lines)-1]     
+        #verifica se a execução já está  em produçãomd
+        if last_line == '#productionmd\n':
+            #acessa o diretorio do log de execução
+            archive = open(Config.UPLOAD_FOLDER + current_user.username + '/DirectoryLog', 'r')
+            directory = archive.readline()
+            archive.close()
+            #acessa o log de execução
+            archive = open(directory,'r')
+            lines = archive.readlines()
+            archive.close()
+            #busca a ultima linha do log
+            last_line = lines[len(lines)-1]
+            if last_line.find('step ') > -1:
+                #recebe a quantidade de step e a data de termino.
+                date_finish = last_line        
+                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                name_dynamic = archive.readline()
+                archive.close()    
+                return render_template('liganteACPYPE_en.html', actligACPYPE = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+        
+        archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+        name_dynamic = archive.readline()
+        archive.close()                    
+        return render_template('liganteACPYPE_en.html', actligACPYPE = 'active', steplist=steplist, name_dynamic=name_dynamic) 
+        
+    return render_template('liganteACPYPE_en.html', actligACPYPE = 'active')
+###################
+
+#############################
 
 
 ##### liganteATB br #####
