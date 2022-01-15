@@ -81,26 +81,38 @@ def register():
             return redirect(url_for('register'))
 
     flash(_('Por favor, preencha os dados corretamente. Em caso de dados incorretos seu cadastro poderá ser negado.'), 'info')
-    return render_template('cadastro.html')
+    return render_template('cadastro.html', actregister='active')
 
-####login br#####
-
-@app.route('/login', methods=['GET', 'POST'])
+# INFO Login
+@app.route('/login', methods=['GET', 'POST'], endpoint='login')
 def login():
     if request.method == 'POST':
-        form_entry = request.form.get('username')
-        user = User.query.filter((User.username == form_entry) | (User.email == form_entry)).first()
-        #verifica se o usuário existe
-        if user is None or not user.check_password(request.form.get('password')):
-            flash('Usuário ou senha inválidos', 'danger')
-            return render_template('login.html')
-        #verifica se o cadastro do usuário é aceito.
+        usernameOrEmail = request.form.get('username')
+        password = request.form.get('password')
+
+        if usernameOrEmail == "":
+            flash(_('O campo Nome Completo é obrigatório'), 'warning')
+
+        if password == "":
+            flash(_('O campo Senha é obrigatório'), 'warning')
+
+        if usernameOrEmail == "" or password == "":
+            return redirect(url_for('login'))
+
+        user = User.query.filter((User.username == usernameOrEmail) | (User.email == usernameOrEmail)).first()
+
+        # Verifica se o usuário não existe ou se a senha está incorreta
+        if user is None or not user.check_password(password):
+            flash(_('Usuário ou senha inválidos'), 'danger')
+            return render_template('login.html', actlogin='active')
+
+        # Verifica se o usuário está ativo
         if user.register == 'False':
-            flash('Seu cadastro ainda não foi aceito, aguarde o Email de confirmação.', 'danger')     
-        else :
+            flash(_('Seu cadastro ainda não foi aceito, aguarde o Email de confirmação.'), 'warning')     
+        else:
             login_user(user)
             return redirect(url_for('protected'))
-    return render_template('login.html')
+    return render_template('login.html', actlogin='active')
 
 @app.route('/protected')
 @login_required
