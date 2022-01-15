@@ -20,73 +20,68 @@ import glob
 import smtplib
 import shutil
 from email.mime.text import MIMEText
+from flask_babel import _
 
-# INFO Change Preferred Language Route 
-# Change preferred-lang cookie (actually only en and pt are supported)
+# INFO Alterar Idioma
+# Altera o cookie preferred-lang (apenas 'en' e 'pt' possuem suporte)
 @app.route('/set-lang/<lang>')
 def setPreferredLang(lang):
     resp = make_response()
     resp.set_cookie("preferred-lang", value=lang)
 
-    # redirect to the page the user were when clicked the flag
+    # redireciona pra página que usuário estava quando clicou em alguma das bandeiras
     resp.headers['location'] = request.referrer
 
     return resp, 302
 
-### cadastro br ###
-@app.route('/cadastro', methods=['GET', 'POST'])
-def cadastro():
+# INFO Cadastro
+@app.route('/register', methods=['GET', 'POST'], endpoint='register')
+def register():
     if request.method == 'POST':
         name = request.form.get('name')
         user = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
-        passconfirm = request.form.get('passwordconfirm')
-        #faz checagem para verificar se usuário ou senha já são utilizados    
+        passwordconfirm = request.form.get('passwordconfirm')
+
+        if name == "":
+            flash(_('O campo Nome Completo é obrigatório'), 'warning')
+
+        if user == "":
+            flash(_('O campo Nome de Usuário é obrigatório'), 'warning')
+
+        if email == "":
+            flash(_('O campo Email deve ser válido e é obrigatório'), 'warning')
+
+        if password == "":
+            flash(_('O campo Senha é obrigatório'), 'warning')
+
+        if passwordconfirm == "":
+            flash(_('O campo Confirmar Senha é obrigatório'), 'warning')
+
+        if name == "" or user == "" or email == "" or password == "" or passwordconfirm == "":
+            return redirect(url_for('register'))
+
+        if password != passwordconfirm:
+            flash(_('ATENÇÃO. Os campos de senha e confirmar senha devem ser iguais.'), 'warning')
+            return redirect(url_for('register'))
+
+        # Verifica se usuário ou email já são utilizados
         check_email = User.query.filter(User.email == email).first()
         check_user = User.query.filter(User.username == user).first()
         if check_email is None and check_user is None:
-            new = User(name=name,username=user,email=email,register='False')
+            new = User(name=name, username=user, email=email, register='False')
             new.set_password(password)
             db.session.add(new)
             db.session.commit()
-            flash('Solicitação de cadastro do(a) Usuário(a) {} realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.'.format(user), 'primary')
+            flash(_('Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.', username=user), 'primary')
             return redirect(url_for('login'))
         else:
-            flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
-            return redirect(url_for('cadastro'))
+            flash(_('Erro, email ou usuário já estão sendo utilizados.'), 'danger')
+            return redirect(url_for('register'))
 
-    flash('Por favor, preencha os dados corretamente. Em caso de dados incorretos a solicitação de cadastro será cancelada.', 'danger')
+    flash(_('Por favor, preencha os dados corretamente. Em caso de dados incorretos seu cadastro poderá ser negado.'), 'info')
     return render_template('cadastro.html')
-
-### cadastro en ###
-@app.route('/cadastro_en', methods=['GET', 'POST'])
-def cadastro_en():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        user = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        passconfirm = request.form.get('passwordconfirm')
-        #checks to see if a username or password is already used  
-        check_email = User.query.filter(User.email == email).first()
-        check_user = User.query.filter(User.username == user).first()
-        if check_email is None and check_user is None:
-            new = User(name=name,username=user,email=email,register='False')
-            new.set_password(password)
-            db.session.add(new)
-            db.session.commit()
-            flash('User registration request {} carried out successfully. We will respond by email shortly if the request has been accepted. '.format(user), 'primary')
-            return redirect(url_for('login_en'))
-        else:
-            flash('Error, email or user are already being used.', 'danger')
-            return redirect(url_for('cadastro_en'))
-
-    flash('Please fill in the data correctly. In case of incorrect data, the registration request will be canceled.', 'danger')
-    return render_template('cadastro_en.html')
-########################
-
-
 
 ####login br#####
 
