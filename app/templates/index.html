@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container">
-  <p class="h2 text-center">{{ _("Minhas Dinâmicas") }}</p>
+  <p class="h2 mt-3 text-center">{{ _("Minhas Dinâmicas") }}</p>
   <button class="btn btn-primary" href="{{ url_for('downloadmdpfiles') }}">
     <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
   </button>
@@ -26,9 +26,9 @@
             <i class="fas fa-download" aria-hidden="true"></i> {{ _("Baixar") }}
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/dynamiccomandsdownload/{{ d }}">{{ _("Lista de Comandos") }}</a></li>
-            <li><a class="dropdown-item" href="/imgfiles/{{ d }}">{{ _("Gráficos de Análise") }}</a></li>
-            <li><a class="dropdown-item" href="/downloadlogs/{{ d }}">{{ _("Logs de Execução") }}</a></li>
+            <li><a class="dropdown-item" href="/dynamiccomandsdownload/{{ d['original'] }}">{{ _("Lista de Comandos") }}</a></li>
+            <li><a class="dropdown-item" href="/imgfiles/{{ d['original'] }}">{{ _("Gráficos de Análise") }}</a></li>
+            <li><a class="dropdown-item" href="/downloadlogs/{{ d['original'] }}">{{ _("Logs de Execução") }}</a></li>
           </ul>
         </div>
       </div>

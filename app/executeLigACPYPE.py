@@ -26,7 +26,7 @@ def executeLigACPYPE(LogFileName, CommandsFileName, username, filename, itpname,
     diretorio = Config.UPLOAD_FOLDER + username + '/info_dynamics'
     try:
         f = open(diretorio,'x+')
-        data = '{}'.format(datetime.now())
+        data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
         info = data + '|' + filename + '\n'
         f.write(info)
         f.close()
@@ -34,7 +34,7 @@ def executeLigACPYPE(LogFileName, CommandsFileName, username, filename, itpname,
     except OSError as e:
         if e.errno == errno.EEXIST:
             f = open(diretorio,'a')
-            data = '{}'.format(datetime.now())
+            data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
             info = data + '|' + filename + '\n'
             f.write(info)
                      

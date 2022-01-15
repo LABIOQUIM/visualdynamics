@@ -25,11 +25,7 @@ def generate(
     arquivo_ionizado = nome_arquivo + '_charged'
     
     # a@a.com/
-    CompleteFileName = "{} - {}-{}-{} [{}:{}:{}].txt".format(
-            nome_arquivo, datetime.now().year, datetime.now().month,
-            datetime.now().day, datetime.now().hour,
-            datetime.now().minute, datetime.now().second
-            )
+    CompleteFileName = "{}|{}.txt".format(datetime.now().replace(microsecond=0).isoformat(), nome_arquivo)
     
     # trabalhando parametros
     comandos = open(pasta + CompleteFileName, "w")

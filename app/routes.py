@@ -134,7 +134,8 @@ def index():
         for d in list_dynamics:
             obj = {
                 "date": datetime.datetime.fromisoformat(d.strip().split("|")[0]).strftime("%b %d %Y %H:%M:%S"),
-                "protein": d.strip().split("|")[1]
+                "protein": d.strip().split("|")[1],
+                "original": d
             }
             dynamics.append(obj)
 
@@ -391,7 +392,7 @@ def atb():
 @app.route('/imgfiles/<filename>')
 @login_required
 def imgsdownload(filename):
-    filename = filename.split(' ')[1]
+    filename = filename.split('|')[1]
     current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename, 'graficos')
     ziplocation = os.path.join(current_location, filename+'-graficos.zip')
     zf = zipfile.ZipFile(ziplocation,'w')
@@ -430,7 +431,7 @@ def downloadmdpfiles():
 @app.route('/dynamiccomandsdownload/<filename>')
 @login_required
 def dynamiccomandsdownload(filename):
-    filename = filename.split(' ')[1]
+    filename = filename.split('|')[1]
     os.chdir(Config.UPLOAD_FOLDER+'/'+current_user.username+'/'+filename)
     files = glob.glob("*.txt")
     files.sort(key=os.path.getmtime)
@@ -448,7 +449,7 @@ def commandsdownload(filename):
 @app.route('/downloadlogs/<filename>')
 @login_required
 def downloalogs(filename):
-    filename = filename.split(' ')[1]
+    filename = filename.split('|')[1]
     current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run','logs')
     ziplocation = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run','logs',filename+'-logs.zip')
     zf = zipfile.ZipFile(ziplocation,'w')
