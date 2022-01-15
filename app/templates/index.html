@@ -4,7 +4,7 @@
 <div class="container">
   <p class="h2 text-center">{{ _("Minhas Dinâmicas") }}</p>
   <button class="btn btn-primary" href="{{ url_for('downloadmdpfiles') }}">
-    <i class="fa fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
+    <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
   </button>
   {% if no_dynamics == 'True' %}
     <div class="card my-2">
@@ -23,7 +23,7 @@
         </div>
         <div class="dropdown ms-auto my-auto">
           <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-download" aria-hidden="true"></i> {{ _("Baixar") }}
+            <i class="fas fa-download" aria-hidden="true"></i> {{ _("Baixar") }}
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
             <li><a class="dropdown-item" href="/dynamiccomandsdownload/{{ d }}">{{ _("Lista de Comandos") }}</a></li>
