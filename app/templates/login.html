@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="w-50 mx-auto">
+<div class="container">
   <form action="/login" method="post">
     <p class="h1 my-3 text-center">{{ _("Entrar") }}</p>
 
-    <div class="form-floating mb-3">
+    <div class="form-floating mb-3 ">
       <input type="text" class="form-control" name="username" id="username" placeholder="jspinheiro">
       <label for="username">{{ _("Nome de Usuário ou Email") }}</label>
     </div>

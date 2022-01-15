@@ -1,42 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-  h3{
-      text-align: center;
-  }
-</style>
-
-<h3 class="mt-4">Lista de Dinâmicas Realizadas</h3>
-<table class="table table-striped mt-2">
-    <thead>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </thead>
-    <tbody>
-    {% for u in list_dynamics %}
-      <tr>
-        <th scope="row">{{u}}</th>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><a class="btn btn-outline-success" id="downloadcomands" href="/dynamiccomandsdownload/{{u}}"aria-controls="download"><i class="fa fa-file" aria-hidden="true"></i> Baixar Lista de Comandos</a></td>
-        <td><a class="btn btn-outline-success" id="downloadgraphics" href="/imgfiles/{{u}}" aria-controls="livre"><i class="fa fa-line-chart" aria-hidden="true"></i> Baixar Gráficos de Análise</a></td>
-        <td><a class="btn btn-outline-primary" id="downloadlog" href="/downloadlogs/{{u}}"aria-controls="livre-log"><i class="fa fa-file-archive-o" aria-hidden="true"></i> Baixar Logs</a></td>
-        <td><a class="btn btn-outline-primary" id="downloadmdpfiles" href="{{ url_for('downloadmdpfiles') }}"aria-controls="livre-mdp"><i class="fa fa-file-archive-o" aria-hidden="true"></i> Baixar mdpfiles</a></td>
-      </tr>
-    {% endfor %}    
-    </tbody>
-  </table>
+<div class="container">
+  <p class="h2 text-center">{{ _("Minhas Dinâmicas") }}</p>
+  <button class="btn btn-primary" href="{{ url_for('downloadmdpfiles') }}">
+    <i class="fa fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
+  </button>
+  {% if no_dynamics == 'True' %}
+    <div class="card my-2">
+      <div class="card-body">
+        <h5 class="card-title my-auto">{{ _("Não há dinâmicas para serem exibidas") }}</h5>
+        {{ _("Você ainda não tem dinâmicas. Utilize o menu acima para começar uma!") }}
+      </div>
+    </div>
+  {% else %}
+  {% for d in list_dynamics %}
+    <div class="card my-2">
+      <div class="card-body d-flex">
+        <h5 class="card-title my-auto">{{ d }}</h5>
+        <div class="dropdown ms-auto">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-download" aria-hidden="true"></i> {{ _("Baixar") }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="/dynamiccomandsdownload/{{ d }}">{{ _("Lista de Comandos") }}</a></li>
+            <li><a class="dropdown-item" href="/imgfiles/{{ d }}">{{ _("Gráficos de Análise") }}</a></li>
+            <li><a class="dropdown-item" href="/downloadlogs/{{ d }}">{{ _("Logs de Execução") }}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  {% endif %}
+</div>
 {% endblock %}
