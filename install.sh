@@ -1,25 +1,23 @@
 #!/bin/bash
 #script sh install Visual Dynamics
-echo "Atencao ao executar a instalacao os registros do banco de dados serao apagados."
-echo "Se for a primeira instalacao nao se preocupe com isso, sera gerado um novo login de admin que sera salvo no arquivo login.txt."
-echo "Caso voce já tenha o visual dynamics instalado, cuidado! Se realizar a instalacao novamente o banco de dados sera totalmente limpo."
-echo "Confirmar instalacao?(y = confirmar/n = cancelar)"
+echo "Atenção ao executar a instalação os registros do banco de dados serão apagados."
+echo "Se for a primeira instalação não se preocupe com isso, será gerado um novo login de admin que será salvo no arquivo login.txt."
+echo "Caso você já tenha o Visual Dynamics instalado, cuidado! Se realizar a instalação novamente o banco de dados será totalmente limpo."
+echo "Confirmar instalação?(y = confirmar/n = cancelar)"
 read resp
 if [ $resp = 'y' ];
     then
-        #install python3.7 e pip
-        sudo apt install python3.7
+        # install python3.7 e pip
         sudo apt install python3-pip
-        #install grace
+        # install grace
         sudo apt install grace
-        #install virtualenv
+        # install virtualenv
         sudo pip3 install virtualenv
         #install git
         sudo apt install git
         cd app
         git update-index --assume-unchanged app.db
-        cd ..
-        cd mdpfiles
+        cd ../mdpfiles
         git update-index --assume-unchanged md_pr.mdp
         cd ..
         #create venv
@@ -28,20 +26,16 @@ if [ $resp = 'y' ];
         source venv/bin/activate
         #install requirements
         pip3 install -r requirements.txt
-        python clear_DataBase.py 
+        python clear_database.py 
         chmod +x run.sh
-        #init server
-        export FLASK_ENV=development
-        echo "Para executar a aplicacao novamente depois desta instalacao, execute o arquivo run.sh que esta na pasta visualdynamics." 
-        echo "Para finalizar a excução precione Ctrl + c"
-        flask run
+        echo "Instalação Concluída. Para executar a aplicação execute o arquivo run.sh que está na raiz do projeto."  
 
 elif [ $resp = 'n' ];
     then
-        echo "Instalacao cancelada."
+        echo "Instalação cancelada."
 
 else 
-    echo "Opcao invalida."
+    echo "Opção inválida."
 
 fi
 #End

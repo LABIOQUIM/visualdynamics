@@ -1,6 +1,6 @@
 from os import path, remove
 from app import app, login_manager, db
-from flask import render_template, request, redirect, url_for, flash, send_file, current_app
+from flask import render_template, make_response, request, redirect, url_for, flash, send_file, current_app
 from .models import User
 from flask_login import logout_user, login_required, login_user, current_user
 from .config import os, Config
@@ -21,6 +21,17 @@ import smtplib
 import shutil
 from email.mime.text import MIMEText
 
+# INFO Change Preferred Language Route 
+# Change preferred-lang cookie (actually only en and pt are supported)
+@app.route('/set-lang/<lang>')
+def setPreferredLang(lang):
+    resp = make_response()
+    resp.set_cookie("preferred-lang", value=lang)
+
+    # redirect to the page the user were when clicked the flag
+    resp.headers['location'] = request.referrer
+
+    return resp, 302
 
 ### cadastro br ###
 @app.route('/cadastro', methods=['GET', 'POST'])

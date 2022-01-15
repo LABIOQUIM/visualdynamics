@@ -4,6 +4,7 @@ BareNecessities==0.2.8
 blinker==1.4
 Click==7.0
 Flask==1.1.1
+Flask-Babel==2.0.0
 Flask-Login==0.5.0
 Flask-Migrate==2.5.2
 Flask-SQLAlchemy==2.4.1
