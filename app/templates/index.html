@@ -17,8 +17,11 @@
   {% for d in list_dynamics %}
     <div class="card my-2">
       <div class="card-body d-flex">
-        <h5 class="card-title my-auto">{{ d }}</h5>
-        <div class="dropdown ms-auto">
+        <div>
+          <h5 class="card-title my-auto">{{ _("Proteína %(protein)s", protein=d['protein']) }}</h5>
+          <h6>{{ d['date'] }}</h6>
+        </div>
+        <div class="dropdown ms-auto my-auto">
           <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fa fa-download" aria-hidden="true"></i> {{ _("Baixar") }}
           </button>

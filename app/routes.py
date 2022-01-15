@@ -1,3 +1,4 @@
+import datetime
 from os import path, remove
 from app import app, login_manager, db
 from flask import render_template, make_response, request, redirect, url_for, flash, send_file, current_app
@@ -124,13 +125,22 @@ def protected():
 @login_required
 def index():
     try:
-        directory = Config.UPLOAD_FOLDER + '/' + current_user.username +'/info_dynamics'
-        info_dynamics = open(directory,'r')
+        directory = Config.UPLOAD_FOLDER + '/' + current_user.username + '/info_dynamics'
+        info_dynamics = open(directory, 'r')
         list_dynamics = info_dynamics.readlines()
-        return render_template('index.html', actindex='active', no_dynamics='False', list_dynamics=list_dynamics)
+
+        dynamics = []
+
+        for d in list_dynamics:
+            obj = {
+                "date": datetime.datetime.fromisoformat(d.strip().split("|")[0]).strftime("%b %d %Y %H:%M:%S"),
+                "protein": d.strip().split("|")[1]
+            }
+            dynamics.append(obj)
+
+        return render_template('index.html', actindex='active', no_dynamics='False', list_dynamics=dynamics)
     except:
         return render_template('index.html', actindex='active', no_dynamics='True')
-########################
 
 ### livre br ###
 @app.route('/apo', methods=['GET', 'POST'], endpoint='apo')
