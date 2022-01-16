@@ -112,14 +112,8 @@ def login():
             flash(_('Seu cadastro ainda não foi aceito, aguarde o Email de confirmação.'), 'warning')     
         else:
             login_user(user)
-            return redirect(url_for('protected'))
+            return redirect(url_for('index'))
     return render_template('login.html', actlogin='active')
-
-@app.route('/protected')
-@login_required
-def protected():
-    flash('Olá {}, seja bem-vindo(a)'.format(current_user.username), 'primary')
-    return redirect(url_for('index'))
 
 @app.route('/', methods=['GET', 'POST'], endpoint='index')
 @login_required
