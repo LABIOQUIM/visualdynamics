@@ -15,7 +15,7 @@
   <p class="h2 text-center">{{ _("Dinâmica em andamento") }}</p>
   <p class="h4 text-center">{{ _("Proteína %(protein)s", protein=name_dynamic) }}</p>
   {% if '#productionmd' in steplist %}
-    <p class="h6 text-center">{{ date_finish }}</p>
+  <p class="h6 text-center">{{ date_finish }}</p>
   {% endif %}
   <script>
     setInterval(function() {
@@ -23,33 +23,28 @@
     }, 10000);
   </script>
   <div class="progress" style="height: 30px">
-    <div
-      class="progress-bar progress-bar-striped progress-bar-animated"
-      role="progressbar"
-      aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-      style="{{ progress }}"
-    >
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="{{ progress }}">
       {{ progress.split(" ")[1] }}
     </div>
   </div>
   <p class="h6 my-2 text-center">
     {{ _("Etapa: ") }}
     {% if '#productionmd' in steplist %}
-      {{ _("Produção MD") }}
+    {{ _("Produção MD") }}
     {% elif '#equilibrationnpt' in steplist %}
-      {{ _("Restrição NPT") }}
+    {{ _("Restrição NPT") }}
     {% elif '#equilibrationnvt' in steplist %}
-      {{ _("Restrição NVT") }}
+    {{ _("Restrição NVT") }}
     {% elif '#minimizationconjgrad' in steplist %}
-      {{ _("Minimização Conjugate Gradient") }}
+    {{ _("Minimização Conjugate Gradient") }}
     {% elif '#minimizationsteepdesc' in steplist %}
-      {{ _("Minimização Steep Descent") }}
+    {{ _("Minimização Steep Descent") }}
     {% elif '#ions' in steplist %}
-      {{ _("Adicionar Ions") }}
+    {{ _("Adicionar Ions") }}
     {% elif '#solvate' in steplist %}
-      {{ _("Definir caixa e solvatar") }}
+    {{ _("Definir caixa e solvatar") }}
     {% elif '#topology' in steplist %}
-      {{ _("Definir Topologia") }}
+    {{ _("Definir Topologia") }}
     {% endif %}
   </p>
   {% else %}
@@ -58,7 +53,7 @@
       <label for="file" class="form-label">{{ _("Proteína Livre") }} (.pdb)</label>
       <input class="form-control" type="file" name="file" id="file" accept=".pdb" required>
     </div>
-
+    
     <div class="my-2">
       <label for="campoforca" class="form-label">{{ _("Campo de Força") }}</label>
       <input class="form-control" list="datalistCampoForca" name="campoforca" id="campoforca" placeholder="{{ _('Procurar Campo de Força') }}">
@@ -80,7 +75,7 @@
         <option value="oplsaa">OPLS-AA/L all-atom force</option>
       </datalist>
     </div>
-
+    
     <div class="my-2">
       <label for="modeloagua" class="form-label">{{ _("Modelo de Água") }}</label>
       <input class="form-control" list="datalistModeloAgua" name="modeloagua" id="modeloagua" placeholder="{{ _('Procurar Modelo de Água') }}">
@@ -93,7 +88,7 @@
         <option value="tip5p">TIP5P ({{ _("AMBER e OPLS apenas") }})</option>
       </datalist>
     </div>
-
+    
     <div class="my-2">
       <label class="form-label" for="tipocaixa">{{ _("Tipo de Caixa") }}</label>
       <select class="form-select" name="tipocaixa" id="tipocaixa">
@@ -113,44 +108,35 @@
         <input type="number" class="form-control" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa">
       </div>
     </div>
-
+    
     <div class="my-2">
       <label class="form-label" for="ns">{{ _("Tempo de Simulação") }} (ns)</label>
       <div class="input-group">
         <input class="form-control" type="number" value="2" disabled="disabled">
       </div>
     </div>
-
+    
     <div class="form-check my-1">
       <input class="form-check-input" type="checkbox" name="neutralize" id="neutralize">
       <label class="form-check-label" for="neutralize">{{ _("Neutralizar o Sistema") }}</label>
     </div>
-
+    
     <div class="form-check my-1">
       <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled" id="double">
       <label class="form-check-label" for="double">{{ _("Calcular em Dupla precisão") }}</label>
       <input type="hidden" name="double" value="True">
     </div>
-
+    
     <div class="form-check my-1">
       <input class="form-check-input" type="checkbox" name="ignore" id="ignore">
       <label class="form-check-label" for="ignore">{{ _("Ignorar Hidrogênios") }}</label>
     </div>
-
+    
     <div class="d-block">
-      <button
-        class="mt-2 mb-1 btn btn-primary w-100"
-        value="Executar"
-        name="execute"
-        onclick="setTimeout(function(){ window.location.reload(true) }, 1000);"
-      >
+      <button class="mt-2 mb-1 btn btn-primary w-100" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
         <i class="fa fa-cogs" aria-hidden="true"></i> {{ _("Executar") }}
       </button>
-      <button
-        class="my-1 btn btn-success w-100"
-        value="Download"
-        name="download"
-      >
+      <button class="my-1 btn btn-success w-100" value="Download" name="download">
         <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
       </button>
     </div>
@@ -159,35 +145,18 @@
   {% endwith %}
 </div>
 
-<!-- <script src="/app/static/jmol/jsmol/JSmol.min.js"></script>
-  <script src="/app/static/jmol/jsmol/js/Jmol2.js"></script>
-  <script>jmolInitialize("/app/static/jmol/jsmol");</script>
-  
-  <script> 
-    jmolApplet(400,"load pdb", "0");
-  </script> -->
-  
-  <script>
-    
-    document.querySelector('.custom-file-input').addEventListener("input", function(){
-      var filename = document.querySelector('#file').value;
-      var label = document.querySelector('.custom-file-label');
-      label.innerHTML = filename;
-    });    
-    
-    function validateProcessing() {
-      var filename = document.querySelector('#file').value;
-      var distance = document.querySelector('#distanciacaixa').value;
-      if (filename === "" || filename == null) {
-        alert('Deve ser selecionado um arquivo (.pdb)');
-        return false
-      }
-      if (distance === "" || distance == null) {
-        alert('Deve ser selecionada a distancia');
-        return false
-      }
-    };
-    
-  </script>
-  
-  {% endblock %}
+<script>
+  function validateProcessing() {
+    var filename = document.querySelector('#file').value;
+    var distance = document.querySelector('#distanciacaixa').value;
+    if (filename === "" || filename == null) {
+      alert('Deve ser selecionado um arquivo (.pdb)');
+      return false
+    }
+    if (distance === "" || distance == null) {
+      alert('Deve ser selecionada a distancia');
+      return false
+    }
+  };
+</script>
+{% endblock %}
