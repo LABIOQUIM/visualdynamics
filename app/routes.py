@@ -87,7 +87,7 @@ def register():
             return redirect(url_for('register'))
 
     flash(_('Por favor, preencha os dados corretamente. Em caso de dados incorretos seu cadastro poderá ser negado.'), 'info')
-    return render_template('cadastro.html', actregister='active')
+    return render_template('register.html', actregister='active')
 
 # INFO Login
 @app.route('/login', methods=['GET', 'POST'], endpoint='login')
