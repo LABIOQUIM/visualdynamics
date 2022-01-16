@@ -115,7 +115,7 @@ def login():
             return redirect(url_for('index'))
     return render_template('login.html', actlogin='active')
 
-@app.route('/', methods=['GET', 'POST'], endpoint='index')
+@app.route('/', methods=['GET'], endpoint='index')
 @login_required
 def index():
     try:
@@ -155,16 +155,16 @@ def apo():
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
                 else:
-                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                    return redirect(url_for('livre'))    
+                    flash(_('Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo.'), 'danger')
+                    return redirect(url_for('apo'))    
                 
                 executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
                 if not os.path.exists(executingLig):
                     f = open(executingLig, 'w')
                     f.close()
                 else:
-                    flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                    return redirect(url_for('livre'))
+                    flash(_('Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo.'), 'danger')
+                    return redirect(url_for('apo'))
             
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
@@ -174,45 +174,64 @@ def apo():
                     'logs/', filename)
 
                 exc = execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
-                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-
+                flash(_('Houve um erro ao executar o comando {}. Verifique os logs para mais detalhes', command=exc[1]), 'danger')
             else:
-                flash('Extensão do arquivo está incorreta', 'danger')
+                flash(_('Extensão do arquivo está incorreta'), 'danger')
     
     if CheckUserDynamics(current_user.username) == True:
-            flash('','steps')    
+            flash('', 'steps')
             steplist = CheckDynamicsSteps(current_user.username)
+
+            if '#productionmd' in steplist:
+                progress = "width: 95%"
+            elif '#equilibrationnpt' in steplist:
+                progress = "width: 87%"
+            elif '#equilibrationnvt' in steplist:
+                progress = "width: 75%"
+            elif '#minimizationconjgrad' in steplist:
+                progress = "width: 62%"
+            elif '#minimizationsteepdesc' in steplist:
+                progress = "width: 50%"
+            elif '#ions' in steplist:
+                progress = "width: 37%"
+            elif '#solvate' in steplist:
+                progress = "width: 25%"
+            elif '#topology' in steplist:
+                progress = "width: 12%"
+            else:
+                progress = "width: 5%"
+
             archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
             lines = archive.readlines()
             archive.close()
             last_line = lines[len(lines)-1]     
             #verifica se a execução já está  em produçãomd
             if last_line == '#productionmd\n':
-                #acessa o diretorio do log de execução
+                # acessa o diretorio do log de execução
                 archive = open(Config.UPLOAD_FOLDER + current_user.username+ '/DirectoryLog', 'r')
                 directory = archive.readline()
                 archive.close()
-                #acessa o log de execução
+                # acessa o log de execução
                 archive = open(directory,'r')
                 lines = archive.readlines()
                 archive.close()
-                #busca a ultima linha do log
+                # busca a ultima linha do log
                 last_line = lines[len(lines)-1]
                 if last_line.find('step ') > -1:
-                    #recebe a quantidade de step e a data de termino.
+                    # recebe a quantidade de step e a data de termino.
                     date_finish = last_line        
                     archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                     name_dynamic = archive.readline()
                     archive.close()
-                    return render_template('livre.html', actlivre = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+                    return render_template('apo.html', actapo='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
             
             archive.close()
             archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
             name_dynamic = archive.readline()
             archive.close()        
-            return render_template('apo.html', actapo='active', steplist=steplist, name_dynamic=name_dynamic) 
+            return render_template('apo.html', actapo='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic) 
     
-    return render_template('apo.html', actapo = 'active')
+    return render_template('apo.html', actapo='active')
 
 ##### ligante br #####
 @app.route('/prodrg', methods=['GET','POST'], endpoint='prodrg')
