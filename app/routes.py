@@ -131,13 +131,13 @@ def index():
                 "protein": d.strip().split("|")[1],
                 "original": d
             }
-            dynamics.append(obj)
+            dynamics.insert(0, obj)
 
         return render_template('index.html', actindex='active', no_dynamics='False', list_dynamics=dynamics)
     except:
         return render_template('index.html', actindex='active', no_dynamics='True')
 
-### livre br ###
+# INFO APO Enzima
 @app.route('/apo', methods=['GET', 'POST'], endpoint='apo')
 @login_required
 def apo():
@@ -148,10 +148,10 @@ def apo():
             return redirect(url_for('commandsdownload', filename={"complete" : CompleteFileName, "name": file.filename.split('.')[0]}))
         if request.form.get('execute') == 'Executar':
             if upload_file(file, current_user.username):
-                #checar se servidor esta em execução
+                # checar se servidor esta em execução
                 executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
                 if not os.path.exists(executing):
-                    f = open(executing,'w')
+                    f = open(executing, 'w')
                     f.writelines('{}\n'.format(current_user.username))
                     f.close()
                 else:
