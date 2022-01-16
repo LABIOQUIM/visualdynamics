@@ -35,6 +35,11 @@ def setPreferredLang(lang):
 
     return resp, 302
 
+# INFO Sobre
+@app.route('/about', methods=['GET'], endpoint='about')
+def about():
+    return render_template('about.html', actabout='active')
+
 # INFO Cadastro
 @app.route('/register', methods=['GET', 'POST'], endpoint='register')
 def register():

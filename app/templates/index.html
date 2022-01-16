@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div>
   <p class="h2 mt-3 text-center">{{ _("Minhas Dinâmicas") }}</p>
-  <button class="btn btn-primary" href="{{ url_for('downloadmdpfiles') }}">
+  <a class="btn btn-primary" href="{{ url_for('downloadmdpfiles') }}">
     <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
-  </button>
+  </a>
   {% if no_dynamics == 'True' %}
     <div class="card my-2">
       <div class="card-body">
