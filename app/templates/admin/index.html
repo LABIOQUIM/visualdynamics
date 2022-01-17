@@ -46,10 +46,10 @@
       <div class="col my-auto">
         {{ _("Ações") }}
         <div class="btn-group mt-2">
-          <a href="/admin/edit/{{u.id}}" class="btn btn-outline-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ _('Editar') }}</a>
-          <a href="/admin/limpar/{{u.id}}" class="btn btn-outline-danger "><i class="fa fa-trash-o" aria-hidden="true"></i> {{ _('Excluir Dinâmicas') }}</a>
+          <a href="/admin/edit/{{ u.id }}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ _('Editar') }}</a>
+          <a href="/admin/limpar/{{ u.id }}" class="btn btn-danger "><i class="fa fa-trash-o" aria-hidden="true"></i> {{ _('Excluir Dinâmicas') }}</a>
           {% if u.username != 'admin' %}  
-          <a href="/admin/remove/{{u.id}}" class="btn btn-outline-danger "><i class="fa fa-trash-o" aria-hidden="true"></i> {{ _('Excluir') }}</a>
+          <a href="/admin/remove/{{ u.id }}" class="btn btn-danger "><i class="fa fa-trash-o" aria-hidden="true"></i> {{ _('Excluir') }}</a>
           {% endif %}
         </div>
       </div>

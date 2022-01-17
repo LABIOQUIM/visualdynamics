@@ -546,7 +546,8 @@ def admin():
 @admin_required
 def admin_cadastros():
     NewUserData = User.query.filter(User.register == 'False')
-    return render_template('admin/requests.html', NewUserData=NewUserData)
+    count = User.query.filter(User.register == 'False').count()
+    return render_template('admin/requests.html', NewUserData=NewUserData, count=count)
 
 ############# new user ################
 @app.route('/admin/accept_newUser/<int:id>', methods=['GET', 'POST'])
