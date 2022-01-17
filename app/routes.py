@@ -494,7 +494,7 @@ def logout():
 @admin_required
 def admin():
     UserData = User.query.filter(User.register == 'True')
-    return render_template('admin.html', actadmin='active', UserData=UserData)
+    return render_template('admin/index.html', actadmin='active', UserData=UserData)
 #####################
 
 ##### admin cadastro br #####
@@ -502,7 +502,7 @@ def admin():
 @admin_required
 def admin_cadastros():
     NewUserData = User.query.filter(User.register == 'False')
-    return render_template('admin_cadastros.html', NewUserData=NewUserData)
+    return render_template('admin/requests.html', NewUserData=NewUserData)
 
 ############# new user ################
 @app.route('/admin/accept_newUser/<int:id>', methods=['GET', 'POST'])
@@ -601,7 +601,7 @@ def edit_user(id):
         flash('Erro ao editar usuário(a) {}.'.format(user), 'danger')
         return redirect(url_for('admin'))
     UserData = User.query.get(int(id))
-    return render_template('edit_user.html', UserData=UserData)
+    return render_template('admin/edit/user.html', UserData=UserData)
 
 ##### admin newUser br ########
 @app.route('/admin/newUser', methods=['GET', 'POST'], endpoint='newUser')
@@ -627,7 +627,7 @@ def newuser():
             flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
             return redirect(url_for('newuser'))
   
-    return render_template('new_user.html')
+    return render_template('admin/register.html')
 
 ##############admin limpar pasta##########
 @app.route('/admin/limpar/<int:id>')
@@ -723,7 +723,7 @@ def edit_md():
     
     archive.close()
     
-    return render_template('edit_md.html', nsteps = nsteps, dt = dt)
+    return render_template('admin/edit/md.html', nsteps = nsteps, dt = dt)
 
 ##### admin current dynamics br ########
 @app.route('/admin/current-dynamics', methods=['GET', 'POST'])
@@ -827,8 +827,8 @@ def current_dynamics():
                 #caso os arquivos estejam todos vazios, apenas renova a lista e vai para a proxima pasta.
                 list_directory += list() 
 
-        return render_template('current_dynamics.html', currentDynamics=list_dynamics)
+        return render_template('admin/executing.html', currentDynamics=list_dynamics)
     
     except:
         flash('No momento nenhuma dinâmica está em execução.', 'danger')
-        return render_template('current_dynamics.html')
+        return render_template('admin/executing.html')
