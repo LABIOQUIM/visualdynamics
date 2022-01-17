@@ -404,7 +404,6 @@ def acpype():
 @app.route('/atb', methods=['GET','POST'], endpoint='atb')
 @login_required
 def atb():
-    flash('Esta funcionalidade está em desenvolvimento', 'danger')
     return render_template('atb.html', actatb='active')
 
 @app.route('/imgfiles/<filename>')
