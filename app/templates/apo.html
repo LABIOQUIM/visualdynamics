@@ -50,62 +50,63 @@
   {% else %}
   <form class="align-items-start" method="POST" action="/apo" onsubmit="return validateProcessing()" enctype="multipart/form-data">
     <div class="my-2">
-      <label for="file" class="form-label">{{ _("Proteína Livre") }} (.pdb)</label>
+      <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
       <input class="form-control" type="file" name="file" id="file" accept=".pdb" required>
     </div>
     
     <div class="my-2">
-      <label for="campoforca" class="form-label">{{ _("Campo de Força") }}</label>
-      <input class="form-control" list="datalistCampoForca" name="campoforca" id="campoforca" placeholder="{{ _('Procurar Campo de Força') }}">
-      <datalist id="datalistCampoForca">
-        <option value="amber03">AMBER03 protein, nucleic AMBER94</option>
-        <option value="amber94">AMBER94 force field</option>
-        <option value="amber96">AMBER96 protein, nucleic AMBER94</option>
-        <option value="amber99">AMBER99 protein, nucleic AMBER94</option>
-        <option value="amber99sb">AMBER99SB protein, nucleic AMBER94</option>
-        <option value="amber99sb-ildn">AMBER99SB-ILDN protein, nucleic AMBER94</option>
-        <option value="amberGS">AMBERGS force field</option>
-        <option value="charmm27">CHARMM27 all-atom force field</option>
-        <option value="gromos43a1">GROMOS96 43a1 force field</option>
-        <option value="gromos43a2">GROMOS96 43a2 force field</option>
-        <option value="gromos45a3">GROMOS96 45a3 force field</option>
-        <option value="gromos53a5">GROMOS96 53a5 force field</option>
-        <option value="gromos53a6" selected>GROMOS96 53a6 force field</option>
-        <option value="gromos54a7">GROMOS96 54a7 force field</option>
-        <option value="oplsaa">OPLS-AA/L all-atom force</option>
-      </datalist>
+      <div class="form-floating">
+        <select class="form-select" id="campoforca" name="campoforca">
+          <option value="amber03">AMBER03 protein, nucleic AMBER94</option>
+          <option value="amber94">AMBER94 force field</option>
+          <option value="amber96">AMBER96 protein, nucleic AMBER94</option>
+          <option value="amber99">AMBER99 protein, nucleic AMBER94</option>
+          <option value="amber99sb">AMBER99SB protein, nucleic AMBER94</option>
+          <option value="amber99sb-ildn">AMBER99SB-ILDN protein, nucleic AMBER94</option>
+          <option value="amberGS">AMBERGS force field</option>
+          <option value="charmm27">CHARMM27 all-atom force field</option>
+          <option value="gromos43a1">GROMOS96 43a1 force field</option>
+          <option value="gromos43a2">GROMOS96 43a2 force field</option>
+          <option value="gromos45a3">GROMOS96 45a3 force field</option>
+          <option value="gromos53a5">GROMOS96 53a5 force field</option>
+          <option value="gromos53a6" selected>GROMOS96 53a6 force field</option>
+          <option value="gromos54a7">GROMOS96 54a7 force field</option>
+          <option value="oplsaa">OPLS-AA/L all-atom force</option>
+        </select>
+        <label for="campoforca">{{ _("Campo de Força") }}</label>
+      </div>
     </div>
     
     <div class="my-2">
-      <label for="modeloagua" class="form-label">{{ _("Modelo de Água") }}</label>
-      <input class="form-control" list="datalistModeloAgua" name="modeloagua" id="modeloagua" placeholder="{{ _('Procurar Modelo de Água') }}">
-      <datalist id="datalistModeloAgua">
-        <option value="spc">SPC simple point charge ({{ _("Recomendado para GROMOS") }})</option>
-        <option value="spce">SPC/E extended simple point charge</option>
-        <option value="none">None</option>
-        <option value="tip3p">TIP3P ({{ _("AMBER e OPLS apenas") }})</option>
-        <option value="tip4p">TIP4P ({{ _("AMBER e OPLS apenas") }})</option>
-        <option value="tip5p">TIP5P ({{ _("AMBER e OPLS apenas") }})</option>
-      </datalist>
+      <div class="form-floating">
+        <select class="form-select" id="modeloagua" name="modeloagua">
+          <option value="spc" selected>SPC simple point charge ({{ _("Recomendado para GROMOS") }})</option>
+          <option value="spce">SPC/E extended simple point charge</option>
+          <option value="none">None</option>
+          <option value="tip3p">TIP3P ({{ _("AMBER e OPLS apenas") }})</option>
+          <option value="tip4p">TIP4P ({{ _("AMBER e OPLS apenas") }})</option>
+          <option value="tip5p">TIP5P ({{ _("AMBER e OPLS apenas") }})</option>
+        </select>
+        <label for="modeloagua">{{ _("Modelo de Água") }}</label>
+      </div>
     </div>
     
     <div class="my-2">
-      <label class="form-label" for="tipocaixa">{{ _("Tipo de Caixa") }}</label>
-      <select class="form-select" name="tipocaixa" id="tipocaixa">
-        <option selected value="cubic">Cubic</option>
-        <option value="triclinic">Triclinic</option>
-        <option value="dodecahedron">Dodecahedron</option>
-        <option value="octahedron">Octahedron</option>
-      </select>
+      <div class="form-floating">
+        <select class="form-select" name="tipocaixa" id="tipocaixa">
+          <option value="cubic" selected>Cubic</option>
+          <option value="triclinic">Triclinic</option>
+          <option value="dodecahedron">Dodecahedron</option>
+          <option value="octahedron">Octahedron</option>
+        </select>
+        <label class="form-label" for="tipocaixa">{{ _("Tipo de Caixa") }}</label>
+      </div>
     </div>
     
     <div class="my-2">
-      <label class="form-label" for="tipocaixa">{{ _("Tipo de Caixa") }}</label>
-      <div class="input-group">
-        <span class="input-group-text" id="basic-addon1">
-          <img src="{{ url_for('static', filename='svg/angstrom.svg') }}" width="13">
-        </span>
-        <input type="number" class="form-control" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa">
+      <div class="form-floating">
+        <input type="number" class="form-control" value="0" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa">
+        <label for="distanciacaixa">{{ _("Distância entre a proteína e a borda da caixa") }}</label>
       </div>
     </div>
     
@@ -123,7 +124,7 @@
     
     <div class="form-check my-1">
       <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled" id="double">
-      <label class="form-check-label" for="double">{{ _("Calcular em Dupla precisão") }}</label>
+      <label class="form-check-label" for="double">{{ _("Calcular em dupla precisão") }}</label>
       <input type="hidden" name="double" value="True">
     </div>
     
