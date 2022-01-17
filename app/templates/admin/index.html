@@ -1,16 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <p class="h2 text-center my-2">{{ _("Área do Administrador") }}</p>
 
 <div class="text-center">
   <div class="btn-group my-2">
     <a href="/admin/cadastros" class="btn btn-success">
       <i class="fas fa-user-plus" aria-hidden="true"></i> {{ _('Solicitações de Cadastro') }}
-    </a>
-    <a href="/admin/newUser" class="btn btn-success">
-      <i class="fas fa-user-plus" aria-hidden="true"></i> {{ _('Cadastrar Usuário') }}
     </a>
     <a href="/admin/current-dynamics" class="btn btn-info">
       <i class="fas fa-cogs" aria-hidden="true"></i> {{ _('Dinâmicas em Execução') }}

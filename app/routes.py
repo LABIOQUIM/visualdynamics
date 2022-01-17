@@ -648,32 +648,6 @@ def edit_user(id):
     UserData = User.query.get(int(id))
     return render_template('admin/edit/user.html', UserData=UserData)
 
-##### admin newUser br ########
-@app.route('/admin/newUser', methods=['GET', 'POST'], endpoint='newUser')
-@admin_required
-def newuser():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        user = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        passconfirm = request.form.get('passwordconfirm')
-        #faz checagem para verificar se usuário ou senha já são utilizados    
-        check_email = User.query.filter(User.email == email).first()
-        check_user = User.query.filter(User.username == user).first()
-        if check_email is None and check_user is None:
-            new = User(name=name,username=user,email=email,register='True')
-            new.set_password(password)
-            db.session.add(new)
-            db.session.commit()
-            flash('Cadastro do(a) Usuário(a) {} realizado com sucesso.'.format(user), 'primary')
-            return redirect(url_for('admin'))
-        else:
-            flash('Erro, email  ou usuário já estão sendo utilizados.', 'danger')
-            return redirect(url_for('newuser'))
-  
-    return render_template('admin/register.html')
-
 ##############admin limpar pasta##########
 @app.route('/admin/limpar/<int:id>')
 @admin_required
