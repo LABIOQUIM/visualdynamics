@@ -2,62 +2,76 @@
 
 {% block content %}
 
-<style>
-    h2,p{
-        text-align: center;
-    }
-</style>
 
-<div class="container mt-4">
-    <h2><strong>Editar Usuário</strong></h2>
-    <p>Para editar somente usuário e/ou email, deixe o campo de senha em branco</p>
-    <div class="row justify-content-center align-items-start">
-        <form class="align-items-center text-center mt-0" action="/admin/edit/{{UserData.id}}" method="post" onsubmit="return validateForm()">
-            <label for="username" class="form-control-label text-center mt-3">Nome Completo</label>
-            <input class="form-control" name='name' id='name' type="input" aria-describedby="emailHelp" value="{{UserData.name}}">
-            <label for="username" class="form-control-label text-center mt-3">Usuário</label>
-            <input class="form-control" name='username' id='username' type="input" aria-describedby="emailHelp" value="{{UserData.username}}">
-            <label for="username" class="form-control-label text-center mt-3">Email</label>
-            <input class="form-control" name='email' id='username' type="input" aria-describedby="emailHelp" value="{{UserData.email}}">
-            <label for="password" class="form-control-label mt-3">Nova Senha</label>
-            <input class="form-control" name="password" id="password" type="password" placeholder="Senha">
-            <label for="password" class="form-control-label mt-3">Confirmar Nova Senha</label>
-            <input class="form-control mb-3" name="passwordconfirm" id="password" type="password" placeholder="Senha">
-            <button class="m-2 btn btn-primary" type="submit" name="submit"><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
-            <a class="m-2 btn btn-danger" href="{{ url_for('admin') }}"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
-        </form>
-    </div>
-</div>
+<form action="/admin/edit/{{ UserData.id }}" method="post" onsubmit="return validateForm()">
+  <p class="h2 text-center my-2">{{ _("Modificando Usuário %(username)s", username=UserData.username) }}</p>
+
+  <div class="alert alert-info my-2" role="alert">
+    {{ _("Para manter a senha atual deixe os campos em branco") }}
+  </div>
+
+  <div class="form-floating my-2">
+    <input type="text" class="form-control" name="name" id="name" value="{{ UserData.name }}">
+    <label for="name">{{ _("Nome Completo") }}</label>
+  </div>
+
+  <div class="form-floating my-2">
+    <input type="text" class="form-control" name="username" id="username" value="{{ UserData.username }}">
+    <label for="username">{{ _("Nome de Usuário") }}</label>
+  </div>
+
+  <div class="form-floating my-2">
+    <input type="email" class="form-control" name="email" id="email" value="{{ UserData.email }}">
+    <label for="email">{{ _("Email") }}</label>
+  </div>
+
+  <div class="form-floating my-2">
+    <input type="password" class="form-control" name="password" id="password" placeholder="******">
+    <label for="password">{{ _("Senha") }}</label>
+  </div>
+
+  <div class="form-floating my-2">
+    <input type="password" class="form-control" name="passwordconfirm" id="passwordconfirm" placeholder="******">
+    <label for="passwordconfirm">{{ _("Confirmar Senha") }}</label>
+  </div>
+  
+  <button class="mt-2 mb-1 btn btn-primary w-100" type="submit" name="submit">
+    <i class="fas fa-check" aria-hidden="true"></i> {{ _("Confirmar") }}
+  </button>
+  <a class="my-1 btn btn-danger w-100" href="{{ url_for('admin') }}">
+    <i class="fas fa-times" aria-hidden="true"></i> {{ _("Cancelar") }}
+  </a>
+</form>
 
 <script>
-    function validateForm() {
-        //RE q valida email
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        name = document.forms[0][0].value;
-        username = document.forms[0][1].value;
-        email = document.forms[0][2].value;
-        password = document.forms[0][3].value;
-        passwordconfirm = document.forms[0][4].value;
-        if (name === null || name === "") {
-            alert("Nome Completo deve ser preenchido");
-            return false;
-            }
-        if (username === null || username === "") {
-            alert("Usuário deve ser preenchido");
-            return false;
-            }
-        if (email === null || email === "") {
-            alert("Email deve ser preenchido");
-            return false;
-            }        
-        if (re.test(email) === false) {
-            alert("Email inválido")
-            return false
-        }
-        if (password !== passwordconfirm) {
-            alert("As senhas digitadas são diferentes")
-            return false
-        }
-    };
+  function validateForm() {
+    //RE q valida email
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    name = document.forms[0][0].value;
+    username = document.forms[0][1].value;
+    email = document.forms[0][2].value;
+    password = document.forms[0][3].value;
+    passwordconfirm = document.forms[0][4].value;
+    if (name === null || name === "") {
+      alert("Nome Completo deve ser preenchido");
+      return false;
+    }
+    if (username === null || username === "") {
+      alert("Usuário deve ser preenchido");
+      return false;
+    }
+    if (email === null || email === "") {
+      alert("Email deve ser preenchido");
+      return false;
+    }        
+    if (re.test(email) === false) {
+      alert("Email inválido")
+      return false
+    }
+    if (password !== passwordconfirm) {
+      alert("As senhas digitadas são diferentes")
+      return false
+    }
+  };
 </script>
 {% endblock %}
