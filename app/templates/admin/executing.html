@@ -1,59 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-  h3{
-      text-align: center;
-  }
-</style>
+<p class="h2 text-center my-2">{{ _("Dinâmicas em Execução") }}</p>
 
-<h3 class="mt-4">Lista de Dinâmicas em Execução</h3>
-<table class="table table-striped mt-2">
-    <thead>
-      <th></th>
-      <th scope="col">Usuário</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th scope="col">Dinâmica</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th scope="col">Data de Conclusão</th>
-      <th></th>
-    </thead>
-    <tbody>
-      {% for u in currentDynamics %}
-      <tr>
-        <td></td>
-        <td>{{u.username}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>{{u.name_dynamic}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>{{u.date_finish}}</td>
-        <td></td>
-      </tr> 
-      {% endfor %}   
-    </tbody>
-  </table>
+{% for d in currentDynamics %}
+<div class="card my-2">
+  <div class="card-body">
+    <div class="row">
+      <div class="row">
+        <div class="col-2 my-auto">
+          {{ _("Nome de Usuário") }}
+          <p class="h5">{{ d.username }}</p>
+        </div>
+        <div class="col my-auto">
+          {{ _("Proteína") }}
+          <p class="h5">{{ d.name_dynamic }}</p>
+        </div>
+        <div class="col my-auto">
+          {{ _("Previsão de Término") }}
+          <p class="h5">{{ d.date_finish }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endblock %}
