@@ -289,6 +289,28 @@ def prodrg():
     if CheckUserDynamicsLig(current_user.username) == True:
         flash('','steps')
         steplist = CheckDynamicsStepsLig(current_user.username)
+
+        if '#productionmd' in steplist:
+            progress = "width: 95%"
+        elif '#equilibrationnpt' in steplist:
+            progress = "width: 88%"
+        elif '#equilibrationnvt' in steplist:
+            progress = "width: 77%"
+        elif '#minimizationconjgrad' in steplist:
+            progress = "width: 66%"
+        elif '#minimizationsteepdesc' in steplist:
+            progress = "width: 55%"
+        elif '#ions' in steplist:
+            progress = "width: 44%"
+        elif '#solvate' in steplist:
+            progress = "width: 33%"
+        elif '#break' in steplist:
+            progress = "width: 22%"
+        elif '#topology' in steplist:
+            progress = "width: 11%"
+        else:
+            progress = "width: 5%"
+
         archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
         lines = archive.readlines()
         archive.close()
@@ -311,16 +333,16 @@ def prodrg():
                 archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                 name_dynamic = archive.readline()
                 archive.close()    
-                return render_template('ligante.html', actlig = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+                return render_template('prodrg.html', actprodrg='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
         archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
         name_dynamic = archive.readline()
         archive.close()                    
-        return render_template('prodrg.html', actprodrg='active', steplist=steplist, name_dynamic=name_dynamic) 
+        return render_template('prodrg.html', actprodrg='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('prodrg.html', actprodrg='active')
 
-###### ligante ACPYPE BR ######
+# INFO ACPYPE
 @app.route('/acpype', methods=['GET','POST'], endpoint='acpype')
 @login_required
 def acpype():
@@ -369,6 +391,28 @@ def acpype():
     if CheckUserDynamicsLig(current_user.username) == True:
         flash('','steps')
         steplist = CheckDynamicsStepsLig(current_user.username)
+
+        if '#productionmd' in steplist:
+            progress = "width: 95%"
+        elif '#equilibrationnpt' in steplist:
+            progress = "width: 88%"
+        elif '#equilibrationnvt' in steplist:
+            progress = "width: 77%"
+        elif '#minimizationconjgrad' in steplist:
+            progress = "width: 66%"
+        elif '#minimizationsteepdesc' in steplist:
+            progress = "width: 55%"
+        elif '#ions' in steplist:
+            progress = "width: 44%"
+        elif '#solvate' in steplist:
+            progress = "width: 33%"
+        elif '#break' in steplist:
+            progress = "width: 22%"
+        elif '#topology' in steplist:
+            progress = "width: 11%"
+        else:
+            progress = "width: 5%"
+
         archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
         lines = archive.readlines()
         archive.close()
@@ -391,12 +435,12 @@ def acpype():
                 archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                 name_dynamic = archive.readline()
                 archive.close()    
-                return render_template('liganteACPYPE.html', actligACPYPE = 'active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+                return render_template('acpype.html', actacpype='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
         archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
         name_dynamic = archive.readline()
         archive.close()                    
-        return render_template('liganteACPYPE.html', actacpype='active', steplist=steplist, name_dynamic=name_dynamic) 
+        return render_template('acpype.html', actacpype='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('acpype.html', actacpype='active')
 
