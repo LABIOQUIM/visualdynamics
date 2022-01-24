@@ -575,7 +575,7 @@ def accept_newUser(id):
     server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, message)
     server.quit()
     flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(UserData.username), 'primary')
-    return redirect(url_for('admin_cadastros'))
+    return redirect(url_for('admin_cadastro'))
 
 ####### admin_remove_br #########
 @app.route('/admin/remove_newUser/<int:id>')
