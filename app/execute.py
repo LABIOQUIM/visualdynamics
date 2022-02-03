@@ -68,8 +68,8 @@ def execute(LogFileName, CommandsFileName, username, filename):
     
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
-    os.remove(Config.UPLOAD_FOLDER + username +'/DirectoryLog')
+    os.remove(Config.UPLOAD_FOLDER + username + '/executingLig')
+    os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
 
 
 def create_log(LogFileName, username):
@@ -82,7 +82,7 @@ def create_log(LogFileName, username):
             datetime.now().day, datetime.now().hour,
             datetime.now().minute, datetime.now().second,
             '.log.txt'
-            )
+        )
     
     LogFile = open(LogFileName, "w+")
     f = open(Config.UPLOAD_FOLDER + username + '/DirectoryLog', 'w')
