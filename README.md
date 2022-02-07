@@ -1,11 +1,10 @@
-<a href="https://www.rondonia.fiocruz.br/laboratorios/bioinformatica-e-quimica-medicinal/" target="_blank">
-    <img alt="Fiocruz Rondônia" src="./app/static/img/fiocruz-ro.png" style="display: block; margin: 0 auto; margin-bottom: 20px;"  width="50%" />
-</a>
-
-<div style="text-align: center">
-    <p style="font-size: 30px; line-height: 30px;">Visual Dynamics</p>
-    <p style="font-size: 20px; line-height: 20px;">A web platform to perform molecular dynamics</p>
-</div>
+<p align="center">
+    <a href="https://www.rondonia.fiocruz.br/laboratorios/bioinformatica-e-quimica-medicinal/" target="_blank">
+        <img alt="Fiocruz Rondônia" src="./app/static/img/fiocruz-ro.png" style="display: block; margin: 0 auto; margin-bottom: 20px;"  width="50%" />
+    </a>
+</p>
+<h1 align="center" style="border-bottom: none;">Visual Dynamics</h1>
+<h3 align="center">A web platform to perform molecular dynamics</h3>
 
 #
 Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides graphical outputs of said dynamic.
