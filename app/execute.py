@@ -6,35 +6,33 @@ import errno
 def execute(LogFileName, CommandsFileName, username, filename):
     LogFile = create_log(LogFileName, username) #cria o arquivo log
 
-    #salvando nome da dinamica para exibir na execução
-    f = open(Config.UPLOAD_FOLDER+username+'/'+'namedynamic.txt','w')
+    # salvando nome da dinamica para exibir na execução
+    f = open(Config.UPLOAD_FOLDER + username + '/namedynamic.txt', 'w')
     f.write(filename)
     f.close()
     
-    #transferir os arquivos mdp necessarios para a execução
-    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
+    # transferir os arquivos mdp necessarios para a execução
+    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' # pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
     MDPList = os.listdir(SecureMdpFolder)
 
     for mdpfile in MDPList:
-        #armazenar o nome completo do arquivo, seu caminho dentro sistema operacional
+        # armazenar o nome completo do arquivo, seu caminho dentro sistema operacional
         fullmdpname = os.path.join(SecureMdpFolder, mdpfile)
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
 
     diretorio = Config.UPLOAD_FOLDER + username + '/info_dynamics'
+    info = f'{datetime.now().replace(microsecond=0).isoformat()}|{filename}\n'
     try:
         f = open(diretorio,'x+')
-        data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
-        info = data + '|' + filename + '\n'
         f.write(info)
         f.close()
     except OSError as e:
         if e.errno == errno.EEXIST:
             f = open(diretorio,'a')
-            data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
-            info = data + '|' + filename + '\n'
             f.write(info)
+            f.close()
     
     #abrir arquivo
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
@@ -48,10 +46,10 @@ def execute(LogFileName, CommandsFileName, username, filename):
         if l[0] == '#':
             WriteUserDynamics(l,username)
         else:
-            #estabelecer o diretorio de trabalho
+            # estabelecer o diretorio de trabalho
             os.chdir(RunFolder)
-            #parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
-            #parametro stout=LogFile pra escrever log
+            # parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
+            # parametro stout=LogFile pra escrever log
             process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
             
             try:
@@ -63,36 +61,29 @@ def execute(LogFileName, CommandsFileName, username, filename):
                     os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
                     return (e.args)
 
-        #except subprocess.CalledProcessError as e:
-    #raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+        # except subprocess.CalledProcessError as e:
+    # raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
     
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER + username + '/executing')
     os.remove(Config.UPLOAD_FOLDER + username + '/executingLig')
     os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
 
-
 def create_log(LogFileName, username):
-    #formatando nome do arquivo log
+    # formatando nome do arquivo log
     LogFileName = LogFileName.split('.')
     LogFileName.pop()
-    LogFileName = ".".join(LogFileName)+\
-            "-{}-{}-{}[{}:{}:{}]{}".format(
-            datetime.now().year, datetime.now().month,
-            datetime.now().day, datetime.now().hour,
-            datetime.now().minute, datetime.now().second,
-            '.log.txt'
-        )
+    LogFileName = ".".join([".".join(LogFileName), f'{format(datetime.now().replace(microsecond=0).isoformat())}.log'])
     
     LogFile = open(LogFileName, "w+")
     f = open(Config.UPLOAD_FOLDER + username + '/DirectoryLog', 'w')
     f.write(LogFileName)
     return LogFile
 
-def WriteUserDynamics(line,username):
+def WriteUserDynamics(line, username):
     filename = Config.UPLOAD_FOLDER + username + '/executing'
     try:
-        f = open(filename,'a')
+        f = open(filename, 'a')
         f.write(line + '\n')
         f.close()
     except OSError:

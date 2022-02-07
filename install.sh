@@ -82,6 +82,7 @@ if [ $resp = 'y' ]; then
     pip3 install -r requirements.txt
     python clear_database.py 
     chmod +x run.sh
+    flask translate compile
     echo "Instalação Concluída. Para executar a aplicação execute o arquivo run.sh que está na raiz do projeto."  
 
 elif [ $resp = 'n' ];
