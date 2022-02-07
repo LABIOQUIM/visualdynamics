@@ -1,64 +1,58 @@
-# Project Visual Dynamics - LABIOQUIM FIOCRUZ RONDÔNIA
-<div style="display:inline-block">
-    <img src="https://user-images.githubusercontent.com/41759966/73852968-7a796080-4806-11ea-9dd1-5a7ed0733450.png" alt="drawing" width="200" height="80"/>
-    <img src="https://user-images.githubusercontent.com/41759966/73858449-c7613500-480e-11ea-8159-1c3bdb9b4c8c.png" alt="drawing" width="200" height="105"/>
+<a href="https://www.rondonia.fiocruz.br/laboratorios/bioinformatica-e-quimica-medicinal/" target="_blank">
+    <img alt="Fiocruz Rondônia" src="./app/static/img/fiocruz-ro.png" style="display: block; margin: 0 auto; margin-bottom: 20px;"  width="50%" />
+</a>
+
+<div style="text-align: center">
+    <p style="font-size: 30px; line-height: 30px;">Visual Dynamics</p>
+    <p style="font-size: 20px; line-height: 20px;">A web platform to perform molecular dynamics</p>
 </div>
 
-### Para realizar as dinâmicas é necessário ter instalado o GROMACS series 2019 ou 2020.
-### To perform the dynamics, it is necessary to have installed the GROMACS 2019 or 2020 series.
-- Acesse o link para realizar a instalação e siga o installation guide do site: <http://manual.gromacs.org/documentation/>
-- Access the link to perform the installation follow the installation guide from the website: <http://manual.gromacs.org/documentation/>
+#
+Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides graphical outputs of said dynamic.
 
-### Aconselhamos a instação do Anaconda Python 3.7.
-- Acese o link: <https://www.anaconda.com/distribution/>
-- Acess the link: <https://www.anaconda.com/distribution/>
+## Installation
+As a web service that can be accessed at any time [here](http://visualdynamics.fiocruz.br/), you probably will only need to install it from scratch if you want to contribute or to self-host it, for that, we got you covered.
 
-### Manual para instalação do Visual Dynamics em distribuições baseadas no Debian.
-### Installation guide Visual Dynamics on Debian-based distributions.
+### For Arch Linux and variants:
+We completely automated the installation process for Arch, just clone the repository and run the install
+```zsh
+git clone git@github.com:LABIOQUIM/visualdynamics.git
+cd visualdynamics
+./install.sh
+```
+This should be enough to get you started on Arch.
 
-#### Abra o seu terminal para Iniciar a instalação.
-#### Open your terminal to start the installation.
+### For Debian Linux and variants:
+Unlike Arch, we don't provide an automated installation for Debian and variants (like Ubuntu), but we do provide an easy to undestand tutorial to get started.  
+We'll start by updating our system and then install Grace and FFTW3:
+```zsh
+sudo apt-get update
+sudo apt-get install grace fftw3
+```
 
-##### É necessário ter o git instalado. 
-Instalar(Install) git: 
-~~~Shell scripts 
-> sudo apt-get install git
-~~~
-- Clone o repositório do projeto visualdynamics:
-- Clone the visualdynamics project repository:
-~~~Shell scripts
-> git clone git@github.com:LABIOQUIM/visualdynamics.git
-~~~
-- Acesse à pasta **visualdynamics** no seu terminal:
-- Access the **visualdynamics** folder on your terminal: 
-~~~Shell scripts
-> cd visualdynamics
-~~~
-- Execute os comandos:
-- Run the commands:
-~~~Shell scripts
-> chmod +x install.sh
-> ./install.sh
-~~~
+With Grace installed, we'll move on to compile and install GROMACS 2021.4  
+If you prefer reading the official documentation, you can head [here](https://manual.gromacs.org/documentation/2021.4/install-guide/index.html)
+```zsh
+curl https://ftp.gromacs.org/gromacs/gromacs-2021.4.tar.gz --output gromacs-20214.tar.gz
+tar xfz gromacs-2021.4.tar.gz
+cd gromacs-2021.4
+mkdir build
+cd build
+cmake .. -DGMX_BUILD_OWN_FFTW=OFF -DREGRESSIONTEST_DOWNLOAD=ON
+make
+make check
+sudo make install
+source /usr/local/gromacs/bin/GMXRC
+```
+This should suffice to get your GROMACS up and running.  
+With both our dependencies installed, we can then clone the repository and start our service
+```sh
+git clone git@github.com:LABIOQUIM/visualdynamics.git
+cd visualdynamics
+./install.sh
+```
+When the installation ends you can just run `./run.sh` and the service will start, by default it will be accessible at `localhost:5000`.  
+There'll be a file named `login.txt` that contains your generated admin user and password.
 
-### Ao fim da instalação o servidor será iniciado.
-### At the end of the installation the server will start.
-- Para finalizar pressione Ctrl + c
-- To finish press Ctrl + c
-________________________________________________________________________________________________________
-#### Caso tenha saido da pasta visualdynamics acesse ela novamente pelo terminal.
-#### If you left the visualdynamics folder, access it again through the terminal.
-- Para executar a aplicação após a instalação, execute o comando:
-- To run the application after installation, run the command:
-~~~Shell scripts
-./run.sh
-~~~
-________________________________________________________________________________________________________
-
-### Desenvolvido por:
-- Eduardo Buganemi Botelho
-- Dr. Fernando Berton Zanchi
-- Dr. Rafael Andrade Caceres
-- [Thales Junior de Souza Gomes](https://github.com/ThalesGomesJr)
-- Duvidas? Envie um e-mail para <fernando.zanchi@fiocruz.br>
-#### Copyright © LABIOQUIM - FIOCRUZ RONDÔNIA
+## License
+The Visual Dynamics source code is available under the [MIT License](./LICENSE). Some of the dependencies are licensed differently, so watch out for them.
