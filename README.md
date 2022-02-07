@@ -3,10 +3,11 @@
         <img alt="Fiocruz Rondônia" src="./app/static/img/fiocruz-ro.png" style="display: block; margin: 0 auto; margin-bottom: 20px;"  width="50%" />
     </a>
 </p>
-<h1 align="center" style="border-bottom: none;">Visual Dynamics</h1>
-<h3 align="center">A web platform to perform molecular dynamics</h3>
 
-#
+<a href="http://visualdynamics.fiocruz.br/" target="_blank">
+    <h1 align="center">Visual Dynamics</h1>
+</a>
+
 Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides graphical outputs of said dynamic.
 
 ## Installation
