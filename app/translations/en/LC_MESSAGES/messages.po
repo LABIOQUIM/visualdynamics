@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-01-24 16:45-0400\n"
+"POT-Creation-Date: 2022-02-15 16:40-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -47,7 +47,9 @@ msgstr "ATTENTION. The password and confirm password must match"
 msgid ""
 "Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com "
 "sucesso. Em breve responderemos por Email se a solicitação foi aceita."
-msgstr "Register Request for user %(username)s recorded. We'll contact you via email once your account is activated"
+msgstr ""
+"Register Request for user %(username)s recorded. We'll contact you via "
+"email once your account is activated"
 
 #: app/routes.py:86
 msgid "Erro, email ou usuário já estão sendo utilizados."
@@ -57,7 +59,9 @@ msgstr "Error, email or username already taken"
 msgid ""
 "Por favor, preencha os dados corretamente. Em caso de dados incorretos "
 "seu cadastro poderá ser negado."
-msgstr "Please note that in case you fail to correctly fill the data your registration might be invalidated"
+msgstr ""
+"Please note that in case you fail to correctly fill the data your "
+"registration might be invalidated"
 
 #: app/routes.py:112
 msgid "Usuário ou senha inválidos"
@@ -65,17 +69,22 @@ msgstr "Username or password invalid"
 
 #: app/routes.py:117
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
-msgstr "Your account hasn't been activated yet. We'll contact you via email once it is"
+msgstr ""
+"Your account hasn't been activated yet. We'll contact you via email once "
+"it is"
 
 #: app/routes.py:163 app/routes.py:171
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr "Your can't run two (or more) simultaneous dynamics"
 
 #: app/routes.py:182
+#, fuzzy, python-format
 msgid ""
-"Houve um erro ao executar o comando '%(command)s'. Verifique os logs para mais "
+"Houve um erro ao executar o comando {}. Verifique os logs para mais "
 "detalhes"
-msgstr "There was an error while executing '%(command)s'. Check the logs for details"
+msgstr ""
+"There was an error while executing '%(command)s'. Check the logs for "
+"details"
 
 #: app/routes.py:184
 msgid "Extensão do arquivo está incorreta"
@@ -167,75 +176,75 @@ msgid "Definir Topologia"
 msgstr "Defining topology"
 
 #: app/templates/acpype.html:58 app/templates/apo.html:56
-#: app/templates/prodrg.html:58
+#: app/templates/prodrg.html:59
 msgid "Proteína Livre"
 msgstr "Free Protein"
 
 #: app/templates/acpype.html:63 app/templates/acpype.html:68
-#: app/templates/prodrg.html:63 app/templates/prodrg.html:68
+#: app/templates/prodrg.html:64 app/templates/prodrg.html:69
 msgid "Ligante"
 msgstr "Ligand"
 
 #: app/templates/acpype.html:77 app/templates/apo.html:79
-#: app/templates/prodrg.html:77
+#: app/templates/prodrg.html:78
 msgid "Campo de Força"
 msgstr "Force Field"
 
 #: app/templates/acpype.html:84 app/templates/apo.html:86
-#: app/templates/prodrg.html:84
+#: app/templates/prodrg.html:85
 msgid "Recomendado para GROMOS"
 msgstr "Recommended for GROMOS"
 
 #: app/templates/acpype.html:87 app/templates/acpype.html:88
 #: app/templates/acpype.html:89 app/templates/apo.html:89
 #: app/templates/apo.html:90 app/templates/apo.html:91
-#: app/templates/prodrg.html:87 app/templates/prodrg.html:88
-#: app/templates/prodrg.html:89
+#: app/templates/prodrg.html:88 app/templates/prodrg.html:89
+#: app/templates/prodrg.html:90
 msgid "AMBER e OPLS apenas"
 msgstr "AMBER and OPLS only"
 
 #: app/templates/acpype.html:91 app/templates/apo.html:93
-#: app/templates/prodrg.html:91
+#: app/templates/prodrg.html:92
 msgid "Modelo de Água"
 msgstr "Water Model"
 
 #: app/templates/acpype.html:103 app/templates/apo.html:105
-#: app/templates/prodrg.html:103
+#: app/templates/prodrg.html:104
 msgid "Tipo de Caixa"
 msgstr "Box Type"
 
 #: app/templates/acpype.html:110 app/templates/apo.html:112
-#: app/templates/prodrg.html:110
+#: app/templates/prodrg.html:111
 msgid "Distância entre a proteína e a borda da caixa"
 msgstr "Distance between protein and box border"
 
 #: app/templates/acpype.html:117 app/templates/apo.html:119
-#: app/templates/prodrg.html:117
+#: app/templates/prodrg.html:118
 msgid "Tempo de Simulação"
 msgstr "Simulation Time"
 
 #: app/templates/acpype.html:123 app/templates/apo.html:125
-#: app/templates/prodrg.html:123
+#: app/templates/prodrg.html:124
 msgid "Neutralizar o Sistema"
 msgstr "Neutralize System"
 
 #: app/templates/acpype.html:128 app/templates/apo.html:130
-#: app/templates/prodrg.html:128
+#: app/templates/prodrg.html:129
 msgid "Calcular em dupla precisão"
 msgstr "Double Precision"
 
 #: app/templates/acpype.html:134 app/templates/apo.html:136
-#: app/templates/prodrg.html:134
+#: app/templates/prodrg.html:135
 msgid "Ignorar Hidrogênios"
 msgstr "Ignore Hydrogens"
 
 #: app/templates/acpype.html:139 app/templates/apo.html:141
-#: app/templates/prodrg.html:139
+#: app/templates/prodrg.html:140
 msgid "Executar"
 msgstr "Execute"
 
 #: app/templates/acpype.html:142 app/templates/apo.html:144
-#: app/templates/prodrg.html:142
+#: app/templates/prodrg.html:143
 msgid "Baixar Lista de Comandos"
 msgstr "Download Command List"
 
@@ -251,52 +260,52 @@ msgstr "Enzyme + Ligand (ATB)"
 msgid "Essa funcionalidade ainda está sendo desenvolvida."
 msgstr "This feature is under development"
 
-#: app/templates/base.html:16
+#: app/templates/base.html:17
 msgid "Visual Dynamics"
 msgstr ""
 
-#: app/templates/base.html:24
+#: app/templates/base.html:25
 msgid "APO Enzima"
 msgstr "APO Enzyme"
 
-#: app/templates/base.html:28
+#: app/templates/base.html:29
 msgid "Enzima + Ligante"
 msgstr "Enzyme + Ligand"
 
-#: app/templates/base.html:38 app/templates/login.html:6
+#: app/templates/base.html:39 app/templates/login.html:6
 #: app/templates/login.html:19
 msgid "Entrar"
 msgstr "Login"
 
-#: app/templates/base.html:41
+#: app/templates/base.html:42
 msgid "Cadastro"
 msgstr "Register"
 
-#: app/templates/base.html:45
+#: app/templates/base.html:46
 msgid "Sobre"
 msgstr "About"
 
-#: app/templates/base.html:52
+#: app/templates/base.html:53
 msgid "Painel Admin"
 msgstr "Admin Panel"
 
-#: app/templates/base.html:64 app/templates/index.html:5
+#: app/templates/base.html:65 app/templates/index.html:5
 msgid "Minhas Dinâmicas"
 msgstr "My Dynamics"
 
-#: app/templates/base.html:69
+#: app/templates/base.html:70
 msgid "Sair"
 msgstr "Logout"
 
-#: app/templates/base.html:77
+#: app/templates/base.html:78
 msgid "Alterar Idioma"
 msgstr "Change Language"
 
-#: app/templates/base.html:82
+#: app/templates/base.html:83
 msgid "Inglês"
 msgstr "English"
 
-#: app/templates/base.html:87
+#: app/templates/base.html:88
 msgid "Português (Brasil)"
 msgstr "Portuguese (Brazil)"
 
@@ -337,9 +346,21 @@ msgstr "Username or Email"
 msgid "Senha"
 msgstr "Password"
 
+#: app/templates/login.html:22
+msgid "Ainda não tenho uma conta"
+msgstr "I don't have an account yet"
+
 #: app/templates/prodrg.html:9
 msgid "Enzima + Ligante (PRODRG)"
 msgstr "Enzyme + Ligand (PRODRG)"
+
+#: app/templates/prodrg.html:148
+msgid "Gerando arquivos com PRODRG"
+msgstr "Generating files with PRODRG"
+
+#: app/templates/prodrg.html:153
+msgid "Tutorial de como realizar a dinâmica"
+msgstr "Tutorial on how to perform the dynamics"
 
 #: app/templates/register.html:6
 msgid "Solicitação de Cadastro"
@@ -368,6 +389,10 @@ msgstr "Confirm Password"
 #: app/templates/register.html:34
 msgid "Enviar"
 msgstr "Send"
+
+#: app/templates/register.html:37
+msgid "Já tenho uma conta"
+msgstr "I already have an account "
 
 #: app/templates/admin/executing.html:4 app/templates/admin/index.html:12
 msgid "Dinâmicas em Execução"
@@ -434,11 +459,11 @@ msgstr "Modifying user %(username)s"
 msgid "Para manter a senha atual deixe os campos em branco"
 msgstr "To keep the actual password leave the fields blank"
 
-#: app/templates/admin/edit/user.html:39
+#: app/templates/admin/edit/user.html:40
 msgid "Confirmar"
 msgstr "Confirm"
 
-#: app/templates/admin/edit/user.html:42
+#: app/templates/admin/edit/user.html:43
 msgid "Cancelar"
 msgstr "Cancel"
 
