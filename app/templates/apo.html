@@ -51,10 +51,10 @@
     {% endif %}
   </p>
   {% else %}
-  <form class="align-items-start" method="POST" action="/apo" onsubmit="return validateProcessing()" enctype="multipart/form-data">
+  <form class="align-items-start max-md mx-auto" method="POST" action="/apo" onsubmit="return validateProcessing()" enctype="multipart/form-data">
     <div class="my-2">
       <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
-      <input class="form-control" type="file" name="file" id="file" accept=".pdb" required>
+      <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>
     </div>
     
     <div class="my-2">
@@ -136,11 +136,11 @@
       <label class="form-check-label" for="ignore">{{ _("Ignorar Hidrogênios") }}</label>
     </div>
     
-    <div class="d-block">
-      <button class="mt-2 mb-1 btn btn-primary w-100" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
+    <div class="d-flex justify-content-between">
+      <button class="my-2 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
         <i class="fa fa-cogs" aria-hidden="true"></i> {{ _("Executar") }}
       </button>
-      <button class="my-1 btn btn-success w-100" value="Download" name="download">
+      <button class="my-2 btn btn-success" value="Download" name="download">
         <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
       </button>
     </div>

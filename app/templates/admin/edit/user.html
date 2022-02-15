@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<form action="/admin/edit/{{ UserData.id }}" method="post" onsubmit="return validateForm()">
+<form class="max-md mx-auto" action="/admin/edit/{{ UserData.id }}" method="post" onsubmit="return validateForm()">
   <p class="h2 text-center my-2">{{ _("Modificando Usuário %(username)s", username=UserData.username) }}</p>
 
   <div class="alert alert-info my-2" role="alert">
@@ -35,12 +35,14 @@
     <label for="passwordconfirm">{{ _("Confirmar Senha") }}</label>
   </div>
   
-  <button class="mt-2 mb-1 btn btn-primary w-100" type="submit" name="submit">
-    <i class="fas fa-check" aria-hidden="true"></i> {{ _("Confirmar") }}
-  </button>
-  <a class="my-1 btn btn-danger w-100" href="{{ url_for('admin') }}">
-    <i class="fas fa-times" aria-hidden="true"></i> {{ _("Cancelar") }}
-  </a>
+  <div class="d-flex justify-content-between">
+    <button class="my-2 btn btn-primary" type="submit" name="submit">
+      <i class="fas fa-check" aria-hidden="true"></i> {{ _("Confirmar") }}
+    </button>
+    <a class="my-2 btn btn-danger" href="{{ url_for('admin') }}">
+      <i class="fas fa-times" aria-hidden="true"></i> {{ _("Cancelar") }}
+    </a>
+  </div>
 </form>
 
 <script>

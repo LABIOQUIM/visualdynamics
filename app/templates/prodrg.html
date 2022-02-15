@@ -53,96 +53,109 @@
     {% endif %}
   </p>
   {% else %}
-  <form class="align-items-start" method="POST" action="/liganteACPYPE" onsubmit="return validateProcessing()" enctype="multipart/form-data">
-    <div class="my-2">
-      <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
-      <input class="form-control" type="file" name="file" id="file" accept=".pdb" required>
-    </div>
+  <div class="d-flex flex-column flex-lg-row justify-content-evenly">
+    <form class="align-items-start max-md mx-auto" method="POST" action="/liganteACPYPE" onsubmit="return validateProcessing()" enctype="multipart/form-data">
+      <div class="my-2">
+        <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
+        <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>
+      </div>
 
-    <div class="my-2">
-      <label class="form-label" for="fileitp">{{ _("Ligante") }} (.itp)</label>
-      <input class="form-control" type="file" name="fileitp" id="fileitp" accept=".itp" required>
-    </div>
+      <div class="my-2">
+        <label class="form-label" for="fileitp">{{ _("Ligante") }} (.itp)</label>
+        <input class="form-control form-control-lg" type="file" name="fileitp" id="fileitp" accept=".itp" required>
+      </div>
 
-    <div class="my-2">
-      <label class="form-label" for="filegro">{{ _("Ligante") }} (.pdb ou .gro)</label>
-      <input class="form-control" type="file" name="filegro" id="filegro" accept=".gro,.pdb" required>
-    </div>
-    
-    <div class="my-2">
-      <div class="form-floating">
-        <select class="form-select" id="campoforca" name="campoforca">
-          <option selected value="gromos53a5">GROMOS 53a6 force field</option>
-        </select>
-        <label for="campoforca">{{ _("Campo de Força") }}</label>
+      <div class="my-2">
+        <label class="form-label" for="filegro">{{ _("Ligante") }} (.pdb ou .gro)</label>
+        <input class="form-control form-control-lg" type="file" name="filegro" id="filegro" accept=".gro,.pdb" required>
       </div>
-    </div>
-    
-    <div class="my-2">
-      <div class="form-floating">
-        <select class="form-select" id="modeloagua" name="modeloagua">
-          <option value="spc" selected>SPC simple point charge ({{ _("Recomendado para GROMOS") }})</option>
-          <option value="spce">SPC/E extended simple point charge</option>
-          <option value="none">None</option>
-          <option value="tip3p">TIP3P ({{ _("AMBER e OPLS apenas") }})</option>
-          <option value="tip4p">TIP4P ({{ _("AMBER e OPLS apenas") }})</option>
-          <option value="tip5p">TIP5P ({{ _("AMBER e OPLS apenas") }})</option>
-        </select>
-        <label for="modeloagua">{{ _("Modelo de Água") }}</label>
+      
+      <div class="my-2">
+        <div class="form-floating">
+          <select class="form-select" id="campoforca" name="campoforca">
+            <option selected value="gromos53a5">GROMOS 53a6 force field</option>
+          </select>
+          <label for="campoforca">{{ _("Campo de Força") }}</label>
+        </div>
       </div>
-    </div>
+      
+      <div class="my-2">
+        <div class="form-floating">
+          <select class="form-select" id="modeloagua" name="modeloagua">
+            <option value="spc" selected>SPC simple point charge ({{ _("Recomendado para GROMOS") }})</option>
+            <option value="spce">SPC/E extended simple point charge</option>
+            <option value="none">None</option>
+            <option value="tip3p">TIP3P ({{ _("AMBER e OPLS apenas") }})</option>
+            <option value="tip4p">TIP4P ({{ _("AMBER e OPLS apenas") }})</option>
+            <option value="tip5p">TIP5P ({{ _("AMBER e OPLS apenas") }})</option>
+          </select>
+          <label for="modeloagua">{{ _("Modelo de Água") }}</label>
+        </div>
+      </div>
 
-    <div class="my-2">
-      <div class="form-floating">
-        <select class="form-select" name="tipocaixa" id="tipocaixa">
-          <option value="cubic" selected>Cubic</option>
-          <option value="triclinic">Triclinic</option>
-          <option value="dodecahedron">Dodecahedron</option>
-          <option value="octahedron">Octahedron</option>
-        </select>
-        <label class="form-label" for="tipocaixa">{{ _("Tipo de Caixa") }}</label>
+      <div class="my-2">
+        <div class="form-floating">
+          <select class="form-select" name="tipocaixa" id="tipocaixa">
+            <option value="cubic" selected>Cubic</option>
+            <option value="triclinic">Triclinic</option>
+            <option value="dodecahedron">Dodecahedron</option>
+            <option value="octahedron">Octahedron</option>
+          </select>
+          <label class="form-label" for="tipocaixa">{{ _("Tipo de Caixa") }}</label>
+        </div>
       </div>
-    </div>
-    
-    <div class="my-2">
-      <div class="form-floating">
-        <input type="number" class="form-control" value="0" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa">
-        <label for="distanciacaixa">{{ _("Distância entre a proteína e a borda da caixa") }}</label>
+      
+      <div class="my-2">
+        <div class="form-floating">
+          <input type="number" class="form-control" value="0" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa">
+          <label for="distanciacaixa">{{ _("Distância entre a proteína e a borda da caixa") }}</label>
+        </div>
       </div>
-    </div>
-    
-    <div class="my-2">
-      <div class="form-floating">
-        <input class="form-control" type="number" value="2" disabled="disabled">
-        <label for="ns">{{ _("Tempo de Simulação") }} (ns)</label>
+      
+      <div class="my-2">
+        <div class="form-floating">
+          <input class="form-control" type="number" value="2" disabled="disabled">
+          <label for="ns">{{ _("Tempo de Simulação") }} (ns)</label>
+        </div>
       </div>
-    </div>
 
-    <div class="form-check my-1">
-      <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled" name="neutralize" id="neutralize">
-      <label class="form-check-label" for="neutralize">{{ _("Neutralizar o Sistema") }}</label>
+      <div class="form-check my-1">
+        <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled" name="neutralize" id="neutralize">
+        <label class="form-check-label" for="neutralize">{{ _("Neutralizar o Sistema") }}</label>
+      </div>
+      
+      <div class="form-check my-1">
+        <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled" id="double">
+        <label class="form-check-label" for="double">{{ _("Calcular em dupla precisão") }}</label>
+        <input type="hidden" name="double" value="True">
+      </div>
+      
+      <div class="form-check my-1">
+        <input class="form-check-input" type="checkbox" name="ignore" id="ignore">
+        <label class="form-check-label" for="ignore">{{ _("Ignorar Hidrogênios") }}</label>
+      </div>
+      
+      <div class="d-flex justify-content-between">
+        <button class="my-2 mr-2 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
+          <i class="fa fa-cogs" aria-hidden="true"></i> {{ _("Executar") }}
+        </button>
+        <button class="my-2 ml-2 btn btn-success" value="Download" name="download">
+          <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
+        </button>
+      </div>
+    </form>
+    <div class="d-flex flex-column">
+      <label class="my-3 border-bottom border-primary" for="">{{ _("Gerando arquivos com PRODRG") }}</label>
+      <video class="mx-auto" width="512" height="256" controls>
+        <source src="{{ url_for('static', filename='video/arquivosPRODRG.mp4') }}" type="video/mp4">
+      </video>         
+  
+      <label class="my-3 border-bottom border-primary">{{ _("Tutorial de como realizar a dinâmica") }}</label>
+      <video class="mx-auto" width="512" height="256" controls>
+        <source src="{{ url_for('static', filename='video/dinamicaPRODRG.mp4') }}" type="video/mp4">
+      </video>   
     </div>
-    
-    <div class="form-check my-1">
-      <input class="form-check-input" type="checkbox" checked="checked" disabled="disabled" id="double">
-      <label class="form-check-label" for="double">{{ _("Calcular em dupla precisão") }}</label>
-      <input type="hidden" name="double" value="True">
-    </div>
-    
-    <div class="form-check my-1">
-      <input class="form-check-input" type="checkbox" name="ignore" id="ignore">
-      <label class="form-check-label" for="ignore">{{ _("Ignorar Hidrogênios") }}</label>
-    </div>
-    
-    <div class="d-block">
-      <button class="mt-2 mb-1 btn btn-primary w-100" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
-        <i class="fa fa-cogs" aria-hidden="true"></i> {{ _("Executar") }}
-      </button>
-      <button class="my-1 btn btn-success w-100" value="Download" name="download">
-        <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
-      </button>
-    </div>
-  </form>
+  </div>
   {% endif %}
   {% endwith %}
 </div>

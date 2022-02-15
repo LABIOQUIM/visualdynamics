@@ -1,0 +1,11 @@
+@media only screen and (max-width:  480px) {
+  .max-md {
+		max-width: 100%;
+  }
+}
+
+@media only screen and (min-width: 481px) {
+  .max-md {
+		max-width: 480px;
+  }
+}

@@ -2,7 +2,7 @@
 
 {% block content %}
 <div>
-  <form action="/login" method="post">
+  <form class="max-md mx-auto" action="/login" method="post">
     <p class="h1 my-3 text-center">{{ _("Entrar") }}</p>
 
     <div class="form-floating mb-3 ">
@@ -15,9 +15,12 @@
       <label for="password">{{ _("Senha") }}</label>
     </div>
     
-    <button class="btn btn-primary w-100">
+    <button class="btn btn-primary btn-lg w-100">
       <i class="fa fa-sign-in" aria-hidden="true" ></i> {{ _("Entrar") }}
-    </button>  
+    </button>
+    <a class="btn btn-outline-primary btn-lg my-2 w-100" href="/register">
+      <i class="fa fa-user-plus" aria-hidden="true" ></i> {{ _("Ainda não tenho uma conta") }}
+    </a> 
   </form>
 </div>
 {% endblock %}
