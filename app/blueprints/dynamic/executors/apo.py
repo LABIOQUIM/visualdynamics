@@ -1,4 +1,4 @@
-from .config import Config
+from ....config import Config
 from datetime import datetime
 import subprocess, os, sys, shutil
 import errno

@@ -1,10 +1,10 @@
-from .config import Config
+from ....config import Config
 from datetime import datetime
 import subprocess, os, sys, shutil
 import errno
 
 
-def executelig(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
+def execute(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
     LogFile = create_log(LogFileName, username) #cria o arquivo log
 
     #salvando nome da dinamica para exibir na execução

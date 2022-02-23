@@ -1,9 +1,9 @@
 import os, errno
 from datetime import datetime
 from shutil import which
-from .config import Config
+from ....config import Config
 
-def generateLigACPYPE(
+def generate(
     selecao_arquivo, arquivo_itp, arquivo_gro, campo_forca, modelo_agua, tipo_caixa,
     distancia_caixa, neutralizar_sistema, double, ignore, current_user
 ):

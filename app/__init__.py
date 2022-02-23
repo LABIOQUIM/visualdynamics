@@ -26,4 +26,17 @@ def get_locale():
     else: 
       return 'pt'
 
-from app import routes, models, cli
+from .blueprints.misc import MiscBlueprint
+from .blueprints.admin import AdminBlueprint
+from .blueprints.auth import AuthBlueprint
+from .blueprints.download import DownloadBlueprint
+from .blueprints.dynamic import DynamicBlueprint
+from .blueprints.user import UserBlueprint
+app.register_blueprint(MiscBlueprint)
+app.register_blueprint(AdminBlueprint)
+app.register_blueprint(AuthBlueprint)
+app.register_blueprint(DownloadBlueprint)
+app.register_blueprint(DynamicBlueprint)
+app.register_blueprint(UserBlueprint)
+
+from app import models, cli

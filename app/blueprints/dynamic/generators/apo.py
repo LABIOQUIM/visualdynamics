@@ -1,6 +1,6 @@
 import os, errno
 from datetime import datetime
-from .config import Config
+from ....config import Config
 from shutil import which
 
 def generate(

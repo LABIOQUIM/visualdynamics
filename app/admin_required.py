@@ -1,4 +1,5 @@
-from .routes import current_app, current_user
+from flask import current_app
+from flask_login import current_user
 from functools import wraps
 
 #atualização para evitar que a pagina quebre

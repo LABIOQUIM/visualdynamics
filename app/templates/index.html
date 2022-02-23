@@ -3,9 +3,6 @@
 {% block content %}
 <div>
   <p class="h2 mt-3 text-center">{{ _("Minhas Dinâmicas") }}</p>
-  <a class="btn btn-primary" href="{{ url_for('downloadmdpfiles') }}">
-    <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
-  </a>
   {% if no_dynamics == 'True' %}
     <div class="card my-2">
       <div class="card-body">
@@ -14,6 +11,9 @@
       </div>
     </div>
   {% else %}
+  <a class="btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
+    <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
+  </a>
   {% for d in list_dynamics %}
     <div class="card my-2">
       <div class="card-body d-flex">
