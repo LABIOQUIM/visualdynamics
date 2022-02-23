@@ -17,13 +17,15 @@ def generate(
     if double:
         if which("gmx_d") is not None:
             gmx = "gmx_d"
-        else:
-            return "missing_gromacs_double"
+        elif which("gmx") is not None:
+            gmx = "gmx"
+        else: 
+            return "missing_gromacs"
     else:
         if which("gmx") is not None:
             gmx = "gmx"
         else:
-            return "missing_gromacs_single"
+            return "missing_gromacs"
 
     arquivo = os.path.basename(selecao_arquivo)
     (nome_arquivo, extensao) = arquivo.split('.')

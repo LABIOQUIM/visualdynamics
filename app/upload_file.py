@@ -10,8 +10,7 @@ def upload_file(file, username):
     moleculename = file.filename.split('.')[0]
     if allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(Config.UPLOAD_FOLDER,
-            username, moleculename, 'run', filename))
+        file.save(os.path.join(Config.UPLOAD_FOLDER, username, moleculename, 'run', filename))
         return True
     else:
         return False

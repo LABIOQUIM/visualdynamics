@@ -5,7 +5,8 @@ from . import DynamicBlueprint
 from flask import render_template, make_response, request, redirect, url_for, flash
 from flask_babel import _
 from flask_login import current_user, login_required
-from  app import login_manager, upload_file
+from  app import login_manager
+from ...upload_file import upload_file, upload_file_ligante
 from .generators import apo as apoGenerator, prodrg as prodrgGenerator, acpype as acpypeGenerator
 from .executors import apo as apoExecutor, prodrg as prodrgExecutor, acpype as acpypeExecutor
 
@@ -15,6 +16,9 @@ from .executors import apo as apoExecutor, prodrg as prodrgExecutor, acpype as a
 def apo():
     if request.method == 'POST':
         file = request.files.get('file')
+        if file is None:
+            flash("No file part")
+            return redirect(request.url)
         CompleteFileName = apoGenerator.generate(file.filename, request.form.get('campoforca'), request.form.get('modeloagua'), request.form.get('tipocaixa'), request.form.get('distanciacaixa'), request.form.get('neutralize'), request.form.get('double'), request.form.get('ignore'), current_user)  
         if request.form.get('download') == 'Download':
             return redirect(url_for('DownloadRoutes.commandsdownload', filename={"complete" : CompleteFileName, "name": file.filename.split('.')[0]}))
@@ -119,7 +123,7 @@ def prodrg():
             return redirect(url_for('DownloadRoutes.commandsdownload', filename={"complete": CompleteFileName, "name": name}))
         
         if request.form.get('execute') == 'Executar':
-            if upload_file.upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
+            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
                 executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
                 if not os.path.exists(executingLig):
                     f = open(executingLig,'w')
@@ -223,7 +227,7 @@ def acpype():
             return redirect(url_for('DownloadRoutes.commandsdownload', filename={"complete": CompleteFileName, "name": name}))
         
         if request.form.get('execute') == 'Executar':
-            if upload_file.upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
+            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
                 executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
                 if not os.path.exists(executingLig):
                     f = open(executingLig,'w')
