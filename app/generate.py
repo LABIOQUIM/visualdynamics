@@ -4,15 +4,8 @@ from .config import Config
 from shutil import which
 
 def generate(
-    selecao_arquivo,
-    campo_forca,
-    modelo_agua,
-    tipo_caixa,
-    distancia_caixa,
-    neutralizar_sistema,
-    double,
-    ignore,
-    current_user
+    selecao_arquivo, campo_forca, modelo_agua, tipo_caixa, distancia_caixa,
+    neutralizar_sistema, double, ignore, current_user
 ):
     if which("gracebat") is not None:
         grace = "gracebat"

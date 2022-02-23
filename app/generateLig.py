@@ -4,17 +4,8 @@ from shutil import which
 from .config import Config
 
 def generateLig(
-    selecao_arquivo,
-    arquivo_itp,
-    arquivo_gro,
-    campo_forca,
-    modelo_agua,
-    tipo_caixa,
-    distancia_caixa,
-    neutralizar_sistema,
-    double,
-    ignore,
-    current_user
+    selecao_arquivo, arquivo_itp, arquivo_gro, campo_forca, modelo_agua,
+    tipo_caixa, distancia_caixa, neutralizar_sistema, double, ignore, current_user
 ):
     if which("gracebat") is not None:
         grace = "gracebat"
@@ -79,7 +70,7 @@ def generateLig(
     os.chdir(pasta)
 
     comandos.write('#topology\n\n')
-    comando = f"{gmx} pdb2gmx -f -o -p -ff gromos53a6 -water {modelo_agua} -ignh -missing"
+    comando = f"{gmx} pdb2gmx -f {arquivo} -o {arquivo_livre_gro} -p {arquivo_livre_top} -ff gromos53a6 -water {modelo_agua} -ignh -missing"
     comandos.writelines(comando)
     comandos.write('\n\n#break')
     comandos.write('\n\n')
