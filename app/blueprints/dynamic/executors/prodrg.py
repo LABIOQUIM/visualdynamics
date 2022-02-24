@@ -165,7 +165,7 @@ def create_log(LogFileName, username):
                                                             datetime.now().hour,
                                                             datetime.now().minute,
                                                             datetime.now().second,
-                                                            '.log.txt')
+                                                            '.log')
         
     LogFile = open(LogFileName, "w+")
     f = open(Config.UPLOAD_FOLDER+username +'/DirectoryLog', 'w')

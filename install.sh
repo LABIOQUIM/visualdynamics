@@ -14,11 +14,12 @@ if [ $resp = 'y' ]; then
         echo "FIQUE ATENTO, SUA AÇÃO SERÁ NECESSÁRIA EM ALGUMAS ETAPAS DA INSTALAÇÃO!!!"
         sudo pacman -S python-pip base-devel git fftw --noconfirm
 
+        cd arch
+
         if pacman -Qi paru > /dev/null; then
             echo "Paru já instalado, pulando etapa..."
         else
             echo "Compilando e Instalando PARU..."
-            cd arch
             git clone https://aur.archlinux.org/paru.git
             cd paru && makepkg -si
             echo "Limpando pastas utilizadas na configuração do PARU..."
@@ -55,6 +56,17 @@ if [ $resp = 'y' ]; then
         cd ..
 
         sudo pip install virtualenv
+
+        echo "Inicializando Python VirtualEnv"
+        # create venv
+        virtualenv venv --python=/usr/bin/python3.7
+        # init venv
+        source venv/bin/activate
+
+        echo "Instalando dependências..."
+        
+        # install requirements
+        pip3 install -r ./requirements.txt
     else
         echo "Sistema baseado em Debian/Ubuntu, instalação automática do GROMACS não disponível, faça manualmente..."
         echo "Instalando GRACE e pip..."
@@ -69,18 +81,7 @@ if [ $resp = 'y' ]; then
     fi
 
     git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
-
-    echo "Inicializando Python VirtualEnv"
-    # create venv
-    virtualenv venv --python=/usr/bin/python3.7
-    # init venv
-    source venv/bin/activate
-
-    echo "Instalando dependências..."
-    
-    # install requirements
-    pip3 install -r requirements.txt
-    python clear_database.py 
+    python ./clear_database.py 
     chmod +x run.sh
     flask translate compile
     echo "Instalação Concluída. Para executar a aplicação execute o arquivo run.sh que está na raiz do projeto."  

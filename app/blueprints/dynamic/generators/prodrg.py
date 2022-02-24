@@ -17,13 +17,15 @@ def generate(
     if double:
         if which("gmx_d") is not None:
             gmx = "gmx_d"
-        else:
-            return "missing_gromacs_double"
+        elif which("gmx") is not None:
+            gmx = "gmx"
+        else: 
+            return "missing_gromacs"
     else:
         if which("gmx") is not None:
             gmx = "gmx"
         else:
-            return "missing_gromacs_single"
+            return "missing_gromacs"
             
     arquivo = os.path.basename(selecao_arquivo)
     (nome_arquivo, extensao) = arquivo.split('.')
@@ -99,7 +101,7 @@ def generate(
     
     #comando grompp minimização
     comandos.write('#minimizationsteepdesc\n\n')
-    comando = f"{gmx} grompp PME_em.mdp -c {arquivo_complx_neutral_gro} -p {arquivo_complx_top} -o {arquivo_complx_em_tpr} -maxwarn 2"
+    comando = f"{gmx} grompp -f PME_em.mdp -c {arquivo_complx_neutral_gro} -p {arquivo_complx_top} -o {arquivo_complx_em_tpr} -maxwarn 2"
     comandos.writelines(comando)
     comandos.write('\n\n')
 

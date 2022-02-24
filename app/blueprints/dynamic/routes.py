@@ -47,7 +47,7 @@ def apo():
                 filename = file.filename
                 AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
                     current_user.username, MoleculeName , 'run',
-                    'logs/', filename)
+                    'logs', filename)
 
                 exc = apoExecutor.execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
                 flash(_('Houve um erro ao executar o comando {}. Verifique os logs para mais detalhes', command=exc[1]), 'danger')
@@ -131,7 +131,7 @@ def prodrg():
                     f.close()
                 else:
                     flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                    return redirect(url_for('ligante'))    
+                    return redirect(url_for('DynamicRoutes.prodrg'))    
                 
                 executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
                 if not os.path.exists(executing):
@@ -139,7 +139,7 @@ def prodrg():
                     f.close()
                 else:
                     flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                    return redirect(url_for('ligante'))
+                    return redirect(url_for('DynamicRoutes.prodrg'))
             
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
@@ -148,11 +148,11 @@ def prodrg():
                 moleculaLig = MoleculeName+'_'+liganteitpName
                 AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
                                     current_user.username,moleculaLig, 'run',
-                                    'logs/', moleculaLig)
+                                    'logs', moleculaLig)
                 
                 exc = prodrgExecutor.execute(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, filegro.filename, MoleculeName)
                 flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-                return redirect(url_for('ligante'))
+                return redirect(url_for('DynamicRoutes.prodrg'))
             
             else:
                 flash('A extensão dos arquivos está incorreta', 'danger')
@@ -250,7 +250,7 @@ def acpype():
                 liganteitpName = fileitp.filename.split('.')[0]
                 ligantegroName = filegro.filename.split('.')[0]
                 moleculaLig = MoleculeName+'_'+liganteitpName
-                AbsFileName = os.path.join(Config.UPLOAD_FOLDER, current_user.username,moleculaLig, 'run', 'logs/', moleculaLig)
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER, current_user.username,moleculaLig, 'run', 'logs', moleculaLig)
                 
                 exc = acpypeExecutor.execute(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, ligantegroName, MoleculeName)
                 flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
