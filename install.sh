@@ -12,7 +12,7 @@ if [ $resp = 'y' ]; then
     if [ -f "/etc/arch-release" ]; then
         echo "Sistema baseado em ArchLinux, instalando e compilando GROMACS, GRACE e pip..."
         echo "FIQUE ATENTO, SUA AÇÃO SERÁ NECESSÁRIA EM ALGUMAS ETAPAS DA INSTALAÇÃO!!!"
-        sudo pacman -S python-pip base-devel git fftw --noconfirm
+        sudo pacman -S python-pip fftw --noconfirm
 
         cd arch
 
@@ -48,9 +48,7 @@ if [ $resp = 'y' ]; then
             echo "python3.7 já instalado, pulando etapa..."
         else
             echo "Instalando Python 3.7..."
-            cd python37
-            paru -Ui --noconfirm
-            cd ..
+            paru -S python37 --noconfirm
         fi
 
         cd ..
