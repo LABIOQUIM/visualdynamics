@@ -8,7 +8,7 @@ pkgdesc='A versatile package to perform molecular dynamics, i.e. simulate the Ne
 url='http://www.gromacs.org/'
 license=("LGPL")
 arch=('x86_64')
-depends=('lapack' 'zlib' 'hwloc' 'gcc10')
+depends=('lapack' 'zlib' 'hwloc')
 optdepends=('cuda: Nvidia GPU support'
             'vmd: Accesibility to other trajectory formats (ONLY WHEN COMPILING)'
             'perl: needed for demux.pl and xplor2gmx.pl'
