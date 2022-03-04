@@ -12,6 +12,7 @@ arch/grace/*
 arch/gromacs/*
 !arch/gromacs/PKGBUILD
 !arch/gromacs/.SRCINFO
+!arch/gromacs/gromacs.zip
 
 arch/python37/*
 !arch/python37/PKGBUILD

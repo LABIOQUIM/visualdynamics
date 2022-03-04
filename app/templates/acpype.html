@@ -53,7 +53,7 @@
     {% endif %}
   </p>
   {% else %}
-  <form class="align-items-start max-md mx-auto" method="POST" action="/liganteACPYPE" onsubmit="return validateProcessing()" enctype="multipart/form-data">
+  <form class="align-items-start max-md mx-auto" method="POST" action="{{ url_for('DynamicRoutes.acpype') }}" onsubmit="return validateProcessing()" enctype="multipart/form-data">
     <div class="my-2">
       <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
       <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>

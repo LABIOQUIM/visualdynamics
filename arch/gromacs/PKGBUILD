@@ -2,7 +2,7 @@
 # Maintainer: Hector <hsearaDOTatDOTgmailDOTcom>
 
 pkgname=gromacs
-pkgver=2021.4
+pkgver=2018
 pkgrel=1
 pkgdesc='A versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.'
 url='http://www.gromacs.org/'
@@ -14,10 +14,10 @@ optdepends=('cuda: Nvidia GPU support'
             'perl: needed for demux.pl and xplor2gmx.pl'
 	    'opencl-mesa: OpenCL support for AMD GPU'
 	    'opencl-nvidia: OpenCL support for Nvidia GPU')
-makedepends=('cmake' 'libxml2' 'hwloc')
+makedepends=('cmake' 'libxml2')
 options=('!libtool')
-source=(http://ftp.gromacs.org/pub/gromacs/gromacs-${pkgver}.tar.gz)
-sha256sums=('cb708a3e3e83abef5ba475fdb62ef8d42ce8868d68f52dafdb6702dc9742ba1d')
+source=(./gromacs.zip)
+sha256sums=('87bca791581be5ce31a3cb63de1047db7c47f9272422016d08d70bc5ad22c6b3')
 
 export VMDDIR=/usr/lib/vmd/ #If vmd is available at compilation time
                             #Gromacs will have the ability to read any
@@ -35,12 +35,9 @@ build() {
   cd ${srcdir}/single
   cmake ../gromacs-${pkgver}/ \
         -DCMAKE_INSTALL_PREFIX=/usr/ \
-        -DCMAKE_INSTALL_LIBDIR=lib\
-        -DGMX_BUILD_OWN_FFTW=OFF \
-        -DGMX_SIMD=AVX2_256 \
-        -DREGRESSIONTEST_DOWNLOAD=ON
-  #GMX_GPU: Framework for GPU acceleration. Pick one of: OFF, CUDA, OpenCL, SYCL
-  # -DGMX_GPU=CUDA \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DGMX_BUILD_OWN_FFTW=off \
+        -DGMX_HWLOC=off
   make
 }
 
@@ -51,7 +48,6 @@ check () {
 }
 
 package() {
-
   msg2 "Making the single precision executables"
   cd ${srcdir}/single
   make  DESTDIR=${pkgdir} install

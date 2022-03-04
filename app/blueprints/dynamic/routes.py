@@ -235,7 +235,7 @@ def acpype():
                     f.close()
                 else:
                     flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                    return redirect(url_for('liganteACPYPE'))    
+                    return redirect(url_for('DynamicRoutes.acpype'))    
                 
                 executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
                 if not os.path.exists(executing):
@@ -243,7 +243,7 @@ def acpype():
                     f.close()
                 else:
                     flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                    return redirect(url_for('liganteACPYPE'))
+                    return redirect(url_for('DynamicRoutes.acpype'))
             
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
@@ -254,7 +254,7 @@ def acpype():
                 
                 exc = acpypeExecutor.execute(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, ligantegroName, MoleculeName)
                 flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
-                return redirect(url_for('liganteACPYPE'))
+                return redirect(url_for('DynamicRoutes.acpype'))
             
             else:
                 flash('A extensão dos arquivos está incorreta', 'danger')
