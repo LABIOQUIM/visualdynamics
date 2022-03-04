@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-02-15 16:40-0400\n"
+"POT-Creation-Date: 2022-03-04 09:23-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -18,66 +18,66 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: app/routes.py:54 app/routes.py:100
+#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:66
 msgid "O campo Nome Completo é obrigatório"
 msgstr ""
 
-#: app/routes.py:57
+#: app/blueprints/auth/routes.py:23
 msgid "O campo Nome de Usuário é obrigatório"
 msgstr ""
 
-#: app/routes.py:60
+#: app/blueprints/auth/routes.py:26
 msgid "O campo Email deve ser válido e é obrigatório"
 msgstr ""
 
-#: app/routes.py:63 app/routes.py:103
+#: app/blueprints/auth/routes.py:29 app/blueprints/auth/routes.py:69
 msgid "O campo Senha é obrigatório"
 msgstr ""
 
-#: app/routes.py:66
+#: app/blueprints/auth/routes.py:32
 msgid "O campo Confirmar Senha é obrigatório"
 msgstr ""
 
-#: app/routes.py:72
+#: app/blueprints/auth/routes.py:38
 msgid "ATENÇÃO. Os campos de senha e confirmar senha devem ser iguais."
 msgstr ""
 
-#: app/routes.py:83
+#: app/blueprints/auth/routes.py:49
 #, python-format
 msgid ""
 "Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com "
 "sucesso. Em breve responderemos por Email se a solicitação foi aceita."
 msgstr ""
 
-#: app/routes.py:86
+#: app/blueprints/auth/routes.py:52
 msgid "Erro, email ou usuário já estão sendo utilizados."
 msgstr ""
 
-#: app/routes.py:89
+#: app/blueprints/auth/routes.py:55
 msgid ""
 "Por favor, preencha os dados corretamente. Em caso de dados incorretos "
 "seu cadastro poderá ser negado."
 msgstr ""
 
-#: app/routes.py:112
+#: app/blueprints/auth/routes.py:78
 msgid "Usuário ou senha inválidos"
 msgstr ""
 
-#: app/routes.py:117
+#: app/blueprints/auth/routes.py:83
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
 msgstr ""
 
-#: app/routes.py:163 app/routes.py:171
+#: app/blueprints/dynamic/routes.py:34 app/blueprints/dynamic/routes.py:42
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr ""
 
-#: app/routes.py:182
+#: app/blueprints/dynamic/routes.py:53
 msgid ""
 "Houve um erro ao executar o comando {}. Verifique os logs para mais "
 "detalhes"
 msgstr ""
 
-#: app/routes.py:184
+#: app/blueprints/dynamic/routes.py:55
 msgid "Extensão do arquivo está incorreta"
 msgstr ""
 
@@ -87,8 +87,9 @@ msgstr ""
 
 #: app/templates/about.html:7
 msgid ""
-"O Visual Dynamics é um projeto iniciado pelo Profº Dr. Fernando Berton "
-"Zanchi junto da Fundação Oswaldo Cruz de Rondônia..."
+"Visual Dynamics é uma aplicação WEB feito em Python e Flask para "
+"facilitar o preparo e execução de dinâmicas moleculares utilizando o "
+"GROMACS."
 msgstr ""
 
 #: app/templates/about.html:11
@@ -300,16 +301,16 @@ msgstr ""
 msgid "Português (Brasil)"
 msgstr ""
 
-#: app/templates/index.html:7
-msgid "Baixar arquivos MDP"
-msgstr ""
-
-#: app/templates/index.html:12
+#: app/templates/index.html:9
 msgid "Não há dinâmicas para serem exibidas"
 msgstr ""
 
-#: app/templates/index.html:13
+#: app/templates/index.html:10
 msgid "Você ainda não tem dinâmicas. Utilize o menu acima para começar uma!"
+msgstr ""
+
+#: app/templates/index.html:15
+msgid "Baixar arquivos MDP"
 msgstr ""
 
 #: app/templates/index.html:26
@@ -457,4 +458,11 @@ msgstr ""
 #: app/templates/admin/edit/user.html:43
 msgid "Cancelar"
 msgstr ""
+
+#~ msgid ""
+#~ "O Visual Dynamics é um projeto "
+#~ "iniciado pelo Profº Dr. Fernando Berton"
+#~ " Zanchi junto da Fundação Oswaldo "
+#~ "Cruz de Rondônia..."
+#~ msgstr ""
 
