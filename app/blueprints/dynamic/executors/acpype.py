@@ -46,7 +46,7 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
     
     for l in lines:
         if l[0] == '#':
-            WriteUserDynamics(l,username)
+            WriteUserDynamics(l, username)
 
         else:
             #estabelecer o diretorio de trabalho
@@ -65,12 +65,11 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
         
         #breakpoint adicionado para possibilitar a interação com os arquivos em tempo de execução
         if l == '#break': 
-            
             #cria o novo arquivo com a molecula complexada
             #pronto 
             
             #procura e adiciona em um novo arquivo 
-            comando_junta_atom =  'grep -h ATOM {}_livre.pdb {}.pdb >| {}_complx.pdb'.format(mol,groname,mol)
+            comando_junta_atom = 'grep -h ATOM {}_livre.pdb {}.pdb >| {}_complx.pdb'.format(mol, groname, mol)
             subprocess.call(comando_junta_atom, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
 
             ## comando 1
@@ -78,16 +77,17 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
             subprocess.call(comando_gerar_molecula_complexada, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
 
             #acessando arquivo .itp para pegar o moleculetype
-            #pronto           
+            #pronto
             diretorio_itp = RunFolder + itpname
             file = open(diretorio_itp,'r')
             file_itp = file.readlines()
-            file.close()         
+            file.close()
             for i, text in enumerate(file_itp):
                 if text.find('moleculetype') > -1:
-                    molecula = file_itp[i+2]
+                    molecula = file_itp[i + 2]
                     molecula = molecula.split()[0]
-                    molecula = molecula +'                 '+'1'
+                    molecula = molecula + '                 1'
+                    break
 
             #aqui vai o echo ligand 1
             comando_moleculetype = 'echo "{}" >> {}_complx.top'.format(molecula,mol)
@@ -117,10 +117,10 @@ def create_log(LogFileName, username):
     return LogFile
 
 
-def WriteUserDynamics(line,username):
-    filename = Config.UPLOAD_FOLDER + username +'/executingLig'
+def WriteUserDynamics(line, username):
+    filename = Config.UPLOAD_FOLDER + username + '/executingLig'
     try:
-        f = open(filename,'a')
+        f = open(filename, 'a')
         f.write(line + '\n')
         f.close()
     except OSError:
