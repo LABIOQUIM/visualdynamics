@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-03-04 09:23-0400\n"
+"POT-Creation-Date: 2022-03-10 14:23-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -96,6 +96,10 @@ msgstr ""
 msgid "Desenvolvido por: "
 msgstr ""
 
+#: app/templates/about.html:21
+msgid "Contato"
+msgstr ""
+
 #: app/templates/acpype.html:6 app/templates/apo.html:6
 #: app/templates/atb.html:6 app/templates/prodrg.html:6
 msgid ""
@@ -118,126 +122,125 @@ msgstr ""
 msgid "Proteína %(protein)s"
 msgstr ""
 
-#: app/templates/acpype.html:34 app/templates/apo.html:34
-#: app/templates/prodrg.html:34
-msgid "Etapa: "
-msgstr ""
-
-#: app/templates/acpype.html:36 app/templates/apo.html:36
-#: app/templates/prodrg.html:36
-msgid "Produção MD"
-msgstr ""
-
-#: app/templates/acpype.html:38 app/templates/apo.html:38
-#: app/templates/prodrg.html:38
-msgid "Restrição NPT"
-msgstr ""
-
-#: app/templates/acpype.html:40 app/templates/apo.html:40
-#: app/templates/prodrg.html:40
-msgid "Restrição NVT"
-msgstr ""
-
-#: app/templates/acpype.html:42 app/templates/apo.html:42
-#: app/templates/prodrg.html:42
-msgid "Minimização Conjugate Gradient"
-msgstr ""
-
-#: app/templates/acpype.html:44 app/templates/apo.html:44
-#: app/templates/prodrg.html:44
-msgid "Minimização Steep Descent"
-msgstr ""
-
-#: app/templates/acpype.html:46 app/templates/apo.html:46
-#: app/templates/prodrg.html:46
-msgid "Adicionar Ions"
-msgstr ""
-
-#: app/templates/acpype.html:48 app/templates/apo.html:48
-#: app/templates/prodrg.html:48
-msgid "Definir caixa e solvatar"
-msgstr ""
-
-#: app/templates/acpype.html:50 app/templates/prodrg.html:50
-msgid "Editando Topologia e Estrutura"
-msgstr ""
-
-#: app/templates/acpype.html:52 app/templates/apo.html:50
-#: app/templates/prodrg.html:52
+#: app/templates/acpype.html:29 app/templates/apo.html:29
+#: app/templates/prodrg.html:29
 msgid "Definir Topologia"
 msgstr ""
 
-#: app/templates/acpype.html:58 app/templates/apo.html:56
+#: app/templates/acpype.html:35 app/templates/prodrg.html:35
+msgid "Editando Topologia e Estrutura"
+msgstr ""
+
+#: app/templates/acpype.html:41 app/templates/apo.html:35
+#: app/templates/prodrg.html:41
+msgid "Definir caixa e solvatar"
+msgstr ""
+
+#: app/templates/acpype.html:47 app/templates/apo.html:41
+#: app/templates/prodrg.html:47
+msgid "Adicionar Ions"
+msgstr ""
+
+#: app/templates/acpype.html:53 app/templates/apo.html:47
+#: app/templates/prodrg.html:53
+msgid "Minimização Steep Descent"
+msgstr ""
+
+#: app/templates/acpype.html:59 app/templates/apo.html:53
 #: app/templates/prodrg.html:59
+msgid "Minimização Conjugate Gradient"
+msgstr ""
+
+#: app/templates/acpype.html:65 app/templates/apo.html:59
+#: app/templates/prodrg.html:65
+msgid "Restrição NVT"
+msgstr ""
+
+#: app/templates/acpype.html:71 app/templates/apo.html:65
+#: app/templates/prodrg.html:71
+msgid "Restrição NPT"
+msgstr ""
+
+#: app/templates/acpype.html:77 app/templates/apo.html:71
+#: app/templates/prodrg.html:77
+msgid "Produção MD"
+msgstr ""
+
+#: app/templates/acpype.html:83 app/templates/apo.html:76
+#: app/templates/prodrg.html:83
 msgid "Proteína Livre"
 msgstr ""
 
-#: app/templates/acpype.html:63 app/templates/acpype.html:68
-#: app/templates/prodrg.html:64 app/templates/prodrg.html:69
+#: app/templates/acpype.html:88 app/templates/acpype.html:93
+#: app/templates/prodrg.html:88 app/templates/prodrg.html:93
 msgid "Ligante"
 msgstr ""
 
-#: app/templates/acpype.html:77 app/templates/apo.html:79
-#: app/templates/prodrg.html:78
+#: app/templates/acpype.html:108 app/templates/apo.html:99
+#: app/templates/prodrg.html:102
 msgid "Campo de Força"
 msgstr ""
 
-#: app/templates/acpype.html:84 app/templates/apo.html:86
-#: app/templates/prodrg.html:85
+#: app/templates/acpype.html:115 app/templates/apo.html:106
+#: app/templates/prodrg.html:109
 msgid "Recomendado para GROMOS"
 msgstr ""
 
-#: app/templates/acpype.html:87 app/templates/acpype.html:88
-#: app/templates/acpype.html:89 app/templates/apo.html:89
-#: app/templates/apo.html:90 app/templates/apo.html:91
-#: app/templates/prodrg.html:88 app/templates/prodrg.html:89
-#: app/templates/prodrg.html:90
+#: app/templates/acpype.html:118 app/templates/acpype.html:119
+#: app/templates/acpype.html:120 app/templates/apo.html:109
+#: app/templates/apo.html:110 app/templates/apo.html:111
+#: app/templates/prodrg.html:112 app/templates/prodrg.html:113
+#: app/templates/prodrg.html:114
 msgid "AMBER e OPLS apenas"
 msgstr ""
 
-#: app/templates/acpype.html:91 app/templates/apo.html:93
-#: app/templates/prodrg.html:92
+#: app/templates/acpype.html:122 app/templates/apo.html:113
+#: app/templates/prodrg.html:116
 msgid "Modelo de Água"
 msgstr ""
 
-#: app/templates/acpype.html:103 app/templates/apo.html:105
-#: app/templates/prodrg.html:104
+#: app/templates/acpype.html:134 app/templates/apo.html:125
+#: app/templates/prodrg.html:128
 msgid "Tipo de Caixa"
 msgstr ""
 
-#: app/templates/acpype.html:110 app/templates/apo.html:112
-#: app/templates/prodrg.html:111
+#: app/templates/acpype.html:141 app/templates/apo.html:132
+#: app/templates/prodrg.html:135
 msgid "Distância entre a proteína e a borda da caixa"
 msgstr ""
 
-#: app/templates/acpype.html:117 app/templates/apo.html:119
-#: app/templates/prodrg.html:118
+#: app/templates/acpype.html:148 app/templates/apo.html:139
+#: app/templates/prodrg.html:142
 msgid "Tempo de Simulação"
 msgstr ""
 
-#: app/templates/acpype.html:123 app/templates/apo.html:125
-#: app/templates/prodrg.html:124
+#: app/templates/acpype.html:154 app/templates/apo.html:145
+#: app/templates/prodrg.html:148
 msgid "Neutralizar o Sistema"
 msgstr ""
 
-#: app/templates/acpype.html:128 app/templates/apo.html:130
-#: app/templates/prodrg.html:129
+#: app/templates/acpype.html:159 app/templates/apo.html:150
+#: app/templates/prodrg.html:153
 msgid "Calcular em dupla precisão"
 msgstr ""
 
-#: app/templates/acpype.html:134 app/templates/apo.html:136
-#: app/templates/prodrg.html:135
+#: app/templates/acpype.html:165 app/templates/apo.html:156
+#: app/templates/prodrg.html:159
 msgid "Ignorar Hidrogênios"
 msgstr ""
 
-#: app/templates/acpype.html:139 app/templates/apo.html:141
-#: app/templates/prodrg.html:140
+#: app/templates/acpype.html:170 app/templates/apo.html:161
+#: app/templates/prodrg.html:164
 msgid "Executar"
 msgstr ""
 
-#: app/templates/acpype.html:142 app/templates/apo.html:144
-#: app/templates/prodrg.html:143
+#: app/templates/acpype.html:173 app/templates/apo.html:164
+#: app/templates/prodrg.html:167
 msgid "Baixar Lista de Comandos"
+msgstr ""
+
+#: app/templates/acpype.html:178
+msgid "Gerando arquivos para dinâmica ACPYPE"
 msgstr ""
 
 #: app/templates/apo.html:9
@@ -262,6 +265,18 @@ msgstr ""
 
 #: app/templates/base.html:29
 msgid "Enzima + Ligante"
+msgstr ""
+
+#: app/templates/base.html:32
+msgid "PRODRG com GROMOS"
+msgstr ""
+
+#: app/templates/base.html:33
+msgid "ACPYPE com AMBER"
+msgstr ""
+
+#: app/templates/base.html:34
+msgid "ATB (em desenvolvimento)"
 msgstr ""
 
 #: app/templates/base.html:39 app/templates/login.html:6
@@ -346,11 +361,11 @@ msgstr ""
 msgid "Enzima + Ligante (PRODRG)"
 msgstr ""
 
-#: app/templates/prodrg.html:148
+#: app/templates/prodrg.html:172
 msgid "Gerando arquivos com PRODRG"
 msgstr ""
 
-#: app/templates/prodrg.html:153
+#: app/templates/prodrg.html:177
 msgid "Tutorial de como realizar a dinâmica"
 msgstr ""
 
@@ -464,5 +479,8 @@ msgstr ""
 #~ "iniciado pelo Profº Dr. Fernando Berton"
 #~ " Zanchi junto da Fundação Oswaldo "
 #~ "Cruz de Rondônia..."
+#~ msgstr ""
+
+#~ msgid "Etapa: "
 #~ msgstr ""
 

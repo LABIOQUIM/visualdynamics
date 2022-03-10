@@ -195,7 +195,7 @@ def generate(
 
     #comando grompp
     comandos.write('#productionmd\n\n')
-    comando = f"{gmx} grompp md_pr.mdp -c {arquivo_complx_npt}.gro -p {arquivo_complx_top} -o {arquivo_complx_pr}.tpr -maxwarn 2"
+    comando = f"{gmx} grompp -f md_pr.mdp -c {arquivo_complx_npt}.gro -p {arquivo_complx_top} -o {arquivo_complx_pr}.tpr -maxwarn 2"
     comandos.writelines(comando)
     comandos.write('\n\n')
     
