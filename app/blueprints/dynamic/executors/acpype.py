@@ -10,6 +10,7 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
     #salvando nome da dinamica para exibir na execução
     f = open(Config.UPLOAD_FOLDER+username+'/'+'namedynamic.txt','w')
     f.write(filename)
+    f.close()
 
 
     #transferir os arquivos mdp necessarios para a execução
@@ -37,6 +38,7 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
             data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
             info = data + '|' + filename + '\n'
             f.write(info)
+            f.close()
                      
 
     #abrir arquivo
