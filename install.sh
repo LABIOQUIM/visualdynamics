@@ -65,21 +65,20 @@ if [ $resp = 'y' ]; then
         
         # install requirements
         pip3 install -r ./requirements.txt
+        python ./clear_database.py
     else
         echo "Sistema baseado em Debian/Ubuntu, instalação automática do GROMACS não disponível, faça manualmente..."
         echo "Instalando GRACE e pip..."
         # install python3.7 e pip
-        sudo apt install python3-pip
-        # install grace
-        sudo apt install grace
-        # install virtualenv
-        sudo pip3 install virtualenv
-        #install git
-        sudo apt install git
+        sudo apt install python3 python3-pip python3-venv git grace
+        python3 -m venv venv
+        source venv/bin/activate
+
+        pip3 install -r requirements.txt
+        python3 ./clear_database.py 
     fi
 
     git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
-    python ./clear_database.py 
     chmod +x run.sh
     flask translate compile
     echo "Instalação Concluída. Para executar a aplicação execute o arquivo run.sh que está na raiz do projeto."  
@@ -88,8 +87,9 @@ elif [ $resp = 'n' ];
     then
         echo "Instalação cancelada."
 
-else 
+else
     echo "Opção inválida."
 
 fi
 #End
+
