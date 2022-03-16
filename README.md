@@ -30,12 +30,12 @@ sudo apt-get update
 sudo apt-get install grace fftw3
 ```
 
-With Grace installed, we'll move on to compile and install GROMACS 2021.4  
-If you prefer reading the official documentation, you can head [here](https://manual.gromacs.org/documentation/2021.4/install-guide/index.html)
+With Grace installed, we'll move on to compile and install GROMACS. For the moment we're relying in the 2018 version.  
+If you prefer reading the official documentation, you can head [here](https://manual.gromacs.org/documentation/2018/install-guide/index.html)
 ```zsh
 curl https://ftp.gromacs.org/gromacs/gromacs-2021.4.tar.gz --output gromacs-20214.tar.gz
-tar xfz gromacs-2021.4.tar.gz
-cd gromacs-2021.4
+tar xfz gromacs-2018.tar.gz
+cd gromacs-2018
 mkdir build
 cd build
 cmake .. -DGMX_BUILD_OWN_FFTW=OFF -DREGRESSIONTEST_DOWNLOAD=ON
