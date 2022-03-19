@@ -100,8 +100,9 @@ if [ $resp = 'y' ]; then
     # Make sure our DB and our md_pr file don't go to VCS
     git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
 
-    # Make our started executable
-    chmod +x run.sh
+    # Make our app starters executable
+    chmod +x run-dev.sh
+    chmod +x run-prod.sh
 
     # Compile our app translations
     flask translate compile
