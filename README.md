@@ -13,6 +13,8 @@ Visual Dynamics is a web platform that automates the generation and execution of
 ## Installation
 As a web service that can be accessed at any time [here](http://visualdynamics.fiocruz.br/), you probably will only need to install it from scratch if you want to contribute or to self-host it, for that, we got you covered.
 
+We recommend using Python 3.10, without Anaconda, as we manage our own virtual environment.
+
 ### For Arch Linux and variants:
 We completely automated the installation process for Arch, just clone the repository and run the install
 ```zsh

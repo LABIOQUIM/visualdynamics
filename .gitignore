@@ -5,14 +5,12 @@ __pycache__/
 
 # Visual Dynamics generated files
 userfiles
-arch/grace/*
-!arch/grace/PKGBUILD
-!arch/grace/.SRCINFO
+libs/grace/*
+!libs/grace/PKGBUILD
+!libs/grace/.SRCINFO
 
-arch/gromacs/*
-!arch/gromacs/PKGBUILD
-!arch/gromacs/.SRCINFO
-!arch/gromacs/gromacs.zip
+libs/gromacs/*
+!libs/gromacs/gromacs.zip
 
 arch/python37/*
 !arch/python37/PKGBUILD

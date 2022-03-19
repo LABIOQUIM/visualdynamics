@@ -10,86 +10,108 @@ read resp
 
 if [ $resp = 'y' ]; then
     if [ -f "/etc/arch-release" ]; then
-        echo "Sistema baseado em ArchLinux, instalando e compilando GROMACS, GRACE e pip..."
-        echo "FIQUE ATENTO, SUA AÇÃO SERÁ NECESSÁRIA EM ALGUMAS ETAPAS DA INSTALAÇÃO!!!"
-        sudo pacman -S python-pip fftw --noconfirm
+        # Arch Linux or variant detected
+        # Make sure what we need is installed
+        sudo pacman -S cmake gcc python python-pip fftw unzip --noconfirm
 
-        cd arch
+        # Go to our working dir
+        cd libs
 
+        # In Arch we use paru as our main AUR helper
         if pacman -Qi paru > /dev/null; then
             echo "Paru já instalado, pulando etapa..."
         else
-            echo "Compilando e Instalando PARU..."
+            echo "Compilando e Instalando paru..."
             git clone https://aur.archlinux.org/paru.git
             cd paru && makepkg -si
-            echo "Limpando pastas utilizadas na configuração do PARU..."
+            echo "Limpando pastas..."
             cd .. && rm -rf paru
         fi
 
-        if pacman -Qi gromacs > /dev/null; then
-            echo "GROMACS instalado, pulando etapa..."
-        else
-            echo "Compilando e instalando GROMACS..."
-            cd gromacs
-            paru -Ui --noconfirm
-            cd ..
-        fi
-
         if pacman -Qi grace > /dev/null; then
-            echo "GRACE já instalado, pulando etapa..."
+            echo "Grace já instalado, pulando etapa..."
         else
-            echo "Compilando e instalando GRACE..."
+            echo "Compilando e instalando Grace..."
             cd grace
             paru -Ui --noconfirm
             cd ..
         fi
 
-        if pacman -Qi python37 > /dev/null; then
-            echo "python3.7 já instalado, pulando etapa..."
-        else
-            echo "Instalando Python 3.7..."
-            paru -S python37 --noconfirm
-        fi
-
+        # Leave working dir/go back to visualdynamics root
         cd ..
-
-        sudo pip install virtualenv
-
-        echo "Inicializando Python VirtualEnv"
-        # create venv
-        virtualenv venv --python=/usr/bin/python3.7
-        # init venv
-        source venv/bin/activate
-
-        echo "Instalando dependências..."
-        
-        # install requirements
-        pip3 install -r ./requirements.txt
-        python ./clear_database.py
     else
-        echo "Sistema baseado em Debian/Ubuntu, instalação automática do GROMACS não disponível, faça manualmente..."
-        echo "Instalando GRACE e pip..."
-        # install python3.7 e pip
-        sudo apt install python3 python3-pip python3-venv git grace
-        python3 -m venv venv
-        source venv/bin/activate
-
-        pip3 install -r requirements.txt
-        python3 ./clear_database.py 
+        # We'll assume Debian or variant
+        # Make sure what we need is installed
+        sudo apt install cmake gcc python3 python3-pip git grace unzip -y
     fi
 
+    ## TODO: Install GROMACS 2018
+    # Enter working dir
+    cd libs/gromacs
+
+    # Unzip GROMACS source code
+    unzip gromacs.zip
+
+    # Make and prepare GROMACS build folder
+    mkdir -p build
+    cd build
+    cmake ../gromacs-2018/ \
+        -DCMAKE_INSTALL_PREFIX=/usr/ \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DGMX_BUILD_OWN_FFTW=off \
+        -DGMX_HWLOC=off
+
+    # Build GROMACS
+    make -j$(nproc)
+
+    # Then check our build
+    make check
+
+    # Install our package
+    sudo make install
+
+    # Append GMXRC to our .zshrc or .bash_profile
+    if [ -f ~/.zshrc ]; then
+        if ! grep -Fxq "source /usr/bin/GMXRC" ~/.zshrc; then
+            # Not written, so write
+            echo "source /usr/bin/GMXRC" >> ~/.zshrc
+        fi
+    else
+        if ! grep -Fxq "source /usr/bin/GMXRC" ~/.bash_profile; then
+            # Not written, so write
+            echo "source /usr/bin/GMXRC" >> ~/.bash_profile
+        fi
+    fi
+
+    # Leave working dir/go back to visualdynamics root
+    cd ../../..
+
+    # Install and initialize our virtual environment
+    sudo pip3 install virtualenv
+    virtualenv venv
+    source venv/bin/activate
+    
+    # Install our project dependencies
+    pip3 install -r requirements.txt
+
+    # Clear our SQLite DB
+    python3 clear_database.py
+
+    # Make sure our DB and our md_pr file don't go to VCS
     git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
+
+    # Make our started executable
     chmod +x run.sh
+
+    # Compile our app translations
     flask translate compile
     echo "Instalação Concluída. Para executar a aplicação execute o arquivo run.sh que está na raiz do projeto."  
 
-elif [ $resp = 'n' ];
-    then
-        echo "Instalação cancelada."
+elif [ $resp = 'n' ]; then
+    echo "Instalação cancelada."
 
 else
     echo "Opção inválida."
 
 fi
-#End
 
