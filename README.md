@@ -25,7 +25,7 @@ cd visualdynamics
 This should be enough to get you started on Arch.
 
 ### For Debian Linux and variants:
-Unlike Arch, we don't provide an automated installation for Debian and variants (like Ubuntu), but we do provide an easy to undestand tutorial to get started.  
+~~Unlike Arch, we don't provide an automated installation for Debian and variants (like Ubuntu)~~ Actually we do provide automated GROMACS install on both platforms, and we do provide an easy to undestand tutorial (straight from the docs) to get GROMACS up and running.  
 We'll start by updating our system and then install Grace and FFTW3:
 ```zsh
 sudo apt-get update

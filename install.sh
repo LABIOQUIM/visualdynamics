@@ -42,7 +42,7 @@ if [ $resp = 'y' ]; then
     else
         # We'll assume Debian or variant
         # Make sure what we need is installed
-        sudo apt install cmake gcc python3 python3-pip git grace unzip -y
+        sudo apt install cmake gcc python3 python3-pip git grace unzip fftw3 -y
     fi
 
     ## TODO: Install GROMACS 2018
@@ -77,9 +77,9 @@ if [ $resp = 'y' ]; then
             echo "source /usr/bin/GMXRC" >> ~/.zshrc
         fi
     else
-        if ! grep -Fxq "source /usr/bin/GMXRC" ~/.bash_profile; then
+        if ! grep -Fxq "source /usr/local/gromacs/bin/GMXRC" ~/.bash_profile; then
             # Not written, so write
-            echo "source /usr/bin/GMXRC" >> ~/.bash_profile
+            echo "source /usr/local/gromacs/bin/GMXRC" >> ~/.bash_profile
         fi
     fi
 
