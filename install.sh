@@ -45,46 +45,7 @@ if [ $resp = 'y' ]; then
         sudo apt install cmake gcc python3 python3-pip git grace unzip fftw3 -y
     fi
 
-    ## TODO: Install GROMACS 2018
-    # Enter working dir
-    cd libs/gromacs
-
-    # Unzip GROMACS source code
-    unzip gromacs.zip
-
-    # Make and prepare GROMACS build folder
-    mkdir -p build
-    cd build
-    cmake ../gromacs-2018/ \
-        -DCMAKE_INSTALL_PREFIX=/usr/ \
-        -DCMAKE_INSTALL_LIBDIR=lib \
-        -DGMX_BUILD_OWN_FFTW=off \
-        -DGMX_HWLOC=off
-
-    # Build GROMACS
-    make -j$(nproc)
-
-    # Then check our build
-    make check
-
-    # Install our package
-    sudo make install
-
-    # Append GMXRC to our .zshrc or .bash_profile
-    if [ -f ~/.zshrc ]; then
-        if ! grep -Fxq "source /usr/bin/GMXRC" ~/.zshrc; then
-            # Not written, so write
-            echo "source /usr/bin/GMXRC" >> ~/.zshrc
-        fi
-    else
-        if ! grep -Fxq "source /usr/local/gromacs/bin/GMXRC" ~/.bash_profile; then
-            # Not written, so write
-            echo "source /usr/local/gromacs/bin/GMXRC" >> ~/.bash_profile
-        fi
-    fi
-
-    # Leave working dir/go back to visualdynamics root
-    cd ../../..
+    source compile-and-install-gromacs-2018.sh
 
     # Install and initialize our virtual environment
     sudo pip3 install virtualenv
