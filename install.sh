@@ -42,7 +42,7 @@ if [ $resp = 'y' ]; then
     else
         # We'll assume Debian or variant
         # Make sure what we need is installed
-        sudo apt install cmake gcc python3 python3-pip git grace unzip fftw3 -y
+        sudo apt install cmake gcc python3 python3-pip git grace unzip -y
     fi
 
     source compile-and-install-gromacs-2018.sh

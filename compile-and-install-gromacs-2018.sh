@@ -58,7 +58,7 @@ else
     cmake ../gromacs-2018/ \
         -DCMAKE_INSTALL_PREFIX=/usr/ \
         -DCMAKE_INSTALL_LIBDIR=lib \
-        -DGMX_BUILD_OWN_FFTW=off \
+        -DGMX_BUILD_OWN_FFTW=on \
         -DGMX_HWLOC=off
 
     # Build GROMACS
