@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p class="h2 text-center my-2">{{ _("Dinâmicas em Execução") }}</p>
+
+{% for d in currentDynamics %}
+<div class="card my-2">
+  <div class="card-body">
+    <div class="row">
+      <div class="row">
+        <div class="col-2 my-auto">
+          {{ _("Nome de Usuário") }}
+          <p class="h5">{{ d.username }}</p>
+        </div>
+        <div class="col my-auto">
+          {{ _("Proteína") }}
+          <p class="h5">{{ d.name_dynamic }}</p>
+        </div>
+        <div class="col my-auto">
+          {{ _("Previsão de Término") }}
+          <p class="h5">{{ d.date_finish }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

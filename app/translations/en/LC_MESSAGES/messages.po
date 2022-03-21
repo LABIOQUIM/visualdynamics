@@ -1,0 +1,498 @@
+# English translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-03-10 14:23-0400\n"
+"PO-Revision-Date: 2022-01-24 16:46-0400\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:66
+msgid "O campo Nome Completo é obrigatório"
+msgstr "The Full Name field is required"
+
+#: app/blueprints/auth/routes.py:23
+msgid "O campo Nome de Usuário é obrigatório"
+msgstr "The Username field is required"
+
+#: app/blueprints/auth/routes.py:26
+msgid "O campo Email deve ser válido e é obrigatório"
+msgstr "The Email field is required"
+
+#: app/blueprints/auth/routes.py:29 app/blueprints/auth/routes.py:69
+msgid "O campo Senha é obrigatório"
+msgstr "The Password field is required"
+
+#: app/blueprints/auth/routes.py:32
+msgid "O campo Confirmar Senha é obrigatório"
+msgstr "The Confirm Password field is required"
+
+#: app/blueprints/auth/routes.py:38
+msgid "ATENÇÃO. Os campos de senha e confirmar senha devem ser iguais."
+msgstr "ATTENTION. The password and confirm password must match"
+
+#: app/blueprints/auth/routes.py:49
+#, python-format
+msgid ""
+"Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com "
+"sucesso. Em breve responderemos por Email se a solicitação foi aceita."
+msgstr ""
+"Register Request for user %(username)s recorded. We'll contact you via "
+"email once your account is activated"
+
+#: app/blueprints/auth/routes.py:52
+msgid "Erro, email ou usuário já estão sendo utilizados."
+msgstr "Error, email or username already taken"
+
+#: app/blueprints/auth/routes.py:55
+msgid ""
+"Por favor, preencha os dados corretamente. Em caso de dados incorretos "
+"seu cadastro poderá ser negado."
+msgstr ""
+"Please note that in case you fail to correctly fill the data your "
+"registration might be invalidated"
+
+#: app/blueprints/auth/routes.py:78
+msgid "Usuário ou senha inválidos"
+msgstr "Username or password invalid"
+
+#: app/blueprints/auth/routes.py:83
+msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
+msgstr ""
+"Your account hasn't been activated yet. We'll contact you via email once "
+"it is"
+
+#: app/blueprints/dynamic/routes.py:34 app/blueprints/dynamic/routes.py:42
+msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
+msgstr "Your can't run two (or more) simultaneous dynamics"
+
+#: app/blueprints/dynamic/routes.py:53
+#, fuzzy
+msgid ""
+"Houve um erro ao executar o comando {}. Verifique os logs para mais "
+"detalhes"
+msgstr ""
+"There was an error while executing '%(command)s'. Check the logs for "
+"details"
+
+#: app/blueprints/dynamic/routes.py:55
+msgid "Extensão do arquivo está incorreta"
+msgstr "File extension invalid"
+
+#: app/templates/about.html:5
+msgid "Sobre o Visual Dynamics"
+msgstr "About Visual Dynamics"
+
+#: app/templates/about.html:7
+msgid ""
+"Visual Dynamics é uma aplicação WEB feito em Python e Flask para "
+"facilitar o preparo e execução de dinâmicas moleculares utilizando o "
+"GROMACS."
+msgstr ""
+"Visual Dynamics is a WEB application made in Python and Flask to "
+"facilitate the preparation and execution of molecular dynamics using "
+"GROMACS. "
+
+#: app/templates/about.html:11
+msgid "Desenvolvido por: "
+msgstr "Developed by: "
+
+#: app/templates/about.html:21
+msgid "Contato"
+msgstr "Contact"
+
+#: app/templates/acpype.html:6 app/templates/apo.html:6
+#: app/templates/atb.html:6 app/templates/prodrg.html:6
+msgid ""
+"Para solicitar o cancelamento de uma dinâmica em andamento envie um email"
+" para "
+msgstr "If you need to cancel an executing dynamic send an email to "
+
+#: app/templates/acpype.html:9
+msgid "Enzima + Ligante (ACPYPE)"
+msgstr "Enzyme + Ligand (ACPYPE)"
+
+#: app/templates/acpype.html:18 app/templates/apo.html:18
+#: app/templates/prodrg.html:18
+msgid "Dinâmica em andamento"
+msgstr "Execunting Dynamic"
+
+#: app/templates/acpype.html:19 app/templates/apo.html:19
+#: app/templates/index.html:21 app/templates/prodrg.html:19
+#, python-format
+msgid "Proteína %(protein)s"
+msgstr "Protein %(protein)s"
+
+#: app/templates/acpype.html:29 app/templates/apo.html:29
+#: app/templates/prodrg.html:29
+msgid "Definir Topologia"
+msgstr "Defining topology"
+
+#: app/templates/acpype.html:35 app/templates/prodrg.html:35
+msgid "Editando Topologia e Estrutura"
+msgstr "Modifying topology and structure"
+
+#: app/templates/acpype.html:41 app/templates/apo.html:35
+#: app/templates/prodrg.html:41
+msgid "Definir caixa e solvatar"
+msgstr "Defining box and solvating"
+
+#: app/templates/acpype.html:47 app/templates/apo.html:41
+#: app/templates/prodrg.html:47
+msgid "Adicionar Ions"
+msgstr "Adding Ions"
+
+#: app/templates/acpype.html:53 app/templates/apo.html:47
+#: app/templates/prodrg.html:53
+msgid "Minimização Steep Descent"
+msgstr "Steep Descent Minimization"
+
+#: app/templates/acpype.html:59 app/templates/apo.html:53
+#: app/templates/prodrg.html:59
+msgid "Minimização Conjugate Gradient"
+msgstr "Conjugate Gradient Minimization"
+
+#: app/templates/acpype.html:65 app/templates/apo.html:59
+#: app/templates/prodrg.html:65
+msgid "Restrição NVT"
+msgstr "NVT Restriction"
+
+#: app/templates/acpype.html:71 app/templates/apo.html:65
+#: app/templates/prodrg.html:71
+msgid "Restrição NPT"
+msgstr "NPT Restriction"
+
+#: app/templates/acpype.html:77 app/templates/apo.html:71
+#: app/templates/prodrg.html:77
+msgid "Produção MD"
+msgstr "MD Production"
+
+#: app/templates/acpype.html:83 app/templates/apo.html:76
+#: app/templates/prodrg.html:83
+msgid "Proteína Livre"
+msgstr "Free Protein"
+
+#: app/templates/acpype.html:88 app/templates/acpype.html:93
+#: app/templates/prodrg.html:88 app/templates/prodrg.html:93
+msgid "Ligante"
+msgstr "Ligand"
+
+#: app/templates/acpype.html:108 app/templates/apo.html:99
+#: app/templates/prodrg.html:102
+msgid "Campo de Força"
+msgstr "Force Field"
+
+#: app/templates/acpype.html:115 app/templates/apo.html:106
+#: app/templates/prodrg.html:109
+msgid "Recomendado para GROMOS"
+msgstr "Recommended for GROMOS"
+
+#: app/templates/acpype.html:118 app/templates/acpype.html:119
+#: app/templates/acpype.html:120 app/templates/apo.html:109
+#: app/templates/apo.html:110 app/templates/apo.html:111
+#: app/templates/prodrg.html:112 app/templates/prodrg.html:113
+#: app/templates/prodrg.html:114
+msgid "AMBER e OPLS apenas"
+msgstr "AMBER and OPLS only"
+
+#: app/templates/acpype.html:122 app/templates/apo.html:113
+#: app/templates/prodrg.html:116
+msgid "Modelo de Água"
+msgstr "Water Model"
+
+#: app/templates/acpype.html:134 app/templates/apo.html:125
+#: app/templates/prodrg.html:128
+msgid "Tipo de Caixa"
+msgstr "Box Type"
+
+#: app/templates/acpype.html:141 app/templates/apo.html:132
+#: app/templates/prodrg.html:135
+msgid "Distância entre a proteína e a borda da caixa"
+msgstr "Distance between protein and box border"
+
+#: app/templates/acpype.html:148 app/templates/apo.html:139
+#: app/templates/prodrg.html:142
+msgid "Tempo de Simulação"
+msgstr "Simulation Time"
+
+#: app/templates/acpype.html:154 app/templates/apo.html:145
+#: app/templates/prodrg.html:148
+msgid "Neutralizar o Sistema"
+msgstr "Neutralize System"
+
+#: app/templates/acpype.html:159 app/templates/apo.html:150
+#: app/templates/prodrg.html:153
+msgid "Calcular em dupla precisão"
+msgstr "Double Precision"
+
+#: app/templates/acpype.html:165 app/templates/apo.html:156
+#: app/templates/prodrg.html:159
+msgid "Ignorar Hidrogênios"
+msgstr "Ignore Hydrogens"
+
+#: app/templates/acpype.html:170 app/templates/apo.html:161
+#: app/templates/prodrg.html:164
+msgid "Executar"
+msgstr "Execute"
+
+#: app/templates/acpype.html:173 app/templates/apo.html:164
+#: app/templates/prodrg.html:167
+msgid "Baixar Lista de Comandos"
+msgstr "Download Command List"
+
+#: app/templates/acpype.html:178
+msgid "Gerando arquivos para dinâmica ACPYPE"
+msgstr "How to generate files for ACPYPE"
+
+#: app/templates/apo.html:9
+msgid "Enzima APO"
+msgstr "APO Enzyme"
+
+#: app/templates/atb.html:9
+msgid "Enzima + Ligante (ATB)"
+msgstr "Enzyme + Ligand (ATB)"
+
+#: app/templates/atb.html:16
+msgid "Essa funcionalidade ainda está sendo desenvolvida."
+msgstr "This feature is under development"
+
+#: app/templates/base.html:17
+msgid "Visual Dynamics"
+msgstr ""
+
+#: app/templates/base.html:25
+msgid "APO Enzima"
+msgstr "APO Enzyme"
+
+#: app/templates/base.html:29
+msgid "Enzima + Ligante"
+msgstr "Enzyme + Ligand"
+
+#: app/templates/base.html:32
+msgid "PRODRG com GROMOS"
+msgstr "PRODRG with GROMOS"
+
+#: app/templates/base.html:33
+msgid "ACPYPE com AMBER"
+msgstr "ACPYPE with AMBER"
+
+#: app/templates/base.html:34
+msgid "ATB (em desenvolvimento)"
+msgstr "ATB (WIP)"
+
+#: app/templates/base.html:39 app/templates/login.html:6
+#: app/templates/login.html:19
+msgid "Entrar"
+msgstr "Login"
+
+#: app/templates/base.html:42
+msgid "Cadastro"
+msgstr "Register"
+
+#: app/templates/base.html:46
+msgid "Sobre"
+msgstr "About"
+
+#: app/templates/base.html:53
+msgid "Painel Admin"
+msgstr "Admin Panel"
+
+#: app/templates/base.html:65 app/templates/index.html:5
+msgid "Minhas Dinâmicas"
+msgstr "My Dynamics"
+
+#: app/templates/base.html:70
+msgid "Sair"
+msgstr "Logout"
+
+#: app/templates/base.html:78
+msgid "Alterar Idioma"
+msgstr "Change Language"
+
+#: app/templates/base.html:83
+msgid "Inglês"
+msgstr "English"
+
+#: app/templates/base.html:88
+msgid "Português (Brasil)"
+msgstr "Portuguese (Brazil)"
+
+#: app/templates/index.html:9
+msgid "Não há dinâmicas para serem exibidas"
+msgstr "There aren't dynamics to show"
+
+#: app/templates/index.html:10
+msgid "Você ainda não tem dinâmicas. Utilize o menu acima para começar uma!"
+msgstr "You still don't have dynamics. Use the upper menu to start one!"
+
+#: app/templates/index.html:15
+msgid "Baixar arquivos MDP"
+msgstr "Download MDP files"
+
+#: app/templates/index.html:26
+msgid "Baixar"
+msgstr "Download"
+
+#: app/templates/index.html:29
+msgid "Lista de Comandos"
+msgstr "Command List"
+
+#: app/templates/index.html:30
+msgid "Gráficos de Análise"
+msgstr "Analytics Graphics"
+
+#: app/templates/index.html:31
+msgid "Logs de Execução"
+msgstr "Execution Logs"
+
+#: app/templates/login.html:10
+msgid "Nome de Usuário ou Email"
+msgstr "Username or Email"
+
+#: app/templates/admin/edit/user.html:30 app/templates/login.html:15
+#: app/templates/register.html:25
+msgid "Senha"
+msgstr "Password"
+
+#: app/templates/login.html:22
+msgid "Ainda não tenho uma conta"
+msgstr "I don't have an account yet"
+
+#: app/templates/prodrg.html:9
+msgid "Enzima + Ligante (PRODRG)"
+msgstr "Enzyme + Ligand (PRODRG)"
+
+#: app/templates/prodrg.html:172
+msgid "Gerando arquivos com PRODRG"
+msgstr "Generating files with PRODRG"
+
+#: app/templates/prodrg.html:177
+msgid "Tutorial de como realizar a dinâmica"
+msgstr "Tutorial on how to perform the dynamics"
+
+#: app/templates/register.html:6
+msgid "Solicitação de Cadastro"
+msgstr "Register Request"
+
+#: app/templates/admin/edit/user.html:15 app/templates/admin/index.html:31
+#: app/templates/admin/requests.html:17 app/templates/register.html:10
+msgid "Nome Completo"
+msgstr "Full Name"
+
+#: app/templates/admin/edit/user.html:20 app/templates/admin/executing.html:12
+#: app/templates/admin/index.html:35 app/templates/admin/requests.html:21
+#: app/templates/register.html:15
+msgid "Nome de Usuário"
+msgstr "Username"
+
+#: app/templates/admin/edit/user.html:25 app/templates/admin/index.html:39
+#: app/templates/admin/requests.html:25 app/templates/register.html:20
+msgid "Email"
+msgstr ""
+
+#: app/templates/admin/edit/user.html:35 app/templates/register.html:30
+msgid "Confirmar Senha"
+msgstr "Confirm Password"
+
+#: app/templates/register.html:34
+msgid "Enviar"
+msgstr "Send"
+
+#: app/templates/register.html:37
+msgid "Já tenho uma conta"
+msgstr "I already have an account "
+
+#: app/templates/admin/executing.html:4 app/templates/admin/index.html:12
+msgid "Dinâmicas em Execução"
+msgstr "Executing Dynmics"
+
+#: app/templates/admin/executing.html:16
+msgid "Proteína"
+msgstr "Protein"
+
+#: app/templates/admin/executing.html:20
+msgid "Previsão de Término"
+msgstr "End forecast"
+
+#: app/templates/admin/index.html:4
+msgid "Área do Administrador"
+msgstr "Administrator Area"
+
+#: app/templates/admin/index.html:9 app/templates/admin/requests.html:5
+msgid "Solicitações de Cadastro"
+msgstr "Register Requests"
+
+#: app/templates/admin/index.html:15
+msgid "Editar Arquivo md_pr"
+msgstr "Edit md_pr file"
+
+#: app/templates/admin/index.html:20
+msgid "Usuários"
+msgstr "Users"
+
+#: app/templates/admin/index.html:27 app/templates/admin/requests.html:13
+msgid "ID"
+msgstr ""
+
+#: app/templates/admin/index.html:43
+msgid "Ações"
+msgstr "Actions"
+
+#: app/templates/admin/index.html:45
+msgid "Editar"
+msgstr "Modify"
+
+#: app/templates/admin/index.html:46
+msgid "Excluir Dinâmicas"
+msgstr "Delete Dynamics"
+
+#: app/templates/admin/index.html:48
+msgid "Excluir"
+msgstr "Delete"
+
+#: app/templates/admin/requests.html:44
+msgid "Não há cadastro esperando aprovação"
+msgstr "There are no register requests awaiting approval"
+
+#: app/templates/admin/edit/md.html:5
+msgid "Modificar md_pr.mdp"
+msgstr "Modify md_pr.mdp"
+
+#: app/templates/admin/edit/user.html:7
+#, python-format
+msgid "Modificando Usuário %(username)s"
+msgstr "Modifying user %(username)s"
+
+#: app/templates/admin/edit/user.html:10
+msgid "Para manter a senha atual deixe os campos em branco"
+msgstr "To keep the actual password leave the fields blank"
+
+#: app/templates/admin/edit/user.html:40
+msgid "Confirmar"
+msgstr "Confirm"
+
+#: app/templates/admin/edit/user.html:43
+msgid "Cancelar"
+msgstr "Cancel"
+
+#~ msgid ""
+#~ "O Visual Dynamics é um projeto "
+#~ "iniciado pelo Profº Dr. Fernando Berton"
+#~ " Zanchi junto da Fundação Oswaldo "
+#~ "Cruz de Rondônia..."
+#~ msgstr ""
+
+#~ msgid "Etapa: "
+#~ msgstr "Step: "
+

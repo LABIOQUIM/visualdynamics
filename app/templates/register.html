@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  <form class="max-md mx-auto" action="/register" method="post">
+    <p class="h1 my-3 text-center">{{ _("Solicitação de Cadastro") }}</p>
+
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="name" id="name" placeholder="José Silva Pinheiro">
+      <label for="name">{{ _("Nome Completo") }}</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="username" id="username" placeholder="jspinheiro">
+      <label for="username">{{ _("Nome de Usuário") }}</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
+      <label for="email">{{ _("Email") }}</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input type="password" class="form-control" name="password" id="password" placeholder="******">
+      <label for="password">{{ _("Senha") }}</label>
+    </div>
+
+    <div class="form-floating mb-3">
+      <input type="password" class="form-control" name="passwordconfirm" id="passwordconfirm" placeholder="******">
+      <label for="passwordconfirm">{{ _("Confirmar Senha") }}</label>
+    </div>
+    
+    <button class="btn btn-primary btn-lg w-100">
+      <i class="fa fa-user-plus" aria-hidden="true" ></i> {{ _("Enviar") }}
+    </button>
+    <a class="btn btn-outline-primary btn-lg my-2 w-100" href="/login">
+      <i class="fa fa-sign-in" aria-hidden="true" ></i> {{ _("Já tenho uma conta") }}
+    </a> 
+  </form>
+</div>
+{% endblock %}

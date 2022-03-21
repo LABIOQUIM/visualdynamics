@@ -1,3 +1,4 @@
+import pathlib
 from .config import Config
 from werkzeug.utils import secure_filename
 import os
@@ -10,8 +11,7 @@ def upload_file(file, username):
     moleculename = file.filename.split('.')[0]
     if allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(Config.UPLOAD_FOLDER,
-            username, moleculename, 'run', filename))
+        file.save(os.path.join(Config.UPLOAD_FOLDER, username, moleculename, 'run', filename))
         return True
     else:
         return False
@@ -26,6 +26,8 @@ def upload_file_ligante(file, ligitp, liggro, username):
                 filemol = secure_filename(file.filename)
                 fileitp = secure_filename(ligitp.filename)
                 filegro = secure_filename(liggro.filename)
+                pathlib.Path(os.path.join(Config.UPLOAD_FOLDER,
+                    username, pastaname, 'run', 'logs')).mkdir(parents=True, exist_ok=True)
                 file.save(os.path.join(Config.UPLOAD_FOLDER,
                     username, pastaname, 'run', filemol))
                 ligitp.save(os.path.join(Config.UPLOAD_FOLDER,

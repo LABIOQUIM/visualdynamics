@@ -43,7 +43,5 @@ pbc		= xyz		; 3-D PBC
 ; Dispersion correction
 DispCorr	= EnerPres	; account for cut-off vdW scheme
 ; Velocity generation
-gen_vel		= no		; Velocity generation is off 
-is off 
-ff 
+gen_vel		= no		; Velocity generation is off
 
