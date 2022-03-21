@@ -27,23 +27,16 @@ if [ -f "/etc/arch-release" ]; then
     sudo make install
 
     # Append GMXRC to our .zshrc or .bash_profile
-    if [ -f ~/.zshrc ]; then
-        if ! grep -Fxq "source /usr/bin/GMXRC" ~/.zshrc; then
-            # Not written, so write
-            echo "source /usr/bin/GMXRC" >> ~/.zshrc
-        fi
-    else
-        if ! grep -Fxq "source /usr/local/gromacs/bin/GMXRC" ~/.bash_profile; then
-            # Not written, so write
-            echo "source /usr/local/gromacs/bin/GMXRC" >> ~/.bash_profile
-        fi
-    fi
+		if ! grep -Fxq "source /usr/bin/GMXRC" ~/.zshrc; then
+				# Not written, so write
+				echo "source /usr/bin/GMXRC" >> ~/.zshrc
+		fi
 
     # Leave working dir/go back to visualdynamics root
     cd ../../..
 	fi
 else
-	if dpkg -s gromacs &> /dev/null; then
+	if ls /usr/bin/gmx &> /dev/null; then
 		echo "GROMACS already installed"
 	else
 		# Enter working dir
@@ -71,17 +64,17 @@ else
     sudo make install
 
     # Append GMXRC to our .zshrc or .bash_profile
-    if [ -f ~/.zshrc ]; then
-        if ! grep -Fxq "source /usr/bin/GMXRC" ~/.zshrc; then
-            # Not written, so write
-            echo "source /usr/bin/GMXRC" >> ~/.zshrc
-        fi
-    else
-        if ! grep -Fxq "source /usr/local/gromacs/bin/GMXRC" ~/.bash_profile; then
-            # Not written, so write
-            echo "source /usr/local/gromacs/bin/GMXRC" >> ~/.bash_profile
-        fi
-    fi
+    # if [ -f ~/.zshrc ]; then
+    #     if ! grep -Fxq "source /usr/bin/GMXRC" ~/.zshrc; then
+    #         # Not written, so write
+    #         echo "source /usr/bin/GMXRC" >> ~/.zshrc
+    #     fi
+    # else
+    #     if ! grep -Fxq "source /usr/local/gromacs/bin/GMXRC" ~/.bash_profile; then
+    #         # Not written, so write
+    #         echo "source /usr/local/gromacs/bin/GMXRC" >> ~/.bash_profile
+    #     fi
+    # fi
 
     # Leave working dir/go back to visualdynamics root
     cd ../../..
