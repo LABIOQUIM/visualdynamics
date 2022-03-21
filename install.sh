@@ -49,7 +49,7 @@ if [ $resp = 'y' ]; then
 
     # Install and initialize our virtual environment
     sudo pip3 install virtualenv
-    sudo virtualenv venv
+    virtualenv venv
     source venv/bin/activate
     
     # Install our project dependencies
