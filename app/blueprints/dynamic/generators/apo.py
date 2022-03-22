@@ -177,7 +177,7 @@ def generate(
     comandos.write("\n\n")
     
     # Montagem do comando conversao de trajetoria
-    comando = f"echo '1 0' | {gmx} trjconv -s {nome_arquivo}_pr.xtc -f {nome_arquivo}_pr_PBC.xtc -pbc mol -center"
+    comando = f"echo '1 0' | {gmx} trjconv -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr.xtc -o {nome_arquivo}_pr_PBC.xtc -pbc mol -center"
     comandos.writelines(comando)
     comandos.write("\n\n")
     
@@ -202,7 +202,7 @@ def generate(
     comandos.write("\n\n")
     
     # Montagem do comando grace producao+cristal
-    comando = f"{grace} -nxy {nome_arquivo}_rmsd_prod.xvg {nome_arquivo}_rmsd_cris xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_rmsd_prod_cris.png"
+    comando = f"{grace} -nxy {nome_arquivo}_rmsd_prod.xvg {nome_arquivo}_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_rmsd_prod_cris.png"
     comandos.writelines(comando)
     comandos.write("\n\n")
     
@@ -227,7 +227,7 @@ def generate(
     comandos.write("\n\n")
     
     # Montagem do comando gyrate
-    comando = f"echo '1' | {gmx} sasa {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr_PBC.xtc -o {nome_arquivo}_solvent_accessible_surface.xvg -or {nome_arquivo}_sas_residue.xvg"
+    comando = f"echo '1' | {gmx} sasa -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr_PBC.xtc -o {nome_arquivo}_solvent_accessible_surface.xvg -or {nome_arquivo}_sas_residue.xvg"
     comandos.writelines(comando)
     comandos.write("\n\n")
 
