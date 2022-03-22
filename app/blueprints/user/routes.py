@@ -1,4 +1,5 @@
 import datetime
+import dateutil.parser
 from app.config import Config
 from . import UserBlueprint
 from flask import render_template, make_response, request
@@ -13,12 +14,12 @@ def index():
         directory = Config.UPLOAD_FOLDER + '/' + current_user.username + '/info_dynamics'
         info_dynamics = open(directory, 'r')
         list_dynamics = info_dynamics.readlines()
-
+        info_dynamics.close()
         dynamics = []
 
         for d in list_dynamics:
             obj = {
-                "date": datetime.datetime.fromisoformat(d.strip().split("|")[0]).strftime("%b %d %Y %H:%M:%S"),
+                "date": dateutil.parser.isoparse(d.strip().split("|")[0]),
                 "protein": d.strip().split("|")[1],
                 "original": d
             }
@@ -26,4 +27,5 @@ def index():
 
         return render_template('index.html', actindex='active', no_dynamics='False', list_dynamics=dynamics)
     except:
+        print("error")
         return render_template('index.html', actindex='active', no_dynamics='True')

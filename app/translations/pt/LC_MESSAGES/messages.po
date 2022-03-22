@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-03-10 14:23-0400\n"
+"POT-Creation-Date: 2022-03-22 13:09-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -117,7 +117,7 @@ msgid "Dinâmica em andamento"
 msgstr ""
 
 #: app/templates/acpype.html:19 app/templates/apo.html:19
-#: app/templates/index.html:21 app/templates/prodrg.html:19
+#: app/templates/index.html:24 app/templates/prodrg.html:19
 #, python-format
 msgid "Proteína %(protein)s"
 msgstr ""
@@ -325,22 +325,26 @@ msgid "Você ainda não tem dinâmicas. Utilize o menu acima para começar uma!"
 msgstr ""
 
 #: app/templates/index.html:15
+msgid "Todas as datas estão no formato <b>Ano-Mês-Dia Hora:Minuto:Segundo</b>"
+msgstr ""
+
+#: app/templates/index.html:18
 msgid "Baixar arquivos MDP"
 msgstr ""
 
-#: app/templates/index.html:26
+#: app/templates/index.html:29
 msgid "Baixar"
 msgstr ""
 
-#: app/templates/index.html:29
+#: app/templates/index.html:32
 msgid "Lista de Comandos"
 msgstr ""
 
-#: app/templates/index.html:30
+#: app/templates/index.html:33
 msgid "Gráficos de Análise"
 msgstr ""
 
-#: app/templates/index.html:31
+#: app/templates/index.html:34
 msgid "Logs de Execução"
 msgstr ""
 

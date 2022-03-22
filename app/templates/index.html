@@ -11,6 +11,9 @@
       </div>
     </div>
   {% else %}
+  <div class="alert alert-info my-1" role="alert">
+    {{ _("Todas as datas estão no formato <b>Ano-Mês-Dia Hora:Minuto:Segundo</b>") }}
+  </div>
   <a class="btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
     <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
   </a>
