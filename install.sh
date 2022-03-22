@@ -28,6 +28,8 @@ if [ $resp = 'y' ]; then
             cd .. && rm -rf paru
         fi
 
+        paru -S python36
+
         if pacman -Qi grace > /dev/null; then
             echo "Grace já instalado, pulando etapa..."
         else
@@ -39,17 +41,19 @@ if [ $resp = 'y' ]; then
 
         # Leave working dir/go back to visualdynamics root
         cd ..
+        sudo pip3 install virtualenv
+        virtualenv venv --python=/usr/bin/python3.6
     else
         # We'll assume Debian or variant
         # Make sure what we need is installed
         sudo apt install cmake gcc python3 python3-pip git grace unzip -y
+        sudo pip3 install virtualenv
+        virtualenv venv
     fi
 
     source compile-and-install-gromacs-2018.sh
 
     # Install and initialize our virtual environment
-    sudo pip3 install virtualenv
-    virtualenv venv
     source venv/bin/activate
     
     # Install our project dependencies
