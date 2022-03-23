@@ -195,6 +195,7 @@ def generate(
     comandos.write('\n\n')
 
     #comando trjconv
+    comandos.write('#analyzemd\n\n')
     comando = f"echo \"1 0\" | {gmx} trjconv -s {arquivo_complx_pr}.tpr -f {arquivo_complx_pr}.xtc -o {arquivo_complx_pr}_PBC.xtc -pbc mol -center"
     comandos.writelines(comando)
     comandos.write('\n\n')

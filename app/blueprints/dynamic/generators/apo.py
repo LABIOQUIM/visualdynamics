@@ -177,6 +177,7 @@ def generate(
     comandos.write("\n\n")
     
     # Montagem do comando conversao de trajetoria
+    comandos.write('#analyzemd\n\n')
     comando = f"echo '1 0' | {gmx} trjconv -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr.xtc -o {nome_arquivo}_pr_PBC.xtc -pbc mol -center"
     comandos.writelines(comando)
     comandos.write("\n\n")

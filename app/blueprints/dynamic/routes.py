@@ -58,31 +58,12 @@ def apo():
             flash('', 'steps')
             steplist = CheckDynamicsSteps(current_user.username)
 
-            if '#productionmd' in steplist:
-                progress = "width: 95%"
-            elif '#equilibrationnpt' in steplist:
-                progress = "width: 87%"
-            elif '#equilibrationnvt' in steplist:
-                progress = "width: 75%"
-            elif '#minimizationconjgrad' in steplist:
-                progress = "width: 62%"
-            elif '#minimizationsteepdesc' in steplist:
-                progress = "width: 50%"
-            elif '#ions' in steplist:
-                progress = "width: 37%"
-            elif '#solvate' in steplist:
-                progress = "width: 25%"
-            elif '#topology' in steplist:
-                progress = "width: 12%"
-            else:
-                progress = "width: 5%"
-
             archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
             lines = archive.readlines()
             archive.close()
             last_line = lines[len(lines)-1]     
             #verifica se a execução já está  em produçãomd
-            if last_line == '#productionmd\n':
+            if last_line == '#productionmd\n' or last_line == '#analyzemd\n':
                 # acessa o diretorio do log de execução
                 archive = open(Config.UPLOAD_FOLDER + current_user.username+ '/DirectoryLog', 'r')
                 directory = archive.readline()
@@ -99,13 +80,13 @@ def apo():
                     archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                     name_dynamic = archive.readline()
                     archive.close()
-                    return render_template('apo.html', actapo='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+                    return render_template('apo.html', actapo='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
             
             archive.close()
             archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
             name_dynamic = archive.readline()
             archive.close()        
-            return render_template('apo.html', actapo='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic) 
+            return render_template('apo.html', actapo='active', steplist=steplist, name_dynamic=name_dynamic) 
     
     return render_template('apo.html', actapo='active')
 
@@ -161,33 +142,12 @@ def prodrg():
         flash('','steps')
         steplist = CheckDynamicsStepsLig(current_user.username)
 
-        if '#productionmd' in steplist:
-            progress = "width: 95%"
-        elif '#equilibrationnpt' in steplist:
-            progress = "width: 88%"
-        elif '#equilibrationnvt' in steplist:
-            progress = "width: 77%"
-        elif '#minimizationconjgrad' in steplist:
-            progress = "width: 66%"
-        elif '#minimizationsteepdesc' in steplist:
-            progress = "width: 55%"
-        elif '#ions' in steplist:
-            progress = "width: 44%"
-        elif '#solvate' in steplist:
-            progress = "width: 33%"
-        elif '#break' in steplist:
-            progress = "width: 22%"
-        elif '#topology' in steplist:
-            progress = "width: 11%"
-        else:
-            progress = "width: 5%"
-
         archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
         lines = archive.readlines()
         archive.close()
         last_line = lines[len(lines)-1]     
         #verifica se a execução já está  em produçãomd
-        if last_line == '#productionmd\n':
+        if last_line == '#productionmd\n' or last_line == '#analyzemd\n':
             #acessa o diretorio do log de execução
             archive = open(Config.UPLOAD_FOLDER + current_user.username + '/DirectoryLog', 'r')
             directory = archive.readline()
@@ -204,12 +164,12 @@ def prodrg():
                 archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                 name_dynamic = archive.readline()
                 archive.close()    
-                return render_template('prodrg.html', actprodrg='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+                return render_template('prodrg.html', actprodrg='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
         archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
         name_dynamic = archive.readline()
-        archive.close()                    
-        return render_template('prodrg.html', actprodrg='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic) 
+        archive.close()
+        return render_template('prodrg.html', actprodrg='active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('prodrg.html', actprodrg='active')
 
@@ -263,33 +223,12 @@ def acpype():
         flash('','steps')
         steplist = CheckDynamicsStepsLig(current_user.username)
 
-        if '#productionmd' in steplist:
-            progress = "width: 95%"
-        elif '#equilibrationnpt' in steplist:
-            progress = "width: 88%"
-        elif '#equilibrationnvt' in steplist:
-            progress = "width: 77%"
-        elif '#minimizationconjgrad' in steplist:
-            progress = "width: 66%"
-        elif '#minimizationsteepdesc' in steplist:
-            progress = "width: 55%"
-        elif '#ions' in steplist:
-            progress = "width: 44%"
-        elif '#solvate' in steplist:
-            progress = "width: 33%"
-        elif '#break' in steplist:
-            progress = "width: 22%"
-        elif '#topology' in steplist:
-            progress = "width: 11%"
-        else:
-            progress = "width: 5%"
-
         archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executingLig','r')
         lines = archive.readlines()
         archive.close()
         last_line = lines[len(lines)-1]     
         #verifica se a execução já está  em produçãomd
-        if last_line == '#productionmd\n':
+        if last_line == '#productionmd\n' or last_line == '#analyzemd\n':
             #acessa o diretorio do log de execução
             archive = open(Config.UPLOAD_FOLDER + current_user.username + '/DirectoryLog', 'r')
             directory = archive.readline()
@@ -306,12 +245,12 @@ def acpype():
                 archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
                 name_dynamic = archive.readline()
                 archive.close()    
-                return render_template('acpype.html', actacpype='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+                return render_template('acpype.html', actacpype='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
         archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
         name_dynamic = archive.readline()
         archive.close()                    
-        return render_template('acpype.html', actacpype='active', progress=progress, steplist=steplist, name_dynamic=name_dynamic) 
+        return render_template('acpype.html', actacpype='active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('acpype.html', actacpype='active')
 
