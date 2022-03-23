@@ -61,7 +61,7 @@ def apo():
             archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
             lines = archive.readlines()
             archive.close()
-            last_line = lines[len(lines)-1]     
+            last_line = lines[len(lines)-1]
             #verifica se a execução já está  em produçãomd
             if last_line == '#productionmd\n' or last_line == '#analyzemd\n':
                 # acessa o diretorio do log de execução
