@@ -222,7 +222,7 @@ def generate(
     comandos.write("\n\n")
     
     # Montagem do comando grace producao+cristal
-    comando = f"{grace} -nxy {nome_arquivo}_rmsf_residue.xvg -hdevice PND -hardcopy -printfile ../graficos/{nome_arquivo}_rmsf_residue.png"
+    comando = f"{grace} -nxy {nome_arquivo}_rmsf_residue.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_rmsf_residue.png"
     comandos.writelines(comando)
     comandos.write("\n\n")
     

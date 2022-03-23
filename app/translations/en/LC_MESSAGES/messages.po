@@ -218,8 +218,8 @@ msgstr "Box Type"
 
 #: app/templates/acpype.html:141 app/templates/apo.html:132
 #: app/templates/prodrg.html:135
-msgid "Distância entre a proteína e a borda da caixa"
-msgstr "Distance between protein and box border"
+msgid "Distância entre a proteína e a borda da caixa (nm)"
+msgstr "Distance between protein and box border (nm)"
 
 #: app/templates/acpype.html:148 app/templates/apo.html:139
 #: app/templates/prodrg.html:142
