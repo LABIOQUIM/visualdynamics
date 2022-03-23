@@ -181,7 +181,7 @@ msgstr "MD Production"
 #: app/templates/acpype.html:83 app/templates/apo.html:77
 #: app/templates/prodrg.html:83
 msgid "Análise MD"
-msgstr "Analyze MD"
+msgstr "MD Analysis"
 
 #: app/templates/acpype.html:89 app/templates/apo.html:82
 #: app/templates/prodrg.html:89
