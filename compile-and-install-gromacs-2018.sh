@@ -1,5 +1,5 @@
 if [ -f "/etc/arch-release" ]; then
-	if pacman -Qi paru > /dev/null; then
+	if ls /usr/bin/gmx &> /dev/null || ls /usr/bin/gmx_d &> /dev/null; then
 		echo ">>> GROMACS já instalado"
 	else
 	# Enter working dir
