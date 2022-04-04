@@ -8,6 +8,11 @@
     <h1 align="center">Visual Dynamics</h1>
 </a>
 
+![GitHub repo size](https://img.shields.io/github/repo-size/LABIOQUIM/visualdynamics)
+[![GitHub](https://img.shields.io/github/license/LABIOQUIM/visualdynamics)](https://github.com/LABIOQUIM/visualdynamics/blob/master/LICENSE)
+
+
+
 Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides graphical outputs of said dynamic.
 
 ## Installation
