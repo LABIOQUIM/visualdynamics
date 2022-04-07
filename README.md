@@ -20,9 +20,14 @@ As a web service that can be accessed at any time [here](http://visualdynamics.f
 
 We recommend using Python 3.10, without Anaconda, as we manage our own virtual environment.
 
-There's a `install.sh` script that gera everything ready for you. Note that this script actually supports only Arch and Debian based distros.  
-VisualDynamics needs 2 packages to work: `Grace` and `Gromacs`. The latter being built on both distros.  
-The app currently Works with Gromacs 2018 and 2019. By default, we build and install 2018.  
+There's a `install.sh` script that gera everything ready for you. Note that this script actually supports only Arch and Debian based distros.
+
+VisualDynamics needs 2 packages to work: `Grace` and `Gromacs`. The latter being built on both distros.
+
+The app currently works with Gromacs 2018 and 2019. By default, we build and install 2018.  
+### Note: We already do the following steps for you, they're here just to keep this close, in case you, or we need it
+
+### Also note that in Arch Linux, `DGMX_BUILD_OWN_FFTW` must be set to `off` since Arch is a bleeding edge distro, it won't compile. You should install `fftw` from the distro official repos or from `aur`.
 
 We already do this for you, but if you need it, these are the steps to build and install Gromacs  
 If you prefer reading the official documentation, you can head [here](https://manual.gromacs.org/documentation/2018/install-guide/index.html)
