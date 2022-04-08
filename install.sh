@@ -1,14 +1,11 @@
 #!/bin/bash
-echo "Atenção ao executar a instalação os registros do banco de dados serão apagados."
-echo "Se for a primeira instalação não se preocupe com isso, será gerado um novo login de admin que será salvo no arquivo login.txt."
-echo "Caso você já tenha o Visual Dynamics instalado, cuidado! Se realizar a instalação novamente o banco de dados será totalmente limpo."
-echo "ATENÇÃO!!! ESTE É UM PROCESSO AUTOMATIZADO E DEMORADO CASO VOCÊ ESTEJA UTILIZANDO UMA DISTRO BASEADA NO ARCHLINUX,"
-echo "CASO NÃO ESTEJA EM UMA DISTRUBUIÇÃO BASEADA EM ARCHLINUX, O PROCESSO É DEMORADO E DEVE SER FEITO MANUALMENTE SEGUINDO AS INSTRUÇÕES"
-echo "DISPONÍVEIS NO REPOSITÓRIO https://github.com/LABIOQUIM/visualdynamics"
-echo "Confirmar instalação? (y = confirmar/n = cancelar)"
-read resp
+echo "Atenção ao executar a instalação os registros do banco de dados serão apagados. Se for a primeira instalação não se preocupe com isso, será gerado um novo login de admin que será salvo no arquivo login.txt. Caso você já tenha o Visual Dynamics instalado, cuidado! Se realizar a instalação novamente o banco de dados será totalmente limpo."
+echo "ATENÇÃO!!! ESTE É UM PROCESSO AUTOMATIZADO E DEMORADO, PRESTE ATENÇÃO PARA INSERIR SUA SENHA"
+echo "Confirmar instalação? (Y/n)"
+read -rsn1 resp
+resp=${resp:-Y}
 
-if [ $resp = 'y' ]; then
+if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
     if [ -f "/etc/arch-release" ]; then
         # Arch Linux or variant detected
         # Make sure what we need is installed
@@ -29,13 +26,6 @@ if [ $resp = 'y' ]; then
         fi
 
         if pacman -Qi grace > /dev/null; then
-            echo ">>> Python3.6 já instalado, pulando etapa..."
-        else
-            echo ">>> Python3.6: compilando e instalando..."
-            paru -S python36
-        fi
-
-        if pacman -Qi grace > /dev/null; then
             echo ">>> Grace já instalado, pulando etapa..."
         else
             echo ">>> Grace: Compilando e instalando..."
@@ -46,18 +36,15 @@ if [ $resp = 'y' ]; then
 
         # Leave working dir/go back to visualdynamics root
         cd ..
-        echo ">>> Virtualenv: inicializando"
-        sudo pip3 install virtualenv > /dev/null
-        virtualenv venv --python=/usr/bin/python3.6 > /dev/null
     else
         # We'll assume Debian or variant
         # Make sure what we need is installed
         sudo apt install cmake gcc python3 python3-pip git grace unzip -y
-        
-        echo ">>> Virtualenv: inicializando"
-        sudo pip3 install virtualenv > /dev/null
-        virtualenv venv > /dev/null
     fi
+
+    echo ">>> Virtualenv: inicializando"
+    sudo pip3 install virtualenv > /dev/null
+    virtualenv venv > /dev/null
 
     chmod +x compile-and-install-gromacs-2018.sh
     source compile-and-install-gromacs-2018.sh
