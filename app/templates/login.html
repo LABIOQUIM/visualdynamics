@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script>
+	document.title = "{{ _('Entrar') }} - Visual Dynamics"
+</script>
 <div>
   <form class="max-md mx-auto" action="/login" method="post">
     <p class="h1 my-3 text-center">{{ _("Entrar") }}</p>

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script>
+	document.title = "{{ _('Dinâmicas em Execução') }} - Visual Dynamics"
+</script>
 <p class="h2 text-center my-2">{{ _("Dinâmicas em Execução") }}</p>
 
 {% for d in currentDynamics %}

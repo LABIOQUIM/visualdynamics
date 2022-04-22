@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<script>
+	document.title = "{{ _('Solicitações de Cadastro') }} - Visual Dynamics"
+</script>
 <p class="h2 text-center my-2">{{ _("Solicitações de Cadastro") }}</p>
 
 {% if count > 0 %}
