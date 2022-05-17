@@ -43,7 +43,7 @@ if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
     fi
 
     echo ">>> Virtualenv: inicializando"
-    sudo pip3 install virtualenv > /dev/null
+    pip3 install virtualenv > /dev/null
     virtualenv venv > /dev/null
 
     chmod +x compile-and-install-gromacs-2018.sh
