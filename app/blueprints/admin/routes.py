@@ -35,14 +35,14 @@ def accept_newUser(id):
     db.session.add(UserData)
     db.session.commit()
     
-    msg = MIMEText('<h3>Olá '+ name +', seu cadastro no Visual Dynamics foi aprovado.</h3>\
-    Acesse http://157.86.248.13:8080 para utilizar o sistema.\
-    <h5>E-mail gerado automáticamente, por favor não responder.</h5>','html', 'utf-8')
+    msg = MIMEText('<h3>Hey, '+ name +', your Visual Dynamics account has been activated.</h3>\
+    Visit http://visualdynamics.fiocruz.br/, login to your account and start your dynamics. Just remember that you can only execute one (1) dynamic at a time.\
+    <h5>Automated Email, don\'t reply.</h5>','html', 'utf-8')
 
     #Criar email da oficial para o sistema
     msg['From'] = 'LABIOQUIM FIOCRUZ - RO'
     msg['To'] = email
-    msg['Subject'] = 'Cadastro Visual Dynamics'
+    msg['Subject'] = 'Account Activated - Visual Dynamics'
     message = msg.as_string()
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")

@@ -4,7 +4,8 @@ from flask import render_template, make_response, request, redirect, url_for, fl
 from flask_babel import _
 from flask_login import login_user, logout_user
 from  app import login_manager, db
-
+from email.mime.text import MIMEText
+import smtplib
 
 # INFO Cadastro
 @AuthBlueprint.route('/register', methods=['GET', 'POST'], endpoint='register')
@@ -46,6 +47,24 @@ def register():
             new.set_password(password)
             db.session.add(new)
             db.session.commit()
+
+            msg = MIMEText('<h3>Olá, há um novo pedido de cadastro no Visual Dynamics.</h3><br>\
+            Nome de Usuário: '+ user +'<br>\
+            Nome da Requerente: '+ name +'<br>\
+            Email do Requerente: '+ email +'<br>\
+            Acesse http://visualdynamics.fiocruz.br/, faça seu login e valide ou não o cadastro.\
+            <h5>Automated Email, don\'t reply.</h5>','html', 'utf-8')
+
+            #Criar email da oficial para o sistema
+            msg['From'] = 'Visual Dynamics - LABIOQUIM FIOCRUZ - RO'
+            msg['To'] = email
+            msg['Subject'] = 'Novo Cadastro - Visual Dynamics'
+            message = msg.as_string()
+            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+            server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
+            server.sendmail("labioquim.rondonia.fiocruz@gmail.com", "fernando.zanchi@fiocruz.br", message)
+            server.quit()
+
             flash(_('Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.', username=user), 'primary')
             return redirect(url_for('AuthRoutes.login'))
         else:
