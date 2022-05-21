@@ -57,7 +57,7 @@ def register():
 
             #Criar email da oficial para o sistema
             msg['From'] = 'Visual Dynamics - LABIOQUIM FIOCRUZ - RO'
-            msg['To'] = email
+            msg['To'] = "fernando.zanchi@fiocruz.br"
             msg['Subject'] = 'Novo Cadastro - Visual Dynamics'
             message = msg.as_string()
             server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
