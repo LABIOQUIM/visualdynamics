@@ -4,7 +4,7 @@
 ############################################################
 Help() {
   # Display Help
-  echo "Add description of the script functions here."
+  echo "How to run VisualDynamics?"
   echo
   echo "Syntax: ./run.sh [-h|m]"
   echo "options:"
