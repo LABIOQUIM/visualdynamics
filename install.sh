@@ -1,7 +1,7 @@
 #!/bin/bash
-echo "Atenção ao executar a instalação os registros do banco de dados serão apagados. Se for a primeira instalação não se preocupe com isso, será gerado um novo login de admin que será salvo no arquivo login.txt. Caso você já tenha o Visual Dynamics instalado, cuidado! Se realizar a instalação novamente o banco de dados será totalmente limpo."
-echo "ATENÇÃO!!! ESTE É UM PROCESSO AUTOMATIZADO E DEMORADO, PRESTE ATENÇÃO PARA INSERIR SUA SENHA"
-echo "Confirmar instalação? (Y/n)"
+echo "BEWARE. All data stored in the app/app.db will be lost."
+echo "This is a automated process mainly, you might need to enter your password by continuing"
+echo "Do you wish to continue? (Y/n)"
 read -rsn1 resp
 resp=${resp:-Y}
 
@@ -16,21 +16,22 @@ if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
 
         # In Arch we use paru as our main AUR helper
         if pacman -Qi paru > /dev/null; then
-            echo ">>> Paru já instalado, pulando etapa..."
+            echo ">>> Paru found, skipping..."
         else
-            echo ">>> Paru: Compilando e Instalando..."
+            echo ">>> Paru not found, installing..."
             git clone https://aur.archlinux.org/paru.git
             cd paru && makepkg -si
-            echo ">>> Paru: Limpando pastas..."
+            echo ">>> Paru installed, cleaning work dir..."
             cd .. && rm -rf paru
         fi
 
         if pacman -Qi grace > /dev/null; then
-            echo ">>> Grace já instalado, pulando etapa..."
+            echo ">>> Grace found, skipping..."
         else
-            echo ">>> Grace: Compilando e instalando..."
+            echo ">>> Grace not found, installing..."
             cd grace
             paru -Ui --noconfirm
+            echo ">>> Grace installed, cleaning work dir..."
             cd ..
         fi
 
@@ -42,10 +43,11 @@ if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
         sudo apt install cmake gcc python3 python3-pip git grace unzip -y
     fi
 
-    echo ">>> Virtualenv: inicializando"
+    echo ">>> Initializing Python Virtual Environment"
     pip3 install virtualenv > /dev/null
     virtualenv venv > /dev/null
 
+    echo ">>> Validating GROMACS"
     chmod +x compile-and-install-gromacs-2018.sh
     source compile-and-install-gromacs-2018.sh
 
@@ -53,15 +55,15 @@ if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
     source venv/bin/activate
     
     
-    echo ">>> VisualDynamics: instalando dependencias"
+    echo ">>> Installing Python deps"
     # Install our project dependencies
     pip3 install -r requirements.txt > /dev/null
-    echo ">>> VisualDynamics: dependencias instaladas"
+    echo ">>> Python deps installed"
 
-    echo ">>> VisualDynamics: reinicializando base de dados"
+    echo ">>> Resetting database"
     # Clear our SQLite DB
     python3 clear_database.py
-    echo ">>> VisualDynamics: base de dados reinicializada"
+    echo ">>> Database resetted"
 
     # Make sure our DB and our md_pr file don't go to VCS
     git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
@@ -71,16 +73,15 @@ if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
     chmod +x run-prod.sh
 
     # Compile our app translations
-    echo ">>> VisualDynamics: preparando traduções"
+    echo ">>> Readying translations"
     flask translate compile > /dev/null
-    
-    echo ">>> VisualDynamics: traduções preparadas"
-    echo "Instalação Concluída. Para executar a aplicação execute o arquivo run.sh que está na raiz do projeto."  
+    echo ">>> Translations ready"
+    echo "VisualDynamics is now ready. See './run.sh -h' to start the application"  
 
 elif [ $resp = 'n' ]; then
-    echo "Instalação cancelada."
+    echo "Installation Cancelled"
 
 else
-    echo "Opção inválida."
+    echo "Invalid Option"
 
 fi
