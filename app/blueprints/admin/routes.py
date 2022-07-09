@@ -45,10 +45,10 @@ def accept_newUser(id):
     msg['Subject'] = 'Account Activated - Visual Dynamics'
     message = msg.as_string()
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
-    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, message)
+    server.login(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD"])
+    server.sendmail(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], email, message)
     server.quit()
-    flash('Solicitação de cadastro do(a) usuário(a) {} aceita com sucesso.'.format(UserData.username), 'primary')
+    flash(f'Solicitação de cadastro do(a) usuário(a) {UserData.name} aceita com sucesso.', 'primary')
     return redirect(url_for('AdminRoutes.admin_cadastro'))
 
 ####### admin_remove_br #########
@@ -66,13 +66,13 @@ def remove_newUser(id):
     <h5>E-mail gerado automáticamente, por favor não responder.</h5>','html', 'utf-8')
 
     #Criar email da oficial para o sistema
-    msg['From'] = 'labioquim.rondonia.fiocruz@gmail.com'
+    msg['From'] = os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"]
     msg['To'] = email
     msg['Subject'] = 'Cadastro Visual Dynamics'
     message = msg.as_string()
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
-    server.sendmail("labioquim.rondonia.fiocruz@gmail.com", email, message)
+    server.login(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD"])
+    server.sendmail(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], email, message)
     server.quit()
    
     flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')

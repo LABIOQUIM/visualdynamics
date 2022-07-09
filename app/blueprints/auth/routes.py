@@ -1,3 +1,4 @@
+import os
 from app.models import User
 from . import AuthBlueprint
 from flask import render_template, make_response, request, redirect, url_for, flash
@@ -57,12 +58,12 @@ def register():
 
             #Criar email da oficial para o sistema
             msg['From'] = 'Visual Dynamics - LABIOQUIM FIOCRUZ - RO'
-            msg['To'] = "fernando.zanchi@fiocruz.br"
+            msg['To'] = os.environ["VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL"]
             msg['Subject'] = 'Novo Cadastro - Visual Dynamics'
             message = msg.as_string()
             server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.login("labioquim.rondonia.fiocruz@gmail.com", "ietcbybgbiiyfrko")
-            server.sendmail("labioquim.rondonia.fiocruz@gmail.com", "fernando.zanchi@fiocruz.br", message)
+            server.login(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD"])
+            server.sendmail(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL"], message)
             server.quit()
 
             flash(_('Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.', username=user), 'primary')

@@ -1,8 +1,7 @@
 #!/bin/bash
 echo "BEWARE. All data stored in the app/app.db will be lost."
 echo "This is a automated process mainly, you might need to enter your password by continuing"
-echo "Do you wish to continue? (Y/n)"
-read -rsn1 resp
+read -rsn1 -p "Do you wish to continue? (Y/n) " resp
 resp=${resp:-Y}
 
 if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
@@ -62,6 +61,22 @@ if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
 
     echo ">>> Resetting database"
     # Clear our SQLite DB
+    read -p ">>>> Administrator Email: " email
+    read -p ">>>> VisualDynamics no-reply Email: " noreplyemail
+    read -p ">>>> VisualDynamics no-reply Email password: " noreplyemailpassword
+    export VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL=$email
+    export VISUAL_DYNAMICS_NO_REPLY_EMAIL=$noreplyemail
+    export VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD=$noreplyemailpassword
+    
+    echo >> ~/.bashrc
+    echo "export VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL=$email" >> ~/.bashrc
+    echo >> ~/.bashrc
+    echo "export VISUAL_DYNAMICS_NO_REPLY_EMAIL=$noreplyemail" >> ~/.bashrc
+    echo >> ~/.bashrc
+    echo "export VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD=$noreplyemailpassword" >> ~/.bashrc
+
+    source ~/.bashrc
+    
     python3 clear_database.py
     echo ">>> Database resetted"
 
@@ -69,8 +84,7 @@ if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
     git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
 
     # Make our app starters executable
-    chmod +x run-dev.sh
-    chmod +x run-prod.sh
+    chmod +x run.sh
 
     # Compile our app translations
     echo ">>> Readying translations"

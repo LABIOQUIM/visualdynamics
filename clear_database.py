@@ -7,11 +7,8 @@ import os
 import sqlite3
 import hashlib
 
-#Cuidado!!! Ao executar esse script o Banco de dados exclui todos os usuarios.
-
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-#TRUCATE na tabela
 directoryDB = 'app/app.db'
 conexao = sqlite3.connect(directoryDB)
 cursor = conexao.cursor()
@@ -20,21 +17,19 @@ conexao.commit()
 cursor.close()
 conexao.close()
 
-#numero aleatório para senha.
 num = str(random.randrange(10000)*10000)
-#novo admin.
-name = 'Administrador'
+name = 'Administrator'
 user = 'admin'
-email = 'your.email@a.com'
-password = user+num
+email = os.environ["VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL"]
+password = user + num
 hash = hashlib.sha1(password.encode())
 password = hash.hexdigest()
 
 #anota o usuario e senha gerado automaticamente
-directory = basedir+'/login.txt'
+directory = basedir + '/login.txt'
 info = open(directory,'w')
-usuario = 'username: '+user+'\n'
-senha = 'password: '+password
+usuario = f'username: {user}\n'
+senha = f'password: {password}'
 info.write(usuario)
 info.write(senha)
 info.close()
