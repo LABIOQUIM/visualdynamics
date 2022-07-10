@@ -5,6 +5,7 @@ __pycache__/
 
 # Visual Dynamics generated files
 VDfiles
+config
 libs/grace/*
 !libs/grace/PKGBUILD
 !libs/grace/.SRCINFO
@@ -12,13 +13,6 @@ libs/grace/*
 libs/gromacs/*
 !libs/gromacs/gromacs.zip
 
-arch/python37/*
-!arch/python37/PKGBUILD
-!arch/python37/.SRCINFO
-!arch/python37/0002-smaller-pgo-test-suite.patch
-!arch/python37/0003-enable-building-with-libmpdec.patch
-!arch/python37/0004-mpdecimal-2.5.1.patch
-!arch/python37/dont-make-libpython-readonly.patch
 # C extensions
 *.so
 

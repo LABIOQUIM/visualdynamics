@@ -1,0 +1,126 @@
+#!/bin/bash
+############################################################
+# Help                                                     #
+############################################################
+Help() {
+  # Display Help
+  echo "How to run VisualDynamics?"
+  echo
+  echo "Syntax: ./run [-h|m]"
+  echo "options:"
+  echo "h     Print this Help."
+  echo "i     Installs (or reinstalls) VisualDynamics."
+  echo "m     Specify the execution mode (dev|prod)."
+  echo
+}
+
+############################################################
+# StartService                                             #
+############################################################
+StartService() {
+  echo ">> Starting VisualDynamics in $1 mode"
+  echo ">> To end the server press Ctrl + C"
+  
+  source venv/bin/activate
+  source ./config
+
+  if [ $1 == 'dev' ]; then
+    export FLASK_ENV=development
+    flask run --host=0.0.0.0
+  else
+    echo ">> Staring server on http://0.0.0.0:8080"
+    python3 visualdynamics.py
+  fi
+}
+
+############################################################
+# InstallService                                           #
+############################################################
+InstallService() {
+  export PIP_IGNORE_INSTALLED=0
+
+  echo "BEWARE. All data stored in the app/app.db will be lost."
+  echo "This is a automated process mainly, you might need to enter your password by continuing"
+  read -rsn1 -p "Do you wish to continue? (Y/n) " resp
+  resp=${resp:-Y}
+
+  if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
+    echo
+    chmod +x ./scripts/config.sh
+    source ./scripts/config.sh
+
+    chmod +x ./scripts/pyenv.sh
+    source ./scripts/pyenv.sh
+
+    if [ -f "/etc/arch-release" ]; then
+      chmod +x ./scripts/arch-steps.sh
+      source ./scripts/arch-steps.sh
+    else
+      chmod +x ./scripts/debian-steps.sh
+      source ./scripts/debian-steps.sh
+    fi
+
+    echo ">>> Initializing Python Virtual Environment"
+    pip3 install virtualenv > /dev/null
+    virtualenv venv > /dev/null
+
+    # Install and initialize our virtual environment
+    source venv/bin/activate
+    
+    echo ">>> Installing Python deps"
+    # Install our project dependencies
+    pip3 install -r requirements.txt > /dev/null
+    echo ">>> Python deps installed"
+
+    echo ">>> Resetting database"
+    # Clear our SQLite DB
+
+    python3 clear_database.py
+    echo ">>> Database resetted"
+
+    echo ">>> Validating GROMACS"
+    chmod +x ./scripts/gromacs.sh
+    source ./scripts/gromacs.sh
+
+    source ./config
+    
+    echo ">>> GROMACS Validated"
+
+    # Compile our app translations
+    echo ">>> Readying translations"
+    flask translate compile > /dev/null
+    echo ">>> Translations ready"
+
+    echo ">>> Finishing things up..."
+    # Make sure our DB and our md_pr file don't go to VCS
+    git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
+
+    # Make our app starters executable
+    chmod +x run
+
+    echo "VisualDynamics is now ready. See './run -h' to start the application"  
+  elif [ $resp = 'n' ]; then
+    echo "Installation Cancelled by User"
+  else
+    echo "Invalid Option"
+  fi
+}
+
+############################################################
+# Main program                                             #
+############################################################
+while getopts ":him:" option; do
+  case $option in
+    h) # display Help
+      Help
+      exit;;
+    i)
+      InstallService;;
+    m) # start the application in the selected mode
+      StartService "$OPTARG";;
+    \?) # Invalid option
+      echo "Error: Invalid option"
+      exit;;
+  esac
+done
+
