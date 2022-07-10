@@ -15,45 +15,33 @@
 
 Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides graphical outputs of said dynamic.
 
-## Installation
-As a web service that can be accessed at any time [here](http://visualdynamics.fiocruz.br/), you probably will only need to install it from scratch if you want to contribute or to self-host it, for that, we got you covered.
+## Quick Start
+There's some steps that need to be taken to get everything ready, but we already do that for you. Just run `./run -i`.
 
-We recommend using Python 3.10, without Anaconda, as we manage our own virtual environment.
+## Not So Quick Start
+If you're the type that wants to do everything by your own hands, you'll need to build `GROMACS`, for that, [head out to their documentation](https://manual.gromacs.org/).
 
-There's a `install.sh` script that gera everything ready for you. Note that this script actually supports only Arch and Debian based distros.
+You'll need [Grace](https://plasma-gate.weizmann.ac.il/Grace/) too.
 
-VisualDynamics needs 2 packages to work: `Grace` and `Gromacs`. The latter being built on both distros.
+With both of them on hand, you'll need [Python](https://www.python.org/), we recommend Python 3.7. Don't forget to install [pip](https://pip.pypa.io/en/stable/installation/) as we'll be relying in it.
 
-The app currently works with Gromacs 2018 and 2019. By default, we build and install 2018.  
-### Note: We already do the following steps for you, they're here just to keep this close, in case you, or we need it
 
-### Also note that in Arch Linux, `DGMX_BUILD_OWN_FFTW` must be set to `off` since Arch is a bleeding edge distro, it won't compile. You should install `fftw` from the distro official repos or from `aur`.
+Now you can install [virtualenv](https://virtualenv.pypa.io/en/latest/) with `pip install virtualenv`, then `virtualenv venv`. This will start a new virtual isolated environment for Visual Dynamics.
 
-We already do this for you, but if you need it, these are the steps to build and install Gromacs  
-If you prefer reading the official documentation, you can head [here](https://manual.gromacs.org/documentation/2018/install-guide/index.html)
-```zsh
-curl https://ftp.gromacs.org/gromacs/gromacs-2018.tar.gz --output gromacs-2018.tar.gz
-tar xfz gromacs-2018.tar.gz
-cd gromacs-2018
-mkdir build
-cd build
-cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON
-make
-make check
-sudo make install
-source /usr/local/gromacs/bin/GMXRC
+You then activate this new environment with `source venv/bin/activate` and install our Python dependencies with `pip install -r requirements.txt`.
+
+You're almost ready, just more 30 minutes or so and you'll get it running... I said that this wasn't quick.
+
+Now you'll need a `config` file on the root project folder, no extensions, just `config`. It is mandatory for it to have this format:
+```bash
+#!bin/bash
+export VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL=
+export VISUAL_DYNAMICS_NO_REPLY_EMAIL=
+export VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD=
 ```
-Note: Arch distros are bleeding edge, so you probably want to pick `fftw` from AUR, and set `-DGMX_BUILD_OWN_FFTW` to off.  
-This should suffice to get your GROMACS up and running.  
-With both our dependencies installed, we can then clone the repository and start our service
-```sh
-git clone git@github.com:LABIOQUIM/visualdynamics.git
-cd visualdynamics
-./install.sh
-```
-Note: If the `install.sh` finds the `gmx` or `gmx_d` command it will skip the build and instalation of gromacs, as it is already installed.  
-When the installation ends you can just run `./run.sh` and the service will start, by default it will be accessible at `localhost:5000`.  
-There'll be a file named `login.txt` that contains your generated admin user and password.
+You fill the data required there, and you're again, almost ready.
+##### Note that the data stored in this file never leaves your computer/server, so we won't be having access to it
 
+The last thing here is on your terminal. Execute `flask translate compile`, so Visual Dynamics can prepare the translations. And that's it, you can now run `./run -m [prod|dev]`
 ## License
 The Visual Dynamics source code is available under the [MIT License](./LICENSE). Some of the dependencies are licensed differently, so watch out for them.
