@@ -6,30 +6,37 @@ Help() {
   # Display Help
   echo "How to run VisualDynamics?"
   echo
-  echo "Syntax: ./run [-h|m]"
+  echo "Syntax: ./run [-h|i|m]"
   echo "options:"
   echo "h     Print this Help."
   echo "i     Installs (or reinstalls) VisualDynamics."
-  echo "m     Specify the execution mode (dev|prod)."
+  echo "m     Specify the execution mode (dev|prod|server)."
   echo
 }
 
 ############################################################
 # StartService                                             #
 ############################################################
-StartService() {
-  echo ">> Starting VisualDynamics in $1 mode"
-  echo ">> To end the server press Ctrl + C"
-  
+StartService() {  
+  if [ $1 == 'dev' ] || [ $1 == 'prod' ] || [ $1 == 'server' ]; then
+    echo ">> Starting VisualDynamics in $1 mode"
+    echo ">> To end the server press Ctrl + C"
+  fi
+
   source venv/bin/activate
   source ./config
 
   if [ $1 == 'dev' ]; then
     export FLASK_ENV=development
     flask run --host=0.0.0.0
-  else
+  elif [ $1 == 'prod' ]; then
     echo ">> Staring server on http://0.0.0.0:8080"
     python3 visualdynamics.py
+  elif [ $1 == 'server' ]; then
+    export FLASK_ENV=production
+    flask run --host=0.0.0.0 --port=8080
+  else
+    echo "Invalid Start Mode: $1"
   fi
 }
 
