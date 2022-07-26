@@ -1,8 +1,11 @@
 #!/bin/bash
+SHELL_NAME="${SHELL##*/}"
 ############################################################
 # Help                                                     #
 ############################################################
 Help() {
+  echo $SHELL_NAME
+
   # Display Help
   echo "How to run VisualDynamics?"
   echo
@@ -23,8 +26,9 @@ StartService() {
     echo ">> To end the server press Ctrl + C"
   fi
 
-  source venv/bin/activate
-  source ./config
+  eval "$(/home/$USER/miniconda3/bin/conda shell.$SHELL_NAME hook)"
+  conda activate visualdynamics
+  source config
 
   if [ $1 == 'dev' ]; then
     export FLASK_ENV=development
@@ -53,11 +57,18 @@ InstallService() {
 
   if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
     echo
-    chmod +x ./scripts/config.sh
-    source ./scripts/config.sh
+    # chmod +x ./scripts/config.sh
+    # source ./scripts/config.sh
+    source config
 
-    chmod +x ./scripts/pyenv.sh
-    source ./scripts/pyenv.sh
+    if [ -d "/home/$USER/miniconda3/" ]; then
+      echo "Miniconda found, skipping..."
+    else
+      echo "Installing Miniconda"
+      curl https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh > miniconda.sh
+      chmod +x miniconda.sh
+      bash miniconda.sh
+    fi
 
     if [ -f "/etc/arch-release" ]; then
       chmod +x ./scripts/arch-steps.sh
@@ -67,30 +78,21 @@ InstallService() {
       source ./scripts/debian-steps.sh
     fi
 
-    echo ">>> Initializing Python Virtual Environment"
-    pip3 install virtualenv > /dev/null
-    virtualenv venv > /dev/null
-
-    # Install and initialize our virtual environment
-    source venv/bin/activate
-    
-    echo ">>> Installing Python deps"
-    # Install our project dependencies
-    pip3 install -r requirements.txt > /dev/null
-    echo ">>> Python deps installed"
+    echo ">>> Initializing Environment and Dependencies"
+    eval "$(/home/$USER/miniconda3/bin/conda shell.$SHELL_NAME hook)"
+    # Init and install Conda and Project Dependencies
+    conda env create -f ./environment.yml
+    conda activate visualdynamics
+    echo ">>> Environment and Dependencies Initialized"
 
     echo ">>> Resetting database"
     # Clear our SQLite DB
-
     python3 clear_database.py
     echo ">>> Database resetted"
 
     echo ">>> Validating GROMACS"
     chmod +x ./scripts/gromacs.sh
     source ./scripts/gromacs.sh
-
-    source ./config
-    
     echo ">>> GROMACS Validated"
 
     # Compile our app translations
