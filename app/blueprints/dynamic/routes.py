@@ -17,41 +17,13 @@ def apo():
     if request.method == 'POST':
         file = request.files.get('file')
         if file is None:
-            if request.form.get('2mu8') == False:
-                flash("No file part")
-                return redirect(request.url)
-
+            flash("No file part")
+            return redirect(request.url)
         CompleteFileName = apoGenerator.generate(file.filename, request.form.get('campoforca'), request.form.get('modeloagua'), request.form.get('tipocaixa'), request.form.get('distanciacaixa'), request.form.get('neutralize'), request.form.get('double'), request.form.get('ignore'), current_user)  
         if request.form.get('download') == 'Download':
             return redirect(url_for('DownloadRoutes.commandsdownload', filename={"complete" : CompleteFileName, "name": file.filename.split('.')[0]}))
         if request.form.get('execute') == 'Executar':
-            if request.form.get('2mu8') == True:
-                # checar se servidor esta em execução
-                executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
-                if not os.path.exists(executing):
-                    f = open(executing, 'w')
-                    f.writelines(f'{current_user.username}\n')
-                    f.close()
-                else:
-                    flash(_('Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo.'), 'danger')
-                    return redirect(url_for('DynamicRoutes.apo'))    
-                
-                executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
-                if not os.path.exists(executingLig):
-                    f = open(executingLig, 'w')
-                    f.close()
-                else:
-                    flash(_('Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo.'), 'danger')
-                    return redirect(url_for('DynamicRoutes.apo'))
-            
-                #preparar para executar
-                MoleculeName = '2mu8'
-                filename = '2mu8.pdb'
-                AbsFileName = os.path.join(Config.UPLOAD_FOLDER, current_user.username, MoleculeName, 'run', 'logs', filename)
-
-                exc = apoExecutor.execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
-                flash(_('Houve um erro ao executar o comando {}. Verifique os logs para mais detalhes', command=exc[1]), 'danger')
-            elif upload_file(file, current_user.username):
+            if upload_file(file, current_user.username):
                 # checar se servidor esta em execução
                 executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
                 if not os.path.exists(executing):
@@ -73,7 +45,9 @@ def apo():
                 #preparar para executar
                 MoleculeName = file.filename.split('.')[0]
                 filename = file.filename
-                AbsFileName = os.path.join(Config.UPLOAD_FOLDER, current_user.username, MoleculeName , 'run', 'logs', filename)
+                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
+                    current_user.username, MoleculeName , 'run',
+                    'logs', filename)
 
                 exc = apoExecutor.execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
                 flash(_('Houve um erro ao executar o comando {}. Verifique os logs para mais detalhes', command=exc[1]), 'danger')
@@ -81,32 +55,32 @@ def apo():
                 flash(_('Extensão do arquivo está incorreta'), 'danger')
     
     if CheckUserDynamics(current_user.username) == True:
-        flash('', 'steps')
-        steplist = CheckDynamicsSteps(current_user.username)
+            flash('', 'steps')
+            steplist = CheckDynamicsSteps(current_user.username)
 
-        archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
-        lines = archive.readlines()
-        archive.close()
-        last_line = lines[len(lines)-1]
-        #verifica se a execução já está  em produçãomd
-        if last_line == '#productionmd\n' or last_line == '#analyzemd\n':
-            # acessa o diretorio do log de execução
-            archive = open(Config.UPLOAD_FOLDER + current_user.username+ '/DirectoryLog', 'r')
-            directory = archive.readline()
-            archive.close()
-            # acessa o log de execução
-            archive = open(directory,'r')
+            archive = open(Config.UPLOAD_FOLDER + current_user.username + '/executing', "r")
             lines = archive.readlines()
             archive.close()
-            # busca a ultima linha do log
             last_line = lines[len(lines)-1]
-            if last_line.find('step ') > -1:
-                # recebe a quantidade de step e a data de termino.
-                date_finish = last_line        
-                archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
-                name_dynamic = archive.readline()
+            #verifica se a execução já está  em produçãomd
+            if last_line == '#productionmd\n' or last_line == '#analyzemd\n':
+                # acessa o diretorio do log de execução
+                archive = open(Config.UPLOAD_FOLDER + current_user.username+ '/DirectoryLog', 'r')
+                directory = archive.readline()
                 archive.close()
-                return render_template('apo.html', actapo='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+                # acessa o log de execução
+                archive = open(directory,'r')
+                lines = archive.readlines()
+                archive.close()
+                # busca a ultima linha do log
+                last_line = lines[len(lines)-1]
+                if last_line.find('step ') > -1:
+                    # recebe a quantidade de step e a data de termino.
+                    date_finish = last_line        
+                    archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
+                    name_dynamic = archive.readline()
+                    archive.close()
+                    return render_template('apo.html', actapo='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
             
             archive.close()
             archive = open(Config.UPLOAD_FOLDER+current_user.username+'/'+'namedynamic.txt','r')
