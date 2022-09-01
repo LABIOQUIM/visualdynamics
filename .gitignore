@@ -5,6 +5,7 @@ __pycache__/
 
 # Visual Dynamics generated files
 VDfiles
+miniconda.sh
 config
 libs/grace/*
 !libs/grace/PKGBUILD

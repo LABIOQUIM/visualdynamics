@@ -57,8 +57,8 @@ InstallService() {
 
   if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
     echo
-    # chmod +x ./scripts/config.sh
-    # source ./scripts/config.sh
+    chmod +x ./scripts/config.sh
+    source ./scripts/config.sh
     source config
 
     if [ -d "/home/$USER/miniconda3/" ]; then
