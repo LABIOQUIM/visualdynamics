@@ -23,12 +23,9 @@ If you're the type that wants to do everything by your own hands, you'll need to
 
 You'll need [Grace](https://plasma-gate.weizmann.ac.il/Grace/) too.
 
-With both of them on hand, you'll need [Python](https://www.python.org/), we recommend Python 3.7. Don't forget to install [pip](https://pip.pypa.io/en/stable/installation/) as we'll be relying in it.
+With both of them on hand, you'll need [Miniconda](https://docs.conda.io/en/latest/miniconda.html#installing), our chosen Python package manager.
 
-
-Now you can install [virtualenv](https://virtualenv.pypa.io/en/latest/) with `pip install virtualenv`, then `virtualenv venv`. This will start a new virtual isolated environment for Visual Dynamics.
-
-You then activate this new environment with `source venv/bin/activate` and install our Python dependencies with `pip install -r requirements.txt`.
+With Miniconda in place, now you'll should run `conda env create -f ./environment.yml`, this will ready a private python environment with the necessary dependencies for Visual Dynamics.
 
 You're almost ready, just more 30 minutes or so and you'll get it running... I said that this wasn't quick.
 
