@@ -1,19 +1,22 @@
 #!/bin/bash
 SHELL_NAME="${SHELL##*/}"
+BLUE='\033[0;34m'
+LBLUE='\033[1;34m'
+CYAN='\033[0;36m'
+LCYAN='\033[1;36m'
+NC='\033[0m' # No Color
 ############################################################
 # Help                                                     #
 ############################################################
 Help() {
-  echo $SHELL_NAME
-
   # Display Help
-  echo "How to run VisualDynamics?"
+  echo -e "${BLUE}How to run VisualDynamics?"
   echo
-  echo "Syntax: ./run [-h|i|m]"
+  echo -e "${NC}Syntax: ./run -{option}"
   echo "options:"
-  echo "h     Print this Help."
-  echo "i     Installs (or reinstalls) VisualDynamics."
-  echo "m     Specify the execution mode (dev|prod|server)."
+  echo -e "${LBLUE}h     ${NC}Print this Help."
+  echo -e "${LBLUE}i     ${NC}Installs (or reinstalls) VisualDynamics."
+  echo -e "${LBLUE}m     ${NC}Specify the execution mode (dev|prod|server)."
   echo
 }
 
@@ -26,7 +29,7 @@ StartService() {
     echo ">> To end the server press Ctrl + C"
   fi
 
-  eval "$(/home/$USER/miniconda3/bin/conda shell.$SHELL_NAME hook)"
+  eval "$(/home/$USER/.conda/bin/conda shell.$SHELL_NAME hook)"
   conda activate visualdynamics
   source config
 
@@ -50,24 +53,29 @@ StartService() {
 InstallService() {
   export PIP_IGNORE_INSTALLED=0
 
-  echo "BEWARE. All data stored in the app/app.db will be lost."
-  echo "This is a automated process mainly, you might need to enter your password by continuing"
+  echo -e "BEWARE. All data stored in the ${CYAN}app/app.db ${NC}will be lost."
+  echo -e "${LCYAN}This is a automated process mainly, you might need to enter your password by continuing"
   read -rsn1 -p "Do you wish to continue? (Y/n) " resp
   resp=${resp:-Y}
 
   if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
-    echo
+    echo -e "${NC}"
     chmod +x ./scripts/config.sh
     source ./scripts/config.sh
     source config
-
-    if [ -d "/home/$USER/miniconda3/" ]; then
-      echo "Miniconda found, skipping..."
+    echo
+    if type "conda" &> /dev/null
+    then
+      echo -e "${LCYAN}Miniconda found${NC}, skipping..."
     else
-      echo "Installing Miniconda"
+      echo -e "${CYAN}Installing Miniconda"
+      echo "Miniconda will be installed on $HOME/.conda/"
+      echo -e "It is highly recommended that you accept to run ${LCYAN}'conda init'${CYAN}"
+      echo "at the end of the miniconda install. If you forgot, you can"
+      echo -e "run ${LCYAN}'$HOME/.conda/bin/activate'${CYAN} and then run ${LCYAN}'conda init'${CYAN}"
       curl https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh > miniconda.sh
       chmod +x miniconda.sh
-      bash miniconda.sh
+      bash miniconda.sh -b -p $HOME/.conda
     fi
 
     if [ -f "/etc/arch-release" ]; then
@@ -78,36 +86,36 @@ InstallService() {
       source ./scripts/debian-steps.sh
     fi
 
-    echo ">>> Initializing Environment and Dependencies"
-    eval "$(/home/$USER/miniconda3/bin/conda shell.$SHELL_NAME hook)"
+    echo -e ">>> ${CYAN}Initializing Environment and Dependencies${NC}"
+    eval "$(/home/$USER/.conda/bin/conda shell.$SHELL_NAME hook)"
     # Init and install Conda and Project Dependencies
     conda env create -f ./environment.yml
     conda activate visualdynamics
-    echo ">>> Environment and Dependencies Initialized"
+    echo -e ">>> ${LCYAN}Environment and Dependencies Initialized${NC}"
 
-    echo ">>> Resetting database"
+    echo -e ">>> ${LCYAN}Resetting database${NC}"
     # Clear our SQLite DB
     python3 clear_database.py
-    echo ">>> Database resetted"
+    echo -e ">>> ${LCYAN}Database resetted${NC}"
 
-    echo ">>> Validating GROMACS"
+    echo -e ">>> ${LCYAN}Validating GROMACS${NC}"
     chmod +x ./scripts/gromacs.sh
     source ./scripts/gromacs.sh
-    echo ">>> GROMACS Validated"
+    echo -e ">>> ${LCYAN}GROMACS Validated${NC}"
 
     # Compile our app translations
-    echo ">>> Readying translations"
+    echo -e ">>> ${LCYAN}Readying translations${NC}"
     flask translate compile > /dev/null
-    echo ">>> Translations ready"
+    echo -e ">>> ${LCYAN}Translations ready${NC}"
 
-    echo ">>> Finishing things up..."
+    echo -e ">>> ${LCYAN}Finishing things up...${NC}"
     # Make sure our DB and our md_pr file don't go to VCS
     git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
 
     # Make our app starters executable
     chmod +x run
 
-    echo "VisualDynamics is now ready. See './run -h' to start the application"  
+    echo -e "${CYAN}VisualDynamics ${NC}is now ready. See ${LCYAN}./run -h${NC} to start the application"  
   elif [ $resp = 'n' ]; then
     echo "Installation Cancelled by User"
   else

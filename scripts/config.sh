@@ -1,7 +1,7 @@
 #!bin/bash
 read -p ">>>> Administrator Email: " email
 read -p ">>>> VisualDynamics no-reply Email: " noreplyemail
-read -p ">>>> VisualDynamics no-reply Email password: " noreplyemailpassword
+read -s -p ">>>> VisualDynamics no-reply Email password: " noreplyemailpassword
 
 echo "#!bin/bash" >| ./config
 echo "export VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL=$email" >> ./config
