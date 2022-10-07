@@ -94,7 +94,7 @@ InstallService() {
     echo "=> Initializing Environment and Dependencies"
     eval "$(/home/$USER/.conda/bin/conda shell.$SHELL_NAME hook)"
     # Init and install Conda and Project Dependencies
-    if ! { conda env list | grep 'visualdynamics'; } >/dev/null 2>&1; then
+    if ! { conda env list | grep 'visualdynamics'; } > /dev/null 2>&1; then
       conda env create -f ./environment.yml
     fi
     conda activate visualdynamics
