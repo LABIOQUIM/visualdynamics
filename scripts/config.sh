@@ -1,5 +1,5 @@
 #!bin/bash
-read -p ">>>> Administrator Email: " email
+read -p "==> Administrator Email: " email
 read -p ">>>> VisualDynamics no-reply Email: " noreplyemail
 read -s -p ">>>> VisualDynamics no-reply Email password: " noreplyemailpassword
 
