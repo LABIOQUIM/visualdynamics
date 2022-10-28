@@ -74,6 +74,7 @@ InstallService() {
       bash miniconda.sh -b -p $HOME/.conda
       eval "$(/home/$USER/.conda/bin/conda shell.$SHELL_NAME hook)"
       conda init $SHELL_NAME
+      conda config --set auto_activate_base false
       echo "==> Miniconda installed to $HOME/.conda/"
     fi
 
