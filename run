@@ -11,7 +11,7 @@ Help() {
   echo "Syntax: ./run -{option}"
   echo "options:"
   echo "h     Print this Help."
-  echo "i     Installs (or reinstalls) VisualDynamics."
+  echo "i     Installs (or reinstalls) VisualDynamics. (none|gpu)"
   echo "m     Specify the execution mode (dev|prod|server)."
   echo
 }
@@ -88,7 +88,7 @@ InstallService() {
     fi
 
     chmod +x ./scripts/gromacs.sh
-    source ./scripts/gromacs.sh
+    source ./scripts/gromacs.sh "$1"
 
     echo "=> Dependencies OK!"
 
@@ -129,13 +129,13 @@ InstallService() {
 ############################################################
 # Main program                                             #
 ############################################################
-while getopts ":him:" option; do
+while getopts ":h:i:m:" option; do
   case $option in
     h) # display Help
       Help
       exit;;
-    i)
-      InstallService;;
+    i) # Install the application
+      InstallService $OPTARG;;
     m) # start the application in the selected mode
       StartService "$OPTARG";;
     \?) # Invalid option
