@@ -2,9 +2,9 @@ export PIP_IGNORE_INSTALLED=0
 SHELL_NAME="${SHELL##*/}"
 
 echo
-chmod +x ./scripts/config.sh
-source ./scripts/config.sh
-source config
+chmod +x ./config.sh
+source ./config.sh
+source ../config
 echo
 
 if type "conda" &> /dev/null
