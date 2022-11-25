@@ -1,7 +1,11 @@
-sudo apt install git
-git clone https://github.com/LABIOQUIM/visualdynamics.git > /dev/null
+echo "AUTOMATIC INSTALLATION OF VISUAL DYNAMICS"
+sudo apt install git > /dev/null 2>&1
+git clone https://github.com/LABIOQUIM/visualdynamics.git > /dev/null 2>&1
 
 cd visualdynamics
 
-chmod +x ./run
-./run -i
+source ./scripts/install.sh
+
+cd ..
+echo
+echo "Visual Dynamics is now installed on /home/$USER/visualdynamics"
