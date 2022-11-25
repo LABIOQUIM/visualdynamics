@@ -51,9 +51,8 @@ InstallService() {
   echo "=> This is a automated process mainly, you might need to enter your password by continuing"
   read -sn1 -p "==> Do you wish to continue? (Y/n) " resp
   resp=${resp:-Y}
-
+  echo
   if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
-    source ./scripts/config.sh
     source ./scripts/install.sh
   elif [ $resp = 'n' ]; then
     echo "Installation Cancelled by User"
