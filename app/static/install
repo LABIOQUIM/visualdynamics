@@ -5,4 +5,8 @@ git clone https://github.com/LABIOQUIM/visualdynamics.git
 
 cd visualdynamics
 
+echo
+curl https://raw.githubusercontent.com/LABIOQUIM/visualdynamics/master/scripts/config.sh | bash
+source config
+echo
 curl https://raw.githubusercontent.com/LABIOQUIM/visualdynamics/master/scripts/install.sh | bash
