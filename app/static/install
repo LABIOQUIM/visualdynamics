@@ -1,0 +1,8 @@
+#!bin/bash
+
+sudo apt install git wget
+git clone https://github.com/LABIOQUIM/visualdynamics.git
+
+cd visualdynamics
+
+wget https://raw.githubusercontent.com/LABIOQUIM/visualdynamics/master/scripts/install.sh | bash
