@@ -53,9 +53,7 @@ InstallService() {
   resp=${resp:-Y}
 
   if [ $resp = 'Y' ] || [ $resp = 'y' ]; then
-    cd scripts
-    source ./config.sh
-    cd ..
+    source ./scripts/config.sh
     source ./scripts/install.sh
   elif [ $resp = 'n' ]; then
     echo "Installation Cancelled by User"
