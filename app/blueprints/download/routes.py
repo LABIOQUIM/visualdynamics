@@ -10,7 +10,7 @@ from app.config import Config
 from . import DownloadBlueprint
 from flask import render_template, make_response, request, send_file
 from flask_babel import _
-from  app import login_manager, login_required
+from app import login_manager, login_required
 
 @DownloadBlueprint.route('/imgfiles/<filename>')
 @login_required
@@ -34,22 +34,14 @@ def imgsdownload(filename):
                 zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
     zf.close()
 
-    return (send_file(ziplocation, as_attachment=True))
+    return send_file(ziplocation, as_attachment=True)
 
 @DownloadBlueprint.route('/downloadmdpfiles')
 @login_required
 def downloadmdpfiles():
-    ziplocation = os.path.join(Config.UPLOAD_FOLDER, current_user.username,'mdpfiles.zip')
-    mdplist = os.listdir(os.chdir(Config.MDP_LOCATION_FOLDER))
+    ziplocation = os.path.join(Config.MDP_LOCATION_FOLDER, 'mdpfiles.zip')
     
-    zf = zipfile.ZipFile(ziplocation,'w')
-
-    for file in mdplist:
-        if file.endswith('.mdp'):
-            zf.write(file, compress_type = zipfile.ZIP_DEFLATED)
-    
-    zf.close()
-    return (send_file(ziplocation, as_attachment=True))
+    return send_file(ziplocation, as_attachment=True)
 
 @DownloadBlueprint.route('/dynamiccomandsdownload/<filename>')
 @login_required

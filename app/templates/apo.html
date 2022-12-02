@@ -169,13 +169,18 @@
       <label class="form-check-label" for="ignore">{{ _("Ignorar Hidrogênios") }}</label>
     </div>
     
-    <div class="d-flex justify-content-between">
+    <div class="row">
       <button class="my-2 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
         <i class="fa fa-cogs" aria-hidden="true"></i> {{ _("Executar") }}
       </button>
-      <button class="my-2 btn btn-success" value="Download" name="download">
-        <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
-      </button>
+      <div class="d-flex justify-content-between">
+        <button class="my-2 btn btn-success" value="Download" name="download">
+          <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
+        </button>
+        <a class="my-2 btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
+          <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
+        </a>
+      </div>
     </div>
   </form>
   {% endif %}
