@@ -20,10 +20,10 @@ babel = Babel(app)
 
 @babel.localeselector
 def get_locale():
-    if request.cookies.get('preferred-lang'):
-      return request.cookies.get('preferred-lang')
-    else: 
-      return 'pt'
+  if request.cookies.get('preferred-lang'):
+    return request.cookies.get('preferred-lang')
+  else: 
+    return 'en'
 
 from .blueprints.misc import MiscBlueprint
 from .blueprints.admin import AdminBlueprint
