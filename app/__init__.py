@@ -25,6 +25,8 @@ def get_locale():
   else: 
     return 'en'
 
+app.jinja_env.globals['get_locale'] = get_locale
+
 from .blueprints.misc import MiscBlueprint
 from .blueprints.admin import AdminBlueprint
 from .blueprints.auth import AuthBlueprint
