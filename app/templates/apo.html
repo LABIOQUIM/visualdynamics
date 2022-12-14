@@ -190,11 +190,10 @@
   {% endwith %}
 </div>
 
-<script type="text/javascript" src="{{ url_for('static', filename='jsmol/JSmol.min.js') }}"></script>
 <script>
-  var locale = "en"
+  var lang = "en"
   if ("{{ get_locale() }}" === 'pt') {
-    locale = "pt_br"
+    lang = "pt_BR"
   }
   var myJmol = 'myJmol';
   var JmolInfo = {
@@ -203,9 +202,12 @@
     color: "#121212",
     j2sPath: "{{ url_for('static', filename='jsmol/j2s') }}",
     use: 'html5',
-    language: locale,
+    language: lang,
     disableJ2SLoadMonitor: true,
   }
+
+  const jsmol = document.getElementById("JmolDiv");
+  jsmol.innerHTML = Jmol.getAppletHtml(myJmol, JmolInfo);
 
   const inputElement = document.getElementById("file");
   inputElement.addEventListener("change", handleChangePDB, false);
@@ -213,14 +215,10 @@
   function handleChangePDB() {
     const file = this.files[0];
     if (file.name.split(".")[1] === "pdb") {
-      const jsmol = document.getElementById("JmolDiv");
-
       jsmol.style.display = "block";
-
-      jsmol.innerHTML = Jmol.getAppletHtml(myJmol, JmolInfo);
-
       const reader = new FileReader()
       reader.onload = () => {
+        Jmol.script(myJmol, "select *; reset");
         Jmol.script(myJmol, `load inline "${reader.result}"`);
       }
 
