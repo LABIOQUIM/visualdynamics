@@ -11,3 +11,4 @@ class Config(object):
 	SOURCE_COMMAND = '/bin/bash -c source /usr/local/gromacs/bin/GMXRC'
 	MDP_LOCATION_FOLDER = os.path.join(basedir, '..', 'mdpfiles')
 	LANGUAGES = ['en', 'pt']
+	VERSION = "1.0.0"
