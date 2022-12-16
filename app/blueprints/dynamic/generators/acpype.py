@@ -31,7 +31,7 @@ def generate(
     (nome_arquivo, extensao) = arquivo.split('.')
     (nome_ligante, extensao) = arquivo_itp.split('.')
 
-    pasta = Config.UPLOAD_FOLDER + current_user.username + '/' + nome_arquivo+'_'+nome_ligante + '/'
+    pasta = Config.UPLOAD_FOLDER + current_user.username + '/' + nome_arquivo + '_' + nome_ligante + '/'
     try: #criando todas as pastas
         os.makedirs(pasta + 'graficos/')
         os.makedirs(pasta + 'run/logs/')

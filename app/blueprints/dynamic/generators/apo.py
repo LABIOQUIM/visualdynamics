@@ -48,199 +48,167 @@ def generate(
     # Preparando nome do arquivo que guardará os comandos usados
     CompleteFileName = "{}|{}.txt".format(datetime.now().replace(microsecond=0).isoformat(), nome_arquivo)
 
-    comandos = open(pasta + CompleteFileName, "w")
+    fileToWrite = open(pasta + CompleteFileName, "w")
     os.chdir(pasta)
 
     # Montagem do comando gmx pdb2gmx com parametros para geracao da topologia a partir da estrutura PDB selecionada, campos de forca e modelo de agua
-    comando = f"{gmx} pdb2gmx -f {arquivo} -o {arquivo_gro} -p {arquivo_top} -ff {campo_forca} -water {modelo_agua} {'-ignh -missing' if ignore else ''}"
-    comandos.write('#topology\n\n')
-    comandos.writelines(comando)
-    comandos.write('\n\n')
-
+    comando1 = f"{gmx} pdb2gmx -f \"{arquivo}\" -o \"{arquivo_gro}\" -p \"{arquivo_top}\" -ff {campo_forca} -water {modelo_agua} {'-ignh -missing' if ignore else ''}"
+    
     # Montagem do comando gmx editconf com parametros para geracao da caixa
-    comando = f"{gmx} editconf -f {arquivo_gro} -c -d {str(distancia_caixa)} -bt {tipo_caixa} -o"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
-
+    comando2 = f"{gmx} editconf -f \"{arquivo_gro}\" -c -d {str(distancia_caixa)} -bt {tipo_caixa} -o"
+    
     # Montagem do comando gmx solvate  com parametros para solvatacao da proteina
-    comando = f"{gmx} solvate -cp out.gro -cs -p {arquivo_top} -o {arquivo_box}"
-    comandos.write('#solvate\n\n')
-    comandos.writelines(comando)
-    comandos.write('\n\n')
-
+    comando3 = f"{gmx} solvate -cp out.gro -cs -p \"{arquivo_top}\" -o \"{arquivo_box}\""
+    
     # Montagem do comando gmx grompp para precompilar e ver se o sistema esta carregado
-    comando = f"{gmx} grompp -f ions.mdp -c {arquivo_box}.gro -p {arquivo_top} -o {arquivo_ionizado} -maxwarn 2"
-    comandos.write('#ions\n\n')
-    comandos.writelines(comando)
-    comandos.write('\n\n')
+    comando4 = f"{gmx} grompp -f ions.mdp -c \"{arquivo_box}.gro\" -p \"{arquivo_top}\" -o \"{arquivo_ionizado}\" -maxwarn 2"
 
     if neutralizar_sistema:
         # Montagem do comando gmx genion para neutralizar o sistema
-        comando = f"echo 'SOL' | {gmx} genion -s {arquivo_ionizado}.tpr -o {arquivo_ionizado} -p {arquivo_top} -neutral"
-        comandos.writelines(comando)
-        comandos.write("\n\n")
+        comando5 = f"echo 'SOL' | {gmx} genion -s \"{arquivo_ionizado}.tpr\" -o \"{arquivo_ionizado}\" -p \"{arquivo_top}\" -neutral"
 
         # Refaz a pré-compilação caso deva neutralizar o sistema
-        comando = f"{gmx} grompp -f PME_em.mdp -c {arquivo_ionizado}.gro -p {arquivo_top} -o {arquivo_ionizado} -maxwarn 2"
-        comandos.write('#minimizationsteepdesc\n\n')
-        comandos.writelines(comando)
-        comandos.write("\n\n")
+        comando6 = f"{gmx} grompp -f PME_em.mdp -c \"{arquivo_ionizado}.gro\" -p \"{arquivo_top}\" -o \"{arquivo_ionizado}\" -maxwarn 2"
 
         # Montagem do comando gmx mdrun para executar a dinamica de minimizacao
         arquivo_minimizado = f"{nome_arquivo}_sd_em"
-        comando = f"{gmx} mdrun -v -s {arquivo_ionizado}.tpr -deffnm {arquivo_minimizado}"
-        comandos.writelines(comando)
-        comandos.write("\n\n")
+        comando7 = f"{gmx} mdrun -v -s \"{arquivo_ionizado}.tpr\" -deffnm \"{arquivo_minimizado}\""
 
         # Montagem do comando energySD para criar grafico Steepest Decent
         #comandos.write('#energysd\n\n')
-        comando = f"echo '10 0' | {gmx} energy -f {arquivo_minimizado}.edr -o {nome_arquivo}_potentialsd.xvg"
-        comandos.writelines(comando)
-        comandos.write("\n\n")
+        comando8 = f"echo '10 0' | {gmx} energy -f \"{arquivo_minimizado}.edr\" -o \"{nome_arquivo}_potentialsd.xvg\""
 
         # Montagem do comando GRACE para converter gráfico SD em Imagem
-        comando = f"{grace} -nxy {nome_arquivo}_potentialsd.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_potentialsd.png"
-        comandos.writelines(comando)
-        comandos.write("\n\n")
+        comando9 = f"{grace} -nxy \"{nome_arquivo}_potentialsd.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_potentialsd.png\""
 
     # Montagem do comando gmx grompp para precompilar a dinamica de minimizacao cg
-    comando = f"{gmx} grompp -f PME_cg_em.mdp -c {nome_arquivo}_sd_em.gro -p {arquivo_top} -o {nome_arquivo}_cg_em -maxwarn 2"
-    comandos.write('#minimizationconjgrad\n\n')
-    comandos.writelines(comando)
-    comandos.write('\n\n')
+    comando10 = f"{gmx} grompp -f PME_cg_em.mdp -c \"{nome_arquivo}_sd_em.gro\" -p \"{arquivo_top}\" -o \"{nome_arquivo}_cg_em\" -maxwarn 2"
 
     # Montagem do comando gmx mdrun para executar a dinamica de minimizacao cg
-    comando = f"{gmx} mdrun -v -s {nome_arquivo}_cg_em.tpr -deffnm {nome_arquivo}_cg_em"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando11 = f"{gmx} mdrun -v -s \"{nome_arquivo}_cg_em.tpr\" -deffnm \"{nome_arquivo}_cg_em\""
 
     # Montagem do comando energyCG para criar grafico CG
-    comando = f"echo '10 0' | {gmx} energy -f {nome_arquivo}_cg_em.edr -o {nome_arquivo}_potentialcg.xvg"
-    comandos.write('\n\n')
+    comando12 = f"echo '10 0' | {gmx} energy -f \"{nome_arquivo}_cg_em.edr\" -o \"{nome_arquivo}_potentialcg.xvg\""
 
     # Montagem do comando GRACE para converter gráfico CG em Imagem
-    comando = f"{grace} -nxy {nome_arquivo}_potentialcg.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_potentialcg.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando13 = f"{grace} -nxy \"{nome_arquivo}_potentialcg.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_potentialcg.png\""
     
     # Montagem do comando gmx grompp para precompilar a primeira etapa do equilibrio
-    comando = f"{gmx} grompp -f nvt.mdp -c {nome_arquivo}_cg_em.gro -r {nome_arquivo}_cg_em.gro -p {arquivo_top} -o {nome_arquivo}_nvt.tpr -maxwarn 2"
-    comandos.write('#equilibrationnvt\n\n')
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando14 = f"{gmx} grompp -f nvt.mdp -c \"{nome_arquivo}_cg_em.gro\" -r \"{nome_arquivo}_cg_em.gro\" -p \"{arquivo_top}\" -o \"{nome_arquivo}_nvt.tpr\" -maxwarn 2"
 
     # Montagem do comando gmx mdrun para executar a primeira etapa do equilibrio
-    comando = f"{gmx} mdrun -v -s {nome_arquivo}_nvt.tpr -deffnm {nome_arquivo}_nvt"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando15 = f"{gmx} mdrun -v -s \"{nome_arquivo}_nvt.tpr\" -deffnm \"{nome_arquivo}_nvt\""
     
     # Montagem do comando energy para criar do equilibrio nvt
-    comando = f"echo '16 0' | {gmx} energy -f {nome_arquivo}_nvt.edr -o {nome_arquivo}_temperature_nvt.xvg"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando16 = f"echo '16 0' | {gmx} energy -f \"{nome_arquivo}_nvt.edr\" -o \"{nome_arquivo}_temperature_nvt.xvg\""
 
     # Montagem do comando GRACE para converter gráfico NVT em Imagem
-    comando = f"{grace} -nxy {nome_arquivo}_temperature_nvt.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_temperature_nvt.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando17 = f"{grace} -nxy \"{nome_arquivo}_temperature_nvt.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_temperature_nvt.png\""
     
     # Montagem do comando gmx grompp para precompilar a segunda etapa do equilibrio
-    comando = f"{gmx} grompp -f npt.mdp -c {nome_arquivo}_nvt.gro -r {nome_arquivo}_nvt.gro -p {arquivo_top} -o {nome_arquivo}_npt.tpr -maxwarn 2"
-    comandos.write('#equilibrationnpt\n\n')
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando18 = f"{gmx} grompp -f npt.mdp -c \"{nome_arquivo}_nvt.gro\" -r \"{nome_arquivo}_nvt.gro\" -p \"{arquivo_top}\" -o \"{nome_arquivo}_npt.tpr\" -maxwarn 2"
     
     # Montagem do comando gmx mdrun para executar a segunda etapa do equilibrio
-    comando = f"{gmx} mdrun -v -s {nome_arquivo}_npt.tpr -deffnm {nome_arquivo}_npt"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando19 = f"{gmx} mdrun -v -s \"{nome_arquivo}_npt.tpr\" -deffnm \"{nome_arquivo}_npt\""
     
     # Montagem do comando energy para criar grafico do equilibrio npt
-    comando = f"echo '16 0' | {gmx} energy -f {nome_arquivo}_npt.edr -o {nome_arquivo}_temperature_npt.xvg"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando20 = f"echo '16 0' | {gmx} energy -f \"{nome_arquivo}_npt.edr\" -o \"{nome_arquivo}_temperature_npt.xvg\""
     
     # Montagem do comando GRACE para converter gráfico NPT em Imagem
-    comando = f"{grace} -nxy {nome_arquivo}_temperature_npt.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_temperature_npt.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando21 = f"{grace} -nxy \"{nome_arquivo}_temperature_npt.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_temperature_npt.png\""
 
     # Montagem do comando gmx grompp para precompilar a dinamica de position restraints VERSÃO 2
-    comando = f"{gmx} grompp -f md_pr.mdp -c {nome_arquivo}_npt.gro -p {arquivo_top} -o {nome_arquivo}_pr -maxwarn 2"
-    comandos.write('#productionmd\n\n')
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando22 = f"{gmx} grompp -f md_pr.mdp -c \"{nome_arquivo}_npt.gro\" -p \"{arquivo_top}\" -o \"{nome_arquivo}_pr\" -maxwarn 2"
 
     # Montagem do comando gmx mdrun para executar a dinamica de position restraints
-    comando = f"{gmx} mdrun -v -s {nome_arquivo}_pr.tpr -deffnm {nome_arquivo}_pr"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando23 = f"{gmx} mdrun -v -s \"{nome_arquivo}_pr.tpr\" -deffnm \"{nome_arquivo}_pr\""
     
     # Montagem do comando conversao de trajetoria
-    comandos.write('#analyzemd\n\n')
-    comando = f"echo '1 0' | {gmx} trjconv -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr.xtc -o {nome_arquivo}_pr_PBC.xtc -pbc mol -center"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando24 = f"echo '1 0' | {gmx} trjconv -s \"{nome_arquivo}_pr.tpr\" -f \"{nome_arquivo}_pr.xtc\" -o \"{nome_arquivo}_pr_PBC.xtc\" -pbc mol -center"
     
     # Montagem do comando gmx rms da producao
-    comando = f"echo '4 4' | {gmx} rms -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr_PBC.xtc -o {nome_arquivo}_rmsd_prod.xvg -tu ns"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando25 = f"echo '4 4' | {gmx} rms -s \"{nome_arquivo}_pr.tpr\" -f \"{nome_arquivo}_pr_PBC.xtc\" -o \"{nome_arquivo}_rmsd_prod.xvg\" -tu ns"
     
     # Montagem do comando grace
-    comando = f"{grace} -nxy {nome_arquivo}_rmsd_prod.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_rmsd_prod.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando26 = f"{grace} -nxy \"{nome_arquivo}_rmsd_prod.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_rmsd_prod.png\""
     
     # Montagem do comando gmx rms da estrutura de cristal
-    comando = f"echo '4 4' | {gmx} rms -s {nome_arquivo}_charged.tpr -f {nome_arquivo}_pr_PBC.xtc -o {nome_arquivo}_rmsd_cris.xvg -tu ns"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando27 = f"echo '4 4' | {gmx} rms -s \"{nome_arquivo}_charged.tpr\" -f \"{nome_arquivo}_pr_PBC.xtc\" -o \"{nome_arquivo}_rmsd_cris.xvg\" -tu ns"
     
     # Montagem do comando grace cristal 
-    comando = f"{grace} -nxy {nome_arquivo}_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_rmsd_cris.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando28 = f"{grace} -nxy \"{nome_arquivo}_rmsd_cris.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_rmsd_cris.png\""
     
     # Montagem do comando grace producao+cristal
-    comando = f"{grace} -nxy {nome_arquivo}_rmsd_prod.xvg {nome_arquivo}_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_rmsd_prod_cris.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando29 = f"{grace} -nxy \"{nome_arquivo}_rmsd_prod.xvg\" \"{nome_arquivo}_rmsd_cris.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_rmsd_prod_cris.png\""
     
     # Montagem do comando gyrate
-    comando = f"echo '1' | {gmx} gyrate -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr_PBC.xtc -o {nome_arquivo}_gyrate.xvg"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando30 = f"echo '1' | {gmx} gyrate -s \"{nome_arquivo}_pr.tpr\" -f \"{nome_arquivo}_pr_PBC.xtc\" -o \"{nome_arquivo}_gyrate.xvg\""
     
     # Montagem do comando grace producao+cristal 
-    comando = f"{grace} -nxy {nome_arquivo}_gyrate.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_gyrate.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando31 = f"{grace} -nxy \"{nome_arquivo}_gyrate.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_gyrate.png\""
 
     # Montagem do comando gyrate
-    comando = f"echo '1' | {gmx} rmsf -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr_PBC.xtc -o {nome_arquivo}_rmsf_residue.xvg -res"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando32 = f"echo '1' | {gmx} rmsf -s \"{nome_arquivo}_pr.tpr\" -f \"{nome_arquivo}_pr_PBC.xtc\" -o \"{nome_arquivo}_rmsf_residue.xvg\" -res"
     
     # Montagem do comando grace producao+cristal
-    comando = f"{grace} -nxy {nome_arquivo}_rmsf_residue.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_rmsf_residue.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando33 = f"{grace} -nxy \"{nome_arquivo}_rmsf_residue.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_rmsf_residue.png\""
     
     # Montagem do comando gyrate
-    comando = f"echo '1' | {gmx} sasa -s {nome_arquivo}_pr.tpr -f {nome_arquivo}_pr_PBC.xtc -o {nome_arquivo}_solvent_accessible_surface.xvg -or {nome_arquivo}_sas_residue.xvg"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando34 = f"echo '1' | {gmx} sasa -s \"{nome_arquivo}_pr.tpr\" -f \"{nome_arquivo}_pr_PBC.xtc\" -o \"{nome_arquivo}_solvent_accessible_surface.xvg\" -or \"{nome_arquivo}_sas_residue.xvg\""
 
     # Montagem do comando grace sas por total 
-    comando = f"{grace} -nxy {nome_arquivo}_solvent_accessible_surface.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_solvent_accessible_surface.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando35 = f"{grace} -nxy \"{nome_arquivo}_solvent_accessible_surface.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_solvent_accessible_surface.png\""
     
     # Montagem do comando grace sas por residue
-    comando = f"{grace} -nxy {nome_arquivo}_sas_residue.xvg -hdevice PNG -hardcopy -printfile ../graficos/{nome_arquivo}_sas_residue.png"
-    comandos.writelines(comando)
-    comandos.write("\n\n")
+    comando36 = f"{grace} -nxy \"{nome_arquivo}_sas_residue.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{nome_arquivo}_sas_residue.png\""
     
-    comandos.close()
+    fileToWrite.writelines([
+        "#topology\n",
+        f"{comando1}\n",
+        f"{comando2}\n\n",
+        "#solvate\n",
+        f"{comando3}\n\n",
+        "#ions\n",
+        f"{comando4}\n",
+        f"{comando5}\n\n",
+        f"#minimizationsteepdesc\n",
+        f"{comando6}\n",
+        f"{comando7}\n",
+        f"{comando8}\n",
+        f"{comando9}\n\n",
+        f"#minimizationconjgrad\n",
+        f"{comando10}\n",
+        f"{comando11}\n",
+        f"{comando12}\n",
+        f"{comando13}\n\n",
+        f"#equilibrationnvt\n"
+        f"{comando14}\n",
+        f"{comando15}\n",
+        f"{comando16}\n",
+        f"{comando17}\n\n",
+        f"#equilibrationnpt\n"
+        f"{comando18}\n",
+        f"{comando19}\n",
+        f"{comando20}\n",
+        f"{comando21}\n\n",
+        f"#productionmd\n",
+        f"{comando22}\n",
+        f"{comando23}\n\n",
+        f"#analyzemd\n"
+        f"{comando24}\n",
+        f"{comando25}\n",
+        f"{comando26}\n",
+        f"{comando27}\n",
+        f"{comando28}\n",
+        f"{comando29}\n",
+        f"{comando30}\n",
+        f"{comando31}\n",
+        f"{comando32}\n",
+        f"{comando33}\n",
+        f"{comando34}\n",
+        f"{comando35}\n",
+        f"{comando36}\n",
+    ])
+
+    fileToWrite.close()
     return CompleteFileName
