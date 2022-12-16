@@ -1,0 +1,30 @@
+<div class="d-flex flex-row justify-content-center">
+  {% if '#analyzemd' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 9 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Análise MD") }}</span>
+  {% elif '#productionmd' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 8 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Produção MD") }}</span>
+  {% elif '#equilibrationnpt' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 7 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Restrição NPT") }}</span>
+  {% elif '#equilibrationnvt' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 6 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Restrição NVT") }}</span>
+  {% elif '#minimizationconjgrad' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 5 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Minimização Conjugate Gradient") }}</span>
+  {% elif '#minimizationsteepdesc' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 4 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Minimização Steep Descent") }}</span>
+  {% elif '#ions' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 3 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Adicionar Ions") }}</span>
+  {% elif '#solvate' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 2 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Definir caixa e solvatar") }}</span>
+  {% elif '#topology' in steplist %}
+  <span class="badge rounded-pill bg-success py-2 mx-1">{{ _("Passo 1 de 9") }}</span>
+  <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Definir Topologia") }}</span>
+  {% endif %}
+</div>

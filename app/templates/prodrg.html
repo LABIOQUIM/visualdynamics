@@ -6,7 +6,7 @@
 </script>
 <div>
   <div class="alert alert-info mt-2" role="alert">
-    {{ _("Para solicitar o cancelamento de uma dinâmica em andamento envie um email para ") }}<a class="alert-link" href="mailto://fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
+    {{ _('Para solicitar o cancelamento de uma dinâmica em andamento envie um email para ') }}<a class="alert-link" href="mailto://fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
   </div>
 
   <p class="h2 text-center">{{ _("Enzima + Ligante (PRODRG)") }}</p>
@@ -28,67 +28,11 @@
       document.location.reload(true)
     }, 10000);
   </script>
-  <h6 class="d-flex flex-wrap">
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#topology' in steplist else 'bg-secondary'}}">{{ _("Definir Topologia") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#break' in steplist else 'bg-secondary'}}">{{ _("Editando Topologia e Estrutura") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#solvate' in steplist else 'bg-secondary'}}">{{ _("Definir caixa e solvatar") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#ions' in steplist else 'bg-secondary'}}">{{ _("Adicionar Ions") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#minimizationsteepdesc' in steplist else 'bg-secondary'}}">{{ _("Minimização Steep Descent") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#minimizationconjgrad' in steplist else 'bg-secondary'}}">{{ _("Minimização Conjugate Gradient") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#equilibrationnvt' in steplist else 'bg-secondary'}}">{{ _("Restrição NVT") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#equilibrationnpt' in steplist else 'bg-secondary'}}">{{ _("Restrição NPT") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#productionmd' in steplist else 'bg-secondary'}}">{{ _("Produção MD") }}</span>
-    <span class="text-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-      </svg>
-    </span>
-    <span class="m-1 badge rounded-pill {{'bg-success' if '#analyzemd' in steplist else 'bg-secondary'}}">{{ _("Análise MD") }}</span>
-  </h6>
+  {% include 'components/run-progress.html' %}
   {% else %}
   <div class="d-flex flex-column flex-lg-row justify-content-evenly">
-    <form class="align-items-start max-md mx-auto" method="POST" action="{{ url_for('DynamicRoutes.prodrg') }}" onsubmit="return validateProcessing()" enctype="multipart/form-data">
-      <div id="ngldiv" style="height:40vmin;"></div>
+    <form class="align-items-start max-md mx-auto" method="POST" action="{{ url_for('DynamicRoutes.prodrg') }}" onsubmit="return validateProcessing()" enctype="multipart/form-data"> 
+      {% include 'components/run-progress.html' %}
       <div class="my-2">
         <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
         <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>
@@ -200,33 +144,6 @@
 </div>
 
 <script>
-  var lang = "en"
-  if ("{{ get_locale() }}" === 'pt') {
-    lang = "pt_BR"
-  }
-  const nglstage = new NGL.Stage("ngldiv")
-  nglstage.loadFile("rcsb://2mu8", {defaultRepresentation:true}).then(function (component) {
-    // provide a "good" view of the structure
-    component.autoView();
-  })
-  const ngl = document.getElementById("ngldiv");
-
-  const inputElement = document.getElementById("file");
-  inputElement.addEventListener("change", handleChangePDB, false);
-
-  function handleChangePDB() {
-    const file = this.files[0];
-    if (file.name.split(".")[1] === "pdb") {
-      nglstage.removeAllComponents()
-      nglstage.loadFile(file, {defaultRepresentation:true}).then(function (component) {
-        // add a "cartoon" representation to the structure component
-        // provide a "good" view of the structure
-        component.autoView();
-      })
-      ngl.style.display = "block";
-    }
-  }
-
   function validateProcessing() {
     var filename = document.querySelector('#file').value;
     var filenameitp = document.querySelector('#fileitp').value;

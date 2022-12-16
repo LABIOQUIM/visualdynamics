@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">{{ _("Visual Dynamics") }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if current_user.username %}
+        <li class="nav-item">
+          <a class="nav-link {{ actapo }}" href="{{ url_for('DynamicRoutes.apo') }}">{{ _("APO Enzima") }}</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {{ actprodrg }} {{ actatb }} {{ actacpype }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ _("Enzima + Ligante") }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item {{ actprodrg }}" href="{{ url_for('DynamicRoutes.prodrg') }}">{{ _("PRODRG com GROMOS") }}</a></li>
+            <li><a class="dropdown-item {{ actacpype }}" href="{{ url_for('DynamicRoutes.acpype') }}">{{ _("ACPYPE com AMBER") }}</a></li>
+            <li><a class="dropdown-item {{ actatb }}" href="{{ url_for('DynamicRoutes.atb') }}">{{ _("ATB (em desenvolvimento)") }}</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link {{ actlogin }}" href="/login">{{ _("Entrar") }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ actregister }}" href="/register">{{ _("Cadastro") }}</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link {{ actabout }}" href="/about">{{ _("Sobre") }}</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        {% if current_user.username == 'admin' %}
+        <li class="nav-item">
+          <a class="nav-link {{ actadmin }}" href="/admin">
+            <i class="fas fa-crown" aria-hidden="true" ></i> {{ _("Painel Admin") }}
+          </a>
+        </li>
+        {% endif %}
+        {% if current_user.username %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {{ actindex }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user" aria-hidden="true" ></i> {{ current_user.username }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item {{ actindex }}" href="{{ url_for('UserRoutes.index') }}">
+                <i class="fas fa-tachometer-alt" aria-hidden="true" ></i> {{ _("Minhas Dinâmicas") }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('AuthRoutes.logout') }}">
+                <i class="fas fa-sign-out-alt" aria-hidden="true" ></i> {{ _("Sair") }}
+              </a>
+            </li>
+          </ul>
+        </li>
+        {% endif %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-globe" aria-hidden="true" ></i> {{ _("Alterar Idioma") }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" href="/set-lang/en">
+                <img src="/static/svg/gb.svg" width="15" height="15" alt=""> {{ _("Inglês") }}
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/set-lang/pt">
+                <img src="/static/svg/br.svg" width="15" height="15" alt=""> {{ _("Português (Brasil)") }}
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
