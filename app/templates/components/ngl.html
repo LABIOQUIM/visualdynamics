@@ -1,0 +1,22 @@
+<div id="ngldiv" style="height:0vmin;"></div>
+
+<script type="text/javascript">
+  const nglstage = new NGL.Stage("ngldiv")
+
+  var inputElement;
+  window.addEventListener('DOMContentLoaded', (event) => {
+    inputElement = document.getElementById("file");
+    inputElement.addEventListener("change", handleChangePDB, false);
+  });
+
+  function handleChangePDB() {
+    const file = this.files[0];
+    if (file.name.split(".")[1] === "pdb") {
+      nglstage.removeAllComponents()
+      nglstage.loadFile(file, {defaultRepresentation:true}).then(function (component) {
+        nglstage.setSize("100%", "40vmin");
+        component.autoView();
+      })
+    }
+  }
+</script>

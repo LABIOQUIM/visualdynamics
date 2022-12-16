@@ -10,19 +10,37 @@
 		{{ _("Visual Dynamics é uma aplicação WEB feito em Python e Flask para facilitar o preparo e execução de dinâmicas moleculares utilizando o GROMACS.") }}
 	</p>
 
-	<p style="text-align:center">
-		{{ _("Desenvolvido por: ") }}<br/>
-		<b>Dr. Fernando Berton Zanchi</b><br/>
-		<b>Dr. Rafael Andrade Caceres</b><br/>
-		<b>Eduardo Buganemi Botelho</b><br/>
-		<b>Thales Junior de Souza Gomes</b><br/>
-		<b>Bruno Lincon de Souza Bordin</b><br/>
-		<b>Ivo Henrique Provensi Vieira</b><br/>
+	<h5 class="text-center">{{ _("Desenvolvido por: ") }}</h5>
+	<p class="d-flex flex-wrap justify-content-center gap-3">
+		<a href="http://lattes.cnpq.br/0564343474986429" target="_blank">
+			<img alt="Dr. Fernando Berton Zanchi" class="rounded-pill" src="{{ url_for('static', filename='img/dr-fernando.jpg') }}" height="64px" />
+			<b>Dr. Fernando Berton Zanchi</b>
+		</a>
+		<span>
+			<img alt="Dr. Rafael Andrade Caceres" class="rounded-pill" src="{{ url_for('static', filename='img/dr-rafael.jpg') }}" height="64px" />
+			<b>Dr. Rafael Andrade Caceres</b>
+		</span>
+		<a href="https://ivo.vist.gg/" target="_blank">
+			<img alt="Ivo Henrique Provensi Vieira" class="rounded-pill" src="https://github.com/ivopr.png" height="64px" />
+			<b>Ivo Henrique Provensi Vieira</b>
+		</a>
 	</p>
+	<div class="d-flex flex-column text-center">
+		<h5>{{ _('Já passaram por aqui:') }}</h5>
+		<span>
+			<b>Eduardo Buganemi Botelho</b>
+		</span>
+		<span>
+			<b>Thales Junior de Souza Gomes</b>
+		</span>
+		<span>
+			<b>Bruno Lincon de Souza Bordin</b>
+		</span>
+	</div>
 
-	<p style="text-align:center">
-		{{ _("Contato") }}<br/>
+	<div class="text-center mt-5">
+		<h5>{{ _("Entre em contato") }}</h5>
 		<a href="mailto:fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
-	</p>
+	</div>
 </div>
 {% endblock %}
