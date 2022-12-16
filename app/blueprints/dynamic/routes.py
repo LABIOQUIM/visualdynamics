@@ -50,7 +50,7 @@ def apo():
                     'logs', filename)
 
                 exc = apoExecutor.execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
-                flash(_('Houve um erro ao executar o comando {}. Verifique os logs para mais detalhes', command=exc[1]), 'danger')
+                flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc[1]), 'danger')
             else:
                 flash(_('Extensão do arquivo está incorreta'), 'danger')
     
@@ -132,7 +132,7 @@ def prodrg():
                                     'logs', moleculaLig)
                 
                 exc = prodrgExecutor.execute(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, filegro.filename, MoleculeName)
-                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc[1]), 'danger')
                 return redirect(url_for('DynamicRoutes.prodrg'))
             
             else:
@@ -213,7 +213,7 @@ def acpype():
                 AbsFileName = os.path.join(Config.UPLOAD_FOLDER, current_user.username,moleculaLig, 'run', 'logs', moleculaLig)
                 
                 exc = acpypeExecutor.execute(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, ligantegroName, MoleculeName)
-                flash('Ocorreu um erro no comando {} com status {}'.format(exc[1],exc[0]), 'danger')
+                flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc[1]), 'danger')
                 return redirect(url_for('DynamicRoutes.acpype'))
             
             else:
