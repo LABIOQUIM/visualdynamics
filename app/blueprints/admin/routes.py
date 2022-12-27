@@ -234,7 +234,7 @@ def current_dynamics():
             try:
                 directory = Config.UPLOAD_FOLDER + pasta
                 #lendo os usuários e verificando se eles estão com alguma dinâmica em andamento.
-                #verifica se a execução é de enzima livre.
+                #verifica se a execução é de proteína livre.
                 if os.stat(directory + '/executing').st_size != 0:
                     archive = open(directory + '/executing', 'r')
                     #captura o nome do usuário.
@@ -275,7 +275,7 @@ def current_dynamics():
                         #adicionando objeto a lista de dinamicas.
                         list_dynamics.append(currentDynamics)
                     
-                    #verifica se a execução é de enzima + ligante.
+                    #verifica se a execução é de proteína + ligante.
                 elif os.stat(directory + '/executingLig').st_size != 0:
                     archive = open(directory + '/executingLig', 'r')
                     #captura o nome do usuário.

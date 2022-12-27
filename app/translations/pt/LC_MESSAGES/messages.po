@@ -107,7 +107,7 @@ msgid "Entre em contato"
 msgstr ""
 
 #: app/templates/acpype.html:5 app/templates/acpype.html:12
-msgid "Enzima + Ligante (ACPYPE)"
+msgid "Proteína + Ligante (ACPYPE)"
 msgstr ""
 
 #: app/templates/acpype.html:9 app/templates/apo.html:10
@@ -211,7 +211,7 @@ msgid "Gerando arquivos para dinâmica ACPYPE"
 msgstr ""
 
 #: app/templates/apo.html:6 app/templates/apo.html:13
-msgid "Enzima APO"
+msgid "Proteína APO"
 msgstr ""
 
 #: app/templates/apo.html:35
@@ -219,7 +219,7 @@ msgid "Não sabe com que molécula testar? Tente com a "
 msgstr ""
 
 #: app/templates/atb.html:5 app/templates/atb.html:12
-msgid "Enzima + Ligante (ATB)"
+msgid "Proteína + Ligante (ATB)"
 msgstr ""
 
 #: app/templates/atb.html:19
@@ -278,7 +278,7 @@ msgid "Ainda não tenho uma conta"
 msgstr ""
 
 #: app/templates/prodrg.html:5 app/templates/prodrg.html:12
-msgid "Enzima + Ligante (PRODRG)"
+msgid "Proteína + Ligante (PRODRG)"
 msgstr ""
 
 #: app/templates/prodrg.html:131
@@ -401,11 +401,11 @@ msgid "Visual Dynamics"
 msgstr ""
 
 #: app/templates/components/navbar.html:11
-msgid "APO Enzima"
+msgid "APO Proteína"
 msgstr ""
 
 #: app/templates/components/navbar.html:15
-msgid "Enzima + Ligante"
+msgid "Proteína + Ligante"
 msgstr ""
 
 #: app/templates/components/navbar.html:18

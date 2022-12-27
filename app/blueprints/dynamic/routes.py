@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 from app.checkuserdynamics import CheckDynamicsSteps, CheckDynamicsStepsLig, CheckUserDynamics, CheckUserDynamicsLig
 from app.config import Config
@@ -10,20 +11,20 @@ from ...upload_file import upload_file, upload_file_ligante
 from .generators import apo as apoGenerator, prodrg as prodrgGenerator, acpype as acpypeGenerator
 from .executors import apo as apoExecutor, prodrg as prodrgExecutor, acpype as acpypeExecutor
 
-# INFO APO Enzima
+# INFO APO Proteína
 @DynamicBlueprint.route('/apo', methods=['GET', 'POST'], endpoint='apo')
 @login_required
 def apo():
     if request.method == 'POST':
-        file = request.files.get('file')
-        if file is None:
-            flash("No file part")
-            return redirect(request.url)
-        CompleteFileName = apoGenerator.generate(file.filename, request.form.get('campoforca'), request.form.get('modeloagua'), request.form.get('tipocaixa'), request.form.get('distanciacaixa'), request.form.get('neutralize'), request.form.get('double'), request.form.get('ignore'), current_user)  
+        timestamp = datetime.now().replace(microsecond=0).isoformat()
+        filename, ext = os.path.splitext(os.path.basename(request.files.get('file').filename))
+        folder = Config.UPLOAD_FOLDER + current_user.username + '/' + filename + '/' + timestamp + '/'
+        
+        CompleteFileName = apoGenerator.generate(folder, request.files.get('file').filename, request.form.get('campoforca'), request.form.get('modeloagua'), request.form.get('tipocaixa'), request.form.get('distanciacaixa'), request.form.get('neutralize'), request.form.get('double'), request.form.get('ignore'), current_user)  
         if request.form.get('download') == 'Download':
-            return redirect(url_for('DownloadRoutes.commandsdownload', filename={"complete" : CompleteFileName, "name": file.filename.split('.')[0]}))
+            return redirect(url_for('DownloadRoutes.commandsdownload', filename={"complete" : CompleteFileName, "name": request.files.get('file').filename.split('.')[0]}))
         if request.form.get('execute') == 'Executar':
-            if upload_file(file, current_user.username):
+            if upload_file(folder, request.files.get('file')):
                 # checar se servidor esta em execução
                 executing = Config.UPLOAD_FOLDER + current_user.username + '/executing'
                 if not os.path.exists(executing):
@@ -43,13 +44,11 @@ def apo():
                     return redirect(url_for('DynamicRoutes.apo'))
             
                 #preparar para executar
-                MoleculeName = file.filename.split('.')[0]
-                filename = file.filename
-                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                    current_user.username, MoleculeName , 'run',
-                    'logs', filename)
+                filename = request.files.get('file').filename
+                MoleculeName = filename.split('.')[0]
+                AbsFileName = os.path.join(folder, 'run', 'logs', filename)
 
-                exc = apoExecutor.execute(AbsFileName, CompleteFileName, current_user.username, MoleculeName)
+                exc = apoExecutor.execute(folder, AbsFileName, CompleteFileName, current_user.username, MoleculeName)
                 flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc[1]), 'danger')
             else:
                 flash(_('Extensão do arquivo está incorreta'), 'danger')

@@ -111,15 +111,15 @@ msgstr "Developed by: "
 
 #: app/templates/about.html:29
 msgid "Já passaram por aqui:"
-msgstr ""
+msgstr "Not too long ago they were here too:"
 
 #: app/templates/about.html:42
 msgid "Entre em contato"
-msgstr ""
+msgstr "Contact us"
 
 #: app/templates/acpype.html:5 app/templates/acpype.html:12
-msgid "Enzima + Ligante (ACPYPE)"
-msgstr "Enzyme + Ligand (ACPYPE)"
+msgid "Proteína + Ligante (ACPYPE)"
+msgstr "Protein + Ligand (ACPYPE)"
 
 #: app/templates/acpype.html:9 app/templates/apo.html:10
 #: app/templates/atb.html:9 app/templates/prodrg.html:9
@@ -222,16 +222,16 @@ msgid "Gerando arquivos para dinâmica ACPYPE"
 msgstr "How to generate files for ACPYPE"
 
 #: app/templates/apo.html:6 app/templates/apo.html:13
-msgid "Enzima APO"
-msgstr "APO Enzyme"
+msgid "Proteína APO"
+msgstr "APO Protein"
 
 #: app/templates/apo.html:35
 msgid "Não sabe com que molécula testar? Tente com a "
 msgstr "Don't know which molecule to test with? try with "
 
 #: app/templates/atb.html:5 app/templates/atb.html:12
-msgid "Enzima + Ligante (ATB)"
-msgstr "Enzyme + Ligand (ATB)"
+msgid "Proteína + Ligante (ATB)"
+msgstr "Protein + Ligand (ATB)"
 
 #: app/templates/atb.html:19
 msgid "Essa funcionalidade ainda está sendo desenvolvida."
@@ -289,8 +289,8 @@ msgid "Ainda não tenho uma conta"
 msgstr "I don't have an account yet"
 
 #: app/templates/prodrg.html:5 app/templates/prodrg.html:12
-msgid "Enzima + Ligante (PRODRG)"
-msgstr "Enzyme + Ligand (PRODRG)"
+msgid "Proteína + Ligante (PRODRG)"
+msgstr "Protein + Ligand (PRODRG)"
 
 #: app/templates/prodrg.html:131
 msgid "Gerando arquivos com PRODRG"
@@ -412,12 +412,12 @@ msgid "Visual Dynamics"
 msgstr ""
 
 #: app/templates/components/navbar.html:11
-msgid "APO Enzima"
-msgstr "APO Enzyme"
+msgid "APO Proteína"
+msgstr "APO Protein"
 
 #: app/templates/components/navbar.html:15
-msgid "Enzima + Ligante"
-msgstr "Enzyme + Ligand"
+msgid "Proteína + Ligante"
+msgstr "Protein + Ligand"
 
 #: app/templates/components/navbar.html:18
 msgid "PRODRG com GROMOS"

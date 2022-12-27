@@ -3,14 +3,14 @@
 
 {% block content %}
 <script>
-	document.title = "{{ _('Enzima APO') }} - Visual Dynamics"
+	document.title = "{{ _('Proteína APO') }} - Visual Dynamics"
 </script>
 <div>
   <div class="alert alert-info mt-2" role="alert">
     {{ _('Para solicitar o cancelamento de uma dinâmica em andamento envie um email para ') }}<a class="alert-link" href="mailto://fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
   </div>
 
-  <p class="h2 text-center">{{ _("Enzima APO") }}</p>
+  <p class="h2 text-center">{{ _("Proteína APO") }}</p>
 
   {% with steps = get_flashed_messages(category_filter=["steps"]) %}
   {% if steplist %}
@@ -36,7 +36,7 @@
     <a href="https://www.rcsb.org/structure/2mu8">2mu8</a>.
   </p>
   <form class="align-items-start max-md mx-auto" method="POST" action="/apo" onsubmit="return validateProcessing()" enctype="multipart/form-data">
-    {% include 'components/ngl.html' %}
+    <!-- {% include 'components/ngl.html' %} -->
     <div class="my-2">
       <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
       <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>
@@ -106,19 +106,21 @@
     </div>
     
     <div class="form-check my-1">
-      <input class="form-check-input" type="checkbox" name="neutralize" id="neutralize">
+      <input class="form-check-input" type="checkbox" disabled checked id="neutralize">
       <label class="form-check-label" for="neutralize">{{ _("Neutralizar o Sistema") }}</label>
+      <input type="hidden" name="neutralize" value="True">
     </div>
     
     <div class="form-check my-1">
-      <input class="form-check-input" type="checkbox" disabled="disabled" id="double">
+      <input class="form-check-input" type="checkbox" disabled value="False" id="double">
       <label class="form-check-label" for="double">{{ _("Calcular em dupla precisão") }}</label>
       <input type="hidden" name="double" value="False">
     </div>
     
     <div class="form-check my-1">
-      <input class="form-check-input" type="checkbox" name="ignore" id="ignore">
+      <input class="form-check-input" disabled checked type="checkbox" id="ignore">
       <label class="form-check-label" for="ignore">{{ _("Ignorar Hidrogênios") }}</label>
+      <input type="hidden" name="ignore" value="True">
     </div>
     
     <div class="row">
@@ -142,7 +144,8 @@
 <script>
   function validateProcessing() {
     var filename = inputElement.files[0].name;
-    var distance = document.querySelector('#distanciacaixa').value;
+    var distance = document.getElementById('distanciacaixa').getAttribute('value');
+    console.log(distance)
     if (!filename || filename.split(".")[1] !== "pdb") {
       alert('Deve ser selecionado um arquivo (.pdb)');
       return false
