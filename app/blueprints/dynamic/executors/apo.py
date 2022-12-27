@@ -3,17 +3,16 @@ from datetime import datetime
 import subprocess, os, sys, shutil
 import errno
 
-def execute(LogFileName, CommandsFileName, username, filename):
+def execute(folder, LogFileName, CommandsFileName, username, filename):
     LogFile = create_log(LogFileName, username) #cria o arquivo log
 
     # salvando nome da dinamica para exibir na execução
-    f = open(Config.UPLOAD_FOLDER + username + '/namedynamic.txt', 'w')
-    f.write(filename)
-    f.close()
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'namedynamic.txt'), 'w') as f:
+        f.write(filename)
     
     # transferir os arquivos mdp necessarios para a execução
-    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' # pasta q vai rodar
-    SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
+    RunFolder = os.path.join(folder, 'run') # pasta q vai rodar
+    SecureMdpFolder = os.path.join(os.path.expanduser('~'), Config.MDP_LOCATION_FOLDER)
     MDPList = os.listdir(SecureMdpFolder)
 
     for mdpfile in MDPList:

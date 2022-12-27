@@ -6,10 +6,9 @@ import os
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
 
-def upload_file(file, username):
-	moleculename = file.filename.split('.')[0]
+def upload_file(folder, file):
 	if allowed_file(file.filename):
-		file.save(os.path.join(Config.UPLOAD_FOLDER, username, moleculename, 'run', file.filename))
+		file.save(os.path.join(folder, 'run', file.filename))
 		return True
 	else:
 		return False

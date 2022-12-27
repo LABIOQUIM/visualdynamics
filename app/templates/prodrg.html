@@ -2,14 +2,14 @@
 
 {% block content %}
 <script>
-	document.title = "{{ _('Enzima + Ligante (PRODRG)') }} - Visual Dynamics"
+	document.title = "{{ _('Proteína + Ligante (PRODRG)') }} - Visual Dynamics"
 </script>
 <div>
   <div class="alert alert-info mt-2" role="alert">
     {{ _('Para solicitar o cancelamento de uma dinâmica em andamento envie um email para ') }}<a class="alert-link" href="mailto://fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
   </div>
 
-  <p class="h2 text-center">{{ _("Enzima + Ligante (PRODRG)") }}</p>
+  <p class="h2 text-center">{{ _("Proteína + Ligante (PRODRG)") }}</p>
   
   {% with steps = get_flashed_messages(category_filter=["steps"]) %}
   {% if steps %}
@@ -32,7 +32,7 @@
   {% else %}
   <div class="d-flex flex-column flex-lg-row justify-content-evenly">
     <form class="align-items-start max-md mx-auto" method="POST" action="{{ url_for('DynamicRoutes.prodrg') }}" onsubmit="return validateProcessing()" enctype="multipart/form-data"> 
-      {% include 'components/run-progress.html' %}
+      <!-- {% include 'components/ngl.html' %} -->
       <div class="my-2">
         <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
         <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>

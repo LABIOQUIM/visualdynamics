@@ -91,7 +91,7 @@ def generate(
     comandos.write('\n\n')
     
     #comando grompp
-    comando = f"{gmx} grompp -f ions.mdp -c {arquivo_complx_box_gro} -p {arquivo_complx_top} -o {arquivo_complx_charged_tpr} -maxwarn 2"
+    comando = f"{gmx} grompp -f ions.mdp -c {arquivo_complx_box_gro} -p {arquivo_complx_top} -o {arquivo_complx_charged_tpr} -maxwarn 20"
     comandos.write('#ions\n\n')
     comandos.writelines(comando)
     comandos.write('\n\n')
@@ -104,7 +104,7 @@ def generate(
 
     #comando grompp minimização
     comandos.write('#minimizationsteepdesc\n\n')
-    comando = f"{gmx} grompp -f PME_em.mdp -c {arquivo_complx_neutral_gro} -p {arquivo_complx_top} -o {arquivo_complx_em_tpr} -maxwarn 2"
+    comando = f"{gmx} grompp -f PME_em.mdp -c {arquivo_complx_neutral_gro} -p {arquivo_complx_top} -o {arquivo_complx_em_tpr} -maxwarn 20"
     comandos.writelines(comando)
     comandos.write('\n\n')
 
@@ -132,7 +132,7 @@ def generate(
     
     #comando grompp
     comandos.write('#minimizationconjgrad\n\n')
-    comando = f"{gmx} grompp -f PME_cg_em.mdp -c {arquivo_complx_sd_em}.gro -p {arquivo_complx_top} -o {arquivo_complx_cg_em}.tpr -maxwarn 2"
+    comando = f"{gmx} grompp -f PME_cg_em.mdp -c {arquivo_complx_sd_em}.gro -p {arquivo_complx_top} -o {arquivo_complx_cg_em}.tpr -maxwarn 20"
     comandos.writelines(comando)
     comandos.write('\n\n')
 
@@ -153,7 +153,7 @@ def generate(
     
     #comando grompp
     comandos.write('#equilibrationnvt\n\n')
-    comando = f"{gmx} grompp -f nvt.mdp -c {arquivo_complx_cg_em}.gro -r {arquivo_complx_cg_em}.gro -p {arquivo_complx_top} -o {arquivo_complx_nvt}.tpr -maxwarn 2"
+    comando = f"{gmx} grompp -f nvt.mdp -c {arquivo_complx_cg_em}.gro -r {arquivo_complx_cg_em}.gro -p {arquivo_complx_top} -o {arquivo_complx_nvt}.tpr -maxwarn 20"
     comandos.writelines(comando)
     comandos.write('\n\n')
 
@@ -174,7 +174,7 @@ def generate(
 
     #comando grompp
     comandos.write('#equilibrationnpt\n\n')
-    comando = f"{gmx} grompp -f npt.mdp -c {arquivo_complx_nvt}.gro -r {arquivo_complx_nvt}.gro -p {arquivo_complx_top} -o {arquivo_complx_npt}.tpr -maxwarn 2"
+    comando = f"{gmx} grompp -f npt.mdp -c {arquivo_complx_nvt}.gro -r {arquivo_complx_nvt}.gro -p {arquivo_complx_top} -o {arquivo_complx_npt}.tpr -maxwarn 20"
     comandos.writelines(comando)
     comandos.write('\n\n')
 
@@ -195,7 +195,7 @@ def generate(
 
     #comando grompp
     comandos.write('#productionmd\n\n')
-    comando = f"{gmx} grompp -f md_pr.mdp -c {arquivo_complx_npt}.gro -p {arquivo_complx_top} -o {arquivo_complx_pr}.tpr -maxwarn 2"
+    comando = f"{gmx} grompp -f md_pr.mdp -c {arquivo_complx_npt}.gro -p {arquivo_complx_top} -o {arquivo_complx_pr}.tpr -maxwarn 20"
     comandos.writelines(comando)
     comandos.write('\n\n')
     

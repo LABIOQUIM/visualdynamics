@@ -138,7 +138,7 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
             file_complx_gro.writelines(file_gro)
             file_complx_gro.close()            
             
-            #somando a quantidade de atomos da enzima
+            #somando a quantidade de atomos da proteína
             #pronto
             file = open(diretorio_complx_gro,'r')
             file_complx_gro = file.readlines()

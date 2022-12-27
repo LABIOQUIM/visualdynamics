@@ -13,3 +13,23 @@
 a {
   text-decoration: none;
 }
+
+.gap-y-1 {
+  row-gap: 4px;
+}
+
+.order-6 {
+  order: 6;
+}
+
+.order-7 {
+  order: 7;
+}
+
+.order-8 {
+  order: 8;
+}
+
+.order-9 {
+  order: 9;
+}

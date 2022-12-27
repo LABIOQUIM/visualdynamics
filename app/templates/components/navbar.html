@@ -8,11 +8,11 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         {% if current_user.username %}
         <li class="nav-item">
-          <a class="nav-link {{ actapo }}" href="{{ url_for('DynamicRoutes.apo') }}">{{ _("APO Enzima") }}</a>
+          <a class="nav-link {{ actapo }}" href="{{ url_for('DynamicRoutes.apo') }}">{{ _("APO Proteína") }}</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle {{ actprodrg }} {{ actatb }} {{ actacpype }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ _("Enzima + Ligante") }}
+            {{ _("Proteína + Ligante") }}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item {{ actprodrg }}" href="{{ url_for('DynamicRoutes.prodrg') }}">{{ _("PRODRG com GROMOS") }}</a></li>
@@ -41,22 +41,15 @@
         </li>
         {% endif %}
         {% if current_user.username %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle {{ actindex }}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user" aria-hidden="true" ></i> {{ current_user.username }}
+        <li class="nav-item">
+          <a class="nav-link {{ actindex }}" href="{{ url_for('UserRoutes.index') }}">
+            <i class="fas fa-tachometer-alt" aria-hidden="true" ></i> {{ _("Minhas Dinâmicas") }}
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li>
-              <a class="dropdown-item {{ actindex }}" href="{{ url_for('UserRoutes.index') }}">
-                <i class="fas fa-tachometer-alt" aria-hidden="true" ></i> {{ _("Minhas Dinâmicas") }}
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="{{ url_for('AuthRoutes.logout') }}">
-                <i class="fas fa-sign-out-alt" aria-hidden="true" ></i> {{ _("Sair") }}
-              </a>
-            </li>
-          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('AuthRoutes.logout') }}">
+            <i class="fas fa-sign-out-alt" aria-hidden="true" ></i> {{ _("Sair") }}
+          </a>
         </li>
         {% endif %}
         <li class="nav-item dropdown">

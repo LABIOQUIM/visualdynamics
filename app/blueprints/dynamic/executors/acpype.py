@@ -74,9 +74,31 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
             comando_junta_atom = 'grep -h ATOM {}_livre.pdb {}.pdb >| {}_complx.pdb'.format(mol, groname, mol)
             subprocess.call(comando_junta_atom, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
 
+            ## 
+            atomtypes = []
+            diretorio_itp = RunFolder + itpname
+            with open(diretorio_itp, 'r') as f:
+                found = False
+                for line in f:
+                    if found:
+                        if line is "\n":
+                            break
+                        atomtypes.append(line)
+                    if 'atomtypes' in line:
+                        found = True
+                        atomtypes.append(line)
+
             ## comando 1
-            comando_gerar_molecula_complexada = 'cat {}_livre.top | sed \'/forcefield\.itp\"/a\#include "{}"\' >| {}_complx.top'.format(mol,itpname,mol)
+            comando_gerar_molecula_complexada = 'cat {}_livre.top | sed \'/forcefield\.itp\"/a\#include "{}"\' >| {}1_complx.top'.format(mol,itpname,mol)
             subprocess.call(comando_gerar_molecula_complexada, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+
+            with open(f"{RunFolder}{mol}1_complx.top", "r") as f:
+                with open(f"{RunFolder}{mol}_complx.top", "w") as f1:
+                    for line in f:
+                        f1.write(line)
+                        if 'forcefield.itp' in line:
+                            f1.write("\n")
+                            f1.writelines(atomtypes)
 
             #acessando arquivo .itp para pegar o moleculetype
             #pronto
@@ -90,7 +112,7 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
                     molecula = molecula.split()[0]
                     molecula = molecula + '                 1'
                     break
-
+            
             #aqui vai o echo ligand 1
             comando_moleculetype = 'echo "{}" >> {}_complx.top'.format(molecula,mol)
             subprocess.call(comando_moleculetype, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
