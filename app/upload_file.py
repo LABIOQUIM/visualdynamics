@@ -13,20 +13,14 @@ def upload_file(folder, file):
 	else:
 		return False
 
-def upload_file_ligante(file, ligitp, liggro, username):
-	moleculename = file.filename.split('.')[0]
-	ligantename = ligitp.filename.split('.')[0]
-	pastaname = moleculename+'_'+ligantename
+def upload_file_ligante(folder, file, fileitp, filegro):
 	if allowed_file(file.filename):
-		if allowed_file(ligitp.filename):
-			if allowed_file(liggro.filename):
-				filemol = secure_filename(file.filename)
-				fileitp = secure_filename(ligitp.filename)
-				filegro = secure_filename(liggro.filename)
-				pathlib.Path(os.path.join(Config.UPLOAD_FOLDER, username, pastaname, 'run', 'logs')).mkdir(parents=True, exist_ok=True)
-				file.save(os.path.join(Config.UPLOAD_FOLDER, username, pastaname, 'run', filemol))
-				ligitp.save(os.path.join(Config.UPLOAD_FOLDER, username, pastaname, 'run', fileitp))
-				liggro.save(os.path.join(Config.UPLOAD_FOLDER, username, pastaname, 'run', filegro))
+		if allowed_file(fileitp.filename):
+			if allowed_file(filegro.filename):
+				pathlib.Path(os.path.join(folder, 'run', 'logs')).mkdir(parents=True, exist_ok=True)
+				file.save(os.path.join(folder, 'run', file.filename))
+				fileitp.save(os.path.join(folder, 'run', fileitp.filename))
+				filegro.save(os.path.join(folder, 'run', filegro.filename))
 				return True
 		else:
 			return False

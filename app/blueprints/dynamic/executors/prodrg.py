@@ -4,7 +4,7 @@ import subprocess, os, sys, shutil
 import errno
 
 
-def execute(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
+def execute(folder, LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
     LogFile = create_log(LogFileName, username) #cria o arquivo log
 
     #salvando nome da dinamica para exibir na execução
@@ -14,7 +14,7 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
 
 
     #transferir os arquivos mdp necessarios para a execução
-    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
+    RunFolder = os.path.join(folder, "run") #pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
     MDPList = os.listdir(SecureMdpFolder)
 
@@ -66,92 +66,81 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
                     return (e.args)
         
         #breakpoint adicionado para possibilitar a interação com os arquivos em tempo de execução
-        if l == '#break': 
+        if l == '#break':
+            print("in break")
             #cria o novo arquivo com a molecula complexada
             #pronto 
-            diretorio_ltop = RunFolder + mol +'_livre.top'
-            diretorio_complx_top = RunFolder + mol +'_complx.top'
-            file =  open(diretorio_ltop,'r')
-            file_ltop = file.read()
-            file_complx_top = open(diretorio_complx_top,'w')
-            file_complx_top.writelines(file_ltop)
-            file.close()
-            file_complx_top.close()
+            diretorio_ltop = os.path.join(RunFolder, f"{mol}_livre.top")
+            diretorio_complx_top = os.path.join(RunFolder, f"{mol}_complx.top")
+            with open(diretorio_ltop, 'r') as f:
+                print("in break1")
+                with open(diretorio_complx_top, "w") as f1:
+                    print("in break2")
+                    f1.writelines(f.read())
 
             #cria o novo arquivo com a molecula complexada
             #pronto
-            file = open(diretorio_complx_top,'r')
-            file_complx_top = file.readlines()
-            file.close()
+            with open(diretorio_complx_top, 'r') as file:
+                file_complx_top = file.readlines()
+
             for i, text in enumerate(file_complx_top):
-                if text.find('system') > -1:
-                    file = open(diretorio_complx_top,'w')
-                    file_complx_top[i-1] = '\n; Include ligand topology\n'+'#include'+' '+'"'+itpname+'"'+"\n\n"
-                    file.writelines(file_complx_top)
-                    file.close()
+                if 'system' in text:
+                    file_complx_top[i-1] = file_complx_top[i-1].replace('\n', '\n; Include ligand topology\n#include "{}"\n\n'.format(itpname))
+                    with open(diretorio_complx_top, 'w') as file:
+                        file.writelines(file_complx_top)
             
             #acessando arquivo .itp para pegar o moleculetype
             #pronto
-            diretorio_itp = RunFolder + itpname
-            file = open(diretorio_itp,'r')
-            file_itp = file.readlines()
-            file.close()         
+            diretorio_itp = os.path.join(RunFolder, itpname)
+            with open(diretorio_itp, 'r') as file:
+                file_itp = file.readlines()
+
             for i, text in enumerate(file_itp):
-                if text.find('moleculetype') > -1:
-                    molecula = file_itp[i+2]
-                    molecula = molecula.split(' ')[0]
-                    molecula = molecula+'                 '+'1\n'
-                    #acessando o arquivo _complx.top para incluir os dados
-                    file = open(diretorio_complx_top,'r')
-                    file_complx_top = file.readlines()
-                    file.close()
+                if 'moleculetype' in text:
+                    molecula = file_itp[i+2].split(' ')[0].rstrip()
+                    molecula = '{:<20} 1\n'.format(molecula)
+                    
+                    with open(diretorio_complx_top, 'r') as file:
+                        file_complx_top = file.readlines()
+                    
                     file_complx_top.append(molecula)
-                    #acessa para salvar a alteração
-                    file = open(diretorio_complx_top,'w')
-                    file.writelines(file_complx_top)
-                    file.close()
+                    
+                    with open(diretorio_complx_top, 'w') as file:
+                        file.writelines(file_complx_top)
              
             #modificando o arquivo .gro
             #pronto
-            diretorio_gro = RunFolder + groname
-            file = open(diretorio_gro,'r')
-            file_gro = file.readlines()
-            file.close()
-            valor_gro = file_gro[1]
-            valor_gro = int(valor_gro)
-            file_gro.pop()
-            file_gro.pop(0)
+            diretorio_gro = os.path.join(RunFolder, groname)
 
-            #copiando as coordenadas dos atomos
-            diretorio_lgro = RunFolder + mol +'_livre.gro'
-            diretorio_complx_gro =  RunFolder + mol +'_complx.gro'
-            file_complx_gro = open(diretorio_complx_gro,'w')
-            file = open(diretorio_lgro,'r')
-            file_lgro = file.readlines()
-            file.close()
-            i = len(file_lgro)-1
-            last_line = file_lgro[i]
-            file_lgro.pop()
-            file_complx_gro.writelines(file_lgro)
-            file_gro.pop(0)
-            file_gro.append(last_line)
-            file_complx_gro.writelines(file_gro)
-            file_complx_gro.close()            
-            
-            #somando a quantidade de atomos da proteína
-            #pronto
-            file = open(diretorio_complx_gro,'r')
-            file_complx_gro = file.readlines()
-            file.close()
-            valor_complx_gro = file_complx_gro[1]
-            valor_complx_gro = int(valor_complx_gro)
+            with open(diretorio_gro, 'r') as file:
+                file_gro = file.readlines()
+
+            valor_gro = int(file_gro[1].strip())
+            file_gro = file_gro[2:-1]
+
+            diretorio_lgro = os.path.join(RunFolder, f"{mol}_livre.gro")
+            diretorio_complx_gro =  os.path.join(RunFolder, f"{mol}_complx.gro")
+
+            with open(diretorio_lgro, 'r') as file:
+                file_lgro = file.readlines()
+
+            last_line = file_lgro[-1]
+            file_lgro = file_lgro[:-1]
+
+            with open(diretorio_complx_gro, 'w') as file:
+                file.write(''.join(file_lgro))
+                file.write(''.join(file_gro))
+                file.write(last_line)
+
+            with open(diretorio_complx_gro, 'r') as file:
+                file_complx_gro = file.readlines()
+
+            valor_complx_gro = int(file_complx_gro[1].strip())
             total = valor_gro + valor_complx_gro
-            total = str(total)
-            file_complx_gro[1] = ' '+total+'\n'
-            file = open(diretorio_complx_gro,'w')
-            file.writelines(file_complx_gro)
-            file.close()
 
+            with open(diretorio_complx_gro, 'w') as file:
+                file_complx_gro[1] = ' {:>5}\n'.format(total)
+                file.write(''.join(file_complx_gro))
 
     LogFile.close()
     os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')

@@ -94,16 +94,19 @@ def apo():
 @login_required
 def prodrg():
     if request.method == 'POST':
-        file = request.files.get('file')
-        fileitp = request.files.get('fileitp')
-        filegro = request.files.get('filegro')
-        CompleteFileName = prodrgGenerator.generate(file.filename, fileitp.filename, filegro.filename, request.form.get('campoforca'), request.form.get('modeloagua'), request.form.get('tipocaixa'), request.form.get('distanciacaixa'), request.form.get('neutralize'), request.form.get('double'), request.form.get('ignore'), current_user)  
+        timestamp = datetime.now().replace(microsecond=0).isoformat()
+        filename, ext = os.path.splitext(os.path.basename(request.files.get('file').filename))
+        fileitpname, ext1 = os.path.splitext(os.path.basename(request.files.get('fileitp').filename))
+        filegroname, ext2 = os.path.splitext(os.path.basename(request.files.get('filegro').filename))
+        folder = f"{Config.UPLOAD_FOLDER}{current_user.username}/{filename}_{fileitpname}_{filegroname}/{timestamp}/"
+        
+        CompleteFileName = prodrgGenerator.generate(folder, request.files.get('file').filename, request.files.get('fileitp').filename, request.files.get('filegro').filename, request.form.get('campoforca'), request.form.get('modeloagua'), request.form.get('tipocaixa'), request.form.get('distanciacaixa'), request.form.get('neutralize'), request.form.get('double'), request.form.get('ignore'), current_user)  
         if request.form.get('download') == 'Download':
-            name = file.filename.split('.')[0]+'_'+fileitp.filename.split('.')[0]
+            name = request.files.get('file').filename.split('.')[0]+'_'+request.files.get('fileitp').filename.split('.')[0]
             return redirect(url_for('DownloadRoutes.commandsdownload', filename={"complete": CompleteFileName, "name": name}))
         
         if request.form.get('execute') == 'Executar':
-            if upload_file_ligante(file, fileitp, filegro, current_user.username):    #dando upload no arquivo, salvando e checando
+            if upload_file_ligante(folder, request.files.get('file'), request.files.get('fileitp'), request.files.get('filegro')):    #dando upload no arquivo, salvando e checando
                 executingLig = Config.UPLOAD_FOLDER + current_user.username + '/executingLig'
                 if not os.path.exists(executingLig):
                     f = open(executingLig,'w')
@@ -122,15 +125,10 @@ def prodrg():
                     return redirect(url_for('DynamicRoutes.prodrg'))
             
                 #preparar para executar
-                MoleculeName = file.filename.split('.')[0]
-                liganteitpName = fileitp.filename.split('.')[0]
-                ligantegroName = filegro.filename.split('.')[0]
-                moleculaLig = MoleculeName+'_'+liganteitpName
-                AbsFileName = os.path.join(Config.UPLOAD_FOLDER,
-                                    current_user.username,moleculaLig, 'run',
-                                    'logs', moleculaLig)
+                moleculaLig = f"{filename}_{fileitpname}_{filegroname}"
+                AbsFileName = os.path.join(folder, 'run', 'logs', moleculaLig)
                 
-                exc = prodrgExecutor.execute(AbsFileName, CompleteFileName, current_user.username, moleculaLig, fileitp.filename, filegro.filename, MoleculeName)
+                exc = prodrgExecutor.execute(folder, AbsFileName, CompleteFileName, current_user.username, moleculaLig, request.files.get('fileitp').filename, request.files.get('filegro').filename, filename)
                 flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc[1]), 'danger')
                 return redirect(url_for('DynamicRoutes.prodrg'))
             
