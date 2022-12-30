@@ -1,14 +1,12 @@
 from ....config import Config
-from datetime import datetime
-import subprocess, os, sys, shutil
-import errno
+import os, shutil
+from ....utils.run_dynamics_command import run_dynamics_command
 
-def execute(folder, LogFileName, CommandsFileName, username, filename):
-    LogFile = create_log(LogFileName, username) #cria o arquivo log
-
+def execute(folder, CommandsFileName, username, filename):
     # salvando nome da dinamica para exibir na execução
-    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'namedynamic.txt'), 'w') as f:
-        f.write(filename)
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'), 'w') as f:
+        protein_name, _ = os.path.splitext(os.path.basename(filename))
+        f.write(protein_name)
     
     # transferir os arquivos mdp necessarios para a execução
     RunFolder = os.path.join(folder, 'run') # pasta q vai rodar
@@ -21,70 +19,39 @@ def execute(folder, LogFileName, CommandsFileName, username, filename):
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
 
-    diretorio = Config.UPLOAD_FOLDER + username + '/info_dynamics'
-    info = f'{datetime.now().replace(microsecond=0).isoformat()}|{filename}\n'
-    try:
-        f = open(diretorio,'x+')
-        f.write(info)
-        f.close()
-    except OSError as e:
-        if e.errno == errno.EEXIST:
-            f = open(diretorio,'a')
-            f.write(info)
-            f.close()
-    
+    # Use the `with` statement to open the file in 'x+' mode
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'info_dynamics'), 'a') as f:
+        f.write(folder)
+
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"), "w") as f:
+        f.write(os.path.join(folder, "run", "logs", f"dynamic-log.log"))
+
     #abrir arquivo
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
-    #with open('{}{}/{}/teste.txt'.format(Config.UPLOAD_FOLDER, username, filename)) as f: #Código para TESTE
         content = f.readlines()
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
     
-    #try:
-    # lendo cada linha do arquivo texto
     for l in lines:
         if l[0] == '#':
-            WriteUserDynamics(l,username)
+            WriteUserDynamics(l, username)
         else:
-            # estabelecer o diretorio de trabalho
             os.chdir(RunFolder)
-            # parametro stdin=PIPE e shell=True pego de um ex. do stackoverflow para poder usar o genion com pipe
-            # parametro stout=LogFile pra escrever log
-            process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            rcode = run_dynamics_command(l, os.path.join(folder, "run", "logs", f"dynamic-log.log"))
             
-            try:
-                process.check_returncode()
-            except subprocess.CalledProcessError as e:
-                    LogFile.close()
-                    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-                    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
-                    os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
-                    return (e.args)
-
-        # except subprocess.CalledProcessError as e:
-    # raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-    
-    LogFile.close()
+            if rcode != 0:
+                os.remove(Config.UPLOAD_FOLDER + username + '/executing')
+                os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
+                return f"{l}"
     os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-    os.remove(Config.UPLOAD_FOLDER + username + '/executingLig')
-    os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
-
-def create_log(LogFileName, username):
-    # formatando nome do arquivo log
-    LogFileName = LogFileName.split('.')
-    LogFileName.pop()
-    LogFileName = ".".join([".".join(LogFileName), f'{format(datetime.now().replace(microsecond=0).isoformat())}.log'])
-    
-    LogFile = open(LogFileName, "w+")
-    f = open(Config.UPLOAD_FOLDER + username + '/DirectoryLog', 'w')
-    f.write(LogFileName)
-    return LogFile
+    os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
 
 def WriteUserDynamics(line, username):
     filename = Config.UPLOAD_FOLDER + username + '/executing'
     try:
-        f = open(filename, 'a')
-        f.write(line + '\n')
-        f.close()
+        # Use the `with` statement to open the file in 'a' mode
+        with open(filename, 'a') as f:
+            # Write the data to the file
+            f.write(line + '\n')
     except OSError:
         print('erro ao adicionar linha no arquivo de dinamica-usuario')
         raise

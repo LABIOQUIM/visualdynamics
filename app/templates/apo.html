@@ -21,8 +21,8 @@
   </div>
   <p class="h2 text-center">{{ _("Dinâmica em andamento") }}</p>
   <p class="h4 text-center">{{ _("Proteína %(protein)s", protein=name_dynamic) }}</p>
-  {% if '#productionmd' in steplist %}
-  <p class="h6 text-center">{{ date_finish }}</p>
+  {% if date_finish %}
+  <p class="h5 text-center">{{ date_finish }}</p>
   {% endif %}
   <script>
     setInterval(function() {

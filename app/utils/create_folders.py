@@ -3,7 +3,7 @@ import os
 
 def create_folders(folder):
     for subfolder in ['graficos', 'run/logs']:
-        path = folder + subfolder
+        path = os.path.join(folder, subfolder)
         try:
             os.makedirs(path)
         except OSError as e:

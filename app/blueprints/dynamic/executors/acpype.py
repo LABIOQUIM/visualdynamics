@@ -1,20 +1,16 @@
+from app.utils.run_dynamics_command import run_dynamics_command
 from ....config import Config
-from datetime import datetime
-import subprocess, os, sys, shutil
-import errno
+import subprocess, os, shutil
 
 
-def execute(LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
-    LogFile = create_log(LogFileName, username) #cria o arquivo log
-
+def execute(folder, CommandsFileName, username, filename, itpname, groname, mol):
     #salvando nome da dinamica para exibir na execução
-    f = open(Config.UPLOAD_FOLDER+username+'/'+'namedynamic.txt','w')
-    f.write(filename)
-    f.close()
-
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'), 'w') as f:
+        protein_name, _ = os.path.splitext(os.path.basename(filename))
+        f.write(protein_name)
 
     #transferir os arquivos mdp necessarios para a execução
-    RunFolder = Config.UPLOAD_FOLDER + username + '/' + filename + '/run/' #pasta q vai rodar
+    RunFolder = os.path.join(folder, "run") #pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
     MDPList = os.listdir(SecureMdpFolder)
 
@@ -24,46 +20,29 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
     
-    diretorio = Config.UPLOAD_FOLDER + username + '/info_dynamics'
-    try:
-        f = open(diretorio,'x+')
-        data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
-        info = data + '|' + filename + '\n'
-        f.write(info)
-        f.close()
-        
-    except OSError as e:
-        if e.errno == errno.EEXIST:
-            f = open(diretorio,'a')
-            data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
-            info = data + '|' + filename + '\n'
-            f.write(info)
-            f.close()
-                     
+    # Use the `with` statement to open the file in 'x+' mode
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'info_dynamics'), 'a') as f:
+        f.write(folder)
 
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"), "w") as f:
+        f.write(os.path.join(folder, "run", "logs", f"gmx-commands.log"))
+                     
     #abrir arquivo
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
         content = f.readlines()
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
-    
+    linux_log_file_path = os.path.join(folder, "run", "logs", f"linux-commands.log")
     for l in lines:
         if l[0] == '#':
             WriteUserDynamics(l, username)
-
         else:
-            #estabelecer o diretorio de trabalho
             os.chdir(RunFolder)
-
-            process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
-
-            try:
-                process.check_returncode()
-            except subprocess.CalledProcessError as e:
-                    LogFile.close()
-                    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
-                    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-                    os.remove(Config.UPLOAD_FOLDER + username +'/DirectoryLog')
-                    return (e.args)
+            rcode = run_dynamics_command(l, os.path.join(folder, "run", "logs", f"gmx-commands.log"))
+            
+            if rcode != 0:
+                os.remove(Config.UPLOAD_FOLDER + username + '/executing')
+                os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
+                return f"{l}"
         
         #breakpoint adicionado para possibilitar a interação com os arquivos em tempo de execução
         if l == '#break': 
@@ -71,12 +50,13 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
             #pronto 
             
             #procura e adiciona em um novo arquivo 
-            comando_junta_atom = 'grep -h ATOM {}_livre.pdb {}.pdb >| {}_complx.pdb'.format(mol, groname, mol)
-            subprocess.call(comando_junta_atom, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            comando_junta_atom = 'grep -h ATOM {}_livre.pdb {} >| {}_complx.pdb'.format(mol, groname, mol)
+            with open(linux_log_file_path, "a") as f:
+                subprocess.call(comando_junta_atom, shell=True, stdin=f, stdout=f, stderr=f)
 
             ## 
             atomtypes = []
-            diretorio_itp = RunFolder + itpname
+            diretorio_itp = os.path.join(RunFolder, itpname)
             with open(diretorio_itp, 'r') as f:
                 found = False
                 for line in f:
@@ -90,10 +70,11 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
 
             ## comando 1
             comando_gerar_molecula_complexada = 'cat {}_livre.top | sed \'/forcefield\.itp\"/a\#include "{}"\' >| {}1_complx.top'.format(mol,itpname,mol)
-            subprocess.call(comando_gerar_molecula_complexada, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            with open(os.path.join(folder, "run", "logs", f"dynamic-log.log"), 'a') as f:
+                subprocess.call(comando_gerar_molecula_complexada, shell=True, stdin=f, stdout=f, stderr=f)
 
-            with open(f"{RunFolder}{mol}1_complx.top", "r") as f:
-                with open(f"{RunFolder}{mol}_complx.top", "w") as f1:
+            with open(os.path.join(RunFolder, f"{mol}1_complx.top"), "r") as f:
+                with open(os.path.join(RunFolder, f"{mol}_complx.top"), "w") as f1:
                     for line in f:
                         f1.write(line)
                         if 'forcefield.itp' in line:
@@ -102,7 +83,6 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
 
             #acessando arquivo .itp para pegar o moleculetype
             #pronto
-            diretorio_itp = RunFolder + itpname
             file = open(diretorio_itp,'r')
             file_itp = file.readlines()
             file.close()
@@ -115,34 +95,16 @@ def execute(LogFileName, CommandsFileName, username, filename, itpname, groname,
             
             #aqui vai o echo ligand 1
             comando_moleculetype = 'echo "{}" >> {}_complx.top'.format(molecula,mol)
-            subprocess.call(comando_moleculetype, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
+            with open(os.path.join(folder, "run", "logs", f"dynamic-log.log"), 'a') as f:
+                subprocess.call(comando_moleculetype, shell=True, stdin=f, stdout=f, stderr=f)
 
             
-    LogFile.close()
-    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
     os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-    os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
-
-
-def create_log(LogFileName, username):
-    #formatando nome do arquivo log
-    LogFileName = LogFileName+"-{}-{}-{}[{}:{}:{}]{}".format(datetime.now().year,
-                                                            datetime.now().month,
-                                                            datetime.now().day,
-                                                            datetime.now().hour,
-                                                            datetime.now().minute,
-                                                            datetime.now().second,
-                                                            '.log.txt')
-        
-    LogFile = open(LogFileName, "w+")
-    f = open(Config.UPLOAD_FOLDER+username +'/DirectoryLog', 'w')
-    f.write(LogFileName)
-    f.close()
-    return LogFile
+    os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
 
 
 def WriteUserDynamics(line, username):
-    filename = Config.UPLOAD_FOLDER + username + '/executingLig'
+    filename = Config.UPLOAD_FOLDER + username + '/executing'
     try:
         f = open(filename, 'a')
         f.write(line + '\n')

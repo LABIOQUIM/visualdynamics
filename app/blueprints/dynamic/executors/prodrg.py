@@ -1,16 +1,13 @@
+from app.utils.run_dynamics_command import run_dynamics_command
 from ....config import Config
-from datetime import datetime
-import subprocess, os, sys, shutil
-import errno
+import os, shutil
 
 
-def execute(folder, LogFileName, CommandsFileName, username, filename, itpname, groname, mol):
-    LogFile = create_log(LogFileName, username) #cria o arquivo log
-
+def execute(folder, CommandsFileName, username, filename, itpname, groname, mol):
     #salvando nome da dinamica para exibir na execução
-    f = open(Config.UPLOAD_FOLDER+username+'/'+'namedynamic.txt','w')
-    f.write(filename)
-    f.close()
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'), 'w') as f:
+        protein_name, _ = os.path.splitext(os.path.basename(filename))
+        f.write(protein_name)
 
 
     #transferir os arquivos mdp necessarios para a execução
@@ -24,22 +21,12 @@ def execute(folder, LogFileName, CommandsFileName, username, filename, itpname, 
         if (os.path.isfile(fullmdpname)):
             shutil.copy(fullmdpname, RunFolder)
     
-    diretorio = Config.UPLOAD_FOLDER + username + '/info_dynamics'
-    try:
-        f = open(diretorio,'x+')
-        data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
-        info = data + '|' + filename + '\n'
-        f.write(info)
-        f.close()
-        
-    except OSError as e:
-        if e.errno == errno.EEXIST:
-            f = open(diretorio,'a')
-            data = '{}'.format(datetime.now().replace(microsecond=0).isoformat())
-            info = data + '|' + filename + '\n'
-            f.write(info)
-            f.close()
-                     
+    # Use the `with` statement to open the file in 'x+' mode
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'info_dynamics'), 'a') as f:
+        f.write(folder)
+
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"), "w") as f:
+        f.write(os.path.join(folder, "run", "logs", f"gmx-commands.log"))
 
     #abrir arquivo
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
@@ -48,34 +35,24 @@ def execute(folder, LogFileName, CommandsFileName, username, filename, itpname, 
     
     for l in lines:
         if l[0] == '#':
-            WriteUserDynamics(l,username)
-
+            WriteUserDynamics(l, username)
         else:
-            #estabelecer o diretorio de trabalho
             os.chdir(RunFolder)
-
-            process = subprocess.run(l, shell=True, stdin=LogFile, stdout=LogFile, stderr=LogFile)
-
-            try:
-                process.check_returncode()
-            except subprocess.CalledProcessError as e:
-                    LogFile.close()
-                    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
-                    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-                    os.remove(Config.UPLOAD_FOLDER + username +'/DirectoryLog')
-                    return (e.args)
+            rcode = run_dynamics_command(l, os.path.join(folder, "run", "logs", f"gmx-commands.log"))
+            
+            if rcode != 0:
+                os.remove(Config.UPLOAD_FOLDER + username + '/executing')
+                os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
+                return f"{l}"
         
         #breakpoint adicionado para possibilitar a interação com os arquivos em tempo de execução
         if l == '#break':
-            print("in break")
             #cria o novo arquivo com a molecula complexada
             #pronto 
             diretorio_ltop = os.path.join(RunFolder, f"{mol}_livre.top")
             diretorio_complx_top = os.path.join(RunFolder, f"{mol}_complx.top")
             with open(diretorio_ltop, 'r') as f:
-                print("in break1")
                 with open(diretorio_complx_top, "w") as f1:
-                    print("in break2")
                     f1.writelines(f.read())
 
             #cria o novo arquivo com a molecula complexada
@@ -142,31 +119,11 @@ def execute(folder, LogFileName, CommandsFileName, username, filename, itpname, 
                 file_complx_gro[1] = ' {:>5}\n'.format(total)
                 file.write(''.join(file_complx_gro))
 
-    LogFile.close()
-    os.remove(Config.UPLOAD_FOLDER + username +'/executingLig')
     os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-    os.remove(Config.UPLOAD_FOLDER + username + '/DirectoryLog')
-
-
-def create_log(LogFileName, username):
-    #formatando nome do arquivo log
-    LogFileName = LogFileName+"-{}-{}-{}[{}:{}:{}]{}".format(datetime.now().year,
-                                                            datetime.now().month,
-                                                            datetime.now().day,
-                                                            datetime.now().hour,
-                                                            datetime.now().minute,
-                                                            datetime.now().second,
-                                                            '.log')
-        
-    LogFile = open(LogFileName, "w+")
-    f = open(Config.UPLOAD_FOLDER+username +'/DirectoryLog', 'w')
-    f.write(LogFileName)
-    f.close()
-    return LogFile
-
+    os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
 
 def WriteUserDynamics(line,username):
-    filename = Config.UPLOAD_FOLDER + username +'/executingLig'
+    filename = Config.UPLOAD_FOLDER + username +'/executing'
     try:
         f = open(filename,'a')
         f.write(line + '\n')
