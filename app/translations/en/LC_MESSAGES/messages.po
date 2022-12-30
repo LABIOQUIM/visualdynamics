@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-16 13:32-0400\n"
+"POT-Creation-Date: 2022-12-30 17:11-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -73,12 +73,12 @@ msgstr ""
 "Your account hasn't been activated yet. We'll contact you via email once "
 "it is activated."
 
-#: app/blueprints/dynamic/routes.py:34 app/blueprints/dynamic/routes.py:42
+#: app/blueprints/dynamic/routes.py:54
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr "Your can't run two (or more) simultaneous dynamics"
 
-#: app/blueprints/dynamic/routes.py:53 app/blueprints/dynamic/routes.py:135
-#: app/blueprints/dynamic/routes.py:216
+#: app/blueprints/dynamic/routes.py:58 app/blueprints/dynamic/routes.py:134
+#: app/blueprints/dynamic/routes.py:212
 #, fuzzy, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
@@ -87,7 +87,7 @@ msgstr ""
 "There was an error while executing '%(command)s'. Check the logs for "
 "details"
 
-#: app/blueprints/dynamic/routes.py:55
+#: app/blueprints/dynamic/routes.py:60
 msgid "Extensão do arquivo está incorreta"
 msgstr "File extension invalid"
 
@@ -117,7 +117,7 @@ msgstr "Not too long ago they were here too:"
 msgid "Entre em contato"
 msgstr "Contact us"
 
-#: app/templates/acpype.html:5 app/templates/acpype.html:12
+#: app/templates/acpype.html:5 app/templates/acpype.html:31
 msgid "Proteína + Ligante (ACPYPE)"
 msgstr "Protein + Ligand (ACPYPE)"
 
@@ -128,104 +128,122 @@ msgid ""
 " para "
 msgstr "If you need to cancel an executing dynamic send an email to "
 
-#: app/templates/acpype.html:21 app/templates/apo.html:22
-#: app/templates/prodrg.html:21
+#: app/templates/acpype.html:19 app/templates/apo.html:20
+#: app/templates/prodrg.html:19
 msgid "Dinâmica em andamento"
 msgstr "Execunting Dynamic"
 
-#: app/templates/acpype.html:22 app/templates/apo.html:23
-#: app/templates/index.html:27 app/templates/prodrg.html:22
+#: app/templates/acpype.html:20 app/templates/apo.html:21
+#: app/templates/prodrg.html:20
 #, python-format
 msgid "Proteína %(protein)s"
 msgstr "Protein %(protein)s"
 
-#: app/templates/acpype.html:37 app/templates/apo.html:41
-#: app/templates/prodrg.html:37
+#: app/templates/acpype.html:36 app/templates/apo.html:40
+#: app/templates/prodrg.html:36
 msgid "Proteína Livre"
 msgstr "Free Protein"
 
-#: app/templates/acpype.html:42 app/templates/acpype.html:47
-#: app/templates/prodrg.html:42 app/templates/prodrg.html:47
+#: app/templates/acpype.html:41 app/templates/acpype.html:46
+#: app/templates/prodrg.html:41 app/templates/prodrg.html:46
 msgid "Ligante"
 msgstr "Ligand"
 
-#: app/templates/acpype.html:62 app/templates/apo.html:64
-#: app/templates/prodrg.html:56
+#: app/templates/acpype.html:61 app/templates/apo.html:63
+#: app/templates/prodrg.html:55
 msgid "Campo de Força"
 msgstr "Force Field"
 
-#: app/templates/acpype.html:69 app/templates/apo.html:71
-#: app/templates/prodrg.html:63
+#: app/templates/acpype.html:68 app/templates/apo.html:70
+#: app/templates/prodrg.html:62
 msgid "Recomendado para GROMOS"
 msgstr "Recommended for GROMOS"
 
-#: app/templates/acpype.html:72 app/templates/acpype.html:73
-#: app/templates/acpype.html:74 app/templates/apo.html:74
-#: app/templates/apo.html:75 app/templates/apo.html:76
-#: app/templates/prodrg.html:66 app/templates/prodrg.html:67
-#: app/templates/prodrg.html:68
+#: app/templates/acpype.html:71 app/templates/acpype.html:72
+#: app/templates/acpype.html:73 app/templates/apo.html:73
+#: app/templates/apo.html:74 app/templates/apo.html:75
+#: app/templates/prodrg.html:65 app/templates/prodrg.html:66
+#: app/templates/prodrg.html:67
 msgid "AMBER e OPLS apenas"
 msgstr "AMBER and OPLS only"
 
-#: app/templates/acpype.html:76 app/templates/apo.html:78
-#: app/templates/prodrg.html:70
+#: app/templates/acpype.html:75 app/templates/apo.html:77
+#: app/templates/prodrg.html:69
 msgid "Modelo de Água"
 msgstr "Water Model"
 
-#: app/templates/acpype.html:88 app/templates/apo.html:90
-#: app/templates/prodrg.html:82
+#: app/templates/acpype.html:87 app/templates/apo.html:89
+#: app/templates/prodrg.html:81
 msgid "Tipo de Caixa"
 msgstr "Box Type"
 
-#: app/templates/acpype.html:95 app/templates/apo.html:97
-#: app/templates/prodrg.html:89
+#: app/templates/acpype.html:94 app/templates/apo.html:96
+#: app/templates/prodrg.html:88
 msgid "Distância entre a proteína e a borda da caixa (nm)"
 msgstr "Distance between protein and box border (nm)"
 
-#: app/templates/acpype.html:102 app/templates/apo.html:104
-#: app/templates/prodrg.html:96
+#: app/templates/acpype.html:101 app/templates/apo.html:103
+#: app/templates/prodrg.html:95
 msgid "Tempo de Simulação"
 msgstr "Simulation Time"
 
-#: app/templates/acpype.html:108 app/templates/apo.html:110
-#: app/templates/prodrg.html:102
+#: app/templates/acpype.html:107 app/templates/apo.html:109
+#: app/templates/prodrg.html:101
 msgid "Neutralizar o Sistema"
 msgstr "Neutralize System"
 
-#: app/templates/acpype.html:113 app/templates/apo.html:115
-#: app/templates/prodrg.html:107
+#: app/templates/acpype.html:112 app/templates/apo.html:115
+#: app/templates/prodrg.html:106
 msgid "Calcular em dupla precisão"
 msgstr "Double Precision"
 
-#: app/templates/acpype.html:119 app/templates/apo.html:121
-#: app/templates/prodrg.html:113
+#: app/templates/acpype.html:118 app/templates/apo.html:121
+#: app/templates/prodrg.html:112
 msgid "Ignorar Hidrogênios"
 msgstr "Ignore Hydrogens"
 
-#: app/templates/acpype.html:124 app/templates/apo.html:126
-#: app/templates/prodrg.html:118
+#: app/templates/acpype.html:123 app/templates/apo.html:127
+#: app/templates/prodrg.html:117
 msgid "Executar"
 msgstr "Execute"
 
-#: app/templates/acpype.html:128 app/templates/apo.html:130
-#: app/templates/prodrg.html:122
+#: app/templates/acpype.html:127 app/templates/apo.html:131
+#: app/templates/prodrg.html:121
 msgid "Baixar Lista de Comandos"
 msgstr "Download Command List"
 
-#: app/templates/acpype.html:131 app/templates/apo.html:133
-#: app/templates/index.html:21 app/templates/prodrg.html:125
+#: app/templates/acpype.html:130 app/templates/apo.html:134
+#: app/templates/index.html:18 app/templates/prodrg.html:124
 msgid "Baixar arquivos MDP"
 msgstr "Download MDP files"
 
-#: app/templates/acpype.html:137
+#: app/templates/acpype.html:136
 msgid "Gerando arquivos para dinâmica ACPYPE"
 msgstr "How to generate files for ACPYPE"
 
-#: app/templates/apo.html:6 app/templates/apo.html:13
+#: app/templates/acpype.html:154 app/templates/apo.html:149
+#: app/templates/prodrg.html:153
+msgid "Você deve fornecer um arquivo de proteína (.pdb)"
+msgstr "You must provide a protein file (.pdb)"
+
+#: app/templates/acpype.html:159 app/templates/prodrg.html:158
+msgid "Você deve fornecer um arquivo de ligante (.itp)"
+msgstr "You must provide a ligand file (.itp)"
+
+#: app/templates/acpype.html:164 app/templates/prodrg.html:163
+msgid "Você deve fornecer um arquivo de ligante (.gro ou .pdb)"
+msgstr "You must provide a ligand file (.gro or .pdb)"
+
+#: app/templates/acpype.html:169 app/templates/apo.html:154
+#: app/templates/prodrg.html:168
+msgid "A distância entre a proteína e a borda da caixa deve ser maior que 0"
+msgstr "The distance between the protein and the box border must be greater than 0"
+
+#: app/templates/apo.html:6 app/templates/apo.html:32
 msgid "Proteína APO"
 msgstr "APO Protein"
 
-#: app/templates/apo.html:35
+#: app/templates/apo.html:34
 msgid "Não sabe com que molécula testar? Tente com a "
 msgstr "Don't know which molecule to test with? try with "
 
@@ -237,7 +255,7 @@ msgstr "Protein + Ligand (ATB)"
 msgid "Essa funcionalidade ainda está sendo desenvolvida."
 msgstr "This feature is under development"
 
-#: app/templates/components/navbar.html:51 app/templates/index.html:5
+#: app/templates/components/navbar.html:46 app/templates/index.html:5
 #: app/templates/index.html:8
 msgid "Minhas Dinâmicas"
 msgstr "My Dynamics"
@@ -250,23 +268,28 @@ msgstr "There aren't dynamics to show"
 msgid "Você ainda não tem dinâmicas. Utilize o menu acima para começar uma!"
 msgstr "You still don't have dynamics. Use the upper menu to start one!"
 
-#: app/templates/index.html:18
-msgid "Todas as datas estão no formato <b>Ano-Mês-Dia Hora:Minuto:Segundo</b>"
-msgstr "All dates are <b>Year-Month-Day Hour:Minute:Second</b> formatted"
-
-#: app/templates/index.html:32
-msgid "Baixar"
-msgstr "Download"
+#: app/templates/index.html:31
+#, python-format
+msgid "%(protein)s @ %(date)s"
+msgstr "%(protein)s @ %(date)s"
 
 #: app/templates/index.html:35
+msgid "Downloads"
+msgstr ""
+
+#: app/templates/index.html:39
 msgid "Lista de Comandos"
 msgstr "Command List"
 
-#: app/templates/index.html:36
+#: app/templates/index.html:42
+msgid "Arquivo .xtc"
+msgstr ".xtc File"
+
+#: app/templates/index.html:45
 msgid "Gráficos de Análise"
 msgstr "Analytics Graphics"
 
-#: app/templates/index.html:37
+#: app/templates/index.html:48
 msgid "Logs de Execução"
 msgstr "Execution Logs"
 
@@ -288,15 +311,15 @@ msgstr "Password"
 msgid "Ainda não tenho uma conta"
 msgstr "I don't have an account yet"
 
-#: app/templates/prodrg.html:5 app/templates/prodrg.html:12
+#: app/templates/prodrg.html:5 app/templates/prodrg.html:31
 msgid "Proteína + Ligante (PRODRG)"
 msgstr "Protein + Ligand (PRODRG)"
 
-#: app/templates/prodrg.html:131
+#: app/templates/prodrg.html:130
 msgid "Gerando arquivos com PRODRG"
 msgstr "Generating files with PRODRG"
 
-#: app/templates/prodrg.html:136
+#: app/templates/prodrg.html:135
 msgid "Tutorial de como realizar a dinâmica"
 msgstr "Tutorial on how to perform the dynamics"
 
@@ -443,91 +466,55 @@ msgstr "About"
 msgid "Painel Admin"
 msgstr "Admin Panel"
 
-#: app/templates/components/navbar.html:56
+#: app/templates/components/navbar.html:51
 msgid "Sair"
 msgstr "Logout"
 
-#: app/templates/components/navbar.html:64
+#: app/templates/components/navbar.html:57
 msgid "Alterar Idioma"
 msgstr "Change Language"
 
-#: app/templates/components/navbar.html:69
+#: app/templates/components/navbar.html:62
 msgid "Inglês"
 msgstr "English"
 
-#: app/templates/components/navbar.html:74
+#: app/templates/components/navbar.html:67
 msgid "Português (Brasil)"
 msgstr "Portuguese (Brazil)"
 
-#: app/templates/components/run-progress.html:3
-msgid "Passo 9 de 9"
-msgstr "Step 9 of 9"
-
-#: app/templates/components/run-progress.html:4
+#: app/templates/components/run-progress.html:32
 msgid "Análise MD"
 msgstr "MD Analysis"
 
-#: app/templates/components/run-progress.html:6
-msgid "Passo 8 de 9"
-msgstr "Step 8 of 9"
-
-#: app/templates/components/run-progress.html:7
+#: app/templates/components/run-progress.html:38
 msgid "Produção MD"
 msgstr "MD Production"
 
-#: app/templates/components/run-progress.html:9
-msgid "Passo 7 de 9"
-msgstr "Step 7 of 9"
-
-#: app/templates/components/run-progress.html:10
+#: app/templates/components/run-progress.html:44
 msgid "Restrição NPT"
 msgstr "NPT Restriction"
 
-#: app/templates/components/run-progress.html:12
-msgid "Passo 6 de 9"
-msgstr "Step 6 of 9"
-
-#: app/templates/components/run-progress.html:13
+#: app/templates/components/run-progress.html:50
 msgid "Restrição NVT"
 msgstr "NVT Restriction"
 
-#: app/templates/components/run-progress.html:15
-msgid "Passo 5 de 9"
-msgstr "Step 5 of 9"
-
-#: app/templates/components/run-progress.html:16
+#: app/templates/components/run-progress.html:56
 msgid "Minimização Conjugate Gradient"
 msgstr "Conjugate Gradient Minimization"
 
-#: app/templates/components/run-progress.html:18
-msgid "Passo 4 de 9"
-msgstr "Step 4 of 9"
-
-#: app/templates/components/run-progress.html:19
+#: app/templates/components/run-progress.html:62
 msgid "Minimização Steep Descent"
 msgstr "Steep Descent Minimization"
 
-#: app/templates/components/run-progress.html:21
-msgid "Passo 3 de 9"
-msgstr "Step 3 of 9"
-
-#: app/templates/components/run-progress.html:22
+#: app/templates/components/run-progress.html:68
 msgid "Adicionar Ions"
 msgstr "Adding Ions"
 
-#: app/templates/components/run-progress.html:24
-msgid "Passo 2 de 9"
-msgstr "Step 2 of 9"
-
-#: app/templates/components/run-progress.html:25
+#: app/templates/components/run-progress.html:74
 msgid "Definir caixa e solvatar"
 msgstr "Defining box and solvating"
 
-#: app/templates/components/run-progress.html:27
-msgid "Passo 1 de 9"
-msgstr "Step 1 of 9"
-
-#: app/templates/components/run-progress.html:28
+#: app/templates/components/run-progress.html:77
 msgid "Definir Topologia"
 msgstr "Defining topology"
 
@@ -546,4 +533,37 @@ msgstr "Defining topology"
 
 #~ msgid "Contato"
 #~ msgstr "Contact"
+
+#~ msgid "Todas as datas estão no formato <b>Ano-Mês-Dia Hora:Minuto:Segundo</b>"
+#~ msgstr "All dates are <b>Year-Month-Day Hour:Minute:Second</b> formatted"
+
+#~ msgid "Baixar"
+#~ msgstr "Download"
+
+#~ msgid "Passo 9 de 9"
+#~ msgstr "Step 9 of 9"
+
+#~ msgid "Passo 8 de 9"
+#~ msgstr "Step 8 of 9"
+
+#~ msgid "Passo 7 de 9"
+#~ msgstr "Step 7 of 9"
+
+#~ msgid "Passo 6 de 9"
+#~ msgstr "Step 6 of 9"
+
+#~ msgid "Passo 5 de 9"
+#~ msgstr "Step 5 of 9"
+
+#~ msgid "Passo 4 de 9"
+#~ msgstr "Step 4 of 9"
+
+#~ msgid "Passo 3 de 9"
+#~ msgstr "Step 3 of 9"
+
+#~ msgid "Passo 2 de 9"
+#~ msgstr "Step 2 of 9"
+
+#~ msgid "Passo 1 de 9"
+#~ msgstr "Step 1 of 9"
 

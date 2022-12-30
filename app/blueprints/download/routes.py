@@ -8,27 +8,28 @@ from flask_login import current_user
 
 from app.config import Config
 from . import DownloadBlueprint
-from flask import render_template, make_response, request, send_file
+from flask import send_file
 from flask_babel import _
-from app import login_manager, login_required
+from app import login_required
 
-@DownloadBlueprint.route('/imgfiles/<filename>')
+@DownloadBlueprint.route('/downloads/graphics/<mode>/<protein>/<folder>')
 @login_required
-def imgsdownload(filename):
-    filename = filename.split('|')[1]
-    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename, 'graficos')
-    ziplocation = os.path.join(current_location, filename+'-graficos.zip')
+def imgsdownload(mode, protein, folder):
+    folder_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username, mode, protein, folder)
+    folder_graphics_path = os.path.join(folder_path, 'graficos')
+
+    ziplocation = os.path.join(folder_graphics_path, f"{mode}-{protein}-{folder}-graphics.zip")
     zf = zipfile.ZipFile(ziplocation,'w')
 
     #move os arquivos .xvg para a pasta graficos.
-    directory_xvg = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run')
+    directory_xvg = os.path.join(folder_path, 'run')
     for folder, subfolders, files in os.walk(directory_xvg):
         for file in files:
             if file.endswith('.xvg'):
-                file = directory_xvg +'/'+file 
-                shutil.move(file, current_location)
+                file = os.path.join(directory_xvg, file) 
+                shutil.move(file, folder_graphics_path)
 
-    for folder, subfolders, files in os.walk(current_location):
+    for folder, subfolders, files in os.walk(folder_graphics_path):
         for file in files:
             if not file.endswith('.zip'):
                 zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
@@ -36,43 +37,55 @@ def imgsdownload(filename):
 
     return send_file(ziplocation, as_attachment=True)
 
-@DownloadBlueprint.route('/downloadmdpfiles')
+@DownloadBlueprint.route('/downloads/mdp')
 @login_required
 def downloadmdpfiles():
     ziplocation = os.path.join(Config.MDP_LOCATION_FOLDER, 'mdpfiles.zip')
     
     return send_file(ziplocation, as_attachment=True)
 
-@DownloadBlueprint.route('/dynamiccomandsdownload/<filename>')
+@DownloadBlueprint.route('/downloads/commands/<mode>/<protein>/<folder>')
 @login_required
-def dynamiccomandsdownload(filename):
-    filename = filename.split('|')[1]
-    os.chdir(Config.UPLOAD_FOLDER+'/'+current_user.username+'/'+filename)
+def dynamiccomandsdownload(mode, protein, folder):
+    folder_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username, mode, protein, folder)
+    os.chdir(folder_path)
     files = glob.glob("*.txt")
     files.sort(key=os.path.getmtime)
-    file_comands = files[len(files)-1]
-    directory = Config.UPLOAD_FOLDER+'/'+current_user.username+'/'+filename+'/'+file_comands
-    return (send_file(directory, as_attachment=True))
+    commands = files[len(files) - 1]
+    directory = os.path.join(folder_path, commands)
+    return send_file(directory, as_attachment=True)
 
-@DownloadBlueprint.route('/download/<filename>')
+@DownloadBlueprint.route('/downloads/xtc/<mode>/<protein>/<folder>')
 @login_required
-def commandsdownload(filename):
-    filename = ast.literal_eval(filename)
-    return send_file('{}{}/{}/{}'.format(Config.UPLOAD_FOLDER,
-            current_user.username,filename["name"],filename["complete"]), as_attachment=True)
+def commandsdownload(mode, protein, folder):
+    folder_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username, mode, protein, folder)
+    folder_run_path = os.path.join(folder_path, 'run')
 
-@DownloadBlueprint.route('/downloadlogs/<filename>')
-@login_required
-def downloalogs(filename):
-    filename = filename.split('|')[1]
-    current_location = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run','logs')
-    ziplocation = os.path.join(Config.UPLOAD_FOLDER, current_user.username, filename,'run','logs',filename+'-logs.zip')
-    zf = zipfile.ZipFile(ziplocation,'w')
+    ziplocation = os.path.join(folder_run_path, f"{mode}-{protein}-{folder}-xtc.zip")
+    zf = zipfile.ZipFile(ziplocation, 'w')
 
-    for folder, subfolders, files in os.walk(current_location):
+    #move os arquivos .xvg para a pasta graficos.
+    for folder, subfolders, files in os.walk(folder_run_path):
         for file in files:
-            if not file.endswith('.zip'):
-                zf.write(os.path.join(folder, file), file, compress_type = zipfile.ZIP_DEFLATED)
+            if file.endswith('_PBC.xtc'):
+                zf.write(os.path.join(folder, file), file, compress_type=zipfile.ZIP_DEFLATED)
 
     zf.close()
-    return (send_file(ziplocation, as_attachment=True))
+
+    return send_file(ziplocation, as_attachment=True)
+
+@DownloadBlueprint.route('/downloads/logs/<mode>/<protein>/<folder>')
+@login_required
+def downloalogs(mode, protein, folder):
+    folder_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username, mode, protein, folder)
+    log_path = os.path.join(folder_path, 'run', 'logs')
+    ziplocation = os.path.join(log_path, f"{mode}-{protein}-{folder}-logs.zip")
+    zf = zipfile.ZipFile(ziplocation,'w')
+
+    for folder, subfolders, files in os.walk(log_path):
+        for file in files:
+            if file.endswith('.log'):
+                zf.write(os.path.join(folder, file), file, compress_type=zipfile.ZIP_DEFLATED)
+
+    zf.close()
+    return send_file(ziplocation, as_attachment=True)

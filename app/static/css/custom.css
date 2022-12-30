@@ -33,3 +33,7 @@ a {
 .order-9 {
   order: 9;
 }
+
+.-mt-3 {
+  margin-top: -0.75rem;
+}

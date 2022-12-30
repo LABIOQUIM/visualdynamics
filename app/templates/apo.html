@@ -10,8 +10,6 @@
     {{ _('Para solicitar o cancelamento de uma dinâmica em andamento envie um email para ') }}<a class="alert-link" href="mailto://fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
   </div>
 
-  <p class="h2 text-center">{{ _("Proteína APO") }}</p>
-
   {% with steps = get_flashed_messages(category_filter=["steps"]) %}
   {% if steplist %}
   <div class="d-flex justify-content-center mx-auto">
@@ -31,20 +29,21 @@
   </script>
   {% include 'components/run-progress.html' %}
   {% else %}
+  <p class="h2 text-center">{{ _("Proteína APO") }}</p>
   <p class="text-center">
     {{ _('Não sabe com que molécula testar? Tente com a ') }}
     <a href="https://www.rcsb.org/structure/2mu8">2mu8</a>.
   </p>
-  <form class="align-items-start max-md mx-auto" method="POST" action="/apo" onsubmit="return validateProcessing()" enctype="multipart/form-data">
+  <form class="align-items-start max-md mx-auto" method="POST" action="/apo" onsubmit="return validateProcessing(this)" enctype="multipart/form-data">
     <!-- {% include 'components/ngl.html' %} -->
     <div class="my-2">
       <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
-      <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>
+      <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" >
     </div>
     
     <div class="my-2">
       <div class="form-floating">
-        <select class="form-select" id="campoforca" name="campoforca">
+        <select class="form-select" id="campoforca" name="campoforca" >
           <option value="amber03">AMBER03 protein, nucleic AMBER94</option>
           <option value="amber94">AMBER94 force field</option>
           <option value="amber96">AMBER96 protein, nucleic AMBER94</option>
@@ -67,7 +66,7 @@
     
     <div class="my-2">
       <div class="form-floating">
-        <select class="form-select" id="modeloagua" name="modeloagua">
+        <select class="form-select" id="modeloagua" name="modeloagua" >
           <option value="spc" selected>SPC simple point charge ({{ _("Recomendado para GROMOS") }})</option>
           <option value="spce">SPC/E extended simple point charge</option>
           <option value="none">None</option>
@@ -81,7 +80,7 @@
     
     <div class="my-2">
       <div class="form-floating">
-        <select class="form-select" name="tipocaixa" id="tipocaixa">
+        <select class="form-select" name="tipocaixa" id="tipocaixa" >
           <option value="cubic" selected>Cubic</option>
           <option value="triclinic">Triclinic</option>
           <option value="dodecahedron">Dodecahedron</option>
@@ -93,7 +92,7 @@
     
     <div class="my-2">
       <div class="form-floating">
-        <input type="number" class="form-control" value="0" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa">
+        <input type="number" class="form-control" value="0" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa" >
         <label for="distanciacaixa">{{ _("Distância entre a proteína e a borda da caixa (nm)") }}</label>
       </div>
     </div>
@@ -124,7 +123,7 @@
     </div>
     
     <div class="row">
-      <button class="my-2 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
+      <button class="my-2 btn btn-primary" value="Executar" name="execute">
         <i class="fa fa-cogs" aria-hidden="true"></i> {{ _("Executar") }}
       </button>
       <div class="d-flex justify-content-between">
@@ -143,17 +142,20 @@
 
 <script>
   function validateProcessing() {
-    var filename = inputElement.files[0].name;
-    var distance = document.getElementById('distanciacaixa').getAttribute('value');
-    console.log(distance)
-    if (!filename || filename.split(".")[1] !== "pdb") {
-      alert('Deve ser selecionado um arquivo (.pdb)');
+    var file = document.getElementById('file');
+    var distance = document.getElementById('distanciacaixa');
+
+    if (file.value === "" || file.value == null) {
+      alert('{{ _("Você deve fornecer um arquivo de proteína (.pdb)") }}');
+      file.focus()
       return false
     }
-    if (distance === "" || distance == null) {
-      alert('Deve ser selecionada a distancia');
+    if (distance.value <= 0) {
+      alert('{{ _("A distância entre a proteína e a borda da caixa deve ser maior que 0") }}');
+      distance.focus()
       return false
     }
+    return true
   };
 </script>
 {% endblock %}

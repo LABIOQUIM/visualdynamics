@@ -9,7 +9,6 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
         protein_name, _ = os.path.splitext(os.path.basename(filename))
         f.write(protein_name)
 
-
     #transferir os arquivos mdp necessarios para a execução
     RunFolder = os.path.join(folder, "run") #pasta q vai rodar
     SecureMdpFolder = os.path.join(os.path.expanduser('~'),Config.MDP_LOCATION_FOLDER)
@@ -22,8 +21,8 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
             shutil.copy(fullmdpname, RunFolder)
     
     # Use the `with` statement to open the file in 'x+' mode
-    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'info_dynamics'), 'a') as f:
-        f.write(folder)
+    with open(os.path.join(Config.UPLOAD_FOLDER, username, 'info_dynamics'), 'a+') as f:
+        f.write(f"{folder}\n")
 
     with open(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"), "w") as f:
         f.write(os.path.join(folder, "run", "logs", f"gmx-commands.log"))
@@ -33,6 +32,9 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
         content = f.readlines()
     lines = [line.rstrip('\n') for line in content if line is not '\n'] #cancela as linhas em branco do arquivo
     
+    with open(os.path.join(folder, 'status'), 'w') as f:
+        f.write(f"running\n")
+
     for l in lines:
         if l[0] == '#':
             WriteUserDynamics(l, username)
@@ -41,7 +43,10 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
             rcode = run_dynamics_command(l, os.path.join(folder, "run", "logs", f"gmx-commands.log"))
             
             if rcode != 0:
+                with open(os.path.join(folder, 'status'), 'w') as f:
+                    f.write(f"error: {l}\n")
                 os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'executing'))
+                os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'))
                 os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'log_dir'))
                 return f"{l}"
         
@@ -119,7 +124,10 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
                 file_complx_gro[1] = ' {:>5}\n'.format(total)
                 file.write(''.join(file_complx_gro))
 
+    with open(os.path.join(folder, 'status'), 'w') as f:
+        f.write(f"success\n")
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'executing'))
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'))
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'log_dir'))
 
 

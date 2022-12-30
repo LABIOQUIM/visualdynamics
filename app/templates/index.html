@@ -14,28 +14,39 @@
       </div>
     </div>
   {% else %}
-  <div class="alert alert-info my-1" role="alert">
-    {{ _("Todas as datas estão no formato <b>Ano-Mês-Dia Hora:Minuto:Segundo</b>") }}
-  </div>
   <a class="btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
-    <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
+    <i class="fas fa-download" aria-hidden="true"></i> {{ _("Baixar arquivos MDP") }}
   </a>
   {% for d in list_dynamics %}
-    <div class="card my-2">
-      <div class="card-body d-flex">
+    {% if 'success' in d['status'] %}
+    <div class="card my-2 border-success">
+    {% elif 'running' in d['status'] %}
+    <div class="card my-2 border-primary">
+    {% else %}
+    <div class="card my-2 border-danger">
+    {% endif %}
+      <div class="card-body">
         <div>
-          <h5 class="card-title my-auto">{{ _("Proteína %(protein)s", protein=d['protein']) }}</h5>
-          <h6>{{ d['date'] }}</h6>
+          <h6 class="text-uppercase">{{ d['mode'] }}</h6>
+          <h5 class="card-title -mt-3">{{ _("%(protein)s @ %(date)s", protein=d['protein'], date=d['date']) }}</h5>
         </div>
-        <div class="dropdown ms-auto my-auto">
-          <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-download" aria-hidden="true"></i> {{ _("Baixar") }}
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/dynamiccomandsdownload/{{ d['original'] }}">{{ _("Lista de Comandos") }}</a></li>
-            <li><a class="dropdown-item" href="/imgfiles/{{ d['original'] }}">{{ _("Gráficos de Análise") }}</a></li>
-            <li><a class="dropdown-item" href="/downloadlogs/{{ d['original'] }}">{{ _("Logs de Execução") }}</a></li>
-          </ul>
+        
+        <h6 class="text-uppercase mt-2">
+          <i class="fas fa-download" aria-hidden="true"></i> {{ _("Downloads") }}
+        </h6>
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-primary {{ 'disabled' if not 'success' in d['status'] }}" href="/downloads/commands/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+            {{ _("Lista de Comandos") }}
+          </a>
+          <a class="btn btn-primary {{ 'disabled' if not 'success' in d['status'] }}" href="/downloads/xtc/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+            {{ _("Arquivo .xtc") }}
+          </a>
+          <a class="btn btn-primary {{ 'disabled' if not 'success' in d['status'] }}" href="/downloads/graphics/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+            {{ _("Gráficos de Análise") }}
+          </a>
+          <a class="btn btn-primary" href="/downloads/logs/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+            {{ _("Logs de Execução") }}
+          </a>
         </div>
       </div>
     </div>

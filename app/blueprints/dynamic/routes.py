@@ -91,7 +91,7 @@ def prodrg():
         filename, ext = os.path.splitext(os.path.basename(request.files.get('file').filename))
         fileitpname, ext1 = os.path.splitext(os.path.basename(request.files.get('fileitp').filename))
         filegroname, ext2 = os.path.splitext(os.path.basename(request.files.get('filegro').filename))
-        folder = f"{Config.UPLOAD_FOLDER}{current_user.username}/prodrg/{filename}_{fileitpname}_{filegroname}/{timestamp}/"
+        folder = os.path.join(Config.UPLOAD_FOLDER,current_user.username, 'prodrg', f"{filename}_{fileitpname}_{filegroname}", timestamp)
         
         CompleteFileName = prodrgGenerator.generate(
             folder,

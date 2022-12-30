@@ -8,8 +8,6 @@
   <div class="alert alert-info mt-2" role="alert">
     {{ _('Para solicitar o cancelamento de uma dinâmica em andamento envie um email para ') }}<a class="alert-link" href="mailto://fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
   </div>
-
-  <p class="h2 text-center">{{ _("Proteína + Ligante (PRODRG)") }}</p>
   
   {% with steps = get_flashed_messages(category_filter=["steps"]) %}
   {% if steps %}
@@ -20,8 +18,8 @@
   </div>
   <p class="h2 text-center">{{ _("Dinâmica em andamento") }}</p>
   <p class="h4 text-center">{{ _("Proteína %(protein)s", protein=name_dynamic) }}</p>
-  {% if '#productionmd' in steplist %}
-  <p class="h6 text-center">{{ date_finish }}</p>
+  {% if date_finish %}
+  <p class="h5 text-center">{{ date_finish }}</p>
   {% endif %}
   <script>
     setInterval(function() {
@@ -30,27 +28,28 @@
   </script>
   {% include 'components/run-progress.html' %}
   {% else %}
+  <p class="h2 text-center">{{ _("Proteína + Ligante (PRODRG)") }}</p>
   <div class="d-flex flex-column flex-lg-row justify-content-evenly">
-    <form class="align-items-start max-md mx-auto" method="POST" action="{{ url_for('DynamicRoutes.prodrg') }}" onsubmit="return validateProcessing()" enctype="multipart/form-data"> 
+    <form class="align-items-start max-md mx-auto" method="POST" action="{{ url_for('DynamicRoutes.prodrg') }}" onsubmit="return validateProcessing(this)" enctype="multipart/form-data"> 
       <!-- {% include 'components/ngl.html' %} -->
       <div class="my-2">
         <label class="form-label" for="file">{{ _("Proteína Livre") }} (.pdb)</label>
-        <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" required>
+        <input class="form-control form-control-lg" type="file" name="file" id="file" accept=".pdb" >
       </div>
 
       <div class="my-2">
         <label class="form-label" for="fileitp">{{ _("Ligante") }} (.itp)</label>
-        <input class="form-control form-control-lg" type="file" name="fileitp" id="fileitp" accept=".itp" required>
+        <input class="form-control form-control-lg" type="file" name="fileitp" id="fileitp" accept=".itp" >
       </div>
 
       <div class="my-2">
         <label class="form-label" for="filegro">{{ _("Ligante") }} (.pdb ou .gro)</label>
-        <input class="form-control form-control-lg" type="file" name="filegro" id="filegro" accept=".gro,.pdb" required>
+        <input class="form-control form-control-lg" type="file" name="filegro" id="filegro" accept=".gro,.pdb" >
       </div>
       
       <div class="my-2">
         <div class="form-floating">
-          <select disabled class="form-select" id="campoforca" name="campoforca">
+          <select disabled class="form-select" id="campoforca" name="campoforca" >
             <option selected value="gromos53a5">GROMOS 53a6 force field</option>
           </select>
           <label for="campoforca">{{ _("Campo de Força") }}</label>
@@ -59,7 +58,7 @@
       
       <div class="my-2">
         <div class="form-floating">
-          <select class="form-select" id="modeloagua" name="modeloagua">
+          <select class="form-select" id="modeloagua" name="modeloagua" >
             <option value="spc" selected>SPC simple point charge ({{ _("Recomendado para GROMOS") }})</option>
             <option value="spce">SPC/E extended simple point charge</option>
             <option value="none">None</option>
@@ -73,7 +72,7 @@
 
       <div class="my-2">
         <div class="form-floating">
-          <select class="form-select" name="tipocaixa" id="tipocaixa">
+          <select class="form-select" name="tipocaixa" id="tipocaixa" >
             <option value="cubic" selected>Cubic</option>
             <option value="triclinic">Triclinic</option>
             <option value="dodecahedron">Dodecahedron</option>
@@ -85,7 +84,7 @@
       
       <div class="my-2">
         <div class="form-floating">
-          <input type="number" class="form-control" value="0" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa">
+          <input type="number" class="form-control" value="0" name="distanciacaixa" min="0" step="0.1" id="distanciacaixa" >
           <label for="distanciacaixa">{{ _("Distância entre a proteína e a borda da caixa (nm)") }}</label>
         </div>
       </div>
@@ -114,11 +113,11 @@
       </div>
       
       <div class="row">
-        <button class="my-2 btn btn-primary" value="Executar" name="execute" onclick="setTimeout(function(){ window.location.reload(true) }, 1000);">
+        <button type="submit" class="my-2 btn btn-primary" value="Executar" name="execute">
           <i class="fa fa-cogs" aria-hidden="true"></i> {{ _("Executar") }}
         </button>
         <div class="d-flex justify-content-between">
-          <button class="my-2 btn btn-success" value="Download" name="download">
+          <button type="submit" class="my-2 btn btn-success" value="Download" name="download">
             <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
           </button>
           <a class="my-2 btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
@@ -145,28 +144,33 @@
 
 <script>
   function validateProcessing() {
-    var filename = document.querySelector('#file').value;
-    var filenameitp = document.querySelector('#fileitp').value;
-    var filenamegro = document.querySelector('#filegro').value;
-    var distance = document.querySelector('#distanciacaixa').value;
-    if (filename === "" || filename == null) {
-      alert('Deve ser selecionado um arquivo (.pdb)');
+    var file = document.getElementById('file');
+    var fileitp = document.getElementById('fileitp');
+    var filegro = document.getElementById('filegro');
+    var distance = document.getElementById('distanciacaixa');
+
+    if (file.value === "" || file.value == null) {
+      alert('{{ _("Você deve fornecer um arquivo de proteína (.pdb)") }}');
+      file.focus()
       return false
     }
-    if (filenameitp === "" || filenameitp == null) {
-      alert('Deve ser selecionado um arquivo (.itp)');
+    if (fileitp.value === "" || fileitp.value == null) {
+      alert('{{ _("Você deve fornecer um arquivo de ligante (.itp)") }}');
+      fileitp.focus()
       return false
     }
-    if (filenamegro === "" || filenamegro == null) {
-      alert('Deve ser selecionado um arquivo (.gro ou .pdb)');
+    if (filegro.value === "" || filegro.value == null) {
+      alert('{{ _("Você deve fornecer um arquivo de ligante (.gro ou .pdb)") }}');
+      filegro.focus()
       return false
     }
-    if (distance === "" || distance == null) {
-      alert('Deve ser selecionada a distância');
+    if (distance.value <= 0) {
+      alert('{{ _("A distância entre a proteína e a borda da caixa deve ser maior que 0") }}');
+      distance.focus()
       return false
     }
+    return true
   };
-  
 </script>
 
 {% endblock %}
