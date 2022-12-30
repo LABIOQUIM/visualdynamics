@@ -46,7 +46,7 @@ def execute(folder, CommandsFileName, username, filename):
     os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
 
 def WriteUserDynamics(line, username):
-    filename = Config.UPLOAD_FOLDER + username + '/executing'
+    filename = os.path.join(Config.UPLOAD_FOLDER, username, 'executing')
     try:
         # Use the `with` statement to open the file in 'a' mode
         with open(filename, 'a') as f:

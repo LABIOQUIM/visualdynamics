@@ -123,7 +123,7 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
     os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
 
 def WriteUserDynamics(line,username):
-    filename = Config.UPLOAD_FOLDER + username +'/executing'
+    filename = os.path.join(Config.UPLOAD_FOLDER, username, 'executing')
     try:
         f = open(filename,'a')
         f.write(line + '\n')

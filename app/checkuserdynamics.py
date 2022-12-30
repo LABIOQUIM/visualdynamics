@@ -4,7 +4,7 @@ def CheckUserDynamics(username):
 	'''
 	Return True if the executing dynamic belongs to the logged user
 	'''
-	fname = Config.UPLOAD_FOLDER + username + '/executing'
+	fname = os.path.join(Config.UPLOAD_FOLDER, username, 'executing')
 	if os.path.exists(fname):
 		with open(fname,'r') as f:
 			if f.readline().rstrip() == username:
@@ -26,7 +26,7 @@ def CheckDynamicsSteps(username):
 	'''
 	Return a list with all the steps till now
 	'''
-	fname = Config.UPLOAD_FOLDER + username + '/executing'
+	fname = os.path.join(Config.UPLOAD_FOLDER, username, 'executing')
 	if os.path.exists(fname):
 		with open(fname, 'r') as f:
 			lines = f.readlines()
