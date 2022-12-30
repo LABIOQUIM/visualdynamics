@@ -41,8 +41,8 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
             rcode = run_dynamics_command(l, os.path.join(folder, "run", "logs", f"gmx-commands.log"))
             
             if rcode != 0:
-                os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-                os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
+                os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'executing'))
+                os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'log_dir'))
                 return f"{l}"
         
         #breakpoint adicionado para possibilitar a interação com os arquivos em tempo de execução
@@ -119,8 +119,9 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
                 file_complx_gro[1] = ' {:>5}\n'.format(total)
                 file.write(''.join(file_complx_gro))
 
-    os.remove(Config.UPLOAD_FOLDER + username + '/executing')
-    os.remove(Config.UPLOAD_FOLDER + username + '/log_dir')
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'executing'))
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'log_dir'))
+
 
 def WriteUserDynamics(line,username):
     filename = os.path.join(Config.UPLOAD_FOLDER, username, 'executing')
