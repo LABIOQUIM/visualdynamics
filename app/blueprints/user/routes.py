@@ -23,18 +23,14 @@ def index():
 
             status_path = os.path.join(d.replace('\n', ''), 'status')
             
-            print(status_path)
             with open(status_path, 'r') as f:
                 line = f.readline()
 
-            print(line)
-            
             if 'error' in line:
                 status = line.replace('error: ', '').replace('\n', '')
             else:
                 status = line.replace('\n', '')
 
-            print(status)
             obj = {
                 "folder": date,
                 "date": dateutil.parser.isoparse(date),
@@ -46,5 +42,4 @@ def index():
 
         return render_template('index.html', actindex='active', no_dynamics='False', list_dynamics=dynamics)
     except:
-        print("error")
         return render_template('index.html', actindex='active', no_dynamics='True')

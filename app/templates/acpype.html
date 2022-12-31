@@ -9,25 +9,6 @@
     {{ _('Para solicitar o cancelamento de uma dinâmica em andamento envie um email para ') }}<a class="alert-link" href="mailto://fernando.zanchi@fiocruz.br">fernando.zanchi@fiocruz.br</a>
   </div>
   
-  {% with steps = get_flashed_messages(category_filter=["steps"]) %}
-  {% if steps %}
-  <div class="d-flex justify-content-center mx-auto">
-    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
-  <p class="h2 text-center">{{ _("Dinâmica em andamento") }}</p>
-  <p class="h4 text-center">{{ _("Proteína %(protein)s", protein=name_dynamic) }}</p>
-  {% if date_finish %}
-  <p class="h5 text-center">{{ date_finish }}</p>
-  {% endif %}
-  <script>
-    setInterval(function() {
-      document.location.reload(true)
-    }, 10000);
-  </script>
-  {% include 'components/run-progress.html' %}
-  {% else %}
   <p class="h2 text-center">{{ _("Proteína + Ligante (ACPYPE)") }}</p>
   <div class="d-flex flex-column flex-lg-row justify-content-evenly">
     <form class="align-items-start max-md mx-auto" method="POST" action="{{ url_for('DynamicRoutes.acpype') }}" onsubmit="return validateProcessing(this)" enctype="multipart/form-data">
@@ -126,7 +107,7 @@
           <button class="my-2 btn btn-success" value="Download" name="download">
             <i class="fa fa-file-download" aria-hidden="true"></i> {{ _("Baixar Lista de Comandos") }}
           </button>
-          <a class="my-2 btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
+          <a name="dlmdp" class="my-2 btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
             <i class="fas fa-download" aria-hidden="true"></i>  {{ _("Baixar arquivos MDP") }}
           </a>
         </div>
@@ -139,8 +120,6 @@
       </video>
     </div>
   </div>
-  {% endif %}
-  {% endwith %}
 </div>
 
 <script>
@@ -170,6 +149,17 @@
       distance.focus()
       return false
     }
+
+    var execButton = document.getElementsByName('execute')[0]
+    var dlButton = document.getElementsByName('download')[0]
+    var dlmdpButton = document.getElementsByName('dlmdp')[0]
+    execButton.className += " disabled"
+    dlButton.className += " disabled"
+    dlmdpButton.className += " disabled"
+
+    setTimeout(() => {
+      window.location.reload()
+    }, 1500)
     return true
   };  
 </script>

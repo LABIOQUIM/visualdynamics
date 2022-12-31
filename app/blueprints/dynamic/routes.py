@@ -56,11 +56,11 @@ def apo():
             
                 exc = apoExecutor.execute(folder, CompleteFileName, current_user.username, filename + ext)
                 flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc), 'danger')
+                return redirect(url_for('DynamicRoutes.apo')) 
             else:
                 flash(_('Extensão do arquivo está incorreta'), 'danger')
     
     if CheckUserDynamics(current_user.username) == True:
-        flash('', 'steps')
         steplist = CheckDynamicsSteps(current_user.username)
         
         dynamicinfo = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'running_protein_name')
@@ -71,14 +71,15 @@ def apo():
         log_dir_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'log_dir')
         with open(log_dir_path, 'r') as f:
             log_path = f.readline()
+            dynamic_type = log_path.split("/")[len(log_path.split("/")) - 6]
         with open(log_path, 'r') as f:
             log_last_line = f.readlines()[len(f.readlines()) - 1]
         if 'step' in log_last_line:
             date_finish = log_last_line
 
-            return render_template('apo.html', actapo='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
-                
-        return render_template('apo.html', actapo='active', steplist=steplist, name_dynamic=name_dynamic) 
+            return render_template('running.html', dynamic_type=dynamic_type, actapo='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+
+        return render_template('running.html', dynamic_type=dynamic_type, actapo='active', steplist=steplist, name_dynamic=name_dynamic) 
     
     return render_template('apo.html', actapo='active')
 
@@ -132,13 +133,10 @@ def prodrg():
             
                 exc = prodrgExecutor.execute(folder, CompleteFileName, current_user.username, name, fileitpname+ext1, filegroname+ext2, filename)
                 flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc[1]), 'danger')
-                return redirect(url_for('DynamicRoutes.prodrg'))
-            
             else:
                 flash('A extensão dos arquivos está incorreta', 'danger')
             
     if CheckUserDynamics(current_user.username) == True:
-        flash('','steps')
         steplist = CheckDynamicsSteps(current_user.username)
 
         dynamicinfo = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'running_protein_name')
@@ -149,14 +147,15 @@ def prodrg():
         log_dir_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'log_dir')
         with open(log_dir_path, 'r') as f:
             log_path = f.readline()
+            dynamic_type = log_path.split("/")[len(log_path.split("/")) - 6]
         with open(log_path, 'r') as f:
             log_last_line = f.readlines()[len(f.readlines()) - 1]
         if 'step' in log_last_line:
             date_finish = log_last_line
 
-            return render_template('prodrg.html', actprodrg='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+            return render_template('running.html', dynamic_type=dynamic_type, actprodrg='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
         
-        return render_template('prodrg.html', actprodrg='active', steplist=steplist, name_dynamic=name_dynamic) 
+        return render_template('running.html', dynamic_type=dynamic_type, actprodrg='active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('prodrg.html', actprodrg='active')
 
@@ -215,7 +214,6 @@ def acpype():
                 flash('A extensão dos arquivos está incorreta', 'danger')
             
     if CheckUserDynamics(current_user.username) == True:
-        flash('', 'steps')
         steplist = CheckDynamicsSteps(current_user.username)
 
         dynamicinfo = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'running_protein_name')
@@ -226,14 +224,15 @@ def acpype():
         log_dir_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'log_dir')
         with open(log_dir_path, 'r') as f:
             log_path = f.readline()
+            dynamic_type = log_path.split("/")[len(log_path.split("/")) - 6]
         with open(log_path, 'r') as f:
             log_last_line = f.readlines()[len(f.readlines()) - 1]
         if 'step' in log_last_line:
             date_finish = log_last_line
 
-            return render_template('acpype.html', actacpype='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
+            return render_template('running.html', dynamic_type=dynamic_type, actacpype='active', steplist=steplist, name_dynamic=name_dynamic, date_finish=date_finish)
                        
-        return render_template('acpype.html', actacpype='active', steplist=steplist, name_dynamic=name_dynamic) 
+        return render_template('running.html', dynamic_type=dynamic_type, actacpype='active', steplist=steplist, name_dynamic=name_dynamic) 
         
     return render_template('acpype.html', actacpype='active')
 

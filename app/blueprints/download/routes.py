@@ -67,7 +67,7 @@ def commandsdownload(mode, protein, folder):
     #move os arquivos .xvg para a pasta graficos.
     for folder, subfolders, files in os.walk(folder_run_path):
         for file in files:
-            if file.endswith('_PBC.xtc'):
+            if file.endswith('_PBC.xtc') or file.endswith('complx_pr.tpr'):
                 zf.write(os.path.join(folder, file), file, compress_type=zipfile.ZIP_DEFLATED)
 
     zf.close()

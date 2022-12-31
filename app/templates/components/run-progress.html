@@ -1,5 +1,18 @@
 {% set top, sol, ion, msd, mcj, nvt, npt, pmd = false, false, false, false, false, false, false, false %}
 
+<head>
+  <meta http-equiv="Refresh" content="5">
+</head>
+<div class="d-flex justify-content-center mx-auto">
+  <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<p class="h2 text-center">{{ _("Dinâmica em andamento") }}</p>
+<p class="h4 text-center">{{ _("Proteína %(protein)s", protein=name_dynamic) }}</p>
+{% if date_finish %}
+<p class="h5 text-center">{{ date_finish }}</p>
+{% endif %}
 <div class="d-flex flex-row flex-wrap text-center gap-y-1">
   {% if '#analyzemd' in steplist %}
   {% set pmd = true %}

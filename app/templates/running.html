@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+	document.title = "{{ _('Executando') }} - Visual Dynamics"
+</script>
+<p class="mt-5 h4 text-uppercase text-center">{{ dynamic_type }}</p>
+{% include 'components/run-progress.html' %}
+{% endblock %}
