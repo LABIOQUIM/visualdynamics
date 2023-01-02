@@ -128,7 +128,7 @@ def edit_user(id):
 def cleanfolder(id):
     UserData = User.query.get(int(id))
     user = UserData.username
-    path = Config.UPLOAD_FOLDER + user
+    path = os.path.join(Config.UPLOAD_FOLDER, user)
     if os.path.exists(path):
         try:
             shutil.rmtree(path)
