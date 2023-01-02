@@ -160,29 +160,29 @@ def removeuser(id):
 @AdminBlueprint.route('/admin/edit-md', methods = ['GET', 'POST'])
 @admin_required
 def edit_md():
-    os.chdir(Config.MDP_LOCATION_FOLDER)
+    file_path = os.path.join(Config.MDP_LOCATION_FOLDER, "md_pr.mdp")
     #modifica o valor do nsteps no arquivo ions.mdp
     if request.method == 'POST':   
         new_nsteps = request.form.get('editnstep')
         new_dt = request.form.get('editDt')
-        archive = open("md_pr.mdp","r") 
+        archive = open(file_path, "r") 
         file = archive.readlines()
         
         #altera o valor do nsteps
         for i, text in enumerate(file):
             if text.find('nsteps') > -1:
-                archive = open("md_pr.mdp","w")       
+                archive = open(file_path, "w")       
                 # altera a linha inteira do nsteps        
                 file[i] = "nsteps      = "+ new_nsteps +"    ; 2 * 50000 = 1000 ps (1 ns) \n"
-                archive.writelines(file) 
+                archive.writelines(file)
 
         #altera o valor do emstep
         for i, text in enumerate(file):
             if text.find('dt') > -1:
-                archive = open("md_pr.mdp","w")
+                archive = open(file_path, "w")
                 # altera a linha inteira do nsteps
-                file[i] = "dt          = "+ new_dt +"     ; 2 fs \n"
-                archive.writelines(file) 
+                file[i] = "dt          = " + new_dt + "     ; 2 fs \n"
+                archive.writelines(file)
 
         flash('atualização realizada com sucesso.', 'primary')
         return redirect(url_for('AdminRoutes.admin'))
@@ -190,7 +190,7 @@ def edit_md():
     #busca o valor do nsteps no arquivo ions.mdp para exibir para o usuario
     # i é o indice (posição)
     try:
-        archive = open("md_pr.mdp","r")
+        archive = open(file_path,"r")
     except:
         flash('Ocorreu um erro ao localizar arquivo, tente novamente mais tarde.', 'danger')
         return redirect(url_for('AdminRoutes.admin'))
