@@ -18,7 +18,9 @@
     <i class="fas fa-download" aria-hidden="true"></i> {{ _("Baixar arquivos MDP") }}
   </a>
   {% for d in list_dynamics %}
-    {% if 'success' in d['status'] %}
+    {% if d['is_canceled'] %}
+    <div class="card my-2 border-secondary">
+    {% elif 'success' in d['status'] %}
     <div class="card my-2 border-success">
     {% elif 'running' in d['status'] %}
     <div class="card my-2 border-primary">
@@ -47,6 +49,13 @@
           <a class="btn btn-primary" href="/downloads/logs/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
             {{ _("Logs de Execução") }}
           </a>
+          {% if not d['is_canceled'] %}
+          <form method="POST" action="/cancel/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+            <button class="btn btn-danger">
+              {{ _("Cancelar Dinâmica") }}
+            </button>
+          </form>
+          {% endif %}
         </div>
       </div>
     </div>

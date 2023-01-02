@@ -31,12 +31,16 @@ def index():
             else:
                 status = line.replace('\n', '')
 
+            canceled_path = os.path.join(d.replace("\n", ""), "canceled")
+
             obj = {
                 "folder": date,
                 "date": dateutil.parser.isoparse(date),
                 "protein": protein,
                 "mode": mode,
-                "status": status
+                "status": status,
+                "is_running": True if 'running' in status else False,
+                "is_canceled": True if os.path.isfile(canceled_path) else False
             }
             dynamics.insert(0, obj)
 

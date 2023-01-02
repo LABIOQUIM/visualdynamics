@@ -36,6 +36,13 @@
         {{ _("Localização em Disco") }}
         <p class="h5">{{ d.folder }}</p>
       </div>
+      {% if not d['is_canceled'] %}
+      <form class="my-auto" method="POST" action="/cancel/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['timestamp'] }}">
+        <button class="btn btn-danger">
+          {{ _("Cancelar Dinâmica") }}
+        </button>
+      </form>
+      {% endif %}
     </div>
   </div>
 </div>

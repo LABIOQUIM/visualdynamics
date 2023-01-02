@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+import signal
 from app.checkuserdynamics import CheckDynamicsSteps, CheckUserDynamics
 from app.config import Config
 from . import DynamicBlueprint
@@ -9,6 +10,8 @@ from flask_login import current_user, login_required
 from app.upload_file import upload_file, upload_file_ligante
 from .generators import apo as apoGenerator, prodrg as prodrgGenerator, acpype as acpypeGenerator
 from .executors import apo as apoExecutor, prodrg as prodrgExecutor, acpype as acpypeExecutor
+import shutil
+from pathlib import Path
 
 # INFO Free Protein
 @DynamicBlueprint.route('/apo', methods=['GET', 'POST'], endpoint='apo')
@@ -238,3 +241,30 @@ def acpype():
 @login_required
 def atb():
     return render_template('atb.html', actatb='active')
+
+
+@DynamicBlueprint.route('/cancel/<mode>/<protein>/<folder>', methods=['POST'], endpoint='cancel_dynamic')
+@login_required
+def cancel_dynamic(mode, protein, folder):
+    user_path = os.path.join(Config.UPLOAD_FOLDER, current_user.username)
+    dynamic_path = os.path.join(user_path, mode, protein, folder)
+
+    with open(os.path.join(user_path, "pid"), "r") as f:
+        pid = int(f.readline())
+    
+    os.killpg(os.getpgid(pid), signal.SIGTERM)
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'executing'))
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'running_protein_name'))
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'log_dir'))
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'pid'))
+    shutil.rmtree(os.path.join(dynamic_path, "graficos"), ignore_errors=True)
+    for path in Path(dynamic_path, "run").glob("*"):
+        if path.is_file():
+            path.unlink()
+    
+    with open(os.path.join(dynamic_path, "canceled"), "w") as f:
+        f.write("canceled\n")
+    
+    if current_user.username == "admin":
+        return redirect(url_for("AdminRoutes.current_dynamics"))
+    return redirect(url_for("UserRoutes.index"))

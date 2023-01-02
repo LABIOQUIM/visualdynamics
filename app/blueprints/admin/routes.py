@@ -243,6 +243,9 @@ def current_dynamics():
 
             with open(executing_file_path, "r") as f:
                 step = f.readlines()[len(f.readlines()) - 1].replace("#", "").replace("\n", "")
+            
+            canceled_path = os.path.join(str.join("/", dynamic_data), "canceled")
+            
             dynamic = {
                 "username": username,
                 "protein": dynamic_data[dynamic_data_len - 2],
@@ -250,7 +253,8 @@ def current_dynamics():
                 "timestamp_format": dateutil.parser.isoparse(dynamic_data[dynamic_data_len - 1]),
                 "mode": dynamic_data[dynamic_data_len - 3],
                 "step": step,
-                "folder": str.join("/", dynamic_data)
+                "folder": str.join("/", dynamic_data),
+                "is_canceled": True if os.path.isfile(canceled_path) else False
             }
 
             running_dynamics.append(dynamic)

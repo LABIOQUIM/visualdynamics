@@ -1,5 +1,8 @@
 import shlex
+import os
 import subprocess
+from flask_login import current_user
+from app.config import Config
 
 def run_dynamics_command(command, log_file):
     # Split the command into a list of arguments using shlex
@@ -22,17 +25,25 @@ def run_dynamics_command(command, log_file):
             process1 = subprocess.Popen(args1, stdout=subprocess.PIPE)
             
             # Create the second subprocess using `Popen` and connect the stdout and stderr to the log file
-            process2 = subprocess.Popen(args2, stdin=process1.stdout, stdout=f, stderr=f)
+            process2 = subprocess.Popen(args2, stdin=process1.stdout, stdout=f, stderr=f, preexec_fn=os.setsid)
             
+            with open(os.path.join(Config.UPLOAD_FOLDER, current_user.username, "pid"), "w") as f:
+                f.write(f"{process2.pid}")
+
             # Wait for the processes to complete
             process1.wait()
             process2.wait()
             
             # Return the output of the second subprocess as a tuple
-            return process2.returncode
+            return (process2.pid, process2.returncode)
         else:
             # Run the command using `run` and redirect stdout and stderr to the log file
-            process = subprocess.run(args, stdout=f, stderr=f)
-
+            process = subprocess.Popen(args, stdout=f, stderr=f, preexec_fn=os.setsid)
+            
+            with open(os.path.join(Config.UPLOAD_FOLDER, current_user.username, "pid"), "w") as f:
+                f.write(f"{process.pid}")
+            
+            process.wait()
+            
             # Return the output of the command as a tuple
-            return process.returncode
+            return (process.pid, process.returncode)
