@@ -84,7 +84,7 @@ msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
 "logs para mais detalhes"
 msgstr ""
-"There was an error while executing '%(command)s'. Check the logs for "
+"There was an error while running '%(command)s'. Check the logs for "
 "details"
 
 #: app/blueprints/dynamic/routes.py:60
@@ -131,7 +131,7 @@ msgstr "If you need to cancel an executing dynamic send an email to "
 #: app/templates/acpype.html:19 app/templates/apo.html:20
 #: app/templates/prodrg.html:19
 msgid "Dinâmica em andamento"
-msgstr "Execunting Dynamic"
+msgstr "Running Dynamic"
 
 #: app/templates/acpype.html:20 app/templates/apo.html:21
 #: app/templates/prodrg.html:20
@@ -358,7 +358,7 @@ msgstr "I already have an account"
 #: app/templates/admin/executing.html:5 app/templates/admin/executing.html:7
 #: app/templates/admin/index.html:15
 msgid "Dinâmicas em Execução"
-msgstr "Executing Dynmics"
+msgstr "Running Dynamics"
 
 #: app/templates/admin/executing.html:19
 msgid "Proteína"
