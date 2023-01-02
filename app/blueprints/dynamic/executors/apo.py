@@ -24,7 +24,7 @@ def execute(folder, CommandsFileName, username, filename):
         f.write(f"{folder}\n")
 
     with open(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"), "w") as f:
-        f.write(os.path.join(folder, "run", "logs", f"dynamic-log.log"))
+        f.write(os.path.join(folder, "run", "logs", f"gmx-commands.log"))
 
     #abrir arquivo
     with open(CommandsFileName) as f: #CODIGO PARA A PRODUÇÃO
@@ -39,7 +39,7 @@ def execute(folder, CommandsFileName, username, filename):
             WriteUserDynamics(l, username)
         else:
             os.chdir(RunFolder)
-            rcode = run_dynamics_command(l, os.path.join(folder, "run", "logs", f"dynamic-log.log"))
+            rcode = run_dynamics_command(l, os.path.join(folder, "run", "logs", f"gmx-commands.log"))
             
             if rcode != 0:
                 with open(os.path.join(folder, 'status'), 'w') as f:

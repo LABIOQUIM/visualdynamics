@@ -40,7 +40,7 @@ def generate(folder, file_orig, force_field, water_model, box_type, box_distance
     if neutralize:
         commands.extend([
             f"echo 'SOL' | {gmx} genion -s \"{filename}_charged.tpr\" -o \"{filename}_charged\" -p \"{filename}.top\" -neutral\n\n",
-            "#minimizationsteepdesc\n\n",
+            "#minimizationsteepdesc\n",
             f"{gmx} grompp -f PME_em.mdp -c \"{filename}_charged.gro\" -p \"{filename}.top\" -o \"{filename}_charged\" -maxwarn 2\n",
             f"{gmx} mdrun -v -s \"{filename}_charged.tpr\" -deffnm \"{filename}_sd_em\"\n",
             f"echo '10 0' | {gmx} energy -f \"{filename}_sd_em.edr\" -o \"{filename}_potentialsd.xvg\"\n",
@@ -67,7 +67,7 @@ def generate(folder, file_orig, force_field, water_model, box_type, box_distance
         f"{gmx} grompp -f md_pr.mdp -c \"{filename}_npt.gro\" -p \"{filename}.top\" -o \"{filename}_pr\" -maxwarn 2\n",
         f"{gmx} mdrun -v -s \"{filename}_pr.tpr\" -deffnm \"{filename}_pr\"\n\n",
         "#analyzemd\n",
-        f"echo '1 0' | {gmx} trjconv -s \"{filename}_pr.tpr\" -f \"{filename}_pr.xtc\" -o \"{filename}_pr_PBC.xtc\" -pbc mol -center\n",
+        f"echo '1 16' | {gmx} trjconv -s \"{filename}_pr.tpr\" -f \"{filename}_pr.xtc\" -o \"{filename}_pr_PBC.xtc\" -pbc mol -center\n",
         f"echo '4 4' | {gmx} rms -s \"{filename}_pr.tpr\" -f \"{filename}_pr_PBC.xtc\" -o \"{filename}_rmsd_prod.xvg\" -tu ns\n",
         f"{grace} -nxy \"{filename}_rmsd_prod.xvg\" -hdevice PNG -hardcopy -printfile \"../graficos/{filename}_rmsd_prod.png\"\n",
         f"echo '4 4' | {gmx} rms -s \"{filename}_charged.tpr\" -f \"{filename}_pr_PBC.xtc\" -o \"{filename}_rmsd_cris.xvg\" -tu ns\n",

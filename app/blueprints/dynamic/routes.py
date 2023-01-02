@@ -35,11 +35,10 @@ def apo():
         if request.form.get('download') == 'Download':
             return redirect(
                 url_for(
-                    'DownloadRoutes.commandsdownload',
-                    filename={
-                        "complete": CompleteFileName,
-                        "name": filename
-                    }
+                    'DownloadRoutes.dynamiccomandsdownload',
+                    folder=f"{timestamp}",
+                    mode="apo",
+                    protein=filename
                 )
             )
 
@@ -113,11 +112,10 @@ def prodrg():
         if request.form.get('download') == 'Download':
             return redirect(
                 url_for(
-                    'DownloadRoutes.commandsdownload',
-                    filename={
-                        "complete": CompleteFileName,
-                        "name": name
-                    }
+                    'DownloadRoutes.dynamiccomandsdownload',
+                    folder=f"{timestamp}",
+                    mode="prodrg",
+                    protein=f"{filename}_{fileitpname}_{filegroname}"
                 )
             )
         
@@ -189,11 +187,10 @@ def acpype():
         if request.form.get('download') == 'Download':
             return redirect(
                 url_for(
-                    'DownloadRoutes.commandsdownload',
-                    filename={
-                        "complete": CompleteFileName,
-                        "name": name
-                    }
+                    'DownloadRoutes.dynamiccomandsdownload',
+                    folder=f"{timestamp}",
+                    mode="acpype",
+                    protein=f"{filename}_{fileitpname}_{filegroname}"
                 )
             )
         

@@ -79,7 +79,7 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
 
             ## comando 1
             comando_gerar_molecula_complexada = 'cat {}_livre.top | sed \'/forcefield\.itp\"/a\#include "{}"\' >| {}1_complx.top'.format(mol,itpname,mol)
-            with open(os.path.join(folder, "run", "logs", f"dynamic-log.log"), 'a') as f:
+            with open(os.path.join(folder, "run", "logs", f"linux-commands.log"), 'a') as f:
                 subprocess.call(comando_gerar_molecula_complexada, shell=True, stdin=f, stdout=f, stderr=f)
 
             with open(os.path.join(RunFolder, f"{mol}1_complx.top"), "r") as f:
@@ -104,7 +104,7 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
             
             #aqui vai o echo ligand 1
             comando_moleculetype = 'echo "{}" >> {}_complx.top'.format(molecula,mol)
-            with open(os.path.join(folder, "run", "logs", f"dynamic-log.log"), 'a') as f:
+            with open(os.path.join(folder, "run", "logs", f"linux-commands.log"), 'a') as f:
                 subprocess.call(comando_moleculetype, shell=True, stdin=f, stdout=f, stderr=f)
 
     with open(os.path.join(folder, 'status'), 'w') as f:

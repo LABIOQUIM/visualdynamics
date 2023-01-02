@@ -53,7 +53,7 @@ def generate(folder, file_orig, file_itp_orig, file_gro_orig, force_field, water
         f"{gmx} grompp -f md_pr.mdp -c \"{filename}_complx_npt.gro\" -p \"{filename}_complx.top\" -o \"{filename}_complx_pr.tpr\" -maxwarn 20\n",
         f"{gmx} mdrun -v -s \"{filename}_complx_pr.tpr\" -deffnm \"{filename}_complx_pr\"\n\n",
         "#analyzemd\n",
-        f"echo \"1 0\" | {gmx} trjconv -s \"{filename}_complx_pr.tpr\" -f \"{filename}_complx_pr.xtc\" -o \"{filename}_complx_pr_PBC.xtc\" -pbc mol -center\n",
+        f"echo \"1 17\" | {gmx} trjconv -s \"{filename}_complx_pr.tpr\" -f \"{filename}_complx_pr.xtc\" -o \"{filename}_complx_pr_PBC.xtc\" -pbc mol -center\n",
         f"echo \"4 4\" | {gmx} rms -s \"{filename}_complx_pr.tpr\" -f \"{filename}_complx_pr_PBC.xtc\" -o \"{filename}_complx_rmsd_prod.xvg\" -tu ns\n",
         f"{grace} -nxy \"{filename}_complx_rmsd_prod\".xvg -hdevice PNG -hardcopy -printfile \"../graficos/{filename}_complx_rmsd_prod.png\"\n",
         f"echo \"4 4\" | {gmx} rms -s \"{filename}_complx_pr.tpr\" -f \"{filename}_complx_pr_PBC.xtc\" -o \"{filename}_complx_rmsd_cris.xvg\" -tu ns\n",
