@@ -6,23 +6,35 @@
 </script>
 <p class="h2 text-center my-2">{{ _("Dinâmicas em Execução") }}</p>
 
-{% for d in currentDynamics %}
+{% for d in running_dynamics %}
 <div class="card my-2">
   <div class="card-body">
     <div class="row">
-      <div class="row">
-        <div class="col-2 my-auto">
-          {{ _("Nome de Usuário") }}
-          <p class="h5">{{ d.username }}</p>
-        </div>
-        <div class="col my-auto">
-          {{ _("Proteína") }}
-          <p class="h5">{{ d.name_dynamic }}</p>
-        </div>
-        <div class="col my-auto">
-          {{ _("Previsão de Término") }}
-          <p class="h5">{{ d.date_finish }}</p>
-        </div>
+      <div class="col-2 my-auto">
+        {{ _("Nome de Usuário") }}
+        <p class="h5">{{ d.username }}</p>
+      </div>
+      <div class="col my-auto">
+        {{ _("Proteína") }}
+        <p class="h5">{{ d.protein }}</p>
+      </div>
+      <div class="col my-auto">
+        {{ _("Tipo") }}
+        <p class="h5 text-uppercase">{{ d.mode }}</p>
+      </div>
+      <div class="col my-auto">
+        {{ _("Iniciada em") }}
+        <p class="h5">{{ d.timestamp_format }}</p>
+      </div>
+      <div class="col my-auto">
+        {{ _("Passo") }}
+        <p class="h5">{{ d.step }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col my-auto">
+        {{ _("Localização em Disco") }}
+        <p class="h5">{{ d.folder }}</p>
       </div>
     </div>
   </div>

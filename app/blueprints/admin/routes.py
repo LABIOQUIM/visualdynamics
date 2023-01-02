@@ -1,4 +1,5 @@
 from email.mime.text import MIMEText
+import dateutil.parser
 import os
 import shutil
 import smtplib
@@ -223,104 +224,38 @@ def edit_md():
 @admin_required
 def current_dynamics():
     #lista de dinâmicas em andamento.
-    list_dynamics = list()
+    running_dynamics = []
     try:
         #lista as pastas dos usuários.
-        list_directory = os.listdir(Config.UPLOAD_FOLDER)
+        directories = os.listdir(Config.UPLOAD_FOLDER)
         #ordena a lista de diretórios em ordem alfabética.
-        list_directory.sort()
+        directories.sort()
+
+        for username in directories:
+            user_folder_path = os.path.join(Config.UPLOAD_FOLDER, username)
+            log_file_path = os.path.join(user_folder_path, "log_dir")
+            executing_file_path = os.path.join(user_folder_path, "executing")
+            with open(log_file_path, "r") as f:
+                dynamic_data = f.readline()
+                dynamic_data = dynamic_data.replace("/run/logs/gmx-commands.log", "")
+                dynamic_data = dynamic_data.split("/")
+                dynamic_data_len = len(dynamic_data)
+
+            with open(executing_file_path, "r") as f:
+                step = f.readlines()[len(f.readlines()) - 1].replace("#", "").replace("\n", "")
+            dynamic = {
+                "username": username,
+                "protein": dynamic_data[dynamic_data_len - 2],
+                "timestamp": dynamic_data[dynamic_data_len - 1],
+                "timestamp_format": dateutil.parser.isoparse(dynamic_data[dynamic_data_len - 1]),
+                "mode": dynamic_data[dynamic_data_len - 3],
+                "step": step,
+                "folder": str.join("/", dynamic_data)
+            }
+
+            running_dynamics.append(dynamic)
         
-        for pasta in list_directory:
-            try:
-                directory = Config.UPLOAD_FOLDER + pasta
-                #lendo os usuários e verificando se eles estão com alguma dinâmica em andamento.
-                #verifica se a execução é de proteína livre.
-                if os.stat(directory + '/executing').st_size != 0:
-                    archive = open(directory + '/executing', 'r')
-                    #captura o nome do usuário.
-                    username = archive.readline()
-                    archive.close()
-                    #captura o nome da dinâmica.
-                    archive = open(directory + '/namedynamic.txt','r')
-                    name_dynamic = archive.readline()
-                    archive.close()
-                    #captura a data final da dinâmica.
-                    archive = open(directory + '/executing','r')
-                    lines = archive.readlines()
-                    archive.close()
-                    last_line = lines[len(lines)-1]     
-                    #verifica se a execução já está em productionmd.
-                    if last_line == '#productionmd\n':
-                        #acessa o diretorio do log de execução.
-                        archive = open(directory + '/DirectoryLog', 'r')
-                        directorylog = archive.readline()
-                        archive.close()
-                        #acessa o log de execução.
-                        archive = open(directorylog,'r')
-                        lines = archive.readlines()
-                        archive.close()
-                        #busca a ultima linha do log.
-                        last_line = lines[len(lines)-1]
-                        if last_line.find('step ') > -1:
-                            #recebe a quantidade de step e a data de termino.
-                            date_finish = last_line
-                            #criando objeto com informações da dinâmica para exibir no front-end.   
-                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":date_finish}
-                            #adicionando objeto a lista de dinamicas.
-                            list_dynamics.append(currentDynamics) 
-                    else:
-                        #caso não esteja em productionmd, é enviado o nome da etapa que a dinâmica esta.     
-                        #criando objeto com informações da dinâmica para exibir no front-end. 
-                        currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":last_line}
-                        #adicionando objeto a lista de dinamicas.
-                        list_dynamics.append(currentDynamics)
-                    
-                    #verifica se a execução é de proteína + ligante.
-                elif os.stat(directory + '/executingLig').st_size != 0:
-                    archive = open(directory + '/executingLig', 'r')
-                    #captura o nome do usuário.
-                    username = archive.readline()
-                    archive.close()
-                    #captura o nome da dinâmica.
-                    archive = open(directory + '/namedynamic.txt','r')
-                    name_dynamic = archive.readline()
-                    archive.close()
-                    #captura a data final da dinâmica.
-                    archive = open(directory + '/executingLig','r')
-                    lines = archive.readlines()
-                    archive.close()
-                    last_line = lines[len(lines)-1]     
-                    #verifica se a execução já está  em productionmd.
-                    if last_line == '#productionmd\n':
-                        #acessa o diretorio do log de execução.
-                        archive = open(directory + '/DirectoryLog', 'r')
-                        directorylog = archive.readline()
-                        archive.close()
-                        #acessa o log de execução.
-                        archive = open(directorylog,'r')
-                        lines = archive.readlines()
-                        archive.close()
-                        #busca a ultima linha do log.
-                        last_line = lines[len(lines)-1]
-                        if last_line.find('step ') > -1:
-                            #recebe a quantidade de step e a data de termino.
-                            date_finish = last_line
-                            #criando objeto com informações da dinâmica para exibir no front-end. 
-                            currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":date_finish}   
-                            #adicionando objeto a lista de dinamicas.
-                            list_dynamics.append(currentDynamics)
-                    else:
-                        #caso não esteja em productionmd, é enviado o nome da etapa que a dinâmica esta.     
-                        #criando objeto com informações da dinâmica para exibir no front-end.
-                        currentDynamics = {"username": username, "name_dynamic": name_dynamic, "date_finish":last_line}
-                        #adicionando objeto a lista de dinamicas.
-                        list_dynamics.append(currentDynamics)
-
-            except:
-                #caso os arquivos estejam todos vazios, apenas renova a lista e vai para a proxima pasta.
-                list_directory += list() 
-
-        return render_template('admin/executing.html', currentDynamics=list_dynamics)
+        return render_template('admin/executing.html', running_dynamics=running_dynamics)
     
     except:
         flash('No momento nenhuma dinâmica está em execução.', 'danger')
