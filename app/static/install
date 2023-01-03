@@ -4,7 +4,7 @@ git clone https://github.com/LABIOQUIM/visualdynamics.git > /dev/null 2>&1
 
 cd visualdynamics
 
-source ./scripts/install.sh
+./run -i
 
 cd ..
 echo
