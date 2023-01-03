@@ -14,6 +14,11 @@
 Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides some useful and nice graphical outputs.
 
 ## Quick Start
+
+> **Note**
+> Every machine is different, and every researcher have different needs, we do provide GROMACS 2018, but our automatic install doesn't take your hardware into consideration, so it might not be the best option in most cases. We do recommend that you, yourself install the GROMACS you need, by toggling GROMACS' compilation flags to achieve optimal performance in your machine.  
+> **Note²**
+> If you did install GROMACS manually we WILL NOT install GROMACS 2018 over your installation, Visual Dynamics will use what is available first, and if not, it will fallback to our default (not recommended) options.
 Read [this first](/docs/gmail-setup.md) and then:  
 Open up a terminal and run `source <(curl -s -L https://bit.ly/vdinstall)`
 
