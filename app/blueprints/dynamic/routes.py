@@ -94,7 +94,7 @@ def prodrg():
         filename, ext = os.path.splitext(os.path.basename(request.files.get('file').filename))
         fileitpname, ext1 = os.path.splitext(os.path.basename(request.files.get('fileitp').filename))
         filegroname, ext2 = os.path.splitext(os.path.basename(request.files.get('filegro').filename))
-        folder = os.path.join(Config.UPLOAD_FOLDER,current_user.username, 'prodrg', f"{filename}_{fileitpname}_{filegroname}", timestamp)
+        folder = os.path.join(Config.UPLOAD_FOLDER,current_user.username, 'prodrg', f"{filename}_{fileitpname}", timestamp)
         
         CompleteFileName = prodrgGenerator.generate(
             folder,
@@ -111,14 +111,14 @@ def prodrg():
             current_user
         )
 
-        name = f"{filename}_{fileitpname}_{filegroname}"
+        name = f"{filename}_{fileitpname}"
         if request.form.get('download') == 'Download':
             return redirect(
                 url_for(
                     'DownloadRoutes.dynamiccomandsdownload',
                     folder=f"{timestamp}",
                     mode="prodrg",
-                    protein=f"{filename}_{fileitpname}_{filegroname}"
+                    protein=f"{filename}_{fileitpname}"
                 )
             )
         
@@ -169,7 +169,7 @@ def acpype():
         filename, ext = os.path.splitext(os.path.basename(request.files.get('file').filename))
         fileitpname, ext1 = os.path.splitext(os.path.basename(request.files.get('fileitp').filename))
         filegroname, ext2 = os.path.splitext(os.path.basename(request.files.get('filegro').filename))
-        folder = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'acpype', f"{filename}_{fileitpname}_{filegroname}", timestamp)
+        folder = os.path.join(Config.UPLOAD_FOLDER, current_user.username, 'acpype', f"{filename}_{fileitpname}", timestamp)
         
 
         CompleteFileName = acpypeGenerator.generate(
@@ -186,14 +186,14 @@ def acpype():
             request.form.get('ignore'),
             current_user
         )  
-        name = f"{filename}_{fileitpname}_{filegroname}"
+        name = f"{filename}_{fileitpname}"
         if request.form.get('download') == 'Download':
             return redirect(
                 url_for(
                     'DownloadRoutes.dynamiccomandsdownload',
                     folder=f"{timestamp}",
                     mode="acpype",
-                    protein=f"{filename}_{fileitpname}_{filegroname}"
+                    protein=f"{filename}_{fileitpname}"
                 )
             )
         

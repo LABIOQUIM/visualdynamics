@@ -12,12 +12,11 @@ def generate(folder, file_orig, file_itp_orig, file_gro_orig, force_field, water
     timestamp = datetime.now().replace(microsecond=0).isoformat()
     filename, ext = os.path.splitext(os.path.basename(file_orig))
     lig_itp_filename, ext1 = os.path.splitext(os.path.basename(file_itp_orig))
-    lig_gro_filename, ext2 = os.path.splitext(os.path.basename(file_gro_orig))
 
     create_folders(folder=folder)
 
     #nome completo do arquivo
-    complete_filename = f"{timestamp}|{filename}_{lig_itp_filename}_{lig_gro_filename}.txt"
+    complete_filename = f"{timestamp}|{filename}_{lig_itp_filename}.txt"
     
     os.chdir(folder)
 

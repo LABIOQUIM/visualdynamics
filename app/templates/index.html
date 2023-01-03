@@ -49,7 +49,7 @@
           <a class="btn btn-primary" href="/downloads/logs/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
             {{ _("Logs de Execução") }}
           </a>
-          {% if not d['is_canceled'] or 'success' not in d['status'] or 'error' not in d['status'] %}
+          {% if not d['is_canceled'] or 'running' in d['status'] %}
           <form method="POST" action="/cancel/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
             <button class="btn btn-danger">
               {{ _("Cancelar Dinâmica") }}
