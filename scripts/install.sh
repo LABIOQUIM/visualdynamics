@@ -28,10 +28,6 @@ fi
 
 echo "=> Verifying and Installing Dependencies"
 sudo apt install cmake gcc git grace unzip libopenblas-dev -y > /dev/null 2>&1
-
-chmod +x ./scripts/gromacs.sh
-source ./scripts/gromacs.sh "$1"
-
 echo "=> Dependencies OK!"
 
 echo "=> Initializing Environment and Dependencies"
@@ -55,5 +51,5 @@ echo "=> Translations ready"
 
 echo "=> Finishing things up..."
 # Make sure our DB and our md_pr file don't go to VCS
-git update-index --assume-unchanged app/app.db mdpfiles/md_pr.mdp
+git update-index --assume-unchanged app/app.db app/static/mdpfiles/md_pr.mdp
 echo "> VisualDynamics is now ready. See ./run -h to start the application"  

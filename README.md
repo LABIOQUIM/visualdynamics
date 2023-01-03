@@ -8,41 +8,19 @@
     <h1 align="center">Visual Dynamics</h1>
 </a>
 
-![GitHub repo size](https://img.shields.io/github/repo-size/LABIOQUIM/visualdynamics)
-[![GitHub](https://img.shields.io/github/license/LABIOQUIM/visualdynamics)](https://github.com/LABIOQUIM/visualdynamics/blob/master/LICENSE)
+![GitHub repo size](https://img.shields.io/github/repo-size/LABIOQUIM/visualdynamics?style=for-the-badge)
+[![GitHub](https://img.shields.io/github/license/LABIOQUIM/visualdynamics?style=for-the-badge)](https://github.com/LABIOQUIM/visualdynamics/blob/master/LICENSE)
+![Lines of code](https://img.shields.io/tokei/lines/github/LABIOQUIM/visualdynamics?style=for-the-badge)
+
 
 Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides some useful and nice graphical outputs.
 
 ## Quick Start
 
-> **Note** Every machine is different, and every researcher have different needs, we do provide GROMACS 2018, but our automatic install doesn't take your hardware into consideration, so it might not be the best option in most cases. We do recommend that you, yourself install the GROMACS you need, by toggling GROMACS' compilation flags to achieve optimal performance in your machine.
-
-> **Note** If you did install GROMACS manually we WILL NOT install GROMACS 2018 over your installation, Visual Dynamics will use what is available first, and if not, it will fallback to our default (not recommended) options.
+> **Note** This doesn't install GROMACS, head to their [documentation](https://manual.gromacs.org/) and follow the installation guide. The minimum GROMACS version supported is 2018. Visual Dynamics will not work without GROMACS.
 
 Read [this first](/docs/gmail-setup.md) and then:  
 Open up a terminal and run `source <(curl -s -L https://bit.ly/vdinstall)`
 
-## Not So Quick Start
-If you're the type that wants to do everything by your own hands, you'll need to build `GROMACS`, for that, [head out to their documentation](https://manual.gromacs.org/).
-
-You'll need [Grace](https://plasma-gate.weizmann.ac.il/Grace/) too.
-
-With both of them on hand, you'll need [Miniconda](https://docs.conda.io/en/latest/miniconda.html#installing), our chosen Python package manager.
-
-With Miniconda in place, now you'll should run `conda env create -f ./environment.yml`, this will ready a private python environment with the necessary dependencies for Visual Dynamics.
-
-You're almost ready, just more 30 minutes or so and you'll get it running... I said that this wasn't quick.
-
-Now you'll need a `config` file on the root project folder, no extensions, just `config`. It is mandatory for it to have this format:
-```bash
-#!bin/bash
-export VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL=
-export VISUAL_DYNAMICS_NO_REPLY_EMAIL=
-export VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD=
-```
-You fill the data required there, and you're again, almost ready.
-##### Note that the data stored in this file never leaves your computer/server, so we won't be having access to it
-
-The last thing here is on your terminal. Execute `flask translate compile`, so Visual Dynamics can prepare the translations. And that's it, you can now run `./run -m [prod|dev]`
 ## License
 The Visual Dynamics source code is available under the [MIT License](./LICENSE). Some of the dependencies are licensed differently, so watch out for them.
