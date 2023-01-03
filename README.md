@@ -14,6 +14,7 @@
 Visual Dynamics is a web platform that automates the generation and execution of molecular dynamics with GROMACS and provides some useful and nice graphical outputs.
 
 ## Quick Start
+Read [this first](/docs/gmail-setup.md) and then:  
 Open up a terminal and run `source <(curl -s -L https://bit.ly/vdinstall)`
 
 ## Not So Quick Start
