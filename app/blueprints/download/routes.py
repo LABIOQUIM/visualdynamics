@@ -40,8 +40,19 @@ def imgsdownload(mode, protein, folder):
 @DownloadBlueprint.route('/downloads/mdp')
 @login_required
 def downloadmdpfiles():
-    ziplocation = os.path.join(Config.MDP_LOCATION_FOLDER, 'mdpfiles.zip')
-    
+    folder_path = os.path.join(Config.MDP_LOCATION_FOLDER)
+
+    ziplocation = os.path.join(folder_path, f"mdpfiles.zip")
+    zf = zipfile.ZipFile(ziplocation, 'w')
+
+    #move os arquivos .xvg para a pasta graficos.
+    for folder, subfolders, files in os.walk(folder_path):
+        for file in files:
+            if file.endswith('.mdp'):
+                zf.write(os.path.join(folder, file), file, compress_type=zipfile.ZIP_DEFLATED)
+
+    zf.close()
+
     return send_file(ziplocation, as_attachment=True)
 
 @DownloadBlueprint.route('/downloads/commands/<mode>/<protein>/<folder>')

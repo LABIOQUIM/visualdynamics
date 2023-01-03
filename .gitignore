@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 node_modules
 .yarn/cache
+mdpfiles.zip
 
 # Visual Dynamics generated files
 VDfiles
