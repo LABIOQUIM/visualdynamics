@@ -27,7 +27,7 @@ else
 fi
 
 echo "=> Verifying and Installing Dependencies"
-sudo apt install cmake gcc git grace unzip libopenblas-dev -y > /dev/null 2>&1
+sudo apt install cmake gcc git grace unzip libopenblas-dev -y
 echo "=> Dependencies OK!"
 
 echo "=> Initializing Environment and Dependencies"
