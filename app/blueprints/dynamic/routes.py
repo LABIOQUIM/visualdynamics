@@ -56,7 +56,7 @@ def apo():
                     flash(_('Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo.'), 'danger')
                     return redirect(url_for('DynamicRoutes.apo'))    
             
-                exc = apoExecutor.execute(folder, CompleteFileName, current_user.username, filename + ext)
+                exc = apoExecutor.execute(folder, CompleteFileName, current_user.username, filename + ext, current_user.email)
                 flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc), 'danger')
                 return redirect(url_for('DynamicRoutes.apo')) 
             else:
@@ -130,9 +130,9 @@ def prodrg():
                         f.writelines(f'{current_user.username}\n')
                 else:
                     flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
-                    return redirect(url_for('DynamicRoutes.acpype'))
+                    return redirect(url_for('DynamicRoutes.prodrg'))
             
-                exc = prodrgExecutor.execute(folder, CompleteFileName, current_user.username, name, fileitpname+ext1, filegroname+ext2, filename)
+                exc = prodrgExecutor.execute(folder, CompleteFileName, current_user.username, name, fileitpname+ext1, filegroname+ext2, filename, current_user.email)
                 flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc[1]), 'danger')
             else:
                 flash('A extensão dos arquivos está incorreta', 'danger')
@@ -207,7 +207,7 @@ def acpype():
                     flash('Não é permitido que o mesmo usuário realize duas dinâmicas simultâneas.', 'danger')
                     return redirect(url_for('DynamicRoutes.acpype'))
             
-                exc = acpypeExecutor.execute(folder, CompleteFileName, current_user.username, name, fileitpname+ext1, filegroname+ext2, filename)
+                exc = acpypeExecutor.execute(folder, CompleteFileName, current_user.username, name, fileitpname+ext1, filegroname+ext2, filename, current_user.email)
                 flash(_('Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os logs para mais detalhes', command=exc), 'danger')
                 return redirect(url_for('DynamicRoutes.acpype'))
             else:

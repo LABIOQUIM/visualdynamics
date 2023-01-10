@@ -1,8 +1,9 @@
 from ....config import Config
 import os, shutil
 from ....utils.run_dynamics_command import run_dynamics_command
+from ....utils.send_email import send_dynamic_success_email
 
-def execute(folder, CommandsFileName, username, filename):
+def execute(folder, CommandsFileName, username, filename, email):
     # salvando nome da dinamica para exibir na execução
     with open(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'), 'w') as f:
         protein_name, _ = os.path.splitext(os.path.basename(filename))
@@ -58,6 +59,8 @@ def execute(folder, CommandsFileName, username, filename):
     with open(os.path.join(folder, 'status'), 'w') as f:
         f.write(f"success\n")
 
+    send_dynamic_success_email(username, email)
+    
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'executing'))
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'))
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'log_dir'))
