@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-02 15:53-0400\n"
+"POT-Creation-Date: 2023-01-11 16:01-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: app/blueprints/auth/routes.py:22 app/blueprints/auth/routes.py:86
+#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:69
 msgid "O campo Nome Completo é obrigatório"
 msgstr "The Full Name field is required"
 
-#: app/blueprints/auth/routes.py:25
+#: app/blueprints/auth/routes.py:23
 msgid "O campo Nome de Usuário é obrigatório"
 msgstr "The Username field is required"
 
-#: app/blueprints/auth/routes.py:28
+#: app/blueprints/auth/routes.py:26
 msgid "O campo Email deve ser válido e é obrigatório"
 msgstr "The Email field is required"
 
-#: app/blueprints/auth/routes.py:31 app/blueprints/auth/routes.py:89
+#: app/blueprints/auth/routes.py:29 app/blueprints/auth/routes.py:72
 msgid "O campo Senha é obrigatório"
 msgstr "The Password field is required"
 
-#: app/blueprints/auth/routes.py:34
+#: app/blueprints/auth/routes.py:32
 msgid "O campo Confirmar Senha é obrigatório"
 msgstr "The Confirm Password field is required"
 
-#: app/blueprints/auth/routes.py:40
+#: app/blueprints/auth/routes.py:38
 msgid "ATENÇÃO. Os campos de senha e confirmar senha devem ser iguais."
 msgstr "ATTENTION. The password and confirm password must match"
 
-#: app/blueprints/auth/routes.py:69
+#: app/blueprints/auth/routes.py:52
 #, python-format
 msgid ""
 "Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com "
@@ -51,11 +51,11 @@ msgstr ""
 "Register Request for user %(username)s recorded. We'll contact you via "
 "email once your account is activated"
 
-#: app/blueprints/auth/routes.py:72
+#: app/blueprints/auth/routes.py:55
 msgid "Erro, email ou usuário já estão sendo utilizados."
 msgstr "Error, email or username already taken"
 
-#: app/blueprints/auth/routes.py:75
+#: app/blueprints/auth/routes.py:58
 msgid ""
 "Por favor, preencha os dados corretamente. Em caso de dados incorretos "
 "seu cadastro poderá ser negado."
@@ -63,11 +63,11 @@ msgstr ""
 "Please note that in case you fail to correctly fill the data your "
 "registration might be invalidated"
 
-#: app/blueprints/auth/routes.py:98
+#: app/blueprints/auth/routes.py:81
 msgid "Usuário ou senha inválidos"
 msgstr "Username or password invalid"
 
-#: app/blueprints/auth/routes.py:103
+#: app/blueprints/auth/routes.py:86
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
 msgstr ""
 "Your account hasn't been activated yet. We'll contact you via email once "
@@ -77,8 +77,8 @@ msgstr ""
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr "Your can't run two (or more) simultaneous dynamics"
 
-#: app/blueprints/dynamic/routes.py:60 app/blueprints/dynamic/routes.py:136
-#: app/blueprints/dynamic/routes.py:211
+#: app/blueprints/dynamic/routes.py:60 app/blueprints/dynamic/routes.py:135
+#: app/blueprints/dynamic/routes.py:210
 #, fuzzy, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
@@ -535,6 +535,91 @@ msgstr "Defining box and solvating"
 #: app/templates/components/run-progress.html:90
 msgid "Definir Topologia"
 msgstr "Defining topology"
+
+#: app/templates/emails/account-activated.html:118 app/utils/send_email.py:29
+msgid "Sua Conta foi Ativada"
+msgstr "Your account has been activated"
+
+#: app/templates/emails/account-activated.html:131
+#, python-format
+msgid ""
+"Olá, %(username)s, esse é um email automático para avisar que sua conta "
+"foi ativada e você já pode utilizar a plataforma."
+msgstr "Hey there, %(username)s, this is an automated email to tell you that your account has been activated and now you can fully utilize the platform."
+
+#: app/templates/emails/account-activated.html:148
+#: app/templates/emails/dynamic-ended.html:148
+#: app/templates/emails/new-account-created.html:150
+msgid "Ir para a plataforma"
+msgstr "Go to site"
+
+#: app/templates/emails/account-activated.html:158
+#: app/templates/emails/account-not-activated.html:144
+#: app/templates/emails/dynamic-ended.html:158
+#: app/templates/emails/new-account-created.html:160
+msgid "Este é um email automático, por favor, não responda."
+msgstr "This is an automated email, please, do not answer."
+
+#: app/templates/emails/account-activated.html:165
+#: app/templates/emails/account-not-activated.html:151
+#: app/templates/emails/dynamic-ended.html:165
+#: app/templates/emails/new-account-created.html:167
+msgid ""
+"O conteúdo deste email é destinado somente a pessoa de interesse, caso "
+"não seja você, por favor desconsiderar."
+msgstr "The content of this email is intended only for the person of interest, if it is not you, please disregard"
+
+#: app/templates/emails/account-not-activated.html:118
+msgid "Sua conta não pôde ser ativada"
+msgstr "Your account could not be activated"
+
+#: app/templates/emails/account-not-activated.html:131
+#, python-format
+msgid ""
+"Olá, %(username)s, esse é um email automático para avisar que após nossa "
+"avaliação, sua conta não pôde ser ativada."
+msgstr "Hi %(username)s, this is an automated email to let you know that after our review, your account could not be activated."
+
+#: app/templates/emails/dynamic-ended.html:118
+msgid "Sua Dinâmica acabou"
+msgstr "Your Dynamic is over"
+
+#: app/templates/emails/dynamic-ended.html:131
+#, python-format
+msgid ""
+"Olá, %(username)s, esse é um email automático para avisar que sua "
+"dinâmica <strong>%(dynamic_name)s (%(mode)s)</strong> terminou."
+msgstr "Hi %(username)s, this is an automated email to let you know your dynamic <strong>%(dynamic_name)s (%(mode)s)</strong> has ended."
+
+#: app/templates/emails/new-account-created.html:118
+msgid "Nova Conta Aguardando Ativação"
+msgstr "New Account Awaiting Activation"
+
+#: app/templates/emails/new-account-created.html:131
+msgid "Atenção Administrador, uma nova conta foi cadastrada e aguarda sua ação."
+msgstr "Attention Administrator, a new account has been registered and awaits your action."
+
+#: app/templates/emails/new-account-created.html:132
+#, fuzzy, python-format
+msgid "Nome de Usuário: %(username)s"
+msgstr "Modifying user %(username)s"
+
+#: app/templates/emails/new-account-created.html:133
+#, python-format
+msgid "Email: %(email)s"
+msgstr ""
+
+#: app/utils/send_email.py:11
+msgid "Sua Dinâmica Acabou"
+msgstr "Your Dynamic is over"
+
+#: app/utils/send_email.py:20
+msgid "Nova Conta Criada"
+msgstr "New Account Created"
+
+#: app/utils/send_email.py:38
+msgid "Sua Conta não pôde ser Ativada"
+msgstr "Your Account could not be Activated"
 
 #~ msgid ""
 #~ "O Visual Dynamics é um projeto "

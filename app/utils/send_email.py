@@ -1,23 +1,42 @@
-from email.mime.text import MIMEText
 import os
-import smtplib
+from flask import render_template
+from app import mail
+from flask_mail import Message
+from flask_babel import _
+from flask_login import current_user
 
+def send_dynamic_success_email(name: str, filename: str, mode: str):
+  html = render_template('emails/dynamic-ended.html', username=name, filename=filename, mode=mode)
+  
+  subject = _("Sua Dinâmica Acabou")
 
-def send_dynamic_success_email(name: str, email: str):
-  msg = MIMEText(
-    f'<h2>Hey there, {name}</h2><br/>\
-    The dynamic you left running just ended.<br/>\
-    <h5>Automated Email, don\'t reply.</h5>',
-    'html',
-    'utf-8'
-  )
+  message = Message(html=html, subject=subject, recipients=[current_user.get_email()], sender=("Visual Dynamics", os.environ.get("VISUAL_DYNAMICS_NO_REPLY_EMAIL")))
+  
+  mail.send(message)
 
-  #Criar email da oficial para o sistema
-  msg['From'] = 'Visual Dynamics - LABIOQUIM FIOCRUZ - RO'
-  msg['To'] = email
-  msg['Subject'] = 'Dynamic Ended - Visual Dynamics'
-  message = msg.as_string()
-  server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-  server.login(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD"])
-  server.sendmail(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL"], message)
-  server.quit()
+def send_new_account_created_email(name: str, email: str):
+  html = render_template('emails/new-account-created.html', username=name, email=email)
+  
+  subject = _("Nova Conta Criada")
+
+  message = Message(html=html, subject=subject, recipients=[os.environ["VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL"]], sender=("Visual Dynamics", os.environ.get("VISUAL_DYNAMICS_NO_REPLY_EMAIL")))
+  
+  mail.send(message)
+
+def send_account_activated_email(name: str, email: str):
+  html = render_template('emails/account-activated.html', username=name)
+  
+  subject = _("Sua Conta foi Ativada")
+
+  message = Message(html=html, subject=subject, recipients=[email], sender=("Visual Dynamics", os.environ.get("VISUAL_DYNAMICS_NO_REPLY_EMAIL")))
+  
+  mail.send(message)
+  
+def send_account_not_activated_email(name: str, email: str):
+  html = render_template('emails/account-not-activated.html', username=name)
+  
+  subject = _("Sua Conta não pôde Ativada")
+
+  message = Message(html=html, subject=subject, recipients=[email], sender=("Visual Dynamics", os.environ.get("VISUAL_DYNAMICS_NO_REPLY_EMAIL")))
+  
+  mail.send(message)

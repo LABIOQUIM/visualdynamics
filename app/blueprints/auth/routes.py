@@ -1,12 +1,10 @@
-import os
 from app.models import User
 from . import AuthBlueprint
 from flask import render_template, request, redirect, url_for, flash
 from flask_babel import _
 from flask_login import login_user, logout_user
 from app import login_manager, db
-from email.mime.text import MIMEText
-import smtplib
+from ...utils.send_email import send_new_account_created_email
 
 # INFO Cadastro
 @AuthBlueprint.route('/register', methods=['GET', 'POST'], endpoint='register')
@@ -49,22 +47,7 @@ def register():
             db.session.add(new)
             db.session.commit()
 
-            msg = MIMEText('<h3>Olá, há um novo pedido de cadastro no Visual Dynamics.</h3><br>\
-            Nome de Usuário: '+ user +'<br>\
-            Nome da Requerente: '+ name +'<br>\
-            Email do Requerente: '+ email +'<br>\
-            Acesse http://visualdynamics.fiocruz.br/, faça seu login e valide ou não o cadastro.\
-            <h5>Automated Email, don\'t reply.</h5>','html', 'utf-8')
-
-            #Criar email da oficial para o sistema
-            msg['From'] = 'Visual Dynamics - LABIOQUIM FIOCRUZ - RO'
-            msg['To'] = os.environ["VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL"]
-            msg['Subject'] = 'Novo Cadastro - Visual Dynamics'
-            message = msg.as_string()
-            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.login(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD"])
-            server.sendmail(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_ADMINISTRATOR_EMAIL"], message)
-            server.quit()
+            send_new_account_created_email(name=name, email=email)
 
             flash(_('Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com sucesso. Em breve responderemos por Email se a solicitação foi aceita.', username=user), 'primary')
             return redirect(url_for('AuthRoutes.login'))

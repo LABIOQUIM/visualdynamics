@@ -1,5 +1,6 @@
+from app.utils.send_email import send_dynamic_success_email
 from . import MiscBlueprint
-from flask import render_template, make_response, request
+from flask import render_template, make_response, request, redirect
 from flask_babel import _
 
 # INFO Alterar Idioma
@@ -19,3 +20,9 @@ def setPreferredLang(lang):
 @MiscBlueprint.route('/about', methods=['GET'], endpoint='about')
 def about():
     return render_template('about.html', actabout='active')
+
+@MiscBlueprint.route("/sendmail")
+def sendmail():
+    send_dynamic_success_email('admin', "2mu8", 'APO')
+
+    return redirect("/")

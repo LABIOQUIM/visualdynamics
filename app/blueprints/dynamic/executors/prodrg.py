@@ -4,7 +4,7 @@ import os, shutil
 from ....utils.send_email import send_dynamic_success_email
 
 
-def execute(folder, CommandsFileName, username, filename, itpname, groname, mol, email):
+def execute(folder, CommandsFileName, username, filename, itpname, groname, mol):
     #salvando nome da dinamica para exibir na execução
     with open(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'), 'w') as f:
         protein_name, _ = os.path.splitext(os.path.basename(filename))
@@ -132,7 +132,7 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol,
     with open(os.path.join(folder, 'status'), 'w') as f:
         f.write(f"success\n")
     
-    send_dynamic_success_email(username, email)
+    send_dynamic_success_email(username, filename, "PRODRG")
     
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'executing'))
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, 'running_protein_name'))

@@ -17,9 +17,18 @@ class User(UserMixin, db.Model):
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
+	def get_id(self):
+		return str(self.id)
+	
+	def get_email(self):
+		return self.email
+
 	def __repr__(self):
-		return '<User %r' % self.username
+		return '<User %r>' % self.username
 
 @login_manager.user_loader
 def load_user(id):
-	return User.query.get(int(id))
+	try:
+		return User.query.get(int(id))
+	except:
+		return None

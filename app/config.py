@@ -12,3 +12,8 @@ class Config(object):
 	MDP_LOCATION_FOLDER = os.path.join(basedir, 'static', 'mdpfiles')
 	LANGUAGES = ['en', 'pt']
 	VERSION = "1.3.0"
+	MAIL_SERVER = "smtp.gmail.com"
+	MAIL_PORT = 465
+	MAIL_USE_SSL = True
+	MAIL_USERNAME = os.environ.get("VISUAL_DYNAMICS_NO_REPLY_EMAIL")
+	MAIL_PASSWORD = os.environ.get("VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD")

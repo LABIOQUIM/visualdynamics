@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-02 15:53-0400\n"
+"POT-Creation-Date: 2023-01-11 16:01-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -18,52 +18,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: app/blueprints/auth/routes.py:22 app/blueprints/auth/routes.py:86
+#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:69
 msgid "O campo Nome Completo é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:25
+#: app/blueprints/auth/routes.py:23
 msgid "O campo Nome de Usuário é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:28
+#: app/blueprints/auth/routes.py:26
 msgid "O campo Email deve ser válido e é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:31 app/blueprints/auth/routes.py:89
+#: app/blueprints/auth/routes.py:29 app/blueprints/auth/routes.py:72
 msgid "O campo Senha é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:34
+#: app/blueprints/auth/routes.py:32
 msgid "O campo Confirmar Senha é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:40
+#: app/blueprints/auth/routes.py:38
 msgid "ATENÇÃO. Os campos de senha e confirmar senha devem ser iguais."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:69
+#: app/blueprints/auth/routes.py:52
 #, python-format
 msgid ""
 "Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com "
 "sucesso. Em breve responderemos por Email se a solicitação foi aceita."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:72
+#: app/blueprints/auth/routes.py:55
 msgid "Erro, email ou usuário já estão sendo utilizados."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:75
+#: app/blueprints/auth/routes.py:58
 msgid ""
 "Por favor, preencha os dados corretamente. Em caso de dados incorretos "
 "seu cadastro poderá ser negado."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:98
+#: app/blueprints/auth/routes.py:81
 msgid "Usuário ou senha inválidos"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:103
+#: app/blueprints/auth/routes.py:86
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
 msgstr ""
 
@@ -71,8 +71,8 @@ msgstr ""
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:60 app/blueprints/dynamic/routes.py:136
-#: app/blueprints/dynamic/routes.py:211
+#: app/blueprints/dynamic/routes.py:60 app/blueprints/dynamic/routes.py:135
+#: app/blueprints/dynamic/routes.py:210
 #, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
@@ -523,6 +523,91 @@ msgstr ""
 
 #: app/templates/components/run-progress.html:90
 msgid "Definir Topologia"
+msgstr ""
+
+#: app/templates/emails/account-activated.html:118 app/utils/send_email.py:29
+msgid "Sua Conta foi Ativada"
+msgstr ""
+
+#: app/templates/emails/account-activated.html:131
+#, python-format
+msgid ""
+"Olá, %(username)s, esse é um email automático para avisar que sua conta "
+"foi ativada e você já pode utilizar a plataforma."
+msgstr ""
+
+#: app/templates/emails/account-activated.html:148
+#: app/templates/emails/dynamic-ended.html:148
+#: app/templates/emails/new-account-created.html:150
+msgid "Ir para a plataforma"
+msgstr ""
+
+#: app/templates/emails/account-activated.html:158
+#: app/templates/emails/account-not-activated.html:144
+#: app/templates/emails/dynamic-ended.html:158
+#: app/templates/emails/new-account-created.html:160
+msgid "Este é um email automático, por favor, não responda."
+msgstr ""
+
+#: app/templates/emails/account-activated.html:165
+#: app/templates/emails/account-not-activated.html:151
+#: app/templates/emails/dynamic-ended.html:165
+#: app/templates/emails/new-account-created.html:167
+msgid ""
+"O conteúdo desde email é destinado somente a pessoa de interesse, caso "
+"não seja você, por favor desconsiderar."
+msgstr ""
+
+#: app/templates/emails/account-not-activated.html:118
+msgid "Sua conta não pôde ser ativada"
+msgstr ""
+
+#: app/templates/emails/account-not-activated.html:131
+#, python-format
+msgid ""
+"Olá, %(username)s, esse é um email automático para avisar que após nossa "
+"avaliação, sua conta não pôde ser ativada."
+msgstr ""
+
+#: app/templates/emails/dynamic-ended.html:118
+msgid "Sua Dinâmica acabou"
+msgstr ""
+
+#: app/templates/emails/dynamic-ended.html:131
+#, python-format
+msgid ""
+"Olá, %(username)s, esse é um email automático para avisar que sua "
+"dinâmica <strong>%(dynamic_name)s (%(mode)s)</strong> terminou."
+msgstr ""
+
+#: app/templates/emails/new-account-created.html:118
+msgid "Nova Conta Aguardando Ativação"
+msgstr ""
+
+#: app/templates/emails/new-account-created.html:131
+msgid "Atenção Administrador, uma nova conta foi cadastrada e aguarda sua ação."
+msgstr ""
+
+#: app/templates/emails/new-account-created.html:132
+#, python-format
+msgid "Nome de Usuário: %(username)s"
+msgstr ""
+
+#: app/templates/emails/new-account-created.html:133
+#, python-format
+msgid "Email: %(email)s"
+msgstr ""
+
+#: app/utils/send_email.py:11
+msgid "Sua Dinâmica Acabou"
+msgstr ""
+
+#: app/utils/send_email.py:20
+msgid "Nova Conta Criada"
+msgstr ""
+
+#: app/utils/send_email.py:38
+msgid "Sua Conta não pôde Ativada"
 msgstr ""
 
 #~ msgid ""

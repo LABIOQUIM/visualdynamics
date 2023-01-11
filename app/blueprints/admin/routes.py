@@ -10,6 +10,7 @@ from flask import render_template, request, flash, url_for, redirect
 from flask_babel import _
 from app import db
 from app.admin_required import admin_required
+from ...utils.send_email import send_account_activated_email, send_account_not_activated_email
 
 @AdminBlueprint.route('/admin', methods=['GET', 'POST'], endpoint='admin')
 @admin_required
@@ -36,19 +37,8 @@ def accept_newUser(id):
     db.session.add(UserData)
     db.session.commit()
     
-    msg = MIMEText('<h3>Hey, '+ name +', your Visual Dynamics account has been activated.</h3>\
-    Visit http://visualdynamics.fiocruz.br/, login to your account and start your dynamics. Just remember that you can only execute one (1) dynamic at a time.\
-    <h5>Automated Email, don\'t reply.</h5>','html', 'utf-8')
-
-    #Criar email da oficial para o sistema
-    msg['From'] = 'LABIOQUIM FIOCRUZ - RO'
-    msg['To'] = email
-    msg['Subject'] = 'Account Activated - Visual Dynamics'
-    message = msg.as_string()
-    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    server.login(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD"])
-    server.sendmail(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], email, message)
-    server.quit()
+    send_account_activated_email(name=name, email=email)
+    
     flash(f'Solicitação de cadastro do(a) usuário(a) {UserData.name} aceita com sucesso.', 'primary')
     return redirect(url_for('AdminRoutes.admin_cadastro'))
 
@@ -62,19 +52,7 @@ def remove_newUser(id):
     db.session.delete(UserData)
     db.session.commit()
 
-    msg = MIMEText('<h3>Olá '+ name +', seu cadastro no Visual Dynamics não foi aprovado.</h3>\
-    Acesse http://157.86.248.13:8080 para tentar novamente.\
-    <h5>E-mail gerado automáticamente, por favor não responder.</h5>','html', 'utf-8')
-
-    #Criar email da oficial para o sistema
-    msg['From'] = os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"]
-    msg['To'] = email
-    msg['Subject'] = 'Cadastro Visual Dynamics'
-    message = msg.as_string()
-    server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    server.login(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL_PASSWORD"])
-    server.sendmail(os.environ["VISUAL_DYNAMICS_NO_REPLY_EMAIL"], email, message)
-    server.quit()
+    send_account_not_activated_email(name=name, email=email)
    
     flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')
     return redirect(url_for('AdminRoutes.admin_cadastros'))
