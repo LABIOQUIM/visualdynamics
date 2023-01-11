@@ -1,10 +1,10 @@
 import os
 from app.models import User
 from . import AuthBlueprint
-from flask import render_template, make_response, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash
 from flask_babel import _
 from flask_login import login_user, logout_user
-from  app import login_manager, db
+from app import login_manager, db
 from email.mime.text import MIMEText
 import smtplib
 

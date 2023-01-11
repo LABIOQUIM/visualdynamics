@@ -1,11 +1,11 @@
 import dateutil.parser
 from app.config import Config
 from . import UserBlueprint
-from flask import render_template, make_response, request
+from flask import render_template
 from flask_babel import _
 from flask_login import current_user, login_required
-from app import login_manager
 import os
+
 @UserBlueprint.route('/', methods=['GET'], endpoint='index')
 @login_required
 def index():

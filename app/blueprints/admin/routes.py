@@ -6,9 +6,9 @@ import smtplib
 from app.config import Config
 from app.models import User
 from . import AdminBlueprint
-from flask import render_template, make_response, request, flash, url_for, redirect
+from flask import render_template, request, flash, url_for, redirect
 from flask_babel import _
-from  app import login_manager, db
+from app import db
 from app.admin_required import admin_required
 
 @AdminBlueprint.route('/admin', methods=['GET', 'POST'], endpoint='admin')

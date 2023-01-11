@@ -1,7 +1,6 @@
 from . import MiscBlueprint
 from flask import render_template, make_response, request
 from flask_babel import _
-from  app import login_manager
 
 # INFO Alterar Idioma
 # Altera o cookie preferred-lang (apenas 'en' e 'pt' possuem suporte)

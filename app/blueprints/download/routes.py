@@ -1,16 +1,14 @@
-import ast
 import glob
 import os
 import shutil
 import zipfile
 
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from app.config import Config
 from . import DownloadBlueprint
 from flask import send_file
 from flask_babel import _
-from app import login_required
 
 @DownloadBlueprint.route('/downloads/graphics/<mode>/<protein>/<folder>')
 @login_required

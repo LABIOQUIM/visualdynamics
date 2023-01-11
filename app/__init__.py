@@ -1,15 +1,13 @@
+import subprocess
 from flask import Flask, request
-from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
 from flask_babel import Babel
 from app.config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -26,6 +24,7 @@ def get_locale():
     return 'en'
 
 app.jinja_env.globals['get_locale'] = get_locale
+app.jinja_env.globals["appver"] = f"{Config.VERSION}-{subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()}"
 
 from .blueprints.misc import MiscBlueprint
 from .blueprints.admin import AdminBlueprint
