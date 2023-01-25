@@ -1,5 +1,6 @@
 export PIP_IGNORE_INSTALLED=0
 SHELL_NAME="${SHELL##*/}"
+CONDA_PATH="$HOME/.conda"
 
 echo
 chmod +x ./scripts/config.sh
@@ -7,8 +8,19 @@ source ./scripts/config.sh
 source ./config
 echo
 
-if type "conda" &> /dev/null
+if type "conda" &> /dev/null;
 then
+	re="base environment : /[a-zA-Z]+/[a-zA-Z]+/[A-Za-z0-9.]+\s \(writable\)"
+	CONDA_INFO="$(conda info)"
+	if [[ $CONDA_INFO =~ $re ]]; then
+		BASE_ENV=${BASH_REMATCH}
+
+		re2="/[a-zA-Z]+/[a-zA-Z]+/[A-Za-z0-9.]+\s"
+
+		if [[ $BASE_ENV =~ $re2 ]]; then
+			CONDA_PATH="${BASH_REMATCH// }"
+		fi
+	fi
   echo "=> Miniconda found, skipping..."
 else
   echo "=> Installing Miniconda"
@@ -19,22 +31,34 @@ else
   curl --progress-bar https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh > miniconda.sh
   chmod +x miniconda.sh
   bash miniconda.sh -b -p $HOME/.conda
-  eval "$(/home/$USER/.conda/bin/conda shell.$SHELL_NAME hook)"
+  eval "$(${CONDA_PATH}/bin/conda shell.$SHELL_NAME hook)"
   conda init $SHELL_NAME
   conda config --set auto_activate_base false
-  echo "==> Miniconda installed to $HOME/.conda/"
+  echo "==> Miniconda installed to $CONDA_PATH"
   rm miniconda.sh
 fi
 
 echo "=> Verifying and Installing Dependencies"
-sudo apt install git grace unzip -y
+if [ -f "/etc/arch-release" ]; then
+  sudo pacman -S git --needed --noconfirm
+
+	if ! type gracebat &> /dev/null;
+	then
+		git clone https://aur.archlinux.org/grace.git
+		cd grace && makepkg -si && cd .. && rm -rf grace
+	fi
+else
+	sudo apt install git grace -y
+fi
 echo "=> Dependencies OK!"
 
 echo "=> Initializing Environment and Dependencies"
-eval "$(/home/$USER/.conda/bin/conda shell.$SHELL_NAME hook)"
+eval "$(${CONDA_PATH}/bin/conda shell.$SHELL_NAME hook)"
 # Init and install Conda and Project Dependencies
 if ! { conda env list | grep 'visualdynamics'; } > /dev/null 2>&1; then
   conda env create -f ./environment.yml
+else
+	conda env update -f ./environment.yml
 fi
 conda activate visualdynamics
 echo "=> Environment and Dependencies Initialized"

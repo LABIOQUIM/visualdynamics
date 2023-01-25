@@ -4,6 +4,9 @@ channels:
   - conda-forge
 dependencies:
   - flask=2.0.3
+  - Werkzeug~=2.0.0
+  - jinja2~=3.0.3
+  - flask-mail==0.9.1
   - flask-babel==2.0.0
   - flask-login==0.5.0
   - flask-migrate==3.1.0
