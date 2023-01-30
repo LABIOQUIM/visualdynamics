@@ -55,7 +55,7 @@ def remove_newUser(id):
     send_account_not_activated_email(name=name, email=email)
    
     flash('Solicitação de cadastro do(a) usuário(a) {} removida com sucesso.'.format(UserData.username), 'primary')
-    return redirect(url_for('AdminRoutes.admin_cadastros'))
+    return redirect(url_for('AdminRoutes.admin_cadastro'))
 
 ########## admin edit br ###########
 @AdminBlueprint.route('/admin/edit/<int:id>', methods=['GET', 'POST'])

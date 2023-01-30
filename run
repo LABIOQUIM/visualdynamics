@@ -33,11 +33,11 @@ StartService() {
 		re2="/[a-zA-Z]+/[a-zA-Z]+/[A-Za-z0-9.]+\s"
 
 		if [[ $BASE_ENV =~ $re2 ]]; then
-			CONDA_PATH="${BASH_REMATCH}"
+			CONDA_PATH="${BASH_REMATCH// }"
 		fi
 	fi
 
-  eval "$($CONDA_PATH/bin/conda shell.$SHELL_NAME hook)"
+  eval "$(${CONDA_PATH}/bin/conda shell.$SHELL_NAME hook)"
   conda activate visualdynamics
   source config
 
