@@ -4,6 +4,5 @@ description: GROMACS made easy.
 header_pages:
   - index.md
   - setup.md
-author:
-  name: The Visual Dynamics Contributors
+author: The Visual Dynamics Contributors
 google_analytics: G-QW79BE5QFK
