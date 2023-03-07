@@ -1,3 +1,9 @@
+---
+layout: page
+title: "Setup - Automated Emails"
+permalink: /setup/automated-emails
+---
+
 # Sending emails
 
 Visual Dynamics uses three environment variables to store the emails it uses:
