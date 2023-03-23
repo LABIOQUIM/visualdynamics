@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-11 16:01-0400\n"
+"POT-Creation-Date: 2023-03-23 10:10-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
 "Language-Team: pt <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.11.0\n"
 
 #: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:69
 msgid "O campo Nome Completo é obrigatório"
@@ -89,9 +89,11 @@ msgstr ""
 
 #: app/templates/about.html:10
 msgid ""
-"Visual Dynamics é uma aplicação WEB feito em Python e Flask para "
-"facilitar o preparo e execução de dinâmicas moleculares utilizando o "
-"GROMACS."
+"VisualDynamics é uma ferramenta de código aberto que acelera "
+"implementações e aprendizados na área de simulação de dinâmica molecular."
+" Disponível gratuitamente e suportado por todos os principais navegadores"
+" da web. VisualDynamics foi desenvolvido com Flask, que é um framework "
+"gratuito e de código aberto baseado em Python para desenvolvimento web."
 msgstr ""
 
 #: app/templates/about.html:13
@@ -103,6 +105,14 @@ msgid "Já passaram por aqui:"
 msgstr ""
 
 #: app/templates/about.html:42
+msgid "Publicações"
+msgstr ""
+
+#: app/templates/about.html:50
+msgid "Agradecimentos"
+msgstr ""
+
+#: app/templates/about.html:75
 msgid "Entre em contato"
 msgstr ""
 
@@ -554,7 +564,7 @@ msgstr ""
 #: app/templates/emails/dynamic-ended.html:165
 #: app/templates/emails/new-account-created.html:167
 msgid ""
-"O conteúdo desde email é destinado somente a pessoa de interesse, caso "
+"O conteúdo deste email é destinado somente a pessoa de interesse, caso "
 "não seja você, por favor desconsiderar."
 msgstr ""
 
@@ -691,5 +701,18 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Previsão de Término"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Visual Dynamics é uma aplicação WEB "
+#~ "feito em Python e Flask para "
+#~ "facilitar o preparo e execução de "
+#~ "dinâmicas moleculares utilizando o GROMACS."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "O conteúdo desde email é destinado "
+#~ "somente a pessoa de interesse, caso "
+#~ "não seja você, por favor desconsiderar."
 #~ msgstr ""
 

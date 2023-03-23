@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-11 16:01-0400\n"
+"POT-Creation-Date: 2023-03-23 10:10-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.11.0\n"
 
 #: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:69
 msgid "O campo Nome Completo é obrigatório"
@@ -95,13 +95,12 @@ msgstr "About Visual Dynamics"
 
 #: app/templates/about.html:10
 msgid ""
-"Visual Dynamics é uma aplicação WEB feito em Python e Flask para "
-"facilitar o preparo e execução de dinâmicas moleculares utilizando o "
-"GROMACS."
-msgstr ""
-"Visual Dynamics is a WEB application made in Python and Flask to "
-"facilitate the preparation and execution of molecular dynamics using "
-"GROMACS."
+"VisualDynamics é uma ferramenta de código aberto que acelera "
+"implementações e aprendizados na área de simulação de dinâmica molecular."
+" Disponível gratuitamente e suportado por todos os principais navegadores"
+" da web. VisualDynamics foi desenvolvido com Flask, que é um framework "
+"gratuito e de código aberto baseado em Python para desenvolvimento web."
+msgstr "VisualDynamics is an open source tool that accelerates implementations and learning in the area of molecular dynamics simulation. Available for free and supported by all major web browsers. VisualDynamics was developed with Flask, which is a free and open source Python-based framework for web development."
 
 #: app/templates/about.html:13
 msgid "Desenvolvido por: "
@@ -112,6 +111,14 @@ msgid "Já passaram por aqui:"
 msgstr "Not too long ago they were here too:"
 
 #: app/templates/about.html:42
+msgid "Publicações"
+msgstr "Articles"
+
+#: app/templates/about.html:50
+msgid "Agradecimentos"
+msgstr "Acknowledgements"
+
+#: app/templates/about.html:75
 msgid "Entre em contato"
 msgstr "Contact us"
 
@@ -545,7 +552,9 @@ msgstr "Your account has been activated"
 msgid ""
 "Olá, %(username)s, esse é um email automático para avisar que sua conta "
 "foi ativada e você já pode utilizar a plataforma."
-msgstr "Hey there, %(username)s, this is an automated email to tell you that your account has been activated and now you can fully utilize the platform."
+msgstr ""
+"Hey there, %(username)s, this is an automated email to tell you that your"
+" account has been activated and now you can fully utilize the platform."
 
 #: app/templates/emails/account-activated.html:148
 #: app/templates/emails/dynamic-ended.html:148
@@ -567,7 +576,9 @@ msgstr "This is an automated email, please, do not answer."
 msgid ""
 "O conteúdo deste email é destinado somente a pessoa de interesse, caso "
 "não seja você, por favor desconsiderar."
-msgstr "The content of this email is intended only for the person of interest, if it is not you, please disregard"
+msgstr ""
+"The content of this email is intended only for the person of interest, if"
+" it is not you, please disregard"
 
 #: app/templates/emails/account-not-activated.html:118
 msgid "Sua conta não pôde ser ativada"
@@ -578,7 +589,9 @@ msgstr "Your account could not be activated"
 msgid ""
 "Olá, %(username)s, esse é um email automático para avisar que após nossa "
 "avaliação, sua conta não pôde ser ativada."
-msgstr "Hi %(username)s, this is an automated email to let you know that after our review, your account could not be activated."
+msgstr ""
+"Hi %(username)s, this is an automated email to let you know that after "
+"our review, your account could not be activated."
 
 #: app/templates/emails/dynamic-ended.html:118
 msgid "Sua Dinâmica acabou"
@@ -589,7 +602,9 @@ msgstr "Your Dynamic is over"
 msgid ""
 "Olá, %(username)s, esse é um email automático para avisar que sua "
 "dinâmica <strong>%(dynamic_name)s (%(mode)s)</strong> terminou."
-msgstr "Hi %(username)s, this is an automated email to let you know your dynamic <strong>%(dynamic_name)s (%(mode)s)</strong> has ended."
+msgstr ""
+"Hi %(username)s, this is an automated email to let you know your dynamic "
+"<strong>%(dynamic_name)s (%(mode)s)</strong> has ended."
 
 #: app/templates/emails/new-account-created.html:118
 msgid "Nova Conta Aguardando Ativação"
@@ -597,7 +612,9 @@ msgstr "New Account Awaiting Activation"
 
 #: app/templates/emails/new-account-created.html:131
 msgid "Atenção Administrador, uma nova conta foi cadastrada e aguarda sua ação."
-msgstr "Attention Administrator, a new account has been registered and awaits your action."
+msgstr ""
+"Attention Administrator, a new account has been registered and awaits "
+"your action."
 
 #: app/templates/emails/new-account-created.html:132
 #, fuzzy, python-format
@@ -618,8 +635,9 @@ msgid "Nova Conta Criada"
 msgstr "New Account Created"
 
 #: app/utils/send_email.py:38
-msgid "Sua Conta não pôde ser Ativada"
-msgstr "Your Account could not be Activated"
+#, fuzzy
+msgid "Sua Conta não pôde Ativada"
+msgstr "Your account could not be activated"
 
 #~ msgid ""
 #~ "O Visual Dynamics é um projeto "
@@ -672,4 +690,18 @@ msgstr "Your Account could not be Activated"
 
 #~ msgid "Previsão de Término"
 #~ msgstr "Expected to end at"
+
+#~ msgid ""
+#~ "Visual Dynamics é uma aplicação WEB "
+#~ "feito em Python e Flask para "
+#~ "facilitar o preparo e execução de "
+#~ "dinâmicas moleculares utilizando o GROMACS."
+#~ msgstr ""
+#~ "Visual Dynamics is a WEB application "
+#~ "made in Python and Flask to "
+#~ "facilitate the preparation and execution "
+#~ "of molecular dynamics using GROMACS."
+
+#~ msgid "Sua Conta não pôde ser Ativada"
+#~ msgstr "Your Account could not be Activated"
 
