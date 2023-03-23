@@ -8,7 +8,7 @@
     <h1 align="center">Visual Dynamics</h1>
 </a>
 
-[![GitHub](https://img.shields.io/github/license/LABIOQUIM/visualdynamics)](https://github.com/LABIOQUIM/visualdynamics/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/LABIOQUIM/visualdynamics)](./LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7585470.svg)](https://doi.org/10.5281/zenodo.7585470)
 
 
