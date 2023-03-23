@@ -19,7 +19,7 @@ Visual Dynamics is a web platform that automates the generation and execution of
 
 > **Note** This doesn't install GROMACS, head to their [documentation](https://manual.gromacs.org/) and follow the installation guide. The minimum GROMACS version supported is 2018. Visual Dynamics will not work without GROMACS.
 
-Read [this first](https://labioquim.github.io/visualdynamics/setup-automated-emails) and then:  
+Read [this first](https://labioquim.github.io/visualdynamics/setup/automated-emails) and then:  
 Open up a terminal and run `source <(curl -s -L https://bit.ly/vdinstall)`
 
 ## License
