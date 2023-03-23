@@ -9,7 +9,7 @@
 </a>
 
 [![GitHub](https://img.shields.io/github/license/LABIOQUIM/visualdynamics)](https://github.com/LABIOQUIM/visualdynamics/blob/main/LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7585470.svg)](https://doi.org/10.5281/zenodo.7585470)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7585469.svg)](https://doi.org/10.5281/zenodo.7585469)
 
 
 
