@@ -6,6 +6,9 @@
 </script>
 <div>
   <p class="h2 mt-3 text-center">{{ _("Minhas Dinâmicas") }}</p>
+  <a class="btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
+    <i class="fas fa-download" aria-hidden="true"></i> {{ _("Baixar arquivos MDP") }}
+  </a>
   {% if no_dynamics == 'True' %}
     <div class="card my-2">
       <div class="card-body">
@@ -14,9 +17,6 @@
       </div>
     </div>
   {% else %}
-  <a class="btn btn-primary" href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}">
-    <i class="fas fa-download" aria-hidden="true"></i> {{ _("Baixar arquivos MDP") }}
-  </a>
   {% for d in list_dynamics %}
     {% if d['is_canceled'] %}
     <div class="card my-2 border-secondary">
@@ -37,13 +37,13 @@
           <i class="fas fa-download" aria-hidden="true"></i> {{ _("Downloads") }}
         </h6>
         <div class="d-flex flex-wrap gap-2">
-          <a class="btn btn-primary {{ 'disabled' if not 'success' in d['status'] }}" href="/downloads/commands/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+          <a class="btn btn-primary {{ 'disabled' if d['is_running'] }}" href="/downloads/commands/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
             {{ _("Lista de Comandos") }}
           </a>
-          <a class="btn btn-primary {{ 'disabled' if not 'success' in d['status'] }}" href="/downloads/xtc/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+          <a class="btn btn-primary {{ 'disabled' if d['is_running'] }}" href="/downloads/xtc/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
             {{ _("Arquivo .xtc") }}
           </a>
-          <a class="btn btn-primary {{ 'disabled' if not 'success' in d['status'] }}" href="/downloads/graphics/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+          <a class="btn btn-primary {{ 'disabled' if d['is_running'] }}" href="/downloads/graphics/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
             {{ _("Gráficos de Análise") }}
           </a>
           <a class="btn btn-primary" href="/downloads/logs/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
