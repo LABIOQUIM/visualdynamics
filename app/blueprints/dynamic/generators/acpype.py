@@ -10,6 +10,7 @@ def generate(folder, file_orig, file_itp_orig, file_gro_orig, force_field, water
     timestamp = datetime.now().replace(microsecond=0).isoformat()
     filename, ext = os.path.splitext(os.path.basename(file_orig))
     lig_itp_filename, ext1 = os.path.splitext(os.path.basename(file_itp_orig))
+    lig_gro_filename, ext2 = os.path.splitext(os.path.basename(file_gro_orig))
 
     create_folders(folder=folder)
 
@@ -20,13 +21,14 @@ def generate(folder, file_orig, file_itp_orig, file_gro_orig, force_field, water
 
     commands = [
         "#topology\n",
-        f"{gmx} pdb2gmx -f \"{filename}{ext}\" -o \"{filename}_livre.pdb\" -p \"{filename}_livre.top\" -ff amber94 -water {water_model} -ignh -missing\n\n",
+        f"grep 'ATOM  ' {filename}{ext} > Protein.pdb\n",
+        f"{gmx} pdb2gmx -f \"Protein.pdb\" -o \"{filename}_livre.pdb\" -p \"{filename}_livre.top\" -ff {force_field} -water {water_model} -ignh -missing\n\n",
         "#break\n",
-        f"grep -h ATOM {filename}_livre.pdb {filename}{ext} > {filename}_complx.pdb\n",
+        f"grep -h ATOM \"{filename}_livre.pdb\" \"{lig_gro_filename}{ext2}\" | tee \"{filename}_complx.pdb\" > /dev/null\n",
         f"cat {lig_itp_filename}{ext1} | sed -n \'/atomtypes/,/^ *$/{{/\n\n/d;p}}\' > ligand_atomtypes.txt".encode("unicode_escape").decode("utf-8"),
-        f"\ncat {filename}_livre.top | sed '/forcefield\.itp\"/a\#include \"{lig_itp_filename}{ext1}\"' > {filename}1_complx.top\n",
+        f"\ncat {filename}_livre.top | sed '/forcefield\.itp\"/a\#include \"{lig_itp_filename}{ext1}\"' > {filename}1_complx.top\n"
         f"cat {filename}1_complx.top | sed \'/forcefield\.itp/r ligand_atomtypes.txt\' > {filename}_complx.top\n",
-        f"echo \"{lig_itp_filename}\" >> {filename}_complx.top\n\n",
+        f"echo \"{lig_itp_filename}         1\" >> {filename}_complx.top\n\n",
         f"{gmx} editconf -f \"{filename}_complx.pdb\" -c -d 1 -bt {box_type} -o \"{filename}_complx.pdb\"\n\n",
         "#solvate\n",
         f"{gmx} solvate -cp \"{filename}_complx.pdb\" -cs spc216.gro -p \"{filename}_complx.top\" -o \"{filename}_complx_box.pdb\"\n\n",
