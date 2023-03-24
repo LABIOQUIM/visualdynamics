@@ -74,6 +74,6 @@ flask translate compile > /dev/null 2>&1
 echo "=> Translations ready"
 
 echo "=> Finishing things up..."
-# Make sure our DB and our md_pr file don't go to VCS
-git update-index --assume-unchanged app/app.db app/static/mdpfiles/md_pr.mdp
+# Make sure our DB file don't go to VCS
+git update-index --assume-unchanged app/app.db
 echo "> VisualDynamics is now ready. See ./run -h to start the application"  
