@@ -1,8 +1,9 @@
 import errno
 import os
 
+
 def create_folders(folder):
-    for subfolder in ['graficos', 'run/logs']:
+    for subfolder in ["graficos", "run/logs"]:
         path = os.path.join(folder, subfolder)
         try:
             os.makedirs(path)

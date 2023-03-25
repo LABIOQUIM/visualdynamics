@@ -118,9 +118,6 @@ share
 # mypy
 .mypy_cache/
 
-# vscode
-.vscode
-
 #flask DB
 migrations/
 

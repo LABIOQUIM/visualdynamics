@@ -5,24 +5,25 @@ from flask_babel import _
 
 # INFO Alterar Idioma
 # Altera o cookie preferred-lang (apenas 'en' e 'pt' possuem suporte)
-@MiscBlueprint.route('/set-lang/<lang>')
+@MiscBlueprint.route("/set-lang/<lang>")
 def setPreferredLang(lang):
     resp = make_response()
     resp.set_cookie("preferred-lang", value=lang)
 
     # redireciona pra página que usuário estava quando clicou em alguma das bandeiras
-    resp.headers['location'] = request.referrer
+    resp.headers["location"] = request.referrer
 
     return resp, 302
 
 
 # INFO Sobre
-@MiscBlueprint.route('/about', methods=['GET'], endpoint='about')
+@MiscBlueprint.route("/about", methods=["GET"], endpoint="about")
 def about():
-    return render_template('about.html', actabout='active')
+    return render_template("about.html", actabout="active")
+
 
 @MiscBlueprint.route("/sendmail")
 def sendmail():
-    send_dynamic_success_email('admin', "2mu8", 'APO')
+    send_dynamic_success_email("admin", "2mu8", "APO")
 
     return redirect("/")
