@@ -10,6 +10,10 @@
   }
 }
 
+.h-48px {
+  height: 48px;
+}
+
 a {
   text-decoration: none;
 }

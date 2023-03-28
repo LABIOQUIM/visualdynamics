@@ -4,6 +4,6 @@
 <script>
 	document.title = "{{ _('Executando') }} - Visual Dynamics"
 </script>
-<p class="mt-5 h4 text-uppercase text-center">{{ dynamic_type }}</p>
+<p class="mt-5 h4 text-uppercase text-center">{{ _('Amber com ACPYPE') if dynamic_type == 'acpype' else _('GROMOS com PRODRG') if dynamic_type == 'prodrg' else 'APO' }}</p>
 {% include 'components/run-progress.html' %}
 {% endblock %}
