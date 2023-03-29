@@ -1,6 +1,6 @@
 {
   "name": "visualdynamics",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A Python web application for molecular dynamics",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
