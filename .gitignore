@@ -1,0 +1,9 @@
+# Files
+*.DS_Store
+.env
+
+# Folders
+.venv
+node_modules
+__pycache__
+VDfiles

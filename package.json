@@ -1,0 +1,18 @@
+{
+  "name": "visualdynamics2",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev:server": "pnpm --filter server dev",
+    "dev:web": "pnpm --filter web dev",
+    "dev": "concurrently --kill-others \"pnpm:dev:server\" \"pnpm:dev:web\"",
+    "postinstall": "pnpm --filter server pinstall"
+  },
+  "packageManager": "pnpm@7.29.3",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}

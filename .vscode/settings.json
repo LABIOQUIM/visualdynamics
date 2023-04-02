@@ -1,0 +1,25 @@
+{
+  "python.defaultInterpreterPath": "./server/.venv/bin/python",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "python.formatting.provider": "none",
+  "typescript.tsdk": "client/node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": false,
+    "**/.next": true,
+    "**/.contentlayer": true,
+    "**/tsconfig.tsbuildinfo": true,
+    "**/next-env.d.ts": true,
+    "**/.venv": true,
+    "**/__pycache__": true
+  }
+}
