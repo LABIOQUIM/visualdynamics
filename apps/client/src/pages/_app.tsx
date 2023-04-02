@@ -14,14 +14,6 @@ const inter = Inter({
   preload: false
 });
 
-const navItems: NavItem[] = [
-  {
-    title: "Blog",
-    isExternal: false,
-    href: "/blog"
-  }
-];
-
 export default function App({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState("brand");
 
@@ -30,17 +22,22 @@ export default function App({ Component, pageProps }: AppProps) {
       className={`${inter.className}`}
       data-theme={theme}
     >
-      <div className="flex h-screen flex-1 flex-col items-center font-inter text-white">
+      <div className="h-screen flex-1 font-inter">
         <Suspense fallback={<div>Loading...</div>}>
-          <Header
-            setTheme={setTheme}
-            items={navItems}
-            theme={theme}
-          />
-          <section className="mt-10 max-w-2xl w-full px-4 pt-5 md:pt-10 flex flex-1 flex-col">
-            <Component {...pageProps} />
-          </section>
-          <Footer />
+          <div className="flex flex-col h-full flex-1 gap-2 md:flex-row md:h-full">
+            <Header
+              setTheme={setTheme}
+              theme={theme}
+            />
+            <div className="flex flex-col flex-1">
+              {/* BREADCRUMB */}
+              <Footer />
+              <section className="flex flex-1 flex-col rounded-lg bg-zinc-800/10 px-4 pt-5 mr-2">
+                <Component {...pageProps} />
+              </section>
+              <Footer />
+            </div>
+          </div>
         </Suspense>
       </div>
 

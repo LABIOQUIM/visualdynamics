@@ -27,7 +27,7 @@ export const SelectTheme: FC<SelectThemeProps> = ({ setTheme, theme }) => (
     </DropdownMenu.Trigger>
 
     <DropdownMenu.Content
-      className="bg-primary-400/40 p-2 rounded-lg"
+      className="bg-primary-950/60 p-2 rounded-lg"
       sideOffset={5}
     >
       <DropdownMenu.RadioGroup

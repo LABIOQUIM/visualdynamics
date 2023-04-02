@@ -5,7 +5,7 @@
     "editor.formatOnSave": true
   },
   "python.formatting.provider": "none",
-  "typescript.tsdk": "client/node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
+  "typescript.tsdk": "apps/client/node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true

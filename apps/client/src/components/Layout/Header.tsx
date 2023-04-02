@@ -1,122 +1,148 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Beaker, Info, LayoutDashboard, LucideIcon, Menu } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { Icons } from "@app/components/Icons";
-import { cn } from "@app/lib/utils";
 
-import { BlurImage } from "../BlurImage";
 import { SelectTheme } from "../SelectTheme";
 
-import { MobileNav } from "./MobileNav";
-
 interface MainNavProps {
-  items: NavItem[];
-  children?: React.ReactNode;
   setTheme: (theme: string) => void;
   theme: string;
 }
 
-export function Header({ items, children, setTheme, theme }: MainNavProps) {
-  const [top, setTop] = useState(true);
+interface NavigationItem {
+  label: string;
+  href?: string;
+  links?: NavigationItem[];
+  Icon?: LucideIcon;
+}
+
+interface NavigationSection {
+  title: string;
+  links: NavigationItem[];
+  Icon?: LucideIcon;
+}
+
+export function Header({ setTheme, theme }: MainNavProps) {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const { pathname } = useRouter();
 
-  // detect whether user has scrolled the page down by 10px
-  useEffect(() => {
-    const scrollHandler = () => {
-      window.scrollY > 10 ? setTop(false) : setTop(true);
-    };
-    window.addEventListener("scroll", scrollHandler);
-    return () => window.removeEventListener("scroll", scrollHandler);
-  }, [top]);
+  const items: NavigationSection[] = [
+    {
+      title: "features:dynamic.title",
+      Icon: LayoutDashboard,
+      links: [
+        {
+          label: "features:dynamic.apo.title",
+          href: "/dynamic/apo"
+        },
+        {
+          label: "features:dynamic.acpype.title",
+          href: "/dynamic/acpype"
+        }
+      ]
+    },
+    {
+      title: "features:preparation.title",
+      Icon: Beaker,
+      links: [
+        {
+          label: "features:preparation.acpype.title",
+          href: "/preparation/acpype"
+        }
+      ]
+    },
+
+    {
+      title: "features:system.title",
+      Icon: Info,
+      links: [
+        {
+          label: "features:system.about.title",
+          href: "/system/about"
+        }
+      ]
+    }
+  ];
+
+  function toggleMobileMenu() {
+    setShowMobileMenu((prevState) => !prevState);
+  }
+
+  const renderedItems = items.map((item) => {
+    return (
+      <div
+        className="flex flex-col gap-1"
+        key={item.title}
+      >
+        <div className="flex gap-x-2 text-primary-950">
+          {item.Icon ? <item.Icon /> : null}
+          <h3>{item.title}</h3>
+        </div>
+        <ul>
+          {item.links.map((link) => {
+            return (
+              <Link
+                key={link.label}
+                href={link.href ? link.href : "#"}
+              >
+                <div className="flex flex-1 text-primary-500 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50">
+                  {link.Icon ? <link.Icon /> : null}
+                  <p>{link.label}</p>
+                </div>
+              </Link>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  });
 
   return (
-    <header
-      className={`fixed top-0 h-14 z-40 w-full border-b items-center border-zinc-900 ${
-        !top && "bg-transparent shadow-lg backdrop-blur-sm"
-      }`}
-    >
-      <div className="m-auto max-w-5xl">
-        <div className="flex h-14 items-center justify-between py-2 px-2">
-          <div className="flex justify-between gap-6 md:gap-10">
-            <Link
-              className="hidden items-center space-x-2 md:flex"
-              href="/"
-            >
-              <BlurImage
-                alt="Visual Dynamics Logo"
-                className="w-40 h-12"
-                width={0}
-                height={0}
-                src="/images/logo.svg"
-              />
-            </Link>
-
-            <button
-              className="flex items-center space-x-2 md:hidden"
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-            >
-              {showMobileMenu ? (
-                <Icons.Close className="h-10 w-10" />
-              ) : (
-                <BlurImage
-                  alt="Visual Dynamics Logo"
-                  className="w-10 h-10"
-                  width={0}
-                  height={0}
-                  src="/images/favicon.svg"
-                />
-              )}
-              <span className="font-bold">
-                {showMobileMenu ? "Close" : "Menu"}
-              </span>
-            </button>
-          </div>
-          <nav className="hidden gap-6 md:flex">
-            {items.map((item: NavItem, index: number) => (
-              <Link
-                key={index}
-                target={item.isExternal ? "_blank" : undefined}
-                rel={item.isExternal ? "noreferrer" : undefined}
-                href={item.disabled ? "#" : item.href}
-                className={cn(
-                  "flex items-center font-inter text-sm font-medium text-[#888] transition-all duration-75 ease-linear hover:text-zinc-50",
-                  item.href.startsWith(`/${pathname.split("/")[1]}`) &&
-                    pathname !== "/" &&
-                    "text-white",
-                  item.disabled && "cursor-not-allowed opacity-80"
-                )}
-              >
-                {item.title}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex gap-x-1">
-            <SelectTheme
-              setTheme={setTheme}
-              theme={theme}
-            />
-            <Link
-              href="https://github.com/LABIOQUIM/visualdynamics"
-              target="_blank"
-              rel="noreferrer"
-              className="group rounded bg-gray-1000 p-2 transition-colors duration-100 ease-linear hover:bg-gray-1001"
-            >
-              <Icons.Github className="text-zinc-400 transition-colors duration-100 ease-linear group-hover:text-gray-100" />
-            </Link>
-          </div>
-        </div>
-        {showMobileMenu && (
-          <MobileNav
-            closeNavbar={() => setShowMobileMenu(false)}
-            items={items}
-            segment={pathname.split("/")[1]}
-          >
-            {children}
-          </MobileNav>
-        )}
+    <nav className="h-14 md:h-full md:w-60 bg-zinc-800/10 p-2">
+      <div className="flex flex-1 h-full justify-between md:hidden">
+        <Image
+          alt="Visual Dynamics"
+          className="h-full w-full"
+          height={0}
+          src="/images/logo.svg"
+          width={0}
+        />
+        <button
+          className=""
+          onClick={toggleMobileMenu}
+        >
+          {showMobileMenu ? <Icons.Close /> : <Menu />}
+        </button>
       </div>
-    </header>
+      <div className="hidden md:border-b md:border-b-zinc-400/50 md:pb-2 md:block md:sticky md:top-0">
+        <Image
+          alt="Visual Dynamics"
+          className="w-full"
+          height={0}
+          src="/images/logo.svg"
+          width={0}
+        />
+      </div>
+
+      <div className="hidden md:flex md:flex-col md:mt-2 md:gap-y-4">
+        <div className="mx-auto">
+          <SelectTheme
+            setTheme={setTheme}
+            theme={theme}
+          />
+        </div>
+        {renderedItems}
+      </div>
+
+      {showMobileMenu ? (
+        <div className="absolute inset-0 top-14 bg-zinc-100 p-2 flex flex-col gap-y-4">
+          {renderedItems}
+        </div>
+      ) : null}
+    </nav>
   );
 }

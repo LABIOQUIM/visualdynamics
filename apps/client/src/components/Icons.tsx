@@ -10,6 +10,7 @@ import {
   RiGooglePlayFill,
   RiLink
 } from "react-icons/ri";
+import { X } from "lucide-react";
 
 export type Icon = IconType;
 
@@ -17,7 +18,7 @@ export const Icons = {
   Check: RiCheckLine,
   ChevronDown: RiArrowDownSLine,
   ChevronUp: RiArrowUpSLine,
-  Close: RiCloseFill,
+  Close: X,
   Github: RiGithubFill,
   GooglePlay: RiGooglePlayFill,
   GoBack: RiArrowLeftLine,

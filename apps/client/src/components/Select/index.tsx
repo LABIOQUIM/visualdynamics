@@ -35,7 +35,10 @@ export const Select = <T extends string>({
             <ChevronDown />
           </RSelect.Icon>
         </RSelect.Trigger>
-        <RSelect.Content className="p-2 mt-2 ml-auto bg-zinc-950 border border-primary-400/25 rounded-lg w-[calc(100%-2rem)]">
+        <RSelect.Content
+          className="p-2 mt-1 ml-auto bg-zinc-950 border border-primary-400/25 rounded-lg"
+          position="popper"
+        >
           <RSelect.ScrollUpButton className="flex items-center justify-center h-7 bg-transparent text-primary-500 cursor-default">
             <ChevronUp />
           </RSelect.ScrollUpButton>

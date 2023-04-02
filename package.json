@@ -1,5 +1,5 @@
 {
-  "name": "visualdynamics2",
+  "name": "visualdynamics",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^8.0.1"
+    "concurrently": "^8.0.1",
+    "prisma": "^4.12.0"
   }
 }
