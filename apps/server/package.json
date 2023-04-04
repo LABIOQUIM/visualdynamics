@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "dev": "poetry run flask run --reload",
+    "padd": "poetry add",
     "pinstall": "poetry install"
   },
   "keywords": [],

@@ -1,11 +1,11 @@
 {
-  "python.defaultInterpreterPath": "./server/.venv/bin/python",
+  "python.defaultInterpreterPath": "apps/server/.venv/bin/python3.10",
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
   "python.formatting.provider": "none",
-  "typescript.tsdk": "apps/client/node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
+  "typescript.tsdk": "node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true

@@ -2,7 +2,7 @@ import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html className="bg-zinc-50 heropattern-diagonallines-black/10">
+    <Html className="bg-zinc-50 overflow-hidden heropattern-diagonallines-black/10">
       <Head>
         <link
           rel="icon"

@@ -2,7 +2,7 @@ import { allPosts } from "contentlayer/generated";
 
 import BlogCard from "@app/components/BlogCard";
 import { HeaderSEO } from "@app/components/Layout/HeaderSEO";
-import { PageTitle } from "@app/components/PageTitle";
+import { PageTitle } from "@app/components/Layout";
 
 export default function Home() {
   return (

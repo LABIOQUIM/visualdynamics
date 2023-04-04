@@ -1,11 +1,16 @@
-import type { Icon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 declare global {
-  type NavItem = {
+  interface NavigationItem {
+    label: string;
+    href?: string;
+    links?: NavigationItem[];
+    Icon?: LucideIcon;
+  }
+
+  interface NavigationSection {
     title: string;
-    href: string;
-    isExternal?: boolean;
-    disabled?: boolean;
-    icon?: Icon;
-  };
+    links: NavigationItem[];
+    Icon?: LucideIcon;
+  }
 }

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-import { Icons } from "./Icons";
+import { Icons } from "../Icons";
 
 interface SelectThemeProps {
   theme: string;
@@ -27,7 +27,7 @@ export const SelectTheme: FC<SelectThemeProps> = ({ setTheme, theme }) => (
     </DropdownMenu.Trigger>
 
     <DropdownMenu.Content
-      className="bg-primary-950/60 p-2 rounded-lg"
+      className="bg-primary-950/60 p-2 rounded-md"
       sideOffset={5}
     >
       <DropdownMenu.RadioGroup

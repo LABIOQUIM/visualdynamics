@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Beaker, Info, LayoutDashboard, LucideIcon, Menu } from "lucide-react";
+import clsx from "clsx";
+import { Beaker, Info, LayoutDashboard, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,24 +14,25 @@ interface MainNavProps {
   theme: string;
 }
 
-interface NavigationItem {
-  label: string;
-  href?: string;
-  links?: NavigationItem[];
-  Icon?: LucideIcon;
-}
-
-interface NavigationSection {
-  title: string;
-  links: NavigationItem[];
-  Icon?: LucideIcon;
-}
-
 export function Header({ setTheme, theme }: MainNavProps) {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const { pathname } = useRouter();
 
   const items: NavigationSection[] = [
+    {
+      title: "features:system.title",
+      Icon: Info,
+      links: [
+        {
+          label: "features:system.about.title",
+          href: "/system/about"
+        },
+        {
+          label: "features:system.blog.title",
+          href: "/system/blog"
+        }
+      ]
+    },
     {
       title: "features:dynamic.title",
       Icon: LayoutDashboard,
@@ -54,17 +56,6 @@ export function Header({ setTheme, theme }: MainNavProps) {
           href: "/preparation/acpype"
         }
       ]
-    },
-
-    {
-      title: "features:system.title",
-      Icon: Info,
-      links: [
-        {
-          label: "features:system.about.title",
-          href: "/system/about"
-        }
-      ]
     }
   ];
 
@@ -82,21 +73,30 @@ export function Header({ setTheme, theme }: MainNavProps) {
           {item.Icon ? <item.Icon /> : null}
           <h3>{item.title}</h3>
         </div>
-        <ul>
+        <div className="flex flex-col gap-y-0.5">
           {item.links.map((link) => {
             return (
               <Link
                 key={link.label}
                 href={link.href ? link.href : "#"}
               >
-                <div className="flex flex-1 text-primary-500 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50">
+                <div
+                  className={clsx(
+                    "flex flex-1 text-primary-50 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50",
+                    {
+                      "bg-primary-950": pathname === link.href,
+                      "text-primary-500": pathname !== link.href,
+                      "hover:bg-primary-900": pathname === link.href
+                    }
+                  )}
+                >
                   {link.Icon ? <link.Icon /> : null}
                   <p>{link.label}</p>
                 </div>
               </Link>
             );
           })}
-        </ul>
+        </div>
       </div>
     );
   });

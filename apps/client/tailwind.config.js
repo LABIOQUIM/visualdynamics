@@ -89,7 +89,6 @@ module.exports = {
         primary: colors.rose
       }
     }),
-    require("@tailwindcss/forms"),
     require("tailwindcss-hero-patterns")
   ]
 };

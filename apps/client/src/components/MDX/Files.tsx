@@ -61,7 +61,7 @@ function Inner({ data, lvl }: { data: Node[]; lvl: number }) {
 
 export function Files(props: { data: Node[]; title?: string }) {
   return (
-    <div className="shadow-surface-elevation-low overflow-hidden rounded-lg bg-white/5 font-mono">
+    <div className="shadow-surface-elevation-low overflow-hidden rounded-md bg-white/5 font-mono">
       {props.title ? (
         <div className="mb-0.5 rounded-md bg-primary-100/10 px-3 py-1 text-xs text-primary-100/70 shadow-sm">
           {props.title}

@@ -22,19 +22,16 @@ export default function App({ Component, pageProps }: AppProps) {
       className={`${inter.className}`}
       data-theme={theme}
     >
-      <div className="h-screen flex-1 font-inter">
+      <div className="h-screen font-inter">
         <Suspense fallback={<div>Loading...</div>}>
-          <div className="flex flex-col h-full flex-1 gap-2 md:flex-row md:h-full">
+          <div className="flex flex-col h-full gap-2 md:flex-row">
             <Header
               setTheme={setTheme}
               theme={theme}
             />
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 max-h-full">
               {/* BREADCRUMB */}
-              <Footer />
-              <section className="flex flex-1 flex-col rounded-lg bg-zinc-800/10 px-4 pt-5 mr-2">
-                <Component {...pageProps} />
-              </section>
+              <Component {...pageProps} />
               <Footer />
             </div>
           </div>

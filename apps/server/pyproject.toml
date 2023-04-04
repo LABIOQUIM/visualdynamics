@@ -12,6 +12,7 @@ flask-restful = "^0.3.9"
 prisma = "^0.8.2"
 flask-sock = "^0.6.0"
 asyncio = "^3.4.3"
+flask-cors = "^3.0.10"
 
 
 [build-system]
