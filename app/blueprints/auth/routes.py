@@ -25,6 +25,25 @@ def register():
         if email == "":
             flash(_("O campo Email deve ser válido e é obrigatório"), "warning")
 
+        if (
+            email.find("gmail.com") != -1
+            or email.find("qq.com") != -1
+            or email.find("yandex.ru") != -1
+            or email.find("hotmail.com") != -1
+            or email.find("outlook.com") != -1
+            or email.find("123.com") != -1
+            or email.find("126.com") != -1
+            or email.find("163.com") != -1
+        ):
+            flash(
+                _(
+                    "Utilize seu email institucional. Emails de provedores comuns, como Google, QQ, Yandex não são permitidos."
+                ),
+                "warning",
+            )
+
+            return redirect(url_for("AuthRoutes.register"))
+
         if password == "":
             flash(_("O campo Senha é obrigatório"), "warning")
 
