@@ -59,13 +59,13 @@ export default function APODynamic() {
   };
 
   return (
-    <PageLayout title="Dinâmica APO">
+    <PageLayout title="features:dynamic.apo.title">
       <form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit(handleSubmitDynamic)}
       >
         <Input
-          label="Proteína (.pdb)"
+          label="features:dynamic.forms.file-pdb.title"
           type="file"
           accept=".pdb"
           error={errors.protein}
@@ -74,36 +74,36 @@ export default function APODynamic() {
 
         <Select<keyof typeof forceFields>
           error={errors.forceField}
-          label="Campo de Força"
+          label="features:dynamic.forms.force-field.title"
           name="forceField"
           onChange={(newForceField) => setValue("forceField", newForceField)}
-          placeholder="Selecione um Campo de Força"
+          placeholder="features:dynamic.forms.force-field.placeholder"
           selectedValue={watch("forceField")}
           values={forceFields}
         />
 
         <Select<keyof typeof waterModels>
           error={errors.waterModel}
-          label="Modelo de Água"
+          label="features:dynamic.forms.water-model.title"
           name="waterModel"
           onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
-          placeholder="Selecione um Modelo de Água"
+          placeholder="features:dynamic.forms.water-model.placeholder"
           selectedValue={watch("waterModel")}
           values={waterModels}
         />
 
         <Select<keyof typeof boxTypes>
           error={errors.boxType}
-          label="Tipo de Caixa"
+          label="features:dynamic.forms.box-type.title"
           name="boxType"
           onChange={(newBoxType) => setValue("boxType", newBoxType)}
-          placeholder="Selecione um Tipo de Caixa"
+          placeholder="features:dynamic.forms.box-type.placeholder"
           selectedValue={watch("boxType")}
           values={boxTypes}
         />
 
         <Input
-          label="Distância da Caixa (nm)"
+          label="features:dynamic.forms.box-distance.title"
           error={errors.boxDistance}
           type="number"
           {...register("boxDistance")}
@@ -112,28 +112,28 @@ export default function APODynamic() {
         <label>Opções</label>
         <div className="flex flex-col gap-y-2">
           <Switch
-            label="Neutralizar sistema"
+            label="features:dynamic.forms.neutralize.title"
             checked={watch("neutralize")}
             onCheckedChange={(bool) => setValue("neutralize", bool)}
             name="neutralize"
             disabled
           />
           <Switch
-            label="Ignorar hidrogênios"
+            label="features:dynamic.forms.ignore.title"
             checked={watch("ignore")}
             onCheckedChange={(bool) => setValue("ignore", bool)}
             name="ignore"
             disabled
           />
           <Switch
-            label="Calcular com precisão dupla"
+            label="features:dynamic.forms.double.title"
             checked={watch("double")}
             onCheckedChange={(bool) => setValue("double", bool)}
             name="double"
             disabled
           />
           <Switch
-            label="Executar dinâmica na nuvem"
+            label="features:dynamic.forms.run.title"
             checked={watch("bootstrap")}
             onCheckedChange={(bool) => setValue("bootstrap", bool)}
             name="bootstrap"

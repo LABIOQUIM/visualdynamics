@@ -41,9 +41,9 @@ export const Select = <T extends string>({
       >
         <RSelect.Trigger
           className={clsx(
-            "flex justify-between items-center rounded-md border border-primary-200/25 data-[placeholder]:text-zinc-400 bg-zinc-100 px-2 py-1 h-10 outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200",
+            "flex justify-between items-center rounded-md border border-primary-200/60 data-[placeholder]:text-zinc-400 bg-zinc-100 px-2 py-1 h-10 outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200",
             {
-              "border-red-600 focus:ring-red-500": error
+              "border-red-600/95 focus:ring-red-500": error
             }
           )}
           id={name}
@@ -58,7 +58,7 @@ export const Select = <T extends string>({
           </RSelect.Icon>
         </RSelect.Trigger>
         <RSelect.Content
-          className="p-2 z-10 w-[--radix-select-trigger-width] max-h-[16rem] bg-zinc-100 border border-primary-200/25 rounded-md"
+          className="p-2 z-10 w-[--radix-select-trigger-width] max-h-[16rem] bg-zinc-100 border border-primary-200/60 rounded-md"
           position="popper"
         >
           <RSelect.ScrollUpButton className="flex items-center justify-center h-7 bg-transparent text-primary-500 cursor-default">
