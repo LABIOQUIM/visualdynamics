@@ -13,4 +13,3 @@ class Config(object):
     STATIC_FOLDER = os.path.join(basedir, "static")
     MDP_LOCATION_FOLDER = os.path.join(STATIC_FOLDER, "mdp")
     SOCK_SERVER_OPTIONS = {"ping_interval": 25}
-    SOURCE_COMMAND = "source /usr/local/gromacs/bin/GMXRC"

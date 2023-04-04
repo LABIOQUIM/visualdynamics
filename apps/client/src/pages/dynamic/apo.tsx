@@ -54,7 +54,25 @@ export default function APODynamic() {
           "Content-Type": "multipart/form-data"
         }
       })
-      .then(() => alert("Foi"))
+      .then(async ({ data }) => {
+        console.log(data);
+        if (data.status === "generated") {
+          await api
+            .post(
+              "/run",
+              {
+                folder_run: data.folder
+              },
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+              }
+            )
+            .then(() => alert("running"))
+            .catch(() => alert("not running"));
+        }
+      })
       .catch(() => alert("Não foi"));
   };
 

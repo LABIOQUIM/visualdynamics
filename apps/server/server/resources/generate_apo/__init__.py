@@ -105,6 +105,9 @@ class GenerateApoCommands(Resource):
             with open(os.path.join(dynamic_folder, "commands.txt"), "w") as f:
                 f.writelines(commands)
 
-            return {"status": "generated"}
+            return {
+                "status": "generated",
+                "folder": os.path.join(dynamic_folder, "run"),
+            }
 
         return {"commands": commands}
