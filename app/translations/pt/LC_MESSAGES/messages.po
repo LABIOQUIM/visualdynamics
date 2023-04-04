@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-03-27 20:27-0400\n"
+"POT-Creation-Date: 2023-04-04 11:22-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:90
+#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:109
 msgid "O campo Nome Completo é obrigatório"
 msgstr ""
 
@@ -30,40 +30,46 @@ msgstr ""
 msgid "O campo Email deve ser válido e é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:29 app/blueprints/auth/routes.py:93
+#: app/blueprints/auth/routes.py:39
+msgid ""
+"Utilize seu email institucional. Emails de provedores comuns, como "
+"Google, QQ, Yandex não são permitidos."
+msgstr ""
+
+#: app/blueprints/auth/routes.py:48 app/blueprints/auth/routes.py:112
 msgid "O campo Senha é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:32
+#: app/blueprints/auth/routes.py:51
 msgid "O campo Confirmar Senha é obrigatório"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:45
+#: app/blueprints/auth/routes.py:64
 msgid "ATENÇÃO. Os campos de senha e confirmar senha devem ser iguais."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:62
+#: app/blueprints/auth/routes.py:81
 #, python-format
 msgid ""
 "Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com "
 "sucesso. Em breve responderemos por Email se a solicitação foi aceita."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:70
+#: app/blueprints/auth/routes.py:89
 msgid "Erro, email ou usuário já estão sendo utilizados."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:74
+#: app/blueprints/auth/routes.py:93
 msgid ""
 "Por favor, preencha os dados corretamente. Em caso de dados incorretos "
 "seu cadastro poderá ser negado."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:104
+#: app/blueprints/auth/routes.py:123
 msgid "Usuário ou senha inválidos"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:110
+#: app/blueprints/auth/routes.py:129
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
 msgstr ""
 
