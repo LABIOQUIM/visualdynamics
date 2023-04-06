@@ -58,6 +58,7 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
                     os.path.join(Config.UPLOAD_FOLDER, username, "running_protein_name")
                 )
                 os.remove(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"))
+                os.remove(os.path.join(Config.UPLOAD_FOLDER, username, "pid"))
                 return f"{l}"
 
     with open(os.path.join(folder, "status"), "w") as f:
@@ -68,6 +69,7 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, "executing"))
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, "running_protein_name"))
     os.remove(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"))
+    os.remove(os.path.join(Config.UPLOAD_FOLDER, username, "pid"))
 
 
 def WriteUserDynamics(line, username):

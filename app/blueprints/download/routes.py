@@ -70,11 +70,7 @@ def dynamiccomandsdownload(mode, protein, folder):
     folder_path = os.path.join(
         Config.UPLOAD_FOLDER, current_user.username, mode, protein, folder
     )
-    os.chdir(folder_path)
-    files = glob.glob("*.txt")
-    files.sort(key=os.path.getmtime)
-    commands = files[len(files) - 1]
-    directory = os.path.join(folder_path, commands)
+    directory = os.path.join(folder_path, "commands.txt")
     return send_file(directory, as_attachment=True)
 
 

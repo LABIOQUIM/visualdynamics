@@ -36,7 +36,7 @@ def generate(
     create_folders(folder=folder)
 
     # Preparando nome do file que guardará os comandos usados
-    complete_filename = f"{timestamp}|{filename}.txt"
+    complete_filename = "commands.txt"
 
     os.chdir(folder)
 

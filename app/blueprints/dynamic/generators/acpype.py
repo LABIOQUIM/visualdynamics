@@ -29,7 +29,7 @@ def generate(
     create_folders(folder=folder)
 
     # nome completo do arquivo
-    complete_filename = f"{timestamp}|{filename}_{lig_itp_filename}.txt"
+    complete_filename = "commands.txt"
 
     os.chdir(folder)
 
