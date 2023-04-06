@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-04 11:22-0400\n"
+"POT-Creation-Date: 2023-04-06 09:09-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -18,7 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:109
+#: app/blueprints/admin/routes.py:27 app/templates/admin/index.html:4
+msgid "Área do Administrador"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:42 app/templates/admin/index.html:15
+#: app/templates/admin/requests.html:4
+msgid "Solicitações de Cadastro"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:139 app/templates/admin/edit/user.html:10
+#, python-format
+msgid "Modificando Usuário %(username)s"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:255 app/templates/admin/edit/md.html:5
+msgid "Modificar md_pr.mdp"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:318 app/blueprints/admin/routes.py:325
+#: app/templates/admin/executing.html:4 app/templates/admin/index.html:24
+msgid "Dinâmicas em Execução"
+msgstr ""
+
+#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:111
 msgid "O campo Nome Completo é obrigatório"
 msgstr ""
 
@@ -36,7 +59,7 @@ msgid ""
 "Google, QQ, Yandex não são permitidos."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:48 app/blueprints/auth/routes.py:112
+#: app/blueprints/auth/routes.py:48 app/blueprints/auth/routes.py:114
 msgid "O campo Senha é obrigatório"
 msgstr ""
 
@@ -65,11 +88,21 @@ msgid ""
 "seu cadastro poderá ser negado."
 msgstr ""
 
-#: app/blueprints/auth/routes.py:123
+#: app/blueprints/auth/routes.py:99 app/templates/register.html:10
+msgid "Solicitação de Cadastro"
+msgstr ""
+
+#: app/blueprints/auth/routes.py:125
 msgid "Usuário ou senha inválidos"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:129
+#: app/blueprints/auth/routes.py:126 app/blueprints/auth/routes.py:137
+#: app/templates/components/navbar.html:69 app/templates/login.html:10
+#: app/templates/login.html:38
+msgid "Entrar"
+msgstr ""
+
+#: app/blueprints/auth/routes.py:131
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
 msgstr ""
 
@@ -77,8 +110,8 @@ msgstr ""
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:82 app/blueprints/dynamic/routes.py:211
-#: app/blueprints/dynamic/routes.py:339
+#: app/blueprints/dynamic/routes.py:82 app/blueprints/dynamic/routes.py:213
+#: app/blueprints/dynamic/routes.py:345
 #, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
@@ -89,159 +122,177 @@ msgstr ""
 msgid "Extensão do arquivo está incorreta"
 msgstr ""
 
-#: app/templates/about.html:5 app/templates/about.html:8
+#: app/blueprints/dynamic/routes.py:119 app/blueprints/dynamic/routes.py:128
+#: app/blueprints/dynamic/routes.py:250 app/blueprints/dynamic/routes.py:259
+#: app/blueprints/dynamic/routes.py:383 app/blueprints/dynamic/routes.py:392
+msgid "Executando"
+msgstr ""
+
+#: app/blueprints/dynamic/routes.py:131 app/templates/apo.html:6
+msgid "Proteína APO"
+msgstr ""
+
+#: app/blueprints/dynamic/routes.py:263 app/templates/prodrg.html:5
+msgid "Proteína + Ligante (PRODRG)"
+msgstr ""
+
+#: app/blueprints/dynamic/routes.py:396 app/templates/acpype.html:5
+msgid "Proteína + Ligante (ACPYPE)"
+msgstr ""
+
+#: app/blueprints/dynamic/routes.py:405 app/templates/atb.html:15
+msgid "Proteína + Ligante (ATB)"
+msgstr ""
+
+#: app/blueprints/misc/routes.py:22 app/templates/components/navbar.html:82
+msgid "Sobre"
+msgstr ""
+
+#: app/blueprints/user/routes.py:13 app/templates/components/navbar.html:108
+#: app/templates/index.html:5
+msgid "Minhas Dinâmicas"
+msgstr ""
+
+#: app/templates/about.html:5
 msgid "Sobre o Visual Dynamics"
 msgstr ""
 
-#: app/templates/about.html:10
+#: app/templates/about.html:7
 msgid ""
 "Visual Dynamics é uma ferramenta de código aberto que acelera "
-"implementações e aprendizados na área de simulação de dinâmica molecular."
-" Disponível gratuitamente e suportado por todos os principais navegadores"
-" da web. Visual Dynamics é desenvolvido com Flask, que é um framework "
-"gratuito e de código aberto baseado em Python para desenvolvimento web."
+"implementações e aprendizados na área de\n"
+"\t\tsimulação de dinâmica molecular. Disponível gratuitamente e suportado"
+" por todos os principais navegadores da web.\n"
+"\t\tVisual Dynamics é desenvolvido com Flask, que é um framework gratuito"
+" e de código aberto baseado em Python para\n"
+"\t\tdesenvolvimento web."
 msgstr ""
 
 #: app/templates/about.html:13
 msgid ""
 "Agradecemos à toda equipe responsável pelo desenvolvimento e manutenção "
-"do GROMACS e Grace/Xmgr"
+"do GROMACS e\n"
+"\t\tGrace/Xmgr"
 msgstr ""
 
-#: app/templates/about.html:15
+#: app/templates/about.html:16
 msgid "Desenvolvido por: "
 msgstr ""
 
-#: app/templates/about.html:31
+#: app/templates/about.html:53
 msgid "Já passaram por aqui:"
 msgstr ""
 
-#: app/templates/about.html:44
+#: app/templates/about.html:66
 msgid "Publicações"
-msgstr ""
-
-#: app/templates/about.html:52
-msgid "Agradecimentos"
 msgstr ""
 
 #: app/templates/about.html:77
 msgid "Entre em contato"
 msgstr ""
 
-#: app/templates/acpype.html:5 app/templates/acpype.html:8
-msgid "Proteína + Ligante (ACPYPE)"
-msgstr ""
-
-#: app/templates/acpype.html:13 app/templates/apo.html:17
-#: app/templates/prodrg.html:13
+#: app/templates/acpype.html:19 app/templates/apo.html:23
+#: app/templates/prodrg.html:19
 msgid "Proteína Livre"
 msgstr ""
 
-#: app/templates/acpype.html:18 app/templates/acpype.html:23
-#: app/templates/prodrg.html:18 app/templates/prodrg.html:23
+#: app/templates/acpype.html:33 app/templates/acpype.html:47
+#: app/templates/prodrg.html:33 app/templates/prodrg.html:47
 msgid "Ligante"
 msgstr ""
 
-#: app/templates/acpype.html:38 app/templates/apo.html:40
-#: app/templates/prodrg.html:32
+#: app/templates/acpype.html:75 app/templates/apo.html:59
+#: app/templates/prodrg.html:70
 msgid "Campo de Força"
 msgstr ""
 
-#: app/templates/acpype.html:45 app/templates/apo.html:47
-#: app/templates/prodrg.html:39
+#: app/templates/acpype.html:89 app/templates/apo.html:73
+#: app/templates/prodrg.html:84
 msgid "Recomendado para GROMOS"
 msgstr ""
 
-#: app/templates/acpype.html:48 app/templates/acpype.html:49
-#: app/templates/acpype.html:50 app/templates/apo.html:50
-#: app/templates/apo.html:51 app/templates/apo.html:52
-#: app/templates/prodrg.html:42 app/templates/prodrg.html:43
-#: app/templates/prodrg.html:44
+#: app/templates/acpype.html:92 app/templates/acpype.html:93
+#: app/templates/acpype.html:94 app/templates/apo.html:76
+#: app/templates/apo.html:77 app/templates/apo.html:78
+#: app/templates/prodrg.html:87 app/templates/prodrg.html:88
+#: app/templates/prodrg.html:89
 msgid "AMBER e OPLS apenas"
 msgstr ""
 
-#: app/templates/acpype.html:52 app/templates/apo.html:54
-#: app/templates/prodrg.html:46
+#: app/templates/acpype.html:96 app/templates/apo.html:80
+#: app/templates/prodrg.html:91
 msgid "Modelo de Água"
 msgstr ""
 
-#: app/templates/acpype.html:64 app/templates/apo.html:66
-#: app/templates/prodrg.html:58
+#: app/templates/acpype.html:118 app/templates/apo.html:102
+#: app/templates/prodrg.html:113
 msgid "Tipo de Caixa"
 msgstr ""
 
-#: app/templates/acpype.html:71 app/templates/apo.html:73
-#: app/templates/prodrg.html:65
+#: app/templates/acpype.html:133 app/templates/apo.html:117
+#: app/templates/prodrg.html:128
 msgid "Distância entre a proteína e a borda da caixa (nm)"
 msgstr ""
 
-#: app/templates/acpype.html:78 app/templates/apo.html:80
-#: app/templates/prodrg.html:72
+#: app/templates/acpype.html:145 app/templates/apo.html:129
+#: app/templates/prodrg.html:140
 msgid "Tempo de Simulação"
 msgstr ""
 
-#: app/templates/acpype.html:84 app/templates/apo.html:86
-#: app/templates/prodrg.html:78
+#: app/templates/acpype.html:161 app/templates/apo.html:144
+#: app/templates/prodrg.html:156
 msgid "Neutralizar o Sistema"
 msgstr ""
 
-#: app/templates/acpype.html:89 app/templates/apo.html:92
-#: app/templates/prodrg.html:83
+#: app/templates/acpype.html:174 app/templates/apo.html:163
+#: app/templates/prodrg.html:169
 msgid "Calcular em dupla precisão"
 msgstr ""
 
-#: app/templates/acpype.html:95 app/templates/apo.html:98
-#: app/templates/prodrg.html:89
+#: app/templates/acpype.html:192 app/templates/apo.html:182
+#: app/templates/prodrg.html:187
 msgid "Ignorar Hidrogênios"
 msgstr ""
 
-#: app/templates/acpype.html:100 app/templates/apo.html:104
-#: app/templates/prodrg.html:94
+#: app/templates/acpype.html:204 app/templates/apo.html:199
+#: app/templates/prodrg.html:200
 msgid "Executar"
 msgstr ""
 
-#: app/templates/acpype.html:104 app/templates/apo.html:108
-#: app/templates/prodrg.html:98
+#: app/templates/acpype.html:215 app/templates/apo.html:210
+#: app/templates/prodrg.html:212
 msgid "Baixar Lista de Comandos"
 msgstr ""
 
-#: app/templates/acpype.html:107 app/templates/apo.html:111
-#: app/templates/index.html:10 app/templates/prodrg.html:101
+#: app/templates/acpype.html:225 app/templates/apo.html:220
+#: app/templates/index.html:13 app/templates/prodrg.html:222
 msgid "Baixar arquivos MDP"
 msgstr ""
 
-#: app/templates/acpype.html:113
+#: app/templates/acpype.html:234
 msgid "Gerando arquivos para dinâmica ACPYPE"
 msgstr ""
 
-#: app/templates/acpype.html:129 app/templates/apo.html:124
-#: app/templates/prodrg.html:128
+#: app/templates/acpype.html:258 app/templates/apo.html:233
+#: app/templates/prodrg.html:268
 msgid "Você deve fornecer um arquivo de proteína (.pdb)"
 msgstr ""
 
-#: app/templates/acpype.html:134 app/templates/prodrg.html:133
+#: app/templates/acpype.html:263 app/templates/prodrg.html:273
 msgid "Você deve fornecer um arquivo de ligante (.itp)"
 msgstr ""
 
-#: app/templates/acpype.html:139 app/templates/prodrg.html:138
+#: app/templates/acpype.html:268 app/templates/prodrg.html:278
 msgid "Você deve fornecer um arquivo de ligante (.gro ou .pdb)"
 msgstr ""
 
-#: app/templates/acpype.html:144 app/templates/apo.html:129
-#: app/templates/prodrg.html:143
+#: app/templates/acpype.html:273 app/templates/apo.html:238
+#: app/templates/prodrg.html:283
 msgid "A distância entre a proteína e a borda da caixa deve ser maior que 0"
 msgstr ""
 
-#: app/templates/apo.html:6 app/templates/apo.html:9
-msgid "Proteína APO"
-msgstr ""
-
-#: app/templates/apo.html:11
+#: app/templates/apo.html:8
 msgid "Não sabe com que molécula testar? Tente com a "
-msgstr ""
-
-#: app/templates/atb.html:5 app/templates/atb.html:12
-msgid "Proteína + Ligante (ATB)"
 msgstr ""
 
 #: app/templates/atb.html:9
@@ -250,399 +301,322 @@ msgid ""
 " para "
 msgstr ""
 
-#: app/templates/atb.html:19
+#: app/templates/atb.html:36
 msgid "Essa funcionalidade ainda está sendo desenvolvida."
 msgstr ""
 
-#: app/templates/base.html:10 app/templates/base.html:11
-#: app/templates/base.html:17 app/templates/base.html:24
+#: app/templates/base.html:17 app/templates/base.html:23
+#: app/templates/base.html:41 app/templates/base.html:63
 msgid "Visual Dynamics — Gerar, Executar, Analisar"
 msgstr ""
 
-#: app/templates/base.html:12 app/templates/base.html:18
-#: app/templates/base.html:25
+#: app/templates/base.html:27 app/templates/base.html:45
+#: app/templates/base.html:67
 msgid "A forma mais simples de gerar e executar dinâmica molecular com GROMACS."
 msgstr ""
 
-#: app/templates/components/navbar.html:48 app/templates/index.html:5
-#: app/templates/index.html:8
-msgid "Minhas Dinâmicas"
-msgstr ""
-
-#: app/templates/index.html:15
+#: app/templates/index.html:18
 msgid "Não há dinâmicas para serem exibidas"
 msgstr ""
 
-#: app/templates/index.html:16
+#: app/templates/index.html:19
 msgid "Você ainda não tem dinâmicas. Utilize o menu acima para começar uma!"
 msgstr ""
 
-#: app/templates/index.html:33
+#: app/templates/index.html:36
 #, python-format
 msgid "%(protein)s @ %(date)s"
 msgstr ""
 
-#: app/templates/index.html:37
+#: app/templates/index.html:43
 msgid "Downloads"
 msgstr ""
 
-#: app/templates/index.html:41
+#: app/templates/index.html:50
 msgid "Lista de Comandos"
 msgstr ""
 
-#: app/templates/index.html:44
+#: app/templates/index.html:56
 msgid "Arquivo .xtc"
 msgstr ""
 
-#: app/templates/index.html:47
+#: app/templates/index.html:62
 msgid "Gráficos de Análise"
 msgstr ""
 
-#: app/templates/index.html:50
+#: app/templates/index.html:68
 msgid "Logs de Execução"
 msgstr ""
 
-#: app/templates/admin/executing.html:42 app/templates/index.html:55
+#: app/templates/admin/executing.html:44 app/templates/index.html:76
 msgid "Cancelar Dinâmica"
 msgstr ""
 
-#: app/templates/components/navbar.html:27 app/templates/login.html:5
-#: app/templates/login.html:9 app/templates/login.html:22
-msgid "Entrar"
-msgstr ""
-
-#: app/templates/login.html:13
+#: app/templates/login.html:20
 msgid "Nome de Usuário ou Email"
 msgstr ""
 
-#: app/templates/admin/edit/user.html:32 app/templates/login.html:18
-#: app/templates/register.html:28
+#: app/templates/admin/edit/user.html:60 app/templates/login.html:31
+#: app/templates/register.html:53
 msgid "Senha"
 msgstr ""
 
-#: app/templates/login.html:25
+#: app/templates/login.html:47
 msgid "Ainda não tenho uma conta"
 msgstr ""
 
-#: app/templates/prodrg.html:5 app/templates/prodrg.html:8
-msgid "Proteína + Ligante (PRODRG)"
-msgstr ""
-
-#: app/templates/prodrg.html:107
+#: app/templates/prodrg.html:231
 msgid "Gerando arquivos com PRODRG"
 msgstr ""
 
-#: app/templates/prodrg.html:112
+#: app/templates/prodrg.html:244
 msgid "Tutorial de como realizar a dinâmica"
 msgstr ""
 
-#: app/templates/register.html:5 app/templates/register.html:9
-msgid "Solicitação de Cadastro"
-msgstr ""
-
-#: app/templates/admin/edit/user.html:17 app/templates/admin/index.html:34
-#: app/templates/admin/requests.html:19 app/templates/register.html:13
+#: app/templates/admin/edit/user.html:27 app/templates/admin/index.html:49
+#: app/templates/admin/requests.html:16 app/templates/register.html:20
 msgid "Nome Completo"
 msgstr ""
 
-#: app/templates/admin/edit/user.html:22 app/templates/admin/executing.html:14
-#: app/templates/admin/index.html:38 app/templates/admin/requests.html:23
-#: app/templates/register.html:18
+#: app/templates/admin/edit/user.html:38 app/templates/admin/executing.html:12
+#: app/templates/admin/index.html:53 app/templates/admin/requests.html:20
+#: app/templates/register.html:31
 msgid "Nome de Usuário"
 msgstr ""
 
-#: app/templates/admin/edit/user.html:27 app/templates/admin/index.html:42
-#: app/templates/admin/requests.html:27 app/templates/register.html:23
+#: app/templates/admin/edit/user.html:49 app/templates/admin/index.html:57
+#: app/templates/admin/requests.html:24 app/templates/register.html:42
 msgid "Email"
 msgstr ""
 
-#: app/templates/admin/edit/user.html:37 app/templates/register.html:33
+#: app/templates/admin/edit/user.html:71 app/templates/register.html:64
 msgid "Confirmar Senha"
 msgstr ""
 
-#: app/templates/register.html:37
+#: app/templates/register.html:71
 msgid "Enviar"
 msgstr ""
 
-#: app/templates/register.html:40
+#: app/templates/register.html:80
 msgid "Já tenho uma conta"
 msgstr ""
 
 #: app/templates/running.html:5
-msgid "Executando"
-msgstr ""
-
-#: app/templates/running.html:7
 msgid "Amber com ACPYPE"
 msgstr ""
 
-#: app/templates/running.html:7
+#: app/templates/running.html:5
 msgid "GROMOS com PRODRG"
 msgstr ""
 
-#: app/templates/admin/executing.html:5 app/templates/admin/executing.html:7
-#: app/templates/admin/index.html:15
-msgid "Dinâmicas em Execução"
-msgstr ""
-
-#: app/templates/admin/executing.html:18
+#: app/templates/admin/executing.html:16
 msgid "Proteína"
 msgstr ""
 
-#: app/templates/admin/executing.html:22
+#: app/templates/admin/executing.html:20
 msgid "Tipo"
 msgstr ""
 
-#: app/templates/admin/executing.html:26
+#: app/templates/admin/executing.html:24
 msgid "Iniciada em"
 msgstr ""
 
-#: app/templates/admin/executing.html:30
+#: app/templates/admin/executing.html:28
 msgid "Passo"
 msgstr ""
 
-#: app/templates/admin/executing.html:36
+#: app/templates/admin/executing.html:34
 msgid "Localização em Disco"
 msgstr ""
 
-#: app/templates/admin/index.html:5 app/templates/admin/index.html:7
-msgid "Área do Administrador"
+#: app/templates/admin/executing.html:61
+msgid "Não há nenhuma dinâmica sendo executada."
 msgstr ""
 
-#: app/templates/admin/index.html:12 app/templates/admin/requests.html:5
-#: app/templates/admin/requests.html:7
-msgid "Solicitações de Cadastro"
-msgstr ""
-
-#: app/templates/admin/index.html:18
+#: app/templates/admin/index.html:33
 msgid "Editar Arquivo md_pr"
 msgstr ""
 
-#: app/templates/admin/index.html:23
+#: app/templates/admin/index.html:38
 msgid "Usuários"
 msgstr ""
 
-#: app/templates/admin/index.html:30 app/templates/admin/requests.html:15
+#: app/templates/admin/index.html:45 app/templates/admin/requests.html:12
 msgid "ID"
 msgstr ""
 
-#: app/templates/admin/index.html:46
+#: app/templates/admin/index.html:61
 msgid "Ações"
 msgstr ""
 
-#: app/templates/admin/index.html:48
+#: app/templates/admin/index.html:70
 msgid "Editar"
 msgstr ""
 
-#: app/templates/admin/index.html:49
+#: app/templates/admin/index.html:79
 msgid "Excluir Dinâmicas"
 msgstr ""
 
-#: app/templates/admin/index.html:51
-msgid "Excluir"
+#: app/templates/admin/index.html:89
+msgid "Excluir Usuário"
 msgstr ""
 
-#: app/templates/admin/requests.html:46
+#: app/templates/admin/requests.html:58
 msgid "Não há cadastro esperando aprovação"
 msgstr ""
 
-#: app/templates/admin/edit/md.html:5 app/templates/admin/edit/md.html:8
-msgid "Modificar md_pr.mdp"
-msgstr ""
-
-#: app/templates/admin/edit/user.html:5 app/templates/admin/edit/user.html:9
-#, python-format
-msgid "Modificando Usuário %(username)s"
-msgstr ""
-
-#: app/templates/admin/edit/user.html:12
+#: app/templates/admin/edit/user.html:16
 msgid "Para manter a senha atual deixe os campos em branco"
 msgstr ""
 
-#: app/templates/admin/edit/user.html:42
+#: app/templates/admin/edit/user.html:83
 msgid "Confirmar"
 msgstr ""
 
-#: app/templates/admin/edit/user.html:45
+#: app/templates/admin/edit/user.html:92
 msgid "Cancelar"
 msgstr ""
 
-#: app/templates/components/navbar.html:13
+#: app/templates/components/navbar.html:33
 msgid "APO Proteína"
 msgstr ""
 
-#: app/templates/components/navbar.html:17
+#: app/templates/components/navbar.html:44
 msgid "Proteína + Ligante"
 msgstr ""
 
-#: app/templates/components/navbar.html:20
+#: app/templates/components/navbar.html:53
 msgid "PRODRG com GROMOS"
 msgstr ""
 
-#: app/templates/components/navbar.html:21
+#: app/templates/components/navbar.html:57
 msgid "ACPYPE com AMBER"
 msgstr ""
 
-#: app/templates/components/navbar.html:22
+#: app/templates/components/navbar.html:61
 msgid "ATB (em desenvolvimento)"
 msgstr ""
 
-#: app/templates/components/navbar.html:30
+#: app/templates/components/navbar.html:75
 msgid "Cadastro"
 msgstr ""
 
-#: app/templates/components/navbar.html:34
-msgid "Sobre"
-msgstr ""
-
-#: app/templates/components/navbar.html:41
+#: app/templates/components/navbar.html:95
 msgid "Painel Admin"
 msgstr ""
 
-#: app/templates/components/navbar.html:53
+#: app/templates/components/navbar.html:119
 msgid "Sair"
 msgstr ""
 
-#: app/templates/components/navbar.html:59
+#: app/templates/components/navbar.html:135
 msgid "Alterar Idioma"
 msgstr ""
 
-#: app/templates/components/navbar.html:64
+#: app/templates/components/navbar.html:151
 msgid "Inglês"
 msgstr ""
 
-#: app/templates/components/navbar.html:69
+#: app/templates/components/navbar.html:164
 msgid "Português (Brasil)"
 msgstr ""
 
-#: app/templates/components/run-progress.html:11
+#: app/templates/components/run-progress.html:18
 msgid "Dinâmica em andamento"
 msgstr ""
 
-#: app/templates/components/run-progress.html:12
+#: app/templates/components/run-progress.html:19
 #, python-format
 msgid "Proteína %(protein)s"
 msgstr ""
 
-#: app/templates/components/run-progress.html:45
+#: app/templates/components/run-progress.html:64
 msgid "Análise MD"
 msgstr ""
 
-#: app/templates/components/run-progress.html:51
+#: app/templates/components/run-progress.html:83
 msgid "Produção MD"
 msgstr ""
 
-#: app/templates/components/run-progress.html:57
+#: app/templates/components/run-progress.html:102
 msgid "Restrição NPT"
 msgstr ""
 
-#: app/templates/components/run-progress.html:63
+#: app/templates/components/run-progress.html:121
 msgid "Restrição NVT"
 msgstr ""
 
-#: app/templates/components/run-progress.html:69
+#: app/templates/components/run-progress.html:140
 msgid "Minimização Conjugate Gradient"
 msgstr ""
 
-#: app/templates/components/run-progress.html:75
+#: app/templates/components/run-progress.html:159
 msgid "Minimização Steep Descent"
 msgstr ""
 
-#: app/templates/components/run-progress.html:81
+#: app/templates/components/run-progress.html:178
 msgid "Adicionar Ions"
 msgstr ""
 
-#: app/templates/components/run-progress.html:87
+#: app/templates/components/run-progress.html:197
 msgid "Definir caixa e solvatar"
 msgstr ""
 
-#: app/templates/components/run-progress.html:90
+#: app/templates/components/run-progress.html:202
 msgid "Definir Topologia"
 msgstr ""
 
-#: app/templates/emails/account-activated.html:118 app/utils/send_email.py:37
-msgid "Sua Conta foi Ativada"
+#: app/templates/emails/mail-template.html:535
+msgid "Ir para o Visual Dynamics"
 msgstr ""
 
-#: app/templates/emails/account-activated.html:131
+#: app/utils/send_email.py:14 app/utils/send_email.py:74
+#: app/utils/send_email.py:99
+#, python-format
+msgid "Olá, %(username)s"
+msgstr ""
+
+#: app/utils/send_email.py:15
+#, python-format
+msgid "Sua dinâmica %(mode)s da molécula %(molecule)s terminou."
+msgstr ""
+
+#: app/utils/send_email.py:22
+msgid "A dinâmica que você deixou executando acabou."
+msgstr ""
+
+#: app/utils/send_email.py:44
+msgid "Olá, Administrador"
+msgstr ""
+
+#: app/utils/send_email.py:45
 #, python-format
 msgid ""
-"Olá, %(username)s, esse é um email automático para avisar que sua conta "
-"foi ativada e você já pode utilizar a plataforma."
+"Há uma nova solicitação de cadastro.\n"
+"Nome de Usuário: %(username)s\n"
+"Email: %(email)s."
 msgstr ""
 
-#: app/templates/emails/account-activated.html:148
-#: app/templates/emails/dynamic-ended.html:148
-#: app/templates/emails/new-account-created.html:150
-msgid "Ir para a plataforma"
+#: app/utils/send_email.py:52
+msgid "Nova solicitação de cadastro."
 msgstr ""
 
-#: app/templates/emails/account-activated.html:158
-#: app/templates/emails/account-not-activated.html:144
-#: app/templates/emails/dynamic-ended.html:158
-#: app/templates/emails/new-account-created.html:160
-msgid "Este é um email automático, por favor, não responda."
+#: app/utils/send_email.py:75
+msgid "Sua conta foi validada e seu acesso a plataforma foi liberado."
 msgstr ""
 
-#: app/templates/emails/account-activated.html:165
-#: app/templates/emails/account-not-activated.html:151
-#: app/templates/emails/dynamic-ended.html:165
-#: app/templates/emails/new-account-created.html:167
+#: app/utils/send_email.py:78
+msgid "Comece uma dinâmica ainda hoje."
+msgstr ""
+
+#: app/utils/send_email.py:100
 msgid ""
-"O conteúdo deste email é destinado somente a pessoa de interesse, caso "
-"não seja você, por favor desconsiderar."
+"Neste momento não foi possível realizar a ativação da sua conta. Se você "
+"acredita que foi um erro de nossa parte, por favor, entre em contato."
 msgstr ""
 
-#: app/templates/emails/account-not-activated.html:118
-msgid "Sua conta não pôde ser ativada"
-msgstr ""
-
-#: app/templates/emails/account-not-activated.html:131
-#, python-format
-msgid ""
-"Olá, %(username)s, esse é um email automático para avisar que após nossa "
-"avaliação, sua conta não pôde ser ativada."
-msgstr ""
-
-#: app/templates/emails/dynamic-ended.html:118
-msgid "Sua Dinâmica acabou"
-msgstr ""
-
-#: app/templates/emails/dynamic-ended.html:131
-#, python-format
-msgid ""
-"Olá, %(username)s, esse é um email automático para avisar que sua "
-"dinâmica <strong>%(dynamic_name)s (%(mode)s)</strong> terminou."
-msgstr ""
-
-#: app/templates/emails/new-account-created.html:118
-msgid "Nova Conta Aguardando Ativação"
-msgstr ""
-
-#: app/templates/emails/new-account-created.html:131
-msgid "Atenção Administrador, uma nova conta foi cadastrada e aguarda sua ação."
-msgstr ""
-
-#: app/templates/emails/new-account-created.html:132
-#, python-format
-msgid "Nome de Usuário: %(username)s"
-msgstr ""
-
-#: app/templates/emails/new-account-created.html:133
-#, python-format
-msgid "Email: %(email)s"
-msgstr ""
-
-#: app/utils/send_email.py:12
-msgid "Sua Dinâmica Acabou"
-msgstr ""
-
-#: app/utils/send_email.py:25
-msgid "Nova Conta Criada"
-msgstr ""
-
-#: app/utils/send_email.py:49
-msgid "Sua Conta não pôde Ativada"
+#: app/utils/send_email.py:105
+msgid "Não foi possível validar sua conta."
 msgstr ""
 
 #~ msgid ""
@@ -765,5 +739,167 @@ msgstr ""
 #~ "que é um framework gratuito e de"
 #~ " código aberto baseado em Python para"
 #~ " desenvolvimento web."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Visual Dynamics é uma ferramenta de "
+#~ "código aberto que acelera implementações "
+#~ "e aprendizados na área de simulação "
+#~ "de dinâmica molecular. Disponível "
+#~ "gratuitamente e suportado por todos os"
+#~ " principais navegadores da web. Visual "
+#~ "Dynamics é desenvolvido com Flask, que"
+#~ " é um framework gratuito e de "
+#~ "código aberto baseado em Python para "
+#~ "desenvolvimento web."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Agradecemos à toda equipe responsável "
+#~ "pelo desenvolvimento e manutenção do "
+#~ "GROMACS e Grace/Xmgr"
+#~ msgstr ""
+
+#~ msgid "Agradecimentos"
+#~ msgstr ""
+
+#~ msgid "GROMOS com PRODRG"
+#~ msgstr ""
+
+#~ msgid "Definir caixa e solvatar"
+#~ msgstr ""
+
+#~ msgid "Definir Topologia"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Olá, %(username)s, esse é um email "
+#~ "automático para avisar que sua conta "
+#~ "foi ativada e você já pode "
+#~ "utilizar a plataforma."
+#~ msgstr ""
+
+#~ msgid "Ir para a plataforma"
+#~ msgstr ""
+
+#~ msgid "Este é um email automático, por favor, não responda."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "O conteúdo deste email é destinado "
+#~ "somente a pessoa de interesse, caso "
+#~ "não seja você, por favor desconsiderar."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Olá, %(username)s, esse é um email "
+#~ "automático para avisar que após nossa"
+#~ " avaliação, sua conta não pôde ser"
+#~ " ativada."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Olá, %(username)s, esse é um email "
+#~ "automático para avisar que sua dinâmica"
+#~ " <strong>%(dynamic_name)s (%(mode)s)</strong> terminou."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Atenção Administrador, uma nova conta "
+#~ "foi cadastrada e aguarda sua ação."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "GROMOS com\n"
+#~ "\tPRODRG"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Definir\n"
+#~ "      caixa e solvatar"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Definir\n"
+#~ "      Topologia"
+#~ msgstr ""
+
+#~ msgid "Excluir"
+#~ msgstr ""
+
+#~ msgid "Sua Dinâmica Acabou"
+#~ msgstr ""
+
+#~ msgid "Nova Conta Criada"
+#~ msgstr ""
+
+#~ msgid "Sua Conta não pôde Ativada"
+#~ msgstr ""
+
+#~ msgid "Sua Conta foi Ativada"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Olá, %(username)s, esse é um\n"
+#~ "                                    email automático "
+#~ "para avisar que sua conta foi "
+#~ "ativada e você já pode utilizar a"
+#~ "\n"
+#~ "                                    plataforma."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Ir para a\n"
+#~ "                                      plataforma"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Este é um email automático, por\n"
+#~ "                                    favor, não responda."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "O conteúdo deste email é\n"
+#~ "                                    destinado somente "
+#~ "a pessoa de interesse, caso não "
+#~ "seja você, por favor\n"
+#~ "                                    desconsiderar."
+#~ msgstr ""
+
+#~ msgid "Sua conta não pôde ser ativada"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Olá, %(username)s, esse é um\n"
+#~ "                                    email automático "
+#~ "para avisar que após nossa avaliação,"
+#~ " sua conta não pôde ser\n"
+#~ "                                    ativada."
+#~ msgstr ""
+
+#~ msgid "Sua Dinâmica acabou"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Olá, %(username)s, esse é um\n"
+#~ "                                    email automático "
+#~ "para avisar que sua dinâmica "
+#~ "<strong>%(dynamic_name)s\n"
+#~ "                                      (%(mode)s)</strong> terminou."
+#~ msgstr ""
+
+#~ msgid "Nova Conta Aguardando Ativação"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Atenção Administrador, uma nova\n"
+#~ "                                    conta foi "
+#~ "cadastrada e aguarda sua ação."
+#~ msgstr ""
+
+#~ msgid "Nome de Usuário: %(username)s"
+#~ msgstr ""
+
+#~ msgid "Email: %(email)s"
 #~ msgstr ""
 

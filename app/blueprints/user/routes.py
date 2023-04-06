@@ -10,6 +10,7 @@ import os
 @UserBlueprint.route("/", methods=["GET"], endpoint="index")
 @login_required
 def index():
+    title = _("Minhas Dinâmicas")
     try:
         directory = os.path.join(
             Config.UPLOAD_FOLDER, current_user.username, "info_dynamics"
@@ -48,7 +49,16 @@ def index():
             dynamics.insert(0, obj)
 
         return render_template(
-            "index.html", actindex="active", no_dynamics="False", list_dynamics=dynamics
+            "index.html",
+            actindex="active",
+            no_dynamics="False",
+            list_dynamics=dynamics,
+            title=title,
         )
     except:
-        return render_template("index.html", actindex="active", no_dynamics="True")
+        return render_template(
+            "index.html",
+            actindex="active",
+            no_dynamics="True",
+            title=title,
+        )

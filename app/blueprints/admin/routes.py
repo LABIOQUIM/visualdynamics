@@ -20,7 +20,12 @@ from ...utils.send_email import (
 @admin_required
 def admin():
     UserData = User.query.filter(User.register == "True")
-    return render_template("admin/index.html", actadmin="active", UserData=UserData)
+    return render_template(
+        "admin/index.html",
+        actadmin="active",
+        UserData=UserData,
+        title=_("Área do Administrador"),
+    )
 
 
 @AdminBlueprint.route(
@@ -30,7 +35,12 @@ def admin():
 def admin_cadastros():
     NewUserData = User.query.filter(User.register == "False")
     count = User.query.filter(User.register == "False").count()
-    return render_template("admin/requests.html", NewUserData=NewUserData, count=count)
+    return render_template(
+        "admin/requests.html",
+        NewUserData=NewUserData,
+        count=count,
+        title=_("Solicitações de Cadastro"),
+    )
 
 
 ############# new user ################
@@ -123,7 +133,11 @@ def edit_user(id):
         flash("Erro ao editar usuário(a) {}.".format(user), "danger")
         return redirect(url_for("AdminRoutes.admin"))
     UserData = User.query.get(int(id))
-    return render_template("admin/edit/user.html", UserData=UserData)
+    return render_template(
+        "admin/edit/user.html",
+        UserData=UserData,
+        title=_("Modificando Usuário %(username)s", username=UserData.username),
+    )
 
 
 ##############admin limpar pasta##########
@@ -237,7 +251,9 @@ def edit_md():
 
     archive.close()
 
-    return render_template("admin/edit/md.html", nsteps=nsteps, dt=dt)
+    return render_template(
+        "admin/edit/md.html", nsteps=nsteps, dt=dt, title=_("Modificar md_pr.mdp")
+    )
 
 
 ##### admin current dynamics br ########
@@ -297,9 +313,14 @@ def current_dynamics():
                 running_dynamics.append(dynamic)
 
         return render_template(
-            "admin/executing.html", running_dynamics=running_dynamics
+            "admin/executing.html",
+            running_dynamics=running_dynamics,
+            title=_("Dinâmicas em Execução"),
         )
 
     except Exception:
         flash("No momento nenhuma dinâmica está em execução.", "danger")
-        return render_template("admin/executing.html")
+        return render_template(
+            "admin/executing.html",
+            title=_("Dinâmicas em Execução"),
+        )

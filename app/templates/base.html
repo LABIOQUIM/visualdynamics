@@ -11,9 +11,13 @@
       http-equiv="X-UA-Compatible"
       content="ie=edge"
     >
+    {% if title %}
+    <title>{{title}} — Visual Dynamics</title>
+    {% else %}
+    <title>{{ _('Visual Dynamics — Gerar, Executar, Analisar') }}</title>
+    {% endif %}
 
     <!-- Primary Meta Tags -->
-    <title>{{ _('Visual Dynamics — Gerar, Executar, Analisar') }}</title>
     <meta
       name="title"
       content="{{ _('Visual Dynamics — Gerar, Executar, Analisar') }}"

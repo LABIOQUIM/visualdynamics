@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<script>
-  document.title = "{{ _('Solicitações de Cadastro') }} - Visual Dynamics"
-</script>
 <p class="h2 text-center my-2">{{ _("Solicitações de Cadastro") }}</p>
 
 {% if count > 0 %}
@@ -19,7 +16,7 @@
         {{ _("Nome Completo") }}
         <p class="h5">{{ u.name }}</p>
       </div>
-      <div class="col-2 my-auto">
+      <div class="col my-auto">
         {{ _("Nome de Usuário") }}
         <p class="h5">{{ u.username }}</p>
       </div>
@@ -27,8 +24,8 @@
         {{ _("Email") }}
         <p class="h5">{{ u.email }}</p>
       </div>
-      <div class="col-2 my-auto">
-        <div class="btn-group mt-2">
+      <div class="col my-auto">
+        <div class="btn-group mt-2 text-nowrap">
           <a
             href="/admin/accept_newUser/{{ u.id }}"
             class="btn btn-success"

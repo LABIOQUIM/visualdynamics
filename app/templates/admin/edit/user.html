@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<script>
-  document.title = "{{ _('Modificando Usuário %(username)s', username=UserData.username) }} - Visual Dynamics"
-</script>
-
 <form
   class="max-md mx-auto"
   action="/admin/edit/{{ UserData.id }}"

@@ -116,6 +116,7 @@ def apo():
                 steplist=steplist,
                 name_dynamic=name_dynamic,
                 date_finish=date_finish,
+                title=_("Executando"),
             )
 
         return render_template(
@@ -124,9 +125,10 @@ def apo():
             actapo="active",
             steplist=steplist,
             name_dynamic=name_dynamic,
+            title=_("Executando"),
         )
 
-    return render_template("apo.html", actapo="active")
+    return render_template("apo.html", actapo="active", title=_("Proteína APO"))
 
 
 # INFO Protein + Ligand (PRODRG)
@@ -245,6 +247,7 @@ def prodrg():
                 steplist=steplist,
                 name_dynamic=name_dynamic,
                 date_finish=date_finish,
+                title=_("Executando"),
             )
 
         return render_template(
@@ -253,9 +256,12 @@ def prodrg():
             actprodrg="active",
             steplist=steplist,
             name_dynamic=name_dynamic,
+            title=_("Executando"),
         )
 
-    return render_template("prodrg.html", actprodrg="active")
+    return render_template(
+        "prodrg.html", actprodrg="active", title=_("Proteína + Ligante (PRODRG)")
+    )
 
 
 # INFO Protein + Ligand (ACPYPE)
@@ -374,6 +380,7 @@ def acpype():
                 steplist=steplist,
                 name_dynamic=name_dynamic,
                 date_finish=date_finish,
+                title=_("Executando"),
             )
 
         return render_template(
@@ -382,16 +389,21 @@ def acpype():
             actacpype="active",
             steplist=steplist,
             name_dynamic=name_dynamic,
+            title=_("Executando"),
         )
 
-    return render_template("acpype.html", actacpype="active")
+    return render_template(
+        "acpype.html", actacpype="active", title=_("Proteína + Ligante (ACPYPE)")
+    )
 
 
 # INFO Protein + Ligand (ATB)
 @DynamicBlueprint.route("/atb", methods=["GET", "POST"], endpoint="atb")
 @login_required
 def atb():
-    return render_template("atb.html", actatb="active")
+    return render_template(
+        "atb.html", actatb="active", title=_("Proteína + Ligante (ATB)")
+    )
 
 
 @DynamicBlueprint.route(

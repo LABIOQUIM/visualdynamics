@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<script>
-  document.title = "{{ _('Área do Administrador') }} - Visual Dynamics"
-</script>
 <p class="h2 text-center my-2">{{ _("Área do Administrador") }}</p>
 
 <div class="text-center">
@@ -62,29 +59,35 @@
       </div>
       <div class="col my-auto">
         {{ _("Ações") }}
-        <div class="btn-group mt-2">
+        <div class="btn-group mt-2 text-nowrap">
           <a
             href="/admin/edit/{{ u.id }}"
             class="btn btn-primary"
-          ><i
-              class="fa fa-pencil-square-o"
+          >
+            <i
+              class="fa fa-pencil-square"
               aria-hidden="true"
-            ></i> {{ _('Editar') }}</a>
+            ></i> {{ _('Editar') }}
+          </a>
           <a
             href="/admin/limpar/{{ u.id }}"
-            class="btn btn-danger "
-          ><i
-              class="fa fa-trash-o"
+            class="btn btn-warning"
+          >
+            <i
+              class="fa fa-trash"
               aria-hidden="true"
-            ></i> {{ _('Excluir Dinâmicas') }}</a>
+            ></i> {{ _('Excluir Dinâmicas') }}
+          </a>
           {% if u.username != 'admin' %}
           <a
             href="/admin/remove/{{ u.id }}"
-            class="btn btn-danger "
-          ><i
-              class="fa fa-trash-o"
+            class="btn btn-danger"
+          >
+            <i
+              class="fa fa-trash"
               aria-hidden="true"
-            ></i> {{ _('Excluir') }}</a>
+            ></i> {{ _('Excluir Usuário') }}
+          </a>
           {% endif %}
         </div>
       </div>

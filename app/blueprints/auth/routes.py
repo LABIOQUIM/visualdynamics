@@ -95,7 +95,9 @@ def register():
         ),
         "info",
     )
-    return render_template("register.html", actregister="active")
+    return render_template(
+        "register.html", actregister="active", title=_("Solicitação de Cadastro")
+    )
 
 
 # INFO Login
@@ -121,7 +123,7 @@ def login():
         # Verifica se o usuário não existe ou se a senha está incorreta
         if user is None or not user.check_password(password):
             flash(_("Usuário ou senha inválidos"), "danger")
-            return render_template("login.html", actlogin="active")
+            return render_template("login.html", actlogin="active", title=_('Entrar'))
 
         # Verifica se o usuário está ativo
         if user.register == "False":
@@ -132,7 +134,7 @@ def login():
         else:
             login_user(user)
             return redirect(url_for("UserRoutes.index"))
-    return render_template("login.html", actlogin="active")
+    return render_template("login.html", actlogin="active", title=_('Entrar'))
 
 
 @login_manager.unauthorized_handler

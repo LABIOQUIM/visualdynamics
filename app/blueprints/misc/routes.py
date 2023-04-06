@@ -19,11 +19,4 @@ def setPreferredLang(lang):
 # INFO Sobre
 @MiscBlueprint.route("/about", methods=["GET"], endpoint="about")
 def about():
-    return render_template("about.html", actabout="active")
-
-
-@MiscBlueprint.route("/sendmail")
-def sendmail():
-    send_dynamic_success_email("admin", "2mu8", "APO")
-
-    return redirect("/")
+    return render_template("about.html", actabout="active", title=_("Sobre"))
