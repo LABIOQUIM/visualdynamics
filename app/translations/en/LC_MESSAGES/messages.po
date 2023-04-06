@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-06 09:09-0400\n"
+"POT-Creation-Date: 2023-04-06 10:32-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -114,41 +114,46 @@ msgstr ""
 "Your account hasn't been activated yet. We'll contact you via email once "
 "it is activated."
 
-#: app/blueprints/dynamic/routes.py:71
+#: app/blueprints/dynamic/routes.py:72
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr "Your can't run two (or more) simultaneous dynamics"
 
-#: app/blueprints/dynamic/routes.py:82 app/blueprints/dynamic/routes.py:213
-#: app/blueprints/dynamic/routes.py:345
+#: app/blueprints/dynamic/routes.py:83 app/blueprints/dynamic/routes.py:217
+#: app/blueprints/dynamic/routes.py:352
 #, fuzzy, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
 "logs para mais detalhes"
 msgstr "There was an error while running '%(command)s'. Check the logs for details"
 
-#: app/blueprints/dynamic/routes.py:90
+#: app/blueprints/dynamic/routes.py:91
 msgid "Extensão do arquivo está incorreta"
 msgstr "File extension invalid"
 
-#: app/blueprints/dynamic/routes.py:119 app/blueprints/dynamic/routes.py:128
-#: app/blueprints/dynamic/routes.py:250 app/blueprints/dynamic/routes.py:259
-#: app/blueprints/dynamic/routes.py:383 app/blueprints/dynamic/routes.py:392
+#: app/blueprints/dynamic/routes.py:120 app/blueprints/dynamic/routes.py:129
+#: app/blueprints/dynamic/routes.py:254 app/blueprints/dynamic/routes.py:263
+#: app/blueprints/dynamic/routes.py:390 app/blueprints/dynamic/routes.py:399
 msgid "Executando"
 msgstr "Running"
 
-#: app/blueprints/dynamic/routes.py:131 app/templates/apo.html:6
+#: app/blueprints/dynamic/routes.py:132 app/templates/apo.html:6
 msgid "Proteína APO"
 msgstr "APO Protein"
 
-#: app/blueprints/dynamic/routes.py:263 app/templates/prodrg.html:5
+#: app/blueprints/dynamic/routes.py:134 app/blueprints/dynamic/routes.py:270
+#: app/blueprints/dynamic/routes.py:406
+msgid "Ocorreu um erro."
+msgstr ""
+
+#: app/blueprints/dynamic/routes.py:267 app/templates/prodrg.html:5
 msgid "Proteína + Ligante (PRODRG)"
 msgstr "Protein + Ligand (PRODRG)"
 
-#: app/blueprints/dynamic/routes.py:396 app/templates/acpype.html:5
+#: app/blueprints/dynamic/routes.py:403 app/templates/acpype.html:5
 msgid "Proteína + Ligante (ACPYPE)"
 msgstr "Protein + Ligand (ACPYPE)"
 
-#: app/blueprints/dynamic/routes.py:405 app/templates/atb.html:15
+#: app/blueprints/dynamic/routes.py:414 app/templates/atb.html:5
 msgid "Proteína + Ligante (ATB)"
 msgstr "Protein + Ligand (ATB)"
 
@@ -186,7 +191,8 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Agradecemos à toda equipe responsável pelo desenvolvimento e manutenção "
-"do GROMACS e Grace/Xmgr"
+"do GROMACS e\n"
+"\t\tGrace/Xmgr"
 msgstr ""
 "Thanks to the entire team responsible for the development and maintenance"
 " from GROMACS and Grace/Xmgr"
@@ -311,13 +317,7 @@ msgstr "The distance between the protein and the box border must be greater than
 msgid "Não sabe com que molécula testar? Tente com a "
 msgstr "Don't know which molecule to test with? try with "
 
-#: app/templates/atb.html:9
-msgid ""
-"Para solicitar o cancelamento de uma dinâmica em andamento envie um email"
-" para "
-msgstr "If you need to cancel an executing dynamic send an email to "
-
-#: app/templates/atb.html:36
+#: app/templates/atb.html:26
 msgid "Essa funcionalidade ainda está sendo desenvolvida."
 msgstr "This feature is under development"
 
@@ -330,6 +330,10 @@ msgstr "Visual Dynamics — Generate, Execute, Analyse"
 #: app/templates/base.html:67
 msgid "A forma mais simples de gerar e executar dinâmica molecular com GROMACS."
 msgstr "The simplest way to generate and run molecular dynamics with GROMACS."
+
+#: app/templates/error.html:5
+msgid "Houve um Erro"
+msgstr "The action you tried to perform generated an error"
 
 #: app/templates/index.html:18
 msgid "Não há dinâmicas para serem exibidas"
@@ -625,7 +629,9 @@ msgstr "Register Request"
 
 #: app/utils/send_email.py:75
 msgid "Sua conta foi validada e seu acesso a plataforma foi liberado."
-msgstr "Your account has been validated and your access to the platform has been released."
+msgstr ""
+"Your account has been validated and your access to the platform has been "
+"released."
 
 #: app/utils/send_email.py:78
 msgid "Comece uma dinâmica ainda hoje."
@@ -635,7 +641,9 @@ msgstr "Start a dynamic today."
 msgid ""
 "Neste momento não foi possível realizar a ativação da sua conta. Se você "
 "acredita que foi um erro de nossa parte, por favor, entre em contato."
-msgstr "At this time, it was not possible to activate your account. If you believe this was an error on our part, please contact us."
+msgstr ""
+"At this time, it was not possible to activate your account. If you "
+"believe this was an error on our part, please contact us."
 
 #: app/utils/send_email.py:105
 msgid "Não foi possível validar sua conta."
@@ -822,4 +830,10 @@ msgstr "We were unable to validate your account."
 
 #~ msgid "Email: %(email)s"
 #~ msgstr ""
+
+#~ msgid ""
+#~ "Para solicitar o cancelamento de uma "
+#~ "dinâmica em andamento envie um email "
+#~ "para "
+#~ msgstr "If you need to cancel an executing dynamic send an email to "
 

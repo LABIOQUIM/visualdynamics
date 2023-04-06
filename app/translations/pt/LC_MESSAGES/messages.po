@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-06 09:09-0400\n"
+"POT-Creation-Date: 2023-04-06 10:32-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -106,41 +106,46 @@ msgstr ""
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:71
+#: app/blueprints/dynamic/routes.py:72
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:82 app/blueprints/dynamic/routes.py:213
-#: app/blueprints/dynamic/routes.py:345
+#: app/blueprints/dynamic/routes.py:83 app/blueprints/dynamic/routes.py:217
+#: app/blueprints/dynamic/routes.py:352
 #, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
 "logs para mais detalhes"
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:90
+#: app/blueprints/dynamic/routes.py:91
 msgid "Extensão do arquivo está incorreta"
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:119 app/blueprints/dynamic/routes.py:128
-#: app/blueprints/dynamic/routes.py:250 app/blueprints/dynamic/routes.py:259
-#: app/blueprints/dynamic/routes.py:383 app/blueprints/dynamic/routes.py:392
+#: app/blueprints/dynamic/routes.py:120 app/blueprints/dynamic/routes.py:129
+#: app/blueprints/dynamic/routes.py:254 app/blueprints/dynamic/routes.py:263
+#: app/blueprints/dynamic/routes.py:390 app/blueprints/dynamic/routes.py:399
 msgid "Executando"
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:131 app/templates/apo.html:6
+#: app/blueprints/dynamic/routes.py:132 app/templates/apo.html:6
 msgid "Proteína APO"
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:263 app/templates/prodrg.html:5
+#: app/blueprints/dynamic/routes.py:134 app/blueprints/dynamic/routes.py:270
+#: app/blueprints/dynamic/routes.py:406
+msgid "Ocorreu um erro."
+msgstr ""
+
+#: app/blueprints/dynamic/routes.py:267 app/templates/prodrg.html:5
 msgid "Proteína + Ligante (PRODRG)"
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:396 app/templates/acpype.html:5
+#: app/blueprints/dynamic/routes.py:403 app/templates/acpype.html:5
 msgid "Proteína + Ligante (ACPYPE)"
 msgstr ""
 
-#: app/blueprints/dynamic/routes.py:405 app/templates/atb.html:15
+#: app/blueprints/dynamic/routes.py:414 app/templates/atb.html:5
 msgid "Proteína + Ligante (ATB)"
 msgstr ""
 
@@ -295,13 +300,7 @@ msgstr ""
 msgid "Não sabe com que molécula testar? Tente com a "
 msgstr ""
 
-#: app/templates/atb.html:9
-msgid ""
-"Para solicitar o cancelamento de uma dinâmica em andamento envie um email"
-" para "
-msgstr ""
-
-#: app/templates/atb.html:36
+#: app/templates/atb.html:26
 msgid "Essa funcionalidade ainda está sendo desenvolvida."
 msgstr ""
 
@@ -313,6 +312,10 @@ msgstr ""
 #: app/templates/base.html:27 app/templates/base.html:45
 #: app/templates/base.html:67
 msgid "A forma mais simples de gerar e executar dinâmica molecular com GROMACS."
+msgstr ""
+
+#: app/templates/error.html:5
+msgid "Houve um Erro"
 msgstr ""
 
 #: app/templates/index.html:18
@@ -901,5 +904,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Email: %(email)s"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Para solicitar o cancelamento de uma "
+#~ "dinâmica em andamento envie um email "
+#~ "para "
 #~ msgstr ""
 
