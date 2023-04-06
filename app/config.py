@@ -10,9 +10,9 @@ class Config(object):
     ) or "sqlite:///" + os.path.join(basedir, "app.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = (
-        os.path.join(basedir, "..", "VDfiles")
+        os.path.abspath(os.path.join(basedir, "..", "VDfiles"))
         if os.environ.get("FLASK_ENV") == "development"
-        else os.path.join(basedir, "../..", "VDfiles")
+        else os.path.abspath(os.path.join(basedir, "../..", "VDfiles"))
     )
     STATIC_FOLDER = os.path.join(basedir, "app")
     ALLOWED_EXTENSIONS = {"pdb", "itp", "gro"}
