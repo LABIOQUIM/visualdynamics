@@ -1,3 +1,4 @@
+import os
 import subprocess
 from flask import Flask, request
 from flask_login import LoginManager
@@ -30,6 +31,7 @@ app.jinja_env.globals["get_locale"] = get_locale
 app.jinja_env.globals[
     "appver"
 ] = f"{Config.VERSION}-{subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip()}"
+app.jinja_env.globals["is_development"] = os.environ.get("FLASK_ENV") == "development"
 
 mail = Mail(app)
 
