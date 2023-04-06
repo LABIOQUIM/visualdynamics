@@ -44,13 +44,14 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
             WriteUserDynamics(l, username)
         else:
             os.chdir(RunFolder)
-            (pid, rcode) = run_dynamics_command(
-                l, os.path.join(folder, "run", "logs", f"gmx-commands.log")
-            )
-            with open(os.path.join(folder, "status"), "w") as f:
-                f.writelines(["running\n", f"{pid}\n"])
+            try:
+                (pid, rcode) = run_dynamics_command(
+                    l, os.path.join(folder, "run", "logs", f"gmx-commands.log")
+                )
+                with open(os.path.join(folder, "status"), "w") as f:
+                    f.writelines(["running\n", f"{pid}\n"])
 
-            if rcode != 0 and rcode != None:
+            except:
                 with open(os.path.join(folder, "status"), "w") as f:
                     f.write(f"error: {l}\n")
                 os.remove(os.path.join(Config.UPLOAD_FOLDER, username, "executing"))
