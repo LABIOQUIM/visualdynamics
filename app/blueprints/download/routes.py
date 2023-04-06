@@ -64,12 +64,10 @@ def downloadmdpfiles():
     return send_file(ziplocation, as_attachment=True)
 
 
-@DownloadBlueprint.route("/downloads/commands/<mode>/<protein>/<folder>")
+@DownloadBlueprint.route("/downloads/commands/<username>/<mode>/<protein>/<folder>")
 @login_required
-def dynamiccomandsdownload(mode, protein, folder):
-    folder_path = os.path.join(
-        Config.UPLOAD_FOLDER, current_user.username, mode, protein, folder
-    )
+def dynamiccomandsdownload(username, mode, protein, folder):
+    folder_path = os.path.join(Config.UPLOAD_FOLDER, username, mode, protein, folder)
     directory = os.path.join(folder_path, "commands.txt")
     return send_file(directory, as_attachment=True)
 

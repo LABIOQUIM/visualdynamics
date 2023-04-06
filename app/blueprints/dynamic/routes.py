@@ -52,9 +52,10 @@ def apo():
                 return redirect(
                     url_for(
                         "DownloadRoutes.dynamiccomandsdownload",
-                        folder=f"{timestamp}",
+                        folder=timestamp,
                         mode="apo",
                         protein=filename,
+                        username=current_user.username,
                     )
                 )
 
@@ -178,9 +179,10 @@ def prodrg():
                 return redirect(
                     url_for(
                         "DownloadRoutes.dynamiccomandsdownload",
-                        folder=f"{timestamp}",
+                        folder=timestamp,
                         mode="prodrg",
                         protein=f"{filename}_{fileitpname}",
+                        username=current_user.username,
                     )
                 )
 
@@ -313,9 +315,10 @@ def acpype():
                 return redirect(
                     url_for(
                         "DownloadRoutes.dynamiccomandsdownload",
-                        folder=f"{timestamp}",
+                        folder=timestamp,
                         mode="acpype",
                         protein=f"{filename}_{fileitpname}",
+                        username=current_user.username,
                     )
                 )
 

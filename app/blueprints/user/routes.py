@@ -54,6 +54,7 @@ def index():
             no_dynamics="False",
             list_dynamics=dynamics,
             title=title,
+            username=current_user.username,
         )
     except:
         return render_template(
@@ -61,4 +62,5 @@ def index():
             actindex="active",
             no_dynamics="True",
             title=title,
+            username=current_user.username,
         )
