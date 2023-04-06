@@ -254,49 +254,52 @@ def current_dynamics():
 
         for username in directories:
             user_folder_path = os.path.join(Config.UPLOAD_FOLDER, username)
-            log_file_path = os.path.join(user_folder_path, "log_dir")
             executing_file_path = os.path.join(user_folder_path, "executing")
-            with open(log_file_path, "r") as f:
-                dynamic_data = f.readline()
-                dynamic_data = dynamic_data.replace("/run/logs/gmx-commands.log", "")
-                dynamic_data = dynamic_data.split("/")
-                dynamic_data_len = len(dynamic_data)
+            if os.path.exists(executing_file_path):
+                log_file_path = os.path.join(user_folder_path, "log_dir")
+                with open(log_file_path, "r") as f:
+                    dynamic_data = f.readline()
+                    dynamic_data = dynamic_data.replace(
+                        "/run/logs/gmx-commands.log", ""
+                    )
+                    dynamic_data = dynamic_data.split("/")
+                    dynamic_data_len = len(dynamic_data)
 
-            with open(executing_file_path, "r") as f:
-                step = (
-                    f.readlines()[len(f.readlines()) - 1]
-                    .replace("#", "")
-                    .replace("\n", "")
-                )
+                with open(executing_file_path, "r") as f:
+                    step = (
+                        f.readlines()[len(f.readlines()) - 1]
+                        .replace("#", "")
+                        .replace("\n", "")
+                    )
 
-            canceled_path = os.path.join(str.join("/", dynamic_data), "canceled")
-            status_path = os.path.join(str.join("/", dynamic_data), "status")
+                canceled_path = os.path.join(str.join("/", dynamic_data), "canceled")
+                status_path = os.path.join(str.join("/", dynamic_data), "status")
 
-            with open(status_path, "r") as f:
-                line = f.readline()
+                with open(status_path, "r") as f:
+                    line = f.readline()
 
-            status = line.replace("\n", "")
+                status = line.replace("\n", "")
 
-            dynamic = {
-                "username": username,
-                "protein": dynamic_data[dynamic_data_len - 2],
-                "timestamp": dynamic_data[dynamic_data_len - 1],
-                "timestamp_format": dateutil.parser.isoparse(
-                    dynamic_data[dynamic_data_len - 1]
-                ),
-                "mode": dynamic_data[dynamic_data_len - 3],
-                "step": step,
-                "folder": str.join("/", dynamic_data),
-                "is_canceled": True if os.path.isfile(canceled_path) else False,
-                "status": status,
-            }
+                dynamic = {
+                    "username": username,
+                    "protein": dynamic_data[dynamic_data_len - 2],
+                    "timestamp": dynamic_data[dynamic_data_len - 1],
+                    "timestamp_format": dateutil.parser.isoparse(
+                        dynamic_data[dynamic_data_len - 1]
+                    ),
+                    "mode": dynamic_data[dynamic_data_len - 3],
+                    "step": step,
+                    "folder": str.join("/", dynamic_data),
+                    "is_canceled": True if os.path.isfile(canceled_path) else False,
+                    "status": status,
+                }
 
-            running_dynamics.append(dynamic)
+                running_dynamics.append(dynamic)
 
         return render_template(
             "admin/executing.html", running_dynamics=running_dynamics
         )
 
-    except:
+    except Exception:
         flash("No momento nenhuma dinâmica está em execução.", "danger")
         return render_template("admin/executing.html")

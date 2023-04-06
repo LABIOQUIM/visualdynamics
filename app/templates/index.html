@@ -37,7 +37,7 @@
           <i class="fas fa-download" aria-hidden="true"></i> {{ _("Downloads") }}
         </h6>
         <div class="d-flex flex-wrap gap-2">
-          <a class="btn btn-primary {{ 'disabled' if d['is_running'] }}" href="/downloads/commands/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
+          <a class="btn btn-primary" href="/downloads/commands/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
             {{ _("Lista de Comandos") }}
           </a>
           <a class="btn btn-primary {{ 'disabled' if d['is_running'] }}" href="/downloads/xtc/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['folder'] }}">
