@@ -10,7 +10,7 @@
 <div class="card my-2">
   <div class="card-body">
     <div class="row">
-      <div class="col-2 my-auto">
+      <div class="col my-auto">
         {{ _("Nome de Usuário") }}
         <p class="h5">{{ d.username }}</p>
       </div>
@@ -22,9 +22,9 @@
         {{ _("Tipo") }}
         <p class="h5 text-uppercase">{{ d.mode }}</p>
       </div>
-      <div class="col my-auto">
+      <div class="col-4 my-auto">
         {{ _("Iniciada em") }}
-        <p class="h5">{{ d.timestamp_format }}</p>
+        <p class="h5 text-nowrap">{{ d.timestamp_format }}</p>
       </div>
       <div class="col my-auto">
         {{ _("Passo") }}
