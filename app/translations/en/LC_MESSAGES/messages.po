@@ -369,9 +369,8 @@ msgid "Logs de Execução"
 msgstr "Execution Logs"
 
 #: app/templates/admin/executing.html:44 app/templates/index.html:76
-#, fuzzy
 msgid "Cancelar Dinâmica"
-msgstr "Delete Dynamics"
+msgstr "Cancel Dynamic"
 
 #: app/templates/login.html:20
 msgid "Nome de Usuário ou Email"
