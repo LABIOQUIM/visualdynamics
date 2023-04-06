@@ -2,28 +2,53 @@
 
 {% block content %}
 <script>
-	document.title = "{{ _('Entrar') }} - Visual Dynamics"
+  document.title = "{{ _('Entrar') }} - Visual Dynamics"
 </script>
 <div>
-  <form class="max-md mx-auto" action="/login" method="post">
+  <form
+    class="max-md mx-auto"
+    action="/login"
+    method="post"
+  >
     <p class="h1 my-3 text-center">{{ _("Entrar") }}</p>
 
     <div class="form-floating mb-3 ">
-      <input type="text" class="form-control" name="username" id="username" placeholder="jspinheiro">
+      <input
+        type="text"
+        class="form-control"
+        name="username"
+        id="username"
+        placeholder="jspinheiro"
+      >
       <label for="username">{{ _("Nome de Usuário ou Email") }}</label>
     </div>
 
     <div class="form-floating mb-3">
-      <input type="password" class="form-control" name="password" id="password" placeholder="******">
+      <input
+        type="password"
+        class="form-control"
+        name="password"
+        id="password"
+        placeholder="******"
+      >
       <label for="password">{{ _("Senha") }}</label>
     </div>
-    
+
     <button class="btn btn-primary btn-lg w-100">
-      <i class="fa fa-sign-in" aria-hidden="true" ></i> {{ _("Entrar") }}
+      <i
+        class="fa fa-sign-in"
+        aria-hidden="true"
+      ></i> {{ _("Entrar") }}
     </button>
-    <a class="btn btn-outline-primary btn-lg my-2 w-100" href="/register">
-      <i class="fa fa-user-plus" aria-hidden="true" ></i> {{ _("Ainda não tenho uma conta") }}
-    </a> 
+    <a
+      class="btn btn-outline-primary btn-lg my-2 w-100"
+      href="/register"
+    >
+      <i
+        class="fa fa-user-plus"
+        aria-hidden="true"
+      ></i> {{ _("Ainda não tenho uma conta") }}
+    </a>
   </form>
 </div>
 {% endblock %}

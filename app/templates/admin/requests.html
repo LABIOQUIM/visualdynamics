@@ -2,7 +2,7 @@
 
 {% block content %}
 <script>
-	document.title = "{{ _('Solicitações de Cadastro') }} - Visual Dynamics"
+  document.title = "{{ _('Solicitações de Cadastro') }} - Visual Dynamics"
 </script>
 <p class="h2 text-center my-2">{{ _("Solicitações de Cadastro") }}</p>
 
@@ -29,11 +29,23 @@
       </div>
       <div class="col-2 my-auto">
         <div class="btn-group mt-2">
-          <a href="/admin/accept_newUser/{{ u.id }}" class="btn btn-success">
-            <i class="fas fa-check" aria-hidden="true"></i> Aprovar
+          <a
+            href="/admin/accept_newUser/{{ u.id }}"
+            class="btn btn-success"
+          >
+            <i
+              class="fas fa-check"
+              aria-hidden="true"
+            ></i> Aprovar
           </a>
-          <a href="/admin/remove_newUser/{{ u.id }}" class="btn btn-danger ">
-            <i class="fas fa-times" aria-hidden="true"></i> Negar
+          <a
+            href="/admin/remove_newUser/{{ u.id }}"
+            class="btn btn-danger "
+          >
+            <i
+              class="fas fa-times"
+              aria-hidden="true"
+            ></i> Negar
           </a>
         </div>
       </div>
@@ -42,7 +54,10 @@
 </div>
 {% endfor %}
 {% else %}
-<div class="alert alert-info mt-2" role="alert">
+<div
+  class="alert alert-info mt-2"
+  role="alert"
+>
   {{ _("Não há cadastro esperando aprovação") }}
 </div>
 {% endif %}

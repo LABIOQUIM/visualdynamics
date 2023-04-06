@@ -1,48 +1,99 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
 <script>
-	document.title = "{{ _('Modificando Usuário %(username)s', username=UserData.username) }} - Visual Dynamics"
+  document.title = "{{ _('Modificando Usuário %(username)s', username=UserData.username) }} - Visual Dynamics"
 </script>
 
-<form class="max-md mx-auto" action="/admin/edit/{{ UserData.id }}" method="post" onsubmit="return validateForm()">
+<form
+  class="max-md mx-auto"
+  action="/admin/edit/{{ UserData.id }}"
+  method="post"
+  onsubmit="return validateForm()"
+>
   <p class="h2 text-center my-2">{{ _("Modificando Usuário %(username)s", username=UserData.username) }}</p>
 
-  <div class="alert alert-info my-2" role="alert">
+  <div
+    class="alert alert-info my-2"
+    role="alert"
+  >
     {{ _("Para manter a senha atual deixe os campos em branco") }}
   </div>
 
   <div class="form-floating my-2">
-    <input type="text" class="form-control" name="name" id="name" value="{{ UserData.name }}">
+    <input
+      type="text"
+      class="form-control"
+      name="name"
+      id="name"
+      value="{{ UserData.name }}"
+    >
     <label for="name">{{ _("Nome Completo") }}</label>
   </div>
 
   <div class="form-floating my-2">
-    <input type="text" class="form-control" name="username" id="username" value="{{ UserData.username }}">
+    <input
+      type="text"
+      class="form-control"
+      name="username"
+      id="username"
+      value="{{ UserData.username }}"
+    >
     <label for="username">{{ _("Nome de Usuário") }}</label>
   </div>
 
   <div class="form-floating my-2">
-    <input type="email" class="form-control" name="email" id="email" value="{{ UserData.email }}">
+    <input
+      type="email"
+      class="form-control"
+      name="email"
+      id="email"
+      value="{{ UserData.email }}"
+    >
     <label for="email">{{ _("Email") }}</label>
   </div>
 
   <div class="form-floating my-2">
-    <input type="password" class="form-control" name="password" id="password" placeholder="******">
+    <input
+      type="password"
+      class="form-control"
+      name="password"
+      id="password"
+      placeholder="******"
+    >
     <label for="password">{{ _("Senha") }}</label>
   </div>
 
   <div class="form-floating my-2">
-    <input type="password" class="form-control" name="passwordconfirm" id="passwordconfirm" placeholder="******">
+    <input
+      type="password"
+      class="form-control"
+      name="passwordconfirm"
+      id="passwordconfirm"
+      placeholder="******"
+    >
     <label for="passwordconfirm">{{ _("Confirmar Senha") }}</label>
   </div>
-  
+
   <div class="d-flex justify-content-between">
-    <button class="my-2 btn btn-primary" type="submit" name="submit">
-      <i class="fas fa-check" aria-hidden="true"></i> {{ _("Confirmar") }}
+    <button
+      class="my-2 btn btn-primary"
+      type="submit"
+      name="submit"
+    >
+      <i
+        class="fas fa-check"
+        aria-hidden="true"
+      ></i> {{ _("Confirmar") }}
     </button>
-    <a class="my-2 btn btn-danger" href="{{ url_for('AdminRoutes.admin') }}">
-      <i class="fas fa-times" aria-hidden="true"></i> {{ _("Cancelar") }}
+    <a
+      class="my-2 btn btn-danger"
+      href="{{ url_for('AdminRoutes.admin') }}"
+    >
+      <i
+        class="fas fa-times"
+        aria-hidden="true"
+      ></i> {{ _("Cancelar") }}
     </a>
   </div>
 </form>
@@ -67,7 +118,7 @@
     if (email === null || email === "") {
       alert("Email deve ser preenchido");
       return false;
-    }        
+    }
     if (re.test(email) === false) {
       alert("Email inválido")
       return false

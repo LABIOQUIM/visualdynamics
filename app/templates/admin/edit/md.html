@@ -1,33 +1,64 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block content %}
 <script>
-	document.title = "{{ _('Modificar md_pr.mdp') }} - Visual Dynamics"
+  document.title = "{{ _('Modificar md_pr.mdp') }} - Visual Dynamics"
 </script>
 <div>
   <p class="h2 text-center my-2">{{ _("Modificar md_pr.mdp") }}</p>
-  
-  <form class="max-md mx-auto" action="" method="post">
+
+  <form
+    class="max-md mx-auto"
+    action=""
+    method="post"
+  >
     <div class="my-2">
       <div class="form-floating">
-        <input type="number" class="form-control" value="{{ nsteps }}" name="editnstep" step="100" id="editnstep">
+        <input
+          type="number"
+          class="form-control"
+          value="{{ nsteps }}"
+          name="editnstep"
+          step="100"
+          id="editnstep"
+        >
         <label for="editnstep">NSteps</label>
       </div>
     </div>
 
     <div class="my-2">
       <div class="form-floating">
-        <input type="number" class="form-control" value="{{ dt }}" name="editDt" step="0.001" id="editDt">
+        <input
+          type="number"
+          class="form-control"
+          value="{{ dt }}"
+          name="editDt"
+          step="0.001"
+          id="editDt"
+        >
         <label for="editDt">dt(ps)</label>
       </div>
     </div>
 
     <div class="d-flex justify-content-between">
-      <button class="my-2 btn btn-primary" type="submit" name="submit">
-        <i class="fas fa-check" aria-hidden="true"></i> Confirmar
+      <button
+        class="my-2 btn btn-primary"
+        type="submit"
+        name="submit"
+      >
+        <i
+          class="fas fa-check"
+          aria-hidden="true"
+        ></i> Confirmar
       </button>
-      <a class="my-2 btn btn-danger" href="{{ url_for('AdminRoutes.admin') }}">
-        <i class="fas fa-times" aria-hidden="true"></i> Cancelar
+      <a
+        class="my-2 btn btn-danger"
+        href="{{ url_for('AdminRoutes.admin') }}"
+      >
+        <i
+          class="fas fa-times"
+          aria-hidden="true"
+        ></i> Cancelar
       </a>
     </div>
   </form>

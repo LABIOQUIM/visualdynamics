@@ -1,10 +1,17 @@
 {% set top, sol, ion, msd, mcj, nvt, npt, pmd = false, false, false, false, false, false, false, false %}
 
 <head>
-  <meta http-equiv="Refresh" content="5">
+  <meta
+    http-equiv="Refresh"
+    content="5"
+  >
 </head>
 <div class="d-flex justify-content-center mx-auto">
-  <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+  <div
+    class="spinner-border text-primary"
+    role="status"
+    style="width: 3rem; height: 3rem;"
+  >
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
@@ -39,54 +46,150 @@
   {% set top = true %}
   {% endif %}
   <div class="order-9 flex flex-row justify-content-center">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
     <span class="badge rounded-pill bg-secondary py-2 mx-1">{{ _("Análise MD") }}</span>
   </div>
   <div class="order-8 d-flex flex-row justify-content-center ">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
-    <span class="badge rounded-pill py-2 mx-1 {{ 'bg-success' if pmd else 'bg-secondary' }}">{{ _("Produção MD") }}</span>
+    <span class="badge rounded-pill py-2 mx-1 {{ 'bg-success' if pmd else 'bg-secondary' }}">{{ _("Produção MD")
+      }}</span>
   </div>
   <div class="order-7 d-flex flex-row justify-content-center ">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
-    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if npt else 'bg-secondary' }}">{{ _("Restrição NPT") }}</span>
+    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if npt else 'bg-secondary' }}">{{
+      _("Restrição NPT") }}</span>
   </div>
   <div class="order-6 d-flex flex-row justify-content-center ">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
-    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if nvt else 'bg-secondary' }}">{{ _("Restrição NVT") }}</span>
+    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if nvt else 'bg-secondary' }}">{{
+      _("Restrição NVT") }}</span>
   </div>
   <div class="order-5 d-flex flex-row justify-content-center ">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
-    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if mcg else 'bg-secondary' }}">{{ _("Minimização Conjugate Gradient") }}</span>
+    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if mcg else 'bg-secondary' }}">{{
+      _("Minimização Conjugate Gradient") }}</span>
   </div>
   <div class="order-4 d-flex flex-row justify-content-center ">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
-    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if msd else 'bg-secondary' }}">{{ _("Minimização Steep Descent") }}</span>
+    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if msd else 'bg-secondary' }}">{{
+      _("Minimização Steep Descent") }}</span>
   </div>
   <div class="order-3 d-flex flex-row justify-content-center ">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
-    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if ion else 'bg-secondary' }}">{{ _("Adicionar Ions") }}</span>
+    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if ion else 'bg-secondary' }}">{{
+      _("Adicionar Ions") }}</span>
   </div>
   <div class="order-2 d-flex flex-row justify-content-center ">
-    <svg class="my-1 mx-auto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+    <svg
+      class="my-1 mx-auto"
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-arrow-up"
+      viewBox="0 0 16 16"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+      />
     </svg>
-    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if sol else 'bg-secondary' }}">{{ _("Definir caixa e solvatar") }}</span>
+    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if sol else 'bg-secondary' }}">{{ _("Definir
+      caixa e solvatar") }}</span>
   </div>
   <div class="order-1 d-flex flex-row justify-content-center ">
-    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if top else 'bg-secondary' }}">{{ _("Definir Topologia") }}</span>
+    <span class="badge rounded-pill bg-secondary py-2 mx-1 {{ 'bg-success' if top else 'bg-secondary' }}">{{ _("Definir
+      Topologia") }}</span>
   </div>
 </div>

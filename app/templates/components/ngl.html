@@ -1,4 +1,7 @@
-<div id="ngldiv" style="height:0vmin;"></div>
+<div
+  id="ngldiv"
+  style="height:0vmin;"
+></div>
 
 <script type="text/javascript">
   const nglstage = new NGL.Stage("ngldiv")
@@ -13,7 +16,7 @@
     const file = this.files[0];
     if (file.name.split(".")[1] === "pdb") {
       nglstage.removeAllComponents()
-      nglstage.loadFile(file, {defaultRepresentation:true}).then(function (component) {
+      nglstage.loadFile(file, { defaultRepresentation: true }).then(function (component) {
         nglstage.setSize("100%", "40vmin");
         component.autoView();
       })

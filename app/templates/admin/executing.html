@@ -2,7 +2,7 @@
 
 {% block content %}
 <script>
-	document.title = "{{ _('Dinâmicas em Execução') }} - Visual Dynamics"
+  document.title = "{{ _('Dinâmicas em Execução') }} - Visual Dynamics"
 </script>
 <p class="h2 text-center my-2">{{ _("Dinâmicas em Execução") }}</p>
 
@@ -37,7 +37,11 @@
         <p class="h5">{{ d.folder }}</p>
       </div>
       {% if not d['is_canceled'] or 'running' in d['status'] %}
-      <form class="my-auto" method="POST" action="/cancel/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['timestamp'] }}">
+      <form
+        class="my-auto"
+        method="POST"
+        action="/cancel/{{ d['mode'] }}/{{ d['protein'] }}/{{ d['timestamp'] }}"
+      >
         <button class="btn btn-danger">
           {{ _("Cancelar Dinâmica") }}
         </button>

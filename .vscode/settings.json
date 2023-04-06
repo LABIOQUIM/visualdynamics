@@ -3,5 +3,19 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
-  "python.formatting.provider": "none"
+  "python.formatting.provider": "none",
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "VisualDynamics",
+      "database": "${workspaceFolder:visualdynamics}/app/app.db"
+    }
+  ],
+  "sqltools.useNodeRuntime": true,
+  "html.format.wrapAttributes": "force-expand-multiline",
+  "html.format.indentInnerHtml": true,
+  "[html]": {
+    "editor.formatOnSave": true
+  }
 }

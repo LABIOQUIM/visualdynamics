@@ -5,25 +5,50 @@
 	document.title = "{{ _('Sobre o Visual Dynamics') }} - Visual Dynamics"
 </script>
 <div>
-  <p class="h2 mt-3 text-center">{{ _("Sobre o Visual Dynamics") }}</p>
-  <p class="text-center">
-		{{ _("Visual Dynamics é uma ferramenta de código aberto que acelera implementações e aprendizados na área de simulação de dinâmica molecular. Disponível gratuitamente e suportado por todos os principais navegadores da web. Visual Dynamics é desenvolvido com Flask, que é um framework gratuito e de código aberto baseado em Python para desenvolvimento web.") }}
+	<p class="h2 mt-3 text-center">{{ _("Sobre o Visual Dynamics") }}</p>
+	<p class="text-center">
+		{{ _("Visual Dynamics é uma ferramenta de código aberto que acelera implementações e aprendizados na área de
+		simulação de dinâmica molecular. Disponível gratuitamente e suportado por todos os principais navegadores da web.
+		Visual Dynamics é desenvolvido com Flask, que é um framework gratuito e de código aberto baseado em Python para
+		desenvolvimento web.") }}
 	</p>
 
-	<p class="text-center">{{ _("Agradecemos à toda equipe responsável pelo desenvolvimento e manutenção do GROMACS e Grace/Xmgr") }}</p>
+	<p class="text-center">{{ _("Agradecemos à toda equipe responsável pelo desenvolvimento e manutenção do GROMACS e
+		Grace/Xmgr") }}</p>
 
 	<h5 class="text-center">{{ _("Desenvolvido por: ") }}</h5>
 	<p class="d-flex flex-wrap justify-content-center gap-3">
-		<a href="http://lattes.cnpq.br/0564343474986429" target="_blank">
-			<img alt="Dr. Fernando Berton Zanchi" class="rounded-pill" src="{{ url_for('static', filename='img/dr-fernando.jpg') }}" height="64px" />
+		<a
+			href="http://lattes.cnpq.br/0564343474986429"
+			target="_blank"
+		>
+			<img
+				alt="Dr. Fernando Berton Zanchi"
+				class="rounded-pill"
+				src="{{ url_for('static', filename='img/dr-fernando.jpg') }}"
+				height="64px"
+			/>
 			<b>Dr. Fernando Berton Zanchi</b>
 		</a>
 		<span>
-			<img alt="Dr. Rafael Andrade Caceres" class="rounded-pill" src="{{ url_for('static', filename='img/dr-rafael.jpg') }}" height="64px" />
+			<img
+				alt="Dr. Rafael Andrade Caceres"
+				class="rounded-pill"
+				src="{{ url_for('static', filename='img/dr-rafael.jpg') }}"
+				height="64px"
+			/>
 			<b>Dr. Rafael Andrade Caceres</b>
 		</span>
-		<a href="https://ivo.vist.gg/" target="_blank">
-			<img alt="Ivo Henrique Provensi Vieira" class="rounded-pill" src="https://github.com/ivopr.png" height="64px" />
+		<a
+			href="https://ivo.vist.gg/"
+			target="_blank"
+		>
+			<img
+				alt="Ivo Henrique Provensi Vieira"
+				class="rounded-pill"
+				src="https://github.com/ivopr.png"
+				height="64px"
+			/>
 			<b>Ivo Henrique Provensi Vieira</b>
 		</a>
 	</p>
@@ -44,34 +69,12 @@
 		<h5 class="text-center">{{ _("Publicações") }}</h5>
 
 		<ol class="mx-auto list-group list-group-numbered list-group-flush">
-			<li class="list-group-item">Vieira, I.H.P., Botelho, E.B., de Souza Gomes, T.J. et al. Visual dynamics: a WEB application for molecular dynamics simulation using GROMACS. BMC Bioinformatics 24, 107 (2023). (<a href="https://doi.org/10.1186/s12859-023-05234-y">https://doi.org/10.1186/s12859-023-05234-y</a>)</li>
+			<li class="list-group-item">Vieira, I.H.P., Botelho, E.B., de Souza Gomes, T.J. et al. Visual dynamics: a WEB
+				application for molecular dynamics simulation using GROMACS. BMC Bioinformatics 24, 107 (2023). (<a
+					href="https://doi.org/10.1186/s12859-023-05234-y"
+				>https://doi.org/10.1186/s12859-023-05234-y</a>)</li>
 		</ol>
 	</div>
-<!-- 
-	<div class="d-flex flex-column justify-content-center mt-5">
-		<h5 class="text-center">{{ _("Agradecimentos") }}</h5>
-
-		<ol class="mx-auto list-group list-group-numbered list-group-flush">
-			<li class="list-group-item">
-				H. Bekker, H.J.C. Berendsen, E.J. Dijkstra, S. Achterop, R. van Drunen, D. van der Spoel, A. Sijbers, and H. Keegstra et al., “Gromacs: A parallel computer for molecular dynamics simulations”; pp. 252-256 in Physics computing 92. Edited by R.A. de Groot and J. Nadrchal. World Scientific, Singapore, 1993. (<a href="http://www.gromacs.org">source at Gromacs' website</a>)
-			</li>
-			<li class="list-group-item">
-				H.J.C. Berendsen, D. van der Spoel, and R. van Drunen, “GROMACS: A message-passing parallel molecular dynamics implementation,” Comp. Phys. Comm., 91 43-56 (1995). (<a href="http://www.gromacs.org">source at Gromacs' website</a>)
-			</li>
-			<li class="list-group-item">
-				E. Lindahl, B. Hess, and D. van der Spoel, “GROMACS 3.0: A package for molecular simulation and trajectory analysis,” J. Mol. Mod., 7 306-317 (2001). (<a href="http://www.gromacs.org">source at Gromacs' website</a>)
-			</li>
-			<li class="list-group-item">
-				D. van der Spoel, E. Lindahl, B. Hess, G. Groenhof, A.E. Mark, and H.J.C. Berendsen, “GROMACS: Fast, Flexible and Free,” J. Comp. Chem., 26 1701-1718 (2005). (<a href="http://www.gromacs.org">source at Gromacs' website</a>)
-			</li>
-			<li class="list-group-item">
-				M.J. Abraham, T. Murtola, R. Schulz, S. Páll, J.C. Smith, B. Hess, and E. Lindahl, “GROMACS: High performance molecular simulations through multi-level parallelism from laptops to supercomputers,” SoftwareX, 1-2 19-25 (2015). (<a href="http://www.gromacs.org">source at Gromacs' website</a>)
-			</li>
-			<li class="list-group-item">
-				P.J. Turner, The Grace Team. Grace, a WYSIWYG 2D plotting tool for the X Window System and M*tif. (<a href="https://plasma-gate.weizmann.ac.il/Grace/">source at Weizmann Institute's Plasma Gate</a>)
-			</li>
-		</ol>
-	</div> -->
 
 	<div class="text-center mt-5">
 		<h5>{{ _("Entre em contato") }}</h5>
