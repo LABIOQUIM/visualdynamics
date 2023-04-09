@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "poetry run flask run --reload",
     "padd": "poetry add",
-    "pinstall": "poetry install"
+    "pinstall": "poetry install",
+    "prm": "poetry remove"
   },
   "keywords": [],
   "author": "",

@@ -1,7 +1,7 @@
 import threading
-import json
 import os
 import shutil
+from flask import request
 from flask_restful import Resource, reqparse
 from server.config import Config
 from server.utils.run_command import run_command
@@ -17,6 +17,9 @@ class RunDynamic(Resource):
         # Get absolute path to run folder
         folder_run = os.path.abspath(args["folder_run"])
 
+        # Get absolute path to dynamic folder
+        folder = os.path.abspath(os.path.join(folder_run, ".."))
+
         # Get absolute path to the folder where our default MDP files are stored
         folder_mdp = os.path.abspath(Config.MDP_LOCATION_FOLDER)
 
@@ -29,13 +32,14 @@ class RunDynamic(Resource):
             if os.path.isfile(file_path):
                 shutil.copy(file_path, folder_run)
 
-        file_log_path = os.path.join(folder_run, "logs", "gmx.log")
-        file_step_path = os.path.join(folder_run, "..", "steps.txt")
+        file_log_path = os.path.abspath(os.path.join(folder_run, "logs", "gmx.log"))
+        file_step_path = os.path.abspath(os.path.join(folder, "steps.txt"))
+        file_is_running = os.path.abspath(os.path.join(folder, "..", "is-running"))
 
         # UPDATE STATUS ON DB THAT `dynamic_id` is now running
 
         # Load commands file contents to  a variable
-        file_commands_path = os.path.join(folder_run, "..", "commands.txt")
+        file_commands_path = os.path.join(folder, "commands.txt")
         with open(file_commands_path, "r") as f:
             commands_file_content = f.readlines()
 
@@ -49,10 +53,13 @@ class RunDynamic(Resource):
             # Make our shell go to the run folder
             os.chdir(folder_run)
 
+            with open(file_is_running, "w") as f:
+                f.write(folder)
+
             # Iterate in our command list
             for command in commands:
                 if command[0] == "#":
-                    with open(file_step_path, "w+") as f:
+                    with open(file_step_path, "a+") as f:
                         f.write(f"{command}\n")
                 else:
                     (pid, rcode) = run_command(command, file_log_path)
@@ -64,16 +71,17 @@ class RunDynamic(Resource):
                         # UPDATE ON DB THAT EXECUTION FAILED
 
                         # SEND MAIL NOTIFYING DYNAMIC ERRORED
-                        return {"status": "errored"}
-                        # ws.close(reason="errored", message=command)
+                        with open(os.path.join(folder_run, "error"), "w") as f:
+                            f.writelines(f"errored at: {command}")
 
             # UPDATE ON DB THAT EXECUTION ENDED WITH SUCCESS
 
             # SEND EMAIL NOTIFYING DYNAMIC ENDED
-            # ws.close(reason="success")
-            return {
-                "status": "success",
-            }
+            with open(file_log_path, "a+") as f:
+                f.write("\n\nfinished")
+
+            if os.path.exists(file_is_running):
+                os.remove(file_is_running)
 
         # Start the command execution in a new thread
         thread = threading.Thread(target=run_commands)
@@ -81,3 +89,27 @@ class RunDynamic(Resource):
 
         # Return a response indicating that the command has started
         return {"status": "started"}
+
+    def get(self):
+        args = request.args
+
+        user_id = args["user_id"]
+
+        folder_user = os.path.abspath(os.path.join(Config.UPLOAD_FOLDER, user_id))
+
+        file_is_running = os.path.abspath(os.path.join(folder_user, "is-running"))
+
+        if os.path.exists(file_is_running):
+            with open(file_is_running, "r") as f:
+                folder = f.readline()
+
+            file_gmx_log = os.path.abspath(
+                os.path.join(folder, "run", "logs", "gmx.log")
+            )
+
+            with open(file_gmx_log, "r") as f:
+                log_lines = f.readlines()
+
+            return {"status": "running", "log": log_lines[-30:]}
+
+        return {"status": "running", "folder": args["folder"]}
