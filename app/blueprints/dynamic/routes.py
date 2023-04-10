@@ -50,8 +50,6 @@ def apo():
                 current_user,
             )
 
-            time.sleep(2)
-
             if request.form.get("download") == "Download":
                 return redirect(
                     url_for(
@@ -177,8 +175,6 @@ def prodrg():
                 request.form.get("ignore"),
                 current_user,
             )
-
-            time.sleep(2)
 
             name = f"{filename}_{fileitpname}"
             if request.form.get("download") == "Download":
@@ -317,8 +313,6 @@ def acpype():
                 current_user,
             )
             name = f"{filename}_{fileitpname}"
-
-            time.sleep(2)
 
             if request.form.get("download") == "Download":
                 return redirect(
