@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import signal
+import time
 from app.checkuserdynamics import CheckDynamicsSteps, CheckUserDynamics
 from app.config import Config
 from . import DynamicBlueprint
@@ -20,6 +21,7 @@ from .executors import (
 )
 import shutil
 from pathlib import Path
+
 
 # INFO Free Protein
 @DynamicBlueprint.route("/apo", methods=["GET", "POST"], endpoint="apo")
@@ -58,6 +60,8 @@ def apo():
                         username=current_user.username,
                     )
                 )
+
+            time.sleep(2)
 
             if request.form.get("execute") == "Executar":
                 if upload_file(folder, request.files.get("file")):
@@ -173,6 +177,8 @@ def prodrg():
                 request.form.get("ignore"),
                 current_user,
             )
+
+            time.sleep(2)
 
             name = f"{filename}_{fileitpname}"
             if request.form.get("download") == "Download":
@@ -311,6 +317,9 @@ def acpype():
                 current_user,
             )
             name = f"{filename}_{fileitpname}"
+
+            time.sleep(2)
+
             if request.form.get("download") == "Download":
                 return redirect(
                     url_for(
