@@ -50,6 +50,8 @@ def apo():
                 current_user,
             )
 
+            time.sleep(2)
+
             if request.form.get("download") == "Download":
                 return redirect(
                     url_for(
@@ -60,8 +62,6 @@ def apo():
                         username=current_user.username,
                     )
                 )
-
-            time.sleep(2)
 
             if request.form.get("execute") == "Executar":
                 if upload_file(folder, request.files.get("file")):
