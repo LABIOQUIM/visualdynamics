@@ -200,27 +200,32 @@
           ></i> {{ _("Executar") }}
         </button>
         <div class="d-flex justify-content-between">
-          <button
-            type="submit"
-            class="my-2 btn btn-success"
-            value="Download"
-            name="download"
-          >
-            <i
-              class="fa fa-file-lines"
-              aria-hidden="true"
-            ></i> {{ _("Gerar Lista de Comandos") }}
-          </button>
-          <a
-            name="dlmdp"
-            class="my-2 btn btn-primary"
-            href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}"
-          >
-            <i
-              class="fas fa-download"
-              aria-hidden="true"
-            ></i> {{ _("Baixar arquivos MDP") }}
-          </a>
+          <div>
+            <button
+              type="submit"
+              class="my-2 btn btn-success"
+              value="Download"
+              name="download"
+            >
+              <i
+                class="fa fa-file-lines"
+                aria-hidden="true"
+              ></i> {{ _("Gerar Lista de Comandos") }}
+            </button>
+            <p class="fs-6 text-center">{{ _('Baixe na "Minha Área"') }}</p>
+          </div>
+          <div>
+            <a
+              name="dlmdp"
+              class="my-2 btn btn-primary"
+              href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}"
+            >
+              <i
+                class="fas fa-download"
+                aria-hidden="true"
+              ></i> {{ _("Baixar arquivos MDP") }}
+            </a>
+          </div>
         </div>
       </div>
     </form>

@@ -188,7 +188,7 @@
 
     <script>
       var button = document.getElementById("goBackButton")
-      if (window.location.pathname !== "/") {
+      if (window.location.pathname !== "/" && window.location.pathname !== "/login") {
         button.classList.remove("visually-hidden")
       } else {
         button.classList.add("visually-hidden")

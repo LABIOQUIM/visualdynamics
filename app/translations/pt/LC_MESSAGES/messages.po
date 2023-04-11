@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-11 14:53-0400\n"
+"POT-Creation-Date: 2023-04-11 15:33-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -260,40 +260,45 @@ msgstr ""
 msgid "Ignorar Hidrogênios"
 msgstr ""
 
-#: app/templates/acpype.html:204 app/templates/apo.html:199
+#: app/templates/acpype.html:204 app/templates/apo.html:200
 #: app/templates/prodrg.html:200
 msgid "Executar"
 msgstr ""
 
-#: app/templates/acpype.html:215 app/templates/apo.html:210
-#: app/templates/prodrg.html:212
+#: app/templates/acpype.html:216 app/templates/apo.html:213
+#: app/templates/prodrg.html:213
 msgid "Gerar Lista de Comandos"
 msgstr ""
 
-#: app/templates/acpype.html:225 app/templates/apo.html:220
-#: app/templates/index.html:13 app/templates/prodrg.html:222
+#: app/templates/acpype.html:218 app/templates/apo.html:215
+#: app/templates/prodrg.html:215
+msgid "Baixe na \"Minha Área\""
+msgstr ""
+
+#: app/templates/acpype.html:229 app/templates/apo.html:227
+#: app/templates/index.html:13 app/templates/prodrg.html:226
 msgid "Baixar arquivos MDP"
 msgstr ""
 
-#: app/templates/acpype.html:234
+#: app/templates/acpype.html:239
 msgid "Gerando arquivos para dinâmica ACPYPE"
 msgstr ""
 
-#: app/templates/acpype.html:258 app/templates/apo.html:233
-#: app/templates/prodrg.html:268
+#: app/templates/acpype.html:263 app/templates/apo.html:241
+#: app/templates/prodrg.html:273
 msgid "Você deve fornecer um arquivo de proteína (.pdb)"
 msgstr ""
 
-#: app/templates/acpype.html:263 app/templates/prodrg.html:273
+#: app/templates/acpype.html:268 app/templates/prodrg.html:278
 msgid "Você deve fornecer um arquivo de ligante (.itp)"
 msgstr ""
 
-#: app/templates/acpype.html:268 app/templates/prodrg.html:278
+#: app/templates/acpype.html:273 app/templates/prodrg.html:283
 msgid "Você deve fornecer um arquivo de ligante (.gro ou .pdb)"
 msgstr ""
 
-#: app/templates/acpype.html:273 app/templates/apo.html:238
-#: app/templates/prodrg.html:283
+#: app/templates/acpype.html:278 app/templates/apo.html:246
+#: app/templates/prodrg.html:288
 msgid "A distância entre a proteína e a borda da caixa deve ser maior que 0"
 msgstr ""
 
@@ -315,7 +320,7 @@ msgstr ""
 msgid "A forma mais simples de gerar e executar dinâmica molecular com GROMACS."
 msgstr ""
 
-#: app/templates/base.html:146
+#: app/templates/base.html:147
 msgid "Voltar"
 msgstr ""
 
@@ -393,11 +398,11 @@ msgstr ""
 msgid "Ainda não tenho uma conta"
 msgstr ""
 
-#: app/templates/prodrg.html:231
+#: app/templates/prodrg.html:236
 msgid "Gerando arquivos com PRODRG"
 msgstr ""
 
-#: app/templates/prodrg.html:244
+#: app/templates/prodrg.html:249
 msgid "Tutorial de como realizar a dinâmica"
 msgstr ""
 
