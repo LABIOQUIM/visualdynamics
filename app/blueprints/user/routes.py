@@ -27,13 +27,15 @@ def index():
 
             status_path = os.path.join(d.replace("\n", ""), "status")
 
-            with open(status_path, "r") as f:
-                line = f.readline()
+            status = "generated_only"
+            if os.path.exists(status_path):
+                with open(status_path, "r") as f:
+                    line = f.readline()
 
-            if "error" in line:
-                status = line.replace("error: ", "").replace("\n", "")
-            else:
-                status = line.replace("\n", "")
+                if "error" in line:
+                    status = line.replace("error: ", "").replace("\n", "")
+                else:
+                    status = line.replace("\n", "")
 
             canceled_path = os.path.join(d.replace("\n", ""), "canceled")
 

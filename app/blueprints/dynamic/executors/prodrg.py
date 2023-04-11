@@ -23,10 +23,6 @@ def execute(folder, CommandsFileName, username, filename, itpname, groname, mol)
         if os.path.isfile(fullmdpname):
             shutil.copy(fullmdpname, RunFolder)
 
-    # Use the `with` statement to open the file in 'x+' mode
-    with open(os.path.join(Config.UPLOAD_FOLDER, username, "info_dynamics"), "a+") as f:
-        f.write(f"{folder}\n")
-
     with open(os.path.join(Config.UPLOAD_FOLDER, username, "log_dir"), "w") as f:
         f.write(os.path.join(folder, "run", "logs", f"gmx-commands.log"))
 

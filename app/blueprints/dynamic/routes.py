@@ -50,16 +50,17 @@ def apo():
                 current_user,
             )
 
+            # Use the `with` statement to open the file in 'x+' mode
+            with open(
+                os.path.join(
+                    Config.UPLOAD_FOLDER, current_user.username, "info_dynamics"
+                ),
+                "a+",
+            ) as f:
+                f.write(f"{folder}\n")
+
             if request.form.get("download") == "Download":
-                return redirect(
-                    url_for(
-                        "DownloadRoutes.dynamiccomandsdownload",
-                        folder=timestamp,
-                        mode="apo",
-                        protein=filename,
-                        username=current_user.username,
-                    )
-                )
+                return redirect(url_for("UserRoutes.index"))
 
             if request.form.get("execute") == "Executar":
                 if upload_file(folder, request.files.get("file")):
@@ -176,17 +177,18 @@ def prodrg():
                 current_user,
             )
 
+            # Use the `with` statement to open the file in 'x+' mode
+            with open(
+                os.path.join(
+                    Config.UPLOAD_FOLDER, current_user.username, "info_dynamics"
+                ),
+                "a+",
+            ) as f:
+                f.write(f"{folder}\n")
+
             name = f"{filename}_{fileitpname}"
             if request.form.get("download") == "Download":
-                return redirect(
-                    url_for(
-                        "DownloadRoutes.dynamiccomandsdownload",
-                        folder=timestamp,
-                        mode="prodrg",
-                        protein=f"{filename}_{fileitpname}",
-                        username=current_user.username,
-                    )
-                )
+                return redirect(url_for("UserRoutes.index"))
 
             if request.form.get("execute") == "Executar":
                 if upload_file_ligante(
@@ -312,18 +314,20 @@ def acpype():
                 request.form.get("ignore"),
                 current_user,
             )
+
+            # Use the `with` statement to open the file in 'x+' mode
+            with open(
+                os.path.join(
+                    Config.UPLOAD_FOLDER, current_user.username, "info_dynamics"
+                ),
+                "a+",
+            ) as f:
+                f.write(f"{folder}\n")
+
             name = f"{filename}_{fileitpname}"
 
             if request.form.get("download") == "Download":
-                return redirect(
-                    url_for(
-                        "DownloadRoutes.dynamiccomandsdownload",
-                        folder=timestamp,
-                        mode="acpype",
-                        protein=f"{filename}_{fileitpname}",
-                        username=current_user.username,
-                    )
-                )
+                return redirect(url_for("UserRoutes.index"))
 
             if request.form.get("execute") == "Executar":
                 if upload_file_ligante(

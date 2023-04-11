@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-06 10:32-0400\n"
+"POT-Creation-Date: 2023-04-11 14:49-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -114,46 +114,47 @@ msgstr ""
 "Your account hasn't been activated yet. We'll contact you via email once "
 "it is activated."
 
-#: app/blueprints/dynamic/routes.py:72
+#: app/blueprints/dynamic/routes.py:76
 msgid "Desculpe, não é possível realizar duas dinâmicas ao mesmo tempo."
 msgstr "Your can't run two (or more) simultaneous dynamics"
 
-#: app/blueprints/dynamic/routes.py:83 app/blueprints/dynamic/routes.py:217
-#: app/blueprints/dynamic/routes.py:352
+#: app/blueprints/dynamic/routes.py:87 app/blueprints/dynamic/routes.py:223
+#: app/blueprints/dynamic/routes.py:362
 #, fuzzy, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
 "logs para mais detalhes"
 msgstr "There was an error while running '%(command)s'. Check the logs for details"
 
-#: app/blueprints/dynamic/routes.py:91
+#: app/blueprints/dynamic/routes.py:95
 msgid "Extensão do arquivo está incorreta"
 msgstr "File extension invalid"
 
-#: app/blueprints/dynamic/routes.py:120 app/blueprints/dynamic/routes.py:129
-#: app/blueprints/dynamic/routes.py:254 app/blueprints/dynamic/routes.py:263
-#: app/blueprints/dynamic/routes.py:390 app/blueprints/dynamic/routes.py:399
+#: app/blueprints/dynamic/routes.py:124 app/blueprints/dynamic/routes.py:133
+#: app/blueprints/dynamic/routes.py:260 app/blueprints/dynamic/routes.py:269
+#: app/blueprints/dynamic/routes.py:400 app/blueprints/dynamic/routes.py:409
+#: app/templates/index.html:36
 msgid "Executando"
 msgstr "Running"
 
-#: app/blueprints/dynamic/routes.py:132 app/templates/apo.html:6
+#: app/blueprints/dynamic/routes.py:136 app/templates/apo.html:6
 msgid "Proteína APO"
 msgstr "APO Protein"
 
-#: app/blueprints/dynamic/routes.py:134 app/blueprints/dynamic/routes.py:270
-#: app/blueprints/dynamic/routes.py:406
+#: app/blueprints/dynamic/routes.py:138 app/blueprints/dynamic/routes.py:276
+#: app/blueprints/dynamic/routes.py:416
 msgid "Ocorreu um erro."
-msgstr ""
+msgstr "An error has occurred"
 
-#: app/blueprints/dynamic/routes.py:267 app/templates/prodrg.html:5
+#: app/blueprints/dynamic/routes.py:273 app/templates/prodrg.html:5
 msgid "Proteína + Ligante (PRODRG)"
 msgstr "Protein + Ligand (PRODRG)"
 
-#: app/blueprints/dynamic/routes.py:403 app/templates/acpype.html:5
+#: app/blueprints/dynamic/routes.py:413 app/templates/acpype.html:5
 msgid "Proteína + Ligante (ACPYPE)"
 msgstr "Protein + Ligand (ACPYPE)"
 
-#: app/blueprints/dynamic/routes.py:414 app/templates/atb.html:5
+#: app/blueprints/dynamic/routes.py:424 app/templates/atb.html:5
 msgid "Proteína + Ligante (ATB)"
 msgstr "Protein + Ligand (ATB)"
 
@@ -283,7 +284,8 @@ msgstr "Execute"
 
 #: app/templates/acpype.html:215 app/templates/apo.html:210
 #: app/templates/prodrg.html:212
-msgid "Baixar Lista de Comandos"
+#, fuzzy
+msgid "Gerar Lista de Comandos"
 msgstr "Download Command List"
 
 #: app/templates/acpype.html:225 app/templates/apo.html:220
@@ -331,6 +333,10 @@ msgstr "Visual Dynamics — Generate, Execute, Analyse"
 msgid "A forma mais simples de gerar e executar dinâmica molecular com GROMACS."
 msgstr "The simplest way to generate and run molecular dynamics with GROMACS."
 
+#: app/templates/base.html:146
+msgid "Voltar"
+msgstr "Go Back"
+
 #: app/templates/error.html:5
 msgid "Houve um Erro"
 msgstr "The action you tried to perform generated an error"
@@ -343,32 +349,52 @@ msgstr "There aren't dynamics to show"
 msgid "Você ainda não tem dinâmicas. Utilize o menu acima para começar uma!"
 msgstr "You still don't have dynamics. Use the upper menu to start one!"
 
-#: app/templates/index.html:36
+#: app/templates/index.html:24
+msgid "Legenda"
+msgstr "Label"
+
+#: app/templates/index.html:28
+msgid "Concluída com Sucesso"
+msgstr "Successfully Completed"
+
+#: app/templates/index.html:32
+msgid "Cancelada"
+msgstr "Canceled"
+
+#: app/templates/index.html:40
+msgid "Apenas Geração de Comandos"
+msgstr "Command List Only"
+
+#: app/templates/index.html:44
+msgid "Erro na Execução"
+msgstr "Execution Error"
+
+#: app/templates/index.html:63
 #, python-format
 msgid "%(protein)s @ %(date)s"
 msgstr "%(protein)s @ %(date)s"
 
-#: app/templates/index.html:43
+#: app/templates/index.html:71
 msgid "Downloads"
 msgstr ""
 
-#: app/templates/index.html:50
+#: app/templates/index.html:78
 msgid "Lista de Comandos"
 msgstr "Command List"
 
-#: app/templates/index.html:56
+#: app/templates/index.html:84
 msgid "Arquivo .xtc"
 msgstr ".xtc File"
 
-#: app/templates/index.html:62
+#: app/templates/index.html:90
 msgid "Gráficos de Análise"
 msgstr "Analytics Graphics"
 
-#: app/templates/index.html:68
+#: app/templates/index.html:96
 msgid "Logs de Execução"
 msgstr "Execution Logs"
 
-#: app/templates/admin/executing.html:44 app/templates/index.html:76
+#: app/templates/admin/executing.html:44 app/templates/index.html:104
 msgid "Cancelar Dinâmica"
 msgstr "Cancel Dynamic"
 
@@ -465,19 +491,19 @@ msgstr "Users"
 msgid "ID"
 msgstr ""
 
-#: app/templates/admin/index.html:61
+#: app/templates/admin/index.html:62
 msgid "Ações"
 msgstr "Actions"
 
-#: app/templates/admin/index.html:70
+#: app/templates/admin/index.html:71
 msgid "Editar"
 msgstr "Modify"
 
-#: app/templates/admin/index.html:79
+#: app/templates/admin/index.html:80
 msgid "Excluir Dinâmicas"
 msgstr "Delete Dynamics"
 
-#: app/templates/admin/index.html:89
+#: app/templates/admin/index.html:90
 msgid "Excluir Usuário"
 msgstr "Delete User"
 

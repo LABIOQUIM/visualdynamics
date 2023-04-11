@@ -138,6 +138,13 @@
       </div>
 
       <div class="pt-4">
+        <button
+          class="btn btn-outline-secondary"
+          onclick="history.back()"
+        >
+          <i class="fa fa-arrow-left"></i>
+          {{ _('Voltar') }}
+        </button>
         <!-- Page Content -->
         {% block content %}
         {% endblock %}
