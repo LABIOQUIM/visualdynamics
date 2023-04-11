@@ -10,7 +10,7 @@ import os
 @UserBlueprint.route("/", methods=["GET"], endpoint="index")
 @login_required
 def index():
-    title = _("Minhas Dinâmicas")
+    title = _("Minha Área")
     try:
         directory = os.path.join(
             Config.UPLOAD_FOLDER, current_user.username, "info_dynamics"

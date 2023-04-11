@@ -2,7 +2,7 @@
 
 {% block content %}
 <div>
-  <p class="h2 mt-3 text-center">{{ _("Minhas Dinâmicas") }}</p>
+  <p class="h2 mt-3 text-center">{{ _("Minha Área") }}</p>
   <a
     class="btn btn-primary"
     href="{{ url_for('DownloadRoutes.downloadmdpfiles') }}"
@@ -22,7 +22,7 @@
   {% else %}
   <div class="flex flex-column gap-1 my-3">
     <h3 class="fs-5 mb-0">{{ _('Legenda') }}</h3>
-    <div class="d-flex gap-3">
+    <div class="d-flex flex-wrap gap-3">
       <div class="d-flex gap-1 align-items-center">
         <div class="border border-2 rounded border-success wh-12"></div>
         <p class="my-auto">{{ _('Concluída com Sucesso') }}</p>

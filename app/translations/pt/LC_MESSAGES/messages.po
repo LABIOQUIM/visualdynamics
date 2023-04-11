@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-11 14:49-0400\n"
+"POT-Creation-Date: 2023-04-11 14:53-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -156,7 +156,7 @@ msgstr ""
 
 #: app/blueprints/user/routes.py:13 app/templates/components/navbar.html:108
 #: app/templates/index.html:5
-msgid "Minhas Dinâmicas"
+msgid "Minha Área"
 msgstr ""
 
 #: app/templates/about.html:5

@@ -139,7 +139,8 @@
 
       <div class="pt-4">
         <button
-          class="btn btn-outline-secondary"
+          id="goBackButton"
+          class="visually-hidden btn btn-outline-secondary"
           onclick="history.back()"
         >
           <i class="fa fa-arrow-left"></i>
@@ -184,6 +185,15 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      var button = document.getElementById("goBackButton")
+      if (window.location.pathname !== "/") {
+        button.classList.remove("visually-hidden")
+      } else {
+        button.classList.add("visually-hidden")
+      }
+    </script>
   </body>
 
 </html>
