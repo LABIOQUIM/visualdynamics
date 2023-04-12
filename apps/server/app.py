@@ -15,7 +15,6 @@ api = Api(app)
 
 CORS(app)
 
-
 # Command sequence generation
 api.add_resource(GenerateAcpypeCommands, "/api/v1/acpype")
 api.add_resource(GenerateApoCommands, "/api/v1/apo")
@@ -29,7 +28,6 @@ api.add_resource(DownloadDynamicAssets, "/api/v1/download")
 
 # API Status
 api.add_resource(Health, "/api/v1/health")
-
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,14 @@
+[Unit]
+Description=Celery Flower Monitor
+After=network.target
+
+[Service]
+User=yourusername
+Group=yourgroupname
+WorkingDirectory=/path/to/your/flask/app
+ExecStart=/path/to/your/venv/bin/celery -A server.celery_tasks flower --persistent true
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
