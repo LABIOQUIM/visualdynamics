@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "dev:c": "pnpm --filter client dev",
     "dev:s": "pnpm --filter server dev",
-    "dev:w": "pnpm --filter web dev",
-    "dev": "concurrently --kill-others \"pnpm:dev:s\" \"pnpm:dev:w\"",
+    "dev": "concurrently --kill-others \"pnpm:dev:s\" \"pnpm:dev:c\"",
     "install:s": "pnpm --filter server padd",
     "postinstall": "pnpm --filter server pinstall"
   },
