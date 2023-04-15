@@ -1,5 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
@@ -7,6 +9,7 @@ import { PageLayout } from "@app/components/Layout/Page";
 import { Select } from "@app/components/Select";
 import { Switch } from "@app/components/Switch";
 import { api } from "@app/lib/api";
+import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 import {
   APOFormSchema,
   APOFormSchemaType
@@ -30,6 +33,7 @@ export default function APODynamic() {
       double: false
     }
   });
+  const router = useRouter();
 
   const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
     data
@@ -45,8 +49,7 @@ export default function APODynamic() {
     formData.append("neutralize", data.neutralize ? "True" : "False");
     formData.append("double", data.double ? "True" : "False");
     formData.append("ignore", data.ignore ? "True" : "False");
-    formData.append("user_id", "IvoVieira");
-    formData.append("dynamic_id", "PrimeiraAPO");
+    formData.append("username", "IvoVieira1");
 
     await api
       .post("/apo", formData, {
@@ -55,13 +58,12 @@ export default function APODynamic() {
         }
       })
       .then(async ({ data }) => {
-        console.log(data);
         if (data.status === "generated") {
           await api
             .post(
               "/run",
               {
-                folder_run: data.folder
+                folder: data.folder
               },
               {
                 headers: {
@@ -69,7 +71,7 @@ export default function APODynamic() {
                 }
               }
             )
-            .then(() => alert("running"))
+            .then(() => router.push("/dynamic/running"))
             .catch(() => alert("not running"));
         }
       })
@@ -158,8 +160,30 @@ export default function APODynamic() {
           />
         </div>
 
-        <Button type="submit">Enviar</Button>
+        <Button
+          className="mt-4"
+          type="submit"
+        >
+          Enviar
+        </Button>
       </form>
     </PageLayout>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const data = await getRunningDynamic("IvoVieira1");
+
+  if (data?.status === "running") {
+    return {
+      redirect: {
+        destination: "/dynamic/running"
+      },
+      props: {}
+    };
+  }
+
+  return {
+    props: {}
+  };
+};

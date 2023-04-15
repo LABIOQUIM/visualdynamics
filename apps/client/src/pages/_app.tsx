@@ -1,10 +1,13 @@
 import React, { Suspense, useState } from "react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 
 import { Footer } from "@app/components/Layout/Footer";
 import { Header } from "@app/components/Layout/Header";
+import { queryClient } from "@app/lib/query-client";
 
 import "@app/styles/globals.css";
 
@@ -24,17 +27,22 @@ export default function App({ Component, pageProps }: AppProps) {
     >
       <div className="h-screen font-inter">
         <Suspense fallback={<div>Loading...</div>}>
-          <div className="flex flex-col h-full gap-2 md:flex-row">
-            <Header
-              setTheme={setTheme}
-              theme={theme}
-            />
-            <div className="flex flex-col flex-1 max-h-full">
-              {/* BREADCRUMB */}
-              <Component {...pageProps} />
-              <Footer />
+          <QueryClientProvider client={queryClient}>
+            <div className="flex flex-col h-full gap-2 md:flex-row">
+              <Header
+                setTheme={setTheme}
+                theme={theme}
+              />
+              <div className="flex flex-col flex-1 max-h-full">
+                {/* BREADCRUMB */}
+                <Component {...pageProps} />
+                <Footer />
+              </div>
             </div>
-          </div>
+            {process.env.NODE_ENV === "development" ? (
+              <ReactQueryDevtools />
+            ) : null}
+          </QueryClientProvider>
         </Suspense>
       </div>
 

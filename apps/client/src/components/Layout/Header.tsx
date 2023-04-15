@@ -102,7 +102,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
   });
 
   return (
-    <nav className="h-14 md:h-full md:w-60 bg-zinc-800/10 p-2">
+    <nav className="h-14 md:h-full md:w-80 bg-zinc-800/10 p-2">
       <div className="flex flex-1 h-full justify-between md:hidden">
         <Image
           alt="Visual Dynamics"
@@ -121,7 +121,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
       <div className="hidden md:border-b md:border-b-zinc-400/50 md:pb-2 md:block md:sticky md:top-0">
         <Image
           alt="Visual Dynamics"
-          className="w-full"
+          className="w-2/3 mx-auto"
           height={0}
           src="/images/logo.svg"
           width={0}

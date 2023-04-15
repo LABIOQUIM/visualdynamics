@@ -42,17 +42,17 @@ export const SelectTheme: FC<SelectThemeProps> = ({ setTheme, theme }) => (
             value={item}
           >
             <div
-              className={`rounded-full w-6 h-6 my-auto border-2 border-white transition-all ${bg[i]} ${hoverBg[i]} hover:border-zinc-200`}
+              className={`rounded-full w-6 h-6 my-auto border-2 border-white transition-all ${bg[i]} ${hoverBg[i]} flex items-center justify-center hover:border-zinc-200`}
             >
-              <DropdownMenu.ItemIndicator className="flex w-full h-full items-center justify-center">
-                <Icons.Check />
+              <DropdownMenu.ItemIndicator className="flex items-center justify-center">
+                <Icons.Check className="mt-0.5 stroke-primary-100 stroke-[3] w-[75%] h-[75%]" />
               </DropdownMenu.ItemIndicator>
             </div>
           </DropdownMenu.RadioItem>
         ))}
       </DropdownMenu.RadioGroup>
 
-      <DropdownMenu.Arrow className="fill-primary-400/40" />
+      <DropdownMenu.Arrow className="fill-primary-950/60" />
     </DropdownMenu.Content>
   </DropdownMenu.Root>
 );
