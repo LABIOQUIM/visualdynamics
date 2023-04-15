@@ -1,5 +1,4 @@
 import os
-import shutil
 from flask import request
 from flask_restful import Resource, reqparse
 from server.celery_tasks import run_commands
@@ -24,15 +23,26 @@ class RunDynamic(Resource):
     def get(self):
         args = request.args
 
-        user_id = args["user_id"]
+        username = args["username"]
 
-        folder_user = os.path.abspath(os.path.join(Config.UPLOAD_FOLDER, user_id))
+        folder_user = os.path.abspath(os.path.join(Config.UPLOAD_FOLDER, username))
 
         file_is_running = os.path.abspath(os.path.join(folder_user, "is-running"))
 
         if os.path.exists(file_is_running):
             with open(file_is_running, "r") as f:
                 folder = f.readline()
+                extractable_data = folder.split("/")
+                data = {
+                    "timestamp": extractable_data[9],
+                    "type": extractable_data[7],
+                    "molecule": extractable_data[8],
+                }
+
+            file_steps = os.path.abspath(os.path.join(folder, "steps.txt"))
+
+            with open(file_steps, "r") as f:
+                step = f.readlines()[-1]
 
             file_gmx_log = os.path.abspath(
                 os.path.join(folder, "run", "logs", "gmx.log")
@@ -41,6 +51,11 @@ class RunDynamic(Resource):
             with open(file_gmx_log, "r") as f:
                 log_lines = f.readlines()
 
-            return {"status": "running", "log": log_lines[-30:]}
+            return {
+                "data": data,
+                "step": step,
+                "log": log_lines[-30:],
+                "status": "running",
+            }
 
-        return {"status": "running", "folder": args["folder"]}
+        return {"status": "not-running"}

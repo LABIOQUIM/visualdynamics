@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from flask_restful import Resource, reqparse
 from server.config import Config
 from server.utils.create_folders import create_folders
@@ -8,6 +9,8 @@ from werkzeug.datastructures import FileStorage
 
 class GenerateApoCommands(Resource):
     def post(self):
+        timestamp = datetime.now().replace(microsecond=0).isoformat()
+
         parser = reqparse.RequestParser()
         parser.add_argument(
             "file_pdb", required=True, type=FileStorage, location="files"
@@ -20,27 +23,40 @@ class GenerateApoCommands(Resource):
         parser.add_argument("double", required=True, type=bool, location="form")
         parser.add_argument("ignore", required=True, type=bool, location="form")
         parser.add_argument("bootstrap", required=True, type=bool, location="form")
-        parser.add_argument("user_id", required=True, type=str, location="form")
-        parser.add_argument("dynamic_id", required=True, type=str, location="form")
+        parser.add_argument("username", required=True, type=str, location="form")
 
         args = parser.parse_args()
+
+        filename, ext = os.path.splitext(os.path.basename(args["file_pdb"].filename))
 
         if args["bootstrap"]:
             gmx = check_gromacs()
             grace = check_grace()
-            dynamic_folder = os.path.join(
-                Config.UPLOAD_FOLDER, args["user_id"], args["dynamic_id"]
+
+            dynamic_folder = os.path.abspath(
+                os.path.join(
+                    Config.UPLOAD_FOLDER,
+                    args["username"],
+                    "APO",
+                    filename,
+                    timestamp,
+                )
             )
+
             create_folders(dynamic_folder)
             args["file_pdb"].save(
                 os.path.join(dynamic_folder, "run", args["file_pdb"].filename)
             )
-            # UPDATE DB TO SAVE FOLDER PATH AND PDB FILENAME
+
+            file_user_dynamics_list = os.path.abspath(
+                os.path.join(Config.UPLOAD_FOLDER, args["username"], "dynamics.list")
+            )
+
+            with open(file_user_dynamics_list, "a+") as f:
+                f.write(f"{dynamic_folder}\n")
         else:
             gmx = "gmx"
             grace = "grace"
-
-        filename, ext = os.path.splitext(os.path.basename(args["file_pdb"].filename))
 
         commands = [
             "#topology\n",
@@ -58,7 +74,7 @@ class GenerateApoCommands(Resource):
                     f'echo \'SOL\' | {gmx} genion -s "{filename}_charged.tpr" -o "{filename}_charged" -p "{filename}.top" -neutral\n\n',
                     "#minimizationsteepdesc\n",
                     f'{gmx} grompp -f PME_em.mdp -c "{filename}_charged.gro" -p "{filename}.top" -o "{filename}_charged" -maxwarn 2\n',
-                    f'{gmx} mdrun -v -s "{filename}_charged.tpr" -deffnm "{filename}_sd_em"\n',
+                    f'{gmx} mdrun -nt 1 -v -s "{filename}_charged.tpr" -deffnm "{filename}_sd_em"\n',
                     f'echo \'10 0\' | {gmx} energy -f "{filename}_sd_em.edr" -o "{filename}_potentialsd.xvg"\n',
                     f'{grace} -nxy "{filename}_potentialsd.xvg" -hdevice PNG -hardcopy -printfile "../figures/{filename}_potentialsd.png"\n\n',
                 ]
@@ -68,22 +84,22 @@ class GenerateApoCommands(Resource):
             [
                 "#minimizationconjgrad\n",
                 f'{gmx} grompp -f PME_cg_em.mdp -c "{filename}_sd_em.gro" -p "{filename}.top" -o "{filename}_cg_em" -maxwarn 2\n',
-                f'{gmx} mdrun -v -s "{filename}_cg_em.tpr" -deffnm "{filename}_cg_em"\n',
+                f'{gmx} mdrun -nt 1 -v -s "{filename}_cg_em.tpr" -deffnm "{filename}_cg_em"\n',
                 f'echo \'10 0\' | {gmx} energy -f "{filename}_cg_em.edr" -o "{filename}_potentialcg.xvg"\n',
                 f'{grace} -nxy "{filename}_potentialcg.xvg" -hdevice PNG -hardcopy -printfile "../figures/{filename}_potentialcg.png"\n\n',
                 "#equilibrationnvt\n",
                 f'{gmx} grompp -f nvt.mdp -c "{filename}_cg_em.gro" -r "{filename}_cg_em.gro" -p "{filename}.top" -o "{filename}_nvt.tpr" -maxwarn 2\n',
-                f'{gmx} mdrun -v -s "{filename}_nvt.tpr" -deffnm "{filename}_nvt"\n',
+                f'{gmx} mdrun -nt 1 -v -s "{filename}_nvt.tpr" -deffnm "{filename}_nvt"\n',
                 f'echo \'16 0\' | {gmx} energy -f "{filename}_nvt.edr" -o "{filename}_temperature_nvt.xvg"\n',
                 f'{grace} -nxy "{filename}_temperature_nvt.xvg" -hdevice PNG -hardcopy -printfile "../figures/{filename}_temperature_nvt.png"\n\n',
                 "#equilibrationnpt\n",
                 f'{gmx} grompp -f npt.mdp -c "{filename}_nvt.gro" -r "{filename}_nvt.gro" -p "{filename}.top" -o "{filename}_npt.tpr" -maxwarn 2\n',
-                f'{gmx} mdrun -v -s "{filename}_npt.tpr" -deffnm "{filename}_npt"\n',
+                f'{gmx} mdrun -nt 1 -v -s "{filename}_npt.tpr" -deffnm "{filename}_npt"\n',
                 f'echo \'16 0\' | {gmx} energy -f "{filename}_npt.edr" -o "{filename}_temperature_npt.xvg"\n',
                 f'{grace} -nxy "{filename}_temperature_npt.xvg" -hdevice PNG -hardcopy -printfile "../figures/{filename}_temperature_npt.png"\n\n',
                 "#productionmd\n",
                 f'{gmx} grompp -f md_pr.mdp -c "{filename}_npt.gro" -p "{filename}.top" -o "{filename}_pr" -maxwarn 2\n',
-                f'{gmx} mdrun -v -s "{filename}_pr.tpr" -deffnm "{filename}_pr"\n\n',
+                f'{gmx} mdrun -nt 1 -v -s "{filename}_pr.tpr" -deffnm "{filename}_pr"\n\n',
                 "#analyzemd\n",
                 f'echo \'1 1\' | {gmx} trjconv -s "{filename}_pr.tpr" -f "{filename}_pr.xtc" -o "{filename}_pr_PBC.xtc" -pbc mol -center\n',
                 f'echo \'4 4\' | {gmx} rms -s "{filename}_pr.tpr" -f "{filename}_pr_PBC.xtc" -o "{filename}_rmsd_prod.xvg" -tu ns\n',
@@ -107,7 +123,7 @@ class GenerateApoCommands(Resource):
 
             return {
                 "status": "generated",
-                "folder": os.path.join(dynamic_folder, "run"),
+                "folder": dynamic_folder,
             }
 
         return {"commands": commands}

@@ -5,7 +5,6 @@ from celery import Celery
 celery = Celery(
     "visualdynamics",
     broker="redis://localhost:6379",
-    result_backend="redis://localhost:6379",
 )
 
 # Configure the Celery instance
