@@ -7,11 +7,16 @@ from flask_migrate import Migrate
 from flask_babel import Babel
 from app.config import Config
 from flask_mail import Mail
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
