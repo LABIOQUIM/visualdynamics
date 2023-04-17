@@ -4,4 +4,6 @@ from server.celery import celery
 
 class CeleryActiveTasks(Resource):
     def get(self):
-        return {"activeTasks": celery.control.inspect().active()}
+        return {
+            "activeTasks": celery.control.inspect(["worker@visualdynamics"]).active()
+        }

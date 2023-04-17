@@ -4,4 +4,8 @@ from server.celery import celery
 
 class CeleryReservedTasks(Resource):
     def get(self):
-        return {"reservedTasks": celery.control.inspect().reserved()}
+        return {
+            "reservedTasks": celery.control.inspect(
+                ["worker@visualdynamics"]
+            ).reserved()
+        }

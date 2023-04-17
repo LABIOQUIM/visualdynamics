@@ -33,27 +33,34 @@ class RunDynamic(Resource):
             with open(file_is_running, "r") as f:
                 folder = f.readline()
                 extractable_data = folder.split("/")
-                data = {
-                    "timestamp": extractable_data[9],
-                    "type": extractable_data[7],
-                    "molecule": extractable_data[8],
-                }
 
             file_steps = os.path.abspath(os.path.join(folder, "steps.txt"))
 
             with open(file_steps, "r") as f:
-                step = f.readlines()[-1]
+                step = [l.strip().replace("#", "") for l in f.readlines()]
 
             file_gmx_log = os.path.abspath(
                 os.path.join(folder, "run", "logs", "gmx.log")
             )
 
             with open(file_gmx_log, "r") as f:
-                log_lines = f.readlines()
+                log_lines = [l.strip() for l in f.readlines()]
+
+            file_celery_id = os.path.abspath(os.path.join(folder, "celery_id"))
+
+            with open(file_celery_id, "r") as f:
+                celery_id = f.readline()
+
+            data = {
+                "timestamp": extractable_data[9],
+                "type": extractable_data[7],
+                "molecule": extractable_data[8],
+                "celeryId": celery_id,
+            }
 
             return {
-                "data": data,
-                "step": step,
+                "info": data,
+                "steps": step,
                 "log": log_lines[-30:],
                 "status": "running",
             }

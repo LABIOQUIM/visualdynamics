@@ -38,16 +38,19 @@ importers:
       eslint-plugin-react-hooks: 4.6.0
       eslint-plugin-simple-import-sort: 10.0.0
       github-slugger: ^2.0.0
+      i18next: ^22.4.14
       identity-obj-proxy: ^3.0.0
       lucide-react: ^0.127.0
       next: 13.2.4
       next-contentlayer: ^0.3.0
+      next-i18next: ^13.2.2
       next-sitemap: ^4.0.6
       postcss: ^8.4.19
       prettier: ^2.8.4
       react: 18.2.0
       react-dom: 18.2.0
       react-hook-form: ^7.43.9
+      react-i18next: ^12.2.0
       react-icons: ^4.8.0
       rehype-autolink-headings: ^6.1.1
       rehype-pretty-code: ^0.9.4
@@ -79,13 +82,16 @@ importers:
       contentlayer: 0.3.1_esbuild@0.17.15
       date-fns: 2.29.3
       github-slugger: 2.0.0
+      i18next: 22.4.14
       lucide-react: 0.127.0_react@18.2.0
       next: 13.2.4_rfdx5ocjtvb4b2h5j5ipjicct4
       next-contentlayer: 0.3.1_ttbctfcgdgtevpr2h4r54ekjcm
+      next-i18next: 13.2.2_nytcznhlratvprsgnsnmrkal34
       next-sitemap: 4.0.6_jccvrrmb7rb3yyi3af3znueaea
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.43.9_react@18.2.0
+      react-i18next: 12.2.0_57ubdvajp6562okxygabugvlve
       react-icons: 4.8.0_react@18.2.0
       rehype-pretty-code: 0.9.4_shiki@0.14.1
       sharp: 0.31.3
@@ -1593,6 +1599,13 @@ packages:
     dependencies:
       '@types/unist': 2.0.6
 
+  /@types/hoist-non-react-statics/3.3.1:
+    resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
+    dependencies:
+      '@types/react': 18.0.25
+      hoist-non-react-statics: 3.3.2
+    dev: false
+
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
@@ -2308,6 +2321,11 @@ packages:
     engines: {node: '>=12.13'}
     dependencies:
       is-what: 4.1.8
+    dev: false
+
+  /core-js/3.30.1:
+    resolution: {integrity: sha512-ZNS5nbiSwDTq4hFosEDqm65izl2CWmLz0hARJMyNQBgkUZMIF51cQiMvIQKA6hvuaeWxQDP3hEedM1JZIgTldQ==}
+    requiresBuild: true
     dev: false
 
   /core-util-is/1.0.3:
@@ -3555,6 +3573,18 @@ packages:
       space-separated-tokens: 2.0.2
     dev: false
 
+  /hoist-non-react-statics/3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+    dependencies:
+      react-is: 16.13.1
+    dev: false
+
+  /html-parse-stringify/3.0.1:
+    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
+    dependencies:
+      void-elements: 3.1.0
+    dev: false
+
   /html-tags/3.3.0:
     resolution: {integrity: sha512-mH3dWNbvfCKcAEysbpD7wvtIJ6ImPog8aFhfzqog9gCN8CJFhKjLDtjpohG3IxYRLqHMJ1PWpBvnSMkFJBQ6Jg==}
     engines: {node: '>=8'}
@@ -3562,6 +3592,16 @@ packages:
 
   /html-void-elements/2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
+    dev: false
+
+  /i18next-fs-backend/2.1.1:
+    resolution: {integrity: sha512-FTnj+UmNgT3YRml5ruRv0jMZDG7odOL/OP5PF5mOqvXud2vHrPOOs68Zdk6iqzL47cnnM0ZVkK2BAvpFeDJToA==}
+    dev: false
+
+  /i18next/22.4.14:
+    resolution: {integrity: sha512-VtLPtbdwGn0+DAeE00YkiKKXadkwg+rBUV+0v8v0ikEjwdiJ0gmYChVE4GIa9HXymY6wKapkL93vGT7xpq6aTw==}
+    dependencies:
+      '@babel/runtime': 7.21.0
     dev: false
 
   /identity-obj-proxy/3.0.0:
@@ -4670,6 +4710,26 @@ packages:
       - supports-color
     dev: false
 
+  /next-i18next/13.2.2_nytcznhlratvprsgnsnmrkal34:
+    resolution: {integrity: sha512-t0WU6K+HJoq2nVQ0n6OiiEZja9GyMqtDSU74FmOafgk4ljns+iZ18bsNJiI8rOUXfFfkW96ea1N7D5kbMyT+PA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      i18next: ^22.0.6
+      next: '>= 12.0.0'
+      react: '>= 17.0.2'
+      react-i18next: ^12.2.0
+    dependencies:
+      '@babel/runtime': 7.21.0
+      '@types/hoist-non-react-statics': 3.3.1
+      core-js: 3.30.1
+      hoist-non-react-statics: 3.3.2
+      i18next: 22.4.14
+      i18next-fs-backend: 2.1.1
+      next: 13.2.4_rfdx5ocjtvb4b2h5j5ipjicct4
+      react: 18.2.0
+      react-i18next: 12.2.0_57ubdvajp6562okxygabugvlve
+    dev: false
+
   /next-sitemap/4.0.6_jccvrrmb7rb3yyi3af3znueaea:
     resolution: {integrity: sha512-pZ9tynYe6mRR189qZqcOlWVgM1Gxo07BJQW0AjerKmLwQOt+6FQMdaDgifgCt6jDT3Y3EG/+NUDDZRcd0gbPkA==}
     engines: {node: '>=14.18'}
@@ -5276,6 +5336,26 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-i18next/12.2.0_57ubdvajp6562okxygabugvlve:
+    resolution: {integrity: sha512-5XeVgSygaGfyFmDd2WcXvINRw2WEC1XviW1LXY/xLOEMzsCFRwKqfnHN+hUjla8ZipbVJR27GCMSuTr0BhBBBQ==}
+    peerDependencies:
+      i18next: '>= 19.0.0'
+      react: '>= 16.8.0'
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.0
+      html-parse-stringify: 3.0.1
+      i18next: 22.4.14
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /react-icons/4.8.0_react@18.2.0:
     resolution: {integrity: sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==}
     peerDependencies:
@@ -5286,7 +5366,6 @@ packages:
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-    dev: true
 
   /react-remove-scroll-bar/2.3.4_fan5qbzahqtxlm5dzefqlqx5ia:
     resolution: {integrity: sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==}
@@ -6323,6 +6402,11 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
+
+  /void-elements/3.1.0:
+    resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /vscode-oniguruma/1.7.0:
     resolution: {integrity: sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==}

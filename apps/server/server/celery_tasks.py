@@ -1,12 +1,27 @@
 import os
 import shutil
+import signal
 from server.config import Config
 from server.utils.run_command import run_command
 from server.celery import celery
 
 
-@celery.task()
-def run_commands(folder):
+@celery.task(bind=True)
+def run_commands(self, folder):
+    def sigterm_handler(signl, frame):
+        with open(file_log_path, "a+") as f:
+            f.write("\n\ncanceled")
+
+        if os.path.exists(file_is_running):
+            os.remove(file_is_running)
+
+    signal.signal(signal.SIGTERM, sigterm_handler)
+
+    file_task_id = os.path.abspath(os.path.join(folder, "celery_id"))
+
+    with open(file_task_id, "w") as f:
+        f.write(self.request.id)
+
     # Get absolute path to the folder where our default MDP files are stored
     folder_mdp = os.path.abspath(Config.MDP_LOCATION_FOLDER)
 
