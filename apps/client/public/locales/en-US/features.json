@@ -42,7 +42,7 @@
     },
     "running": {
       "title": "Your Dynamic is Running",
-      "cancel": "Cancel",
+      "taskId": "Task ID",
       "description": "Info",
       "type": "Model",
       "molecule": "Molecule",

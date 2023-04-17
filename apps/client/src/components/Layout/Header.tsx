@@ -141,7 +141,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
       </div>
 
       {showMobileMenu ? (
-        <div className="absolute inset-0 top-14 bg-zinc-100 p-2 flex flex-col gap-y-4">
+        <div className="absolute inset-0 z-10 top-14 bg-zinc-100 p-2 flex flex-col gap-y-4">
           {renderedItems}
         </div>
       ) : null}

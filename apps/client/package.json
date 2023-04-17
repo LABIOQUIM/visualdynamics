@@ -41,6 +41,7 @@
     "react-hook-form": "^7.43.9",
     "react-i18next": "^12.2.0",
     "react-icons": "^4.8.0",
+    "react-uuid": "^2.0.0",
     "rehype-pretty-code": "^0.9.4",
     "sharp": "^0.31.3",
     "shiki": "^0.14.1",

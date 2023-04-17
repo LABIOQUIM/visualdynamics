@@ -1,6 +1,7 @@
 import os
 from flask import request
 from flask_restful import Resource, reqparse
+from celery import uuid
 from server.celery_tasks import run_commands
 from server.config import Config
 
@@ -15,10 +16,17 @@ class RunDynamic(Resource):
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])
 
-        run_commands.delay(folder)
+        task_id = uuid()
+
+        run_commands.apply_async((folder,), task_id=task_id)
+
+        file_celery_id = os.path.abspath(os.path.join(args["folder"], "celery_id"))
+
+        with open(file_celery_id, "w") as f:
+            f.write(task_id)
 
         # Return a response indicating that the command has started
-        return {"status": "started"}
+        return {"status": "queued"}
 
     def get(self):
         args = request.args
@@ -35,16 +43,19 @@ class RunDynamic(Resource):
                 extractable_data = folder.split("/")
 
             file_steps = os.path.abspath(os.path.join(folder, "steps.txt"))
-
-            with open(file_steps, "r") as f:
-                step = [l.strip().replace("#", "") for l in f.readlines()]
+            step = []
+            if os.path.isfile(file_steps):
+                with open(file_steps, "r") as f:
+                    step = [l.strip().replace("#", "") for l in f.readlines()]
 
             file_gmx_log = os.path.abspath(
                 os.path.join(folder, "run", "logs", "gmx.log")
             )
 
-            with open(file_gmx_log, "r") as f:
-                log_lines = [l.strip() for l in f.readlines()]
+            log_lines = []
+            if os.path.isfile(file_gmx_log):
+                with open(file_gmx_log, "r") as f:
+                    log_lines = [l.strip() for l in f.readlines()]
 
             file_celery_id = os.path.abspath(os.path.join(folder, "celery_id"))
 

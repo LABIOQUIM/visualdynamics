@@ -6,20 +6,31 @@ import {
 
 import { api } from "@app/lib/api";
 
-interface GetRunningDynamicResult {
-  info?: {
-    timestamp: string;
-    molecule: string;
-    type: "APO" | "ACPYPE";
-  };
-  steps?: string[];
-  log?: string[];
-  status: "running" | "not-running";
-}
+export type GetRunningDynamicResult =
+  | {
+      info: {
+        timestamp: string;
+        molecule: string;
+        type: "APO" | "ACPYPE";
+        celeryId: string;
+      };
+      steps: string[];
+      log: string[];
+      status: "running";
+    }
+  | {
+      status: "not-running" | "no-username";
+    };
 
 export async function getRunningDynamic(
   username: string
 ): Promise<GetRunningDynamicResult> {
+  if (!username) {
+    return {
+      status: "no-username"
+    };
+  }
+
   const { data } = await api.get<GetRunningDynamicResult>("/run", {
     params: {
       username

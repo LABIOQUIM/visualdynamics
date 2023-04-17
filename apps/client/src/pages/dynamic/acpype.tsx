@@ -14,22 +14,22 @@ import { Switch } from "@app/components/Switch";
 import { api } from "@app/lib/api";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 import {
-  APOFormSchema,
-  APOFormSchemaType
-} from "@app/schemas/pages/dynamic/apo.zod";
+  ACPYPEFormSchema,
+  ACPYPEFormSchemaType
+} from "@app/schemas/pages/dynamic/acpype.zod";
 import { boxTypes } from "@app/utils/box-types";
-import { apoForceFields } from "@app/utils/force-fields";
+import { acpypeForceFields } from "@app/utils/force-fields";
 import { waterModels } from "@app/utils/water-models";
 
-export default function APODynamic() {
+export default function ACPYPEDynamic() {
   const {
     formState: { errors },
     handleSubmit,
     register,
     setValue,
     watch
-  } = useForm<APOFormSchemaType>({
-    resolver: zodResolver(APOFormSchema),
+  } = useForm<ACPYPEFormSchemaType>({
+    resolver: zodResolver(ACPYPEFormSchema),
     defaultValues: {
       neutralize: true,
       ignore: true,
@@ -39,12 +39,14 @@ export default function APODynamic() {
   const router = useRouter();
   const { t } = useTranslation(["features"]);
 
-  const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
+  const handleSubmitDynamic: SubmitHandler<ACPYPEFormSchemaType> = async (
     data
   ) => {
     const formData = new FormData();
 
     formData.append("file_pdb", data.protein[0]);
+    formData.append("file_itp", data.ligandItp[0]);
+    formData.append("file_gro", data.ligandGro[0]);
     formData.append("force_field", data.forceField);
     formData.append("water_model", data.waterModel);
     formData.append("box_type", data.boxType);
@@ -56,7 +58,7 @@ export default function APODynamic() {
     formData.append("username", "IvoVieira1");
 
     await api
-      .post("/apo", formData, {
+      .post("/acpype", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -83,7 +85,7 @@ export default function APODynamic() {
   };
 
   return (
-    <PageLayout title={t("features:dynamic.types.apo")}>
+    <PageLayout title={t("features:dynamic.types.acpype")}>
       <form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit(handleSubmitDynamic)}
@@ -96,14 +98,30 @@ export default function APODynamic() {
           {...register("protein")}
         />
 
-        <Select<keyof typeof apoForceFields>
+        <Input
+          label={t("features:dynamic.forms.file-itp.title")}
+          type="file"
+          accept=".itp,.gro"
+          error={errors.ligandItp}
+          {...register("ligandItp")}
+        />
+
+        <Input
+          label={t("features:dynamic.forms.file-gro.title")}
+          type="file"
+          accept=".pdb,.gro"
+          error={errors.ligandGro}
+          {...register("ligandGro")}
+        />
+
+        <Select<keyof typeof acpypeForceFields>
           error={errors.forceField}
           label={t("features:dynamic.forms.force-field.title")}
           name="forceField"
           onChange={(newForceField) => setValue("forceField", newForceField)}
           placeholder={t("features:dynamic.forms.force-field.placeholder")}
           selectedValue={watch("forceField")}
-          values={apoForceFields}
+          values={acpypeForceFields}
         />
 
         <Select<keyof typeof waterModels>
@@ -142,6 +160,7 @@ export default function APODynamic() {
             name="neutralize"
             disabled
           />
+
           <Switch
             label={t("features:dynamic.forms.ignore.title")}
             checked={watch("ignore")}
@@ -149,6 +168,7 @@ export default function APODynamic() {
             name="ignore"
             disabled
           />
+
           <Switch
             label={t("features:dynamic.forms.double.title")}
             checked={watch("double")}
@@ -156,6 +176,7 @@ export default function APODynamic() {
             name="double"
             disabled
           />
+
           <Switch
             label={t("features:dynamic.forms.run.title")}
             checked={watch("bootstrap")}
@@ -163,7 +184,6 @@ export default function APODynamic() {
             name="bootstrap"
           />
         </div>
-
         <Button
           className="mt-4"
           LeftIcon={watch("bootstrap") === true ? CloudCog : Download}

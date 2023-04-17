@@ -52,6 +52,7 @@ importers:
       react-hook-form: ^7.43.9
       react-i18next: ^12.2.0
       react-icons: ^4.8.0
+      react-uuid: ^2.0.0
       rehype-autolink-headings: ^6.1.1
       rehype-pretty-code: ^0.9.4
       rehype-slug: ^5.1.0
@@ -93,6 +94,7 @@ importers:
       react-hook-form: 7.43.9_react@18.2.0
       react-i18next: 12.2.0_57ubdvajp6562okxygabugvlve
       react-icons: 4.8.0_react@18.2.0
+      react-uuid: 2.0.0
       rehype-pretty-code: 0.9.4_shiki@0.14.1
       sharp: 0.31.3
       shiki: 0.14.1
@@ -5417,6 +5419,11 @@ packages:
       invariant: 2.2.4
       react: 18.2.0
       tslib: 2.5.0
+    dev: false
+
+  /react-uuid/2.0.0:
+    resolution: {integrity: sha512-FNUH/8WR/FEtx0Bu6gmt1eONfc413hhvrEXFWUSFGvznUhI4dYoVZA09p7JHoTpnM4WC2D/bG2YSxGKXF4oVLg==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     dev: false
 
   /react/18.2.0:

@@ -1,16 +1,24 @@
 import { z } from "zod";
 
 import { boxTypes } from "@app/utils/box-types";
-import { apoForceFields } from "@app/utils/force-fields";
+import { acpypeForceFields } from "@app/utils/force-fields";
 import { waterModels } from "@app/utils/water-models";
 
-export const APOFormSchema = z.object({
+export const ACPYPEFormSchema = z.object({
   // @ts-ignore
   protein: z.custom<FileList>((v) => v[0] instanceof File, {
     message: "features:dynamic.forms.file-pdb.errors.no-pdb"
   }),
-  forceField: z.custom<keyof typeof apoForceFields>(
-    (v) => Object.keys(apoForceFields).includes(v as string),
+  // @ts-ignore
+  ligandItp: z.custom<FileList>((v) => v[0] instanceof File, {
+    message: "features:dynamic.forms.file-ligand-itp.errors.no-itp"
+  }),
+  // @ts-ignore
+  ligandGro: z.custom<FileList>((v) => v[0] instanceof File, {
+    message: "features:dynamic.forms.file-ligand-pdb.errors.no-pdb"
+  }),
+  forceField: z.custom<keyof typeof acpypeForceFields>(
+    (v) => Object.keys(acpypeForceFields).includes(v as string),
     { message: "features:dynamic.forms.force-field.errors.no-force-field" }
   ),
   boxType: z.custom<keyof typeof boxTypes>(
@@ -34,4 +42,4 @@ export const APOFormSchema = z.object({
   bootstrap: z.boolean().default(false)
 });
 
-export type APOFormSchemaType = z.infer<typeof APOFormSchema>;
+export type ACPYPEFormSchemaType = z.infer<typeof ACPYPEFormSchema>;

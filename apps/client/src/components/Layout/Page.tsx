@@ -62,9 +62,9 @@ export function PageLayout({
             />
           </BreadcrumbItem>
           {breadcrumbs &&
-            breadcrumbs.map((breadcrumb) => (
+            breadcrumbs.map((breadcrumb, index) => (
               <BreadcrumbItem
-                key={breadcrumb.href}
+                key={breadcrumb.href + index}
                 href={breadcrumb.href}
               >
                 {breadcrumb.label}

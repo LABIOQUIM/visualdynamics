@@ -48,7 +48,7 @@ function Step({
       ) : null}
       {running ? (
         <div
-          className="my-auto"
+          className="my-auto z-0"
           role="status"
         >
           <svg
@@ -87,17 +87,19 @@ export function RunningDynamicStepList({
       </h4>
       <div className="flex items-center gap-1 flex-wrap">
         {steps.map((step, index) => (
-          <>
+          <div
+            className="flex items-center gap-x-1"
+            key={step + index}
+          >
             <Step
               active={activeSteps.includes(step)}
               running={activeSteps[activeSteps.length - 1] === step}
-              key={step}
               step={step}
             />
             {index + 1 < steps.length ? (
               <ArrowRight className="h-4 w-4" />
             ) : null}
-          </>
+          </div>
         ))}
       </div>
     </>

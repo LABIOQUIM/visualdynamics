@@ -9,6 +9,7 @@ from server.resources.generate_acpype import GenerateAcpypeCommands
 from server.resources.generate_apo import GenerateApoCommands
 from server.resources.health import Health
 from server.resources.run import RunDynamic
+from server.resources.run.abort import AbortDynamic
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -22,6 +23,7 @@ api.add_resource(GenerateApoCommands, "/api/v1/apo")
 
 # Command sequence execution
 api.add_resource(RunDynamic, "/api/v1/run")
+api.add_resource(AbortDynamic, "/api/v1/run/abort")
 
 # Generated Assets Serving
 api.add_resource(DownloadDynamicAssets, "/api/v1/download")
