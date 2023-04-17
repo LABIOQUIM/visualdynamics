@@ -21,7 +21,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         </div>
         <input
           className={clsx(
-            "border border-primary-200/60 px-2 py-1 h-10 outline-none rounded-md bg-zinc-100 placeholder:text-zinc-400 file:bg-primary-500 file:text-zinc-50 file:mr-2 file:transition-all file:py-1 file:px-2 file:h-full file:-ml-1 file:rounded-md file:border-0 file:text-sm file:font-semibold hover:file:bg-primary-600 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200",
+            "border border-primary-200/60 transition-all duration-500 px-2 py-1 h-10 outline-none file:transition-all file:duration-500 rounded-md bg-zinc-100 placeholder:text-zinc-400 file:bg-primary-500 file:text-zinc-50 file:mr-2 file:py-1 file:px-2 file:h-full file:-ml-1 file:rounded-md file:border-0 file:text-sm file:font-semibold hover:file:bg-primary-600 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200",
             {
               "border-red-600/95 focus:ring-red-500": error
             }

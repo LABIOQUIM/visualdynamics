@@ -1,7 +1,10 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CloudCog, Download } from "lucide-react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
@@ -34,6 +37,7 @@ export default function APODynamic() {
     }
   });
   const router = useRouter();
+  const { t } = useTranslation(["features"]);
 
   const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
     data
@@ -79,13 +83,13 @@ export default function APODynamic() {
   };
 
   return (
-    <PageLayout title="features:dynamic.apo.title">
+    <PageLayout title={t("features:dynamic.types.apo")}>
       <form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit(handleSubmitDynamic)}
       >
         <Input
-          label="features:dynamic.forms.file-pdb.title"
+          label={t("features:dynamic.forms.file-pdb.title")}
           type="file"
           accept=".pdb"
           error={errors.protein}
@@ -94,66 +98,66 @@ export default function APODynamic() {
 
         <Select<keyof typeof forceFields>
           error={errors.forceField}
-          label="features:dynamic.forms.force-field.title"
+          label={t("features:dynamic.forms.force-field.title")}
           name="forceField"
           onChange={(newForceField) => setValue("forceField", newForceField)}
-          placeholder="features:dynamic.forms.force-field.placeholder"
+          placeholder={t("features:dynamic.forms.force-field.placeholder")}
           selectedValue={watch("forceField")}
           values={forceFields}
         />
 
         <Select<keyof typeof waterModels>
           error={errors.waterModel}
-          label="features:dynamic.forms.water-model.title"
+          label={t("features:dynamic.forms.water-model.title")}
           name="waterModel"
           onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
-          placeholder="features:dynamic.forms.water-model.placeholder"
+          placeholder={t("features:dynamic.forms.water-model.placeholder")}
           selectedValue={watch("waterModel")}
           values={waterModels}
         />
 
         <Select<keyof typeof boxTypes>
           error={errors.boxType}
-          label="features:dynamic.forms.box-type.title"
+          label={t("features:dynamic.forms.box-type.title")}
           name="boxType"
           onChange={(newBoxType) => setValue("boxType", newBoxType)}
-          placeholder="features:dynamic.forms.box-type.placeholder"
+          placeholder={t("features:dynamic.forms.box-type.placeholder")}
           selectedValue={watch("boxType")}
           values={boxTypes}
         />
 
         <Input
-          label="features:dynamic.forms.box-distance.title"
+          label={t("features:dynamic.forms.box-distance.title")}
           error={errors.boxDistance}
           type="number"
           {...register("boxDistance")}
         />
 
-        <label>Opções</label>
+        <label>{t("features:dynamic.options")}</label>
         <div className="flex flex-col gap-y-2">
           <Switch
-            label="features:dynamic.forms.neutralize.title"
+            label={t("features:dynamic.forms.neutralize.title")}
             checked={watch("neutralize")}
             onCheckedChange={(bool) => setValue("neutralize", bool)}
             name="neutralize"
             disabled
           />
           <Switch
-            label="features:dynamic.forms.ignore.title"
+            label={t("features:dynamic.forms.ignore.title")}
             checked={watch("ignore")}
             onCheckedChange={(bool) => setValue("ignore", bool)}
             name="ignore"
             disabled
           />
           <Switch
-            label="features:dynamic.forms.double.title"
+            label={t("features:dynamic.forms.double.title")}
             checked={watch("double")}
             onCheckedChange={(bool) => setValue("double", bool)}
             name="double"
             disabled
           />
           <Switch
-            label="features:dynamic.forms.run.title"
+            label={t("features:dynamic.forms.run.title")}
             checked={watch("bootstrap")}
             onCheckedChange={(bool) => setValue("bootstrap", bool)}
             name="bootstrap"
@@ -162,16 +166,19 @@ export default function APODynamic() {
 
         <Button
           className="mt-4"
+          LeftIcon={watch("bootstrap") === true ? CloudCog : Download}
           type="submit"
         >
-          Enviar
+          {watch("bootstrap") === true
+            ? t("features:dynamic.forms.submit.run")
+            : t("features:dynamic.forms.submit.download")}
         </Button>
       </form>
     </PageLayout>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   const data = await getRunningDynamic("IvoVieira1");
 
   if (data?.status === "running") {
@@ -184,6 +191,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 
   return {
-    props: {}
+    props: {
+      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
+    }
   };
 };

@@ -1,0 +1,88 @@
+{
+  "dynamic": {
+    "forms": {
+      "submit": {
+        "download": "Download command list",
+        "run": "Run dynamic"
+      },
+      "file-pdb": {
+        "title": "Molecule (.pdb)"
+      },
+      "force-field": {
+        "title": "Force Field",
+        "placeholder": "Select a force field"
+      },
+      "water-model": {
+        "title": "Water Model",
+        "placeholder": "Select a water model"
+      },
+      "box-type": {
+        "title": "Box Type",
+        "placeholder": "Select a box type"
+      },
+      "box-distance": {
+        "title": "Box Distance (mm)"
+      },
+      "neutralize": {
+        "title": "Neutralize system"
+      },
+      "ignore": {
+        "title": "Ignore hydrogens"
+      },
+      "double": {
+        "title": "Use double precision"
+      },
+      "run": {
+        "title": "Run in our servers"
+      }
+    },
+    "not-running": {
+      "title": "There is no dynamic running",
+      "description": "Seems like you don't have any dynamic running in our servers. Start one clicking a button below."
+    },
+    "running": {
+      "title": "Your Dynamic is Running",
+      "cancel": "Cancel",
+      "description": "Info",
+      "type": "Model",
+      "molecule": "Molecule",
+      "createdAt": "Generated at",
+      "logs": {
+        "title": "Realtime Execution Logs"
+      },
+      "steps": {
+        "topology": "Topology Definition",
+        "solvate": "Defining Box and Solvating",
+        "ions": "Adding Ions",
+        "minimizationsteepdesc": "Min: Steep Descent",
+        "minimizationconjgrad": "Min: Conjugate Gradient",
+        "equilibrationnvt": "Restrict: NVT",
+        "equilibrationnpt": "Restrict: NPT",
+        "productionmd": "Produce: MD",
+        "analyzemd": "Analysis: MD",
+        "title": "Steps"
+      }
+    },
+    "title": "Dynamics",
+    "options": "Options",
+    "types": {
+      "apo": "APO",
+      "acpype": "ACPYPE"
+    }
+  },
+  "preparation": {
+    "title": "Preparation",
+    "acpype": {
+      "title": "Generate ACPYPE Ligand"
+    }
+  },
+  "system": {
+    "title": "System",
+    "about": {
+      "title": "About"
+    },
+    "blog": {
+      "title": "Blog"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { Beaker, Info, LayoutDashboard, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 import { Icons } from "@app/components/Icons";
 
@@ -17,6 +18,7 @@ interface MainNavProps {
 export function Header({ setTheme, theme }: MainNavProps) {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const { pathname } = useRouter();
+  const { t } = useTranslation(["features"]);
 
   const items: NavigationSection[] = [
     {
@@ -38,11 +40,11 @@ export function Header({ setTheme, theme }: MainNavProps) {
       Icon: LayoutDashboard,
       links: [
         {
-          label: "features:dynamic.apo.title",
+          label: "features:dynamic.types.apo",
           href: "/dynamic/apo"
         },
         {
-          label: "features:dynamic.acpype.title",
+          label: "features:dynamic.types.acpype",
           href: "/dynamic/acpype"
         }
       ]
@@ -69,9 +71,9 @@ export function Header({ setTheme, theme }: MainNavProps) {
         className="flex flex-col gap-1"
         key={item.title}
       >
-        <div className="flex gap-x-2 text-primary-950">
+        <div className="flex gap-x-2 text-primary-950 transition-all duration-500">
           {item.Icon ? <item.Icon /> : null}
-          <h3>{item.title}</h3>
+          <h3>{t(item.title)}</h3>
         </div>
         <div className="flex flex-col gap-y-0.5">
           {item.links.map((link) => {
@@ -82,7 +84,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
               >
                 <div
                   className={clsx(
-                    "flex flex-1 text-primary-50 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50",
+                    "flex flex-1 text-primary-50 duration-500 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50",
                     {
                       "bg-primary-950": pathname === link.href,
                       "text-primary-500": pathname !== link.href,
@@ -91,7 +93,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
                   )}
                 >
                   {link.Icon ? <link.Icon /> : null}
-                  <p>{link.label}</p>
+                  <p>{t(link.label)}</p>
                 </div>
               </Link>
             );

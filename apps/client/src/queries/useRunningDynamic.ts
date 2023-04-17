@@ -7,12 +7,12 @@ import {
 import { api } from "@app/lib/api";
 
 interface GetRunningDynamicResult {
-  data?: {
+  info?: {
     timestamp: string;
     molecule: string;
     type: "APO" | "ACPYPE";
   };
-  step?: string;
+  steps?: string[];
   log?: string[];
   status: "running" | "not-running";
 }

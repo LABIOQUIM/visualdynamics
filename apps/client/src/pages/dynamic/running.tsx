@@ -1,32 +1,48 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Slash } from "lucide-react";
+import { GetStaticProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Button } from "@app/components/Button";
 import { PageLayout } from "@app/components/Layout/Page";
+import { RunningDynamicStepList } from "@app/components/RunningDynamicStepList";
 import { useRunningDynamic } from "@app/queries/useRunningDynamic";
 
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
+      // Will be passed to the page component as props
+    }
+  };
+};
+
 export default function Running() {
-  const { data, isRefetching } = useRunningDynamic("IvoVieira1");
+  const { data, isLoading, isRefetching } = useRunningDynamic("IvoVieira1");
+  const { t } = useTranslation(["features"]);
   const router = useRouter();
 
-  if (data?.status === "not-running") {
+  if (data?.status === "not-running" || isLoading) {
     return (
-      <PageLayout title="features:dynamic.running.title">
+      <PageLayout title={t("features:dynamic.not-running.title")}>
         <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
-          features:dynamic.running.not-running.title
+          {t("features:dynamic.not-running.title")}
         </h1>
         <p className="text-center">
-          features:dynamic.running.not-running.description
+          {t("features:dynamic.not-running.description")}
         </p>
 
         <div className="flex gap-x-2 flex-wrap mt-5 mx-auto">
           <Link href="/dynamic/apo">
-            <Button RightIcon={ArrowRight}>features:dynamic.types.apo</Button>
+            <Button RightIcon={ArrowRight}>
+              {t("features:dynamic.types.apo")}
+            </Button>
           </Link>
           <Link href="/dynamic/acpype">
             <Button RightIcon={ArrowRight}>
-              features:dynamic.types.acpype
+              {t("features:dynamic.types.acpype")}
             </Button>
           </Link>
         </div>
@@ -35,33 +51,51 @@ export default function Running() {
   }
 
   return (
-    <PageLayout title="features:dynamic.running.title">
-      <h5>feature:dynamic.running.description</h5>
-      <div className="flex gap-x-2">
-        <p className="font-medium">features:dynamic.running.type:</p>
-        <p className="font-bold text-primary-950">{data?.data?.type}</p>
+    <PageLayout title={t("features:dynamic.running.title")}>
+      <div className="relative">
+        <h4 className="text-primary-950 transition-all duration-500 uppercase font-bold">
+          {t("features:dynamic.running.description")}
+        </h4>
+        <Button
+          className="absolute bg-red-700 hover:bg-red-800 top-0 right-0"
+          LeftIcon={Slash}
+        >
+          {t("features:dynamic.running.cancel")}
+        </Button>
+        <div className="flex gap-x-2">
+          <p className="font-medium">{t("features:dynamic.running.type")}:</p>
+          <p className="font-bold transition-all duration-500 text-primary-950">
+            {data?.info?.type}
+          </p>
+        </div>
+        <div className="flex gap-x-2">
+          <p className="font-medium">
+            {t("features:dynamic.running.molecule")}:
+          </p>
+          <p className="font-bold transition-all duration-500 text-primary-950">
+            {data?.info?.molecule}
+          </p>
+        </div>
+        <div className="flex gap-x-2">
+          <p className="font-medium">
+            {t("features:dynamic.running.createdAt")}:
+          </p>
+          <p className="font-bold transition-all duration-500 text-primary-950">
+            {Intl.DateTimeFormat(router.locale, {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit"
+            }).format(new Date(data?.info?.timestamp ?? Date.now()))}
+          </p>
+        </div>
       </div>
-      <div className="flex gap-x-2">
-        <p className="font-medium">features:dynamic.running.molecule:</p>
-        <p className="font-bold text-primary-950">{data?.data?.molecule}</p>
-      </div>
-      <div className="flex gap-x-2">
-        <p className="font-medium">features:dynamic.running.createdAt:</p>
-        <p className="font-bold text-primary-950">
-          {Intl.DateTimeFormat(router.locale, {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-          }).format(new Date(data?.data?.timestamp ?? Date.now()))}
-        </p>
-      </div>
-      {data?.step}
+      <RunningDynamicStepList activeSteps={data?.steps ?? []} />
       <div className="flex gap-x-2 mt-5">
-        <h4 className="text-primary-950 uppercase font-bold">
-          features:dynamic.running.logs.title
+        <h4 className="text-primary-950 transition-all duration-500 uppercase font-bold">
+          {t("features:dynamic.running.logs.title")}
         </h4>
         {isRefetching ? (
           <div
@@ -88,7 +122,7 @@ export default function Running() {
           </div>
         ) : null}
       </div>
-      <div className="border border-primary-500/60 bg-primary-400/25 pt-2 p-4 rounded-md h-full w-full overflow-y-auto">
+      <div className="border transition-all duration-500 border-primary-500/60 bg-primary-400/25 pt-2 p-4 rounded-md h-full w-full overflow-y-auto">
         {data?.log?.reverse()?.map((logLine) => (
           <p
             className="text-zinc-700 font-mono"

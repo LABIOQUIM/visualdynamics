@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { appWithTranslation } from "next-i18next";
 
 import { Footer } from "@app/components/Layout/Footer";
 import { Header } from "@app/components/Layout/Header";
@@ -17,7 +18,7 @@ const inter = Inter({
   preload: false
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const [theme, setTheme] = useState("brand");
 
   return (
@@ -25,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
       className={`${inter.className}`}
       data-theme={theme}
     >
-      <div className="h-screen font-inter">
+      <div className="h-screen font-inter transition-all duration-1000">
         <Suspense fallback={<div>Loading...</div>}>
           <QueryClientProvider client={queryClient}>
             <div className="flex flex-col h-full gap-2 md:flex-row">
@@ -70,3 +71,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </main>
   );
 }
+
+export default appWithTranslation(App);
