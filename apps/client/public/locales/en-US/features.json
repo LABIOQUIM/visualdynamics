@@ -6,22 +6,49 @@
         "run": "Run dynamic"
       },
       "file-pdb": {
-        "title": "Molecule (.pdb)"
+        "title": "Molecule (.pdb)",
+        "errors": {
+          "no-pdb": "Select a .pdb molecule file"
+        }
+      },
+      "file-itp": {
+        "title": "Ligand (.itp)",
+        "errors": {
+          "no-itp": "Select a ligand .itp file"
+        }
+      },
+      "file-gro": {
+        "title": "Ligand (.gro,.pdb)",
+        "errors": {
+          "no-gro": "Select a ligand .gro or .pdb file"
+        }
       },
       "force-field": {
         "title": "Force Field",
-        "placeholder": "Select a force field"
+        "placeholder": "Select a force field",
+        "errors": {
+          "no-force-field": "Select a force field"
+        }
       },
       "water-model": {
         "title": "Water Model",
-        "placeholder": "Select a water model"
+        "placeholder": "Select a water model",
+        "errors": {
+          "no-water-model": "Select a water model"
+        }
       },
       "box-type": {
         "title": "Box Type",
-        "placeholder": "Select a box type"
+        "placeholder": "Select a box type",
+        "errors": {
+          "no-box-type": "Select a box type"
+        }
       },
       "box-distance": {
-        "title": "Box Distance (mm)"
+        "title": "Box Distance (mm)",
+        "errors": {
+          "distance-doesnt-match": "Should be a number, decimal or not."
+        }
       },
       "neutralize": {
         "title": "Neutralize system"
@@ -36,6 +63,7 @@
         "title": "Run in our servers"
       }
     },
+    "my-dynamics": "My Dynamics",
     "not-running": {
       "title": "There is no dynamic running",
       "description": "Seems like you don't have any dynamic running in our servers. Start one clicking a button below."
@@ -69,6 +97,12 @@
       "apo": "APO",
       "acpype": "ACPYPE"
     }
+  },
+  "list": {
+    "dynamic": {
+      "id": "Server Task ID"
+    },
+    "title": "My Dynamics"
   },
   "preparation": {
     "title": "Preparation",

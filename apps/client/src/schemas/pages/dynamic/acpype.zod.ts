@@ -11,11 +11,11 @@ export const ACPYPEFormSchema = z.object({
   }),
   // @ts-ignore
   ligandItp: z.custom<FileList>((v) => v[0] instanceof File, {
-    message: "features:dynamic.forms.file-ligand-itp.errors.no-itp"
+    message: "features:dynamic.forms.file-itp.errors.no-itp"
   }),
   // @ts-ignore
   ligandGro: z.custom<FileList>((v) => v[0] instanceof File, {
-    message: "features:dynamic.forms.file-ligand-pdb.errors.no-pdb"
+    message: "features:dynamic.forms.file-gro.errors.no-gro"
   }),
   forceField: z.custom<keyof typeof acpypeForceFields>(
     (v) => Object.keys(acpypeForceFields).includes(v as string),

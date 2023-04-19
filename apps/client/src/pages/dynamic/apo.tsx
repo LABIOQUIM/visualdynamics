@@ -49,10 +49,10 @@ export default function APODynamic() {
     formData.append("water_model", data.waterModel);
     formData.append("box_type", data.boxType);
     formData.append("box_distance", data.boxDistance);
-    formData.append("bootstrap", data.bootstrap ? "True" : "False");
-    formData.append("neutralize", data.neutralize ? "True" : "False");
-    formData.append("double", data.double ? "True" : "False");
-    formData.append("ignore", data.ignore ? "True" : "False");
+    formData.append("bootstrap", data.bootstrap === true ? "true" : "false");
+    formData.append("neutralize", data.neutralize === true ? "true" : "false");
+    formData.append("double", data.double === true ? "true" : "false");
+    formData.append("ignore", data.ignore === true ? "true" : "false");
     formData.append("username", "IvoVieira1");
 
     await api
@@ -62,6 +62,7 @@ export default function APODynamic() {
         }
       })
       .then(async ({ data }) => {
+        console.log(data);
         if (data.status === "generated") {
           await api
             .post(
@@ -77,6 +78,13 @@ export default function APODynamic() {
             )
             .then(() => router.push("/dynamic/running"))
             .catch(() => alert("not running"));
+        } else if (data.status === "commands") {
+          const link = document.createElement("a");
+          link.download = "dynamic-commands.txt";
+          link.href =
+            "data:text/plain;charset=utf-8," +
+            encodeURIComponent(data.commands.join(""));
+          link.click();
         }
       })
       .catch(() => alert("Não foi"));
@@ -96,42 +104,46 @@ export default function APODynamic() {
           {...register("protein")}
         />
 
-        <Select<keyof typeof apoForceFields>
-          error={errors.forceField}
-          label={t("features:dynamic.forms.force-field.title")}
-          name="forceField"
-          onChange={(newForceField) => setValue("forceField", newForceField)}
-          placeholder={t("features:dynamic.forms.force-field.placeholder")}
-          selectedValue={watch("forceField")}
-          values={apoForceFields}
-        />
+        <div className="flex flex-col md:flex-row gap-1">
+          <Select<keyof typeof apoForceFields>
+            error={errors.forceField}
+            label={t("features:dynamic.forms.force-field.title")}
+            name="forceField"
+            onChange={(newForceField) => setValue("forceField", newForceField)}
+            placeholder={t("features:dynamic.forms.force-field.placeholder")}
+            selectedValue={watch("forceField")}
+            values={apoForceFields}
+          />
 
-        <Select<keyof typeof waterModels>
-          error={errors.waterModel}
-          label={t("features:dynamic.forms.water-model.title")}
-          name="waterModel"
-          onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
-          placeholder={t("features:dynamic.forms.water-model.placeholder")}
-          selectedValue={watch("waterModel")}
-          values={waterModels}
-        />
+          <Select<keyof typeof waterModels>
+            error={errors.waterModel}
+            label={t("features:dynamic.forms.water-model.title")}
+            name="waterModel"
+            onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
+            placeholder={t("features:dynamic.forms.water-model.placeholder")}
+            selectedValue={watch("waterModel")}
+            values={waterModels}
+          />
+        </div>
 
-        <Select<keyof typeof boxTypes>
-          error={errors.boxType}
-          label={t("features:dynamic.forms.box-type.title")}
-          name="boxType"
-          onChange={(newBoxType) => setValue("boxType", newBoxType)}
-          placeholder={t("features:dynamic.forms.box-type.placeholder")}
-          selectedValue={watch("boxType")}
-          values={boxTypes}
-        />
+        <div className="flex flex-col md:flex-row gap-1">
+          <Select<keyof typeof boxTypes>
+            error={errors.boxType}
+            label={t("features:dynamic.forms.box-type.title")}
+            name="boxType"
+            onChange={(newBoxType) => setValue("boxType", newBoxType)}
+            placeholder={t("features:dynamic.forms.box-type.placeholder")}
+            selectedValue={watch("boxType")}
+            values={boxTypes}
+          />
 
-        <Input
-          label={t("features:dynamic.forms.box-distance.title")}
-          error={errors.boxDistance}
-          type="number"
-          {...register("boxDistance")}
-        />
+          <Input
+            label={t("features:dynamic.forms.box-distance.title")}
+            error={errors.boxDistance}
+            type="number"
+            {...register("boxDistance")}
+          />
+        </div>
 
         <label>{t("features:dynamic.options")}</label>
         <div className="flex flex-col gap-y-2">
@@ -165,7 +177,6 @@ export default function APODynamic() {
         </div>
 
         <Button
-          className="mt-4"
           LeftIcon={watch("bootstrap") === true ? CloudCog : Download}
           type="submit"
         >

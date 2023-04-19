@@ -1,6 +1,7 @@
 import { forwardRef, InputHTMLAttributes } from "react";
 import { FieldError } from "react-hook-form";
 import clsx from "clsx";
+import { useTranslation } from "next-i18next";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: FieldError;
@@ -9,13 +10,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ error, label, name, placeholder, type, ...props }, ref) => {
+    const { t } = useTranslation(["features"]);
+
     return (
-      <div className="flex flex-col gap-y-0.5">
-        <div className="flex justify-between">
+      <div className="flex flex-col gap-y-0.5 w-full">
+        <div className="flex gap-x-2.5">
           <label htmlFor={name}>{label}</label>
           {error ? (
             <p className="font-grotesk text-red-600 text-sm mt-auto">
-              {error.message}
+              {t(error.message ?? "")}
             </p>
           ) : null}
         </div>

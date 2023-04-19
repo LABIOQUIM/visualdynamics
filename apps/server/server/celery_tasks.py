@@ -17,6 +17,7 @@ def run_commands(self, folder):
 
     folder_run = os.path.abspath(os.path.join(folder, "run"))
     file_log_path = os.path.abspath(os.path.join(folder_run, "logs", "gmx.log"))
+    file_status_path = os.path.abspath(os.path.join(folder, "status"))
     file_step_path = os.path.abspath(os.path.join(folder, "steps.txt"))
     file_is_running = os.path.abspath(
         os.path.join(folder, "..", "..", "..", "is-running")
@@ -45,6 +46,9 @@ def run_commands(self, folder):
     with open(file_is_running, "w") as f:
         f.write(folder)
 
+    with open(file_status_path, "w") as f:
+        f.write("running")
+
     # Iterate in our command list
     for command in commands:
         if command[0] == "#":
@@ -60,16 +64,16 @@ def run_commands(self, folder):
                 # UPDATE ON DB THAT EXECUTION FAILED
 
                 # SEND MAIL NOTIFYING DYNAMIC ERRORED
-                with open(os.path.join(folder_run, "error"), "w") as f:
-                    f.writelines(f"errored at: {command}")
+                with open(file_status_path, "w") as f:
+                    f.write(f"error: {command}")
+                return
 
     # UPDATE ON DB THAT EXECUTION ENDED WITH SUCCESS
 
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
 
-    time.sleep(1)
-    with open(file_log_path, "a+") as f:
-        f.write("\n\nfinished")
+    with open(file_status_path, "w") as f:
+        f.write("finished")
 
     if os.path.exists(file_is_running):
         os.remove(file_is_running)

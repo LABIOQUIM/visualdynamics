@@ -40,6 +40,10 @@ export function Header({ setTheme, theme }: MainNavProps) {
       Icon: LayoutDashboard,
       links: [
         {
+          label: "features:dynamic.my-dynamics",
+          href: "/dynamic"
+        },
+        {
           label: "features:dynamic.types.apo",
           href: "/dynamic/apo"
         },
@@ -86,9 +90,9 @@ export function Header({ setTheme, theme }: MainNavProps) {
                   className={clsx(
                     "flex flex-1 text-primary-50 duration-500 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50",
                     {
-                      "bg-primary-950": pathname === link.href,
-                      "text-primary-500": pathname !== link.href,
-                      "hover:bg-primary-900": pathname === link.href
+                      "bg-primary-900 hover:bg-primary-800":
+                        pathname === link.href,
+                      "text-primary-700": pathname !== link.href
                     }
                   )}
                 >

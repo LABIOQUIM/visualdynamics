@@ -29,7 +29,7 @@ class GenerateApoCommands(Resource):
 
         filename, ext = os.path.splitext(os.path.basename(args["file_pdb"].filename))
 
-        if args["bootstrap"]:
+        if args["bootstrap"] == True:
             gmx = check_gromacs()
             grace = check_grace()
 
@@ -117,7 +117,7 @@ class GenerateApoCommands(Resource):
             ]
         )
 
-        if args["bootstrap"]:
+        if args["bootstrap"] == True:
             with open(os.path.join(dynamic_folder, "commands.txt"), "w") as f:
                 f.writelines(commands)
 
@@ -126,4 +126,4 @@ class GenerateApoCommands(Resource):
                 "folder": dynamic_folder,
             }
 
-        return {"commands": commands}
+        return {"status": "commands", "commands": commands}

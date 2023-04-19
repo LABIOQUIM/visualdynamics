@@ -1,17 +1,24 @@
 import { allPosts } from "contentlayer/generated";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import BlogCard from "@app/components/BlogCard";
-import { HeaderSEO } from "@app/components/Layout/HeaderSEO";
-import { PageTitle } from "@app/components/Layout";
+import { PageLayout } from "@app/components/Layout/Page";
 
-export default function Home() {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
+    }
+  };
+};
+
+export default function Blog() {
   return (
-    <>
-      <HeaderSEO title="Blog" />
-      <PageTitle title="Blog" />
+    <PageLayout title="Blog">
       <div className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-2 sm:grid-cols-2">
         {allPosts
-          .filter((p) => p.status === "published")
+          // .filter((p) => p.status === "published")
           .map((p: PostProps) => (
             <BlogCard
               key={p.title}
@@ -19,6 +26,6 @@ export default function Home() {
             />
           ))}
       </div>
-    </>
+    </PageLayout>
   );
 }

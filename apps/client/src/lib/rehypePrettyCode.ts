@@ -4,19 +4,19 @@ import { visit } from "unist-util-visit";
 
 // div.BLOCK > pre.PRE > code.CODE
 const BLOCK =
-  "rounded-md my-5 overflow-x-auto bg-primary-900/10 shadow-surface-elevation-low ring-1 ring-primary-100/5 ring-inset";
+  "rounded-md my-5 overflow-x-auto bg-zinc-950 shadow-surface-elevation-low ring-1 ring-primary-100/5 ring-inset";
 const TITLE =
-  "mb-0.5 rounded-md rounded-b-none bg-primary-100/10 px-3 py-2 font-mono text-xs text-primary-100/70 shadow-sm";
-const PRE = "overflow-x-auto py-2 text-[13px] leading-6 [color-scheme:dark]";
+  "mb-0.5 rounded-md font-mono rounded-b-none px-3 py-2 text-xs text-primary-100/70 shadow-sm";
+const PRE = "overflow-x-auto py-2 text-[13px] leading-6";
 const CODE =
-  "grid [&>span]:border-l-4 [&>span]:border-l-transparent [&>span]:pl-2 [&>span]:pr-3";
+  "grid transition-all duration-500 [&>span]:border-l-4 [&>span]:border-l-transparent [&>span]:pl-2 [&>span]:pr-3";
 const INLINE_BLOCK =
-  "whitespace-nowrap border border-primary-200/10 px-1.5 py-px text-[12px] rounded-full bg-white/5 whitespace-nowrap text-primary-300/90";
+  "whitespace-nowrap border border-primary-200/10 px-1.5 py-px text-[12px] rounded-full text-primary-700/90 bg-primary-600/25";
 const INLINE_CODE = "";
 const NUMBERED_LINES =
   "[counter-reset:line] before:[&>span]:mr-3 before:[&>span]:inline-block before:[&>span]:w-4 before:[&>span]:text-right before:[&>span]:text-white/20 before:[&>span]:![content:counter(line)] before:[&>span]:[counter-increment:line]";
 const HIGHLIGHTED_LINE =
-  "!border-l-primary-300/70 bg-primary-200/10 before:!text-white/70";
+  "!border-l-primary-500 bg-primary-200/20 before:!text-white/70";
 
 export function rehypePrettyCodeClasses() {
   return (tree: any) => {

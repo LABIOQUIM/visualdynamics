@@ -10,6 +10,7 @@ from server.resources.generate_apo import GenerateApoCommands
 from server.resources.health import Health
 from server.resources.run import RunDynamic
 from server.resources.run.abort import AbortDynamic
+from server.resources.user_dynamics import UserDynamics
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -25,11 +26,14 @@ api.add_resource(GenerateApoCommands, "/api/v1/apo")
 api.add_resource(RunDynamic, "/api/v1/run")
 api.add_resource(AbortDynamic, "/api/v1/run/abort")
 
-# Generated Assets Serving
+# Generated assets serving
 api.add_resource(DownloadDynamicAssets, "/api/v1/download")
 
-# API Status
+# API status
 api.add_resource(Health, "/api/v1/health")
+
+# User dynamics
+api.add_resource(UserDynamics, "/api/v1/dynamics")
 
 # Celery data
 api.add_resource(CeleryReservedTasks, "/api/v1/celery/reserved")

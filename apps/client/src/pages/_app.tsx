@@ -1,6 +1,7 @@
 import React, { Suspense, useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AnimatePresence } from "framer-motion";
 import { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Script from "next/script";
@@ -19,7 +20,7 @@ const inter = Inter({
 });
 
 function App({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState("brand");
+  const [theme, setTheme] = useState("green");
 
   return (
     <main
@@ -36,7 +37,14 @@ function App({ Component, pageProps }: AppProps) {
               />
               <div className="flex flex-col flex-1 max-h-full">
                 {/* BREADCRUMB */}
-                <Component {...pageProps} />
+
+                <AnimatePresence
+                  mode="wait"
+                  initial={false}
+                  onExitComplete={() => window.scrollTo(0, 0)}
+                >
+                  <Component {...pageProps} />
+                </AnimatePresence>
                 <Footer />
               </div>
             </div>

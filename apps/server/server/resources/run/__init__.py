@@ -20,10 +20,14 @@ class RunDynamic(Resource):
 
         run_commands.apply_async((folder,), task_id=task_id)
 
+        file_status_path = os.path.abspath(os.path.join(args["folder"], "status"))
         file_celery_id = os.path.abspath(os.path.join(args["folder"], "celery_id"))
 
         with open(file_celery_id, "w") as f:
             f.write(task_id)
+
+        with open(file_status_path, "w") as f:
+            f.write("queued")
 
         # Return a response indicating that the command has started
         return {"status": "queued"}

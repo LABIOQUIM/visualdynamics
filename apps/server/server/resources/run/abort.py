@@ -20,7 +20,7 @@ class AbortDynamic(Resource):
         folder = os.path.abspath(task.args[0])
 
         folder_run = os.path.abspath(os.path.join(folder, "run"))
-        file_log_path = os.path.abspath(os.path.join(folder_run, "logs", "gmx.log"))
+        file_status_path = os.path.abspath(os.path.join(folder, "status"))
         file_is_running = os.path.abspath(
             os.path.join(folder, "..", "..", "..", "is-running")
         )
@@ -34,12 +34,15 @@ class AbortDynamic(Resource):
         while not killed and killRetries < 5:
             with open(file_pid_path, "r") as f:
                 pid = int(f.readline())
-                os.killpg(os.getpgid(pid), signal.SIGTERM)
+                try:
+                    os.killpg(os.getpgid(pid), signal.SIGTERM)
+                except:
+                    pass
             killRetries += 1
             time.sleep(1)
 
         time.sleep(1)
-        with open(file_log_path, "a+") as f:
-            f.write("\n\ncanceled")
+        with open(file_status_path, "w") as f:
+            f.write("canceled")
 
         return {"status": "aborted"}

@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -44,36 +45,50 @@ export function PageLayout({
 
   return (
     <>
-      <PageTitle title={title} />
-      <HeaderSEO
-        title={title}
-        description={description}
-        ogImage={ogImage}
-      />
-      <div className="flex gap-x-2">
-        <Breadcrumb>
-          <BreadcrumbItem href="/">
-            <Image
-              alt="favicon"
-              className="h-4 w-4 my-auto"
-              src="/images/favicon.svg"
-              height={0}
-              width={0}
-            />
-          </BreadcrumbItem>
-          {breadcrumbs &&
-            breadcrumbs.map((breadcrumb, index) => (
-              <BreadcrumbItem
-                key={breadcrumb.href + index}
-                href={breadcrumb.href}
-              >
-                {breadcrumb.label}
-              </BreadcrumbItem>
-            ))}
-        </Breadcrumb>
-      </div>
-      <section className="overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 px-4 pb-5 pt-2.5 mx-2 md:ml-0">
-        {children}
+      <motion.div
+        initial={{ opacity: 0, x: 200, y: 0 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        exit={{ opacity: 0, x: 0, y: 100 }}
+        transition={{ type: "linear" }}
+      >
+        <PageTitle title={title} />
+        <HeaderSEO
+          title={title}
+          description={description}
+          ogImage={ogImage}
+        />
+        <div className="flex gap-x-2">
+          <Breadcrumb>
+            <BreadcrumbItem href="/">
+              <Image
+                alt="favicon"
+                className="h-4 w-4 my-auto"
+                src="/images/favicon.svg"
+                height={0}
+                width={0}
+              />
+            </BreadcrumbItem>
+            {breadcrumbs &&
+              breadcrumbs.map((breadcrumb, index) => (
+                <BreadcrumbItem
+                  key={breadcrumb.href + index}
+                  href={breadcrumb.href}
+                >
+                  {breadcrumb.label}
+                </BreadcrumbItem>
+              ))}
+          </Breadcrumb>
+        </div>
+      </motion.div>
+      <section className="overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 px-4 py-2.5 mx-2 md:ml-0">
+        <motion.div
+          initial={{ opacity: 0, x: 200, y: 0 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0, x: 0, y: 100 }}
+          transition={{ type: "linear" }}
+        >
+          {children}
+        </motion.div>
       </section>
     </>
   );

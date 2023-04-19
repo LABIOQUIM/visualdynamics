@@ -41,7 +41,7 @@ class GenerateAcpypeCommands(Resource):
             os.path.basename(args["file_gro"].filename)
         )
 
-        if args["bootstrap"]:
+        if args["bootstrap"] == True:
             gmx = check_gromacs()
             grace = check_grace()
 
@@ -136,7 +136,7 @@ class GenerateAcpypeCommands(Resource):
             f'{grace} -nxy "{filename}_complx_sas_residue.xvg" -hdevice PNG -hardcopy -printfile "../graficos/{filename}_complx_sas_residue.png"\n',
         ]
 
-        if args["bootstrap"]:
+        if args["bootstrap"] == True:
             with open(os.path.join(dynamic_folder, "commands.txt"), "w") as f:
                 f.writelines(commands)
 
@@ -145,4 +145,4 @@ class GenerateAcpypeCommands(Resource):
                 "folder": dynamic_folder,
             }
 
-        return {"commands": commands}
+        return {"status": "commands", "commands": commands}
