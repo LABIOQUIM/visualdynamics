@@ -34,6 +34,7 @@ def register():
             or email.find("123.com") != -1
             or email.find("126.com") != -1
             or email.find("163.com") != -1
+            or email.find("yahoo.com") != -1
         ):
             flash(
                 _(
