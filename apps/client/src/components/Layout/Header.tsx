@@ -41,7 +41,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
       links: [
         {
           label: "navigation:dynamic.my-dynamics",
-          href: "/dynamic"
+          href: "/my-dynamics"
         },
         {
           label: "navigation:dynamic.models.apo",
@@ -91,8 +91,8 @@ export function Header({ setTheme, theme }: MainNavProps) {
                     "flex flex-1 text-primary-50 duration-500 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50",
                     {
                       "bg-primary-900 hover:bg-primary-800":
-                        pathname === link.href,
-                      "text-primary-700": pathname !== link.href
+                        pathname.startsWith(link.href ?? ""),
+                      "text-primary-700": !pathname.startsWith(link.href ?? "")
                     }
                   )}
                 >

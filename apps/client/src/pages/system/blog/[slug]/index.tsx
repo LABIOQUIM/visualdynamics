@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       post: allPosts.find((p) => p.slug === params?.slug),
-      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
+      ...(await serverSideTranslations(locale ?? "en-US", ["navigation"]))
     }
   };
 };
@@ -30,7 +30,7 @@ export default function BlogPost({ post }: { post: PostProps }) {
       <h2 className="text-xl font-extrabold leading-snug tracking-tighter md:text-4xl">
         {post?.title}
       </h2>
-      <p className="my-1.5 text-base font-medium italic leading-snug tracking-tighter text-zinc-400 md:text-lg">
+      <p className="my-1.5 text-base font-medium italic leading-snug tracking-tighter text-zinc-600 md:text-lg">
         {post?.description}
       </p>
       <div className="mt-8 grid text-zinc-800">

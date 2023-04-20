@@ -76,7 +76,7 @@ export const Select = <T extends string>({
                 <RSelect.Item
                   key={item}
                   value={item}
-                  className={`text-sm text-zinc-900 rounded flex items-center min-h-[1.75rem] pl-8 pr-2 relative select-none data-[highlighted]:outline-none data-[highlighted]:bg-primary-200/30 data-[highlighted]:text-zinc-800`}
+                  className={`text-sm text-zinc-900 rounded flex items-center min-h-[1.75rem] pl-8 pr-2 relative select-none data-[highlighted]:outline-none data-[highlighted]:bg-primary-200/60 data-[highlighted]:text-zinc-800`}
                 >
                   <RSelect.ItemIndicator className="absolute left-1 w-7 items-center justify-center">
                     <Check />

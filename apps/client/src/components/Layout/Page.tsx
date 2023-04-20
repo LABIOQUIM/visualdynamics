@@ -120,7 +120,7 @@ export function PageLayout({
                 key={breadcrumb.href + index}
                 href={breadcrumb.href}
               >
-                {breadcrumb.label}
+                {breadcrumb.label.replace("-", " ")}
               </BreadcrumbItem>
             ))
           ) : (

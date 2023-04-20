@@ -8,7 +8,7 @@ import { PageLayout } from "@app/components/Layout/Page";
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
+      ...(await serverSideTranslations(locale ?? "en-US", ["navigation"]))
     }
   };
 };
