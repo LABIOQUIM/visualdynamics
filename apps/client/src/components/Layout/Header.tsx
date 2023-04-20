@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Beaker, Info, LayoutDashboard, Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Icons } from "@app/components/Icons";
 
+import { Auth } from "../Auth";
 import { SelectTheme } from "../SelectTheme";
 
 interface MainNavProps {
@@ -18,9 +20,9 @@ interface MainNavProps {
 export function Header({ setTheme, theme }: MainNavProps) {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const { pathname } = useRouter();
+  const { status } = useSession();
   const { t } = useTranslation(["navigation"]);
-
-  const items: NavigationSection[] = [
+  const [navigationItems, setNavigationItems] = useState<NavigationSection[]>([
     {
       title: "navigation:system.title",
       Icon: Info,
@@ -34,42 +36,58 @@ export function Header({ setTheme, theme }: MainNavProps) {
           href: "/system/blog"
         }
       ]
-    },
-    {
-      title: "navigation:dynamic.title",
-      Icon: LayoutDashboard,
-      links: [
-        {
-          label: "navigation:dynamic.my-dynamics",
-          href: "/my-dynamics"
-        },
-        {
-          label: "navigation:dynamic.models.apo",
-          href: "/dynamic/apo"
-        },
-        {
-          label: "navigation:dynamic.models.acpype",
-          href: "/dynamic/acpype"
-        }
-      ]
-    },
-    {
-      title: "navigation:preparation.title",
-      Icon: Beaker,
-      links: [
-        {
-          label: "navigation:preparation.models.acpype",
-          href: "/preparation/acpype"
-        }
-      ]
     }
-  ];
+  ]);
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      setNavigationItems((previousNavigation) =>
+        previousNavigation[1]
+          ? previousNavigation
+          : [
+              ...previousNavigation,
+              ...[
+                {
+                  title: "navigation:dynamic.title",
+                  Icon: LayoutDashboard,
+                  links: [
+                    {
+                      label: "navigation:dynamic.my-dynamics",
+                      href: "/my-dynamics"
+                    },
+                    {
+                      label: "navigation:dynamic.models.apo",
+                      href: "/dynamic/apo"
+                    },
+                    {
+                      label: "navigation:dynamic.models.acpype",
+                      href: "/dynamic/acpype"
+                    }
+                  ]
+                },
+                {
+                  title: "navigation:preparation.title",
+                  Icon: Beaker,
+                  links: [
+                    {
+                      label: "navigation:preparation.models.acpype",
+                      href: "/preparation/acpype"
+                    }
+                  ]
+                }
+              ]
+            ]
+      );
+    } else {
+      setNavigationItems((previousNavigation) => [previousNavigation[0]]);
+    }
+  }, [status]);
 
   function toggleMobileMenu() {
     setShowMobileMenu((prevState) => !prevState);
   }
 
-  const renderedItems = items.map((item) => {
+  const renderedItems = navigationItems.map((item) => {
     return (
       <div
         className="flex flex-col gap-1"
@@ -108,7 +126,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
   });
 
   return (
-    <nav className="h-14 md:h-full md:w-80 bg-zinc-800/10 p-2">
+    <nav className="h-14 md:h-full md:w-80 bg-zinc-800/10">
       <div className="flex flex-1 h-full justify-between md:hidden">
         <Image
           alt="Visual Dynamics"
@@ -124,7 +142,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
           {showMobileMenu ? <Icons.Close /> : <Menu />}
         </button>
       </div>
-      <div className="hidden md:border-b md:border-b-zinc-400/50 md:pb-2 md:block md:sticky md:top-0">
+      <div className="hidden md:border-b md:border-b-zinc-400/50 md:pb-2 md:block">
         <Image
           alt="Visual Dynamics"
           className="w-2/3 mx-auto"
@@ -134,18 +152,20 @@ export function Header({ setTheme, theme }: MainNavProps) {
         />
       </div>
 
-      <div className="hidden md:flex md:flex-col md:mt-2 md:gap-y-4">
-        <div className="mx-auto">
-          <SelectTheme
-            setTheme={setTheme}
-            theme={theme}
-          />
-        </div>
+      <div className="flex-col hidden md:flex md:gap-y-4 md:px-2 md:items-center md:w-full md:py-2">
+        <SelectTheme
+          setTheme={setTheme}
+          theme={theme}
+        />
+        <Auth />
+      </div>
+      <div className="hidden md:flex md:h-full md:flex-col md:mt-2 md:gap-y-4 md:overflow-y-auto md:px-2">
         {renderedItems}
       </div>
 
       {showMobileMenu ? (
         <div className="absolute inset-0 z-10 top-14 bg-zinc-100 p-2 flex flex-col gap-y-4">
+          <Auth />
           {renderedItems}
         </div>
       ) : null}

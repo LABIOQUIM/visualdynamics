@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import { ArrowRight, Slash } from "lucide-react";
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getServerSession } from "next-auth";
+import { User } from "next-auth";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -11,9 +15,32 @@ import { RunningDynamicStepList } from "@app/components/RunningDynamicStepList";
 import { api } from "@app/lib/api";
 import { useRunningDynamic } from "@app/queries/useRunningDynamic";
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+import { authOptions } from "../api/auth/[...nextauth]";
+
+export const config = {
+  runtime: "nodejs"
+};
+
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+  res
+}) => {
+  const session = await getServerSession(req, res, authOptions);
+
+  if (session === null) {
+    return {
+      redirect: {
+        destination: "/"
+      },
+      props: {}
+    };
+  }
+
   return {
     props: {
+      session,
+      user: session.user,
       ...(await serverSideTranslations(locale ?? "en-US", [
         "common",
         "navigation",
@@ -23,10 +50,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-export default function Running() {
-  const { data, isLoading, isRefetching } = useRunningDynamic("IvoVieira1");
+export default function Running({ user }: { user: User }) {
+  const { data, isLoading, isRefetching } = useRunningDynamic(user.username);
   const { t } = useTranslation(["navigation", "running"]);
   const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/");
+    }
+  }, [router, status]);
 
   async function abortTask() {
     if (!isLoading && !isRefetching) {

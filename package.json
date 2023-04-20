@@ -9,6 +9,9 @@
     "install:s": "pnpm --filter server padd",
     "postinstall": "pnpm --filter server pinstall"
   },
+  "prisma": {
+    "schema": "apps/client/prisma/schema.prisma"
+  },
   "packageManager": "pnpm@7.29.3",
   "keywords": [],
   "author": "",

@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CloudCog, Download } from "lucide-react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { getServerSession } from "next-auth";
+import { User } from "next-auth";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -21,13 +25,33 @@ import { boxTypes } from "@app/utils/box-types";
 import { apoForceFields } from "@app/utils/force-fields";
 import { waterModels } from "@app/utils/water-models";
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const data = await getRunningDynamic("IvoVieira1");
+import { authOptions } from "../api/auth/[...nextauth]";
 
-  if (data?.status === "running") {
+export const config = {
+  runtime: "nodejs"
+};
+
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+  res
+}) => {
+  const session = await getServerSession(req, res, authOptions);
+  if (session) {
+    const data = await getRunningDynamic(session.user.username);
+
+    if (data?.status === "running") {
+      return {
+        redirect: {
+          destination: "/dynamic/running"
+        },
+        props: {}
+      };
+    }
+  } else {
     return {
       redirect: {
-        destination: "/dynamic/running"
+        destination: "/"
       },
       props: {}
     };
@@ -35,6 +59,8 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 
   return {
     props: {
+      session,
+      user: session.user,
       ...(await serverSideTranslations(locale ?? "en-US", [
         "common",
         "forms",
@@ -44,7 +70,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   };
 };
 
-export default function APODynamic() {
+export default function APODynamic({ user }: { user: User }) {
   const {
     formState: { errors },
     handleSubmit,
@@ -61,6 +87,13 @@ export default function APODynamic() {
   });
   const router = useRouter();
   const { t } = useTranslation(["forms", "navigation"]);
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/");
+    }
+  }, [router, status]);
 
   const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
     data
@@ -76,7 +109,7 @@ export default function APODynamic() {
     formData.append("neutralize", data.neutralize === true ? "true" : "false");
     formData.append("double", data.double === true ? "true" : "false");
     formData.append("ignore", data.ignore === true ? "true" : "false");
-    formData.append("username", "IvoVieira1");
+    formData.append("username", user.username);
 
     await api
       .post("/apo", formData, {

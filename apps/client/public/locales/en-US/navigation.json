@@ -1,4 +1,10 @@
 {
+  "auth": {
+    "role": {
+      "admin": "Administrator",
+      "user": "User"
+    }
+  },
   "dynamic": {
     "my-dynamics": "My Dynamics",
     "title": "Dynamics",
@@ -6,6 +12,24 @@
       "apo": "APO",
       "acpype": "ACPYPE with Amber"
     }
+  },
+  "forms": {
+    "identifier": {
+      "title": "Email or Username",
+      "placeholder": "user@uni.edu",
+      "errors": {
+        "empty": "Can't be empty"
+      }
+    },
+    "password": {
+      "title": "Password",
+      "placeholder": "********",
+      "errors": {
+        "empty": "Can't be empty"
+      }
+    },
+    "submit": "Sign In",
+    "lost-password": "I forgot my password"
   },
   "preparation": {
     "title": "Dynamics Preparation",

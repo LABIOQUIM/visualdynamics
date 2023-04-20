@@ -66,7 +66,9 @@ export function PageLayout({
 
   const Loading = () => (
     <div
-      className="m-auto z-0"
+      className={clsx("m-auto z-0", {
+        "animate-slideUpEnter": !isTransitioning
+      })}
       role="status"
     >
       <svg

@@ -13,8 +13,11 @@ import {
   Slash,
   XCircle
 } from "lucide-react";
-import { GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { getServerSession } from "next-auth";
+import { User } from "next-auth";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -24,22 +27,39 @@ import { TextButton } from "@app/components/Button/Text";
 import { PageLayout } from "@app/components/Layout/Page";
 import { useListDynamics } from "@app/queries/useListDynamics";
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+import { authOptions } from "./api/auth/[...nextauth]";
+
+export const getServerSideProps: GetServerSideProps = async ({
+  locale,
+  req,
+  res
+}) => {
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/"
+      },
+      props: {}
+    };
+  }
+
   return {
     props: {
+      session,
+      user: session.user,
       ...(await serverSideTranslations(locale ?? "en-US", [
         "common",
         "my-dynamics",
         "navigation"
       ]))
-      // Will be passed to the page component as props
     }
   };
 };
 
-export default function MyDynamics() {
+export default function MyDynamics({ user }: { user: User }) {
   const { data, refetch, isRefetching, isLoading } = useListDynamics(
-    "IvoVieira1",
+    user.username,
     {
       refetchOnMount: true
     }
@@ -47,6 +67,13 @@ export default function MyDynamics() {
   const [timeUntilRefresh, setTimeUntilRefresh] = useState(60);
   const { t } = useTranslation(["my-dynamics"]);
   const router = useRouter();
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/");
+    }
+  }, [router, status]);
 
   useEffect(() => {
     const interval = setInterval(() => {

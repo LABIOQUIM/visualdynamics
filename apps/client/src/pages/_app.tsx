@@ -1,9 +1,10 @@
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
 
 import { Header } from "@app/components/Layout/Header";
@@ -17,7 +18,7 @@ const inter = Inter({
   preload: false
 });
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [theme, setTheme] = useState("green");
 
   return (
@@ -26,7 +27,7 @@ function App({ Component, pageProps }: AppProps) {
       data-theme={theme}
     >
       <div className="h-screen font-inter transition-all duration-1000">
-        <Suspense fallback={<div>Loading...</div>}>
+        <SessionProvider session={session}>
           <QueryClientProvider client={queryClient}>
             <div className="flex flex-col h-full gap-2 md:flex-row">
               <Header
@@ -39,7 +40,7 @@ function App({ Component, pageProps }: AppProps) {
               <ReactQueryDevtools />
             ) : null}
           </QueryClientProvider>
-        </Suspense>
+        </SessionProvider>
       </div>
 
       {process.env.NODE_ENV === "production" ? (
