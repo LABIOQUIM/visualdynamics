@@ -28,17 +28,15 @@ class DownloadDynamicFigures(Resource):
                     file = os.path.join(folder_run_path, file)
                     shutil.move(file, folder_figures_path)
 
-        zf = zipfile.ZipFile(file_figures_zip, "w")
-
-        for folder, _, files in os.walk(folder_figures_path):
-            for file in files:
-                if not file.endswith(".zip"):
-                    zf.write(
-                        os.path.join(folder, file),
-                        file,
-                        compress_type=zipfile.ZIP_DEFLATED,
-                    )
-        zf.close()
+        with zipfile.ZipFile(file_figures_zip, "w") as z:
+            for folder, _, files in os.walk(folder_figures_path):
+                for file in files:
+                    if not file.endswith(".zip"):
+                        z.write(
+                            os.path.join(folder, file),
+                            file,
+                            compress_type=zipfile.ZIP_DEFLATED,
+                        )
 
         dynamic_data = task.args[0].split("/")
 
