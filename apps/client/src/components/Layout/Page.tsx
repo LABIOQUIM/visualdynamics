@@ -1,21 +1,25 @@
 import { ReactNode, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 import { Breadcrumb } from "@app/components/Breadcrumb";
 import { BreadcrumbItem } from "@app/components/Breadcrumb/Item";
 
+import { Footer } from "./Footer";
 import { HeaderSEO } from "./HeaderSEO";
 import { PageTitle } from "./PageTitle";
 
 interface PageLayoutProps extends HeaderSEOProps {
   children: ReactNode;
   title: string;
+  className?: string;
 }
 
 export function PageLayout({
   children,
+  className,
   title,
   description,
   ogImage
@@ -24,6 +28,8 @@ export function PageLayout({
   const [breadcrumbs, setBreadcrumbs] = useState<
     { href: string; label: string }[]
   >([]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const { t } = useTranslation(["common"]);
 
   useEffect(() => {
     const pathWithoutQuery = router.asPath.split("?")[0];
@@ -43,54 +49,96 @@ export function PageLayout({
     setBreadcrumbs(breadcrumbs);
   }, [router.asPath]);
 
-  return (
-    <>
-      <motion.div
-        initial={{ opacity: 0, x: 200, y: 0 }}
-        animate={{ opacity: 1, x: 0, y: 0 }}
-        exit={{ opacity: 0, x: 0, y: 100 }}
-        transition={{ type: "linear" }}
+  useEffect(() => {
+    const handler = () => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 280);
+    };
+
+    router.events.on("routeChangeComplete", handler);
+
+    return () => {
+      router.events.off("routeChangeComplete", handler);
+    };
+  }, [router.events]);
+
+  const Loading = () => (
+    <div
+      className="m-auto z-0"
+      role="status"
+    >
+      <svg
+        aria-hidden="true"
+        className="w-20 h-20 text-primary-100 animate-spin fill-primary-950"
+        viewBox="0 0 100 101"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <PageTitle title={title} />
-        <HeaderSEO
-          title={title}
-          description={description}
-          ogImage={ogImage}
+        <path
+          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+          fill="currentColor"
         />
-        <div className="flex gap-x-2">
-          <Breadcrumb>
-            <BreadcrumbItem href="/">
-              <Image
-                alt="favicon"
-                className="h-4 w-4 my-auto"
-                src="/images/favicon.svg"
-                height={0}
-                width={0}
-              />
+        <path
+          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+          fill="currentFill"
+        />
+      </svg>
+      <span className="sr-only">{t("common:loading")}</span>
+    </div>
+  );
+
+  const Screen = !isTransitioning ? children : <Loading />;
+
+  return (
+    <div
+      className={clsx("flex flex-1 flex-col", {
+        "animate-slideUpEnter": !isTransitioning
+      })}
+    >
+      <PageTitle title={isTransitioning ? t("common:loading") : title} />
+      <HeaderSEO
+        title={title}
+        description={description}
+        ogImage={ogImage}
+      />
+      <div className="flex gap-x-2">
+        <Breadcrumb>
+          <BreadcrumbItem href="/">
+            <Image
+              alt="favicon"
+              className="h-4 w-4 my-auto"
+              src="/images/favicon.svg"
+              height={0}
+              width={0}
+            />
+          </BreadcrumbItem>
+          {breadcrumbs && !isTransitioning ? (
+            breadcrumbs.map((breadcrumb, index) => (
+              <BreadcrumbItem
+                key={breadcrumb.href + index}
+                href={breadcrumb.href}
+              >
+                {breadcrumb.label}
+              </BreadcrumbItem>
+            ))
+          ) : (
+            <BreadcrumbItem
+              key="loading-breadcrumb"
+              href="#"
+            >
+              {t("common:loading")}
             </BreadcrumbItem>
-            {breadcrumbs &&
-              breadcrumbs.map((breadcrumb, index) => (
-                <BreadcrumbItem
-                  key={breadcrumb.href + index}
-                  href={breadcrumb.href}
-                >
-                  {breadcrumb.label}
-                </BreadcrumbItem>
-              ))}
-          </Breadcrumb>
-        </div>
-      </motion.div>
-      <section className="overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 mx-2 md:ml-0">
-        <motion.div
-          className="overflow-y-auto flex flex-1 flex-col px-4 py-2.5"
-          initial={{ opacity: 0, x: 200, y: 0 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={{ opacity: 0, x: 0, y: 100 }}
-          transition={{ type: "linear" }}
-        >
-          {children}
-        </motion.div>
+          )}
+        </Breadcrumb>
+      </div>
+      <section
+        className={`overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 mx-2 md:ml-0 px-4 py-2.5 ${className}`}
+      >
+        {Screen}
       </section>
-    </>
+      <Footer />
+    </div>
   );
 }

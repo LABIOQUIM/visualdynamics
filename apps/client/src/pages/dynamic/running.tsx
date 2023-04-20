@@ -14,15 +14,18 @@ import { useRunningDynamic } from "@app/queries/useRunningDynamic";
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
-      // Will be passed to the page component as props
+      ...(await serverSideTranslations(locale ?? "en-US", [
+        "common",
+        "navigation",
+        "running"
+      ]))
     }
   };
 };
 
 export default function Running() {
   const { data, isLoading, isRefetching } = useRunningDynamic("IvoVieira1");
-  const { t } = useTranslation(["features"]);
+  const { t } = useTranslation(["navigation", "running"]);
   const router = useRouter();
 
   async function abortTask() {
@@ -46,7 +49,7 @@ export default function Running() {
 
   if (data?.status === "running") {
     return (
-      <PageLayout title={t("features:dynamic.running.title")}>
+      <PageLayout title={t("running:title")}>
         <div className="relative">
           <Button
             className="w-fit absolute right-0 top-1 bg-red-700 hover:bg-red-800"
@@ -61,34 +64,28 @@ export default function Running() {
             Abort
           </Button>
           <h4 className="text-primary-950 transition-all duration-500 uppercase font-bold">
-            {t("features:dynamic.running.description")}
+            {t("running:description")}
           </h4>
           <div className="flex gap-x-2">
-            <p className="font-medium">
-              {t("features:dynamic.running.taskId")}:
-            </p>
+            <p className="font-medium">{t("running:taskId")}:</p>
             <p className="font-bold transition-all duration-500 text-primary-950">
               {data.info.celeryId}
             </p>
           </div>
           <div className="flex gap-x-2">
-            <p className="font-medium">{t("features:dynamic.running.type")}:</p>
+            <p className="font-medium">{t("running:type")}:</p>
             <p className="font-bold transition-all duration-500 text-primary-950">
               {data.info.type}
             </p>
           </div>
           <div className="flex gap-x-2">
-            <p className="font-medium">
-              {t("features:dynamic.running.molecule")}:
-            </p>
+            <p className="font-medium">{t("running:molecule")}:</p>
             <p className="font-bold transition-all duration-500 text-primary-950">
               {data.info.molecule}
             </p>
           </div>
           <div className="flex gap-x-2">
-            <p className="font-medium">
-              {t("features:dynamic.running.createdAt")}:
-            </p>
+            <p className="font-medium">{t("running:createdAt")}:</p>
             <p className="font-bold transition-all duration-500 text-primary-950">
               {Intl.DateTimeFormat(router.locale, {
                 day: "2-digit",
@@ -104,7 +101,7 @@ export default function Running() {
         <RunningDynamicStepList activeSteps={data.steps} />
         <div className="flex gap-x-2 mt-5">
           <h4 className="text-primary-950 transition-all duration-500 uppercase font-bold">
-            {t("features:dynamic.running.logs.title")}
+            {t("running:logs.title")}
           </h4>
           {isRefetching ? (
             <div
@@ -146,23 +143,24 @@ export default function Running() {
   }
 
   return (
-    <PageLayout title={t("features:dynamic.not-running.title")}>
+    <PageLayout
+      className="justify-center w-1/2 mx-auto"
+      title={t("running:not-running.title")}
+    >
       <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
-        {t("features:dynamic.not-running.title")}
+        {t("running:not-running.title")}
       </h1>
-      <p className="text-center">
-        {t("features:dynamic.not-running.description")}
-      </p>
+      <p className="text-center">{t("running:not-running.description")}</p>
 
       <div className="flex gap-x-2 flex-wrap mt-5 mx-auto">
         <Link href="/dynamic/apo">
           <Button RightIcon={ArrowRight}>
-            {t("features:dynamic.types.apo")}
+            {t("navigation:dynamic.models.apo")}
           </Button>
         </Link>
         <Link href="/dynamic/acpype">
           <Button RightIcon={ArrowRight}>
-            {t("features:dynamic.types.acpype")}
+            {t("navigation:dynamic.models.acpype")}
           </Button>
         </Link>
       </div>

@@ -1,13 +1,11 @@
 import React, { Suspense, useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { AnimatePresence } from "framer-motion";
 import { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import { appWithTranslation } from "next-i18next";
 
-import { Footer } from "@app/components/Layout/Footer";
 import { Header } from "@app/components/Layout/Header";
 import { queryClient } from "@app/lib/query-client";
 
@@ -35,18 +33,7 @@ function App({ Component, pageProps }: AppProps) {
                 setTheme={setTheme}
                 theme={theme}
               />
-              <div className="flex flex-col flex-1 max-h-full">
-                {/* BREADCRUMB */}
-
-                <AnimatePresence
-                  mode="wait"
-                  initial={false}
-                  onExitComplete={() => window.scrollTo(0, 0)}
-                >
-                  <Component {...pageProps} />
-                </AnimatePresence>
-                <Footer />
-              </div>
+              <Component {...pageProps} />
             </div>
             {process.env.NODE_ENV === "development" ? (
               <ReactQueryDevtools />

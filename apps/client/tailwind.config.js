@@ -20,6 +20,16 @@ module.exports = {
         )}, 50px, ${theme("colors.gray.800")} 50%)`
       }),
       keyframes: ({ theme }) => ({
+        slideUpEnter: {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(20px)"
+          },
+          "100%": {
+            opacity: 100,
+            transform: "translateY(0px)"
+          }
+        },
         rerender: {
           "0%": {
             "border-color": theme("colors.pink")
@@ -59,7 +69,10 @@ module.exports = {
             opacity: 0
           }
         }
-      })
+      }),
+      animation: {
+        slideUpEnter: "slideUpEnter .3s ease-in-out"
+      }
     }
   },
   plugins: [

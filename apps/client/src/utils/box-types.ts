@@ -1,6 +1,6 @@
 export const boxTypes = {
-  cubic: "Cúbico",
-  triclinic: "Triclínico",
+  cubic: "Cubic",
+  triclinic: "Triclinic",
   dodecahedron: "Dodecahedron",
   octahedron: "Octahedron"
 };

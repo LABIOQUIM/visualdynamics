@@ -21,6 +21,29 @@ import { boxTypes } from "@app/utils/box-types";
 import { acpypeForceFields } from "@app/utils/force-fields";
 import { waterModels } from "@app/utils/water-models";
 
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  const data = await getRunningDynamic("IvoVieira1");
+
+  if (data?.status === "running") {
+    return {
+      redirect: {
+        destination: "/dynamic/running"
+      },
+      props: {}
+    };
+  }
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "en-US", [
+        "common",
+        "forms",
+        "navigation"
+      ]))
+    }
+  };
+};
+
 export default function ACPYPEDynamic() {
   const {
     formState: { errors },
@@ -37,7 +60,7 @@ export default function ACPYPEDynamic() {
     }
   });
   const router = useRouter();
-  const { t } = useTranslation(["features"]);
+  const { t } = useTranslation(["forms", "navigation"]);
 
   const handleSubmitDynamic: SubmitHandler<ACPYPEFormSchemaType> = async (
     data
@@ -92,13 +115,13 @@ export default function ACPYPEDynamic() {
   };
 
   return (
-    <PageLayout title={t("features:dynamic.types.acpype")}>
+    <PageLayout title={t("navigation:dynamic.models.acpype")}>
       <form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit(handleSubmitDynamic)}
       >
         <Input
-          label={t("features:dynamic.forms.file-pdb.title")}
+          label={t("forms:file-pdb.title")}
           type="file"
           accept=".pdb"
           error={errors.protein}
@@ -107,7 +130,7 @@ export default function ACPYPEDynamic() {
 
         <div className="flex flex-col md:flex-row gap-1">
           <Input
-            label={t("features:dynamic.forms.file-itp.title")}
+            label={t("forms:file-itp.title")}
             type="file"
             accept=".itp,.gro"
             error={errors.ligandItp}
@@ -115,7 +138,7 @@ export default function ACPYPEDynamic() {
           />
 
           <Input
-            label={t("features:dynamic.forms.file-gro.title")}
+            label={t("forms:file-gro.title")}
             type="file"
             accept=".pdb,.gro"
             error={errors.ligandGro}
@@ -126,20 +149,20 @@ export default function ACPYPEDynamic() {
         <div className="flex flex-col md:flex-row gap-1">
           <Select<keyof typeof acpypeForceFields>
             error={errors.forceField}
-            label={t("features:dynamic.forms.force-field.title")}
+            label={t("forms:force-field.title")}
             name="forceField"
             onChange={(newForceField) => setValue("forceField", newForceField)}
-            placeholder={t("features:dynamic.forms.force-field.placeholder")}
+            placeholder={t("forms:force-field.placeholder")}
             selectedValue={watch("forceField")}
             values={acpypeForceFields}
           />
 
           <Select<keyof typeof waterModels>
             error={errors.waterModel}
-            label={t("features:dynamic.forms.water-model.title")}
+            label={t("forms:water-model.title")}
             name="waterModel"
             onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
-            placeholder={t("features:dynamic.forms.water-model.placeholder")}
+            placeholder={t("forms:water-model.placeholder")}
             selectedValue={watch("waterModel")}
             values={waterModels}
           />
@@ -148,26 +171,26 @@ export default function ACPYPEDynamic() {
         <div className="flex flex-col md:flex-row gap-1">
           <Select<keyof typeof boxTypes>
             error={errors.boxType}
-            label={t("features:dynamic.forms.box-type.title")}
+            label={t("forms:box-type.title")}
             name="boxType"
             onChange={(newBoxType) => setValue("boxType", newBoxType)}
-            placeholder={t("features:dynamic.forms.box-type.placeholder")}
+            placeholder={t("forms:box-type.placeholder")}
             selectedValue={watch("boxType")}
             values={boxTypes}
           />
 
           <Input
-            label={t("features:dynamic.forms.box-distance.title")}
+            label={t("forms:box-distance.title")}
             error={errors.boxDistance}
             type="number"
             {...register("boxDistance")}
           />
         </div>
 
-        <label>{t("features:dynamic.options")}</label>
+        <label>{t("forms:options")}</label>
         <div className="flex flex-col gap-y-2">
           <Switch
-            label={t("features:dynamic.forms.neutralize.title")}
+            label={t("forms:neutralize.title")}
             checked={watch("neutralize")}
             onCheckedChange={(bool) => setValue("neutralize", bool)}
             name="neutralize"
@@ -175,7 +198,7 @@ export default function ACPYPEDynamic() {
           />
 
           <Switch
-            label={t("features:dynamic.forms.ignore.title")}
+            label={t("forms:ignore.title")}
             checked={watch("ignore")}
             onCheckedChange={(bool) => setValue("ignore", bool)}
             name="ignore"
@@ -183,7 +206,7 @@ export default function ACPYPEDynamic() {
           />
 
           <Switch
-            label={t("features:dynamic.forms.double.title")}
+            label={t("forms:double.title")}
             checked={watch("double")}
             onCheckedChange={(bool) => setValue("double", bool)}
             name="double"
@@ -191,7 +214,7 @@ export default function ACPYPEDynamic() {
           />
 
           <Switch
-            label={t("features:dynamic.forms.run.title")}
+            label={t("forms:run.title")}
             checked={watch("bootstrap")}
             onCheckedChange={(bool) => setValue("bootstrap", bool)}
             name="bootstrap"
@@ -202,29 +225,10 @@ export default function ACPYPEDynamic() {
           type="submit"
         >
           {watch("bootstrap") === true
-            ? t("features:dynamic.forms.submit.run")
-            : t("features:dynamic.forms.submit.download")}
+            ? t("forms:submit.run")
+            : t("forms:submit.download")}
         </Button>
       </form>
     </PageLayout>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const data = await getRunningDynamic("IvoVieira1");
-
-  if (data?.status === "running") {
-    return {
-      redirect: {
-        destination: "/dynamic/running"
-      },
-      props: {}
-    };
-  }
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
-    }
-  };
-};

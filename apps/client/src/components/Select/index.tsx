@@ -91,7 +91,7 @@ export const Select = <T extends string>({
           <RSelect.ScrollDownButton className="flex items-center justify-center h-7 bg-transparent text-primary-500 cursor-default">
             <ChevronDown />
           </RSelect.ScrollDownButton>
-          <RSelect.Arrow className="fill-primary-100 h-2 w-3" />
+          <RSelect.Arrow className="fill-primary-400/60 h-2 w-3" />
         </RSelect.Content>
       </RSelect.Root>
     </div>

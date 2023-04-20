@@ -27,7 +27,7 @@ function Step({
   running: boolean;
   step: string;
 }) {
-  const { t } = useTranslation(["features"]);
+  const { t } = useTranslation(["running"]);
   return (
     <div
       className={clsx(
@@ -70,7 +70,7 @@ function Step({
           <span className="sr-only">Loading...</span>
         </div>
       ) : null}
-      <p>{t(`features:dynamic.running.steps.${step}`)}</p>
+      <p>{t(`running:steps.${step}`)}</p>
     </div>
   );
 }
@@ -83,7 +83,7 @@ export function RunningDynamicStepList({
   return (
     <>
       <h4 className="mt-4 text-primary-950 transition-all duration-500 uppercase font-bold">
-        {t("features:dynamic.running.steps.title")}
+        {t("running:steps.title")}
       </h4>
       <div className="flex items-center gap-1 flex-wrap">
         {steps.map((step, index) => (
