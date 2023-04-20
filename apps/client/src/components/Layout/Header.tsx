@@ -18,47 +18,47 @@ interface MainNavProps {
 export function Header({ setTheme, theme }: MainNavProps) {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const { pathname } = useRouter();
-  const { t } = useTranslation(["features"]);
+  const { t } = useTranslation(["navigation"]);
 
   const items: NavigationSection[] = [
     {
-      title: "features:system.title",
+      title: "navigation:system.title",
       Icon: Info,
       links: [
         {
-          label: "features:system.about.title",
+          label: "navigation:system.about.title",
           href: "/system/about"
         },
         {
-          label: "features:system.blog.title",
+          label: "navigation:system.blog.title",
           href: "/system/blog"
         }
       ]
     },
     {
-      title: "features:dynamic.title",
+      title: "navigation:dynamic.title",
       Icon: LayoutDashboard,
       links: [
         {
-          label: "features:dynamic.my-dynamics",
+          label: "navigation:dynamic.my-dynamics",
           href: "/dynamic"
         },
         {
-          label: "features:dynamic.types.apo",
+          label: "navigation:dynamic.models.apo",
           href: "/dynamic/apo"
         },
         {
-          label: "features:dynamic.types.acpype",
+          label: "navigation:dynamic.models.acpype",
           href: "/dynamic/acpype"
         }
       ]
     },
     {
-      title: "features:preparation.title",
+      title: "navigation:preparation.title",
       Icon: Beaker,
       links: [
         {
-          label: "features:preparation.acpype.title",
+          label: "navigation:preparation.models.acpype",
           href: "/preparation/acpype"
         }
       ]

@@ -4,7 +4,11 @@ from flask_restful import Api
 from server.config import Config
 from server.resources.celery.active_tasks import CeleryActiveTasks
 from server.resources.celery.reserved_tasks import CeleryReservedTasks
-from server.resources.downloads import DownloadDynamicAssets
+from server.resources.downloads.commands import DownloadDynamicCommands
+from server.resources.downloads.figures import DownloadDynamicFigures
+from server.resources.downloads.log import DownloadDynamicLog
+from server.resources.downloads.mdp import DownloadMDP
+from server.resources.downloads.results import DownloadDynamicResults
 from server.resources.generate_acpype import GenerateAcpypeCommands
 from server.resources.generate_apo import GenerateApoCommands
 from server.resources.health import Health
@@ -26,8 +30,12 @@ api.add_resource(GenerateApoCommands, "/api/v1/apo")
 api.add_resource(RunDynamic, "/api/v1/run")
 api.add_resource(AbortDynamic, "/api/v1/run/abort")
 
-# Generated assets serving
-api.add_resource(DownloadDynamicAssets, "/api/v1/download")
+# Downloads
+api.add_resource(DownloadDynamicCommands, "/api/v1/downloads/commands")
+api.add_resource(DownloadDynamicFigures, "/api/v1/downloads/figures")
+api.add_resource(DownloadDynamicLog, "/api/v1/downloads/log")
+api.add_resource(DownloadDynamicResults, "/api/v1/downloads/results")
+api.add_resource(DownloadMDP, "/api/v1/downloads/mdp")
 
 # API status
 api.add_resource(Health, "/api/v1/health")

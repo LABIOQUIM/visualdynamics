@@ -80,8 +80,9 @@ export function PageLayout({
           </Breadcrumb>
         </div>
       </motion.div>
-      <section className="overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 px-4 py-2.5 mx-2 md:ml-0">
+      <section className="overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 mx-2 md:ml-0">
         <motion.div
+          className="overflow-y-auto flex flex-1 flex-col px-4 py-2.5"
           initial={{ opacity: 0, x: 200, y: 0 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           exit={{ opacity: 0, x: 0, y: 100 }}

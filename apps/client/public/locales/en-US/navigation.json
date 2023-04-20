@@ -1,0 +1,25 @@
+{
+  "dynamic": {
+    "my-dynamics": "My Dynamics",
+    "title": "Dynamics",
+    "models": {
+      "apo": "APO",
+      "acpype": "ACPYPE with Amber"
+    }
+  },
+  "preparation": {
+    "title": "Dynamics Preparation",
+    "models": {
+      "acpype": "ACPYPE Ligand Generator"
+    }
+  },
+  "system": {
+    "title": "System",
+    "about": {
+      "title": "About"
+    },
+    "blog": {
+      "title": "Blog"
+    }
+  }
+}

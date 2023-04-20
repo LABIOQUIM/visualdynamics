@@ -1,0 +1,15 @@
+{
+  "title": "My Dynamics",
+  "auto-refresh": "Refreshing in {{seconds}} seconds.",
+  "dynamic": {
+    "id": "Task ID"
+  },
+  "downloads": {
+    "commands": "Commands",
+    "figures": "Figure Graphics",
+    "log": "GROMACS Log",
+    "results": "Raw Results (.xtc and _pr.tpr)",
+    "mdp": "Download MDP Files",
+    "title": "Downloads"
+  }
+}

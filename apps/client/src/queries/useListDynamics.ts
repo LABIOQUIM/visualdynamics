@@ -48,8 +48,6 @@ export function useListDynamics(
   return useQuery({
     queryKey: ["ListDynamics", username],
     queryFn: () => getListDynamics(username),
-    staleTime: 1000 * 60,
-    refetchInterval: 1000 * 60,
     ...options
   });
 }

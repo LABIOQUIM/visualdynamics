@@ -1,11 +1,14 @@
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import {
   CheckCircle,
   Clock,
+  Download,
   FileCode,
   FileDigit,
+  FileDown,
   Image,
-  RefreshCcw,
+  RefreshCw,
   Scroll,
   Slash,
   XCircle
@@ -17,13 +20,17 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Button } from "@app/components/Button";
 import { StatusButton } from "@app/components/Button/Status";
+import { TextButton } from "@app/components/Button/Text";
 import { PageLayout } from "@app/components/Layout/Page";
 import { useListDynamics } from "@app/queries/useListDynamics";
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en-US", ["features"]))
+      ...(await serverSideTranslations(locale ?? "en-US", [
+        "my-dynamics",
+        "navigation"
+      ]))
       // Will be passed to the page component as props
     }
   };
@@ -36,19 +43,54 @@ export default function MyDynamics() {
       refetchOnMount: true
     }
   );
-  const { t } = useTranslation(["features"]);
+  const [timeUntilRefresh, setTimeUntilRefresh] = useState(60);
+  const { t } = useTranslation(["my-dynamics"]);
   const router = useRouter();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isRefetching) {
+        setTimeUntilRefresh((currentTime) => currentTime - 1);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isRefetching]);
+
+  useEffect(() => {
+    if (isRefetching) {
+      setTimeUntilRefresh(60);
+    }
+
+    if (timeUntilRefresh <= 0) {
+      refetch();
+    }
+  }, [isRefetching, refetch, timeUntilRefresh]);
 
   if (data?.status === "listed") {
     return (
-      <PageLayout title={t("features:list.title")}>
-        <Button
-          disabled={isRefetching || isLoading}
-          LeftIcon={RefreshCcw}
-          onClick={() => refetch()}
-        >
-          Reload
-        </Button>
+      <PageLayout title={t("my-dynamics:title")}>
+        <div className="flex gap-x-3">
+          <Button
+            LeftIcon={FileDown}
+            onClick={() => router.push("/api/downloads/mdp")}
+          >
+            {t("my-dynamics:downloads.mdp")}
+          </Button>
+          <TextButton
+            iconClassName={clsx({
+              "animate-spin": isRefetching || isLoading
+            })}
+            disabled={isRefetching || isLoading}
+            LeftIcon={RefreshCw}
+            onClick={() => refetch()}
+          />
+          <p className="ml-auto my-auto">
+            {t("my-dynamics:auto-refresh", { seconds: timeUntilRefresh })}
+          </p>
+        </div>
         <div className="mt-2.5 flex flex-col gap-y-1">
           {data.dynamics.map((dynamic) => (
             <div
@@ -106,10 +148,10 @@ export default function MyDynamics() {
               ) : null}
               <div>
                 <small className="text-xs leading-none">
-                  {t("features:list.dynamic.id")}: {dynamic.celeryId}
+                  {t("my-dynamics:dynamic.id")}: {dynamic.celeryId}
                 </small>
                 <p
-                  className={clsx({
+                  className={clsx("flex", {
                     "text-cyan-950": dynamic.status === "running",
                     "text-zinc-950": dynamic.status === "canceled",
                     "text-yellow-950": dynamic.status === "queued",
@@ -117,6 +159,7 @@ export default function MyDynamics() {
                     "text-red-950": dynamic.status === "error"
                   })}
                 >
+                  <p className="font-bold">{dynamic.type}</p>:{" "}
                   {dynamic.molecule} @{" "}
                   {Intl.DateTimeFormat(router.locale, {
                     day: "2-digit",
@@ -127,34 +170,57 @@ export default function MyDynamics() {
                     second: "2-digit"
                   }).format(new Date(dynamic.timestamp))}
                 </p>
-                <p>{dynamic.type}</p>
+                <small className="flex gap-x-1">
+                  <Download className="h-4 w-4" />
+                  {t("my-dynamics:downloads.title")}
+                </small>
                 <div className="flex gap-x-1 flex-wrap">
                   <StatusButton
                     LeftIcon={FileCode}
+                    onClick={() =>
+                      router.push(
+                        `/api/downloads/commands?taskId=${dynamic.celeryId}`
+                      )
+                    }
                     status={dynamic.status}
                   >
-                    Commands
+                    {t("my-dynamics:downloads.commands")}
                   </StatusButton>
                   <StatusButton
                     disabled={dynamic.status === "running"}
                     LeftIcon={Scroll}
+                    onClick={() =>
+                      router.push(
+                        `/api/downloads/log?taskId=${dynamic.celeryId}`
+                      )
+                    }
                     status={dynamic.status}
                   >
-                    Gromacs Logs
+                    {t("my-dynamics:downloads.log")}
                   </StatusButton>
                   <StatusButton
                     disabled={dynamic.status === "running"}
                     LeftIcon={FileDigit}
+                    onClick={() =>
+                      router.push(
+                        `/api/downloads/results?taskId=${dynamic.celeryId}`
+                      )
+                    }
                     status={dynamic.status}
                   >
-                    Raw Graphics
+                    {t("my-dynamics:downloads.results")}
                   </StatusButton>
                   <StatusButton
                     disabled={dynamic.status === "running"}
                     LeftIcon={Image}
+                    onClick={() =>
+                      router.push(
+                        `/api/downloads/figures?taskId=${dynamic.celeryId}`
+                      )
+                    }
                     status={dynamic.status}
                   >
-                    Image Graphics
+                    {t("my-dynamics:downloads.figures")}
                   </StatusButton>
                 </div>
               </div>
