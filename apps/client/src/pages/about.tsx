@@ -52,6 +52,7 @@ export default function About() {
 
   return (
     <PageLayout
+      className="gap-y-6"
       title={t("about:title")}
       description={t("about:description")}
     >
