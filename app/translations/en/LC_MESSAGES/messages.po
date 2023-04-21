@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-11 15:33-0400\n"
+"POT-Creation-Date: 2023-04-21 11:26-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -41,7 +41,7 @@ msgstr "Modify md_pr.mdp"
 msgid "Dinâmicas em Execução"
 msgstr "Running Dynamics"
 
-#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:111
+#: app/blueprints/auth/routes.py:20 app/blueprints/auth/routes.py:112
 msgid "O campo Nome Completo é obrigatório"
 msgstr "The Full Name field is required"
 
@@ -53,7 +53,7 @@ msgstr "The Username field is required"
 msgid "O campo Email deve ser válido e é obrigatório"
 msgstr "The Email field is required"
 
-#: app/blueprints/auth/routes.py:39
+#: app/blueprints/auth/routes.py:40
 msgid ""
 "Utilize seu email institucional. Emails de provedores comuns, como "
 "Google, QQ, Yandex não são permitidos."
@@ -61,19 +61,19 @@ msgstr ""
 "Use your institutional email. Emails from common providers such as "
 "Google, QQ, Yandex are not allowed."
 
-#: app/blueprints/auth/routes.py:48 app/blueprints/auth/routes.py:114
+#: app/blueprints/auth/routes.py:49 app/blueprints/auth/routes.py:115
 msgid "O campo Senha é obrigatório"
 msgstr "The Password field is required"
 
-#: app/blueprints/auth/routes.py:51
+#: app/blueprints/auth/routes.py:52
 msgid "O campo Confirmar Senha é obrigatório"
 msgstr "The Confirm Password field is required"
 
-#: app/blueprints/auth/routes.py:64
+#: app/blueprints/auth/routes.py:65
 msgid "ATENÇÃO. Os campos de senha e confirmar senha devem ser iguais."
 msgstr "ATTENTION. The password and confirm password must match"
 
-#: app/blueprints/auth/routes.py:81
+#: app/blueprints/auth/routes.py:82
 #, python-format
 msgid ""
 "Solicitação de cadastro do(a) Usuário(a) %(username)s realizada com "
@@ -82,11 +82,11 @@ msgstr ""
 "Register Request for user %(username)s recorded. We'll contact you via "
 "email once your account is activated"
 
-#: app/blueprints/auth/routes.py:89
+#: app/blueprints/auth/routes.py:90
 msgid "Erro, email ou usuário já estão sendo utilizados."
 msgstr "Error, email or username already taken"
 
-#: app/blueprints/auth/routes.py:93
+#: app/blueprints/auth/routes.py:94
 msgid ""
 "Por favor, preencha os dados corretamente. Em caso de dados incorretos "
 "seu cadastro poderá ser negado."
@@ -94,21 +94,21 @@ msgstr ""
 "Please note that in case you fail to correctly fill the data your "
 "registration might be invalidated"
 
-#: app/blueprints/auth/routes.py:99 app/templates/register.html:10
+#: app/blueprints/auth/routes.py:100 app/templates/register.html:10
 msgid "Solicitação de Cadastro"
 msgstr "Register Request"
 
-#: app/blueprints/auth/routes.py:125
+#: app/blueprints/auth/routes.py:126
 msgid "Usuário ou senha inválidos"
 msgstr "Username or password invalid"
 
-#: app/blueprints/auth/routes.py:126 app/blueprints/auth/routes.py:137
+#: app/blueprints/auth/routes.py:127 app/blueprints/auth/routes.py:138
 #: app/templates/components/navbar.html:69 app/templates/login.html:10
 #: app/templates/login.html:38
 msgid "Entrar"
 msgstr "Login"
 
-#: app/blueprints/auth/routes.py:131
+#: app/blueprints/auth/routes.py:132
 msgid "Seu cadastro ainda não foi aceito, aguarde o Email de confirmação."
 msgstr ""
 "Your account hasn't been activated yet. We'll contact you via email once "
@@ -120,7 +120,6 @@ msgstr "Your can't run two (or more) simultaneous dynamics"
 
 #: app/blueprints/dynamic/routes.py:87 app/blueprints/dynamic/routes.py:223
 #: app/blueprints/dynamic/routes.py:362
-#, fuzzy, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
 "logs para mais detalhes"
@@ -172,7 +171,6 @@ msgid "Sobre o Visual Dynamics"
 msgstr "About Visual Dynamics"
 
 #: app/templates/about.html:7
-#, fuzzy
 msgid ""
 "Visual Dynamics é uma ferramenta de código aberto que acelera "
 "implementações e aprendizados na área de\n"
@@ -189,7 +187,6 @@ msgstr ""
 "framework for web development."
 
 #: app/templates/about.html:13
-#, fuzzy
 msgid ""
 "Agradecemos à toda equipe responsável pelo desenvolvimento e manutenção "
 "do GROMACS e\n"
@@ -225,99 +222,101 @@ msgid "Ligante"
 msgstr "Ligand"
 
 #: app/templates/acpype.html:75 app/templates/apo.html:59
-#: app/templates/prodrg.html:70
+#: app/templates/prodrg.html:75
 msgid "Campo de Força"
 msgstr "Force Field"
 
 #: app/templates/acpype.html:89 app/templates/apo.html:73
-#: app/templates/prodrg.html:84
+#: app/templates/prodrg.html:89
 msgid "Recomendado para GROMOS"
 msgstr "Recommended for GROMOS"
 
 #: app/templates/acpype.html:92 app/templates/acpype.html:93
 #: app/templates/acpype.html:94 app/templates/apo.html:76
 #: app/templates/apo.html:77 app/templates/apo.html:78
-#: app/templates/prodrg.html:87 app/templates/prodrg.html:88
-#: app/templates/prodrg.html:89
+#: app/templates/prodrg.html:92 app/templates/prodrg.html:93
+#: app/templates/prodrg.html:94
 msgid "AMBER e OPLS apenas"
 msgstr "AMBER and OPLS only"
 
 #: app/templates/acpype.html:96 app/templates/apo.html:80
-#: app/templates/prodrg.html:91
+#: app/templates/prodrg.html:96
 msgid "Modelo de Água"
 msgstr "Water Model"
 
 #: app/templates/acpype.html:118 app/templates/apo.html:102
-#: app/templates/prodrg.html:113
+#: app/templates/prodrg.html:118
 msgid "Tipo de Caixa"
 msgstr "Box Type"
 
-#: app/templates/acpype.html:133 app/templates/apo.html:117
-#: app/templates/prodrg.html:128
+#: app/templates/acpype.html:134 app/templates/apo.html:118
+#: app/templates/prodrg.html:134
 msgid "Distância entre a proteína e a borda da caixa (nm)"
 msgstr "Distance between protein and box border (nm)"
 
-#: app/templates/acpype.html:145 app/templates/apo.html:129
-#: app/templates/prodrg.html:140
+#: app/templates/acpype.html:146 app/templates/apo.html:130
+#: app/templates/prodrg.html:146
 msgid "Tempo de Simulação"
 msgstr "Simulation Time"
 
-#: app/templates/acpype.html:161 app/templates/apo.html:144
-#: app/templates/prodrg.html:156
+#: app/templates/acpype.html:162 app/templates/apo.html:145
+#: app/templates/prodrg.html:162
 msgid "Neutralizar o Sistema"
 msgstr "Neutralize System"
 
-#: app/templates/acpype.html:174 app/templates/apo.html:163
-#: app/templates/prodrg.html:169
+#: app/templates/acpype.html:175 app/templates/apo.html:164
+#: app/templates/prodrg.html:175
 msgid "Calcular em dupla precisão"
 msgstr "Double Precision"
 
-#: app/templates/acpype.html:192 app/templates/apo.html:182
-#: app/templates/prodrg.html:187
+#: app/templates/acpype.html:193 app/templates/apo.html:183
+#: app/templates/prodrg.html:193
 msgid "Ignorar Hidrogênios"
 msgstr "Ignore Hydrogens"
 
-#: app/templates/acpype.html:204 app/templates/apo.html:200
-#: app/templates/prodrg.html:200
+#: app/templates/acpype.html:205 app/templates/apo.html:201
+#: app/templates/prodrg.html:206
 msgid "Executar"
 msgstr "Execute"
 
-#: app/templates/acpype.html:216 app/templates/apo.html:213
-#: app/templates/prodrg.html:213
+#: app/templates/acpype.html:217 app/templates/apo.html:214
+#: app/templates/prodrg.html:219
 msgid "Gerar Lista de Comandos"
 msgstr "Generate Command List"
 
-#: app/templates/acpype.html:218 app/templates/apo.html:215
-#: app/templates/prodrg.html:215
+#: app/templates/acpype.html:219 app/templates/apo.html:216
+#: app/templates/prodrg.html:221
 msgid "Baixe na \"Minha Área\""
 msgstr "Download at \"My Area\""
 
-#: app/templates/acpype.html:229 app/templates/apo.html:227
-#: app/templates/index.html:13 app/templates/prodrg.html:226
+#: app/templates/acpype.html:230 app/templates/apo.html:228
+#: app/templates/index.html:13 app/templates/prodrg.html:232
 msgid "Baixar arquivos MDP"
 msgstr "Download MDP files"
 
-#: app/templates/acpype.html:239
+#: app/templates/acpype.html:240
 msgid "Gerando arquivos para dinâmica ACPYPE"
 msgstr "How to generate files for ACPYPE"
 
-#: app/templates/acpype.html:263 app/templates/apo.html:241
-#: app/templates/prodrg.html:273
+#: app/templates/acpype.html:264 app/templates/apo.html:242
+#: app/templates/prodrg.html:279
 msgid "Você deve fornecer um arquivo de proteína (.pdb)"
 msgstr "You must provide a protein file (.pdb)"
 
-#: app/templates/acpype.html:268 app/templates/prodrg.html:278
+#: app/templates/acpype.html:269 app/templates/prodrg.html:284
 msgid "Você deve fornecer um arquivo de ligante (.itp)"
 msgstr "You must provide a ligand file (.itp)"
 
-#: app/templates/acpype.html:273 app/templates/prodrg.html:283
+#: app/templates/acpype.html:274 app/templates/prodrg.html:289
 msgid "Você deve fornecer um arquivo de ligante (.gro ou .pdb)"
 msgstr "You must provide a ligand file (.gro or .pdb)"
 
-#: app/templates/acpype.html:278 app/templates/apo.html:246
-#: app/templates/prodrg.html:288
-msgid "A distância entre a proteína e a borda da caixa deve ser maior que 0"
-msgstr "The distance between the protein and the box border must be greater than 0"
+#: app/templates/acpype.html:279 app/templates/apo.html:247
+#: app/templates/prodrg.html:294
+msgid ""
+"A distância entre a proteína e a borda da caixa deve ser maior que 0 e "
+"menor ou igual a 1"
+msgstr "The distance between the protein and the box border must be greater than 0 and less or equal to 1"
 
 #: app/templates/apo.html:8
 msgid "Não sabe com que molécula testar? Tente com a "
@@ -415,11 +414,11 @@ msgstr "Password"
 msgid "Ainda não tenho uma conta"
 msgstr "I don't have an account yet"
 
-#: app/templates/prodrg.html:236
+#: app/templates/prodrg.html:242
 msgid "Gerando arquivos com PRODRG"
 msgstr "Generating files with PRODRG"
 
-#: app/templates/prodrg.html:249
+#: app/templates/prodrg.html:255
 msgid "Tutorial de como realizar a dinâmica"
 msgstr "Tutorial on how to perform the dynamics"
 
@@ -609,23 +608,19 @@ msgid "Adicionar Ions"
 msgstr "Adding Ions"
 
 #: app/templates/components/run-progress.html:197
-#, fuzzy
 msgid "Definir caixa e solvatar"
 msgstr "Defining box and solvating"
 
 #: app/templates/components/run-progress.html:202
-#, fuzzy
 msgid "Definir Topologia"
 msgstr "Defining topology"
 
 #: app/templates/emails/mail-template.html:535
-#, fuzzy
 msgid "Ir para o Visual Dynamics"
 msgstr "About Visual Dynamics"
 
 #: app/utils/send_email.py:14 app/utils/send_email.py:74
 #: app/utils/send_email.py:99
-#, fuzzy, python-format
 msgid "Olá, %(username)s"
 msgstr "Modifying user %(username)s"
 
@@ -639,7 +634,6 @@ msgid "A dinâmica que você deixou executando acabou."
 msgstr "The dynamic you left running is over."
 
 #: app/utils/send_email.py:44
-#, fuzzy
 msgid "Olá, Administrador"
 msgstr "Administrator Area"
 
@@ -652,7 +646,6 @@ msgid ""
 msgstr "There is a new register request. Username: %(username)s. Email: %(email)s"
 
 #: app/utils/send_email.py:52
-#, fuzzy
 msgid "Nova solicitação de cadastro."
 msgstr "Register Request"
 

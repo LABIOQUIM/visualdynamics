@@ -62,15 +62,15 @@
             id="campoforca"
             name="campoforca"
           >
-          <option value="gromos43a1">GROMOS96 43a1 force field</option>
-          <option value="gromos43a2">GROMOS96 43a2 force field</option>
-          <option value="gromos45a3">GROMOS96 45a3 force field</option>
-          <option value="gromos53a5">GROMOS96 53a5 force field</option>
-          <option
-            value="gromos53a6"
-            selected
-          >GROMOS96 53a6 force field</option>
-          <option value="gromos54a7">GROMOS96 54a7 force field</option>
+            <option value="gromos43a1">GROMOS96 43a1 force field</option>
+            <option value="gromos43a2">GROMOS96 43a2 force field</option>
+            <option value="gromos45a3">GROMOS96 45a3 force field</option>
+            <option value="gromos53a5">GROMOS96 53a5 force field</option>
+            <option
+              value="gromos53a6"
+              selected
+            >GROMOS96 53a6 force field</option>
+            <option value="gromos54a7">GROMOS96 54a7 force field</option>
           </select>
           <label for="campoforca">{{ _("Campo de Força") }}</label>
         </div>
@@ -127,6 +127,7 @@
             value="0"
             name="distanciacaixa"
             min="0"
+            max="1"
             step="0.1"
             id="distanciacaixa"
           >
@@ -290,7 +291,7 @@
       return false
     }
     if (distance.value <= 0) {
-      alert('{{ _("A distância entre a proteína e a borda da caixa deve ser maior que 0") }}');
+      alert('{{ _("A distância entre a proteína e a borda da caixa deve ser maior que 0 e menor ou igual a 1") }}');
       distance.focus()
       return false
     }

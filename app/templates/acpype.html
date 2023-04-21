@@ -128,6 +128,7 @@
             name="distanciacaixa"
             min="0"
             step="0.1"
+            max="1"
             id="distanciacaixa"
           >
           <label for="distanciacaixa">{{ _("Distância entre a proteína e a borda da caixa (nm)") }}</label>
@@ -274,8 +275,8 @@
       filegro.focus()
       return false
     }
-    if (distance.value <= 0) {
-      alert('{{ _("A distância entre a proteína e a borda da caixa deve ser maior que 0") }}');
+    if (distance.value <= 0 || distance.value > 1) {
+      alert('{{ _("A distância entre a proteína e a borda da caixa deve ser maior que 0 e menor ou igual a 1") }}');
       distance.focus()
       return false
     }
