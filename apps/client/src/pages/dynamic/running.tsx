@@ -14,10 +14,6 @@ import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { api } from "@app/lib/api";
 import { useRunningDynamic } from "@app/queries/useRunningDynamic";
 
-export const config = {
-  runtime: "nodejs"
-};
-
 export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
   namespaces: ["common", "running"]
 });

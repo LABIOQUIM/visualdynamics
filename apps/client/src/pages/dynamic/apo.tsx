@@ -27,10 +27,6 @@ import { waterModels } from "@app/utils/water-models";
 
 import { authOptions } from "../api/auth/[...nextauth]";
 
-export const config = {
-  runtime: "nodejs"
-};
-
 export const getServerSideProps = withSSRTranslations(
   withSSRAuth(async (ctx) => {
     const session = await getServerSession(ctx.req, ctx.res, authOptions);
