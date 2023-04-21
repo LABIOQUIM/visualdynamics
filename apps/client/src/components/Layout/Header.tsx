@@ -173,9 +173,6 @@ export function Header({ setTheme, theme }: MainNavProps) {
 
       <div className="hidden md:flex md:flex-col md:pt-2 md:gap-y-4 md:px-2">
         {renderedItems}
-        {renderedItems}
-        {renderedItems}
-        {renderedItems}
       </div>
 
       {showMobileMenu ? (
