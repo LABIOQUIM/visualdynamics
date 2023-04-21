@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
+import NextNProgress from "nextjs-progressbar";
 
 import { Header } from "@app/components/Layout/Header";
 import { ThemeProvider } from "@app/contexts/theme";
@@ -26,6 +27,10 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <SessionProvider session={session}>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider>
+              <NextNProgress
+                height={5}
+                showOnShallow
+              />
               <div className="flex flex-col h-full gap-2.5 md:flex-row">
                 <Header />
                 <Component {...pageProps} />

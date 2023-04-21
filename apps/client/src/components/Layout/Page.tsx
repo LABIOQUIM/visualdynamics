@@ -51,17 +51,24 @@ export function PageLayout({
   }, [router.asPath]);
 
   useEffect(() => {
-    const handler = () => {
+    const handleRouteChangeStart = () => {
       setIsTransitioning(true);
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 280);
+    };
+    const handleRouteChangeCompleteOrError = () => {
+      setIsTransitioning(false);
     };
 
-    router.events.on("routeChangeComplete", handler);
+    router.events.on("routeChangeStart", handleRouteChangeStart);
+    router.events.on("routeChangeComplete", handleRouteChangeCompleteOrError);
+    router.events.on("routeChangeError", handleRouteChangeCompleteOrError);
 
     return () => {
-      router.events.off("routeChangeComplete", handler);
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+      router.events.off(
+        "routeChangeComplete",
+        handleRouteChangeCompleteOrError
+      );
+      router.events.off("routeChangeError", handleRouteChangeCompleteOrError);
     };
   }, [router.events]);
 
