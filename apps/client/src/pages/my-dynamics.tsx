@@ -30,7 +30,7 @@ import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useListDynamics } from "@app/queries/useListDynamics";
 
 export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
-  namespaces: ["common", "my-dynamics"]
+  namespaces: ["my-dynamics"]
 });
 
 export default function MyDynamics({ user }: { user: User }) {
@@ -240,7 +240,7 @@ export default function MyDynamics({ user }: { user: User }) {
       className="justify-center"
       title={t("my-dynamics:title")}
     >
-      <div className="flex flex-col justify-center w-1/2 mx-auto">
+      <div className="flex flex-col justify-center lg:w-1/2 mx-auto">
         <Microscope className="stoke-primary-950 h-14 w-14 mx-auto mb-2" />
         <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
           {t("my-dynamics:empty.title")}

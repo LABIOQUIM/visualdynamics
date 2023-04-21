@@ -15,7 +15,7 @@ import { api } from "@app/lib/api";
 import { useRunningDynamic } from "@app/queries/useRunningDynamic";
 
 export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
-  namespaces: ["common", "running"]
+  namespaces: ["running"]
 });
 
 export default function Running({ user }: { user: User }) {

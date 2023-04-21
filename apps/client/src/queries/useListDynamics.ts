@@ -40,7 +40,7 @@ export async function getListDynamics(
     });
 
     return data;
-  } catch {
+  } catch (err) {
     return {
       status: "no-dynamics"
     };

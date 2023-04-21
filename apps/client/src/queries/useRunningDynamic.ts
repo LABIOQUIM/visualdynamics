@@ -39,7 +39,8 @@ export async function getRunningDynamic(
     });
 
     return data;
-  } catch {
+  } catch (err) {
+    console.log(err);
     return {
       status: "not-running"
     };

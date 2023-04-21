@@ -50,7 +50,7 @@ export const getServerSideProps = withSSRTranslations(
     };
   }),
   {
-    namespaces: ["common", "forms"]
+    namespaces: ["forms"]
   }
 );
 

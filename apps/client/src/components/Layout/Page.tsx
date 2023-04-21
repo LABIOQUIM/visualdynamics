@@ -1,11 +1,11 @@
 import { ReactNode, useEffect, useState } from "react";
 import clsx from "clsx";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import { Breadcrumb } from "@app/components/Breadcrumb";
 import { BreadcrumbItem } from "@app/components/Breadcrumb/Item";
+import { useTheme } from "@app/contexts/theme";
 
 import { Footer } from "./Footer";
 import { HeaderSEO } from "./HeaderSEO";
@@ -28,6 +28,7 @@ export function PageLayout({
   const [breadcrumbs, setBreadcrumbs] = useState<
     { href: string; label: string }[]
   >([]);
+  const { theme } = useTheme();
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { t } = useTranslation(["common"]);
 
@@ -95,11 +96,15 @@ export function PageLayout({
 
   return (
     <div
-      className={clsx("flex flex-1 flex-col", {
+      className={clsx("flex flex-1 flex-col px-2.5 md:pl-0", {
         "animate-slideUpEnter": !isTransitioning
       })}
+      data-theme={theme}
     >
-      <PageTitle title={isTransitioning ? t("common:loading") : title} />
+      <PageTitle
+        noGoBack={router.pathname === "/"}
+        title={isTransitioning ? t("common:loading") : title}
+      />
       <HeaderSEO
         title={title}
         description={description}
@@ -107,15 +112,7 @@ export function PageLayout({
       />
       <div className="flex gap-x-2">
         <Breadcrumb>
-          <BreadcrumbItem href="/">
-            <Image
-              alt="favicon"
-              className="h-4 w-4 my-auto"
-              src="/images/favicon.svg"
-              height={0}
-              width={0}
-            />
-          </BreadcrumbItem>
+          <BreadcrumbItem href="/">{t("common:app-name")}</BreadcrumbItem>
           {breadcrumbs && !isTransitioning ? (
             breadcrumbs.map((breadcrumb, index) => (
               <BreadcrumbItem
@@ -136,7 +133,7 @@ export function PageLayout({
         </Breadcrumb>
       </div>
       <section
-        className={`overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 mx-2 md:ml-0 px-4 py-2.5 ${className}`}
+        className={`overflow-y-auto flex flex-1 flex-col rounded-md bg-zinc-800/10 px-4 py-2.5 ${className}`}
       >
         {Screen}
       </section>

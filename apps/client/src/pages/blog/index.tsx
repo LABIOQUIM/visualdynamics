@@ -1,17 +1,10 @@
 import { allPosts } from "contentlayer/generated";
-import { GetStaticProps } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import BlogCard from "@app/components/BlogCard";
 import { PageLayout } from "@app/components/Layout/Page";
+import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "en-US", ["navigation"]))
-    }
-  };
-};
+export const getServerSideProps = withSSRTranslations();
 
 export default function Blog() {
   return (

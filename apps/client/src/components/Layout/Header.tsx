@@ -8,18 +8,16 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Icons } from "@app/components/Icons";
+import { useTheme } from "@app/contexts/theme";
 
 import { Auth } from "../Auth";
+import { TextButton } from "../Button/Text";
 
-interface MainNavProps {
-  setTheme: (theme: string) => void;
-  theme: string;
-}
-
-export function Header({ setTheme, theme }: MainNavProps) {
+export function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const { pathname } = useRouter();
   const { status } = useSession();
+  const { theme } = useTheme();
   const { t } = useTranslation(["navigation"]);
   const [navigationItems, setNavigationItems] = useState<NavigationSection[]>([
     {
@@ -32,11 +30,11 @@ export function Header({ setTheme, theme }: MainNavProps) {
         },
         {
           label: "navigation:system.about.title",
-          href: "/system/about"
+          href: "/about"
         },
         {
           label: "navigation:system.blog.title",
-          href: "/system/blog"
+          href: "/blog"
         }
       ]
     }
@@ -94,6 +92,10 @@ export function Header({ setTheme, theme }: MainNavProps) {
     setShowMobileMenu((prevState) => !prevState);
   }
 
+  function closeMobileMenu() {
+    setShowMobileMenu(false);
+  }
+
   const renderedItems = navigationItems.map((item) => {
     return (
       <div
@@ -110,6 +112,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
               <Link
                 key={link.label}
                 href={link.href ? link.href : "#"}
+                onClick={closeMobileMenu}
               >
                 <div
                   className={clsx(
@@ -138,23 +141,23 @@ export function Header({ setTheme, theme }: MainNavProps) {
   });
 
   return (
-    <nav className="h-14 md:overflow-y-auto md:pb-4 md:h-screen md:w-80 bg-zinc-800/10">
-      <div className="flex flex-1 h-full justify-between md:hidden">
+    <nav
+      className="h-14 md:overflow-y-auto md:pb-4 md:h-screen md:w-80 bg-zinc-800/10"
+      data-theme={theme}
+    >
+      <div className="flex flex-1 h-full p-2.5 justify-between md:hidden">
         <Image
           alt="Visual Dynamics"
-          className="h-full w-full"
+          className="h-full w-full -m-2.5 my-auto"
           height={0}
           src="/images/logo.svg"
           width={0}
         />
-        <button
-          className=""
-          onClick={toggleMobileMenu}
-        >
+        <TextButton onClick={toggleMobileMenu}>
           {showMobileMenu ? <Icons.Close /> : <Menu />}
-        </button>
+        </TextButton>
       </div>
-      <div className="hidden bg-zinc-200/90 backdrop-blur-md md:border-b md:h-24 md:border-b-zinc-400/50 md:py-2 md:block  md:sticky md:top-0">
+      <div className="hidden bg-zinc-200/90 backdrop-blur-md md:border-b md:h-24 md:border-b-zinc-400/50 md:py-2 md:block md:sticky md:top-0">
         <Image
           alt="Visual Dynamics"
           className="h-full w-2/3 mx-auto mb-2"
@@ -165,10 +168,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
       </div>
 
       <div className="hidden bg-zinc-200/90 md:flex md:flex-col md:gap-y-4 md:px-2 md:items-center md:w-full md:py-2 md:shadow-lg backdrop-blur-md md:sticky md:top-24">
-        <Auth
-          setTheme={setTheme}
-          theme={theme}
-        />
+        <Auth />
       </div>
 
       <div className="hidden md:flex md:flex-col md:pt-2 md:gap-y-4 md:px-2">
@@ -176,11 +176,8 @@ export function Header({ setTheme, theme }: MainNavProps) {
       </div>
 
       {showMobileMenu ? (
-        <div className="absolute inset-0 z-10 top-14 bg-zinc-100 p-2 flex flex-col gap-y-4">
-          <Auth
-            setTheme={setTheme}
-            theme={theme}
-          />
+        <div className="md:hidden absolute inset-0 z-10 top-14 bg-zinc-200/80 backdrop-blur-md p-2 flex flex-col gap-y-4">
+          <Auth />
           {renderedItems}
         </div>
       ) : null}

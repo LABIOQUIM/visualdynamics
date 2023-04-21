@@ -1,0 +1,5 @@
+{
+  "acknowledgements": "Thanks to the entire team responsible for the development and maintenance of GROMACS and Grace/Xmgr",
+  "description": "Visual Dynamics is an open source tool that accelerates implementations and learning in the area of molecular dynamics simulation. Available for free and supported by all major web browsers. Visual Dynamics is powered by Flask and NextJS, both are free and open-source frameworks for web development.",
+  "title": "About"
+}

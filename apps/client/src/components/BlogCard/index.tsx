@@ -4,8 +4,8 @@ export default function BlogCard({ title, slug }: Partial<PostProps>) {
   return (
     <div className="group">
       <Link
-        href="/system/blog/[slug]"
-        as={`/system/blog/${slug}`}
+        href="/blog/[slug]"
+        as={`/blog/${slug}`}
       >
         <div className="rounded border-2 border-transparent transition-all duration-100 ease-linear">
           <div className="h-[150px]">

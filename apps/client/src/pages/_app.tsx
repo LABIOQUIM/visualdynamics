@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AppProps } from "next/app";
@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
 
 import { Header } from "@app/components/Layout/Header";
+import { ThemeProvider } from "@app/contexts/theme";
 import { queryClient } from "@app/lib/query-client";
 
 import "@app/styles/globals.css";
@@ -19,23 +20,17 @@ const inter = Inter({
 });
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  const [theme, setTheme] = useState("green");
-
   return (
-    <main
-      className={`${inter.className}`}
-      data-theme={theme}
-    >
+    <main className={`${inter.className}`}>
       <div className="h-screen font-inter">
         <SessionProvider session={session}>
           <QueryClientProvider client={queryClient}>
-            <div className="flex flex-col h-full gap-2 md:flex-row">
-              <Header
-                setTheme={setTheme}
-                theme={theme}
-              />
-              <Component {...pageProps} />
-            </div>
+            <ThemeProvider>
+              <div className="flex flex-col h-full gap-2.5 md:flex-row">
+                <Header />
+                <Component {...pageProps} />
+              </div>
+            </ThemeProvider>
             {process.env.NODE_ENV === "development" ? (
               <ReactQueryDevtools />
             ) : null}

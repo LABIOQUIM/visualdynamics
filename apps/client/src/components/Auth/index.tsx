@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Cog, Lock, LogIn, LogOut, User, UserPlus } from "lucide-react";
+import { Lock, LogIn, LogOut, User, UserPlus } from "lucide-react";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
@@ -13,13 +13,9 @@ import {
 import { Button } from "../Button";
 import { TextButton } from "../Button/Text";
 import { Input } from "../Input";
+import { SelectTheme } from "../SelectTheme";
 
-interface AuthProps {
-  setTheme: (theme: string) => void;
-  theme: string;
-}
-
-export function Auth({ setTheme, theme }: AuthProps) {
+export function Auth() {
   const { data: session, status } = useSession();
   const {
     register,
@@ -63,10 +59,7 @@ export function Auth({ setTheme, theme }: AuthProps) {
             {session.user.email}
           </small>
         </div>
-        <TextButton
-          iconClassName="w-5 h-5"
-          LeftIcon={Cog}
-        />
+        <SelectTheme />
         <TextButton
           iconClassName="w-5 h-5"
           LeftIcon={LogOut}

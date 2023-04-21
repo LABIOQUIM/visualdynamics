@@ -30,6 +30,7 @@ export function withSSRTranslations(
           props: {
             ...incomingGSSPResult.props,
             ...(await serverSideTranslations(ctx.locale ?? "en-US", [
+              "common",
               "navigation",
               ...namespaces
             ]))
@@ -49,6 +50,7 @@ export function withSSRTranslations(
     return {
       props: {
         ...(await serverSideTranslations(ctx.locale ?? "en-US", [
+          "common",
           "navigation",
           ...namespaces
         ]))
