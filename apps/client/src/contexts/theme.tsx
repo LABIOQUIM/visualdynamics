@@ -26,7 +26,7 @@ export function ThemeProvider({ children }: ProviderProps) {
   useEffect(() => {
     const cookies = parseCookies();
 
-    const colorSchemeCookie = cookies["visuldynamics-color-scheme"];
+    const colorSchemeCookie = cookies["visualdynamics-color-scheme"];
     if (colorSchemeCookie) {
       setTheme(colorSchemeCookie as Theme);
     }
@@ -34,7 +34,8 @@ export function ThemeProvider({ children }: ProviderProps) {
 
   function changeTheme(newTheme: Theme) {
     setCookie(undefined, "visualdynamics-color-scheme", newTheme, {
-      path: "/"
+      path: "/",
+      maxAge: 60 * 60 * 24 * 31 * 12
     });
     setTheme(newTheme);
   }
