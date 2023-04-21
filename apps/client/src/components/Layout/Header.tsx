@@ -13,6 +13,8 @@ import { useTheme } from "@app/contexts/theme";
 import { Auth } from "../Auth";
 import { TextButton } from "../Button/Text";
 
+import { MobileNav } from "./MobileNav";
+
 export function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const { pathname } = useRouter();
@@ -175,12 +177,7 @@ export function Header() {
         {renderedItems}
       </div>
 
-      {showMobileMenu ? (
-        <div className="md:hidden absolute inset-0 z-10 top-14 bg-zinc-200/80 backdrop-blur-md p-2 flex flex-col gap-y-4">
-          <Auth />
-          {renderedItems}
-        </div>
-      ) : null}
+      {showMobileMenu ? <MobileNav renderedItems={renderedItems} /> : null}
     </nav>
   );
 }
