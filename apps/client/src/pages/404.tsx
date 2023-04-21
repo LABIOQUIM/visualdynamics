@@ -15,7 +15,7 @@ export default function Custom404() {
   const { t } = useTranslation(["common"]);
 
   return (
-    <PageLayout title="common:errors.404.title">
+    <PageLayout title={t("common:errors.404.title")}>
       <div className="m-auto flex flex-col gap-y-2">
         <h1 className="text-[8rem] font-bold font-grotesk text-center">404</h1>
         <p className="text-xl font-medium font-grotesk text-center">
