@@ -27,5 +27,10 @@ export const acpypeForceFields = {
 };
 
 export const prodrgForceFields = {
-  gromos53a5: "GROMOS96 53a5 force field"
+  gromos43a1: "GROMOS96 43a1 force field",
+  gromos43a2: "GROMOS96 43a2 force field",
+  gromos45a3: "GROMOS96 45a3 force field",
+  gromos53a5: "GROMOS96 53a5 force field",
+  gromos53a6: "GROMOS96 53a6 force field",
+  gromos54a7: "GROMOS96 54a7 force field"
 };
