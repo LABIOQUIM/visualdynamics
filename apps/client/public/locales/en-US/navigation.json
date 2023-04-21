@@ -10,7 +10,9 @@
     "title": "Dynamics",
     "models": {
       "apo": "APO",
-      "acpype": "ACPYPE with Amber"
+      "acpype": "ACPYPE with Amber",
+      "prodrg": "PRODRG with GROMOS",
+      "prodrg-disabled": "This dynamic has been temporarily disabled as we migrate the generation model to be on par with ACPYPE and APO dynamics."
     }
   },
   "forms": {

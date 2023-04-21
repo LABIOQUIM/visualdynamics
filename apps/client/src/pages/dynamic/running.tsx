@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ArrowRight, Slash } from "lucide-react";
+import { ArrowRight, FileCog, Slash } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
@@ -150,6 +150,7 @@ export default function Running({ user }: { user: User }) {
       title={t("running:not-running.title")}
     >
       <div className="flex flex-col justify-center w-1/2 mx-auto">
+        <FileCog className="stoke-primary-950 h-14 w-14 mx-auto mb-2" />
         <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
           {t("running:not-running.title")}
         </h1>

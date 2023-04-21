@@ -46,7 +46,7 @@ export function Auth({ setTheme, theme }: AuthProps) {
   if (status === "authenticated") {
     return (
       <div className="flex w-full gap-x-2">
-        <User className="transition-all duration-500 stroke-primary-950 my-auto h-7 w-7" />
+        <User className="transition-all duration-500 stroke-primary-950 my-auto min-h-[1.25rem] min-w-[1.25rem]" />
         <div className="flex flex-col gap-y-1 flex-1">
           <div className="flex gap-x-1">
             <p className="uppercase -mb-2 transition-all duration-500 text-sm text-primary-950">
@@ -56,17 +56,19 @@ export function Auth({ setTheme, theme }: AuthProps) {
               {t(`navigation:auth.role.${session.user.role.toLowerCase()}`)}
             </small>
           </div>
-          <small className="text-xs text-zinc-500">{session.user.email}</small>
+          <small
+            title={session.user.email}
+            className="text-xs text-zinc-500"
+          >
+            {session.user.email}
+          </small>
         </div>
         <TextButton
+          iconClassName="w-5 h-5"
           LeftIcon={Cog}
-          onClick={() =>
-            signOut({
-              redirect: false
-            })
-          }
         />
         <TextButton
+          iconClassName="w-5 h-5"
           LeftIcon={LogOut}
           onClick={() =>
             signOut({

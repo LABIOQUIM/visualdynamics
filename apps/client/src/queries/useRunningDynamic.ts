@@ -25,19 +25,25 @@ export type GetRunningDynamicResult =
 export async function getRunningDynamic(
   username: string
 ): Promise<GetRunningDynamicResult> {
-  if (!username) {
+  try {
+    if (!username) {
+      return {
+        status: "no-username"
+      };
+    }
+
+    const { data } = await api.get<GetRunningDynamicResult>("/run", {
+      params: {
+        username
+      }
+    });
+
+    return data;
+  } catch {
     return {
-      status: "no-username"
+      status: "not-running"
     };
   }
-
-  const { data } = await api.get<GetRunningDynamicResult>("/run", {
-    params: {
-      username
-    }
-  });
-
-  return data;
 }
 
 export function useRunningDynamic(

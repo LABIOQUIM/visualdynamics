@@ -25,3 +25,7 @@ export const acpypeForceFields = {
   "amber99sb-ildn": "AMBER99SB-ILDN protein, nucleic AMBER94",
   ambergs: "AMBERGS force field"
 };
+
+export const prodrgForceFields = {
+  gromos53a5: "GROMOS96 53a5 force field"
+};

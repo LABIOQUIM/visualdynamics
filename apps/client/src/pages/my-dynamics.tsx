@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import {
+  ArrowRight,
   CheckCircle,
   Clock,
   Download,
@@ -8,11 +9,13 @@ import {
   FileDigit,
   FileDown,
   Image,
+  Microscope,
   RefreshCw,
   Scroll,
   Slash,
   XCircle
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
@@ -233,8 +236,30 @@ export default function MyDynamics({ user }: { user: User }) {
   }
 
   return (
-    <PageLayout title="">
-      <h1>hehe</h1>
+    <PageLayout
+      className="justify-center"
+      title={t("my-dynamics:title")}
+    >
+      <div className="flex flex-col justify-center w-1/2 mx-auto">
+        <Microscope className="stoke-primary-950 h-14 w-14 mx-auto mb-2" />
+        <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
+          {t("my-dynamics:empty.title")}
+        </h1>
+        <p className="text-center">{t("my-dynamics:empty.description")}</p>
+
+        <div className="flex gap-x-2 flex-wrap mt-5 mx-auto">
+          <Link href="/dynamic/apo">
+            <Button RightIcon={ArrowRight}>
+              {t("navigation:dynamic.models.apo")}
+            </Button>
+          </Link>
+          <Link href="/dynamic/acpype">
+            <Button RightIcon={ArrowRight}>
+              {t("navigation:dynamic.models.acpype")}
+            </Button>
+          </Link>
+        </div>
+      </div>
     </PageLayout>
   );
 }

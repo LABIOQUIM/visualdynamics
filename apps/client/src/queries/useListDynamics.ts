@@ -26,19 +26,25 @@ export type GetListDynamicResult =
 export async function getListDynamics(
   username: string
 ): Promise<GetListDynamicResult> {
-  if (!username) {
+  try {
+    if (!username) {
+      return {
+        status: "no-username"
+      };
+    }
+
+    const { data } = await api.get<GetListDynamicResult>("/dynamics", {
+      params: {
+        username
+      }
+    });
+
+    return data;
+  } catch {
     return {
-      status: "no-username"
+      status: "no-dynamics"
     };
   }
-
-  const { data } = await api.get<GetListDynamicResult>("/dynamics", {
-    params: {
-      username
-    }
-  });
-
-  return data;
 }
 
 export function useListDynamics(
