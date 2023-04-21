@@ -29,7 +29,8 @@
       }
     },
     "submit": "Sign In",
-    "lost-password": "I forgot my password"
+    "lost-password": "I forgot my password",
+    "new-user": "Register"
   },
   "preparation": {
     "title": "Dynamics Preparation",
@@ -44,6 +45,9 @@
     },
     "blog": {
       "title": "Blog"
+    },
+    "home": {
+      "title": "Home"
     }
   }
 }

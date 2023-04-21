@@ -26,7 +26,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       className={`${inter.className}`}
       data-theme={theme}
     >
-      <div className="h-screen font-inter transition-all duration-1000">
+      <div className="h-screen font-inter">
         <SessionProvider session={session}>
           <QueryClientProvider client={queryClient}>
             <div className="flex flex-col h-full gap-2 md:flex-row">

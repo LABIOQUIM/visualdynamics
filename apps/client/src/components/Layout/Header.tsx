@@ -10,7 +10,6 @@ import { useTranslation } from "next-i18next";
 import { Icons } from "@app/components/Icons";
 
 import { Auth } from "../Auth";
-import { SelectTheme } from "../SelectTheme";
 
 interface MainNavProps {
   setTheme: (theme: string) => void;
@@ -27,6 +26,10 @@ export function Header({ setTheme, theme }: MainNavProps) {
       title: "navigation:system.title",
       Icon: Info,
       links: [
+        {
+          label: "navigation:system.home.title",
+          href: "/"
+        },
         {
           label: "navigation:system.about.title",
           href: "/system/about"
@@ -62,6 +65,10 @@ export function Header({ setTheme, theme }: MainNavProps) {
                     {
                       label: "navigation:dynamic.models.acpype",
                       href: "/dynamic/acpype"
+                    },
+                    {
+                      label: "navigation:dynamic.models.prodrg",
+                      href: "/dynamic/prodrg"
                     }
                   ]
                 },
@@ -109,8 +116,13 @@ export function Header({ setTheme, theme }: MainNavProps) {
                     "flex flex-1 text-primary-50 duration-500 gap-x-2 p-2 rounded-md transition-all line-clamp-1 hover:bg-primary-50",
                     {
                       "bg-primary-900 hover:bg-primary-800":
-                        pathname.startsWith(link.href ?? ""),
-                      "text-primary-700": !pathname.startsWith(link.href ?? "")
+                        link.href === "/"
+                          ? pathname === link.href
+                          : pathname.startsWith(link.href ?? ""),
+                      "text-primary-700":
+                        link.href === "/"
+                          ? pathname !== link.href
+                          : !pathname.startsWith(link.href ?? "")
                     }
                   )}
                 >
@@ -126,7 +138,7 @@ export function Header({ setTheme, theme }: MainNavProps) {
   });
 
   return (
-    <nav className="h-14 md:h-full md:w-80 bg-zinc-800/10">
+    <nav className="h-14 md:overflow-y-auto md:pb-4 md:h-screen md:w-80 bg-zinc-800/10">
       <div className="flex flex-1 h-full justify-between md:hidden">
         <Image
           alt="Visual Dynamics"
@@ -142,30 +154,36 @@ export function Header({ setTheme, theme }: MainNavProps) {
           {showMobileMenu ? <Icons.Close /> : <Menu />}
         </button>
       </div>
-      <div className="hidden md:border-b md:border-b-zinc-400/50 md:pb-2 md:block">
+      <div className="hidden bg-zinc-200/90 backdrop-blur-md md:border-b md:h-24 md:border-b-zinc-400/50 md:py-2 md:block  md:sticky md:top-0">
         <Image
           alt="Visual Dynamics"
-          className="w-2/3 mx-auto"
+          className="h-full w-2/3 mx-auto mb-2"
           height={0}
           src="/images/logo.svg"
           width={0}
         />
       </div>
 
-      <div className="flex-col hidden md:flex md:gap-y-4 md:px-2 md:items-center md:w-full md:py-2">
-        <SelectTheme
+      <div className="hidden bg-zinc-200/90 md:flex md:flex-col md:gap-y-4 md:px-2 md:items-center md:w-full md:py-2 md:shadow-lg backdrop-blur-md md:sticky md:top-24">
+        <Auth
           setTheme={setTheme}
           theme={theme}
         />
-        <Auth />
       </div>
-      <div className="hidden md:flex md:h-full md:flex-col md:mt-2 md:gap-y-4 md:overflow-y-auto md:px-2">
+
+      <div className="hidden md:flex md:flex-col md:pt-2 md:gap-y-4 md:px-2">
+        {renderedItems}
+        {renderedItems}
+        {renderedItems}
         {renderedItems}
       </div>
 
       {showMobileMenu ? (
         <div className="absolute inset-0 z-10 top-14 bg-zinc-100 p-2 flex flex-col gap-y-4">
-          <Auth />
+          <Auth
+            setTheme={setTheme}
+            theme={theme}
+          />
           {renderedItems}
         </div>
       ) : null}

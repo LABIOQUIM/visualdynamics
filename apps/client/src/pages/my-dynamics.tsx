@@ -13,49 +13,22 @@ import {
   Slash,
   XCircle
 } from "lucide-react";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { getServerSession } from "next-auth";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Button } from "@app/components/Button";
 import { StatusButton } from "@app/components/Button/Status";
 import { TextButton } from "@app/components/Button/Text";
 import { PageLayout } from "@app/components/Layout/Page";
+import { withSSRAuth } from "@app/hocs/withSSRAuth";
+import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useListDynamics } from "@app/queries/useListDynamics";
 
-import { authOptions } from "./api/auth/[...nextauth]";
-
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req,
-  res
-}) => {
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/"
-      },
-      props: {}
-    };
-  }
-
-  return {
-    props: {
-      session,
-      user: session.user,
-      ...(await serverSideTranslations(locale ?? "en-US", [
-        "common",
-        "my-dynamics",
-        "navigation"
-      ]))
-    }
-  };
-};
+export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
+  namespaces: ["common", "my-dynamics"]
+});
 
 export default function MyDynamics({ user }: { user: User }) {
   const { data, refetch, isRefetching, isLoading } = useListDynamics(

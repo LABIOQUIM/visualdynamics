@@ -2,19 +2,19 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CloudCog, Download } from "lucide-react";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { getServerSession } from "next-auth";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
 import { PageLayout } from "@app/components/Layout/Page";
 import { Select } from "@app/components/Select";
 import { Switch } from "@app/components/Switch";
+import { withSSRAuth } from "@app/hocs/withSSRAuth";
+import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { api } from "@app/lib/api";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 import {
@@ -31,44 +31,32 @@ export const config = {
   runtime: "nodejs"
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req,
-  res
-}) => {
-  const session = await getServerSession(req, res, authOptions);
-  if (session) {
-    const data = await getRunningDynamic(session.user.username);
+export const getServerSideProps = withSSRTranslations(
+  withSSRAuth(async (ctx) => {
+    const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
-    if (data?.status === "running") {
-      return {
-        redirect: {
-          destination: "/dynamic/running"
-        },
-        props: {}
-      };
+    if (session) {
+      const data = await getRunningDynamic(session.user.username);
+
+      console.log(data);
+      if (data?.status === "running") {
+        return {
+          redirect: {
+            destination: "/dynamic/running",
+            permanent: false
+          }
+        };
+      }
     }
-  } else {
+
     return {
-      redirect: {
-        destination: "/"
-      },
       props: {}
     };
+  }),
+  {
+    namespaces: ["common", "forms"]
   }
-
-  return {
-    props: {
-      session,
-      user: session.user,
-      ...(await serverSideTranslations(locale ?? "en-US", [
-        "common",
-        "forms",
-        "navigation"
-      ]))
-    }
-  };
-};
+);
 
 export default function APODynamic({ user }: { user: User }) {
   const {

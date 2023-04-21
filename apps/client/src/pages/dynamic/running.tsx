@@ -1,54 +1,26 @@
 import { useEffect } from "react";
 import { ArrowRight, Slash } from "lucide-react";
-import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { getServerSession } from "next-auth";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { Button } from "@app/components/Button";
 import { PageLayout } from "@app/components/Layout/Page";
 import { RunningDynamicStepList } from "@app/components/RunningDynamicStepList";
+import { withSSRAuth } from "@app/hocs/withSSRAuth";
+import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { api } from "@app/lib/api";
 import { useRunningDynamic } from "@app/queries/useRunningDynamic";
-
-import { authOptions } from "../api/auth/[...nextauth]";
 
 export const config = {
   runtime: "nodejs"
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  locale,
-  req,
-  res
-}) => {
-  const session = await getServerSession(req, res, authOptions);
-
-  if (session === null) {
-    return {
-      redirect: {
-        destination: "/"
-      },
-      props: {}
-    };
-  }
-
-  return {
-    props: {
-      session,
-      user: session.user,
-      ...(await serverSideTranslations(locale ?? "en-US", [
-        "common",
-        "navigation",
-        "running"
-      ]))
-    }
-  };
-};
+export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
+  namespaces: ["common", "running"]
+});
 
 export default function Running({ user }: { user: User }) {
   const { data, isLoading, isRefetching } = useRunningDynamic(user.username);
@@ -178,25 +150,27 @@ export default function Running({ user }: { user: User }) {
 
   return (
     <PageLayout
-      className="justify-center w-1/2 mx-auto"
+      className="justify-center"
       title={t("running:not-running.title")}
     >
-      <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
-        {t("running:not-running.title")}
-      </h1>
-      <p className="text-center">{t("running:not-running.description")}</p>
+      <div className="flex flex-col justify-center w-1/2 mx-auto">
+        <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
+          {t("running:not-running.title")}
+        </h1>
+        <p className="text-center">{t("running:not-running.description")}</p>
 
-      <div className="flex gap-x-2 flex-wrap mt-5 mx-auto">
-        <Link href="/dynamic/apo">
-          <Button RightIcon={ArrowRight}>
-            {t("navigation:dynamic.models.apo")}
-          </Button>
-        </Link>
-        <Link href="/dynamic/acpype">
-          <Button RightIcon={ArrowRight}>
-            {t("navigation:dynamic.models.acpype")}
-          </Button>
-        </Link>
+        <div className="flex gap-x-2 flex-wrap mt-5 mx-auto">
+          <Link href="/dynamic/apo">
+            <Button RightIcon={ArrowRight}>
+              {t("navigation:dynamic.models.apo")}
+            </Button>
+          </Link>
+          <Link href="/dynamic/acpype">
+            <Button RightIcon={ArrowRight}>
+              {t("navigation:dynamic.models.acpype")}
+            </Button>
+          </Link>
+        </div>
       </div>
     </PageLayout>
   );
