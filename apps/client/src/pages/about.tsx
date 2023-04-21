@@ -11,19 +11,21 @@ export const getServerSideProps = withSSRTranslations(undefined, {
 const maintainers: Maintainer[] = [
   {
     name: "Dr. Fernando Berton Zanchi",
-    active: true,
+    link: "http://lattes.cnpq.br/0564343474986429",
     image: "/images/maintainers/fernando.jpg",
+    active: true,
     work: ["idea", "code", "manuscript"]
   },
   {
     name: "Dr. Rafael Andrade Caceres",
-    active: true,
+    link: "http://lattes.cnpq.br/2268580664900763",
     image: "/images/maintainers/rafael.jpg",
+    active: true,
     work: ["idea", "manuscript"]
   },
   {
     name: "Ivo Henrique Provensi Vieira",
-    link: "https://github.com/ivopr",
+    link: "http://lattes.cnpq.br/5130583751808996",
     image: "/images/maintainers/ivo.jpg",
     active: true,
     work: ["code"]

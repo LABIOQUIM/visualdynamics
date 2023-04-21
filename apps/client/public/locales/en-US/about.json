@@ -6,5 +6,10 @@
     "active": "Active",
     "inactive": "Previous"
   },
-  "title": "About"
+  "title": "About",
+  "work": {
+    "code": "Code development",
+    "idea": "Idea and concept",
+    "manuscript": "Publication writing"
+  }
 }

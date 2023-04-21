@@ -1,5 +1,6 @@
-import { Code, Lightbulb, Newspaper } from "lucide-react";
+import { Code2, Lightbulb, Newspaper } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 import { BlurImage } from "../BlurImage";
 
@@ -8,10 +9,18 @@ interface MaintainerCardProps {
 }
 
 export function MaintainerCard({ maintainer }: MaintainerCardProps) {
+  const { t } = useTranslation(["about"]);
+
   const WorkIcon = {
     idea: Lightbulb,
-    code: Code,
+    code: Code2,
     manuscript: Newspaper
+  };
+
+  const WorkTitle = {
+    idea: "about:work.idea",
+    code: "about:work.code",
+    manuscript: "about:work.manuscript"
   };
 
   return (
@@ -45,10 +54,12 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
                 const Icon = WorkIcon[w];
 
                 return (
-                  <Icon
-                    className="h-5 w-5"
+                  <p
                     key={maintainer.name + w}
-                  />
+                    title={t(WorkTitle[w])}
+                  >
+                    <Icon className="stroke-primary-600 stroke-[1] h-5 w-5" />
+                  </p>
                 );
               })
             : null}
