@@ -73,10 +73,12 @@ class RunDynamic(Resource):
                 "celeryId": celery_id,
             }
 
+            log_lines = log_lines[-30:]
+
             return {
                 "info": data,
                 "steps": step,
-                "log": log_lines[-30:],
+                "log": log_lines[::-1],
                 "status": "running",
             }
 
