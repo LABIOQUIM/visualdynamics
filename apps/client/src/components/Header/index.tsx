@@ -45,7 +45,7 @@ export function Header() {
               />
             </div>
             <Input
-              className="pl-8 w-full"
+              className="pl-8 w-full dark:bg-gray-950"
               placeholder="Search for projects"
               aria-label="Search"
             />
