@@ -35,7 +35,7 @@ export function Main({ children }: IMain) {
   }, [router.asPath]);
 
   return (
-    <main className="transition-all duration-150 h-full lg:rounded-tl-3xl overflow-y-auto text-gray-800 dark:text-gray-100 bg-gray-100 dark:bg-gray-950">
+    <main className="transition-all border border-l-gray-400 border-t-gray-400 dark:border-l-gray-600 dark:border-t-gray-600 duration-150 h-full lg:rounded-tl-3xl overflow-y-auto text-gray-800 dark:text-gray-100 bg-gray-100 dark:bg-gray-950">
       <div className="transition-all duration-150 flex sticky top-0 z-30 shadow-sm shadow-gray-300 dark:shadow-gray-900 bg-gray-100 dark:bg-gray-950 gap-x-2 px-6">
         <Breadcrumb>
           <BreadcrumbItem href="/">{t("common:app-name")}</BreadcrumbItem>

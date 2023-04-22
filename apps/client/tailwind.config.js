@@ -11,7 +11,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: colors.green
+        primary: colors.green,
+        gray: colors.zinc
       },
       fontFamily: {
         inter: ["Inter", ...fontFamily.sans],
