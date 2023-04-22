@@ -13,7 +13,7 @@ import "@app/styles/globals.css";
 const Layout = dynamic(
   () => import("@app/components/Container/Layout").then((mod) => mod.Layout),
   {
-    ssr: true
+    ssr: false
   }
 );
 
@@ -26,7 +26,9 @@ const ReactQueryDevtools = dynamic(
     import("@tanstack/react-query-devtools").then(
       (mod) => mod.ReactQueryDevtools
     ),
-  { ssr: false }
+  {
+    ssr: false
+  }
 );
 
 const Script = dynamic(() => import("next/script"), {

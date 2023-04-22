@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { SEO } from "@app/components/SEO";
+import { Spinner } from "@app/components/Spinner";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
@@ -15,6 +16,11 @@ import { authOptions } from "../api/auth/[...nextauth]";
 const APOForm = dynamic(
   () => import("@app/components/Forms/APO").then((mod) => mod.APOForm),
   {
+    loading: () => (
+      <div className="flex flex-1 items-center justify-center">
+        <Spinner />
+      </div>
+    ),
     ssr: false
   }
 );
@@ -47,7 +53,7 @@ export const getServerSideProps = withSSRTranslations(
 
 export default function APODynamic({ user }: { user: User }) {
   const router = useRouter();
-  const { t } = useTranslation(["forms", "navigation"]);
+  const { t } = useTranslation(["navigation"]);
   const { status } = useSession();
 
   useEffect(() => {

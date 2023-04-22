@@ -8,15 +8,7 @@ import { api } from "@app/lib/api";
 
 export type GetListDynamicResult =
   | {
-      dynamics: {
-        timestamp: string;
-        molecule: string;
-        type: "APO" | "ACPYPE";
-        celeryId: string;
-        isRunning: boolean;
-        status: "queued" | "canceled" | "finished" | "running" | "error";
-        errored_command: string | null;
-      }[];
+      dynamics: Dynamic[];
       status: "listed";
     }
   | {

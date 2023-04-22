@@ -27,7 +27,7 @@ export function Main({ children }: IMain) {
       const href = "/" + pathArray.slice(0, index + 1).join("/");
       return {
         href,
-        label: path.charAt(0).toUpperCase() + path.slice(1)
+        label: path
       };
     });
 
@@ -58,7 +58,7 @@ export function Main({ children }: IMain) {
           )}
         </Breadcrumb>
       </div>
-      <div className="container grid gap-6 px-6 py-2">{children}</div>
+      <div className="flex flex-col flex-1 gap-4 px-6 py-2">{children}</div>
     </main>
   );
 }
