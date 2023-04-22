@@ -24,7 +24,7 @@ export function withSSRGuest(
   ): Promise<WithAuthServerSidePropsResult> => {
     const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
-    if (session !== null) {
+    if (session) {
       return {
         redirect: {
           destination: "/my-dynamics",

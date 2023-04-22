@@ -17,7 +17,7 @@ import {
   AuthFormSchemaType
 } from "@app/schemas/components/auth/auth.zod";
 
-export const getStaticProps = withSSRTranslations(withSSRGuest(), {
+export const getServerSideProps = withSSRTranslations(withSSRGuest(), {
   namespaces: ["signin"]
 });
 

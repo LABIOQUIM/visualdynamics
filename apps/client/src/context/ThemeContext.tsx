@@ -2,10 +2,10 @@ import {
   createContext,
   ReactNode,
   useContext,
-  useLayoutEffect,
+  useEffect,
   useState
 } from "react";
-import { parseCookies, setCookie } from "nookies";
+import { getCookie, hasCookie, setCookie } from "cookies-next";
 
 export type Theme = "light" | "dark";
 
@@ -22,26 +22,19 @@ const ThemeContext = createContext({} as ContextProps);
 
 export function ThemeProvider({ children }: ProviderProps) {
   const [theme, setTheme] = useState<Theme>("light");
+  const themeCookieKey = "VISUALDYNAMICS_THEME";
 
-  useLayoutEffect(() => {
-    const cookies = parseCookies();
-
-    const colorSchemeCookie = cookies["visualdynamics-color-scheme"];
-    if (colorSchemeCookie) {
-      setTheme(colorSchemeCookie as Theme);
+  useEffect(() => {
+    if (hasCookie(themeCookieKey)) {
+      setTheme(getCookie(themeCookieKey) as Theme);
     }
   }, []);
 
   function toggleTheme() {
-    setCookie(
-      undefined,
-      "visualdynamics-color-scheme",
-      theme === "light" ? "dark" : "light",
-      {
-        path: "/",
-        maxAge: 60 * 60 * 24 * 31 * 12
-      }
-    );
+    setCookie(themeCookieKey, theme === "light" ? "dark" : "light", {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 31 * 12
+    });
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   }
 

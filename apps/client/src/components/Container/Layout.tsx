@@ -1,10 +1,24 @@
 import { useContext } from "react";
+import dynamic from "next/dynamic";
 
 import { Main } from "@app/components/Container/Main";
 import { Header } from "@app/components/Header";
-import { Sidebar } from "@app/components/Sidebar";
 import { SidebarContext, SidebarProvider } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
+
+import { Spinner } from "../Spinner";
+
+const Sidebar = dynamic(
+  () => import("@app/components/Sidebar").then((mod) => mod.Sidebar),
+  {
+    loading: () => (
+      <div className="flex items-center justify-center w-64">
+        <Spinner className="h-20 w-20" />
+      </div>
+    ),
+    ssr: false
+  }
+);
 
 interface ILayout {
   children: React.ReactNode;

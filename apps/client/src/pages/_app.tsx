@@ -1,48 +1,56 @@
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { AppProps } from "next/app";
-import { Inter } from "next/font/google";
-import Script from "next/script";
+import { type AppProps } from "next/app";
+import dynamic from "next/dynamic";
 import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
-import NextNProgress from "nextjs-progressbar";
 
-import { Layout } from "@app/components/Container/Layout";
 import { ThemeProvider } from "@app/context/ThemeContext";
 import { queryClient } from "@app/lib/query-client";
 
 import "@app/styles/globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  weight: ["400", "900"],
-  preload: false
+const Layout = dynamic(
+  () => import("@app/components/Container/Layout").then((mod) => mod.Layout),
+  {
+    ssr: true
+  }
+);
+
+const NextNProgress = dynamic(() => import("nextjs-progressbar"), {
+  ssr: false
+});
+
+const ReactQueryDevtools = dynamic(
+  () =>
+    import("@tanstack/react-query-devtools").then(
+      (mod) => mod.ReactQueryDevtools
+    ),
+  { ssr: false }
+);
+
+const Script = dynamic(() => import("next/script"), {
+  ssr: false
 });
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   if (typeof window === "undefined") React.useLayoutEffect = React.useEffect;
 
   return (
-    <main className={`${inter.className}`}>
-      <SessionProvider session={session}>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
-            <NextNProgress
-              height={5}
-              color="#22c55e"
-              options={{ showSpinner: false }}
-            />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-          {process.env.NODE_ENV === "development" ? (
-            <ReactQueryDevtools />
-          ) : null}
-        </QueryClientProvider>
-      </SessionProvider>
-
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <NextNProgress
+            height={5}
+            color="#22c55e"
+            options={{ showSpinner: false }}
+          />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+        {process.env.NODE_ENV === "development" ? <ReactQueryDevtools /> : null}
+      </QueryClientProvider>
       {process.env.NODE_ENV === "production" ? (
         <>
           {/* Google tag (gtag.js) */}
@@ -64,7 +72,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           </Script>
         </>
       ) : null}
-    </main>
+    </SessionProvider>
   );
 }
 
