@@ -6,11 +6,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   LeftIcon?: LucideIcon;
   RightIcon?: LucideIcon;
   status: "queued" | "canceled" | "finished" | "running" | "error";
+  iconClassName?: string;
 }
 
 export const StatusButton: FC<ButtonProps> = ({
   children,
   className,
+  iconClassName,
   LeftIcon,
   RightIcon,
   status,
@@ -35,9 +37,9 @@ export const StatusButton: FC<ButtonProps> = ({
       )}
       {...rest}
     >
-      {LeftIcon ? <LeftIcon /> : null}
+      {LeftIcon ? <LeftIcon className={`h-4 w-4 ${iconClassName}`} /> : null}
       {children}
-      {RightIcon ? <RightIcon /> : null}
+      {RightIcon ? <RightIcon className={`h-4 w-4 ${iconClassName}`} /> : null}
     </button>
   );
 };

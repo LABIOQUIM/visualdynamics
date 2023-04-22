@@ -11,7 +11,7 @@ export function BreadcrumbItem({
   return (
     <li {...props}>
       <Link
-        className="uppercase text-primary-600 font-grotesk transition-all duration-500 font-medium hover:text-primary-800"
+        className="lowercase text-primary-600 font-inter transition-all duration-500 font-medium hover:text-primary-800"
         href={href}
         passHref
       >
