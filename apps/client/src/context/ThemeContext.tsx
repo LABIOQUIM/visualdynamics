@@ -2,16 +2,16 @@ import {
   createContext,
   ReactNode,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useState
 } from "react";
 import { parseCookies, setCookie } from "nookies";
 
-export type Theme = "amber" | "stone" | "green" | "indigo" | "violet" | "rose";
+export type Theme = "light" | "dark";
 
 interface ContextProps {
   theme: Theme;
-  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
 }
 
 interface ProviderProps {
@@ -21,9 +21,9 @@ interface ProviderProps {
 const ThemeContext = createContext({} as ContextProps);
 
 export function ThemeProvider({ children }: ProviderProps) {
-  const [theme, setTheme] = useState<Theme>("green");
+  const [theme, setTheme] = useState<Theme>("light");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const cookies = parseCookies();
 
     const colorSchemeCookie = cookies["visualdynamics-color-scheme"];
@@ -32,16 +32,21 @@ export function ThemeProvider({ children }: ProviderProps) {
     }
   }, []);
 
-  function changeTheme(newTheme: Theme) {
-    setCookie(undefined, "visualdynamics-color-scheme", newTheme, {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 31 * 12
-    });
-    setTheme(newTheme);
+  function toggleTheme() {
+    setCookie(
+      undefined,
+      "visualdynamics-color-scheme",
+      theme === "light" ? "dark" : "light",
+      {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 31 * 12
+      }
+    );
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   }
 
   return (
-    <ThemeContext.Provider value={{ setTheme: changeTheme, theme }}>
+    <ThemeContext.Provider value={{ toggleTheme, theme }}>
       {children}
     </ThemeContext.Provider>
   );

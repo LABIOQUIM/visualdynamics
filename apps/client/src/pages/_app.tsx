@@ -30,7 +30,8 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           <ThemeProvider>
             <NextNProgress
               height={5}
-              showOnShallow
+              color="#22c55e"
+              options={{ showSpinner: false }}
             />
             <Layout>
               <Component {...pageProps} />

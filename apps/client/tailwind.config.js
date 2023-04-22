@@ -1,15 +1,18 @@
 const colors = require("tailwindcss/colors");
 const { fontFamily } = require("tailwindcss/defaultTheme");
-const { createThemes } = require("tw-colors");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   future: {
     hoverOnlyWhenSupported: true
   },
   theme: {
     extend: {
+      colors: {
+        primary: colors.green
+      },
       fontFamily: {
         inter: ["Inter", ...fontFamily.sans],
         grotesk: ["Space Grotesk", ...fontFamily.sans]
@@ -75,27 +78,5 @@ module.exports = {
       }
     }
   },
-  plugins: [
-    createThemes({
-      amber: {
-        primary: colors.amber
-      },
-      stone: {
-        primary: colors.stone
-      },
-      green: {
-        primary: colors.green
-      },
-      indigo: {
-        primary: colors.indigo
-      },
-      violet: {
-        primary: colors.violet
-      },
-      rose: {
-        primary: colors.rose
-      }
-    }),
-    require("tailwindcss-hero-patterns")
-  ]
+  plugins: []
 };

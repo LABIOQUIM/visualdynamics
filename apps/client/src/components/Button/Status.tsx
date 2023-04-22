@@ -21,7 +21,7 @@ export const StatusButton: FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        `p-2 font-medium text-white font-inter items-center justify-center flex gap-x-1 transition-all disabled:opacity-60 disabled:cursor-not-allowed duration-500 rounded-md outline-none focus:ring-2 focus:ring-offset-2 ${className}`,
+        `p-2 font-medium text-white font-inter items-center justify-center flex gap-x-1 transition-all disabled:opacity-60 disabled:cursor-not-allowed duration-500 rounded-lg outline-none focus:ring-2 focus:ring-offset-2 ${className}`,
         {
           "bg-cyan-600/80 enabled:hover:bg-cyan-700 focus:ring-cyan-400 focus:ring-offset-cyan-400/20":
             status === "running",

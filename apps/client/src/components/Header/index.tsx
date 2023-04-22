@@ -1,20 +1,20 @@
 import { useContext, useState } from "react";
-import { Bell, LogIn, Menu, Search, UserPlus } from "lucide-react";
+import { Bell, LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 import { SidebarContext } from "@app/context/SidebarContext";
+import { useTheme } from "@app/context/ThemeContext";
 
 import { Button } from "../Button";
 import { TextButton } from "../Button/Text";
 import { Input } from "../Input";
-import { SelectTheme } from "../SelectTheme";
 import { UserMenu } from "../UserMenu";
 
 export function Header() {
   const { status } = useSession();
   const { toggleSidebar } = useContext(SidebarContext);
-
+  const { theme, toggleTheme } = useTheme();
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false);
 
   function handleNotificationsClick() {
@@ -36,7 +36,7 @@ export function Header() {
           />
         </button>
         {/* <!-- Search input --> */}
-        <div className="hidden lg:flex justify-center flex-1">
+        <div className="hidden lg:flex justify-center w-1/2 mx-auto">
           <div className="relative flex-1 focus-within:text-primary-500 dark:focus-within:text-primary-100">
             <div className="absolute inset-y-0 flex items-center pl-2">
               <Search
@@ -51,14 +51,13 @@ export function Header() {
             />
           </div>
         </div>
-        <ul
-          className={`flex items-center flex-shrink-0 ${
-            status === "authenticated" ? "gap-x-6" : "gap-x-2"
-          }`}
-        >
+        <ul className="flex items-center flex-shrink-0 gap-x-6">
           {/* <!-- Theme toggler --> */}
           <li className="flex">
-            <SelectTheme />
+            <TextButton
+              LeftIcon={theme === "light" ? Moon : Sun}
+              onClick={toggleTheme}
+            />
           </li>
           {status === "authenticated" ? (
             <>

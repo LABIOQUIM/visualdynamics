@@ -16,16 +16,17 @@ export function Layout({ children }: ILayout) {
 
   return (
     <SidebarProvider>
-      <div
-        className={`flex h-screen bg-gray-50 dark:bg-gray-900 ${
-          isSidebarOpen && "overflow-hidden"
-        }`}
-        data-theme={theme}
-      >
-        <Sidebar />
-        <div className="flex flex-col flex-1 w-full">
-          <Header />
-          <Main>{children}</Main>
+      <div className={theme}>
+        <div
+          className={`flex h-screen bg-white dark:bg-gray-900 ${
+            isSidebarOpen && "overflow-hidden"
+          }`}
+        >
+          <Sidebar />
+          <div className="flex flex-col flex-1 w-full">
+            <Header />
+            <Main>{children}</Main>
+          </div>
         </div>
       </div>
     </SidebarProvider>

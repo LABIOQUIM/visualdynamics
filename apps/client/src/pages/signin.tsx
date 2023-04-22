@@ -1,27 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, LogIn, UserPlus } from "lucide-react";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
 import { TextButton } from "@app/components/Button/Text";
 import { Input } from "@app/components/Input";
 import { SEO } from "@app/components/SEO";
+import { withSSRGuest } from "@app/hocs/withSSRGuest";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import {
   AuthFormSchema,
   AuthFormSchemaType
 } from "@app/schemas/components/auth/auth.zod";
 
-export const getStaticProps = withSSRTranslations(undefined, {
+export const getStaticProps = withSSRTranslations(withSSRGuest(), {
   namespaces: ["signin"]
 });
 
 export default function SignIn() {
   const { t } = useTranslation(["signin"]);
+  const { status } = useSession();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const {
     register,
@@ -32,6 +34,12 @@ export default function SignIn() {
     resolver: zodResolver(AuthFormSchema)
   });
   const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/my-dynamics");
+    }
+  }, [status, router]);
 
   const handleAuth: SubmitHandler<AuthFormSchemaType> = async ({
     identifier,

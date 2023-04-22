@@ -44,7 +44,7 @@ export const Select = <T extends string>({
       >
         <RSelect.Trigger
           className={clsx(
-            "flex justify-between transition-all duration-500 items-center rounded-md border border-primary-400/60 data-[placeholder]:text-zinc-400 bg-gray-100 dark:bg-gray-950 px-2 py-1 h-10 outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 dark:focus:ring-offset-gray-900",
+            "flex justify-between transition-all duration-150 items-center rounded-lg border border-primary-400/60 data-[placeholder]:text-zinc-400 bg-gray-50 dark:bg-gray-900 px-2 py-1 h-10 outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 dark:focus:ring-offset-gray-900",
             {
               "border-red-600/95 focus:ring-red-500": error
             }
@@ -61,7 +61,7 @@ export const Select = <T extends string>({
           </RSelect.Icon>
         </RSelect.Trigger>
         <RSelect.Content
-          className="p-2 z-40 w-[--radix-select-trigger-width] max-h-[16rem] bg-gray-100 dark:bg-gray-900 border border-primary-400/60 transition-all duration-500 rounded-md"
+          className="p-2 z-40 w-[--radix-select-trigger-width] max-h-[16rem] bg-gray-50 dark:bg-gray-900 border border-primary-400/60 transition-all duration-500 rounded-md"
           position="popper"
           sideOffset={5}
         >
