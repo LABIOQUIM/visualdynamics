@@ -7,8 +7,8 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
-import { PageLayout } from "@app/components/Layout/Page";
 import { RunningDynamicStepList } from "@app/components/RunningDynamicStepList";
+import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { api } from "@app/lib/api";
@@ -36,22 +36,19 @@ export default function Running({ user }: { user: User }) {
 
       if (data && data.status === "running") {
         formData.append("task_id", data.info.celeryId);
-        api
-          .post("/run/abort", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data"
-            }
-          })
-          .then(({ data }) => {
-            console.log(data);
-          });
+        api.post("/run/abort", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        });
       }
     }
   }
 
   if (data?.status === "running") {
     return (
-      <PageLayout title={t("running:title")}>
+      <>
+        <SEO title={t("running:title")} />
         <div className="relative">
           <Button
             className="w-fit absolute right-0 top-1 bg-red-700 hover:bg-red-800"
@@ -140,15 +137,13 @@ export default function Running({ user }: { user: User }) {
             </p>
           ))}
         </div>
-      </PageLayout>
+      </>
     );
   }
 
   return (
-    <PageLayout
-      className="justify-center"
-      title={t("running:not-running.title")}
-    >
+    <>
+      <SEO title={t("running:not-running.title")} />
       <div className="flex flex-col justify-center w-1/2 mx-auto">
         <FileCog className="stoke-primary-950 h-14 w-14 mx-auto mb-2" />
         <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
@@ -169,6 +164,6 @@ export default function Running({ user }: { user: User }) {
           </Link>
         </div>
       </div>
-    </PageLayout>
+    </>
   );
 }

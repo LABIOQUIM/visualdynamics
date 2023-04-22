@@ -44,7 +44,7 @@ export const Select = <T extends string>({
       >
         <RSelect.Trigger
           className={clsx(
-            "flex justify-between transition-all duration-500 items-center rounded-md border border-primary-400/60 data-[placeholder]:text-zinc-400 bg-zinc-100 px-2 py-1 h-10 outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200",
+            "flex justify-between transition-all duration-500 items-center rounded-md border border-primary-400/60 data-[placeholder]:text-zinc-400 bg-gray-100 dark:bg-gray-950 px-2 py-1 h-10 outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 dark:focus:ring-offset-gray-900",
             {
               "border-red-600/95 focus:ring-red-500": error
             }
@@ -61,22 +61,23 @@ export const Select = <T extends string>({
           </RSelect.Icon>
         </RSelect.Trigger>
         <RSelect.Content
-          className="p-2 z-10 w-[--radix-select-trigger-width] max-h-[16rem] bg-zinc-100 border border-primary-400/60 transition-all duration-500 rounded-md"
+          className="p-2 z-40 w-[--radix-select-trigger-width] max-h-[16rem] bg-gray-100 dark:bg-gray-900 border border-primary-400/60 transition-all duration-500 rounded-md"
           position="popper"
+          sideOffset={5}
         >
           <RSelect.ScrollUpButton className="flex items-center justify-center h-7 bg-transparent text-primary-500 cursor-default">
             <ChevronUp />
           </RSelect.ScrollUpButton>
           <RSelect.Viewport>
             <RSelect.Group>
-              <RSelect.Label className="text-sm text-zinc-600 mb-2">
+              <RSelect.Label className="text-sm text-gray-600 dark:text-gray-100 mb-2">
                 {label}
               </RSelect.Label>
               {Object.keys(values).map((item) => (
                 <RSelect.Item
                   key={item}
                   value={item}
-                  className={`text-sm text-zinc-900 rounded flex items-center min-h-[1.75rem] pl-8 pr-2 relative select-none data-[highlighted]:outline-none data-[highlighted]:bg-primary-200/60 data-[highlighted]:text-zinc-800`}
+                  className={`text-sm text-gray-900 dark:text-gray-300 rounded flex items-center min-h-[1.75rem] pl-8 pr-2 relative select-none data-[highlighted]:outline-none data-[highlighted]:bg-primary-200/60 data-[highlighted]:text-gray-800 dark:data-[highlighted]:text-gray-900`}
                 >
                   <RSelect.ItemIndicator className="absolute left-1 w-7 items-center justify-center">
                     <Check />

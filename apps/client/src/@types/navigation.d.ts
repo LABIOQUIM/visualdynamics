@@ -4,8 +4,10 @@ declare global {
   interface NavigationItem {
     label: string;
     href?: string;
+    checkActive?: (pathname: string, item: NavigationItem) => boolean;
     links?: NavigationItem[];
     Icon?: LucideIcon;
+    exact?: boolean;
   }
 
   interface NavigationSection {

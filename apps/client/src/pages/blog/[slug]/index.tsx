@@ -1,7 +1,6 @@
 import { allPosts } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 
-import { PageLayout } from "@app/components/Layout/Page";
 import { components } from "@app/components/MDX/MDXComponents";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 
@@ -17,20 +16,20 @@ export default function BlogPost({ post }: { post: PostProps }) {
   const MDXContent = useMDXComponent(post ? post.body.code : "");
 
   return (
-    <PageLayout title="Blog">
-      <h2 className="text-xl font-extrabold leading-snug tracking-tighter md:text-4xl">
+    <>
+      <h2 className="text-xl font-inter font-bold tracking-tighter md:text-4xl">
         {post?.title}
       </h2>
-      <p className="my-1.5 text-base font-medium italic leading-snug tracking-tighter text-zinc-600 md:text-lg">
+      <p className="my-1.5 text-base font-inter font-medium italic tracking-tighter text-gray-600 dark:text-gray-400 md:text-lg">
         {post?.description}
       </p>
-      <div className="mt-8 grid text-zinc-800">
+      <div className="mt-8 grid text-gray-800 dark:text-gray-200">
         <MDXContent
           components={{
             ...components
           }}
         />
       </div>
-    </PageLayout>
+    </>
   );
 }

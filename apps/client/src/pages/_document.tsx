@@ -2,16 +2,12 @@ import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html className="bg-zinc-50 md:overflow-hidden heropattern-diagonallines-black/10">
+    <Html className="bg-gray-50 md:overflow-hidden">
       <Head>
         <link
           rel="icon"
           href="/favicon.ico"
           sizes="any"
-        />
-        <link
-          rel="apple-touch-icon"
-          href="/apple-touch-icon.png"
         />
       </Head>
       <body>

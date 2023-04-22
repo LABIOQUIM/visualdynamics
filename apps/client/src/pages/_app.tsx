@@ -8,8 +8,8 @@ import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
 import NextNProgress from "nextjs-progressbar";
 
-import { Header } from "@app/components/Layout/Header";
-import { ThemeProvider } from "@app/contexts/theme";
+import { Layout } from "@app/components/Container/Layout";
+import { ThemeProvider } from "@app/context/ThemeContext";
 import { queryClient } from "@app/lib/query-client";
 
 import "@app/styles/globals.css";
@@ -21,27 +21,26 @@ const inter = Inter({
 });
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+  if (typeof window === "undefined") React.useLayoutEffect = React.useEffect;
+
   return (
     <main className={`${inter.className}`}>
-      <div className="h-screen font-inter">
-        <SessionProvider session={session}>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-              <NextNProgress
-                height={5}
-                showOnShallow
-              />
-              <div className="flex flex-col h-full gap-2.5 md:flex-row">
-                <Header />
-                <Component {...pageProps} />
-              </div>
-            </ThemeProvider>
-            {process.env.NODE_ENV === "development" ? (
-              <ReactQueryDevtools />
-            ) : null}
-          </QueryClientProvider>
-        </SessionProvider>
-      </div>
+      <SessionProvider session={session}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <NextNProgress
+              height={5}
+              showOnShallow
+            />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+          {process.env.NODE_ENV === "development" ? (
+            <ReactQueryDevtools />
+          ) : null}
+        </QueryClientProvider>
+      </SessionProvider>
 
       {process.env.NODE_ENV === "production" ? (
         <>

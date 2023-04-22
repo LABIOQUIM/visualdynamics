@@ -27,7 +27,7 @@ export function withSSRAuth(
     if (session === null) {
       return {
         redirect: {
-          destination: "/",
+          destination: "/signin",
           permanent: false
         }
       };

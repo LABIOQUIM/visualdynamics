@@ -1,5 +1,5 @@
 declare global {
-  interface HeaderSEOProps {
+  interface SEOProps {
     title?: string;
     description?: string;
     ogImage?: string;

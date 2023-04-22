@@ -17,6 +17,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/display-name": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
+    "react/prop-types": "off",
     "react/self-closing-comp": [
       "warn",
       {

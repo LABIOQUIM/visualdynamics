@@ -8,9 +8,9 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Icons } from "@app/components/Icons";
-import { useTheme } from "@app/contexts/theme";
+import { useTheme } from "@app/context/ThemeContext";
 
-import { Auth } from "../Auth";
+import { Auth } from "../UserMenu";
 import { TextButton } from "../Button/Text";
 
 import { MobileNav } from "./MobileNav";

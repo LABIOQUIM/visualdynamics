@@ -10,8 +10,8 @@ import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
-import { PageLayout } from "@app/components/Layout/Page";
 import { Select } from "@app/components/Select";
+import { SEO } from "@app/components/SEO";
 import { Switch } from "@app/components/Switch";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
@@ -130,9 +130,13 @@ export default function PRODRGDynamic({ user }: { user: User }) {
   };
 
   return (
-    <PageLayout title={t("navigation:dynamic.models.prodrg")}>
-      <div className="flex mb-2 gap-x-2 bg-yellow-400/20 border border-yellow-600 text-yellow-950 p-2 rounded-md">
-        <AlertTriangle className="my-auto stroke-yellow-950 h-10 w-10" />{" "}
+    <>
+      <SEO title={t("navigation:dynamic.models.prodrg")} />
+      <h2 className="text-center text-2xl -mb-2.5 text-primary-600 dark:text-primary-400">
+        {t("navigation:dynamic.models.prodrg")}
+      </h2>
+      <div className="flex mb-2 gap-x-2 bg-yellow-400/20 border border-yellow-600 text-yellow-950 dark:text-yellow-200 p-2 rounded-md">
+        <AlertTriangle className="my-auto stroke-yellow-950 dark:stroke-yellow-200 h-10 w-10" />
         {t("navigation:dynamic.models.prodrg-disabled")}
       </div>
       <form
@@ -147,7 +151,7 @@ export default function PRODRGDynamic({ user }: { user: User }) {
           {...register("protein")}
         />
 
-        <div className="flex flex-col md:flex-row gap-1">
+        <div className="flex flex-col gap-1 md:flex-row md:gap-3">
           <Input
             label={t("forms:file-itp.title")}
             type="file"
@@ -165,7 +169,7 @@ export default function PRODRGDynamic({ user }: { user: User }) {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-1">
+        <div className="flex flex-col gap-1 md:flex-row md:gap-3">
           <Select<keyof typeof prodrgForceFields>
             error={errors.forceField}
             label={t("forms:force-field.title")}
@@ -187,7 +191,7 @@ export default function PRODRGDynamic({ user }: { user: User }) {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-1">
+        <div className="flex flex-col gap-1 md:flex-row md:gap-3">
           <Select<keyof typeof boxTypes>
             error={errors.boxType}
             label={t("forms:box-type.title")}
@@ -249,6 +253,6 @@ export default function PRODRGDynamic({ user }: { user: User }) {
             : t("forms:submit.download")}
         </Button>
       </form>
-    </PageLayout>
+    </>
   );
 }

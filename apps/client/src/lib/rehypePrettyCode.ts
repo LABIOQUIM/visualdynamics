@@ -4,14 +4,14 @@ import { visit } from "unist-util-visit";
 
 // div.BLOCK > pre.PRE > code.CODE
 const BLOCK =
-  "rounded-md my-5 overflow-x-auto bg-zinc-950 shadow-surface-elevation-low ring-1 ring-primary-100/5 ring-inset";
+  "rounded-lg my-5 overflow-x-auto bg-gray-800 shadow-surface-elevation-low ring-1 ring-primary-100/5 ring-inset";
 const TITLE =
-  "mb-0.5 rounded-md font-mono rounded-b-none px-3 py-2 text-xs text-primary-100/70 shadow-sm";
+  "mb-0.5 rounded-lg font-mono rounded-b-none px-3 py-2 text-xs text-primary-100/70 shadow-sm";
 const PRE = "overflow-x-auto py-2 text-[13px] leading-6";
 const CODE =
   "grid transition-all duration-500 [&>span]:border-l-4 [&>span]:border-l-transparent [&>span]:pl-2 [&>span]:pr-3";
 const INLINE_BLOCK =
-  "whitespace-nowrap border border-primary-200/10 px-1.5 py-px text-[12px] rounded-full text-primary-700/90 bg-primary-600/25";
+  "whitespace-nowrap border border-primary-200/10 px-1.5 py-px text-[12px] rounded-full text-primary-700/90 dark:text-primary-200/90 bg-primary-600/25";
 const INLINE_CODE = "";
 const NUMBERED_LINES =
   "[counter-reset:line] before:[&>span]:mr-3 before:[&>span]:inline-block before:[&>span]:w-4 before:[&>span]:text-right before:[&>span]:text-white/20 before:[&>span]:![content:counter(line)] before:[&>span]:[counter-increment:line]";

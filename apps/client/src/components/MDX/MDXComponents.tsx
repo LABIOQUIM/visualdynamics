@@ -19,25 +19,25 @@ export const components = {
   Aside,
   h1: (props: any) => (
     <h2
-      className="mt-3 border-t-2 border-primary-800/5 pt-2.5 text-xl font-medium text-primary-900/90 sm:text-3xl"
+      className="mt-3 border-t-2 border-primary-800/5 pt-2.5 text-xl font-medium text-primary-900/90 dark:text-primary-400/90 sm:text-3xl"
       {...props}
     />
   ),
   h2: (props: any) => (
     <h3
-      className="mt-3 border-t-2 border-primary-800/5 text-xl font-medium text-primary-900/90 sm:text-2xl"
+      className="mt-3 border-t-2 border-primary-800/5 text-xl font-medium text-primary-900/90 dark:text-primary-400/90 sm:text-2xl"
       {...props}
     />
   ),
   h3: (props: any) => (
     <h4
-      className="text-xl font-medium text-primary-900/90"
+      className="text-xl font-medium text-primary-900/90 dark:text-primary-400/90"
       {...props}
     />
   ),
   h4: (props: any) => (
     <h5
-      className="text-lg font-medium text-primary-900/90"
+      className="text-lg font-medium text-primary-900/90 dark:text-primary-400/90"
       {...props}
     />
   ),
@@ -70,7 +70,7 @@ export const components = {
   },
   ul: (props: any) => (
     <ul
-      className="space-y-3 [&>li]:relative [&>li]:pl-5 before:[&>li]:absolute before:[&>li]:left-1 before:[&>li]:top-2.5 before:[&>li]:h-1.5 before:[&>li]:w-1.5 before:[&>li]:rounded-full before:[&>li]:bg-primary-900/75 [li>&]:mt-3"
+      className="space-y-3 [&>li]:relative [&>li]:pl-5 before:[&>li]:absolute before:[&>li]:left-1 before:[&>li]:top-2.5 before:[&>li]:h-1.5 before:[&>li]:w-1.5 before:[&>li]:rounded-full before:[&>li]:bg-primary-900/75 dark:before:[&>li]:bg-primary-300/75 [li>&]:mt-3"
       {...props}
     />
   ),

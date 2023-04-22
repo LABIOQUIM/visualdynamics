@@ -4,7 +4,8 @@
     "role": {
       "admin": "Administrator",
       "user": "User"
-    }
+    },
+    "sign-out": "Sign Out"
   },
   "dynamic": {
     "my-dynamics": "My Dynamics",

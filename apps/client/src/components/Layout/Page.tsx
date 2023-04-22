@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 import { Breadcrumb } from "@app/components/Breadcrumb";
-import { BreadcrumbItem } from "@app/components/Breadcrumb/Item";
-import { useTheme } from "@app/contexts/theme";
+import { BreadcrumbItem } from "@app/components/Breadcrumb/BreadcrumbItem";
+import { useTheme } from "@app/context/ThemeContext";
 
 import { Footer } from "./Footer";
 import { HeaderSEO } from "./HeaderSEO";

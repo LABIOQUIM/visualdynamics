@@ -1,6 +1,6 @@
 import { useLockBody } from "@app/hooks/use-lock-body";
 
-import { Auth } from "../Auth";
+import { Auth } from "../UserMenu";
 
 interface MobileNavProps {
   renderedItems: JSX.Element[];

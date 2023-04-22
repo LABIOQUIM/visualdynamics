@@ -24,7 +24,7 @@ import { useTranslation } from "next-i18next";
 import { Button } from "@app/components/Button";
 import { StatusButton } from "@app/components/Button/Status";
 import { TextButton } from "@app/components/Button/Text";
-import { PageLayout } from "@app/components/Layout/Page";
+import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useListDynamics } from "@app/queries/useListDynamics";
@@ -75,7 +75,8 @@ export default function MyDynamics({ user }: { user: User }) {
 
   if (data?.status === "listed") {
     return (
-      <PageLayout title={t("my-dynamics:title")}>
+      <>
+        <SEO title={t("my-dynamics:title")} />
         <div className="flex gap-x-3">
           <Button
             LeftIcon={FileDown}
@@ -231,18 +232,16 @@ export default function MyDynamics({ user }: { user: User }) {
             </div>
           ))}
         </div>
-      </PageLayout>
+      </>
     );
   }
 
   return (
-    <PageLayout
-      className="justify-center"
-      title={t("my-dynamics:title")}
-    >
+    <>
+      <SEO title={t("my-dynamics:title")} />
       <div className="flex flex-col justify-center lg:w-1/2 mx-auto">
-        <Microscope className="stoke-primary-950 h-14 w-14 mx-auto mb-2" />
-        <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
+        <Microscope className="stoke-primary-950 dark:stroke-primary-400 h-14 w-14 mx-auto mb-2" />
+        <h1 className="text-primary-950 dark:text-primary-400 uppercase text-center font-bold text-2xl">
           {t("my-dynamics:empty.title")}
         </h1>
         <p className="text-center">{t("my-dynamics:empty.description")}</p>
@@ -260,6 +259,6 @@ export default function MyDynamics({ user }: { user: User }) {
           </Link>
         </div>
       </div>
-    </PageLayout>
+    </>
   );
 }

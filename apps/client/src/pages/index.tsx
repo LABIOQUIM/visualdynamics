@@ -1,7 +1,7 @@
 import { CloudCog, Code2 } from "lucide-react";
 import { useTranslation } from "next-i18next";
 
-import { PageLayout } from "@app/components/Layout/Page";
+import { SEO } from "@app/components/SEO";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 
 export const getStaticProps = withSSRTranslations(undefined, {
@@ -25,19 +25,20 @@ export default function Home() {
   ];
 
   return (
-    <PageLayout
-      className="gap-y-5"
-      title={t("home:title")}
-    >
+    <>
+      <SEO
+        title={t("home:title")}
+        description={t("home:description")}
+      />
       <div className="text-center">
-        <h2 className="text-base font-semibold leading-7 text-primary-600 transition-all duration-500">
+        <h2 className="text-base font-semibold leading-7 text-primary-600 dark:text-primary-300 transition-all duration-500">
           {t("home:callout")}
         </h2>
-        <p className="text-3xl font-bold tracking-tight text-gray-900">
+        <p className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
           {t("home:slogan")}
         </p>
       </div>
-      <p className="text-justify text-lg leading-8 text-gray-600">
+      <p className="text-justify text-lg leading-8 text-gray-600 dark:text-gray-300">
         {t("home:description")}
       </p>
       <dl className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 lg:gap-y-16">
@@ -46,7 +47,7 @@ export default function Home() {
             key={feature.name}
             className="relative pl-12"
           >
-            <dt className="text-base flex font-semibold text-gray-900">
+            <dt className="text-base flex font-semibold text-gray-900 dark:text-gray-100">
               <div className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600 transition-all duration-500">
                 <feature.icon
                   className="h-6 w-6 text-white"
@@ -55,12 +56,12 @@ export default function Home() {
               </div>
               {t(feature.name)}
             </dt>
-            <dd className="text-base text-gray-600">
+            <dd className="text-base text-gray-600 dark:text-gray-300">
               {t(feature.description)}
             </dd>
           </div>
         ))}
       </dl>
-    </PageLayout>
+    </>
   );
 }

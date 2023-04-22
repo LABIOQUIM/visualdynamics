@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 
-import { PageLayout } from "@app/components/Layout/Page";
 import { MaintainerCard } from "@app/components/MaintainerCard";
+import { SEO } from "@app/components/SEO";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 
 export const getServerSideProps = withSSRTranslations(undefined, {
@@ -51,26 +51,24 @@ export default function About() {
   const { t } = useTranslation(["about"]);
 
   return (
-    <PageLayout
-      className="gap-y-6"
-      title={t("about:title")}
-      description={t("about:description")}
-    >
-      <p className="text-lg text-zinc-700 text-justify">
-        {t("about:description")}
-      </p>
+    <>
+      <SEO
+        title={t("about:title")}
+        description={t("about:description")}
+      />
+      <p className="text-lg text-justify">{t("about:description")}</p>
 
-      <p className="text-lg font-grotesk text-zinc-700 text-center">
+      <p className="text-lg font-grotesk text-gray-500 text-center">
         {t("about:acknowledgements")}
       </p>
 
-      <div className="flex flex-col gap-y-4">
-        <h3 className="text-xl uppercase font-bold text-primary-950">
+      <div className="flex flex-col gap-y-3">
+        <h3 className="text-xl uppercase font-bold text-primary-950 dark:text-primary-400">
           {t("about:maintainers.title")}
         </h3>
 
         <div className="flex flex-col gap-y-2">
-          <h5 className="text-lg uppercase font-medium text-primary-900">
+          <h5 className="text-lg uppercase font-medium text-primary-900 dark:text-primary-300">
             {t("about:maintainers.active")}
           </h5>
           <div className="flex gap-x-2 flex-wrap">
@@ -86,7 +84,7 @@ export default function About() {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <h5 className="text-lg uppercase font-medium text-primary-900">
+          <h5 className="text-lg uppercase font-medium text-primary-900 dark:text-primary-300">
             {t("about:maintainers.inactive")}
           </h5>
           <div className="flex gap-x-2 flex-wrap">
@@ -101,6 +99,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </PageLayout>
+    </>
   );
 }

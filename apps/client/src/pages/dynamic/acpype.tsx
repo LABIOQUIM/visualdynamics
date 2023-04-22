@@ -10,8 +10,8 @@ import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
-import { PageLayout } from "@app/components/Layout/Page";
 import { Select } from "@app/components/Select";
+import { SEO } from "@app/components/SEO";
 import { Switch } from "@app/components/Switch";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
@@ -130,7 +130,11 @@ export default function ACPYPEDynamic({ user }: { user: User }) {
   };
 
   return (
-    <PageLayout title={t("navigation:dynamic.models.acpype")}>
+    <>
+      <SEO title={t("navigation:dynamic.models.acpype")} />
+      <h2 className="text-center text-2xl -mb-2.5 text-primary-600 dark:text-primary-400">
+        {t("navigation:dynamic.models.acpype")}
+      </h2>
       <form
         className="flex flex-col gap-y-2"
         onSubmit={handleSubmit(handleSubmitDynamic)}
@@ -143,7 +147,7 @@ export default function ACPYPEDynamic({ user }: { user: User }) {
           {...register("protein")}
         />
 
-        <div className="flex flex-col md:flex-row gap-1">
+        <div className="flex flex-col gap-1 md:flex-row md:gap-3">
           <Input
             label={t("forms:file-itp.title")}
             type="file"
@@ -161,7 +165,7 @@ export default function ACPYPEDynamic({ user }: { user: User }) {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-1">
+        <div className="flex flex-col gap-1 md:flex-row md:gap-3">
           <Select<keyof typeof acpypeForceFields>
             error={errors.forceField}
             label={t("forms:force-field.title")}
@@ -183,7 +187,7 @@ export default function ACPYPEDynamic({ user }: { user: User }) {
           />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-1">
+        <div className="flex flex-col gap-1 md:flex-row md:gap-3">
           <Select<keyof typeof boxTypes>
             error={errors.boxType}
             label={t("forms:box-type.title")}
@@ -244,6 +248,6 @@ export default function ACPYPEDynamic({ user }: { user: User }) {
             : t("forms:submit.download")}
         </Button>
       </form>
-    </PageLayout>
+    </>
   );
 }

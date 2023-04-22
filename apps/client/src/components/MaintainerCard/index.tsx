@@ -31,7 +31,7 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
           ? "_blank"
           : undefined
       }
-      className="group p-2 flex gap-x-2 items-center rounded-md hover:bg-zinc-800/20 transition-all duration-500"
+      className="group p-2 flex gap-x-2 items-center rounded-md hover:bg-gray-800/20 transition-all duration-500"
       key={maintainer.name}
     >
       {maintainer.image ? (
@@ -45,7 +45,7 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
         />
       ) : null}
       <div>
-        <p className="transition-all duration-500 text-primary-800 group-hover:text-primary-700">
+        <p className="transition-all duration-500 text-primary-800 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300">
           {maintainer.name}
         </p>
         <div className="flex gap-1 flex-wrap">
@@ -58,7 +58,7 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
                     key={maintainer.name + w}
                     title={t(WorkTitle[w])}
                   >
-                    <Icon className="stroke-primary-600 stroke-[1] h-5 w-5" />
+                    <Icon className="stroke-primary-600 dark:stroke-primary-200 stroke-[1] h-5 w-5" />
                   </p>
                 );
               })

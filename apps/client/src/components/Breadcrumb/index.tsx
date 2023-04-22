@@ -8,7 +8,7 @@ export function Breadcrumb({ children }: { children: ReactNode }) {
       return (
         <Fragment key={index}>
           {child}
-          <span>/</span>
+          <span className="dark:text-zinc-500">/</span>
         </Fragment>
       );
     }
