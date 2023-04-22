@@ -17,10 +17,10 @@ export default function BlogPost({ post }: { post: PostProps }) {
 
   return (
     <>
-      <h2 className="text-xl font-inter font-bold tracking-tighter md:text-4xl">
+      <h2 className="text-xl font-bold tracking-tighter md:text-4xl">
         {post?.title}
       </h2>
-      <p className="my-1.5 text-base font-inter font-medium italic tracking-tighter text-gray-600 dark:text-gray-400 md:text-lg">
+      <p className="my-1.5 text-base font-medium italic tracking-tighter text-gray-600 dark:text-gray-400 md:text-lg">
         {post?.description}
       </p>
       <div className="mt-8 grid text-gray-800 dark:text-gray-200">

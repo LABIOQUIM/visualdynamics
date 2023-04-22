@@ -32,6 +32,7 @@ export function ThemeProvider({ children }: ProviderProps) {
 
   function toggleTheme() {
     setCookie(themeCookieKey, theme === "light" ? "dark" : "light", {
+      sameSite: "strict",
       path: "/",
       maxAge: 60 * 60 * 24 * 31 * 12
     });

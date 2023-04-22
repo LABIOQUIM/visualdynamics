@@ -6,7 +6,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 /** @type {import('next').NextConfig} */
-const nextConfig = withBundleAnalyzer({
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
   i18n,
   images: {
     domains: [
@@ -15,6 +17,6 @@ const nextConfig = withBundleAnalyzer({
       "images.unsplash.com"
     ]
   }
-});
+};
 
-module.exports = withContentlayer(nextConfig);
+module.exports = withBundleAnalyzer(withContentlayer(nextConfig));

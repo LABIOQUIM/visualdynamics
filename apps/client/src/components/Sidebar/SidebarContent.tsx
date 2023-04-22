@@ -102,7 +102,7 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
       <ul className="flex flex-col gap-y-4">
         {navigationItems.map((section) => (
           <div key={section.title}>
-            <div className="flex gap-x-1 mb-2 px-3">
+            <div className="flex gap-x-1.5 mb-2 px-3 font-medium text-primary-600 dark:text-primary-400">
               {section.Icon ? (
                 <section.Icon className="h-5 w-5 my-auto" />
               ) : null}
@@ -134,7 +134,7 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
                         >
                           {routeIsActive(pathname, link) && (
                             <span
-                              className="absolute inset-y-0 left-0 w-1 bg-primary-600 rounded-tr-lg rounded-br-lg"
+                              className="absolute inset-y-0 left-0 w-1 bg-primary-600 dark:bg-primary-500 rounded-tr-lg rounded-br-lg"
                               aria-hidden="true"
                             />
                           )}

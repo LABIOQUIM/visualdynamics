@@ -1,7 +1,7 @@
 {
   "title": "Home",
   "callout": "Molecular Dynamics made easy",
-  "slogan": "The new home to easy MD generation and execution",
+  "slogan": "The new home to MD generation and execution",
   "description": "Welcome to the new Visual Dynamics.\nWith a revamped interface and a new methodology of generating and running GROMACS simulations we aim to provide faster, more reliable and replicable simulations, all this, through a new, more understandable and scalable codebase.",
   "features": {
     "runs-on-cloud": {

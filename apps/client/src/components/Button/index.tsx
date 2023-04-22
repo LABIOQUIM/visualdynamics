@@ -17,7 +17,7 @@ export const Button: FC<ButtonProps> = ({
 }) => {
   return (
     <button
-      className={`p-2 font-medium text-white font-inter items-center justify-center bg-primary-500 flex gap-x-1 disabled:opacity-60 enabled:hover:bg-primary-600 transition-all duration-500 rounded-lg outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-gray-200 dark:focus:ring-offset-gray-900  ${className}`}
+      className={`group p-2 font-medium text-white items-center justify-center bg-primary-600 flex gap-x-1 disabled:opacity-60 enabled:hover:bg-primary-700 transition-all duration-150 rounded-lg outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-gray-200 dark:focus:ring-offset-gray-900  ${className}`}
       {...rest}
     >
       {LeftIcon ? <LeftIcon className={`h-4 w-4 ${iconClassName}`} /> : null}

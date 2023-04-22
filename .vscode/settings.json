@@ -4,6 +4,7 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
+  "css.lint.unknownAtRules": "ignore",
   "python.formatting.provider": "none",
   "typescript.tsdk": "node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,

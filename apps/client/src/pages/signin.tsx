@@ -2,20 +2,33 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, LogIn, UserPlus } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
 import { TextButton } from "@app/components/Button/Text";
-import { Input } from "@app/components/Input";
 import { SEO } from "@app/components/SEO";
+import { Spinner } from "@app/components/Spinner";
 import { withSSRGuest } from "@app/hocs/withSSRGuest";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import {
   AuthFormSchema,
   AuthFormSchemaType
 } from "@app/schemas/components/auth/auth.zod";
+
+const Input = dynamic(
+  () => import("@app/components/Input").then((mod) => mod.Input),
+  {
+    loading: () => (
+      <div className="h-12 w-full items-center justify-center">
+        <Spinner />
+      </div>
+    ),
+    ssr: false
+  }
+);
 
 export const getServerSideProps = withSSRTranslations(withSSRGuest(), {
   namespaces: ["signin"]
@@ -61,7 +74,7 @@ export default function SignIn() {
         title={t("signin:title")}
         description={t("signin:description")}
       />
-      <h2 className="text-center text-2xl font-bold font-inter uppercase text-primary-700 dark:text-primary-400">
+      <h2 className="text-center text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
         {t("signin:title")}
       </h2>
       <form

@@ -74,7 +74,7 @@ export function Timeline({ showRecentsOnly, showTitle }: TimelineProps) {
       </ol>
       {showRecentsOnly && items.length > 3 ? (
         <Link
-          className="flex w-fit items-center font-inter text-sm font-medium text-[#888] transition-all duration-75 ease-linear hover:text-zinc-50"
+          className="flex w-fit items-center text-sm font-medium text-[#888] transition-all duration-75 ease-linear hover:text-zinc-50"
           href="/timeline"
         >
           Ver mais

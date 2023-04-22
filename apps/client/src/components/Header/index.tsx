@@ -22,7 +22,7 @@ export function Header() {
   }
 
   return (
-    <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-900">
+    <header className="transition-all duration-150 z-40 py-4 bg-white shadow-bottom dark:bg-gray-900">
       <div className="container flex gap-x-4 items-center justify-between h-full px-6 mx-auto text-primary-600 dark:text-primary-300">
         {/* <!-- Mobile hamburger --> */}
         <button
@@ -55,6 +55,7 @@ export function Header() {
           {/* <!-- Theme toggler --> */}
           <li className="flex">
             <TextButton
+              iconClassName="stroke-primary-600 group-hover:stroke-primary-400 dark:stroke-primary-300 dark:group-hover:stroke-primary-400"
               LeftIcon={theme === "light" ? Moon : Sun}
               onClick={toggleTheme}
             />

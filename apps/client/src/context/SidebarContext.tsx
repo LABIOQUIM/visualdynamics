@@ -1,6 +1,7 @@
 import {
   createContext,
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -14,7 +15,7 @@ interface IScrollY {
   position: number;
 }
 
-interface ISidebarContext {
+interface ContextProps {
   isSidebarOpen: boolean;
   scrollY: IScrollY;
   closeSidebar: () => void;
@@ -22,7 +23,7 @@ interface ISidebarContext {
   saveScroll: (el: HTMLElement | null) => void;
 }
 
-export const SidebarContext = createContext<ISidebarContext>({
+export const SidebarContext = createContext<ContextProps>({
   isSidebarOpen: false,
   scrollY: { id: null, position: 0 },
   closeSidebar: () => {
@@ -107,3 +108,5 @@ export const SidebarProvider = ({ children }: ISidebarPovider) => {
     </SidebarContext.Provider>
   );
 };
+
+export const useSidebar = (): ContextProps => useContext(SidebarContext);

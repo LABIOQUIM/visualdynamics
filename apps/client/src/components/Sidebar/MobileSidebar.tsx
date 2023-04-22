@@ -1,6 +1,7 @@
-import React, { useContext, useRef } from "react";
+import React, { useRef } from "react";
 
-import { SidebarContext } from "@app/context/SidebarContext";
+import { useSidebar } from "@app/context/SidebarContext";
+import { useCloseSidebar } from "@app/hooks/useCloseSidebar";
 
 import { Backdrop } from "../Backdrop";
 import { Transition } from "../Transition";
@@ -8,9 +9,9 @@ import { Transition } from "../Transition";
 import { SidebarContent } from "./SidebarContent";
 
 export function MobileSidebar() {
+  useCloseSidebar();
   const sidebarRef = useRef(null);
-  const { isSidebarOpen, closeSidebar, saveScroll } =
-    useContext(SidebarContext);
+  const { isSidebarOpen, closeSidebar, saveScroll } = useSidebar();
 
   const linkClickedHandler = () => {
     saveScroll(sidebarRef.current);
