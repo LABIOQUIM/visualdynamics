@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { AlertTriangle, UserPlus } from "lucide-react";
+import { AlertCircle, AlertTriangle, UserPlus } from "lucide-react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
@@ -70,6 +70,12 @@ export function SignUpForm() {
       className="flex flex-col gap-y-2.5 lg:mx-auto lg:w-1/2"
       onSubmit={handleSubmit(handleAuth)}
     >
+      <div className="flex items-center gap-x-2 rounded-lg border border-cyan-500 bg-cyan-400/20 p-2">
+        <AlertCircle className="min-h-[1.25rem] min-w-[1.25rem] stroke-cyan-600 dark:stroke-cyan-200" />
+        <small className="text-cyan-600 dark:text-cyan-200">
+          {t("signup:alert")}
+        </small>
+      </div>
       {signUpStatus?.status === "error" ? (
         <div className="flex gap-x-2 rounded-lg border border-red-500 bg-red-400/20 p-2">
           <AlertTriangle className="stroke-red-600 dark:stroke-red-200" />

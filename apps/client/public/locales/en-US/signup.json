@@ -1,5 +1,6 @@
 {
   "title": "Sign Up",
+  "alert": "By creating an user you'll automatically agree to our Terms of Service.\nBe aware that this user is not active by default, it'll go on a validation period and you'll be emailed about this validation.",
   "errors": {
     "user": {
       "existing": "There's a user with this email or username already."
