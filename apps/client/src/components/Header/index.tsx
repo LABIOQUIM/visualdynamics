@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { Bell, LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
+import { useContext } from "react";
+import { Crown, LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -11,14 +11,9 @@ import { SidebarContext } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
 
 export function Header() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const { toggleSidebar } = useContext(SidebarContext);
   const { theme, toggleTheme } = useTheme();
-  const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false);
-
-  function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen);
-  }
 
   return (
     <header className="shadow-bottom sticky top-0 z-40 bg-white py-4 transition-all duration-150 dark:bg-gray-900 lg:relative lg:top-auto">
@@ -61,25 +56,16 @@ export function Header() {
           </li>
           {status === "authenticated" ? (
             <>
-              {/* <!-- Notifications menu --> */}
-              <li className="flex">
-                <button
-                  className="focus:shadow-outline-purple relative rounded-md align-middle focus:outline-none"
-                  onClick={handleNotificationsClick}
-                  aria-label="Notifications"
-                  aria-haspopup="true"
-                >
-                  <Bell
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                  />
-                  {/* <!-- Notification badge --> */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute right-0 top-0 inline-block h-3 w-3 -translate-y-1 translate-x-1 transform rounded-full border-2 border-white bg-red-600 dark:border-gray-800"
-                  />
-                </button>
-              </li>
+              {session.user.role === "ADMIN" ? (
+                <li className="relative">
+                  <Link href="/admin">
+                    <TextButton
+                      iconClassName="stroke-primary-600 group-hover:stroke-primary-400 dark:stroke-primary-300 dark:group-hover:stroke-primary-400"
+                      LeftIcon={Crown}
+                    />
+                  </Link>
+                </li>
+              ) : null}
               {/* <!-- Profile menu --> */}
               <li className="relative">
                 <UserMenu />
