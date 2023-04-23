@@ -43,15 +43,16 @@ export const authOptions: NextAuthOptions = {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password, ...passwordlessUser } = user;
 
-            if (
-              (await verify(password, credentials.password)) &&
-              passwordlessUser.active
-            ) {
-              return passwordlessUser;
+            if (await verify(password, credentials.password)) {
+              if (user.active) {
+                return passwordlessUser;
+              }
+              throw new Error("user.inactive");
             }
+
+            throw new Error("user.wrong-credentials");
           }
         }
-
         return null;
       }
     })

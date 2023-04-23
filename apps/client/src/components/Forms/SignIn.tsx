@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Lock, LogIn, UserPlus } from "lucide-react";
+import { AlertTriangle, Lock, LogIn, UserPlus } from "lucide-react";
 import { useRouter } from "next/router";
 import { signIn, useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
@@ -18,6 +18,7 @@ import {
 export function SignInForm() {
   const { t } = useTranslation(["signin"]);
   const { status } = useSession();
+  const [signInError, setSignInError] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const {
     register,
@@ -40,13 +41,24 @@ export function SignInForm() {
     identifier,
     password
   }) => {
+    setSignInError("");
     setIsAuthenticating(true);
     signIn("credentials", {
       identifier,
       password,
       redirect: false
     })
-      .then(() => reset())
+      .then((data) => {
+        if (data) {
+          if (data.error) {
+            setSignInError(data.error);
+          }
+
+          if (data.ok) {
+            reset();
+          }
+        }
+      })
       .finally(() => setIsAuthenticating(false));
   };
 
@@ -55,6 +67,14 @@ export function SignInForm() {
       className="flex flex-col gap-y-2.5 lg:mx-auto lg:w-1/2"
       onSubmit={handleSubmit(handleAuth)}
     >
+      {signInError ? (
+        <div className="flex gap-x-2 rounded-lg border border-orange-500 bg-orange-400/20 p-2">
+          <AlertTriangle className="stroke-orange-600 dark:stroke-orange-200" />
+          <p className="text-orange-600 dark:text-orange-200">
+            {t(`signin:errors.${signInError}`)}
+          </p>
+        </div>
+      ) : null}
       <Input
         error={errors.identifier}
         label={t("signin:identifier.title")}

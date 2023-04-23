@@ -106,7 +106,7 @@ export default function MyDynamics({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("my-dynamics:title")} />
-      <div className="mx-auto flex flex-col justify-center py-10 lg:w-1/2">
+      <div className="mx-auto flex flex-1 flex-col justify-center lg:w-1/2">
         <Microscope className="stoke-primary-950 mx-auto mb-2 h-14 w-14 dark:stroke-primary-400" />
         <h1 className="text-center text-2xl font-bold uppercase text-primary-950 dark:text-primary-400">
           {t("my-dynamics:empty.title")}
