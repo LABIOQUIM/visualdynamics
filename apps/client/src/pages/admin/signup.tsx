@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { Check, X } from "lucide-react";
 import { useTranslation } from "next-i18next";
 
 import { AdminSignUpRequestList } from "@app/components/AdminSignUpRequestList";
-import { StatusButton } from "@app/components/Button/Status";
 import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
