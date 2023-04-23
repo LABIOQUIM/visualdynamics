@@ -1,10 +1,7 @@
-import { useEffect } from "react";
 import { AlertTriangle } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { getServerSession } from "next-auth";
 import { User } from "next-auth";
-import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { SEO } from "@app/components/SEO";
@@ -52,15 +49,7 @@ export const getServerSideProps = withSSRTranslations(
 );
 
 export default function PRODRGDynamic({ user }: { user: User }) {
-  const router = useRouter();
   const { t } = useTranslation(["forms", "navigation"]);
-  const { status } = useSession();
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/");
-    }
-  }, [router, status]);
 
   return (
     <>

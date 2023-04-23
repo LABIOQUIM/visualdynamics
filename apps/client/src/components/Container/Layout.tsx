@@ -5,12 +5,14 @@ import { Header } from "@app/components/Header";
 import { Sidebar } from "@app/components/Sidebar";
 import { SidebarContext, SidebarProvider } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
+import { useSignOut } from "@app/hooks/useSignOut";
 
 interface ILayout {
   children: React.ReactNode;
 }
 
 export function Layout({ children }: ILayout) {
+  useSignOut();
   const { isSidebarOpen } = useContext(SidebarContext);
   const { theme } = useTheme();
 

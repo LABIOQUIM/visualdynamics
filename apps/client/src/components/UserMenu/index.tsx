@@ -3,8 +3,6 @@ import { ChevronDown, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
-import { TextButton } from "@app/components/Button/Text";
-
 export function UserMenu() {
   const { data: session, status } = useSession();
   const { t } = useTranslation(["navigation"]);
@@ -15,14 +13,9 @@ export function UserMenu() {
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger>
-        <TextButton
-          className="text-primary-600 enabled:hover:text-primary-400 dark:text-primary-300 enabled:dark:hover:text-primary-400"
-          iconClassName="stroke-primary-600 group-hover:stroke-primary-400 dark:stroke-primary-300 dark:group-hover:stroke-primary-400"
-          RightIcon={ChevronDown}
-        >
-          {session.user.username}
-        </TextButton>
+      <DropdownMenu.Trigger className="group flex items-center justify-center gap-x-1 rounded-lg p-2 font-medium text-primary-600 outline-none transition-all duration-150 hover:text-primary-400 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-gray-200 dark:text-primary-300 dark:hover:text-primary-400 dark:focus:ring-offset-gray-900">
+        {session.user.username}
+        <ChevronDown className="mt-1 h-4 w-4 stroke-primary-600 group-hover:stroke-primary-400 dark:stroke-primary-300 dark:group-hover:stroke-primary-400" />
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Content

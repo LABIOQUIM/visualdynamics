@@ -7,6 +7,24 @@
     },
     "sign-out": "Sign Out"
   },
+  "admin": {
+    "title": "Administration",
+    "dashboard": {
+      "title": "Panel"
+    },
+    "signup": {
+      "title": "Sign Up Requests"
+    },
+    "dynamics": {
+      "title": "Running Dynamics"
+    },
+    "mdp": {
+      "title": "MDP Management"
+    },
+    "users": {
+      "title": "User Management"
+    }
+  },
   "dynamic": {
     "my-dynamics": "My Dynamics",
     "title": "Dynamics",
@@ -16,28 +34,6 @@
       "prodrg": "PRODRG with GROMOS",
       "prodrg-disabled": "This dynamic has been temporarily disabled as we migrate the generation model to be on par with ACPYPE and APO dynamics."
     }
-  },
-  "forms": {
-    "identifier": {
-      "title": "Email or Username",
-      "placeholder": "user@uni.edu",
-      "errors": {
-        "empty": "Can't be empty"
-      }
-    },
-    "password": {
-      "title": "Password",
-      "placeholder": "********",
-      "errors": {
-        "empty": "Can't be empty"
-      }
-    },
-    "submit": {
-      "signin": "Sign In",
-      "signup": "Sign Up"
-    },
-    "lost-password": "I forgot my password",
-    "new-user": "Register"
   },
   "preparation": {
     "title": "Dynamics Preparation",

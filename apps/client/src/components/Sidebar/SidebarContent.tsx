@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Beaker, Info, LayoutDashboard } from "lucide-react";
+import { Beaker, Crown, Info, LayoutDashboard } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,9 +15,9 @@ interface ISidebarContent {
 
 export function SidebarContent({ linkClicked }: ISidebarContent) {
   const { pathname } = useRouter();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const { t } = useTranslation(["navigation"]);
-  const [navigationItems, setNavigationItems] = useState<NavigationSection[]>([
+  const initialNavigationArray: NavigationSection[] = [
     {
       title: "navigation:system.title",
       Icon: Info,
@@ -37,54 +37,92 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
         }
       ]
     }
-  ]);
+  ];
+  const authenticatedNavigationArray: NavigationSection[] = [
+    {
+      title: "navigation:dynamic.title",
+      Icon: LayoutDashboard,
+      links: [
+        {
+          label: "navigation:dynamic.my-dynamics",
+          href: "/my-dynamics"
+        },
+        {
+          label: "navigation:dynamic.models.apo",
+          href: "/dynamic/apo"
+        },
+        {
+          label: "navigation:dynamic.models.acpype",
+          href: "/dynamic/acpype"
+        },
+        {
+          label: "navigation:dynamic.models.prodrg",
+          href: "/dynamic/prodrg"
+        }
+      ]
+    },
+    {
+      title: "navigation:preparation.title",
+      Icon: Beaker,
+      links: [
+        {
+          label: "navigation:preparation.models.acpype",
+          href: "/preparation/acpype"
+        }
+      ]
+    }
+  ];
+  const adminNavigationArray: NavigationSection[] = [
+    {
+      title: "navigation:admin.title",
+      Icon: Crown,
+      links: [
+        {
+          label: "navigation:admin.dashboard.title",
+          href: "/admin",
+          exact: true
+        },
+        {
+          label: "navigation:admin.signup.title",
+          href: "/admin/signup"
+        },
+        {
+          label: "navigation:admin.dynamics.title",
+          href: "/admin/dynamics"
+        },
+        {
+          label: "navigation:admin.mdp.title",
+          href: "/admin/mdp"
+        },
+        {
+          label: "navigation:admin.users.title",
+          href: "/admin/users"
+        }
+      ]
+    }
+  ];
+  const [navigationItems, setNavigationItems] = useState<NavigationSection[]>(
+    initialNavigationArray
+  );
 
   useEffect(() => {
     if (status === "authenticated") {
-      setNavigationItems((previousNavigation) =>
-        previousNavigation[1]
-          ? previousNavigation
-          : [
-              ...previousNavigation,
-              ...[
-                {
-                  title: "navigation:dynamic.title",
-                  Icon: LayoutDashboard,
-                  links: [
-                    {
-                      label: "navigation:dynamic.my-dynamics",
-                      href: "/my-dynamics"
-                    },
-                    {
-                      label: "navigation:dynamic.models.apo",
-                      href: "/dynamic/apo"
-                    },
-                    {
-                      label: "navigation:dynamic.models.acpype",
-                      href: "/dynamic/acpype"
-                    },
-                    {
-                      label: "navigation:dynamic.models.prodrg",
-                      href: "/dynamic/prodrg"
-                    }
-                  ]
-                },
-                {
-                  title: "navigation:preparation.title",
-                  Icon: Beaker,
-                  links: [
-                    {
-                      label: "navigation:preparation.models.acpype",
-                      href: "/preparation/acpype"
-                    }
-                  ]
-                }
-              ]
-            ]
-      );
+      if (session.user.role === "ADMIN") {
+        setNavigationItems([
+          ...adminNavigationArray,
+          ...initialNavigationArray,
+          ...authenticatedNavigationArray
+        ]);
+      } else {
+        setNavigationItems([
+          ...initialNavigationArray,
+          ...authenticatedNavigationArray
+        ]);
+      }
     } else {
-      setNavigationItems((previousNavigation) => [previousNavigation[0]]);
+      setNavigationItems(initialNavigationArray);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   return (

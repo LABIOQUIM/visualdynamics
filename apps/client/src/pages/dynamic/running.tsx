@@ -1,10 +1,8 @@
-import { useEffect } from "react";
 import { ArrowRight, FileCog, Slash } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
-import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
@@ -42,13 +40,6 @@ export default function Running({ user }: { user: User }) {
   const { data, isLoading, isRefetching } = useRunningDynamic(user.username);
   const { t } = useTranslation(["navigation", "running"]);
   const router = useRouter();
-  const { status } = useSession();
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/");
-    }
-  }, [router, status]);
 
   async function abortTask() {
     if (!isLoading && !isRefetching) {

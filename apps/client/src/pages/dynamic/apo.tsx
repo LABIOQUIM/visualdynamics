@@ -1,8 +1,5 @@
-import { useEffect } from "react";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { getServerSession, User } from "next-auth";
-import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { SEO } from "@app/components/SEO";
@@ -51,15 +48,7 @@ export const getServerSideProps = withSSRTranslations(
 );
 
 export default function APODynamic({ user }: { user: User }) {
-  const router = useRouter();
   const { t } = useTranslation(["navigation"]);
-  const { status } = useSession();
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/");
-    }
-  }, [router, status]);
 
   return (
     <>

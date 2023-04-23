@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Crown, LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
+import { LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -11,7 +11,7 @@ import { SidebarContext } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
 
 export function Header() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const { toggleSidebar } = useContext(SidebarContext);
   const { theme, toggleTheme } = useTheme();
 
@@ -29,7 +29,6 @@ export function Header() {
             aria-hidden="true"
           />
         </button>
-        {/* <!-- Search input --> */}
         <div className="mx-auto hidden w-1/2 justify-center lg:flex">
           <div className="relative flex-1 focus-within:text-primary-500 dark:focus-within:text-primary-100">
             <div className="absolute inset-y-0 flex items-center pl-2">
@@ -46,7 +45,6 @@ export function Header() {
           </div>
         </div>
         <ul className="flex flex-shrink-0 items-center gap-x-6">
-          {/* <!-- Theme toggler --> */}
           <li className="flex">
             <TextButton
               iconClassName="stroke-primary-600 group-hover:stroke-primary-400 dark:stroke-primary-300 dark:group-hover:stroke-primary-400"
@@ -56,17 +54,6 @@ export function Header() {
           </li>
           {status === "authenticated" ? (
             <>
-              {session.user.role === "ADMIN" ? (
-                <li className="relative">
-                  <Link href="/admin">
-                    <TextButton
-                      iconClassName="stroke-primary-600 group-hover:stroke-primary-400 dark:stroke-primary-300 dark:group-hover:stroke-primary-400"
-                      LeftIcon={Crown}
-                    />
-                  </Link>
-                </li>
-              ) : null}
-              {/* <!-- Profile menu --> */}
               <li className="relative">
                 <UserMenu />
               </li>

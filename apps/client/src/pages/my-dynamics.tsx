@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
-import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
@@ -13,6 +12,7 @@ import { TextButton } from "@app/components/Button/Text";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
+import { useSignOut } from "@app/hooks/useSignOut";
 import { useListDynamics } from "@app/queries/useListDynamics";
 
 const DynamicCard = dynamic(
@@ -27,6 +27,7 @@ export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
 });
 
 export default function MyDynamics({ user }: { user: User }) {
+  useSignOut();
   const { data, refetch, isRefetching, isLoading } = useListDynamics(
     user.username,
     {
@@ -36,13 +37,6 @@ export default function MyDynamics({ user }: { user: User }) {
   const [timeUntilRefresh, setTimeUntilRefresh] = useState(60);
   const { t } = useTranslation(["my-dynamics"]);
   const router = useRouter();
-  const { status } = useSession();
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/");
-    }
-  }, [router, status]);
 
   useEffect(() => {
     const interval = setInterval(() => {
