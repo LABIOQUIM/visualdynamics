@@ -11,6 +11,18 @@ export default async function handler(
     const { email, username, password } = req.body;
 
     try {
+      const existingUser = await prisma.user.findFirst({
+        where: {
+          OR: [{ username }, { email }]
+        }
+      });
+
+      if (existingUser) {
+        return res.status(409).json({
+          status: "user.existing"
+        });
+      }
+
       const hashedPassword = await hash(password);
 
       const user = await prisma.user.create({

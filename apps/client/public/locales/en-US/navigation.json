@@ -32,7 +32,10 @@
         "empty": "Can't be empty"
       }
     },
-    "submit": "Sign In",
+    "submit": {
+      "signin": "Sign In",
+      "signup": "Sign Up"
+    },
     "lost-password": "I forgot my password",
     "new-user": "Register"
   },

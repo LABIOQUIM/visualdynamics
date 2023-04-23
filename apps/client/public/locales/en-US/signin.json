@@ -1,3 +1,19 @@
 {
-  "title": "Sign In"
+  "title": "Sign In",
+  "identifier": {
+    "title": "Email or Username",
+    "placeholder": "user@uni.edu",
+    "errors": {
+      "empty": "Can't be empty"
+    }
+  },
+  "password": {
+    "title": "Password",
+    "placeholder": "********",
+    "errors": {
+      "empty": "Can't be empty"
+    }
+  },
+  "lost-password": "I forgot my password",
+  "new-user": "Register"
 }

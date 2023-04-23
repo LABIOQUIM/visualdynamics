@@ -79,7 +79,7 @@ export function Header() {
                 </Link>
               </li>
               <li className="hidden lg:block">
-                <Link href="/register">
+                <Link href="/signup">
                   <TextButton LeftIcon={UserPlus}>Register</TextButton>
                 </Link>
               </li>

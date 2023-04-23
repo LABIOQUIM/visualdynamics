@@ -11,9 +11,9 @@ import { TextButton } from "@app/components/Button/Text";
 import { Input } from "@app/components/Input";
 import { Spinner } from "@app/components/Spinner";
 import {
-  AuthFormSchema,
-  AuthFormSchemaType
-} from "@app/schemas/components/auth/auth.zod";
+  SignInFormSchema,
+  SignInFormSchemaType
+} from "@app/schemas/components/auth/signin.zod";
 
 export function SignInForm() {
   const { t } = useTranslation(["signin"]);
@@ -24,8 +24,8 @@ export function SignInForm() {
     reset,
     formState: { errors },
     handleSubmit
-  } = useForm<AuthFormSchemaType>({
-    resolver: zodResolver(AuthFormSchema)
+  } = useForm<SignInFormSchemaType>({
+    resolver: zodResolver(SignInFormSchema)
   });
   const router = useRouter();
 
@@ -36,7 +36,7 @@ export function SignInForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
-  const handleAuth: SubmitHandler<AuthFormSchemaType> = async ({
+  const handleAuth: SubmitHandler<SignInFormSchemaType> = async ({
     identifier,
     password
   }) => {
@@ -57,14 +57,14 @@ export function SignInForm() {
     >
       <Input
         error={errors.identifier}
-        label={t("navigation:forms.identifier.title")}
-        placeholder={t("navigation:forms.identifier.placeholder")}
+        label={t("signin:identifier.title")}
+        placeholder={t("signin:identifier.placeholder")}
         {...register("identifier")}
       />
       <Input
         error={errors.password}
-        label={t("navigation:forms.password.title")}
-        placeholder={t("navigation:forms.password.placeholder")}
+        label={t("signin:password.title")}
+        placeholder={t("signin:password.placeholder")}
         type="password"
         {...register("password")}
       />
@@ -74,7 +74,7 @@ export function SignInForm() {
         type="submit"
       >
         {isAuthenticating ? <Spinner /> : null}
-        {t("navigation:forms.submit")}
+        {t("signin:title")}
       </Button>
       <div className="flex gap-x-2">
         <TextButton
@@ -83,16 +83,16 @@ export function SignInForm() {
           LeftIcon={Lock}
           type="button"
         >
-          {t("navigation:forms.lost-password")}
+          {t("signin:lost-password")}
         </TextButton>
         <TextButton
           className="text-sm"
           iconClassName="h-4 w-4"
           LeftIcon={UserPlus}
-          onClick={() => router.push("/register")}
+          onClick={() => router.push("/signup")}
           type="button"
         >
-          {t("navigation:forms.new-user")}
+          {t("signin:new-user")}
         </TextButton>
       </div>
     </form>
