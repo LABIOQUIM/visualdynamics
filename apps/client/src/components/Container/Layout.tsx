@@ -16,14 +16,14 @@ export function Layout({ children }: ILayout) {
 
   return (
     <SidebarProvider>
-      <div className={theme}>
+      <div
+        className={`h-screen ${theme} ${isSidebarOpen && "overflow-hidden"}`}
+      >
         <div
-          className={`transition-all duration-150 flex h-screen bg-white dark:bg-gray-900 ${
-            isSidebarOpen && "overflow-hidden"
-          }`}
+          className={`transition-all duration-150 flex flex-1 bg-white dark:bg-gray-900`}
         >
           <Sidebar />
-          <div className="flex flex-col inset-0 w-full">
+          <div className="flex flex-col flex-1 lg:overflow-y-hidden">
             <Header />
             <Main>{children}</Main>
           </div>

@@ -21,8 +21,8 @@ export function Header() {
   }
 
   return (
-    <header className="transition-all duration-150 z-40 py-4 bg-white shadow-bottom dark:bg-gray-900">
-      <div className="container flex gap-x-4 items-center justify-between h-full px-6 mx-auto text-primary-600 dark:text-primary-300">
+    <header className="sticky top-0 z-40 py-4 transition-all duration-150 bg-white lg:relative lg:top-auto shadow-bottom dark:bg-gray-900">
+      <div className="container flex items-center justify-between h-full px-6 mx-auto gap-x-4 text-primary-600 dark:text-primary-300">
         {/* <!-- Mobile hamburger --> */}
         <button
           className="p-1 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
@@ -35,7 +35,7 @@ export function Header() {
           />
         </button>
         {/* <!-- Search input --> */}
-        <div className="hidden lg:flex justify-center w-1/2 mx-auto">
+        <div className="justify-center hidden w-1/2 mx-auto lg:flex">
           <div className="relative flex-1 focus-within:text-primary-500 dark:focus-within:text-primary-100">
             <div className="absolute inset-y-0 flex items-center pl-2">
               <Search
@@ -44,7 +44,7 @@ export function Header() {
               />
             </div>
             <Input
-              className="pl-8 w-full dark:bg-gray-950"
+              className="w-full pl-8 dark:bg-gray-950"
               placeholder="Search for projects"
               aria-label="Search"
             />

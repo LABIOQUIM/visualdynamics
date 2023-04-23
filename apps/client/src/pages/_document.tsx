@@ -2,7 +2,7 @@ import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html className="bg-gray-50 overflow-hidden">
+    <Html>
       <Head>
         <link
           rel="icon"
@@ -10,7 +10,7 @@ export default function Document() {
           sizes="any"
         />
       </Head>
-      <body>
+      <body className="lg:overflow-y-hidden">
         <Main />
         <NextScript />
       </body>
