@@ -1,13 +1,21 @@
 import { allPosts } from "contentlayer/generated";
 import { Calendar, Clock } from "lucide-react";
+import { GetStaticPaths } from "next";
 import { useRouter } from "next/router";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { useTranslation } from "next-i18next";
 
 import { components } from "@app/components/MDX/MDXComponents";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
+import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
-export const getServerSideProps = withSSRTranslations(async ({ params }) => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: allPosts.map((p) => ({ params: { slug: p.slug } })),
+    fallback: false
+  };
+};
+
+export const getStaticProps = withSPTranslations(async ({ params }) => {
   return {
     props: {
       post: allPosts.find((p) => p.slug === params?.slug)

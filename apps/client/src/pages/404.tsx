@@ -4,9 +4,9 @@ import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
 import { SEO } from "@app/components/SEO";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
+import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
-export const getStaticProps = withSSRTranslations();
+export const getStaticProps = withSPTranslations();
 
 export default function Custom404() {
   const router = useRouter();

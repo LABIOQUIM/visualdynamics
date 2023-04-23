@@ -1,9 +1,9 @@
 import { allPosts } from "contentlayer/generated";
 
 import BlogCard from "@app/components/BlogCard";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
+import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
-export const getServerSideProps = withSSRTranslations();
+export const getStaticProps = withSPTranslations();
 
 export default function Blog() {
   return (

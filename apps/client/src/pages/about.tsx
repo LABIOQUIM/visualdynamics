@@ -2,9 +2,9 @@ import { useTranslation } from "next-i18next";
 
 import { MaintainerCard } from "@app/components/MaintainerCard";
 import { SEO } from "@app/components/SEO";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
+import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
-export const getServerSideProps = withSSRTranslations(undefined, {
+export const getStaticProps = withSPTranslations(undefined, {
   namespaces: ["about"]
 });
 
