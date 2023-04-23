@@ -5,6 +5,8 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
+// DON'T EVER MOVE THIS TO NON-RELATIVE IMPORTS
+// IT'LL BREAK
 import { Post } from "./content/definitions/Post";
 import { HEADING_LINK_ANCHOR } from "./src/lib/constants";
 import {

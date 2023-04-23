@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 
-import { Spinner } from "../Spinner";
+import { Spinner } from "@app/components/Spinner";
 
 interface DynamicRunningRealtimeLogProps {
   logLines: string[];

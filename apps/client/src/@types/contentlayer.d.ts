@@ -9,6 +9,9 @@ type PostProps = {
     code: string;
     raw?: string;
   };
+  readingTime: {
+    minutes: number;
+  };
   status?: string;
   headings?: string[];
   tweetIds?: string[];

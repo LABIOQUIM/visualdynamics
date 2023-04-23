@@ -3,9 +3,8 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+import { Transition } from "@app/components/Transition";
 import { routeIsActive } from "@app/utils/route";
-
-import { Transition } from "../Transition";
 
 interface ISidebarSubmenu {
   item: NavigationItem;

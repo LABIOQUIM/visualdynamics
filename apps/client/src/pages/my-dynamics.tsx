@@ -70,24 +70,26 @@ export default function MyDynamics({ user }: { user: User }) {
     return (
       <>
         <SEO title={t("my-dynamics:title")} />
-        <div className="flex gap-x-3">
+        <div className="flex flex-col md:flex-row gap-3">
           <Button
             LeftIcon={FileDown}
             onClick={() => router.push("/api/downloads/mdp")}
           >
             {t("my-dynamics:downloads.mdp")}
           </Button>
-          <TextButton
-            iconClassName={clsx({
-              "animate-spin": isRefetching || isLoading
-            })}
-            disabled={isRefetching || isLoading}
-            LeftIcon={RefreshCw}
-            onClick={() => refetch()}
-          />
-          <p className="ml-auto my-auto">
-            {t("my-dynamics:auto-refresh", { seconds: timeUntilRefresh })}
-          </p>
+          <div className="flex flex-1">
+            <TextButton
+              iconClassName={clsx({
+                "animate-spin": isRefetching || isLoading
+              })}
+              disabled={isRefetching || isLoading}
+              LeftIcon={RefreshCw}
+              onClick={() => refetch()}
+            />
+            <p className="ml-2 md:ml-auto my-auto">
+              {t("my-dynamics:auto-refresh", { seconds: timeUntilRefresh })}
+            </p>
+          </div>
         </div>
         <div className="flex flex-col gap-y-1">
           {data.dynamics.map((dynamic) => (

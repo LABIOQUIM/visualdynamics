@@ -6,9 +6,8 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
+import { SidebarSubmenu } from "@app/components/Sidebar/SidebarSubmenu";
 import { routeIsActive } from "@app/utils/route";
-
-import { SidebarSubmenu } from "./SidebarSubmenu";
 
 interface ISidebarContent {
   linkClicked: () => void;

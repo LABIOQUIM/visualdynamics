@@ -5,6 +5,10 @@ import { useRouter } from "next/router";
 import { User } from "next-auth";
 import { useTranslation } from "next-i18next";
 
+import { Button } from "@app/components/Button";
+import { Input } from "@app/components/Input";
+import { Select } from "@app/components/Select";
+import { Switch } from "@app/components/Switch";
 import { api } from "@app/lib/api";
 import {
   APOFormSchema,
@@ -13,11 +17,6 @@ import {
 import { boxTypes } from "@app/utils/box-types";
 import { apoForceFields } from "@app/utils/force-fields";
 import { waterModels } from "@app/utils/water-models";
-
-import { Button } from "../Button";
-import { Input } from "../Input";
-import { Select } from "../Select";
-import { Switch } from "../Switch";
 
 interface APOFormProps {
   user: User;

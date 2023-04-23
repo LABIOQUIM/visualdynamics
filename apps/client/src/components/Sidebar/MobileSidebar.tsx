@@ -1,12 +1,10 @@
 import React, { useRef } from "react";
 
+import { Backdrop } from "@app/components/Backdrop";
+import { SidebarContent } from "@app/components/Sidebar/SidebarContent";
+import { Transition } from "@app/components/Transition";
 import { useSidebar } from "@app/context/SidebarContext";
 import { useCloseSidebar } from "@app/hooks/useCloseSidebar";
-
-import { Backdrop } from "../Backdrop";
-import { Transition } from "../Transition";
-
-import { SidebarContent } from "./SidebarContent";
 
 export function MobileSidebar() {
   useCloseSidebar();

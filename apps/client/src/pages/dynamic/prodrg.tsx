@@ -11,9 +11,8 @@ import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
+import { authOptions } from "@app/pages/api/auth/[...nextauth]";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
-
-import { authOptions } from "../api/auth/[...nextauth]";
 
 const PRODRGForm = dynamic(
   () => import("@app/components/Forms/PRODRG").then((mod) => mod.PRODRGForm),

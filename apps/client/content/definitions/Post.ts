@@ -2,7 +2,10 @@
 
 import { defineDocumentType } from "contentlayer/source-files";
 import GithubSlugger from "github-slugger";
+import readingTime from "reading-time";
 
+// DON'T EVER MOVE THIS TO NON-RELATIVE IMPORTS
+// IT'LL BREAK
 import { formatShortDate } from "../../src/lib/formatShortDate";
 
 // esbuild doesn't support module aliases 😤🤌
@@ -43,18 +46,7 @@ export const Post = defineDocumentType(() => ({
         );
       }
     },
-    tweetIds: {
-      type: "json",
-      resolve: (doc) => {
-        const tweetMatches = doc.body.raw.match(
-          /<StaticTweet\sid="[0-9]+"[\s\S]*?\/>/g
-        );
-        const tweetIDs = tweetMatches?.map(
-          (tweet: any) => tweet.match(/[0-9]+/g)[0]
-        );
-        return tweetIDs ?? [];
-      }
-    },
+    readingTime: { type: "json", resolve: (doc) => readingTime(doc.body.raw) },
     publishedAtFormatted: {
       type: "string",
       resolve: (doc) => formatShortDate(doc.publishedAt)

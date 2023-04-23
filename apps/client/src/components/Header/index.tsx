@@ -3,13 +3,12 @@ import { Bell, LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
+import { Button } from "@app/components/Button";
+import { TextButton } from "@app/components/Button/Text";
+import { Input } from "@app/components/Input";
+import { UserMenu } from "@app/components/UserMenu";
 import { SidebarContext } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
-
-import { Button } from "../Button";
-import { TextButton } from "../Button/Text";
-import { Input } from "../Input";
-import { UserMenu } from "../UserMenu";
 
 export function Header() {
   const { status } = useSession();
@@ -93,7 +92,7 @@ export function Header() {
                   <Button LeftIcon={LogIn}>Sign In</Button>
                 </Link>
               </li>
-              <li>
+              <li className="hidden lg:block">
                 <Link href="/register">
                   <TextButton LeftIcon={UserPlus}>Register</TextButton>
                 </Link>

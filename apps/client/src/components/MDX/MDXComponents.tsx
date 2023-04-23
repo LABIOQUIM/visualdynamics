@@ -5,11 +5,10 @@ import type { ImageProps } from "next/image";
 import NextLink from "next/link";
 
 import { BlurImage } from "@app/components/BlurImage";
+import { Aside } from "@app/components/MDX/Aside";
+import { Code } from "@app/components/MDX/Code";
+import { Files } from "@app/components/MDX/Files";
 import { FOCUS_VISIBLE_OUTLINE, LINK_STYLES } from "@app/lib/constants";
-
-import { Aside } from "./Aside";
-import { Code } from "./Code";
-import { Files } from "./Files";
 
 export const components = {
   // 🥴🥴 Nested Component imports via MDX are suddenly not JSX transformed 🥴🥴
@@ -70,13 +69,13 @@ export const components = {
   },
   ul: (props: any) => (
     <ul
-      className="space-y-3 [&>li]:relative [&>li]:pl-5 before:[&>li]:absolute before:[&>li]:left-1 before:[&>li]:top-2.5 before:[&>li]:h-1.5 before:[&>li]:w-1.5 before:[&>li]:rounded-full before:[&>li]:bg-primary-900/75 dark:before:[&>li]:bg-primary-300/75 [li>&]:mt-3"
+      className="flex flex-col gap-y-1.5 my-1.5 [&>li]:relative [&>li]:pl-5 before:[&>li]:absolute before:[&>li]:left-1 before:[&>li]:top-2.5 before:[&>li]:h-1.5 before:[&>li]:w-1.5 before:[&>li]:rounded-full before:[&>li]:bg-primary-900/75 dark:before:[&>li]:bg-primary-300/75 [li>&]:mt-3"
       {...props}
     />
   ),
   ol: (props: any) => (
     <ol
-      className="list-decimal space-y-3 pl-10"
+      className="list-decimal space-y-1 pl-10"
       {...props}
     />
   ),

@@ -57,6 +57,7 @@ importers:
       react-i18next: ^12.2.0
       react-icons: ^4.8.0
       react-transition-group: ^4.4.5
+      reading-time: ^1.5.0
       rehype-autolink-headings: ^6.1.1
       rehype-pretty-code: ^0.9.4
       rehype-slug: ^5.1.0
@@ -99,6 +100,7 @@ importers:
       react-i18next: 12.2.0_qeiswpmww5mojeeisizknycqfq
       react-icons: 4.8.0_react@18.2.0
       react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      reading-time: 1.5.0
       rehype-pretty-code: 0.9.5_shiki@0.14.1
       sharp: 0.31.3
       shiki: 0.14.1
@@ -5569,6 +5571,10 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+
+  /reading-time/1.5.0:
+    resolution: {integrity: sha512-onYyVhBNr4CmAxFsKS7bz+uTLRakypIe4R+5A824vBSkQy/hB3fZepoVEf8OVAxzLvK+H/jm9TzpI3ETSm64Kg==}
+    dev: false
 
   /regenerator-runtime/0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}

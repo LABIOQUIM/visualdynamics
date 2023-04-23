@@ -7,5 +7,8 @@
       "back-to-home": "Go back to Home"
     }
   },
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "blog": {
+    "readtime": "{{minutes}} min read"
+  }
 }

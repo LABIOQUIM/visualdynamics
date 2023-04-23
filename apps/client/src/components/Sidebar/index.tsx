@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-import { Spinner } from "../Spinner";
+import { Spinner } from "@app/components/Spinner";
 
 const DesktopSidebar = dynamic(
   () =>
