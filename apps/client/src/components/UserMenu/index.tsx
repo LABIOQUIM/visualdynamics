@@ -13,17 +13,17 @@ export function UserMenu() {
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="flex gap-x-1 items-center hover:text-primary-500 dark:hover:text-primary-200 transition-all duration-150">
+      <DropdownMenu.Trigger className="flex items-center gap-x-1 transition-all duration-150 hover:text-primary-500 dark:hover:text-primary-200">
         <p>{session.user.username}</p>
         <ChevronDown className="h-4 w-4" />
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Content
-        className="z-30 mr-2 border border-primary-400 bg-white dark:bg-gray-950 rounded-md p-2 will-change-[opacity,transform] data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade"
+        className="data-[side=top]:animate-slideDownAndFade data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade z-30 mr-2 rounded-md border border-primary-400 bg-white p-2 will-change-[opacity,transform] dark:bg-gray-950"
         sideOffset={5}
       >
         <DropdownMenu.Item
-          className="group text-md gap-x-1 leading-none text-primary-600 dark:text-primary-400 rounded-md flex items-center p-2 relative select-none outline-none data-[highlighted]:cursor-pointer dark:data-[highlighted]:text-primary-300"
+          className="text-md group relative flex select-none items-center gap-x-1 rounded-md p-2 leading-none text-primary-600 outline-none data-[highlighted]:cursor-pointer dark:text-primary-400 dark:data-[highlighted]:text-primary-300"
           onClick={() => signOut({ redirect: false })}
         >
           <LogOut className="h-4 w-4" />

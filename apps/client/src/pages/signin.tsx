@@ -93,7 +93,7 @@ export default function SignIn() {
             >
               <svg
                 aria-hidden="true"
-                className="w-5 h-5 text-primary-100 animate-spin fill-primary-950"
+                className="h-5 w-5 animate-spin fill-primary-950 text-primary-100"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

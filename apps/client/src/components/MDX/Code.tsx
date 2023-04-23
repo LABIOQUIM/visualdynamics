@@ -51,7 +51,7 @@ export function Code({ children }: { children: React.ReactNode }) {
           <button
             key={index}
             className={clsx(
-              "mr-2 mb-2 rounded-md px-2 py-1 text-sm font-medium",
+              "mb-2 mr-2 rounded-md px-2 py-1 text-sm font-medium",
               {
                 "bg-primary-950/10 text-primary-950/70 hover:bg-primary-950/20 hover:text-primary-100":
                   index !== slide,

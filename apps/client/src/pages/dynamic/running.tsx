@@ -76,14 +76,14 @@ export default function Running({ user }: { user: User }) {
         <SEO title={t("running:title")} />
         <div className="relative">
           <Button
-            className="w-fit absolute right-0 top-1 bg-red-700 enabled:hover:bg-red-800"
+            className="absolute right-0 top-1 w-fit bg-red-700 enabled:hover:bg-red-800"
             LeftIcon={Slash}
             disabled={disableAbortButton}
             onClick={abortTask}
           >
             Abort
           </Button>
-          <h4 className="text-primary-950 uppercase font-bold">
+          <h4 className="font-bold uppercase text-primary-950">
             {t("running:description")}
           </h4>
           <div className="flex gap-x-2">
@@ -124,14 +124,14 @@ export default function Running({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("running:not-running.title")} />
-      <div className="flex flex-col justify-center w-1/2 mx-auto">
-        <FileCog className="stoke-primary-950 h-14 w-14 mx-auto mb-2" />
-        <h1 className="text-primary-950 uppercase text-center font-bold text-2xl">
+      <div className="mx-auto flex w-1/2 flex-col justify-center">
+        <FileCog className="stoke-primary-950 mx-auto mb-2 h-14 w-14" />
+        <h1 className="text-center text-2xl font-bold uppercase text-primary-950">
           {t("running:not-running.title")}
         </h1>
         <p className="text-center">{t("running:not-running.description")}</p>
 
-        <div className="flex gap-x-2 flex-wrap mt-5 mx-auto">
+        <div className="mx-auto mt-5 flex flex-wrap gap-x-2">
           <Link href="/dynamic/apo">
             <Button RightIcon={ArrowRight}>
               {t("navigation:dynamic.models.apo")}

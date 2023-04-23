@@ -29,11 +29,11 @@ export const Select = <T extends string>({
   const { t } = useTranslation(["features"]);
 
   return (
-    <div className="flex flex-col gap-y-0.5 w-full">
+    <div className="flex w-full flex-col gap-y-0.5">
       <div className="flex gap-x-2.5">
         <label htmlFor={name}>{label}</label>
         {error ? (
-          <p className="font-grotesk text-red-600 text-sm mt-auto">
+          <p className="mt-auto  text-sm text-red-600">
             {t(error.message ?? "")}
           </p>
         ) : null}
@@ -44,7 +44,7 @@ export const Select = <T extends string>({
       >
         <RSelect.Trigger
           className={clsx(
-            "flex justify-between transition-all duration-150 items-center rounded-lg border border-primary-400/60 data-[placeholder]:text-zinc-400 bg-gray-50 dark:bg-gray-900 px-2 py-1 h-10 outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 dark:focus:ring-offset-gray-900",
+            "flex h-10 items-center justify-between rounded-lg border border-primary-400/60 bg-gray-50 px-2 py-1 outline-none transition-all duration-150 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 data-[placeholder]:text-zinc-400 dark:bg-gray-900 dark:focus:ring-offset-gray-900",
             {
               "border-red-600/95 focus:ring-red-500": error
             }
@@ -61,23 +61,23 @@ export const Select = <T extends string>({
           </RSelect.Icon>
         </RSelect.Trigger>
         <RSelect.Content
-          className="p-2 z-40 w-[--radix-select-trigger-width] max-h-[16rem] bg-gray-50 dark:bg-gray-900 border border-primary-400/60 transition-all duration-500 rounded-md"
+          className="z-40 max-h-[16rem] w-[--radix-select-trigger-width] rounded-md border border-primary-400/60 bg-gray-50 p-2 transition-all duration-500 dark:bg-gray-900"
           position="popper"
           sideOffset={5}
         >
-          <RSelect.ScrollUpButton className="flex items-center justify-center h-7 bg-transparent text-primary-500 cursor-default">
+          <RSelect.ScrollUpButton className="flex h-7 cursor-default items-center justify-center bg-transparent text-primary-500">
             <ChevronUp />
           </RSelect.ScrollUpButton>
           <RSelect.Viewport>
             <RSelect.Group>
-              <RSelect.Label className="text-sm text-gray-600 dark:text-gray-100 mb-2">
+              <RSelect.Label className="mb-2 text-sm text-gray-600 dark:text-gray-100">
                 {label}
               </RSelect.Label>
               {Object.keys(values).map((item) => (
                 <RSelect.Item
                   key={item}
                   value={item}
-                  className={`text-sm text-gray-900 dark:text-gray-300 rounded flex items-center min-h-[1.75rem] pl-8 pr-2 relative select-none data-[highlighted]:outline-none data-[highlighted]:bg-primary-200/60 data-[highlighted]:text-gray-800 dark:data-[highlighted]:text-gray-900`}
+                  className={`relative flex min-h-[1.75rem] select-none items-center rounded pl-8 pr-2 text-sm text-gray-900 data-[highlighted]:bg-primary-200/60 data-[highlighted]:text-gray-800 data-[highlighted]:outline-none dark:text-gray-300 dark:data-[highlighted]:text-gray-900`}
                 >
                   <RSelect.ItemIndicator className="absolute left-1 w-7 items-center justify-center">
                     <Check />
@@ -89,10 +89,10 @@ export const Select = <T extends string>({
               ))}
             </RSelect.Group>
           </RSelect.Viewport>
-          <RSelect.ScrollDownButton className="flex items-center justify-center h-7 bg-transparent text-primary-500 cursor-default">
+          <RSelect.ScrollDownButton className="flex h-7 cursor-default items-center justify-center bg-transparent text-primary-500">
             <ChevronDown />
           </RSelect.ScrollDownButton>
-          <RSelect.Arrow className="fill-primary-400/60 h-2 w-3" />
+          <RSelect.Arrow className="h-2 w-3 fill-primary-400/60" />
         </RSelect.Content>
       </RSelect.Root>
     </div>

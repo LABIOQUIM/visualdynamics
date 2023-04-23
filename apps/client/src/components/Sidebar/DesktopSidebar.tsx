@@ -15,7 +15,7 @@ export function DesktopSidebar() {
     <aside
       id="desktopSidebar"
       ref={sidebarRef}
-      className="transition-all duration-150 z-30 flex-shrink-0 hidden w-64 overflow-y-auto bg-white dark:bg-gray-900 lg:block"
+      className="z-30 hidden w-64 flex-shrink-0 overflow-y-auto bg-white transition-all duration-150 dark:bg-gray-900 lg:block"
     >
       <SidebarContent linkClicked={linkClickedHandler} />
     </aside>

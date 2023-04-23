@@ -56,22 +56,22 @@ export default function About() {
         title={t("about:title")}
         description={t("about:description")}
       />
-      <p className="text-lg text-justify">{t("about:description")}</p>
+      <p className="text-justify text-lg">{t("about:description")}</p>
 
-      <p className="text-lg font-grotesk text-gray-500 text-center">
+      <p className="text-center  text-lg text-gray-500">
         {t("about:acknowledgements")}
       </p>
 
       <div className="flex flex-col gap-y-3">
-        <h3 className="text-xl uppercase font-bold text-primary-950 dark:text-primary-400">
+        <h3 className="text-xl font-bold uppercase text-primary-950 dark:text-primary-400">
           {t("about:maintainers.title")}
         </h3>
 
         <div className="flex flex-col gap-y-2">
-          <h5 className="text-lg uppercase font-medium text-primary-900 dark:text-primary-300">
+          <h5 className="text-lg font-medium uppercase text-primary-900 dark:text-primary-300">
             {t("about:maintainers.active")}
           </h5>
-          <div className="flex gap-x-2 flex-wrap">
+          <div className="flex flex-wrap gap-x-2">
             {maintainers
               .filter((maintainer) => maintainer.active)
               .map((maintainer) => (
@@ -84,10 +84,10 @@ export default function About() {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <h5 className="text-lg uppercase font-medium text-primary-900 dark:text-primary-300">
+          <h5 className="text-lg font-medium uppercase text-primary-900 dark:text-primary-300">
             {t("about:maintainers.inactive")}
           </h5>
-          <div className="flex gap-x-2 flex-wrap">
+          <div className="flex flex-wrap gap-x-2">
             {maintainers
               .filter((maintainer) => !maintainer.active)
               .map((maintainer) => (

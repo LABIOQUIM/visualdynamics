@@ -21,25 +21,25 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 py-4 transition-all duration-150 bg-white lg:relative lg:top-auto shadow-bottom dark:bg-gray-900">
-      <div className="container flex items-center justify-between h-full px-6 mx-auto gap-x-4 text-primary-600 dark:text-primary-300">
+    <header className="shadow-bottom sticky top-0 z-40 bg-white py-4 transition-all duration-150 dark:bg-gray-900 lg:relative lg:top-auto">
+      <div className="container mx-auto flex h-full items-center justify-between gap-x-4 px-6 text-primary-600 dark:text-primary-300">
         {/* <!-- Mobile hamburger --> */}
         <button
-          className="p-1 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
+          className="focus:shadow-outline-purple -ml-1 rounded-md p-1 focus:outline-none lg:hidden"
           onClick={toggleSidebar}
           aria-label="Menu"
         >
           <Menu
-            className="w-6 h-6"
+            className="h-6 w-6"
             aria-hidden="true"
           />
         </button>
         {/* <!-- Search input --> */}
-        <div className="justify-center hidden w-1/2 mx-auto lg:flex">
+        <div className="mx-auto hidden w-1/2 justify-center lg:flex">
           <div className="relative flex-1 focus-within:text-primary-500 dark:focus-within:text-primary-100">
             <div className="absolute inset-y-0 flex items-center pl-2">
               <Search
-                className="w-4 h-4"
+                className="h-4 w-4"
                 aria-hidden="true"
               />
             </div>
@@ -50,7 +50,7 @@ export function Header() {
             />
           </div>
         </div>
-        <ul className="flex items-center flex-shrink-0 gap-x-6">
+        <ul className="flex flex-shrink-0 items-center gap-x-6">
           {/* <!-- Theme toggler --> */}
           <li className="flex">
             <TextButton
@@ -64,19 +64,19 @@ export function Header() {
               {/* <!-- Notifications menu --> */}
               <li className="flex">
                 <button
-                  className="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+                  className="focus:shadow-outline-purple relative rounded-md align-middle focus:outline-none"
                   onClick={handleNotificationsClick}
                   aria-label="Notifications"
                   aria-haspopup="true"
                 >
                   <Bell
-                    className="w-5 h-5"
+                    className="h-5 w-5"
                     aria-hidden="true"
                   />
                   {/* <!-- Notification badge --> */}
                   <span
                     aria-hidden="true"
-                    className="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"
+                    className="absolute right-0 top-0 inline-block h-3 w-3 -translate-y-1 translate-x-1 transform rounded-full border-2 border-white bg-red-600 dark:border-gray-800"
                   />
                 </button>
               </li>

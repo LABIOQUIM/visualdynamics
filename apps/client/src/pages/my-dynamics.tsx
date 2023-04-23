@@ -70,7 +70,7 @@ export default function MyDynamics({ user }: { user: User }) {
     return (
       <>
         <SEO title={t("my-dynamics:title")} />
-        <div className="flex flex-col md:flex-row gap-3">
+        <div className="flex flex-col gap-3 md:flex-row">
           <Button
             LeftIcon={FileDown}
             onClick={() => router.push("/api/downloads/mdp")}
@@ -86,7 +86,7 @@ export default function MyDynamics({ user }: { user: User }) {
               LeftIcon={RefreshCw}
               onClick={() => refetch()}
             />
-            <p className="ml-2 md:ml-auto my-auto">
+            <p className="my-auto ml-2 md:ml-auto">
               {t("my-dynamics:auto-refresh", { seconds: timeUntilRefresh })}
             </p>
           </div>
@@ -106,14 +106,14 @@ export default function MyDynamics({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("my-dynamics:title")} />
-      <div className="flex flex-col justify-center py-10 lg:w-1/2 mx-auto">
-        <Microscope className="stoke-primary-950 dark:stroke-primary-400 h-14 w-14 mx-auto mb-2" />
-        <h1 className="text-primary-950 dark:text-primary-400 uppercase text-center font-bold text-2xl">
+      <div className="mx-auto flex flex-col justify-center py-10 lg:w-1/2">
+        <Microscope className="stoke-primary-950 mx-auto mb-2 h-14 w-14 dark:stroke-primary-400" />
+        <h1 className="text-center text-2xl font-bold uppercase text-primary-950 dark:text-primary-400">
           {t("my-dynamics:empty.title")}
         </h1>
         <p className="text-center">{t("my-dynamics:empty.description")}</p>
 
-        <div className="flex gap-x-2 flex-wrap mt-5 mx-auto">
+        <div className="mx-auto mt-5 flex flex-wrap gap-x-2">
           <Link href="/dynamic/apo">
             <Button RightIcon={ArrowRight}>
               {t("navigation:dynamic.models.apo")}

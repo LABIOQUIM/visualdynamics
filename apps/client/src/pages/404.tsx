@@ -15,11 +15,9 @@ export default function Custom404() {
   return (
     <>
       <SEO title={t("common:errors.404.title")} />
-      <div className="flex flex-col gap-y-8 justify-center lg:w-1/2 mx-auto">
-        <h1 className="text-[8rem] leading-none font-bold font-grotesk text-center">
-          404
-        </h1>
-        <p className="text-xl font-medium font-grotesk text-center">
+      <div className="mx-auto flex flex-col justify-center gap-y-8 lg:w-1/2">
+        <h1 className="text-center text-[8rem] font-bold leading-none">404</h1>
+        <p className="text-center text-xl font-medium">
           {t("common:errors.404.description")}
         </p>
         <Button

@@ -28,18 +28,18 @@ export function SidebarSubmenu({ item, linkClicked }: ISidebarSubmenu) {
 
   return (
     <li
-      className="relative px-3 h-10"
+      className="relative h-10 px-3"
       key={item.label}
     >
       {isDropdownMenuOpen && (
         <span
-          className="absolute h-full inset-y-0 left-0 w-1 bg-primary-600 dark:bg-primary-500 rounded-tr-lg rounded-br-lg"
+          className="absolute inset-y-0 left-0 h-full w-1 rounded-br-lg rounded-tr-lg bg-primary-600 dark:bg-primary-500"
           aria-hidden="true"
         />
       )}
       <button
-        className={`inline-flex items-center h-full justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
-          isDropdownMenuOpen ? "dark:text-gray-100 text-gray-800" : ""
+        className={`inline-flex h-full w-full items-center justify-between text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
+          isDropdownMenuOpen ? "text-gray-800 dark:text-gray-100" : ""
         }`}
         onClick={handleDropdownMenuClick}
         aria-haspopup="true"
@@ -47,15 +47,15 @@ export function SidebarSubmenu({ item, linkClicked }: ISidebarSubmenu) {
         <span className="inline-flex items-center">
           {item.Icon ? (
             <item.Icon
-              className="w-5 h-5"
+              className="h-5 w-5"
               aria-hidden="true"
             />
           ) : null}
           <span className="ml-4">{item.label}</span>
         </span>
         <ChevronDown
-          className={`w-4 h-4 ${
-            isDropdownMenuOpen ? `transform rotate-180` : ``
+          className={`h-4 w-4 ${
+            isDropdownMenuOpen ? `rotate-180 transform` : ``
           }`}
           aria-hidden="true"
         />
@@ -70,7 +70,7 @@ export function SidebarSubmenu({ item, linkClicked }: ISidebarSubmenu) {
         leaveTo="opacity-0 max-h-0"
       >
         <ul
-          className="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-lg shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+          className="mt-2 space-y-2 overflow-hidden rounded-lg bg-gray-50 p-2 text-sm font-medium text-gray-500 shadow-inner dark:bg-gray-900 dark:text-gray-400"
           aria-label="submenu"
         >
           {item.links &&
@@ -82,9 +82,9 @@ export function SidebarSubmenu({ item, linkClicked }: ISidebarSubmenu) {
                 <Link
                   href={r.href || ""}
                   scroll={false}
-                  className={`w-full inline-block ${
+                  className={`inline-block w-full ${
                     routeIsActive(pathname, r)
-                      ? "dark:text-gray-100 text-gray-800"
+                      ? "text-gray-800 dark:text-gray-100"
                       : ""
                   }`}
                   onClick={linkClicked}

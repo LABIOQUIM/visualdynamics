@@ -40,7 +40,7 @@ export function MobileSidebar() {
           <aside
             id="mobileSidebar"
             ref={sidebarRef}
-            className="fixed inset-y-0 z-50 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-900 lg:hidden"
+            className="fixed inset-y-0 z-50 mt-16 w-64 flex-shrink-0 overflow-y-auto bg-white dark:bg-gray-900 lg:hidden"
           >
             <SidebarContent linkClicked={linkClickedHandler} />
           </aside>

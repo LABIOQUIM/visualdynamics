@@ -19,7 +19,7 @@ export default function BlogCard({ title, slug }: Partial<PostProps>) {
           <h4 className="pt-2 text-sm font-bold text-zinc-400 transition-colors duration-100 ease-linear group-hover:text-gray-300">
             {title}
           </h4>
-          {/* <p className="py-1 font-grotesk text-xs text-zinc-400/90 transition-colors duration-100 ease-linear group-hover:text-gray-300">
+          {/* <p className="py-1  text-xs text-zinc-400/90 transition-colors duration-100 ease-linear group-hover:text-gray-300">
           {description}
         </p> */}
           <div className="flex w-full items-center justify-between pt-2">

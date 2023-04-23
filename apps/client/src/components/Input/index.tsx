@@ -13,12 +13,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const { t } = useTranslation(["features"]);
 
     return (
-      <div className="flex flex-col gap-y-0.5 w-full">
+      <div className="flex w-full flex-col gap-y-0.5">
         {label || error ? (
           <div className="flex gap-x-2.5">
             {label ? <label htmlFor={name}>{label}</label> : null}
             {error ? (
-              <p className="font-grotesk text-red-600 text-sm my-auto">
+              <p className="my-auto  text-sm text-red-600">
                 {t(error.message ?? "")}
               </p>
             ) : null}
@@ -26,7 +26,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ) : null}
         <input
           className={clsx(
-            `border border-primary-400/60 transition-all duration-150 px-2 py-1 h-10 outline-none rounded-lg bg-gray-50 dark:bg-gray-900 placeholder:text-zinc-400 file:bg-primary-500 file:text-gray-50 file:mr-2 file:py-1 file:px-2 file:h-full file:-ml-1 file:rounded-md file:border-0 file:text-sm file:font-semibold hover:file:bg-primary-600 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-gray-200 dark:focus:ring-offset-gray-900 ${className}`,
+            `h-10 rounded-lg border border-primary-400/60 bg-gray-50 px-2 py-1 outline-none transition-all duration-150 file:-ml-1 file:mr-2 file:h-full file:rounded-md file:border-0 file:bg-primary-500 file:px-2 file:py-1 file:text-sm file:font-semibold file:text-gray-50 placeholder:text-zinc-400 hover:file:bg-primary-600 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-gray-200 dark:bg-gray-900 dark:focus:ring-offset-gray-900 ${className}`,
             {
               "border-red-600/95 focus:ring-red-500": error
             }

@@ -31,7 +31,7 @@ export default function Home() {
         description={t("home:description")}
       />
       <div className="text-center">
-        <h2 className="text-base font-semibold leading-7 text-primary-600 dark:text-primary-300 transition-all duration-500">
+        <h2 className="text-base font-semibold leading-7 text-primary-600 transition-all duration-500 dark:text-primary-300">
           {t("home:callout")}
         </h2>
         <p className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
@@ -47,7 +47,7 @@ export default function Home() {
             key={feature.name}
             className="relative pl-12"
           >
-            <dt className="text-base flex font-semibold text-gray-900 dark:text-gray-100">
+            <dt className="flex text-base font-semibold text-gray-900 dark:text-gray-100">
               <div className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600 transition-all duration-500">
                 <feature.icon
                   className="h-6 w-6 text-white"

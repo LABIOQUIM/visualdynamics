@@ -26,12 +26,12 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
 
   return (
     <div
-      className={clsx("p-2 flex gap-2 rounded-md w-full border", {
-        "bg-cyan-400/20 border-cyan-600": dynamic.status === "running",
-        "bg-zinc-400/20 border-zinc-600": dynamic.status === "canceled",
-        "bg-yellow-400/20 border-yellow-600": dynamic.status === "queued",
-        "bg-emerald-400/20 border-emerald-600": dynamic.status === "finished",
-        "bg-red-400/20 border-red-600": dynamic.status === "error"
+      className={clsx("flex w-full gap-2 rounded-md border p-2", {
+        "border-cyan-600 bg-cyan-400/20": dynamic.status === "running",
+        "border-zinc-600 bg-zinc-400/20": dynamic.status === "canceled",
+        "border-yellow-600 bg-yellow-400/20": dynamic.status === "queued",
+        "border-emerald-600 bg-emerald-400/20": dynamic.status === "finished",
+        "border-red-600 bg-red-400/20": dynamic.status === "error"
       })}
       key={dynamic.celeryId}
     >
@@ -48,7 +48,7 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
         <XCircle className="mt-2 min-h-[2rem] min-w-[2rem] stroke-red-950 dark:stroke-red-300" />
       ) : null}
       {dynamic.status === "running" ? (
-        <Spinner className="text-blue-100 min-h-[2rem] min-w-[2rem] fill-blue-950 dark:fill-blue-300" />
+        <Spinner className="min-h-[2rem] min-w-[2rem] fill-blue-950 text-blue-100 dark:fill-blue-300" />
       ) : null}
       <div className="flex flex-col gap-y-2">
         <small className="text-xs leading-none">
@@ -79,7 +79,7 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
             <Download className="h-4 w-4" />
             {t("my-dynamics:downloads.title")}
           </small>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-2">
             <StatusButton
               className="w-full md:w-fit"
               LeftIcon={FileCode}

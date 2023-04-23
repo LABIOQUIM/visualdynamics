@@ -92,7 +92,7 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
       <Link href="/">
         <Image
           alt="Visual Dynamics"
-          className="h-full w-9/12 mx-auto my-3"
+          className="mx-auto my-3 h-full w-9/12"
           height={0}
           src="/images/logo.svg"
           width={0}
@@ -101,9 +101,9 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
       <ul className="flex flex-col gap-y-4">
         {navigationItems.map((section) => (
           <div key={section.title}>
-            <div className="flex gap-x-1.5 mb-2 px-3 font-medium text-primary-600 dark:text-primary-400">
+            <div className="mb-2 flex gap-x-1.5 px-3 font-medium text-primary-600 dark:text-primary-400">
               {section.Icon ? (
-                <section.Icon className="h-5 w-5 my-auto" />
+                <section.Icon className="my-auto h-5 w-5" />
               ) : null}
               <h5>{t(section.title)}</h5>
             </div>
@@ -118,28 +118,28 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
                       />
                     ) : (
                       <li
-                        className="relative px-3 h-10"
+                        className="relative h-10 px-3"
                         key={link.label}
                       >
                         <Link
                           href={link.href || "#"}
                           scroll={false}
-                          className={`inline-flex h-full items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
+                          className={`inline-flex h-full w-full items-center text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
                             routeIsActive(pathname, link)
-                              ? "dark:text-gray-100 text-gray-800"
+                              ? "text-gray-800 dark:text-gray-100"
                               : ""
                           }`}
                           onClick={linkClicked}
                         >
                           {routeIsActive(pathname, link) && (
                             <span
-                              className="absolute inset-y-0 left-0 w-1 bg-primary-600 dark:bg-primary-500 rounded-tr-lg rounded-br-lg"
+                              className="absolute inset-y-0 left-0 w-1 rounded-br-lg rounded-tr-lg bg-primary-600 dark:bg-primary-500"
                               aria-hidden="true"
                             />
                           )}
                           {link.Icon ? (
                             <link.Icon
-                              className="w-5 h-5"
+                              className="h-5 w-5"
                               aria-hidden="true"
                             />
                           ) : null}

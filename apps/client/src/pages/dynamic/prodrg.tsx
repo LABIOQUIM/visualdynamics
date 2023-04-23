@@ -65,11 +65,11 @@ export default function PRODRGDynamic({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("navigation:dynamic.models.prodrg")} />
-      <h2 className="text-center text-2xl -mb-2.5 text-primary-600 dark:text-primary-400">
+      <h2 className="-mb-2.5 text-center text-2xl text-primary-600 dark:text-primary-400">
         {t("navigation:dynamic.models.prodrg")}
       </h2>
-      <div className="flex mb-2 gap-x-2 bg-yellow-400/20 border border-yellow-600 text-yellow-950 dark:text-yellow-200 p-2 rounded-md">
-        <AlertTriangle className="my-auto stroke-yellow-950 dark:stroke-yellow-200 h-10 w-10" />
+      <div className="mb-2 flex gap-x-2 rounded-md border border-yellow-600 bg-yellow-400/20 p-2 text-yellow-950 dark:text-yellow-200">
+        <AlertTriangle className="my-auto h-10 w-10 stroke-yellow-950 dark:stroke-yellow-200" />
         {t("navigation:dynamic.models.prodrg-disabled")}
       </div>
       <PRODRGForm user={user} />

@@ -33,8 +33,8 @@ export function Main({ children }: IMain) {
   }, [router.asPath]);
 
   return (
-    <main className="h-full text-gray-800 transition-all duration-150 bg-gray-100 lg:overflow-y-scroll lg:border lg:border-l-gray-400 lg:border-t-gray-400 dark:lg:border-l-gray-600 dark:lg:border-t-gray-600 lg:rounded-tl-3xl dark:text-gray-100 dark:bg-gray-950">
-      <div className="sticky z-10 flex px-6 transition-all duration-150 bg-gray-100 shadow-sm top-16 lg:top-0 shadow-gray-300 dark:shadow-gray-900 dark:bg-gray-950 gap-x-2">
+    <main className="h-full bg-gray-100 text-gray-800 transition-all duration-150 dark:bg-gray-950 dark:text-gray-100 lg:overflow-y-scroll lg:rounded-tl-3xl lg:border lg:border-l-gray-400 lg:border-t-gray-400 dark:lg:border-l-gray-600 dark:lg:border-t-gray-600">
+      <div className="sticky top-16 z-10 flex gap-x-2 bg-gray-100 px-6 shadow-sm shadow-gray-300 transition-all duration-150 dark:bg-gray-950 dark:shadow-gray-900 lg:top-0">
         <Breadcrumb>
           <BreadcrumbItem href="/">{t("common:app-name")}</BreadcrumbItem>
           {breadcrumbs ? (

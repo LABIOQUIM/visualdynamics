@@ -5,12 +5,12 @@ type SpinnerProps = SVGProps<SVGSVGElement>;
 export function Spinner({ className, ...others }: SpinnerProps) {
   return (
     <div
-      className="my-auto z-0"
+      className="z-0 my-auto"
       role="status"
     >
       <svg
         aria-hidden="true"
-        className={`w-5 h-5 text-primary-100 animate-spin fill-primary-950 ${className}`}
+        className={`h-5 w-5 animate-spin fill-primary-950 text-primary-100 ${className}`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

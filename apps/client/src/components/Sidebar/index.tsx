@@ -9,7 +9,7 @@ const DesktopSidebar = dynamic(
     ),
   {
     loading: () => (
-      <div className="hidden lg:flex items-center justify-center w-64">
+      <div className="hidden w-64 items-center justify-center lg:flex">
         <Spinner className="h-20 w-20" />
       </div>
     ),

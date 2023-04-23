@@ -33,21 +33,21 @@ function Step({
 
   return (
     <div
-      className={clsx("py-1 px-2 flex border gap-x-2 w-fit rounded-full", {
-        "bg-zinc-200 text-zinc-900 border-zinc-950 ": !active && !running,
-        "bg-primary-100 text-primary-900 border-primary-950":
+      className={clsx("flex w-fit gap-x-2 rounded-full border px-2 py-1", {
+        "border-zinc-950 bg-zinc-200 text-zinc-900 ": !active && !running,
+        "border-primary-950 bg-primary-100 text-primary-900":
           active && !running,
-        "bg-blue-100 text-blue-900 border-blue-950": running
+        "border-blue-950 bg-blue-100 text-blue-900": running
       })}
     >
       {active && !running ? (
-        <CheckCircle className="h-5 w-5 my-auto stroke-primary-950" />
+        <CheckCircle className="my-auto h-5 w-5 stroke-primary-950" />
       ) : null}
       {!active && !running ? (
-        <Clock className="h-5 w-5 my-auto stroke-zinc-950" />
+        <Clock className="my-auto h-5 w-5 stroke-zinc-950" />
       ) : null}
       {running ? (
-        <Spinner className="w-5 h-5 text-blue-100 animate-spin fill-blue-950" />
+        <Spinner className="h-5 w-5 animate-spin fill-blue-950 text-blue-100" />
       ) : null}
       <p>{t(`running:steps.${step}`)}</p>
     </div>
@@ -61,10 +61,10 @@ export function DynamicRunningStepList({
 
   return (
     <div>
-      <h4 className="text-primary-950 uppercase font-bold">
+      <h4 className="font-bold uppercase text-primary-950">
         {t("running:steps.title")}
       </h4>
-      <div className="flex items-center gap-1 flex-wrap">
+      <div className="flex flex-wrap items-center gap-1">
         {steps.map((step, index) => (
           <div
             className="flex items-center gap-x-1"

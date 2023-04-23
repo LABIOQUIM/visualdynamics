@@ -23,7 +23,7 @@ export default function BlogPost({ post }: { post: PostProps }) {
   return (
     <div>
       <h2 className="text-xl font-bold md:text-4xl">{post?.title}</h2>
-      <div className="flex flex-col md:flex-row gap-4 my-2.5">
+      <div className="my-2.5 flex flex-col gap-4 md:flex-row">
         <p className="flex items-center gap-x-1 text-sm font-medium text-gray-500 md:text-lg">
           <Clock className="h-5 w-5" />
           {t("common:blog.readtime", {
