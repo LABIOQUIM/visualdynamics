@@ -6,6 +6,7 @@
   },
   "css.lint.unknownAtRules": "ignore",
   "python.formatting.provider": "none",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.tsdk": "node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.codeActionsOnSave": {
