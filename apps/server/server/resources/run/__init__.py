@@ -66,10 +66,12 @@ class RunDynamic(Resource):
             with open(file_celery_id, "r") as f:
                 celery_id = f.readline()
 
+            extractable_data = extractable_data[::-1]
+
             data = {
-                "timestamp": extractable_data[9],
-                "type": extractable_data[7],
-                "molecule": extractable_data[8],
+                "timestamp": extractable_data[0],
+                "type": extractable_data[2],
+                "molecule": extractable_data[1],
                 "celeryId": celery_id,
             }
 

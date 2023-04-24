@@ -1,11 +1,7 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from server.celery import celery
 
 
 class CeleryReservedTasks(Resource):
     def get(self):
-        return {
-            "reservedTasks": celery.control.inspect(
-                ["worker@visualdynamics"]
-            ).reserved()
-        }
+        return celery.control.inspect(["worker@visualdynamics"]).reserved()

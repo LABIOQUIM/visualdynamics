@@ -26,7 +26,9 @@ class DownloadDynamicCommands(Resource):
                 active_task
                 for active_task in active_tasks
                 if active_task["id"] == args["taskId"]
-            ][0]
+            ]
+
+            task = task[0] if len(task) == 1 else None
 
             if task == None:
                 reserved_tasks = celery.control.inspect(
@@ -36,7 +38,12 @@ class DownloadDynamicCommands(Resource):
                     reserved_task
                     for reserved_task in reserved_tasks
                     if reserved_task["id"] == args["taskId"]
-                ][0]
+                ]
+
+                task = task[0] if len(task) == 1 else None
+
+            if task == None:
+                return {"status": "not-found"}
 
             folder_dynamic_path = os.path.abspath(task["args"][0])
             file_commands_path = os.path.abspath(

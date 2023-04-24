@@ -53,10 +53,12 @@ class UserDynamics(Resource):
                     errored_command = status[1].strip()
                     status = status[0]
 
+            extractable_data = extractable_data[::-1]
+
             dynamic_data = {
-                "timestamp": extractable_data[9].replace("\n", ""),
-                "type": extractable_data[7],
-                "molecule": extractable_data[8],
+                "timestamp": extractable_data[0].replace("\n", ""),
+                "type": extractable_data[2],
+                "molecule": extractable_data[1],
                 "celeryId": celery_id,
                 "isRunning": dynamic.replace("\n", "") == running_dynamic,
                 "status": status,
