@@ -88,7 +88,7 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
         },
         {
           label: "navigation:admin.dynamics.title",
-          href: "/admin/dynamics"
+          href: "/admin/running"
         },
         {
           label: "navigation:admin.mdp.title",
@@ -127,15 +127,17 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
 
   return (
     <div className="text-gray-500 dark:text-gray-400">
-      <Link href="/">
-        <Image
-          alt="Visual Dynamics"
-          className="mx-auto my-3 h-full w-9/12"
-          height={0}
-          src="/images/logo.svg"
-          width={0}
-        />
-      </Link>
+      <div className="sticky top-0 z-10 h-20 w-full bg-white py-3 dark:bg-gray-900">
+        <Link href="/">
+          <Image
+            alt="Visual Dynamics"
+            className="mx-auto h-full w-9/12"
+            height={0}
+            src="/images/logo.svg"
+            width={0}
+          />
+        </Link>
+      </div>
       <ul className="flex flex-col gap-y-4">
         {navigationItems.map((section) => (
           <div key={section.title}>
@@ -162,7 +164,7 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
                         <Link
                           href={link.href || "#"}
                           scroll={false}
-                          className={`inline-flex h-full w-full items-center text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
+                          className={`inline-flex h-full w-full items-center text-sm font-medium transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
                             routeIsActive(pathname, link)
                               ? "text-gray-800 dark:text-gray-100"
                               : ""

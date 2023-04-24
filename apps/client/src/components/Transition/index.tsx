@@ -65,8 +65,8 @@ const CSSTransition: React.FC<TransitionProps> = function CSSTransition({
   return (
     <ReactCSSTransition
       appear={appear}
-      unmountOnExit
       in={show}
+      unmountOnExit
       addEndListener={(node: HTMLElement, done) => {
         node.addEventListener("transitionend", done, false);
       }}

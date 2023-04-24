@@ -4,8 +4,8 @@ import { getServerSession } from "next-auth";
 import { User } from "next-auth";
 import { useTranslation } from "next-i18next";
 
+import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
-import { Spinner } from "@app/components/Spinner";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { authOptions } from "@app/pages/api/auth/[...nextauth]";
@@ -14,11 +14,7 @@ import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 const PRODRGForm = dynamic(
   () => import("@app/components/Forms/PRODRG").then((mod) => mod.PRODRGForm),
   {
-    loading: () => (
-      <div className="flex flex-1 items-center justify-center">
-        <Spinner />
-      </div>
-    ),
+    loading: () => <FullPageLoader />,
     ssr: false
   }
 );

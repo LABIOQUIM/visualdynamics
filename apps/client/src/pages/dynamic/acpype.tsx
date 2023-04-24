@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import { getServerSession, User } from "next-auth";
 import { useTranslation } from "next-i18next";
 
+import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
-import { Spinner } from "@app/components/Spinner";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { authOptions } from "@app/pages/api/auth/[...nextauth]";
@@ -12,11 +12,7 @@ import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 const ACPYPEForm = dynamic(
   () => import("@app/components/Forms/ACPYPE").then((mod) => mod.ACPYPEForm),
   {
-    loading: () => (
-      <div className="flex flex-1 items-center justify-center">
-        <Spinner />
-      </div>
-    ),
+    loading: () => <FullPageLoader />,
     ssr: false
   }
 );

@@ -45,7 +45,8 @@
   "box-distance": {
     "title": "Box Distance (mm)",
     "errors": {
-      "distance-doesnt-match": "Should be a number, decimal or not."
+      "distance-doesnt-match": "Should be a number, decimal or not.",
+      "out-of-bounds": "Must be between 0.1 and 1"
     }
   },
   "neutralize": {

@@ -72,7 +72,7 @@ export default function Running({ user }: { user: User }) {
             disabled={disableAbortButton}
             onClick={abortTask}
           >
-            Abort
+            {t("running:abort")}
           </Button>
           <h4 className="font-bold uppercase text-primary-950">
             {t("running:description")}

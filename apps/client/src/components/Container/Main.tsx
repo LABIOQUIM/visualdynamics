@@ -34,7 +34,7 @@ export function Main({ children }: IMain) {
 
   return (
     <main className="flex flex-1 flex-col bg-gray-100 text-gray-800 transition-all duration-150 dark:bg-gray-950 dark:text-gray-100 lg:overflow-y-auto lg:rounded-tl-3xl lg:border lg:border-l-gray-400 lg:border-t-gray-400 dark:lg:border-l-gray-600 dark:lg:border-t-gray-600">
-      <div className="sticky top-16 z-10 flex gap-x-2 bg-gray-100 px-6 shadow-sm shadow-gray-300 transition-all duration-150 dark:bg-gray-950 dark:shadow-gray-900 lg:top-0">
+      <div className="sticky top-[4.5rem] z-10 flex gap-x-2 bg-gray-100 px-6 shadow-sm shadow-gray-300 transition-all duration-150 dark:bg-gray-950 dark:shadow-gray-900 lg:top-0">
         <Breadcrumb>
           <BreadcrumbItem href="/">{t("common:app-name")}</BreadcrumbItem>
           {breadcrumbs ? (

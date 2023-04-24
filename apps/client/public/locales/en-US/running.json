@@ -1,6 +1,7 @@
 {
   "title": "Your Dynamic is Running",
   "taskId": "Task ID",
+  "abort": "Abort run",
   "description": "Info",
   "type": "Model",
   "molecule": "Molecule",

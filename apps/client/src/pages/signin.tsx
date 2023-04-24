@@ -1,19 +1,15 @@
 import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 
+import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
-import { Spinner } from "@app/components/Spinner";
 import { withSSRGuest } from "@app/hocs/withSSRGuest";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 
 const SignInForm = dynamic(
   () => import("@app/components/Forms/SignIn").then((mod) => mod.SignInForm),
   {
-    loading: () => (
-      <div className="flex flex-1 items-center justify-center">
-        <Spinner />
-      </div>
-    ),
+    loading: () => <FullPageLoader />,
     ssr: false
   }
 );

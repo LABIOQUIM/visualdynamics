@@ -1,12 +1,24 @@
 import axios from "axios";
+import dynamic from "next/dynamic";
 import { useTranslation } from "next-i18next";
 
-import { AdminSignUpRequestList } from "@app/components/AdminSignUpRequestList";
+import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useAdminSignUpRequestList } from "@app/queries/useAdminSignUpRequestList";
+
+const AdminSignUpRequestList = dynamic(
+  () =>
+    import("@app/components/AdminSignUpRequestList").then(
+      (mod) => mod.AdminSignUpRequestList
+    ),
+  {
+    loading: () => <FullPageLoader />,
+    ssr: false
+  }
+);
 
 export const getServerSideProps = withSSRTranslations(withSSRAdmin(), {
   namespaces: ["admin-signup"]

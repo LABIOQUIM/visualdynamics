@@ -31,7 +31,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               "border-red-600/95 focus:ring-red-500": error
             }
           )}
-          min={type === "number" ? "0" : undefined}
           step={type === "number" ? "0.1" : undefined}
           placeholder={type === "number" ? "0" : placeholder}
           autoComplete={type === "number" ? "off" : "auto"}

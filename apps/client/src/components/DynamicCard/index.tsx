@@ -10,6 +10,7 @@ import {
   Slash,
   XCircle
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
@@ -26,7 +27,7 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
 
   return (
     <div
-      className={clsx("flex w-full gap-2 rounded-md border p-2", {
+      className={clsx("flex w-full items-center gap-2 rounded-md border p-2", {
         "border-cyan-600 bg-cyan-400/20": dynamic.status === "running",
         "border-zinc-600 bg-zinc-400/20": dynamic.status === "canceled",
         "border-yellow-600 bg-yellow-400/20": dynamic.status === "queued",
@@ -36,16 +37,16 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
       key={dynamic.celeryId}
     >
       {dynamic.status === "finished" ? (
-        <CheckCircle className="mt-2 min-h-[2rem] min-w-[2rem] stroke-emerald-950 dark:stroke-emerald-300" />
+        <CheckCircle className="min-h-[2rem] min-w-[2rem] stroke-emerald-950 dark:stroke-emerald-300" />
       ) : null}
       {dynamic.status === "canceled" ? (
-        <Slash className="mt-2 min-h-[2rem] min-w-[2rem] stroke-zinc-950 dark:stroke-zinc-300" />
+        <Slash className="min-h-[2rem] min-w-[2rem] stroke-zinc-950 dark:stroke-zinc-300" />
       ) : null}
       {dynamic.status === "queued" ? (
-        <Clock className="mt-2 min-h-[2rem] min-w-[2rem] stroke-yellow-950 dark:stroke-yellow-300" />
+        <Clock className="min-h-[2rem] min-w-[2rem] stroke-yellow-950 dark:stroke-yellow-300" />
       ) : null}
       {dynamic.status === "error" ? (
-        <XCircle className="mt-2 min-h-[2rem] min-w-[2rem] stroke-red-950 dark:stroke-red-300" />
+        <XCircle className="min-h-[2rem] min-w-[2rem] stroke-red-950 dark:stroke-red-300" />
       ) : null}
       {dynamic.status === "running" ? (
         <Spinner className="min-h-[2rem] min-w-[2rem] fill-blue-950 text-blue-100 dark:fill-blue-300" />
@@ -80,51 +81,63 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
             {t("my-dynamics:downloads.title")}
           </small>
           <div className="flex flex-wrap gap-2">
-            <StatusButton
-              className="w-full md:w-fit"
-              LeftIcon={FileCode}
-              onClick={() =>
-                router.push(
-                  `/api/downloads/commands?taskId=${dynamic.celeryId}`
-                )
-              }
-              status={dynamic.status}
+            <Link
+              href={`/api/downloads/commands?taskId=${dynamic.celeryId}`}
+              target="_blank"
             >
-              {t("my-dynamics:downloads.commands")}
-            </StatusButton>
-            <StatusButton
-              className="w-full md:w-fit"
-              disabled={dynamic.status === "running"}
-              LeftIcon={Scroll}
-              onClick={() =>
-                router.push(`/api/downloads/log?taskId=${dynamic.celeryId}`)
-              }
-              status={dynamic.status}
+              <StatusButton
+                className="w-full md:w-fit"
+                LeftIcon={FileCode}
+                status={dynamic.status}
+              >
+                {t("my-dynamics:downloads.commands")}
+              </StatusButton>
+            </Link>
+            <Link
+              href={`/api/downloads/log?taskId=${dynamic.celeryId}`}
+              target="_blank"
             >
-              {t("my-dynamics:downloads.log")}
-            </StatusButton>
-            <StatusButton
-              className="w-full md:w-fit"
-              disabled={dynamic.status === "running"}
-              LeftIcon={FileDigit}
-              onClick={() =>
-                router.push(`/api/downloads/results?taskId=${dynamic.celeryId}`)
-              }
-              status={dynamic.status}
+              <StatusButton
+                className="w-full md:w-fit"
+                disabled={
+                  dynamic.status === "running" || dynamic.status === "queued"
+                }
+                LeftIcon={Scroll}
+                status={dynamic.status}
+              >
+                {t("my-dynamics:downloads.log")}
+              </StatusButton>
+            </Link>
+            <Link
+              href={`/api/downloads/results?taskId=${dynamic.celeryId}`}
+              target="_blank"
             >
-              {t("my-dynamics:downloads.results")}
-            </StatusButton>
-            <StatusButton
-              className="w-full md:w-fit"
-              disabled={dynamic.status === "running"}
-              LeftIcon={Image}
-              onClick={() =>
-                router.push(`/api/downloads/figures?taskId=${dynamic.celeryId}`)
-              }
-              status={dynamic.status}
+              <StatusButton
+                className="w-full md:w-fit"
+                disabled={
+                  dynamic.status === "running" || dynamic.status === "queued"
+                }
+                LeftIcon={FileDigit}
+                status={dynamic.status}
+              >
+                {t("my-dynamics:downloads.results")}
+              </StatusButton>
+            </Link>
+            <Link
+              href={`/api/downloads/figures?taskId=${dynamic.celeryId}`}
+              target="_blank"
             >
-              {t("my-dynamics:downloads.figures")}
-            </StatusButton>
+              <StatusButton
+                className="w-full md:w-fit"
+                disabled={
+                  dynamic.status === "running" || dynamic.status === "queued"
+                }
+                LeftIcon={Image}
+                status={dynamic.status}
+              >
+                {t("my-dynamics:downloads.figures")}
+              </StatusButton>
+            </Link>
           </div>
         </div>
       </div>

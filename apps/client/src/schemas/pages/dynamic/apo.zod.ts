@@ -27,7 +27,10 @@ export const APOFormSchema = z.object({
       new RegExp("^\\d+(\\.\\d+)*$"),
       "forms:box-distance.errors.distance-doesnt-match"
     )
-    .min(0, "forms:box-distance.errors.distance-cant-be-zero"),
+    .refine(
+      (v) => Number(v) > 0 && Number(v) <= 1,
+      "forms:box-distance.errors.out-of-bounds"
+    ),
   neutralize: z.boolean().default(true),
   ignore: z.boolean().default(true),
   double: z.boolean().default(false),
