@@ -36,7 +36,8 @@ def generate(
 
     commands = [
         "#topology\n",
-        f'{gmx} pdb2gmx -f "{filename}{ext}" -o "{filename}_livre.gro" -p "{filename}_livre.top" -ff gromos53a6 -water {water_model} -ignh -missing\n\n',
+        f"grep 'ATOM  ' \"{filename}{ext}\" > Protein.pdb\n",
+        f'{gmx} pdb2gmx -f "Protein.pdb" -o "{filename}_livre.gro" -p "{filename}_livre.top" -ff gromos53a6 -water {water_model} -ignh -missing\n\n',
         "#break\n",
         f'{gmx} editconf -f "{filename}_complx.gro" -c -d 1 -bt {box_type} -o "{filename}_complx.gro"\n',
         "#solvate\n",
