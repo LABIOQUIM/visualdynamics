@@ -46,7 +46,7 @@ def generate(
         ),
         f'\ncat {filename}_livre.top | sed \'/forcefield\.itp"/a\#include "{lig_itp_filename}{ext1}"\' > {filename}1_complx.top\n'
         f"cat {filename}1_complx.top | sed '/forcefield\.itp/r ligand_atomtypes.txt' > {filename}_complx.top\n",
-        f'echo "{lig_itp_filename}         1" >> {filename}_complx.top\n\n',
+        f'echo "{lig_itp_filename}{ext1}.mol2         1" >> {filename}_complx.top\n\n',
         f'{gmx} editconf -f "{filename}_complx.pdb" -c -d 1 -bt {box_type} -o "{filename}_complx.pdb"\n\n',
         "#solvate\n",
         f'{gmx} solvate -cp "{filename}_complx.pdb" -cs spc216.gro -p "{filename}_complx.top" -o "{filename}_complx_box.pdb"\n\n',
