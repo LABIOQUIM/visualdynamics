@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Beaker, Crown, Info, LayoutDashboard } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -9,11 +8,7 @@ import { useTranslation } from "next-i18next";
 import { SidebarSubmenu } from "@app/components/Sidebar/SidebarSubmenu";
 import { routeIsActive } from "@app/utils/route";
 
-interface ISidebarContent {
-  linkClicked: () => void;
-}
-
-export function SidebarContent({ linkClicked }: ISidebarContent) {
+export function SidebarContent() {
   const { pathname } = useRouter();
   const { data: session, status } = useSession();
   const { t } = useTranslation(["navigation"]);
@@ -127,17 +122,6 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
 
   return (
     <div className="text-gray-500 dark:text-gray-400">
-      <div className="sticky top-0 z-10 h-20 w-full bg-white py-3 dark:bg-gray-900">
-        <Link href="/">
-          <Image
-            alt="Visual Dynamics"
-            className="mx-auto h-full w-9/12"
-            height={0}
-            src="/images/logo.svg"
-            width={0}
-          />
-        </Link>
-      </div>
       <ul className="flex flex-col gap-y-4">
         {navigationItems.map((section) => (
           <div key={section.title}>
@@ -154,7 +138,6 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
                       <SidebarSubmenu
                         item={link}
                         key={link.label}
-                        linkClicked={linkClicked}
                       />
                     ) : (
                       <li
@@ -169,7 +152,6 @@ export function SidebarContent({ linkClicked }: ISidebarContent) {
                               ? "text-gray-800 dark:text-gray-100"
                               : ""
                           }`}
-                          onClick={linkClicked}
                         >
                           {routeIsActive(pathname, link) && (
                             <span

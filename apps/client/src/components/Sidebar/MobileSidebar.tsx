@@ -9,11 +9,7 @@ import { useCloseSidebar } from "@app/hooks/useCloseSidebar";
 export function MobileSidebar() {
   useCloseSidebar();
   const sidebarRef = useRef(null);
-  const { isSidebarOpen, closeSidebar, saveScroll } = useSidebar();
-
-  const linkClickedHandler = () => {
-    saveScroll(sidebarRef.current);
-  };
+  const { isSidebarOpen, closeSidebar } = useSidebar();
 
   return (
     <Transition show={isSidebarOpen}>
@@ -40,9 +36,9 @@ export function MobileSidebar() {
           <aside
             id="mobileSidebar"
             ref={sidebarRef}
-            className="fixed inset-y-0 z-50 mt-16 w-64 flex-shrink-0 overflow-y-auto bg-white dark:bg-gray-900 lg:hidden"
+            className="fixed inset-y-0 z-50 mt-[4.5rem] w-64 flex-shrink-0 overflow-y-auto bg-white transition-all duration-150 dark:bg-gray-900 lg:hidden"
           >
-            <SidebarContent linkClicked={linkClickedHandler} />
+            <SidebarContent />
           </aside>
         </Transition>
       </>

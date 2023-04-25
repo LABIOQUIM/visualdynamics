@@ -8,10 +8,9 @@ import { routeIsActive } from "@app/utils/route";
 
 interface ISidebarSubmenu {
   item: NavigationItem;
-  linkClicked: () => void;
 }
 
-export function SidebarSubmenu({ item, linkClicked }: ISidebarSubmenu) {
+export function SidebarSubmenu({ item }: ISidebarSubmenu) {
   const { pathname } = useRouter();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(
@@ -87,7 +86,6 @@ export function SidebarSubmenu({ item, linkClicked }: ISidebarSubmenu) {
                       ? "text-gray-800 dark:text-gray-100"
                       : ""
                   }`}
-                  onClick={linkClicked}
                 >
                   {r.label}
                 </Link>

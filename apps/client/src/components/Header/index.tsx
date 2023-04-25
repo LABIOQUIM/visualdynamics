@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
+import { Atom, LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -16,7 +16,7 @@ export function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="shadow-bottom sticky top-0 z-40 bg-white py-4 transition-all duration-150 dark:bg-gray-900 lg:relative lg:top-auto">
+    <header className="shadow-bottom sticky top-0 z-50 bg-white py-4 transition-all duration-150 dark:bg-gray-900 lg:relative lg:top-auto">
       <div className="container mx-auto flex h-full items-center justify-between gap-x-4 px-6 text-primary-600 dark:text-primary-300">
         {/* <!-- Mobile hamburger --> */}
         <button
@@ -29,6 +29,13 @@ export function Header() {
             aria-hidden="true"
           />
         </button>
+        <Link
+          className="hidden gap-x-2 font-bold uppercase lg:flex"
+          href="/"
+        >
+          <Atom />
+          Visual Dynamics
+        </Link>
         <div className="mx-auto hidden w-1/2 justify-center lg:flex">
           <div className="relative flex-1 focus-within:text-primary-500 dark:focus-within:text-primary-100">
             <div className="absolute inset-y-0 flex items-center pl-2">
