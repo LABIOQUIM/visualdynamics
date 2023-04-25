@@ -6,7 +6,7 @@ After=network.target
 User=yourusername
 Group=yourgroupname
 WorkingDirectory=/path/to/your/flask/app
-ExecStart=/path/to/your/venv/bin/celery -A server.celery_tasks worker --loglevel=info -n worker@visualdynamics
+ExecStart=/path/to/your/venv/bin/celery -A server.celery_tasks worker --loglevel=info -n worker@visualdynamics --concurrency=2
 Restart=always
 RestartSec=10
 
