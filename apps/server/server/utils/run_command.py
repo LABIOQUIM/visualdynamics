@@ -3,7 +3,7 @@ import os
 import subprocess
 
 
-def run_command(command, log_file):
+def run_command(command, log_file, pid_file):
     # Split the command into a list of arguments using shlex
     args = shlex.split(command)
 
@@ -35,6 +35,9 @@ def run_command(command, log_file):
                 preexec_fn=os.setsid,
             )
 
+            with open(pid_file, "w") as f:
+                f.write(f"{process2.pid}\n")
+
             # Wait for the processes to complete
             process1.wait()
             process2.wait()
@@ -50,6 +53,9 @@ def run_command(command, log_file):
                 stderr=f,
                 preexec_fn=os.setsid,
             )
+
+            with open(pid_file, "w") as f:
+                f.write(f"{process.pid}\n")
 
             process.wait()
 

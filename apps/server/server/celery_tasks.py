@@ -55,10 +55,7 @@ def run_commands(self, folder):
             with open(file_step_path, "a+") as f:
                 f.write(f"{command}\n")
         else:
-            (pid, rcode) = run_command(command, file_log_path)
-
-            with open(file_pid_path, "w") as f:
-                f.write(f"{pid}\n")
+            (_, rcode) = run_command(command, file_log_path, file_pid_path)
 
             if rcode != 0 and rcode != None:
                 # UPDATE ON DB THAT EXECUTION FAILED
