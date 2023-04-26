@@ -5,15 +5,6 @@ import {
 } from "@tanstack/react-query";
 import axios from "axios";
 
-export type GetListDynamicResult =
-  | {
-      dynamics: Dynamic[];
-      status: "listed";
-    }
-  | {
-      status: "no-dynamics" | "no-username";
-    };
-
 export async function getAdminSignUpRequestList(): Promise<InactiveUser[]> {
   const { data } = await axios.get<InactiveUser[]>("/api/users/inactive");
 

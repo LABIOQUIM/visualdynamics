@@ -36,7 +36,7 @@ export default function AdminSignup() {
         title={t("admin-running:title")}
         description={t("admin-running:description")}
       />
-      <h2 className="text-center text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
+      <h2 className="text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
         {t("admin-running:title")}
       </h2>
 

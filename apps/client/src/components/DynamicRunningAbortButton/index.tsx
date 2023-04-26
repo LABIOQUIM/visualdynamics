@@ -10,7 +10,7 @@ interface DynamicRunningAbortButtonProps {
   celeryId: string;
   disableAbortButton?: boolean;
   folder: string;
-  refetch: () => void;
+  refetch?: () => void;
 }
 
 export function DynamicRunningAbortButton({

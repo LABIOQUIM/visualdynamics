@@ -24,9 +24,14 @@ export const getServerSideProps = withSSRTranslations(withSSRAdmin(), {
   namespaces: ["admin-signup"]
 });
 
-export default function AdminSignup() {
-  const { data, isLoading, isRefetching, refetch } =
-    useAdminSignUpRequestList();
+export default function AdminSignup({
+  initialData
+}: {
+  initialData: InactiveUser[];
+}) {
+  const { data, isLoading, isRefetching, refetch } = useAdminSignUpRequestList({
+    initialData
+  });
   const { t } = useTranslation();
 
   async function approveUser(userId: string) {
@@ -53,14 +58,13 @@ export default function AdminSignup() {
         title={t("admin-signup:title")}
         description={t("admin-signup:description")}
       />
-      <h2 className="text-center text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
+      <h2 className="flex gap-x-2 text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
         {t("admin-signup:title")}
+        {isRefetching ? <Spinner /> : null}
       </h2>
 
-      {isLoading || isRefetching ? (
-        <div className="flex flex-1 items-center justify-center">
-          <Spinner />
-        </div>
+      {isLoading ? (
+        <FullPageLoader />
       ) : (
         <AdminSignUpRequestList
           inactiveUsers={data}

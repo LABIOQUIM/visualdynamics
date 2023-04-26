@@ -46,7 +46,7 @@ export default function APODynamic({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("navigation:dynamic.models.apo")} />
-      <h2 className="text-center text-2xl text-primary-700 dark:text-primary-400">
+      <h2 className="text-2xl text-primary-700 dark:text-primary-400">
         {t("navigation:dynamic.models.apo")}
       </h2>
       <APOForm user={user} />

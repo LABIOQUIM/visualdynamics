@@ -47,7 +47,7 @@ export default function PRODRGDynamic({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("navigation:dynamic.models.prodrg")} />
-      <h2 className="-mb-2.5 text-center text-2xl text-primary-600 dark:text-primary-400">
+      <h2 className="-mb-2.5 text-2xl text-primary-600 dark:text-primary-400">
         {t("navigation:dynamic.models.prodrg")}
       </h2>
       <div className="mb-2 flex gap-x-2 rounded-md border border-yellow-600 bg-yellow-400/20 p-2 text-yellow-950 dark:text-yellow-200">
