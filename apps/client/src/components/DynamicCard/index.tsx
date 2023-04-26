@@ -49,7 +49,7 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
         <XCircle className="min-h-[2rem] min-w-[2rem] stroke-red-950 dark:stroke-red-300" />
       ) : null}
       {dynamic.status === "running" ? (
-        <Spinner className="min-h-[2rem] min-w-[2rem] fill-blue-950 text-blue-100 dark:fill-blue-300" />
+        <Spinner className="min-h-[2rem] min-w-[2rem] fill-cyan-950 text-cyan-300 dark:fill-cyan-300 dark:text-cyan-900" />
       ) : null}
       <div className="flex flex-col gap-y-2">
         <small className="text-xs leading-none">
