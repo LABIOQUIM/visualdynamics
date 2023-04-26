@@ -9,15 +9,16 @@ from server.celery import celery
 class AbortDynamic(Resource):
     def post(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("task_id", required=True, type=str, location="form")
+        parser.add_argument("taskId", required=True, type=str, location="form")
+        parser.add_argument("folder", required=True, type=str, location="form")
 
         args = parser.parse_args()
 
-        task = AbortableAsyncResult(args["task_id"], app=celery)
+        task = AbortableAsyncResult(args["taskId"], app=celery)
 
         task.revoke(terminate=True)
 
-        folder = os.path.abspath(task.args[0])
+        folder = os.path.abspath(args["folder"])
 
         folder_run = os.path.abspath(os.path.join(folder, "run"))
         file_status_path = os.path.abspath(os.path.join(folder, "status"))

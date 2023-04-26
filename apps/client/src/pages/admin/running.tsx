@@ -24,7 +24,10 @@ export const getServerSideProps = withSSRTranslations(withSSRAdmin(), {
 });
 
 export default function AdminSignup() {
-  const { data, isRefetching, isLoading } = useAdminRunningDynamicsList();
+  const { data, isRefetching, isLoading, refetch } =
+    useAdminRunningDynamicsList({
+      refetchOnMount: true
+    });
   const { t } = useTranslation();
 
   return (
@@ -42,7 +45,10 @@ export default function AdminSignup() {
           <Spinner />
         </div>
       ) : (
-        <AdminRunningDynamicsList runningDynamics={data} />
+        <AdminRunningDynamicsList
+          refetch={refetch}
+          runningDynamics={data}
+        />
       )}
     </>
   );

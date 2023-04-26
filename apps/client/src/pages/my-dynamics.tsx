@@ -13,7 +13,11 @@ import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useSignOut } from "@app/hooks/useSignOut";
-import { useListDynamics } from "@app/queries/useListDynamics";
+import {
+  GetListDynamicResult,
+  getListDynamics,
+  useListDynamics
+} from "@app/queries/useListDynamics";
 
 const DynamicCard = dynamic(
   () => import("@app/components/DynamicCard").then((mod) => mod.DynamicCard),
@@ -22,15 +26,39 @@ const DynamicCard = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
-  namespaces: ["my-dynamics"]
-});
+export const getServerSideProps = withSSRTranslations(
+  withSSRAuth(async (_, session) => {
+    if (session) {
+      const initialData = await getListDynamics(session.user.username);
 
-export default function MyDynamics({ user }: { user: User }) {
+      return {
+        props: {
+          initialData
+        }
+      };
+    }
+
+    return {
+      props: {}
+    };
+  }),
+  {
+    namespaces: ["my-dynamics"]
+  }
+);
+
+export default function MyDynamics({
+  initialData,
+  user
+}: {
+  user: User;
+  initialData: GetListDynamicResult;
+}) {
   useSignOut();
   const { data, refetch, isRefetching, isLoading } = useListDynamics(
     user.username,
     {
+      initialData,
       refetchOnMount: true
     }
   );

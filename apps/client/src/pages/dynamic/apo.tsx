@@ -1,12 +1,11 @@
 import dynamic from "next/dynamic";
-import { getServerSession, User } from "next-auth";
+import { User } from "next-auth";
 import { useTranslation } from "next-i18next";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
-import { authOptions } from "@app/pages/api/auth/[...nextauth]";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 
 const APOForm = dynamic(
@@ -18,9 +17,7 @@ const APOForm = dynamic(
 );
 
 export const getServerSideProps = withSSRTranslations(
-  withSSRAuth(async (ctx) => {
-    const session = await getServerSession(ctx.req, ctx.res, authOptions);
-
+  withSSRAuth(async (_, session) => {
     if (session) {
       const data = await getRunningDynamic(session.user.username);
 

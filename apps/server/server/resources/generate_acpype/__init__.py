@@ -77,6 +77,8 @@ class GenerateAcpypeCommands(Resource):
             gmx = "gmx"
             grace = "grace"
 
+        acpype_molecule_type = filename_itp.replace("_GMX", ".pdb.mol2")
+
         commands = [
             "#topology\n",
             f"grep 'ATOM  ' {filename}{ext} > Protein.pdb\n",
@@ -90,7 +92,7 @@ class GenerateAcpypeCommands(Resource):
             ),
             f'\ncat {filename}_livre.top | sed \'/forcefield\.itp"/a\#include "{filename_itp}{ext_itp}"\' > {filename}1_complx.top\n',
             f"cat {filename}1_complx.top | sed '/forcefield\.itp/r ligand_atomtypes.txt' > {filename}_complx.top\n",
-            f'echo "{filename_itp}         1" >> {filename}_complx.top\n\n',
+            f'echo "{acpype_molecule_type}         1" >> {filename}_complx.top\n\n',
             f'{gmx} editconf -f "{filename}_complx.pdb" -c -d 1 -bt {args["box_type"]} -o "{filename}_complx.pdb"\n\n',
             "#solvate\n",
             f'{gmx} solvate -cp "{filename}_complx.pdb" -cs spc216.gro -p "{filename}_complx.top" -o "{filename}_complx_box.pdb"\n\n',

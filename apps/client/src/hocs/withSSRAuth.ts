@@ -1,9 +1,12 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 
 import { authOptions } from "@app/pages/api/auth/[...nextauth]";
 
-type IncomingGSSP<P> = (ctx: GetServerSidePropsContext) => Promise<P>;
+type IncomingGSSP<P> = (
+  ctx: GetServerSidePropsContext,
+  session?: Session
+) => Promise<P>;
 
 type WithAuthServerSidePropsResult = GetServerSidePropsResult<{
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,7 +37,7 @@ export function withSSRAuth(
     }
 
     if (incomingGSSP) {
-      const incomingGSSPResult = await incomingGSSP(ctx);
+      const incomingGSSPResult = await incomingGSSP(ctx, session);
 
       if ("props" in incomingGSSPResult) {
         return {

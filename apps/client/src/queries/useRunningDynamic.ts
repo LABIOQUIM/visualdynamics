@@ -13,6 +13,7 @@ export type GetRunningDynamicResult =
         molecule: string;
         type: "APO" | "ACPYPE";
         celeryId: string;
+        folder: string;
       };
       steps: string[];
       log: string[];

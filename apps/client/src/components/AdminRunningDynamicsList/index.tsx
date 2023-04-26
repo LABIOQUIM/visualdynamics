@@ -2,13 +2,16 @@ import { Server } from "lucide-react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
+import { DynamicRunningAbortButton } from "@app/components/DynamicRunningAbortButton";
 import { GetAdminRunningDynamicsListResult } from "@app/queries/useAdminRunningDynamicsList";
 
 interface AdminRunningDynamicsListProps {
   runningDynamics: GetAdminRunningDynamicsListResult;
+  refetch: () => void;
 }
 
 export function AdminRunningDynamicsList({
+  refetch,
   runningDynamics
 }: AdminRunningDynamicsListProps) {
   const router = useRouter();
@@ -31,24 +34,36 @@ export function AdminRunningDynamicsList({
             {dynamics && dynamics.length > 0 ? (
               <div className="flex flex-col gap-y-1 rounded-lg p-4 odd:bg-zinc-500/20 even:bg-zinc-500/10">
                 {dynamics.map((dynamic) => (
-                  <div key={`${worker}_${dynamic.id}`}>
-                    <div className="flex gap-x-1">
-                      <p>{t("admin-running:dynamic.path")}:</p>
-                      <p className="font-semibold">{dynamic.args[0]}</p>
+                  <div
+                    className="flex flex-col gap-y-2"
+                    key={`${worker}_${dynamic.id}`}
+                  >
+                    <div className="flex flex-col gap-y-1">
+                      <div className="flex gap-x-1">
+                        <p className="whitespace-nowrap">
+                          {t("admin-running:dynamic.path")}:
+                        </p>
+                        <p className="font-semibold">{dynamic.args[0]}</p>
+                      </div>
+                      <div className="flex gap-x-1">
+                        <p>{t("admin-running:dynamic.started-at")}:</p>
+                        <p className="font-semibold">
+                          {Intl.DateTimeFormat(router.locale, {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit"
+                          }).format(new Date(dynamic.time_start * 1000))}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex gap-x-1">
-                      <p>{t("admin-running:dynamic.started-at")}:</p>
-                      <p className="font-semibold">
-                        {Intl.DateTimeFormat(router.locale, {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          second: "2-digit"
-                        }).format(new Date(dynamic.time_start * 1000))}
-                      </p>
-                    </div>
+                    <DynamicRunningAbortButton
+                      refetch={refetch}
+                      celeryId={dynamic.id}
+                      folder={dynamic.args[0]}
+                    />
                   </div>
                 ))}
               </div>

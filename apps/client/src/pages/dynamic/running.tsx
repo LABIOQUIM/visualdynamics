@@ -1,4 +1,4 @@
-import { ArrowRight, FileCog, Slash } from "lucide-react";
+import { ArrowRight, FileCog } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,11 +6,15 @@ import { User } from "next-auth";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
+import { DynamicRunningAbortButton } from "@app/components/DynamicRunningAbortButton";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
-import { api } from "@app/lib/api";
-import { useRunningDynamic } from "@app/queries/useRunningDynamic";
+import {
+  getRunningDynamic,
+  GetRunningDynamicResult,
+  useRunningDynamic
+} from "@app/queries/useRunningDynamic";
 
 const DynamicRunningRealtimeLog = dynamic(
   () =>
@@ -32,29 +36,40 @@ const DynamicRunningStepList = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(withSSRAuth(), {
-  namespaces: ["running"]
-});
+export const getServerSideProps = withSSRTranslations(
+  withSSRAuth(async (_, session) => {
+    if (session) {
+      const initialData = await getRunningDynamic(session.user.username);
 
-export default function Running({ user }: { user: User }) {
-  const { data, isLoading, isRefetching } = useRunningDynamic(user.username);
+      return {
+        props: {
+          initialData
+        }
+      };
+    }
+
+    return {
+      props: {}
+    };
+  }),
+  {
+    namespaces: ["running"]
+  }
+);
+
+export default function Running({
+  initialData,
+  user
+}: {
+  user: User;
+  initialData: GetRunningDynamicResult;
+}) {
+  const { data, isRefetching } = useRunningDynamic(user.username, {
+    initialData,
+    refetchOnMount: true
+  });
   const { t } = useTranslation(["navigation", "running"]);
   const router = useRouter();
-
-  async function abortTask() {
-    if (!isLoading && !isRefetching) {
-      const formData = new FormData();
-
-      if (data && data.status === "running") {
-        formData.append("task_id", data.info.celeryId);
-        api.post("/run/abort", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        });
-      }
-    }
-  }
 
   if (data?.status === "running") {
     const disableAbortButton =
@@ -66,14 +81,13 @@ export default function Running({ user }: { user: User }) {
       <>
         <SEO title={t("running:title")} />
         <div className="relative">
-          <Button
-            className="absolute right-0 top-1 w-fit bg-red-700 enabled:hover:bg-red-800"
-            LeftIcon={Slash}
-            disabled={disableAbortButton}
-            onClick={abortTask}
-          >
-            {t("running:abort")}
-          </Button>
+          <div className="absolute right-0 top-1">
+            <DynamicRunningAbortButton
+              folder={data.info.folder}
+              celeryId={data.info.celeryId}
+              disableAbortButton={disableAbortButton}
+            />
+          </div>
           <h4 className="font-bold uppercase text-primary-950">
             {t("running:description")}
           </h4>
