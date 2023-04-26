@@ -32,10 +32,10 @@ export function AdminRunningDynamicsList({
               <p className="text-gray-500">{worker}</p>
             </div>
             {dynamics && dynamics.length > 0 ? (
-              <div className="flex flex-col gap-y-1 rounded-lg p-4 odd:bg-zinc-500/20 even:bg-zinc-500/10">
+              <ol className="flex flex-col gap-2">
                 {dynamics.map((dynamic) => (
-                  <div
-                    className="flex flex-col gap-y-2"
+                  <li
+                    className="flex flex-col gap-y-2 rounded-lg p-4 odd:bg-zinc-500/20 even:bg-zinc-500/10"
                     key={`${worker}_${dynamic.id}`}
                   >
                     <div className="flex flex-col gap-y-1">
@@ -64,9 +64,9 @@ export function AdminRunningDynamicsList({
                       celeryId={dynamic.id}
                       folder={dynamic.args[0]}
                     />
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ol>
             ) : (
               <p>{t("admin-running:worker-empty")}</p>
             )}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Slash } from "lucide-react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -18,10 +19,12 @@ export function DynamicRunningAbortButton({
   folder,
   refetch
 }: DynamicRunningAbortButtonProps) {
+  const [isAborting, setIsAborting] = useState(false);
   const { t } = useTranslation(["common"]);
   const router = useRouter();
 
   async function abortTask() {
+    setIsAborting(true);
     const formData = new FormData();
 
     formData.append("taskId", celeryId);
@@ -38,14 +41,15 @@ export function DynamicRunningAbortButton({
         } else {
           router.push("/my-dynamics");
         }
-      });
+      })
+      .finally(() => setIsAborting(false));
   }
 
   return (
     <Button
       className="w-fit bg-red-700 enabled:hover:bg-red-800"
       LeftIcon={Slash}
-      disabled={disableAbortButton}
+      disabled={disableAbortButton || isAborting}
       onClick={abortTask}
     >
       {t("common:abort")}
