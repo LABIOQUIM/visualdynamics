@@ -59,7 +59,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
     formData.append("username", user.username);
 
     await api
-      .post("/prodrg", formData, {
+      .post("/generate/prodrg", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

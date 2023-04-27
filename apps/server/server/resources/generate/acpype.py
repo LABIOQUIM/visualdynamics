@@ -7,7 +7,7 @@ from datetime import datetime
 from werkzeug.datastructures import FileStorage
 
 
-class GenerateAcpypeCommands(Resource):
+class GenerateACPYPE(Resource):
     def post(self):
         timestamp = datetime.now().replace(microsecond=0).isoformat()
 

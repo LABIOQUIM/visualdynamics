@@ -7,7 +7,7 @@ from server.utils.find_binaries import check_grace, check_gromacs
 from werkzeug.datastructures import FileStorage
 
 
-class GenerateApoCommands(Resource):
+class GenerateAPO(Resource):
     def post(self):
         timestamp = datetime.now().replace(microsecond=0).isoformat()
 

@@ -59,7 +59,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
     formData.append("username", user.username);
 
     await api
-      .post("/acpype", formData, {
+      .post("/generate/acpype", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

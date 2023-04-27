@@ -9,12 +9,13 @@ from server.resources.downloads.figures import DownloadDynamicFigures
 from server.resources.downloads.log import DownloadDynamicLog
 from server.resources.downloads.mdp import DownloadMDP
 from server.resources.downloads.results import DownloadDynamicResults
-from server.resources.generate_acpype import GenerateAcpypeCommands
-from server.resources.generate_apo import GenerateApoCommands
+from server.resources.generate.acpype import GenerateACPYPE
+from server.resources.generate.apo import GenerateAPO
 from server.resources.health import Health
 from server.resources.run import RunDynamic
 from server.resources.run.abort import AbortDynamic
 from server.resources.user_dynamics import UserDynamics
+from server.resources.mdfiles.update import MDFilesUpdate
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -23,8 +24,8 @@ api = Api(app)
 CORS(app)
 
 # Command sequence generation
-api.add_resource(GenerateAcpypeCommands, "/api/v1/acpype")
-api.add_resource(GenerateApoCommands, "/api/v1/apo")
+api.add_resource(GenerateACPYPE, "/api/v1/generate/acpype")
+api.add_resource(GenerateAPO, "/api/v1/generate/apo")
 
 # Command sequence execution
 api.add_resource(RunDynamic, "/api/v1/run")
@@ -44,8 +45,12 @@ api.add_resource(Health, "/api/v1/health")
 api.add_resource(UserDynamics, "/api/v1/dynamics")
 
 # Celery data
-api.add_resource(CeleryReservedTasks, "/api/v1/celery/reserved")
+api.add_resource(CeleryReservedTasks, "/api/v1/celery/queued")
 api.add_resource(CeleryActiveTasks, "/api/v1/celery/active")
+
+# Update MDFiles
+api.add_resource(MDFilesUpdate, "/api/v1/mdfiles/update")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

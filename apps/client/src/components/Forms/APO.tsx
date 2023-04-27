@@ -58,7 +58,7 @@ export function APOForm({ user }: APOFormProps) {
     formData.append("username", user.username);
 
     await api
-      .post("/apo", formData, {
+      .post("/generate/apo", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

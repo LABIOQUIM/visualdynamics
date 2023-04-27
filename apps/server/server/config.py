@@ -10,6 +10,6 @@ class Config(object):
         if os.environ.get("FLASK_DEBUG")
         else os.path.abspath(os.path.join(os.path.expanduser("~"), "VDfiles"))
     )
-    STATIC_FOLDER = os.path.join(basedir, "static")
-    MDP_LOCATION_FOLDER = os.path.join(STATIC_FOLDER, "mdp")
+    STATIC_FOLDER = os.path.abspath(os.path.join(basedir, "static"))
+    MDP_LOCATION_FOLDER = os.path.abspath(os.path.join(STATIC_FOLDER, "mdp"))
     SOCK_SERVER_OPTIONS = {"ping_interval": 25}

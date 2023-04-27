@@ -73,7 +73,7 @@ class RunDynamic(Resource):
                 "type": extractable_data[2],
                 "molecule": extractable_data[1],
                 "celeryId": celery_id,
-                "folder": folder
+                "folder": folder,
             }
 
             log_lines = log_lines[-30:]

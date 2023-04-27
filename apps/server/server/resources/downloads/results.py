@@ -1,5 +1,4 @@
 import os
-import shutil
 import zipfile
 from flask_restful import Resource
 from flask import request, send_file
