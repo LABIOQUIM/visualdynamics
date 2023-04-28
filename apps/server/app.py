@@ -15,7 +15,7 @@ from server.resources.health import Health
 from server.resources.run import RunDynamic
 from server.resources.run.abort import AbortDynamic
 from server.resources.user_dynamics import UserDynamics
-from server.resources.mdfiles.update import MDFilesUpdate
+from server.resources.mdpr import MDPR
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -49,7 +49,7 @@ api.add_resource(CeleryReservedTasks, "/api/v1/celery/queued")
 api.add_resource(CeleryActiveTasks, "/api/v1/celery/active")
 
 # Update MDFiles
-api.add_resource(MDFilesUpdate, "/api/v1/mdfiles/update")
+api.add_resource(MDPR, "/api/v1/mdpr")
 
 
 if __name__ == "__main__":

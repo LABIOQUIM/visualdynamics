@@ -87,7 +87,7 @@ export function SidebarContent() {
         },
         {
           label: "navigation:admin.mdp.title",
-          href: "/admin/mdp"
+          href: "/admin/md-pr/update"
         },
         {
           label: "navigation:admin.users.title",
