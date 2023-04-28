@@ -10,7 +10,7 @@ import { useAdminRunningDynamicsList } from "@app/queries/useAdminRunningDynamic
 
 const AdminRunningDynamicsList = dynamic(
   () =>
-    import("@app/components/AdminRunningDynamicsList").then(
+    import("@app/components/Admin/RunningDynamicsList").then(
       (mod) => mod.AdminRunningDynamicsList
     ),
   {

@@ -6,7 +6,7 @@ import { User } from "next-auth";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
-import { DynamicRunningAbortButton } from "@app/components/DynamicRunningAbortButton";
+import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
@@ -18,7 +18,7 @@ import {
 
 const DynamicRunningRealtimeLog = dynamic(
   () =>
-    import("@app/components/DynamicRunningRealtimeLog").then(
+    import("@app/components/Dynamic/Running/RealtimeLog").then(
       (mod) => mod.DynamicRunningRealtimeLog
     ),
   {
@@ -28,7 +28,7 @@ const DynamicRunningRealtimeLog = dynamic(
 
 const DynamicRunningStepList = dynamic(
   () =>
-    import("@app/components/DynamicRunningStepList").then(
+    import("@app/components/Dynamic/Running/StepList").then(
       (mod) => mod.DynamicRunningStepList
     ),
   {

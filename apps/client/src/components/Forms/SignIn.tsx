@@ -77,12 +77,14 @@ export function SignInForm() {
       ) : null}
       <Input
         error={errors.identifier}
+        disabled={isAuthenticating}
         label={t("signin:identifier.title")}
         placeholder={t("signin:identifier.placeholder")}
         {...register("identifier")}
       />
       <Input
         error={errors.password}
+        disabled={isAuthenticating}
         label={t("signin:password.title")}
         placeholder={t("signin:password.placeholder")}
         type="password"

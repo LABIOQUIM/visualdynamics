@@ -2,7 +2,7 @@ import { Server } from "lucide-react";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-import { DynamicRunningAbortButton } from "@app/components/DynamicRunningAbortButton";
+import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
 import { GetAdminRunningDynamicsListResult } from "@app/queries/useAdminRunningDynamicsList";
 
 interface AdminRunningDynamicsListProps {

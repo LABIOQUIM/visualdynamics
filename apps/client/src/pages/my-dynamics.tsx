@@ -20,7 +20,7 @@ import {
 } from "@app/queries/useListDynamics";
 
 const DynamicCard = dynamic(
-  () => import("@app/components/DynamicCard").then((mod) => mod.DynamicCard),
+  () => import("@app/components/Dynamic/Card").then((mod) => mod.DynamicCard),
   {
     ssr: false
   }

@@ -11,7 +11,7 @@ import { useAdminSignUpRequestList } from "@app/queries/useAdminSignUpRequestLis
 
 const AdminSignUpRequestList = dynamic(
   () =>
-    import("@app/components/AdminSignUpRequestList").then(
+    import("@app/components/Admin/SignUpRequestList").then(
       (mod) => mod.AdminSignUpRequestList
     ),
   {
