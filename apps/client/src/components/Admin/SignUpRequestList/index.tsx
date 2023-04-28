@@ -5,8 +5,8 @@ import { StatusButton } from "@app/components/Button/Status";
 
 interface AdminSignUpRequestListProps {
   inactiveUsers?: InactiveUser[];
-  approveUser: (userId: string) => void;
-  rejectUser: (userId: string) => void;
+  approveUser: (userId: string, userEmail: string) => void;
+  rejectUser: (userId: string, userEmail: string) => void;
 }
 
 export function AdminSignUpRequestList({
@@ -32,14 +32,14 @@ export function AdminSignUpRequestList({
               <StatusButton
                 status="finished"
                 LeftIcon={Check}
-                onClick={() => approveUser(user.id)}
+                onClick={() => approveUser(user.id, user.email)}
               >
                 {t("admin-signup:approve")}
               </StatusButton>
               <StatusButton
                 status="error"
                 LeftIcon={X}
-                onClick={() => rejectUser(user.id)}
+                onClick={() => rejectUser(user.id, user.email)}
               >
                 {t("admin-signup:reject")}
               </StatusButton>

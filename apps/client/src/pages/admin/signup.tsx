@@ -34,22 +34,28 @@ export default function AdminSignup({
   });
   const { t } = useTranslation();
 
-  async function approveUser(userId: string) {
+  async function approveUser(userId: string, userEmail: string) {
     axios
       .put("/api/users/activate", {
         userId
       })
-      .then(() => refetch());
+      .then(() => {
+        axios.get(`/api/mailer/user/approved?email=${userEmail}`);
+        refetch();
+      });
   }
 
-  async function rejectUser(userId: string) {
+  async function rejectUser(userId: string, userEmail: string) {
     axios
       .delete("/api/users/delete", {
         params: {
           userId
         }
       })
-      .then(() => refetch());
+      .then(() => {
+        axios.get(`/api/mailer/user/rejected?email=${userEmail}`);
+        refetch();
+      });
   }
 
   return (
