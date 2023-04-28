@@ -70,7 +70,8 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
             .post(
               "/run",
               {
-                folder: data.folder
+                folder: data.folder,
+                email: user.email
               },
               {
                 headers: {

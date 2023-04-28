@@ -70,7 +70,8 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
             .post(
               "/run",
               {
-                folder: data.folder
+                folder: data.folder,
+                email: user.email
               },
               {
                 headers: {

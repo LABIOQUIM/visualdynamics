@@ -1,14 +1,14 @@
 import os
 import shutil
-import time
 from server.config import Config
 from server.utils.run_command import run_command
 from server.celery import celery
 from celery.contrib.abortable import AbortableTask
+import requests
 
 
 @celery.task(bind=True, name="Run Dynamic", base=AbortableTask)
-def run_commands(self, folder):
+def run_commands(self, folder, dynamics_mailer_api_url, email):
     # Get absolute path to the folder where our default MDP files are stored
     folder_mdp = os.path.abspath(Config.MDP_LOCATION_FOLDER)
 
@@ -49,6 +49,8 @@ def run_commands(self, folder):
     with open(file_status_path, "w") as f:
         f.write("running")
 
+    dynamic_data = folder.split("/")[::-1]
+
     # Iterate in our command list
     for command in commands:
         if command[0] == "#":
@@ -58,16 +60,18 @@ def run_commands(self, folder):
             (_, rcode) = run_command(command, file_log_path, file_pid_path)
 
             if rcode != 0 and rcode != None:
-                # UPDATE ON DB THAT EXECUTION FAILED
-
                 # SEND MAIL NOTIFYING DYNAMIC ERRORED
+                requests.get(
+                    f"{dynamics_mailer_api_url}/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+                )
                 with open(file_status_path, "w") as f:
                     f.write(f"error: {command}")
                 return
 
-    # UPDATE ON DB THAT EXECUTION ENDED WITH SUCCESS
-
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
+    requests.get(
+        f"{dynamics_mailer_api_url}/success?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+    )
 
     with open(file_status_path, "w") as f:
         f.write("finished")

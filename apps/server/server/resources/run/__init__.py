@@ -10,6 +10,7 @@ class RunDynamic(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument("folder", required=True, type=str, location="form")
+        parser.add_argument("email", required=True, type=str, location="form")
 
         args = parser.parse_args()
 
@@ -18,7 +19,10 @@ class RunDynamic(Resource):
 
         task_id = uuid()
 
-        run_commands.apply_async((folder,), task_id=task_id)
+        run_commands.apply_async(
+            (folder, os.environ.get("DYNAMICS_MAILER_API"), args["email"]),
+            task_id=task_id,
+        )
 
         file_status_path = os.path.abspath(os.path.join(args["folder"], "status"))
         file_celery_id = os.path.abspath(os.path.join(args["folder"], "celery_id"))

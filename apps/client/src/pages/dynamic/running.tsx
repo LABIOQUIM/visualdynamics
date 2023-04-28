@@ -88,24 +88,30 @@ export default function Running({
               disableAbortButton={disableAbortButton}
             />
           </div>
-          <h4 className="font-bold uppercase text-primary-950">
+          <h4 className="font-bold uppercase text-primary-950 dark:text-primary-300">
             {t("running:description")}
           </h4>
           <div className="flex gap-x-2">
             <p className="font-medium">{t("running:taskId")}:</p>
-            <p className="font-bold text-primary-950">{data.info.celeryId}</p>
+            <p className="font-bold text-primary-950 dark:text-primary-300">
+              {data.info.celeryId}
+            </p>
           </div>
           <div className="flex gap-x-2">
             <p className="font-medium">{t("running:type")}:</p>
-            <p className="font-bold text-primary-950">{data.info.type}</p>
+            <p className="font-bold text-primary-950 dark:text-primary-300">
+              {data.info.type}
+            </p>
           </div>
           <div className="flex gap-x-2">
             <p className="font-medium">{t("running:molecule")}:</p>
-            <p className="font-bold text-primary-950">{data.info.molecule}</p>
+            <p className="font-bold text-primary-950 dark:text-primary-300">
+              {data.info.molecule}
+            </p>
           </div>
           <div className="flex gap-x-2">
             <p className="font-medium">{t("running:createdAt")}:</p>
-            <p className="font-bold text-primary-950">
+            <p className="font-bold text-primary-950 dark:text-primary-300">
               {Intl.DateTimeFormat(router.locale, {
                 day: "2-digit",
                 month: "long",

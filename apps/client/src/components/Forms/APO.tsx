@@ -70,7 +70,8 @@ export function APOForm({ user }: APOFormProps) {
             .post(
               "/run",
               {
-                folder: data.folder
+                folder: data.folder,
+                email: user.email
               },
               {
                 headers: {
