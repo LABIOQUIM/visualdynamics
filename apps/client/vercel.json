@@ -1,8 +1,8 @@
 {
   "crons": [
     {
-      "path": "/api/cron",
-      "schedule": "0 16 * * *"
+      "path": "/api/checkSignUpRequestsAndNotifyAdmin",
+      "schedule": "0 11 * * *"
     }
   ]
 }
