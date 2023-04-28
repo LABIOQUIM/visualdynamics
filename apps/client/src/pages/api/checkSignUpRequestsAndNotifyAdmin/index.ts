@@ -31,6 +31,10 @@ export default async function sendEmail(
       }
     });
 
+    if (awaitingCount === 0) {
+      return res.status(200).json({ message: "no-awaiting" });
+    }
+
     const admins = await prisma.user.findMany({
       where: {
         role: "ADMIN"
