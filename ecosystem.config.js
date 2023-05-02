@@ -3,10 +3,16 @@ module.exports = {
     {
       name: "flask-api",
       script: "poetry run flask run",
-      cwd:"/home/fernando/visualdynamics2/apps/server",
+      cwd: "/home/fernando/visualdynamics2/apps/server",
       autorestart: true,
       watch: false,
       max_memory_restart: '1G',
+      env: {
+        ENV: 'development'
+      },
+      env_production : {
+        ENV: 'production'
+      }
     },
     {
     name: 'nextjs-client',
