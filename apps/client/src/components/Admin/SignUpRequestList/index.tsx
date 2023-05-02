@@ -21,12 +21,12 @@ export function AdminSignUpRequestList({
       <ol className="flex flex-col gap-2">
         {inactiveUsers.map((user) => (
           <li
-            className="flex flex-col items-center justify-between gap-3 rounded-lg p-4 odd:bg-zinc-500/20 even:bg-zinc-500/10 md:flex-row"
+            className="flex flex-col gap-3 rounded-lg p-4 odd:bg-zinc-500/20 even:bg-zinc-500/10 md:flex-row lg:items-center lg:justify-between"
             key={user.id}
           >
             <div className="flex flex-col">
-              <p>{user.username}</p>
-              <p>{user.email}</p>
+              <p className="font-bold">{user.username}</p>
+              <p className="font-light">{user.email}</p>
             </div>
             <div className="flex gap-x-2">
               <StatusButton
