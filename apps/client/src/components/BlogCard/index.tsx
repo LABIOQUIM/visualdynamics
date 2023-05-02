@@ -1,6 +1,7 @@
+import { Post } from "contentlayer/generated";
 import Link from "next/link";
 
-export default function BlogCard({ title, slug }: Partial<PostProps>) {
+export default function BlogCard({ title, slug }: Partial<Post>) {
   return (
     <div className="group">
       <Link

@@ -1,4 +1,4 @@
-import { allPosts } from "contentlayer/generated";
+import { allPosts, Post } from "contentlayer/generated";
 import { Calendar, Clock } from "lucide-react";
 import { GetStaticPaths } from "next";
 import { useRouter } from "next/router";
@@ -8,18 +8,11 @@ import { useTranslation } from "next-i18next";
 import { components } from "@app/components/MDX/MDXComponents";
 import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
-export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
-  const paths = [];
-  if (locales) {
-    for (const locale of locales) {
-      const appendablePaths = allPosts.map((p) => ({
-        params: { slug: p.slug },
-        locale
-      }));
-
-      paths.push(...appendablePaths);
-    }
-  }
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = allPosts.map((p) => ({
+    params: { slug: p.slug },
+    locale: p.locale
+  }));
 
   return {
     paths,
@@ -35,7 +28,7 @@ export const getStaticProps = withSPTranslations(async ({ params }) => {
   };
 });
 
-export default function BlogPost({ post }: { post: PostProps }) {
+export default function BlogPost({ post }: { post: Post }) {
   const { t } = useTranslation(["common"]);
   const MDXContent = useMDXComponent(post ? post.body.code : "");
   const router = useRouter();
