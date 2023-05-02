@@ -5,7 +5,7 @@ module.exports = {
       script: "pnpm",
       args: "dev",
       cwd: "$HOME/visualdynamics2/apps/server",
-      autorestart: false,
+      autorestart: true,
       watch: false,
       max_memory_restart: '1G',
       env: {
