@@ -4,8 +4,8 @@ module.exports = {
       name: "flask-api",
       script: "poetry",
       args: ["run", "flask", "run"],
-      cwd: "/home/fernando/visualdynamics2/apps/server",
-      autorestart: true,
+      cwd: "$HOME/visualdynamics2/apps/server",
+      autorestart: false,
       watch: false,
       max_memory_restart: '1G',
       env: {
