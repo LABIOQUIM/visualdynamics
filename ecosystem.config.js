@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: "flask-api",
-      script: "poetry",
-      args: ["run", "flask", "run"],
+      script: "pnpm",
+      args: "dev",
       cwd: "$HOME/visualdynamics2/apps/server",
       autorestart: false,
       watch: false,
@@ -18,8 +18,8 @@ module.exports = {
     {
     name: 'nextjs-client',
     script: 'pnpm',
-    args:"start",
-    cwd:"/home/fernando/visualdynamics2/apps/client",
+    args: "start",
+    cwd: "$HOME/visualdynamics2/apps/client",
     autorestart: true,
     watch: false,
     max_memory_restart: '1G',
