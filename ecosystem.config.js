@@ -2,8 +2,7 @@ module.exports = {
   apps: [
     {
       name: "flask-api",
-      script: "poetry",
-      args: "run flask run",
+      script: "poetry run flask run",
       cwd:"/home/fernando/visualdynamics2/apps/server",
       autorestart: true,
       watch: false,
