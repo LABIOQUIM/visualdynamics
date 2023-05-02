@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "flask-api",
+      name: "server",
       script: "poetry",
       args: "run flask run",
       cwd: "$HOME/visualdynamics2/apps/server",
@@ -11,7 +11,7 @@ module.exports = {
       interpreter: "/bin/bash",
     },
     {
-    name: 'nextjs-client',
+    name: 'client',
     script: 'pnpm',
     args: "start",
     cwd: "$HOME/visualdynamics2/apps/client",
