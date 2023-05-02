@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -16,39 +16,22 @@ import {
 
 export function SignUpForm() {
   const { t } = useTranslation(["signup"]);
-  const [isSigningUp, setIsSigningUp] = useState(false);
-  const [signUpStatus, setSignUpStatus] = useState<
-    | {
-        status: "success";
-      }
-    | {
-        status: "error";
-        errorMessage: string;
-      }
-  >();
+  const [signUpStatus, setSignUpStatus] = useState("");
   const {
     register,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit
   } = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema)
   });
   const router = useRouter();
 
-  useEffect(() => {
-    if (signUpStatus?.status === "success") {
-      router.push("/signin");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signUpStatus]);
-
   const handleAuth: SubmitHandler<SignUpFormSchemaType> = async ({
     email,
     username,
     password
   }) => {
-    setIsSigningUp(true);
     axios
       .post("/api/users/signup", {
         email,
@@ -56,13 +39,10 @@ export function SignUpForm() {
         password
       })
       .then(() => {
-        setSignUpStatus({ status: "success" });
         reset();
+        router.push("/signin");
       })
-      .catch(({ response }) =>
-        setSignUpStatus({ status: "error", errorMessage: response.data.status })
-      )
-      .finally(() => setIsSigningUp(false));
+      .catch(({ response }) => setSignUpStatus(response.data.status));
   };
 
   return (
@@ -76,17 +56,18 @@ export function SignUpForm() {
           {t("signup:alert")}
         </small>
       </div>
-      {signUpStatus?.status === "error" ? (
+      {signUpStatus ? (
         <div className="flex gap-x-2 rounded-lg border border-red-500 bg-red-400/20 p-2">
           <AlertTriangle className="stroke-red-600 dark:stroke-red-200" />
           <p className="text-red-600 dark:text-red-200">
-            {t(`signup:errors.${signUpStatus.errorMessage}`)}
+            {t(`signup:errors.${signUpStatus}`)}
           </p>
         </div>
       ) : null}
       <Input
         error={errors.username}
         label={t("signup:username.title")}
+        disabled={isSubmitting}
         placeholder={t("signup:username.placeholder")}
         {...register("username")}
       />
@@ -94,21 +75,23 @@ export function SignUpForm() {
         error={errors.email}
         label={t("signup:email.title")}
         placeholder={t("signup:email.placeholder")}
+        disabled={isSubmitting}
         {...register("email")}
       />
       <Input
         error={errors.password}
         label={t("signup:password.title")}
         placeholder={t("signup:password.placeholder")}
+        disabled={isSubmitting}
         type="password"
         {...register("password")}
       />
       <Button
-        disabled={isSigningUp}
-        LeftIcon={!isSigningUp ? UserPlus : undefined}
+        disabled={isSubmitting}
+        LeftIcon={!isSubmitting ? UserPlus : undefined}
         type="submit"
       >
-        {isSigningUp ? <Spinner /> : null}
+        {isSubmitting ? <Spinner /> : null}
         {t("signup:title")}
       </Button>
     </form>

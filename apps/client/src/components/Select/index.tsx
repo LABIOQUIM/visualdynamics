@@ -10,6 +10,7 @@ type SelectProps<T extends string | number | symbol> = {
   label: string;
   name: string;
   onChange: (value: T) => void;
+  disabled?: boolean;
   placeholder: string;
   selectedValue: T;
   values: {
@@ -18,6 +19,7 @@ type SelectProps<T extends string | number | symbol> = {
 };
 
 export const Select = <T extends string>({
+  disabled,
   error,
   label,
   name,
@@ -41,12 +43,14 @@ export const Select = <T extends string>({
       <RSelect.Root
         onValueChange={onChange}
         value={selectedValue}
+        disabled={disabled}
       >
         <RSelect.Trigger
           className={clsx(
             "flex h-10 items-center justify-between rounded-lg border border-primary-400/60 bg-gray-50 px-2 py-1 outline-none transition-all duration-150 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 data-[placeholder]:text-zinc-400 dark:bg-gray-900 dark:focus:ring-offset-gray-900",
             {
-              "border-red-600/95 focus:ring-red-500": error
+              "border-red-600/95 focus:ring-red-500": error,
+              "opacity-50": disabled
             }
           )}
           id={name}

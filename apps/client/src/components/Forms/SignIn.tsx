@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, Lock, LogIn, UserPlus } from "lucide-react";
 import { useRouter } from "next/router";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 
 import { Button } from "@app/components/Button";
@@ -17,49 +17,38 @@ import {
 
 export function SignInForm() {
   const { t } = useTranslation(["signin"]);
-  const { status } = useSession();
   const [signInError, setSignInError] = useState("");
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const {
     register,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit
   } = useForm<SignInFormSchemaType>({
     resolver: zodResolver(SignInFormSchema)
   });
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/my-dynamics");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
-
   const handleAuth: SubmitHandler<SignInFormSchemaType> = async ({
     identifier,
     password
   }) => {
     setSignInError("");
-    setIsAuthenticating(true);
     signIn("credentials", {
       identifier,
       password,
       redirect: false
-    })
-      .then((data) => {
-        if (data) {
-          if (data.error) {
-            setSignInError(data.error);
-          }
-
-          if (data.ok) {
-            reset();
-          }
+    }).then((data) => {
+      if (data) {
+        if (data.error) {
+          setSignInError(data.error);
         }
-      })
-      .finally(() => setIsAuthenticating(false));
+
+        if (data.ok) {
+          reset();
+          router.push("/my-dynamics");
+        }
+      }
+    });
   };
 
   return (
@@ -77,25 +66,25 @@ export function SignInForm() {
       ) : null}
       <Input
         error={errors.identifier}
-        disabled={isAuthenticating}
+        disabled={isSubmitting}
         label={t("signin:identifier.title")}
         placeholder={t("signin:identifier.placeholder")}
         {...register("identifier")}
       />
       <Input
         error={errors.password}
-        disabled={isAuthenticating}
+        disabled={isSubmitting}
         label={t("signin:password.title")}
         placeholder={t("signin:password.placeholder")}
         type="password"
         {...register("password")}
       />
       <Button
-        disabled={isAuthenticating}
-        LeftIcon={!isAuthenticating ? LogIn : undefined}
+        disabled={isSubmitting}
+        LeftIcon={!isSubmitting ? LogIn : undefined}
         type="submit"
       >
-        {isAuthenticating ? <Spinner /> : null}
+        {isSubmitting ? <Spinner /> : null}
         {t("signin:title")}
       </Button>
       <div className="flex gap-x-2">

@@ -8,9 +8,21 @@ import { useTranslation } from "next-i18next";
 import { components } from "@app/components/MDX/MDXComponents";
 import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  const paths = [];
+  if (locales) {
+    for (const locale of locales) {
+      const appendablePaths = allPosts.map((p) => ({
+        params: { slug: p.slug },
+        locale
+      }));
+
+      paths.push(...appendablePaths);
+    }
+  }
+
   return {
-    paths: allPosts.map((p) => ({ params: { slug: p.slug } })),
+    paths,
     fallback: false
   };
 };

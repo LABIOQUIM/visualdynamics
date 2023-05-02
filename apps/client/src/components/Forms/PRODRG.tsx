@@ -24,7 +24,7 @@ interface PRODRGFormProps {
 
 export function PRODRGForm({ user }: PRODRGFormProps) {
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     register,
     setValue,
@@ -89,8 +89,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
             encodeURIComponent(data.commands.join(""));
           link.click();
         }
-      })
-      .catch(() => alert("Não foi"));
+      });
   };
 
   return (
@@ -103,6 +102,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
         type="file"
         accept=".pdb"
         error={errors.protein}
+        disabled={isSubmitting}
         {...register("protein")}
       />
 
@@ -112,6 +112,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
           type="file"
           accept=".itp,.gro"
           error={errors.ligandItp}
+          disabled={isSubmitting}
           {...register("ligandItp")}
         />
 
@@ -120,6 +121,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
           type="file"
           accept=".pdb,.gro"
           error={errors.ligandGro}
+          disabled={isSubmitting}
           {...register("ligandGro")}
         />
       </div>
@@ -132,6 +134,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
           onChange={(newForceField) => setValue("forceField", newForceField)}
           placeholder={t("forms:force-field.placeholder")}
           selectedValue={watch("forceField")}
+          disabled={isSubmitting}
           values={prodrgForceFields}
         />
 
@@ -142,6 +145,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
           onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
           placeholder={t("forms:water-model.placeholder")}
           selectedValue={watch("waterModel")}
+          disabled={isSubmitting}
           values={waterModels}
         />
       </div>
@@ -154,6 +158,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
           onChange={(newBoxType) => setValue("boxType", newBoxType)}
           placeholder={t("forms:box-type.placeholder")}
           selectedValue={watch("boxType")}
+          disabled={isSubmitting}
           values={boxTypes}
         />
 
@@ -161,6 +166,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
           label={t("forms:box-distance.title")}
           error={errors.boxDistance}
           type="number"
+          disabled={isSubmitting}
           {...register("boxDistance")}
         />
       </div>
@@ -193,12 +199,14 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
 
         <Switch
           label={t("forms:run.title")}
+          disabled={isSubmitting}
           checked={watch("bootstrap")}
           onCheckedChange={(bool) => setValue("bootstrap", bool)}
           name="bootstrap"
         />
       </div>
       <Button
+        disabled={isSubmitting}
         LeftIcon={watch("bootstrap") === true ? CloudCog : Download}
         type="submit"
       >

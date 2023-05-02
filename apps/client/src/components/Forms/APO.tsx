@@ -25,7 +25,7 @@ interface APOFormProps {
 export function APOForm({ user }: APOFormProps) {
   const { t } = useTranslation(["forms"]);
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     register,
     setValue,
@@ -89,8 +89,7 @@ export function APOForm({ user }: APOFormProps) {
             encodeURIComponent(data.commands.join(""));
           link.click();
         }
-      })
-      .catch(() => alert("Não foi"));
+      });
   };
 
   return (
@@ -103,6 +102,7 @@ export function APOForm({ user }: APOFormProps) {
         type="file"
         accept=".pdb"
         error={errors.protein}
+        disabled={isSubmitting}
         {...register("protein")}
       />
 
@@ -114,6 +114,7 @@ export function APOForm({ user }: APOFormProps) {
           onChange={(newForceField) => setValue("forceField", newForceField)}
           placeholder={t("forms:force-field.placeholder")}
           selectedValue={watch("forceField")}
+          disabled={isSubmitting}
           values={apoForceFields}
         />
 
@@ -124,6 +125,7 @@ export function APOForm({ user }: APOFormProps) {
           onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
           placeholder={t("forms:water-model.placeholder")}
           selectedValue={watch("waterModel")}
+          disabled={isSubmitting}
           values={waterModels}
         />
       </div>
@@ -136,6 +138,7 @@ export function APOForm({ user }: APOFormProps) {
           onChange={(newBoxType) => setValue("boxType", newBoxType)}
           placeholder={t("forms:box-type.placeholder")}
           selectedValue={watch("boxType")}
+          disabled={isSubmitting}
           values={boxTypes}
         />
 
@@ -143,6 +146,7 @@ export function APOForm({ user }: APOFormProps) {
           label={t("forms:box-distance.title")}
           error={errors.boxDistance}
           type="number"
+          disabled={isSubmitting}
           {...register("boxDistance")}
         />
       </div>
@@ -172,6 +176,7 @@ export function APOForm({ user }: APOFormProps) {
         />
         <Switch
           label={t("forms:run.title")}
+          disabled={isSubmitting}
           checked={watch("bootstrap")}
           onCheckedChange={(bool) => setValue("bootstrap", bool)}
           name="bootstrap"
@@ -179,6 +184,7 @@ export function APOForm({ user }: APOFormProps) {
       </div>
 
       <Button
+        disabled={isSubmitting}
         LeftIcon={watch("bootstrap") === true ? CloudCog : Download}
         type="submit"
       >

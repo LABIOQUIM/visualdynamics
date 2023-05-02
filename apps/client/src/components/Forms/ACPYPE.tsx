@@ -24,7 +24,7 @@ interface ACPYPEFormProps {
 
 export function ACPYPEForm({ user }: ACPYPEFormProps) {
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     register,
     setValue,
@@ -89,8 +89,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
             encodeURIComponent(data.commands.join(""));
           link.click();
         }
-      })
-      .catch(() => alert("Não foi"));
+      });
   };
 
   return (
@@ -103,6 +102,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
         type="file"
         accept=".pdb"
         error={errors.protein}
+        disabled={isSubmitting}
         {...register("protein")}
       />
 
@@ -112,6 +112,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
           type="file"
           accept=".itp,.gro"
           error={errors.ligandItp}
+          disabled={isSubmitting}
           {...register("ligandItp")}
         />
 
@@ -120,6 +121,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
           type="file"
           accept=".pdb,.gro"
           error={errors.ligandGro}
+          disabled={isSubmitting}
           {...register("ligandGro")}
         />
       </div>
@@ -132,6 +134,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
           onChange={(newForceField) => setValue("forceField", newForceField)}
           placeholder={t("forms:force-field.placeholder")}
           selectedValue={watch("forceField")}
+          disabled={isSubmitting}
           values={acpypeForceFields}
         />
 
@@ -142,6 +145,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
           onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
           placeholder={t("forms:water-model.placeholder")}
           selectedValue={watch("waterModel")}
+          disabled={isSubmitting}
           values={waterModels}
         />
       </div>
@@ -154,6 +158,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
           onChange={(newBoxType) => setValue("boxType", newBoxType)}
           placeholder={t("forms:box-type.placeholder")}
           selectedValue={watch("boxType")}
+          disabled={isSubmitting}
           values={boxTypes}
         />
 
@@ -161,6 +166,7 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
           label={t("forms:box-distance.title")}
           error={errors.boxDistance}
           type="number"
+          disabled={isSubmitting}
           {...register("boxDistance")}
         />
       </div>
@@ -195,10 +201,12 @@ export function ACPYPEForm({ user }: ACPYPEFormProps) {
           label={t("forms:run.title")}
           checked={watch("bootstrap")}
           onCheckedChange={(bool) => setValue("bootstrap", bool)}
+          disabled={isSubmitting}
           name="bootstrap"
         />
       </div>
       <Button
+        disabled={isSubmitting}
         LeftIcon={watch("bootstrap") === true ? CloudCog : Download}
         type="submit"
       >
