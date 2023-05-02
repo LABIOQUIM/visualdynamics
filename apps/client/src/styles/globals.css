@@ -4,6 +4,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  @apply w-2;
+}
+
+*::-webkit-scrollbar-track {
+  @apply bg-transparent rounded-md;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply bg-primary-500 rounded-lg border border-solid transition-all duration-150 border-white dark:border-gray-950;
+}
+
 html,
 body {
   font-family: "Inter", sans-serif;

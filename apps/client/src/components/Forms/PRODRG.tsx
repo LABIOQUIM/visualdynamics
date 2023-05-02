@@ -199,7 +199,6 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
         />
       </div>
       <Button
-        disabled
         LeftIcon={watch("bootstrap") === true ? CloudCog : Download}
         type="submit"
       >

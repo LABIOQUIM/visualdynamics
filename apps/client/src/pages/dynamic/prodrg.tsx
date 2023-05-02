@@ -1,4 +1,3 @@
-import { AlertTriangle } from "lucide-react";
 import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import { useTranslation } from "next-i18next";
@@ -50,10 +49,6 @@ export default function PRODRGDynamic({ user }: { user: User }) {
       <h2 className="-mb-2.5 text-2xl text-primary-600 dark:text-primary-400">
         {t("navigation:dynamic.models.prodrg")}
       </h2>
-      <div className="mb-2 flex gap-x-2 rounded-md border border-yellow-600 bg-yellow-400/20 p-2 text-yellow-950 dark:text-yellow-200">
-        <AlertTriangle className="my-auto h-10 w-10 stroke-yellow-950 dark:stroke-yellow-200" />
-        {t("navigation:dynamic.models.prodrg-disabled")}
-      </div>
       <PRODRGForm user={user} />
     </>
   );
