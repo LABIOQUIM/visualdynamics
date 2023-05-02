@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "poetry run flask run --reload",
+    "dev": "poetry run flask run --host=0.0.0.0 --reload",
     "padd": "poetry add",
     "pinstall": "poetry install",
     "prm": "poetry remove"

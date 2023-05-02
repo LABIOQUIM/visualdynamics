@@ -55,4 +55,4 @@ api.add_resource(MDPR, "/api/v1/mdpr")
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
