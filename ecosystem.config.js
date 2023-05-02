@@ -1,5 +1,16 @@
 module.exports = {
-  apps : [{
+  apps: [
+    {
+      name: "flask-api",
+      script: "poetry",
+      args: "run flask run",
+      cwd:"~/visualdynamics2/apps/server",
+      instances: 2,
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '1G',
+    },
+    {
     name: 'nextjs-client',
     script: 'pnpm',
     args:"start",
