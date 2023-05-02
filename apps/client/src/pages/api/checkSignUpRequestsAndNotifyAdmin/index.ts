@@ -48,12 +48,12 @@ export default async function sendEmail(
         to,
         subject: `There are ${awaitingCount} sign up requests awaiting your approval`,
         html: emailTemplate({
-          base_url: process.env.NEXTAUTH_URL,
+          base_url: process.env.APP_URL,
           preheader: "There are people awaiting to use VD",
           content:
             "Hey there, Admin.\n\nThere are some sign up requests awaiting to be reviewed by you.",
           showButton: true,
-          buttonLink: `${process.env.NEXTAUTH_URL}/admin/signup`,
+          buttonLink: `${process.env.APP_URL}/admin/signup`,
           buttonText: "Go to Visual Dynamics",
           showPostButtonText: true,
           postButtonText: `Remember: When you approve or reject someone they'll receive an automated email about this decision.`,
