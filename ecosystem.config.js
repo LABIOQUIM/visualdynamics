@@ -2,12 +2,13 @@ module.exports = {
   apps: [
     {
       name: "flask-api",
-      script: "pnpm",
-      args: "dev",
+      script: "poetry",
+      args: "run flask run",
       cwd: "$HOME/visualdynamics2/apps/server",
       autorestart: true,
       watch: false,
       max_memory_restart: '1G',
+      interpreter: "bash",
       env: {
         ENV: 'development'
       },
