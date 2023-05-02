@@ -12,7 +12,7 @@ def run_command(command, log_file, pid_file):
     # Use the `with` statement to open the log file
     with open(log_file, "a") as f:
         # Check if the command contains a pipe
-        if "|" in command:
+        if "|" in command and ";" not in command:
             # Split the command at the pipe character
             cmd1, cmd2 = command.split("|", 1)
 

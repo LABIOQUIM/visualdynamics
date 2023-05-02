@@ -57,16 +57,20 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
             with open(file_step_path, "a+") as f:
                 f.write(f"{command}\n")
         else:
-            (_, rcode) = run_command(command, file_log_path, file_pid_path)
-
-            if rcode != 0 and rcode != None:
+            try:
+                run_command(command, file_log_path, file_pid_path)
+            except:
                 # SEND MAIL NOTIFYING DYNAMIC ERRORED
                 requests.get(
                     f"{dynamics_mailer_api_url}/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
                 )
+
                 with open(file_status_path, "w") as f:
                     f.write(f"error: {command}")
-                return
+
+                if os.path.exists(file_is_running):
+                    os.remove(file_is_running)
+                raise
 
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
     requests.get(

@@ -11,6 +11,7 @@ from server.resources.downloads.mdp import DownloadMDP
 from server.resources.downloads.results import DownloadDynamicResults
 from server.resources.generate.acpype import GenerateACPYPE
 from server.resources.generate.apo import GenerateAPO
+from server.resources.generate.prodrg import GeneratePRODRG
 from server.resources.health import Health
 from server.resources.run import RunDynamic
 from server.resources.run.abort import AbortDynamic
@@ -26,6 +27,7 @@ CORS(app)
 # Command sequence generation
 api.add_resource(GenerateACPYPE, "/api/v1/generate/acpype")
 api.add_resource(GenerateAPO, "/api/v1/generate/apo")
+api.add_resource(GeneratePRODRG, "/api/v1/generate/prodrg")
 
 # Command sequence execution
 api.add_resource(RunDynamic, "/api/v1/run")
