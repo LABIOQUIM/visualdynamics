@@ -30,7 +30,7 @@ export default async function sendEmail(
         to: String(to),
         subject: "Your request to join VD has been rejected.",
         html: emailTemplate({
-          base_url: process.env.NEXTAUTH_URL,
+          base_url: process.env.APP_URL,
           preheader:
             "We're sorry, but at this moment we couldn't allow your access.",
           content:

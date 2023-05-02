@@ -30,11 +30,11 @@ export default async function sendEmail(
         to: String(to),
         subject: "Your dynamic has ended.",
         html: emailTemplate({
-          base_url: process.env.NEXTAUTH_URL,
+          base_url: process.env.APP_URL,
           preheader: "The dynamic you left running has ended.",
           content: `Your ${dynamicType} dynamic has ended.\n\nThe ${dynamicType} - ${dynamicMolecule} dynamic you left running has ended.\n\nPlease access VD to download the figure graphics, raw data and more.`,
           showButton: true,
-          buttonLink: process.env.NEXTAUTH_URL,
+          buttonLink: process.env.APP_URL,
           buttonText: "Go to Visual Dynamics",
           showPostButtonText: false,
           email: to

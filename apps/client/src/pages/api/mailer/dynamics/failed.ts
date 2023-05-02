@@ -30,12 +30,12 @@ export default async function sendEmail(
         to: String(to),
         subject: "Your dynamic has failed.",
         html: emailTemplate({
-          base_url: process.env.NEXTAUTH_URL,
+          base_url: process.env.APP_URL,
           preheader:
             "An error has occurred during the execution of your dynamic.",
           content: `Your ${dynamicType} dynamic has failed.\n\nThe ${dynamicType} - ${dynamicMolecule} dynamic you left running has failed.\n\nPlease access VD and check the logs provided, if you're sure it's a bug in our software, please contact us.`,
           showButton: true,
-          buttonLink: process.env.NEXTAUTH_URL,
+          buttonLink: process.env.APP_URL,
           buttonText: "Go to Visual Dynamics",
           showPostButtonText: false,
           email: to

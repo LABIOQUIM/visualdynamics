@@ -30,16 +30,15 @@ export default async function sendEmail(
         to: String(to),
         subject: "You can now start and track your dynamics",
         html: emailTemplate({
-          base_url: process.env.NEXTAUTH_URL,
+          base_url: process.env.APP_URL,
           preheader: "We're thrilled to have you with us!",
           content:
             "Welcome to Visual Dynamics.\nWe're thrilled to tell you that your account has been validated and now you can start a dynamic and develop something incredible.",
           showButton: true,
-          buttonLink: `${process.env.NEXTAUTH_URL}/signin`,
+          buttonLink: `${process.env.APP_URL}/signin`,
           buttonText: "Go to Visual Dynamics",
           showPostButtonText: true,
           postButtonText: `You can sign in to VD using this email: ${to} and the password you provided on sign up.`,
-          signin_url: `${process.env.NEXTAUTH_URL}/signin`,
           email: to
         })
       });
