@@ -28,6 +28,7 @@ const sendMail = async ({ to, subject, html }: SendMailProps) => {
     await transporter.sendMail(mailOptions);
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
