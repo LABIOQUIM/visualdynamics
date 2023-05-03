@@ -2,22 +2,19 @@ module.exports = {
   apps: [
     {
       name: "server",
-      script: "poetry",
-      args: "run flask run",
-      cwd: "$HOME/visualdynamics2/apps/server",
+      script: "poetry run flask run --host=0.0.0.0",
+      cwd: "./apps/server",
       autorestart: true,
       watch: false,
       max_memory_restart: '1G',
-      interpreter: "/bin/bash",
     },
     {
     name: 'client',
     script: 'pnpm',
     args: "start",
-    cwd: "$HOME/visualdynamics2/apps/client",
+    cwd: "./apps/client",
     autorestart: true,
     watch: false,
     max_memory_restart: '1G',
-    interpreter: "/bin/bash",
   }]
 };
