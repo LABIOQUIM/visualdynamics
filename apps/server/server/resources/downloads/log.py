@@ -16,11 +16,11 @@ class DownloadDynamicLog(Resource):
             os.path.join(folder_dynamic_path, "run", "logs", "gmx.log")
         )
 
-        dynamic_data = task.args[0].split("/")
+        dynamic_data = task.args[0].split("/")[::-1]
 
-        stripped_timestamp_folder = dynamic_data[9].replace("\n", "")
+        stripped_timestamp_folder = dynamic_data[0].replace("\n", "")
         download_filename = (
-            f"{dynamic_data[7]}|{dynamic_data[8]}|{stripped_timestamp_folder}.log"
+            f"{dynamic_data[2]}|{dynamic_data[1]}|{stripped_timestamp_folder}.log"
         )
 
         return send_file(

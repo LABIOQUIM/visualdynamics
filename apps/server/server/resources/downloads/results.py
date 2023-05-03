@@ -28,10 +28,10 @@ class DownloadDynamicResults(Resource):
                             compress_type=zipfile.ZIP_DEFLATED,
                         )
 
-        dynamic_data = task.args[0].split("/")
+        dynamic_data = task.args[0].split("/")[::-1]
 
-        stripped_timestamp_folder = dynamic_data[9].replace("\n", "")
-        download_filename = f"{dynamic_data[7]}|{dynamic_data[8]}|{stripped_timestamp_folder}|results.zip"
+        stripped_timestamp_folder = dynamic_data[0].replace("\n", "")
+        download_filename = f"{dynamic_data[2]}|{dynamic_data[1]}|{stripped_timestamp_folder}|results.zip"
 
         return send_file(
             file_results_zip, as_attachment=True, download_name=download_filename

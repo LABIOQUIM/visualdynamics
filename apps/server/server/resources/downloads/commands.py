@@ -17,7 +17,7 @@ class DownloadDynamicCommands(Resource):
                 os.path.join(folder_dynamic_path, "commands.txt")
             )
 
-            dynamic_data = task.args[0].split("/")
+            dynamic_data = task.args[0].split("/")[::-1]
         else:
             active_tasks = celery.control.inspect(["worker@visualdynamics"]).active()[
                 "worker@visualdynamics"
@@ -49,11 +49,11 @@ class DownloadDynamicCommands(Resource):
             file_commands_path = os.path.abspath(
                 os.path.join(folder_dynamic_path, "commands.txt")
             )
-            dynamic_data = task["args"][0].split("/")
+            dynamic_data = task["args"][0].split("/")[::-1]
 
-        stripped_timestamp_folder = dynamic_data[9].replace("\n", "")
+        stripped_timestamp_folder = dynamic_data[0].replace("\n", "")
         download_filename = (
-            f"{dynamic_data[7]}|{dynamic_data[8]}|{stripped_timestamp_folder}.txt"
+            f"{dynamic_data[2]}|{dynamic_data[1]}|{stripped_timestamp_folder}.txt"
         )
 
         return send_file(
