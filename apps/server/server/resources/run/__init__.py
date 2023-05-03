@@ -4,6 +4,7 @@ from flask_restful import Resource, reqparse
 from celery import uuid
 from server.celery_tasks import run_commands
 from server.config import Config
+from urllib.parse import urlparse
 
 
 class RunDynamic(Resource):
@@ -14,13 +15,15 @@ class RunDynamic(Resource):
 
         args = parser.parse_args()
 
+        url = urlparse(request.base_url)
+
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])
 
         task_id = uuid()
 
         run_commands.apply_async(
-            (folder, os.environ.get("DYNAMICS_MAILER_API"), args["email"]),
+            (folder, url.hostname, args["email"]),
             task_id=task_id,
         )
 

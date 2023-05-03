@@ -30,8 +30,6 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
         if os.path.isfile(file_path):
             shutil.copy(file_path, folder_run)
 
-    # UPDATE STATUS ON DB THAT `dynamic_id` is now running
-
     # Load commands file contents to  a variable
     file_commands_path = os.path.join(folder, "commands.txt")
     with open(file_commands_path, "r") as f:
@@ -62,7 +60,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
             except:
                 # SEND MAIL NOTIFYING DYNAMIC ERRORED
                 requests.get(
-                    f"{dynamics_mailer_api_url}/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+                    f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
                 )
 
                 with open(file_status_path, "w") as f:
@@ -74,7 +72,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
 
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
     requests.get(
-        f"{dynamics_mailer_api_url}/success?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+        f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/success?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
     )
 
     with open(file_status_path, "w") as f:

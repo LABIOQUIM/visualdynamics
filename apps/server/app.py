@@ -17,9 +17,11 @@ from server.resources.run import RunDynamic
 from server.resources.run.abort import AbortDynamic
 from server.resources.user_dynamics import UserDynamics
 from server.resources.mdpr import MDPR
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 api = Api(app)
 
 CORS(app)
