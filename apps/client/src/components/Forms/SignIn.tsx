@@ -34,7 +34,7 @@ export function SignInForm() {
     password
   }) => {
     setSignInError("");
-    signIn("credentials", {
+    await signIn("credentials", {
       identifier,
       password,
       redirect: false
