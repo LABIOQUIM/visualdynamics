@@ -18,7 +18,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <div className="flex gap-x-2.5">
             {label ? <label htmlFor={name}>{label}</label> : null}
             {error ? (
-              <p className="my-auto  text-sm text-red-600">
+              <p className="my-auto text-sm text-red-600">
                 {t(error.message ?? "")}
               </p>
             ) : null}

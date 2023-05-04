@@ -2,6 +2,7 @@ import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { type AppProps } from "next/app";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 import { appWithTranslation } from "next-i18next";
 
@@ -31,31 +32,35 @@ const ReactQueryDevtools = dynamic(
   }
 );
 
-const Script = dynamic(() => import("next/script"), {
-  ssr: false
-});
-
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   if (typeof window === "undefined") React.useLayoutEffect = React.useEffect;
 
   return (
-    <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <NextNProgress
-            height={5}
-            color="#22c55e"
-            options={{ showSpinner: false }}
-          />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-        {process.env.NODE_ENV === "development" ? <ReactQueryDevtools /> : null}
-      </QueryClientProvider>
-      {process.env.NODE_ENV === "production" ? (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+      </Head>
+      <SessionProvider session={session}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <NextNProgress
+              height={5}
+              color="#22c55e"
+              options={{ showSpinner: false }}
+            />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+          {process.env.NODE_ENV === "development" ? (
+            <ReactQueryDevtools />
+          ) : null}
+        </QueryClientProvider>
+        {/* {process.env.NODE_ENV === "production" ? (
         <>
-          {/* Google tag (gtag.js) */}
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-HZC72N296P"
             strategy="afterInteractive"
@@ -73,8 +78,9 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
             `}
           </Script>
         </>
-      ) : null}
-    </SessionProvider>
+      ) : null} */}
+      </SessionProvider>
+    </>
   );
 }
 

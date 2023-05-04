@@ -65,7 +65,7 @@ export const Select = <T extends string>({
           </RSelect.Icon>
         </RSelect.Trigger>
         <RSelect.Content
-          className="z-40 max-h-[16rem] w-[--radix-select-trigger-width] rounded-md border border-primary-400/60 bg-zinc-50 p-2 transition-all duration-500 dark:bg-zinc-900"
+          className="z-40 max-h-[16rem] w-[--radix-select-trigger-width] rounded-md border border-primary-400/60 bg-zinc-50 p-2 transition-all duration-150 dark:bg-zinc-900"
           position="popper"
           sideOffset={5}
         >
