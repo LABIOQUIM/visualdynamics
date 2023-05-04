@@ -32,7 +32,7 @@ export function SignUpForm() {
     username,
     password
   }) => {
-    axios
+    await axios
       .post("/api/users/signup", {
         email,
         username,
