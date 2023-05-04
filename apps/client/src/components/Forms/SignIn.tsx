@@ -2,6 +2,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, Lock, LogIn, UserPlus } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { useTranslation } from "next-i18next";
@@ -88,14 +89,16 @@ export function SignInForm() {
         {t("signin:title")}
       </Button>
       <div className="flex gap-x-2">
-        <TextButton
-          className="text-sm"
-          iconClassName="h-4 w-4"
-          LeftIcon={Lock}
-          type="button"
-        >
-          {t("signin:lost-password")}
-        </TextButton>
+        <Link href="/reset-password">
+          <TextButton
+            className="text-sm"
+            iconClassName="h-4 w-4"
+            LeftIcon={Lock}
+            type="button"
+          >
+            {t("signin:lost-password")}
+          </TextButton>
+        </Link>
         <TextButton
           className="text-sm"
           iconClassName="h-4 w-4"

@@ -4,6 +4,10 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma",
+    "editor.formatOnSave": true
+  },
   "css.lint.unknownAtRules": "ignore",
   "python.formatting.provider": "none",
   "typescript.preferences.importModuleSpecifier": "non-relative",

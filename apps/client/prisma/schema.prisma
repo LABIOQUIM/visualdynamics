@@ -4,7 +4,7 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 enum Role {
@@ -13,11 +13,21 @@ enum Role {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  username      String    @unique
-  password      String
-  name          String?
-  active        Boolean   @default(false)
-  role          Role      @default(USER)
+  id             String               @id @default(cuid())
+  email          String               @unique
+  username       String               @unique
+  password       String
+  name           String?
+  active         Boolean              @default(false)
+  role           Role                 @default(USER)
+  passwordResets UserPasswordResets[]
+}
+
+model UserPasswordResets {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime @default(dbgenerated("NOW() + interval '10 min'"))
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
