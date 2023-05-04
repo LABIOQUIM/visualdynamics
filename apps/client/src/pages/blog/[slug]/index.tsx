@@ -6,6 +6,7 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 import { useTranslation } from "next-i18next";
 
 import { components } from "@app/components/MDX/MDXComponents";
+import { SEO } from "@app/components/SEO";
 import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -34,7 +35,8 @@ export default function BlogPost({ post }: { post: Post }) {
   const router = useRouter();
 
   return (
-    <div>
+    <>
+      <SEO title={post.title} />
       <h2 className="text-xl font-bold md:text-4xl">{post?.title}</h2>
       <div className="my-2.5 flex flex-col gap-4 md:flex-row">
         <p className="flex items-center gap-x-1 text-sm font-medium text-gray-500 md:text-lg">
@@ -65,6 +67,6 @@ export default function BlogPost({ post }: { post: Post }) {
           }}
         />
       </div>
-    </div>
+    </>
   );
 }
