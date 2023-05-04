@@ -3,14 +3,6 @@ import { ArrowRight, Home } from "lucide-react";
 
 import { StatusButton } from "@app/components/Button/Status";
 
-const variants: ("queued" | "canceled" | "finished" | "running" | "error")[] = [
-  "queued",
-  "canceled",
-  "finished",
-  "running",
-  "error"
-];
-
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof StatusButton> = {
   title: "Components/Button/Status",
@@ -19,12 +11,16 @@ const meta: Meta<typeof StatusButton> = {
   argTypes: {},
   render: (args) => (
     <div className="flex flex-wrap gap-2">
-      {variants.map((variant) => (
+      <StatusButton {...args}>Label</StatusButton>
+      {[Home, ArrowRight].map((Icon, i) => (
         <StatusButton
+          key={Icon.name}
+          LeftIcon={i % 2 === 0 ? Icon : undefined}
+          RightIcon={i % 2 === 1 ? Icon : undefined}
           {...args}
-          key={variant}
-          status={variant}
-        />
+        >
+          Label
+        </StatusButton>
       ))}
     </div>
   )
@@ -34,22 +30,33 @@ export default meta;
 type Story = StoryObj<typeof StatusButton>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const NoIcon: Story = {
+
+export const Canceled: Story = {
   args: {
-    children: "Button"
+    status: "canceled"
   }
 };
 
-export const WithLeftIcon: Story = {
+export const Error: Story = {
   args: {
-    children: "Home",
-    LeftIcon: Home
+    status: "error"
   }
 };
 
-export const WithRightIcon: Story = {
+export const Finished: Story = {
   args: {
-    children: "Continue",
-    RightIcon: ArrowRight
+    status: "finished"
+  }
+};
+
+export const Queued: Story = {
+  args: {
+    status: "queued"
+  }
+};
+
+export const Running: Story = {
+  args: {
+    status: "running"
   }
 };

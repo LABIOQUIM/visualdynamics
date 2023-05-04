@@ -19,7 +19,7 @@ export const TextButton: FC<ButtonProps> = ({
   return (
     <button
       className={clsx(
-        `group flex items-center justify-center gap-x-1 rounded-lg p-2 font-medium text-primary-600 outline-none transition-all duration-150 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-gray-200 enabled:hover:text-primary-700 disabled:opacity-60 dark:focus:ring-offset-gray-900`,
+        `flex items-center justify-center gap-x-1 rounded-lg p-2 font-medium text-primary-600 outline-none transition-all duration-150 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-gray-200 enabled:hover:text-primary-700 disabled:opacity-60 dark:focus:ring-offset-gray-900`,
         className
       )}
       {...rest}

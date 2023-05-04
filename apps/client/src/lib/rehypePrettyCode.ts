@@ -4,7 +4,7 @@ import { visit } from "unist-util-visit";
 
 // div.BLOCK > pre.PRE > code.CODE
 const BLOCK =
-  "rounded-lg my-5 overflow-x-auto bg-gray-800 shadow-surface-elevation-low ring-1 ring-primary-100/5 ring-inset";
+  "rounded-lg my-5 overflow-x-auto bg-zinc-800 shadow-surface-elevation-low ring-1 ring-primary-100/5 ring-inset";
 const TITLE =
   "mb-0.5 rounded-lg font-mono rounded-b-none px-3 py-2 text-xs text-primary-100/70 shadow-sm";
 const PRE = "overflow-x-auto py-2 text-[13px] leading-6";

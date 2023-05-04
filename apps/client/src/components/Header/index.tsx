@@ -16,7 +16,7 @@ export function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="shadow-bottom sticky top-0 z-50 bg-white py-4 transition-all duration-150 dark:bg-gray-900 lg:relative lg:top-auto">
+    <header className="shadow-bottom sticky top-0 z-50 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
       <div className="container mx-auto flex h-full items-center justify-between gap-x-4 px-6 text-primary-600 dark:text-primary-300">
         {/* <!-- Mobile hamburger --> */}
         <button
@@ -45,7 +45,7 @@ export function Header() {
               />
             </div>
             <Input
-              className="w-full pl-8 dark:bg-gray-950"
+              className="w-full pl-8 dark:bg-zinc-950"
               placeholder="Search for projects"
               aria-label="Search"
             />

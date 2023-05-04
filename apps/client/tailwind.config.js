@@ -4,25 +4,18 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
-  darkMode: "class",
+  darkMode: ["class", '[data-mode="dark"]'],
   future: {
     hoverOnlyWhenSupported: true
   },
   theme: {
     extend: {
       colors: {
-        primary: colors.green,
-        gray: colors.zinc
+        primary: colors.green
       },
       fontFamily: {
-        inter: ["Inter", ...fontFamily.sans],
-        grotesk: ["Space Grotesk", ...fontFamily.sans]
+        inter: ["Inter", ...fontFamily.sans]
       },
-      backgroundImage: ({ theme }) => ({
-        "vc-border-gradient": `radial-gradient(at left top, ${theme(
-          "colors.gray.500"
-        )}, 50px, ${theme("colors.gray.800")} 50%)`
-      }),
       keyframes: ({ theme }) => ({
         slideUpEnter: {
           "0%": {

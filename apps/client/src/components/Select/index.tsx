@@ -47,7 +47,7 @@ export const Select = <T extends string>({
       >
         <RSelect.Trigger
           className={clsx(
-            "flex h-10 items-center justify-between rounded-lg border border-primary-400/60 bg-gray-50 px-2 py-1 outline-none transition-all duration-150 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 data-[placeholder]:text-zinc-400 dark:bg-gray-900 dark:focus:ring-offset-gray-900",
+            "flex h-10 items-center justify-between rounded-lg border border-primary-400/60 bg-zinc-50 px-2 py-1 outline-none transition-all duration-150 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 data-[placeholder]:text-zinc-400 dark:bg-zinc-900 dark:focus:ring-offset-gray-900",
             {
               "border-red-600/95 focus:ring-red-500": error,
               "opacity-50": disabled
@@ -65,7 +65,7 @@ export const Select = <T extends string>({
           </RSelect.Icon>
         </RSelect.Trigger>
         <RSelect.Content
-          className="z-40 max-h-[16rem] w-[--radix-select-trigger-width] rounded-md border border-primary-400/60 bg-gray-50 p-2 transition-all duration-500 dark:bg-gray-900"
+          className="z-40 max-h-[16rem] w-[--radix-select-trigger-width] rounded-md border border-primary-400/60 bg-zinc-50 p-2 transition-all duration-500 dark:bg-zinc-900"
           position="popper"
           sideOffset={5}
         >

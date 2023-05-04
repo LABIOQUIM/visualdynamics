@@ -31,7 +31,7 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
           ? "_blank"
           : undefined
       }
-      className="group flex items-center gap-x-2 rounded-md p-2 transition-all duration-500 hover:bg-gray-800/20"
+      className="group flex items-center gap-x-2 rounded-md p-2 transition-all duration-500 hover:bg-zinc-800/20"
       key={maintainer.name}
     >
       {maintainer.image ? (

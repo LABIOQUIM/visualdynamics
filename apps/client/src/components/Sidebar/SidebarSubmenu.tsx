@@ -69,7 +69,7 @@ export function SidebarSubmenu({ item }: ISidebarSubmenu) {
         leaveTo="opacity-0 max-h-0"
       >
         <ul
-          className="mt-2 space-y-2 overflow-hidden rounded-lg bg-gray-50 p-2 text-sm font-medium text-gray-500 shadow-inner dark:bg-gray-900 dark:text-gray-400"
+          className="mt-2 space-y-2 overflow-hidden rounded-lg bg-zinc-50 p-2 text-sm font-medium text-gray-500 shadow-inner dark:bg-zinc-900 dark:text-gray-400"
           aria-label="submenu"
         >
           {item.links &&

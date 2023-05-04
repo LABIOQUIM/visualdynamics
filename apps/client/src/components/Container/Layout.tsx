@@ -22,7 +22,7 @@ export function Layout({ children }: ILayout) {
         className={`h-screen ${theme} ${isSidebarOpen && "overflow-hidden"}`}
       >
         <div
-          className={`flex min-h-full flex-1 flex-col bg-white transition-all duration-150 dark:bg-gray-900 lg:h-full`}
+          className={`flex min-h-full flex-1 flex-col bg-white transition-all duration-150 dark:bg-zinc-900 lg:h-full`}
         >
           <Header />
           <div className="flex flex-1 lg:overflow-y-hidden">

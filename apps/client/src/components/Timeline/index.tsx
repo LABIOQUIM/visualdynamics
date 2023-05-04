@@ -57,7 +57,7 @@ export function Timeline({ showRecentsOnly, showTitle }: TimelineProps) {
             className="ml-4 mt-3 first-of-type:mt-0"
             key={item.title}
           >
-            <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 dark:border-gray-900 dark:bg-gray-700" />
+            <div className="absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-zinc-200 dark:border-gray-900 dark:bg-zinc-700" />
             <time className="mb-1 text-sm font-normal leading-none text-zinc-400 dark:text-gray-500">
               {item.date}
             </time>

@@ -36,7 +36,7 @@ export function MobileSidebar() {
           <aside
             id="mobileSidebar"
             ref={sidebarRef}
-            className="fixed inset-y-0 z-50 mt-[4.5rem] w-64 flex-shrink-0 overflow-y-auto bg-white transition-all duration-150 dark:bg-gray-900 lg:hidden"
+            className="fixed inset-y-0 z-50 mt-[4.5rem] w-64 flex-shrink-0 overflow-y-auto bg-white transition-all duration-150 dark:bg-zinc-900 lg:hidden"
           >
             <SidebarContent />
           </aside>

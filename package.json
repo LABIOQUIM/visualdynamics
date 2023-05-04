@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "dev:c": "pnpm --filter client dev",
+    "storybook": "pnpm --filter client storybook",
     "dev:s": "pnpm --filter server dev",
     "dev": "concurrently --kill-others \"pnpm:dev:s\" \"pnpm:dev:c\"",
     "install:s": "pnpm --filter server padd"
