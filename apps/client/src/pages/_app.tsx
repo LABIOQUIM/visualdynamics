@@ -18,7 +18,7 @@ const Layout = dynamic(
   }
 );
 
-const NextNProgress = dynamic(() => import("nextjs-progressbar"), {
+const NextNProgress = dynamic(() => import("next-progress"), {
   ssr: false
 });
 
