@@ -1,6 +1,7 @@
 {
   "title": "My Dynamics",
   "auto-refresh": "Refreshing in {{seconds}} seconds.",
+  "header": "<p><b>{{type}}</b>: {{molecule}} @ {{time}}</p>",
   "dynamic": {
     "id": "Task ID"
   },
@@ -15,5 +16,9 @@
     "results": "Raw Results (.xtc and _pr.tpr)",
     "mdp": "Download MDP Files",
     "title": "Downloads"
+  },
+  "errors": {
+    "hm5ka": "Error: This molecule has more than 5000 atoms.",
+    "command": "Errored on command <b>{{command}}</b>"
   }
 }

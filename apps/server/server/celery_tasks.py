@@ -24,6 +24,31 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
     )
     file_pid_path = os.path.join(folder_run, "pid_file")
 
+    file_molecule = folder.split("/")[::-1][1]
+    file_molecule = os.path.abspath(os.path.join(folder_run, f"{file_molecule}.pdb"))
+
+    dynamic_data = folder.split("/")[::-1]
+
+    with open(file_molecule, "r") as f:
+        lines = f.readlines()
+        for line in reversed(lines):
+            if "ATOM" in line:
+                data = line.strip().split(" ")
+                data = list(filter(None, data))
+                if int(data[1]) > 5000:
+                    # SEND MAIL NOTIFYING DYNAMIC ERRORED
+                    requests.get(
+                        f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+                    )
+
+                    with open(file_status_path, "w") as f:
+                        f.write(f"error: hm5ka")
+
+                    if os.path.exists(file_is_running):
+                        os.remove(file_is_running)
+                    raise
+                break
+
     # Copy each file to our run folder
     for file in list_files_mdp:
         file_path = os.path.join(folder_mdp, file)
@@ -46,8 +71,6 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
 
     with open(file_status_path, "w") as f:
         f.write("running")
-
-    dynamic_data = folder.split("/")[::-1]
 
     # Iterate in our command list
     for command in commands:

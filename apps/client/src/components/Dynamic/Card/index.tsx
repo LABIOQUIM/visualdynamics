@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
 import { StatusButton } from "@app/components/Button/Status";
@@ -55,8 +56,8 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
         <small className="text-xs leading-none">
           {t("my-dynamics:dynamic.id")}: {dynamic.celeryId}
         </small>
-        <p
-          className={clsx("flex", {
+        <div
+          className={clsx("", {
             "text-cyan-950 dark:text-cyan-300": dynamic.status === "running",
             "text-zinc-950 dark:text-zinc-300": dynamic.status === "canceled",
             "text-yellow-950 dark:text-yellow-300": dynamic.status === "queued",
@@ -65,16 +66,39 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
             "text-red-950 dark:text-red-300": dynamic.status === "error"
           })}
         >
-          <p className="font-bold">{dynamic.type}</p>: {dynamic.molecule} @{" "}
-          {Intl.DateTimeFormat(router.locale, {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-          }).format(new Date(dynamic.timestamp))}
-        </p>
+          <Trans
+            components={{
+              b: <b />,
+              p: <p />
+            }}
+            i18nKey="my-dynamics:header"
+            values={{
+              type: dynamic.type,
+              molecule: dynamic.molecule,
+              time: Intl.DateTimeFormat(router.locale, {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+              }).format(new Date(dynamic.timestamp))
+            }}
+          />
+          {dynamic.status === "error" ? (
+            dynamic.errored_command === "hm5ka" ? (
+              <p>{t("my-dynamics:errors.hm5ka")}</p>
+            ) : (
+              <Trans
+                components={{
+                  b: <b />
+                }}
+                i18nKey="my-dynamics:errors.command"
+                values={{ command: dynamic.errored_command }}
+              />
+            )
+          ) : null}
+        </div>
         <div className="flex flex-col gap-y-1">
           <small className="flex gap-x-1">
             <Download className="h-4 w-4" />
