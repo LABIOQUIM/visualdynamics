@@ -11,9 +11,9 @@ module.exports = {
     "/admin/signup": ["admin-signup"],
     "/admin/running": ["admin-running"],
     "/admin/md-pr/update": ["admin-mdpr-update"],
-    "/dynamics/running": ["running"],
-    "rgx:^/dynamics": ["forms"],
+    "/dynamic/running": ["running"],
+    "rgx:^/dynamic/[A-Za-z]+": ["forms"],
     "/reset-password": ["reset-password"],
-    "/reset-password/*": ["reset-password"]
+    "/reset-password/[resetId]": ["reset-password"]
   }
 };
