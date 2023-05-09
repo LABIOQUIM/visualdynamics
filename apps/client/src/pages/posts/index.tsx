@@ -1,7 +1,7 @@
 import { allPosts } from "contentlayer/generated";
 import { useRouter } from "next/router";
 
-import BlogCard from "@app/components/BlogCard";
+import BlogCard from "@app/components/Post/Card";
 import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
 export const getStaticProps = withSPTranslations();

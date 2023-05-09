@@ -46,9 +46,6 @@ importers:
       cookies-next:
         specifier: ^2.1.1
         version: 2.1.1
-      date-fns:
-        specifier: ^2.29.3
-        version: 2.29.3
       github-slugger:
         specifier: ^2.0.0
         version: 2.0.0
@@ -79,6 +76,12 @@ importers:
       next-sitemap:
         specifier: ^4.0.9
         version: 4.0.9(@next/env@13.4.0)(next@13.4.0)
+      next-translate:
+        specifier: ^2.0.5
+        version: 2.0.5(next@13.4.0)(react@18.2.0)
+      next-translate-plugin:
+        specifier: ^2.0.5
+        version: 2.0.5(next-translate@2.0.5)
       nodemailer:
         specifier: ^6.9.1
         version: 6.9.1
@@ -6078,6 +6081,7 @@ packages:
   /date-fns@2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
     engines: {node: '>=0.11'}
+    dev: true
 
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -9719,6 +9723,28 @@ packages:
       next: 13.4.0(@babel/core@7.21.8)(@opentelemetry/api@1.1.0)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
+  /next-translate-plugin@2.0.5(next-translate@2.0.5):
+    resolution: {integrity: sha512-H5Wecew+EQvrcCfnUiWwev8jS8ICH2Mw1SwWY8v8gXQfCpZ/ubpx+dinMhNZt+1BzqtEke53GHWov6gMvDB8tw==}
+    engines: {node: '>=14.15.0'}
+    requiresBuild: true
+    peerDependencies:
+      next-translate: '>= 2.0.0-canary.1'
+    dependencies:
+      next-translate: 2.0.5(next@13.4.0)(react@18.2.0)
+      typescript: 4.5.2
+    dev: false
+
+  /next-translate@2.0.5(next@13.4.0)(react@18.2.0):
+    resolution: {integrity: sha512-1aNweJUV9/edW2haexIqk66m/uiWRbZqC4K4bJxQRUjcOqNElJ3ZOBNeY50PYgY3Gb8tTFYkD3g+lqKtx6izYw==}
+    engines: {node: '>=14.15.0'}
+    peerDependencies:
+      next: '>= 10.0.0'
+      react: '>= 16.8.0'
+    dependencies:
+      next: 13.4.0(@babel/core@7.21.8)(@opentelemetry/api@1.1.0)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
   /next@13.4.0(@babel/core@7.21.8)(@opentelemetry/api@1.1.0)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-y3E+2ZjiVrphkz7zcJvd2rEG6miOekI8krPfWV4AZZ9TaF0LDuFdP/f+RQ5M9wRvsz6GWw8k8+7jsO860GxSqg==}
     engines: {node: '>=16.8.0'}
@@ -12277,6 +12303,12 @@ packages:
   /typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
+
+  /typescript@4.5.2:
+    resolution: {integrity: sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
 
   /typescript@4.9.3:
     resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}

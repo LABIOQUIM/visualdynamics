@@ -46,8 +46,8 @@
     "about": {
       "title": "About"
     },
-    "blog": {
-      "title": "Blog"
+    "posts": {
+      "title": "News and Posts"
     },
     "home": {
       "title": "Home"

@@ -27,8 +27,8 @@ export function SidebarContent() {
           href: "/about"
         },
         {
-          label: "navigation:system.blog.title",
-          href: "/blog"
+          label: "navigation:system.posts.title",
+          href: "/posts"
         }
       ]
     }

@@ -5,17 +5,9 @@ import type { ImageProps } from "next/image";
 import NextLink from "next/link";
 
 import { BlurImage } from "@app/components/BlurImage";
-import { Aside } from "@app/components/MDX/Aside";
-import { Code } from "@app/components/MDX/Code";
-import { Files } from "@app/components/MDX/Files";
 import { FOCUS_VISIBLE_OUTLINE, LINK_STYLES } from "@app/lib/constants";
 
 export const components = {
-  // 🥴🥴 Nested Component imports via MDX are suddenly not JSX transformed 🥴🥴
-  // https://github.com/contentlayerdev/contentlayer/issues/309
-  Code,
-  Files,
-  Aside,
   h1: (props: any) => (
     <h2
       className="mt-3 border-t-2 border-primary-800/5 pt-2.5 text-xl font-medium text-primary-900/90 dark:text-primary-400/90 sm:text-3xl"

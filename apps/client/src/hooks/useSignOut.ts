@@ -9,8 +9,9 @@ export function useSignOut() {
   const nonRedirectPages = [
     { path: "/about", exact: false },
     { path: "/", exact: true },
-    { path: "/blog", exact: false },
-    { path: "/reset-password", exact: false }
+    { path: "/posts", exact: false },
+    { path: "/reset-password", exact: false },
+    { path: "/404", exact: false }
   ];
 
   useEffect(() => {

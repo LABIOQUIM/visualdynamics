@@ -7,4 +7,4 @@ export const LINK_STYLES = `text-primary-700/90 dark:text-primary-400/90 underli
 
 export const LINK_SUBTLE_STYLES = `hover:underline hover:decoration-primary-700/30 hover:underline-offset-2 hover:text-primary-600/90`;
 
-export const HEADING_LINK_ANCHOR = `before:content-['•'] before:mr-1 before:text-primary-900 hover:before:text-primary-900/50 dark:before:text-primary-600 dark:hover:before:text-primary-600/50`;
+export const HEADING_LINK_ANCHOR = `before:content-['#'] before:mr-1 before:text-primary-900 hover:before:text-primary-900/50 dark:before:text-primary-600 dark:hover:before:text-primary-600/50`;

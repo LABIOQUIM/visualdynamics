@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import { useTranslation } from "next-i18next";
 
-import { components } from "@app/components/MDX/MDXComponents";
+import { BlurImage } from "@app/components/BlurImage";
+import { components } from "@app/components/Post/MDX/MDXComponents";
 import { SEO } from "@app/components/SEO";
 import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
@@ -38,15 +39,26 @@ export default function BlogPost({ post }: { post: Post }) {
     <>
       <SEO title={post.title} />
       <h2 className="text-xl font-bold md:text-4xl">{post?.title}</h2>
-      <div className="my-2.5 flex flex-col gap-4 md:flex-row">
-        <p className="flex items-center gap-x-1 text-sm font-medium text-gray-500 md:text-lg">
-          <Clock className="h-5 w-5" />
+      <div className="my-2.5 flex flex-col items-center gap-4 text-gray-500 md:flex-row">
+        <div className="flex w-fit gap-x-2">
+          <BlurImage
+            className="h-6 w-6 rounded-full"
+            alt={post.author}
+            src={post.authorImage}
+            width={0}
+            height={0}
+            unoptimized
+          />
+          <p>{post.author}</p>
+        </div>
+        <p className="flex items-center gap-x-2 text-sm font-medium md:text-lg">
+          <Clock className="m-auto h-4 w-4 text-zinc-300" />
           {t("common:blog.readtime", {
             minutes: Math.round(post?.readingTime.minutes)
           })}
         </p>
-        <p className="flex items-center gap-x-1 text-sm font-medium text-gray-500 md:text-lg">
-          <Calendar className="h-5 w-5" />
+        <p className="flex items-center gap-x-2 text-sm font-medium md:text-lg">
+          <Calendar className="m-auto h-4 w-4 text-zinc-300" />
           {Intl.DateTimeFormat(router.locale, {
             day: "2-digit",
             month: "long",

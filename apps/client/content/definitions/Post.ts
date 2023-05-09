@@ -4,14 +4,6 @@ import { defineDocumentType } from "contentlayer/source-files";
 import GithubSlugger from "github-slugger";
 import readingTime from "reading-time";
 
-// DON'T EVER MOVE THIS TO NON-RELATIVE IMPORTS
-// IT'LL BREAK
-import { formatShortDate } from "../../src/lib/formatShortDate";
-
-// esbuild doesn't support module aliases 😤🤌
-// https://github.com/evanw/esbuild/issues/394
-// https://github.com/contentlayerdev/contentlayer/issues/238
-
 export const Post = defineDocumentType(() => ({
   name: "Post",
   filePathPattern: "posts/*.mdx",
@@ -20,8 +12,11 @@ export const Post = defineDocumentType(() => ({
     title: { type: "string", required: true },
     publishedAt: { type: "string", required: true },
     description: { type: "string" },
+    category: { type: "enum", options: ["news", "post", "tutorial"] },
     status: { type: "enum", options: ["draft", "published"], required: true },
-    locale: { type: "enum", options: ["en-US", "pt-BR"], required: true }
+    locale: { type: "enum", options: ["en-US", "pt-BR"], required: true },
+    author: { type: "string", required: true },
+    authorImage: { type: "string", required: true }
   },
   computedFields: {
     headings: {
@@ -48,10 +43,6 @@ export const Post = defineDocumentType(() => ({
       }
     },
     readingTime: { type: "json", resolve: (doc) => readingTime(doc.body.raw) },
-    publishedAtFormatted: {
-      type: "string",
-      resolve: (doc) => formatShortDate(doc.publishedAt)
-    },
     slug: {
       type: "string",
       resolve: (doc) =>
