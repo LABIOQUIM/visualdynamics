@@ -41,7 +41,11 @@ export function SignInForm() {
     }).then((data) => {
       if (data) {
         if (data.error) {
-          setSignInError(data.error);
+          if (data.error === "user.no-pass") {
+            router.push(`/reset-password?reason=passwordmigration`);
+          } else {
+            setSignInError(data.error);
+          }
         }
 
         if (data.ok) {
@@ -53,62 +57,64 @@ export function SignInForm() {
   };
 
   return (
-    <form
-      className="flex flex-col gap-y-2.5 lg:mx-auto lg:w-1/2"
-      onSubmit={handleSubmit(handleAuth)}
-    >
-      {signInError ? (
-        <div className="flex gap-x-2 rounded-lg border border-orange-500 bg-orange-400/20 p-2">
-          <AlertTriangle className="stroke-orange-600 dark:stroke-orange-200" />
-          <p className="text-orange-600 dark:text-orange-200">
-            {t(`signin:errors.${signInError}`)}
-          </p>
-        </div>
-      ) : null}
-      <Input
-        error={errors.identifier}
-        disabled={isSubmitting}
-        label={t("signin:identifier.title")}
-        placeholder={t("signin:identifier.placeholder")}
-        {...register("identifier")}
-      />
-      <Input
-        error={errors.password}
-        disabled={isSubmitting}
-        label={t("signin:password.title")}
-        placeholder={t("signin:password.placeholder")}
-        type="password"
-        {...register("password")}
-      />
-      <Button
-        disabled={isSubmitting}
-        LeftIcon={!isSubmitting ? LogIn : undefined}
-        type="submit"
+    <>
+      <form
+        className="flex flex-col gap-y-2.5 lg:mx-auto lg:w-1/2"
+        onSubmit={handleSubmit(handleAuth)}
       >
-        {isSubmitting ? <Spinner /> : null}
-        {t("signin:title")}
-      </Button>
-      <div className="flex gap-x-2">
-        <Link href="/reset-password">
+        {signInError ? (
+          <div className="flex gap-x-2 rounded-lg border border-orange-500 bg-orange-400/20 p-2">
+            <AlertTriangle className="stroke-orange-600 dark:stroke-orange-200" />
+            <p className="text-orange-600 dark:text-orange-200">
+              {t(`signin:errors.${signInError}`)}
+            </p>
+          </div>
+        ) : null}
+        <Input
+          error={errors.identifier}
+          disabled={isSubmitting}
+          label={t("signin:identifier.title")}
+          placeholder={t("signin:identifier.placeholder")}
+          {...register("identifier")}
+        />
+        <Input
+          error={errors.password}
+          disabled={isSubmitting}
+          label={t("signin:password.title")}
+          placeholder={t("signin:password.placeholder")}
+          type="password"
+          {...register("password")}
+        />
+        <Button
+          disabled={isSubmitting}
+          LeftIcon={!isSubmitting ? LogIn : undefined}
+          type="submit"
+        >
+          {isSubmitting ? <Spinner /> : null}
+          {t("signin:title")}
+        </Button>
+        <div className="flex gap-x-2">
+          <Link href="/reset-password">
+            <TextButton
+              className="text-sm"
+              iconClassName="h-4 w-4"
+              LeftIcon={Lock}
+              type="button"
+            >
+              {t("signin:lost-password")}
+            </TextButton>
+          </Link>
           <TextButton
             className="text-sm"
             iconClassName="h-4 w-4"
-            LeftIcon={Lock}
+            LeftIcon={UserPlus}
+            onClick={() => router.push("/signup")}
             type="button"
           >
-            {t("signin:lost-password")}
+            {t("signin:new-user")}
           </TextButton>
-        </Link>
-        <TextButton
-          className="text-sm"
-          iconClassName="h-4 w-4"
-          LeftIcon={UserPlus}
-          onClick={() => router.push("/signup")}
-          type="button"
-        >
-          {t("signin:new-user")}
-        </TextButton>
-      </div>
-    </form>
+        </div>
+      </form>
+    </>
   );
 }

@@ -1,5 +1,12 @@
 version: '3.8'
 services:
+  database:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: "postgresvd"
   cache:
     image: redis:6.2-alpine
     restart: always
