@@ -1,11 +1,11 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 export function UserMenu() {
   const { data: session, status } = useSession();
-  const { t } = useTranslation(["navigation"]);
+  const { t } = useTranslation();
 
   if (status !== "authenticated") {
     return null;

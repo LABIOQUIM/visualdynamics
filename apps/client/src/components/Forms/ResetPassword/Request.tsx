@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { AlertTriangle, MailCheck } from "lucide-react";
 import { Mail } from "lucide-react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
@@ -15,7 +15,7 @@ import {
 } from "@app/schemas/pages/reset-password/request.zod";
 
 export function ResetPasswordRequestForm() {
-  const { t } = useTranslation(["reset-password"]);
+  const { t } = useTranslation();
   const [errored, setErrored] = useState(false);
   const [mailSent, setMailSent] = useState(false);
   const {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Slash } from "lucide-react";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { api } from "@app/lib/api";
@@ -20,7 +20,7 @@ export function DynamicRunningAbortButton({
   refetch
 }: DynamicRunningAbortButtonProps) {
   const [isAborting, setIsAborting] = useState(false);
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation();
   const router = useRouter();
 
   async function abortTask() {

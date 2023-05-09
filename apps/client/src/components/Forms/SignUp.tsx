@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { AlertCircle, AlertTriangle, UserPlus } from "lucide-react";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
@@ -15,7 +15,7 @@ import {
 } from "@app/schemas/components/auth/signup.zod";
 
 export function SignUpForm() {
-  const { t } = useTranslation(["signup"]);
+  const { t } = useTranslation();
   const [signUpStatus, setSignUpStatus] = useState("");
   const {
     register,

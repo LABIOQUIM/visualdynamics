@@ -1,6 +1,6 @@
 import { Code2, Lightbulb, Newspaper } from "lucide-react";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { BlurImage } from "@app/components/BlurImage";
 
@@ -9,7 +9,7 @@ interface MaintainerCardProps {
 }
 
 export function MaintainerCard({ maintainer }: MaintainerCardProps) {
-  const { t } = useTranslation(["about"]);
+  const { t } = useTranslation();
 
   const WorkIcon = {
     idea: Lightbulb,

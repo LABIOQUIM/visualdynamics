@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Spinner } from "@app/components/Spinner";
 
@@ -11,7 +11,7 @@ export function DynamicRunningRealtimeLog({
   isRefetching,
   logLines
 }: DynamicRunningRealtimeLogProps) {
-  const { t } = useTranslation(["running"]);
+  const { t } = useTranslation();
 
   return (
     <div>

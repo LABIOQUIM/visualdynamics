@@ -3,7 +3,7 @@ import { Beaker, Crown, Info, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { SidebarSubmenu } from "@app/components/Sidebar/SidebarSubmenu";
 import { routeIsActive } from "@app/utils/route";
@@ -11,7 +11,7 @@ import { routeIsActive } from "@app/utils/route";
 export function SidebarContent() {
   const { pathname } = useRouter();
   const { data: session, status } = useSession();
-  const { t } = useTranslation(["navigation"]);
+  const { t } = useTranslation();
   const initialNavigationArray: NavigationSection[] = [
     {
       title: "navigation:system.title",

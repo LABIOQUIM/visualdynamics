@@ -1,7 +1,7 @@
 import { forwardRef, InputHTMLAttributes } from "react";
 import { FieldError } from "react-hook-form";
 import clsx from "clsx";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: FieldError;
@@ -10,7 +10,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ error, className, label, name, placeholder, type, ...props }, ref) => {
-    const { t } = useTranslation(["features"]);
+    const { t } = useTranslation();
 
     return (
       <div className="flex w-full flex-col gap-y-0.5">

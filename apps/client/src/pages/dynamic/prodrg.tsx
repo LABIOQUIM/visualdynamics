@@ -1,11 +1,10 @@
 import dynamic from "next/dynamic";
 import { User } from "next-auth";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 
 const PRODRGForm = dynamic(
@@ -16,32 +15,27 @@ const PRODRGForm = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(
-  withSSRAuth(async (_, session) => {
-    if (session) {
-      const data = await getRunningDynamic(session.user.username);
+export const getServerSideProps = withSSRAuth(async (_, session) => {
+  if (session) {
+    const data = await getRunningDynamic(session.user.username);
 
-      if (data?.status === "running") {
-        return {
-          redirect: {
-            destination: "/dynamic/running",
-            permanent: false
-          }
-        };
-      }
+    if (data?.status === "running") {
+      return {
+        redirect: {
+          destination: "/dynamic/running",
+          permanent: false
+        }
+      };
     }
-
-    return {
-      props: {}
-    };
-  }),
-  {
-    namespaces: ["forms"]
   }
-);
+
+  return {
+    props: {}
+  };
+});
 
 export default function PRODRGDynamic({ user }: { user: User }) {
-  const { t } = useTranslation(["forms", "navigation"]);
+  const { t } = useTranslation();
 
   return (
     <>

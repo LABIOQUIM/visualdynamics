@@ -1,12 +1,11 @@
 import axios from "axios";
 import dynamic from "next/dynamic";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useAdminSignUpRequestList } from "@app/queries/useAdminSignUpRequestList";
 
 const AdminSignUpRequestList = dynamic(
@@ -20,9 +19,7 @@ const AdminSignUpRequestList = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(withSSRAdmin(), {
-  namespaces: ["admin-signup"]
-});
+export const getServerSideProps = withSSRAdmin();
 
 export default function AdminSignup({
   initialData

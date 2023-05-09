@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
@@ -33,7 +33,7 @@ export function AdminMDPRUpdateForm({
       nsteps: data.status === "found" ? String(data.nsteps) : "0"
     }
   });
-  const { t } = useTranslation(["forms", "navigation"]);
+  const { t } = useTranslation();
 
   const handleSubmitDynamic: SubmitHandler<
     AdminMDPRUpdateFormSchemaType

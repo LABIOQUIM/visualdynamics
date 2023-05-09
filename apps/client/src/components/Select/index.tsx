@@ -3,7 +3,7 @@ import { FieldError } from "react-hook-form";
 import * as RSelect from "@radix-ui/react-select";
 import clsx from "clsx";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 type SelectProps<T extends string | number | symbol> = {
   error?: FieldError;
@@ -28,7 +28,7 @@ export const Select = <T extends string>({
   selectedValue,
   values
 }: SelectProps<T>) => {
-  const { t } = useTranslation(["features"]);
+  const { t } = useTranslation();
 
   return (
     <div className="flex w-full flex-col gap-y-0.5">

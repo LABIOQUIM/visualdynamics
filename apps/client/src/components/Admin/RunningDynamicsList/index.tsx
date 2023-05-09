@@ -1,6 +1,6 @@
 import { Server } from "lucide-react";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
 import { GetAdminRunningDynamicsListResult } from "@app/queries/useAdminRunningDynamicsList";
@@ -15,7 +15,7 @@ export function AdminRunningDynamicsList({
   runningDynamics
 }: AdminRunningDynamicsListProps) {
   const router = useRouter();
-  const { t } = useTranslation(["admin-running"]);
+  const { t } = useTranslation();
 
   return (
     <div>

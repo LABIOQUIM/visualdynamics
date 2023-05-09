@@ -67,9 +67,6 @@ importers:
       next-contentlayer:
         specifier: ^0.3.2
         version: 0.3.2(esbuild@0.17.17)(next@13.4.0)(react-dom@18.2.0)(react@18.2.0)
-      next-i18next:
-        specifier: ^13.2.2
-        version: 13.2.2(i18next@22.4.15)(next@13.4.0)(react-i18next@12.2.2)(react@18.2.0)
       next-progress:
         specifier: ^2.3.1
         version: 2.3.1(next@13.4.0)(react@18.2.0)
@@ -94,9 +91,6 @@ importers:
       react-hook-form:
         specifier: ^7.43.9
         version: 7.43.9(react@18.2.0)
-      react-i18next:
-        specifier: ^12.2.2
-        version: 12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@18.2.0)(react@18.2.0)
@@ -4433,13 +4427,6 @@ packages:
     dependencies:
       '@types/unist': 2.0.6
 
-  /@types/hoist-non-react-statics@3.3.1:
-    resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
-    dependencies:
-      '@types/react': 18.2.5
-      hoist-non-react-statics: 3.3.2
-    dev: false
-
   /@types/html-minifier-terser@6.1.0:
     resolution: {integrity: sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==}
     dev: true
@@ -5984,11 +5971,6 @@ packages:
     resolution: {integrity: sha512-nXBEVpmUnNRhz83cHd9JRQC52cTMcuXAmR56+9dSMpRdpeA4I1PX6yjmhd71Eyc/wXNsdBdUDIj1QTIeZpU5Tg==}
     requiresBuild: true
     dev: true
-
-  /core-js@3.30.1:
-    resolution: {integrity: sha512-ZNS5nbiSwDTq4hFosEDqm65izl2CWmLz0hARJMyNQBgkUZMIF51cQiMvIQKA6hvuaeWxQDP3hEedM1JZIgTldQ==}
-    requiresBuild: true
-    dev: false
 
   /core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
@@ -7880,12 +7862,6 @@ packages:
     hasBin: true
     dev: true
 
-  /hoist-non-react-statics@3.3.2:
-    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
-    dependencies:
-      react-is: 16.13.1
-    dev: false
-
   /hosted-git-info@2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
@@ -7911,12 +7887,6 @@ packages:
       relateurl: 0.2.7
       terser: 5.17.1
     dev: true
-
-  /html-parse-stringify@3.0.1:
-    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==}
-    dependencies:
-      void-elements: 3.1.0
-    dev: false
 
   /html-tags@3.3.1:
     resolution: {integrity: sha512-ztqyC3kLto0e9WbNp0aeP+M3kTt+nbaIveGmUxAtZa+8iFgKLUOD4YKM5j+f3QD89bra7UeumolZHKuOXnTmeQ==}
@@ -7984,10 +7954,6 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
     dev: true
-
-  /i18next-fs-backend@2.1.1:
-    resolution: {integrity: sha512-FTnj+UmNgT3YRml5ruRv0jMZDG7odOL/OP5PF5mOqvXud2vHrPOOs68Zdk6iqzL47cnnM0ZVkK2BAvpFeDJToA==}
-    dev: false
 
   /i18next@22.4.15:
     resolution: {integrity: sha512-yYudtbFrrmWKLEhl6jvKUYyYunj4bTBCe2qIUYAxbXoPusY7YmdwPvOE6fx6UIfWvmlbCWDItr7wIs8KEBZ5Zg==}
@@ -9678,26 +9644,6 @@ packages:
       - supports-color
     dev: false
 
-  /next-i18next@13.2.2(i18next@22.4.15)(next@13.4.0)(react-i18next@12.2.2)(react@18.2.0):
-    resolution: {integrity: sha512-t0WU6K+HJoq2nVQ0n6OiiEZja9GyMqtDSU74FmOafgk4ljns+iZ18bsNJiI8rOUXfFfkW96ea1N7D5kbMyT+PA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      i18next: ^22.0.6
-      next: '>= 12.0.0'
-      react: '>= 17.0.2'
-      react-i18next: ^12.2.0
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@types/hoist-non-react-statics': 3.3.1
-      core-js: 3.30.1
-      hoist-non-react-statics: 3.3.2
-      i18next: 22.4.15
-      i18next-fs-backend: 2.1.1
-      next: 13.4.0(@babel/core@7.21.8)(@opentelemetry/api@1.1.0)(react-dom@18.2.0)(react@18.2.0)
-      react: 18.2.0
-      react-i18next: 12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
-    dev: false
-
   /next-progress@2.3.1(next@13.4.0)(react@18.2.0):
     resolution: {integrity: sha512-agjfECh6VQaD2VXg/u8k3fsVStrxE1atdXeWhOCh+HBty7bxh92w5Wy3SxI86dZO+xK5+78sNLXQm1cikFCDPw==}
     peerDependencies:
@@ -10848,26 +10794,6 @@ packages:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
       react: 18.2.0
-    dev: false
-
-  /react-i18next@12.2.2(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-KBB6buBmVKXUWNxXHdnthp+38gPyBT46hJCAIQ8rX19NFL/m2ahte2KARfIDf2tMnSAL7wwck6eDOd/9zn6aFg==}
-    peerDependencies:
-      i18next: '>= 19.0.0'
-      react: '>= 16.8.0'
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.21.0
-      html-parse-stringify: 3.0.1
-      i18next: 22.4.15
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-inspector@6.0.1(react@18.2.0):
@@ -12628,11 +12554,6 @@ packages:
       is-buffer: 2.0.5
       unist-util-stringify-position: 3.0.3
       vfile-message: 3.1.4
-
-  /void-elements@3.1.0:
-    resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
-    engines: {node: '>=0.10.0'}
-    dev: false
 
   /vscode-oniguruma@1.7.0:
     resolution: {integrity: sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==}

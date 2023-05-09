@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CloudCog, Download } from "lucide-react";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
@@ -38,7 +38,7 @@ export function PRODRGForm({ user }: PRODRGFormProps) {
     }
   });
   const router = useRouter();
-  const { t } = useTranslation(["forms"]);
+  const { t } = useTranslation();
 
   const handleSubmitDynamic: SubmitHandler<PRODRGFormSchemaType> = async (
     data

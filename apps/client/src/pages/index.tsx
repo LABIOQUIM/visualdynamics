@@ -1,15 +1,10 @@
 import { CloudCog, Code2 } from "lucide-react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { SEO } from "@app/components/SEO";
-import { withSPTranslations } from "@app/hocs/withSPTranslations";
-
-export const getStaticProps = withSPTranslations(undefined, {
-  namespaces: ["home"]
-});
 
 export default function Home() {
-  const { t } = useTranslation(["home"]);
+  const { t } = useTranslation();
 
   const features = [
     {

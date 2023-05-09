@@ -3,13 +3,12 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import {
   getRunningDynamic,
   GetRunningDynamicResult,
@@ -36,26 +35,21 @@ const DynamicRunningStepList = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(
-  withSSRAuth(async (_, session) => {
-    if (session) {
-      const initialData = await getRunningDynamic(session.user.username);
-
-      return {
-        props: {
-          initialData
-        }
-      };
-    }
+export const getServerSideProps = withSSRAuth(async (_, session) => {
+  if (session) {
+    const initialData = await getRunningDynamic(session.user.username);
 
     return {
-      props: {}
+      props: {
+        initialData
+      }
     };
-  }),
-  {
-    namespaces: ["running"]
   }
-);
+
+  return {
+    props: {}
+  };
+});
 
 export default function Running({
   initialData,
@@ -68,7 +62,7 @@ export default function Running({
     initialData,
     refetchOnMount: true
   });
-  const { t } = useTranslation(["navigation", "running"]);
+  const { t } = useTranslation();
   const router = useRouter();
 
   if (data?.status === "running") {

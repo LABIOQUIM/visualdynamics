@@ -1,14 +1,13 @@
 import { allPosts, Post } from "contentlayer/generated";
 import { Calendar, Clock } from "lucide-react";
-import { GetStaticPaths } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useMDXComponent } from "next-contentlayer/hooks";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { BlurImage } from "@app/components/BlurImage";
 import { components } from "@app/components/Post/MDX/MDXComponents";
 import { SEO } from "@app/components/SEO";
-import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = allPosts.map((p) => ({
@@ -22,16 +21,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = withSPTranslations(async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       post: allPosts.find((p) => p.slug === params?.slug)
     }
   };
-});
+};
 
 export default function BlogPost({ post }: { post: Post }) {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation();
   const MDXContent = useMDXComponent(post ? post.body.code : "");
   const router = useRouter();
 

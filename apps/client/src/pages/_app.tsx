@@ -4,7 +4,6 @@ import { type AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
-import { appWithTranslation } from "next-i18next";
 
 import { ThemeProvider } from "@app/context/ThemeContext";
 import { queryClient } from "@app/lib/query-client";
@@ -32,7 +31,10 @@ const ReactQueryDevtools = dynamic(
   }
 );
 
-function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps }
+}: AppProps) {
   if (typeof window === "undefined") React.useLayoutEffect = React.useEffect;
 
   return (
@@ -83,5 +85,3 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     </>
   );
 }
-
-export default appWithTranslation(App);

@@ -1,10 +1,9 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 
 const ResetPasswordForm = dynamic(
   () =>
@@ -17,12 +16,8 @@ const ResetPasswordForm = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(undefined, {
-  namespaces: ["reset-password"]
-});
-
 export default function ResetPassword() {
-  const { t } = useTranslation(["reset-password"]);
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (

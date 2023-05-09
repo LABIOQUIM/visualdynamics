@@ -5,13 +5,12 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { TextButton } from "@app/components/Button/Text";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useSignOut } from "@app/hooks/useSignOut";
 import {
   GetListDynamicResult,
@@ -26,26 +25,21 @@ const DynamicCard = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(
-  withSSRAuth(async (_, session) => {
-    if (session) {
-      const initialData = await getListDynamics(session.user.username);
-
-      return {
-        props: {
-          initialData
-        }
-      };
-    }
+export const getServerSideProps = withSSRAuth(async (_, session) => {
+  if (session) {
+    const initialData = await getListDynamics(session.user.username);
 
     return {
-      props: {}
+      props: {
+        initialData
+      }
     };
-  }),
-  {
-    namespaces: ["my-dynamics"]
   }
-);
+
+  return {
+    props: {}
+  };
+});
 
 export default function MyDynamics({
   initialData,
@@ -54,7 +48,6 @@ export default function MyDynamics({
   user: User;
   initialData: GetListDynamicResult;
 }) {
-  useSignOut();
   const { data, refetch, isRefetching, isLoading } = useListDynamics(
     user.username,
     {
@@ -63,7 +56,7 @@ export default function MyDynamics({
     }
   );
   const [timeUntilRefresh, setTimeUntilRefresh] = useState(60);
-  const { t } = useTranslation(["my-dynamics"]);
+  const { t } = useTranslation();
   const router = useRouter();
 
   useEffect(() => {

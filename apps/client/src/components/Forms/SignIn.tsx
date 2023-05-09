@@ -5,7 +5,7 @@ import { AlertTriangle, Lock, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { TextButton } from "@app/components/Button/Text";
@@ -17,7 +17,7 @@ import {
 } from "@app/schemas/components/auth/signin.zod";
 
 export function SignInForm() {
-  const { t } = useTranslation(["signin"]);
+  const { t } = useTranslation();
   const [signInError, setSignInError] = useState("");
   const {
     register,

@@ -1,12 +1,12 @@
 import { Post } from "contentlayer/generated";
 import { Clock } from "lucide-react";
 import Link from "next/link";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { BlurImage } from "@app/components/BlurImage";
 
 export default function BlogCard(post: Post) {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation();
 
   return (
     <div className="group p-2 transition-all duration-150 hover:bg-zinc-400/5">

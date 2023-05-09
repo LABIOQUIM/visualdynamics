@@ -1,10 +1,9 @@
 import dynamic from "next/dynamic";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
 import { withSSRGuest } from "@app/hocs/withSSRGuest";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 
 const SignUpForm = dynamic(
   () => import("@app/components/Forms/SignUp").then((mod) => mod.SignUpForm),
@@ -14,12 +13,10 @@ const SignUpForm = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(withSSRGuest(), {
-  namespaces: ["signup"]
-});
+export const getServerSideProps = withSSRGuest();
 
 export default function SignUp() {
-  const { t } = useTranslation(["signup"]);
+  const { t } = useTranslation();
 
   return (
     <>

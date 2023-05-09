@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { AlertTriangle, Key, UserCheck } from "lucide-react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { Input } from "@app/components/Input";
@@ -18,7 +18,7 @@ interface ResetPasswordFormProps {
 }
 
 export function ResetPasswordForm({ resetId }: ResetPasswordFormProps) {
-  const { t } = useTranslation(["reset-password"]);
+  const { t } = useTranslation();
   const [errored, setErrored] = useState(false);
   const [isReseted, setIsReseted] = useState(false);
   const {

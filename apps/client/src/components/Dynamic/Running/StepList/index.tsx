@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { ArrowRight, CheckCircle, Clock } from "lucide-react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Spinner } from "@app/components/Spinner";
 
@@ -29,7 +29,7 @@ function Step({
   running: boolean;
   step: string;
 }) {
-  const { t } = useTranslation(["running"]);
+  const { t } = useTranslation();
 
   return (
     <div
@@ -59,7 +59,7 @@ function Step({
 export function DynamicRunningStepList({
   activeSteps
 }: DynamicRunningStepListProps) {
-  const { t } = useTranslation(["features"]);
+  const { t } = useTranslation();
 
   return (
     <div>

@@ -1,16 +1,13 @@
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { SEO } from "@app/components/SEO";
-import { withSPTranslations } from "@app/hocs/withSPTranslations";
-
-export const getStaticProps = withSPTranslations();
 
 export default function Custom404() {
   const router = useRouter();
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation();
 
   return (
     <>

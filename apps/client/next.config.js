@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { withContentlayer } = require("next-contentlayer");
-const { i18n } = require("./next-i18next.config");
+const nextTranslate = require("next-translate-plugin");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true"
 });
@@ -8,8 +8,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: false,
-  i18n,
+  swcMinify: true,
   images: {
     domains: [
       "placekitten.com",
@@ -19,4 +18,6 @@ const nextConfig = {
   }
 };
 
-module.exports = withBundleAnalyzer(withContentlayer(nextConfig));
+module.exports = withBundleAnalyzer(
+  withContentlayer(nextTranslate(nextConfig))
+);

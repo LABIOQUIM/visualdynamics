@@ -1,5 +1,5 @@
 import { Check, Users, X } from "lucide-react";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { StatusButton } from "@app/components/Button/Status";
 
@@ -14,7 +14,7 @@ export function AdminSignUpRequestList({
   approveUser,
   rejectUser
 }: AdminSignUpRequestListProps) {
-  const { t } = useTranslation(["admin-signup"]);
+  const { t } = useTranslation();
 
   if (inactiveUsers && inactiveUsers.length > 0) {
     return (

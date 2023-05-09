@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { StatusButton } from "@app/components/Button/Status";
 import { Spinner } from "@app/components/Spinner";
@@ -22,7 +22,7 @@ interface DynamicCardProps {
 }
 
 export function DynamicCard({ dynamic }: DynamicCardProps) {
-  const { t } = useTranslation(["my-dynamics"]);
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (

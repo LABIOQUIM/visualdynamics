@@ -1,11 +1,10 @@
 import { AlertTriangle } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
-import { withSPTranslations } from "@app/hocs/withSPTranslations";
 
 const ResetPasswordRequestForm = dynamic(
   () =>
@@ -18,12 +17,8 @@ const ResetPasswordRequestForm = dynamic(
   }
 );
 
-export const getStaticProps = withSPTranslations(undefined, {
-  namespaces: ["reset-password"]
-});
-
 export default function ResetPasswordRequest() {
-  const { t } = useTranslation(["reset-password"]);
+  const { t } = useTranslation();
   const { query } = useRouter();
 
   return (

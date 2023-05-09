@@ -1,10 +1,9 @@
 import dynamic from "next/dynamic";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useAdminMDPRValues } from "@app/queries/useAdminMDPRValues";
 
 const AdminMDPRUpdateForm = dynamic(
@@ -18,9 +17,7 @@ const AdminMDPRUpdateForm = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(withSSRAdmin(), {
-  namespaces: ["admin-mdpr-update"]
-});
+export const getServerSideProps = withSSRAdmin();
 
 export default function AdminMDPRUpdate() {
   const { data, refetch } = useAdminMDPRValues();

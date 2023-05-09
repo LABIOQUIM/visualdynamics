@@ -1,11 +1,10 @@
 import dynamic from "next/dynamic";
-import { useTranslation } from "next-i18next";
+import useTranslation from "next-translate/useTranslation";
 
 import { FullPageLoader } from "@app/components/FullPageLoader";
 import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
-import { withSSRTranslations } from "@app/hocs/withSSRTranslations";
 import { useAdminRunningDynamicsList } from "@app/queries/useAdminRunningDynamicsList";
 
 const AdminRunningDynamicsList = dynamic(
@@ -19,9 +18,7 @@ const AdminRunningDynamicsList = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRTranslations(withSSRAdmin(), {
-  namespaces: ["admin-running"]
-});
+export const getServerSideProps = withSSRAdmin();
 
 export default function AdminSignup() {
   const { data, isRefetching, isLoading, refetch } =
