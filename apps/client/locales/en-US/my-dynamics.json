@@ -1,7 +1,7 @@
 {
   "title": "My Dynamics",
   "auto-refresh": "Refreshing in {{seconds}} seconds.",
-  "header": "<p><b>{{type}}</b>: {{molecule}} @ {{time}}</p>",
+  "header": "<b>{{type}}</b>: {{molecule}} @ {{time}}",
   "dynamic": {
     "id": "Task ID"
   },

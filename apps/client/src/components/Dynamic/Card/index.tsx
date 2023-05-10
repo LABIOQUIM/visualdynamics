@@ -66,25 +66,26 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
             "text-red-950 dark:text-red-300": dynamic.status === "error"
           })}
         >
-          <Trans
-            components={{
-              b: <b />,
-              p: <p />
-            }}
-            i18nKey="my-dynamics:header"
-            values={{
-              type: dynamic.type,
-              molecule: dynamic.molecule,
-              time: Intl.DateTimeFormat(router.locale, {
-                day: "2-digit",
-                month: "long",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-              }).format(new Date(dynamic.timestamp))
-            }}
-          />
+          <p>
+            <Trans
+              components={{
+                b: <b />
+              }}
+              i18nKey="my-dynamics:header"
+              values={{
+                type: dynamic.type,
+                molecule: dynamic.molecule,
+                time: Intl.DateTimeFormat(router.locale, {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit"
+                }).format(new Date(dynamic.timestamp))
+              }}
+            />
+          </p>
           {dynamic.status === "error" ? (
             dynamic.errored_command === "hm5ka" ? (
               <p>{t("my-dynamics:errors.hm5ka")}</p>

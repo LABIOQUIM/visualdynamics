@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
 
+import { BlurImage } from "@app/components/BlurImage";
 import { SidebarSubmenu } from "@app/components/Sidebar/SidebarSubmenu";
+import { useTheme } from "@app/context/ThemeContext";
 import { routeIsActive } from "@app/utils/route";
 
 export function SidebarContent() {
+  const { theme } = useTheme();
   const { pathname } = useRouter();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
@@ -175,6 +178,40 @@ export function SidebarContent() {
           </div>
         ))}
       </ul>
+      <div className="my-5 grid gap-2 px-2">
+        <BlurImage
+          alt="LABIOQUIM"
+          className="w-full p-2"
+          height={0}
+          src="/labioquim.png"
+          unoptimized
+          width={0}
+        />
+        <BlurImage
+          alt="Fiocruz Rondônia"
+          className="w-full p-2"
+          height={0}
+          src="/fiocruz-ro.png"
+          unoptimized
+          width={0}
+        />
+        <BlurImage
+          alt="Fiocruz"
+          className="w-full p-2"
+          height={0}
+          src={theme === "light" ? "/fiocruz.png" : "/fiocruz-white.png"}
+          unoptimized
+          width={0}
+        />
+        <BlurImage
+          alt="UFCSPA"
+          className="w-full p-2"
+          height={0}
+          src="/ufcspa.png"
+          unoptimized
+          width={0}
+        />
+      </div>
     </div>
   );
 }
