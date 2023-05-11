@@ -17,17 +17,23 @@ const PRODRGForm = dynamic(
 );
 
 export const getServerSideProps = withSSRAuth(async (_, session) => {
-  if (session) {
-    const data = await getRunningDynamic(session.user.username);
+  try {
+    if (session) {
+      const data = await getRunningDynamic(session.user.username);
 
-    if (data?.status === "running") {
-      return {
-        redirect: {
-          destination: "/dynamic/running",
-          permanent: false
-        }
-      };
+      if (data?.status === "running") {
+        return {
+          redirect: {
+            destination: "/dynamic/running",
+            permanent: false
+          }
+        };
+      }
     }
+  } catch {
+    return {
+      props: {}
+    };
   }
 
   return {

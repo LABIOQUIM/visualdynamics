@@ -6,7 +6,7 @@
   "features": {
     "runs-on-cloud": {
       "title": "Runs on Cloud",
-      "description": "MD demands time, computational power, and even more computational power, so you can rely on us to this. We run 10 simultaneous MDs, with 6 CPU cores each."
+      "description": "MD demands time, computational power, and even more computational power, so you can rely on us to this. We run 3 simultaneous MDs, with 10 CPU cores each."
     },
     "open-source": {
       "title": "Free for... everyone",

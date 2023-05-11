@@ -1,8 +1,11 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { CloudCog, Download } from "lucide-react";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
+import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
@@ -42,7 +45,6 @@ export function APOForm({ user }: APOFormProps) {
 
   const router = useRouter();
 
-  console.log(watch("bootstrap"));
   const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
     data
   ) => {
@@ -66,7 +68,6 @@ export function APOForm({ user }: APOFormProps) {
         }
       })
       .then(async ({ data }) => {
-        console.log(data);
         if (data.status === "generated") {
           await api
             .post(
@@ -187,12 +188,36 @@ export function APOForm({ user }: APOFormProps) {
 
       <Button
         disabled={isSubmitting}
-        LeftIcon={watch("bootstrap") === true ? CloudCog : Download}
         type="submit"
       >
-        {watch("bootstrap") === true
-          ? t("forms:submit.run")
-          : t("forms:submit.download")}
+        <AnimatePresence mode="wait">
+          {watch("bootstrap") === true ? (
+            <motion.p
+              className="flex gap-x-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              key="submit.run"
+            >
+              <CloudCog />
+              <Trans i18nKey="forms:submit.run" />
+            </motion.p>
+          ) : (
+            <motion.p
+              className="flex gap-x-2"
+              key="submit.download"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Download />
+              <Trans
+                key="submit.dload"
+                i18nKey="forms:submit.download"
+              />
+            </motion.p>
+          )}
+        </AnimatePresence>
       </Button>
     </form>
   );
