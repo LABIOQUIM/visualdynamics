@@ -29,7 +29,7 @@ class GenerateACPYPE(Resource):
         parser.add_argument("double", required=True, type=bool, location="form")
         parser.add_argument("ignore", required=True, type=bool, location="form")
         parser.add_argument("username", required=True, type=str, location="form")
-        parser.add_argument("bootstrap", required=True, type=bool, location="form")
+        parser.add_argument("bootstrap", required=True, type=str, location="form")
 
         args = parser.parse_args()
 
@@ -41,7 +41,7 @@ class GenerateACPYPE(Resource):
             os.path.basename(args["file_gro"].filename)
         )
 
-        if args["bootstrap"] == True:
+        if args["bootstrap"] == "true":
             gmx = check_gromacs()
             grace = check_grace()
 
@@ -138,7 +138,7 @@ class GenerateACPYPE(Resource):
             f'{grace} -nxy "{filename}_complx_sas_residue.xvg" -hdevice PNG -hardcopy -printfile "../graficos/{filename}_complx_sas_residue.png"\n',
         ]
 
-        if args["bootstrap"] == True:
+        if args["bootstrap"] == "true":
             with open(os.path.join(dynamic_folder, "commands.txt"), "w") as f:
                 f.writelines(commands)
 

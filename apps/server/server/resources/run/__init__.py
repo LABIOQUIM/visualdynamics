@@ -15,7 +15,10 @@ class RunDynamic(Resource):
 
         args = parser.parse_args()
 
-        url = urlparse(request.base_url)
+        url = urlparse(request.base_url).hostname
+
+        if os.environ.get("FLASK_DEBUG"):
+            url = "localhost:3000"
 
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])
@@ -23,7 +26,7 @@ class RunDynamic(Resource):
         task_id = uuid()
 
         run_commands.apply_async(
-            (folder, url.hostname, args["email"]),
+            (folder, url, args["email"]),
             task_id=task_id,
         )
 

@@ -22,14 +22,16 @@ class GenerateAPO(Resource):
         parser.add_argument("neutralize", required=True, type=bool, location="form")
         parser.add_argument("double", required=True, type=bool, location="form")
         parser.add_argument("ignore", required=True, type=bool, location="form")
-        parser.add_argument("bootstrap", required=True, type=bool, location="form")
+        parser.add_argument("bootstrap", required=True, type=str, location="form")
         parser.add_argument("username", required=True, type=str, location="form")
 
         args = parser.parse_args()
 
         filename, ext = os.path.splitext(os.path.basename(args["file_pdb"].filename))
 
-        if args["bootstrap"] == True:
+        print(args)
+
+        if args["bootstrap"] == "true":
             gmx = check_gromacs()
             grace = check_grace()
 
@@ -117,7 +119,7 @@ class GenerateAPO(Resource):
             ]
         )
 
-        if args["bootstrap"] == True:
+        if args["bootstrap"] == "true":
             with open(os.path.join(dynamic_folder, "commands.txt"), "w") as f:
                 f.writelines(commands)
 
