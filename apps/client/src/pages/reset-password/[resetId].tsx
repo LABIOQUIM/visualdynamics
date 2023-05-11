@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
 
 const ResetPasswordForm = dynamic(
@@ -11,7 +11,7 @@ const ResetPasswordForm = dynamic(
       (mod) => mod.ResetPasswordForm
     ),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );

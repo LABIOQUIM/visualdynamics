@@ -8,6 +8,8 @@ import useTranslation from "next-translate/useTranslation";
 import { BlurImage } from "@app/components/BlurImage";
 import { components } from "@app/components/Post/MDX/MDXComponents";
 import { SEO } from "@app/components/SEO";
+import { H1 } from "@app/components/Typography/Headings";
+import { Paragraph } from "@app/components/Typography/Paragraphs";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = allPosts.map((p) => ({
@@ -37,8 +39,8 @@ export default function BlogPost({ post }: { post: Post }) {
   return (
     <>
       <SEO title={post.title} />
-      <h2 className="text-xl font-bold md:text-4xl">{post?.title}</h2>
-      <div className="my-2.5 flex flex-col items-center gap-4 text-gray-500 md:flex-row">
+      <H1>{post?.title}</H1>
+      <div className="mb-2.5 flex flex-col items-center gap-4 text-gray-500 md:flex-row">
         <div className="flex w-fit gap-x-2">
           <BlurImage
             className="h-6 w-6 rounded-full"
@@ -67,11 +69,9 @@ export default function BlogPost({ post }: { post: Post }) {
           }).format(new Date(post?.publishedAt ?? ""))}
         </p>
       </div>
-      <p className="text-base font-medium italic tracking-tighter text-gray-600 dark:text-gray-400 md:text-lg">
-        {post?.description}
-      </p>
+      <Paragraph className="italic">{post?.description}</Paragraph>
 
-      <div className="mt-10 grid text-gray-800 dark:text-gray-200">
+      <div className="mt-3 grid">
         <MDXContent
           components={{
             ...components

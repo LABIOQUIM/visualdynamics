@@ -2,15 +2,16 @@ import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
+import { H1 } from "@app/components/Typography/Headings";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 
 const PRODRGForm = dynamic(
   () => import("@app/components/Forms/PRODRG").then((mod) => mod.PRODRGForm),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );
@@ -40,9 +41,7 @@ export default function PRODRGDynamic({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("navigation:dynamic.models.prodrg")} />
-      <h2 className="-mb-2.5 text-2xl text-primary-600 dark:text-primary-400">
-        {t("navigation:dynamic.models.prodrg")}
-      </h2>
+      <H1>{t("navigation:dynamic.models.prodrg")}</H1>
       <PRODRGForm user={user} />
     </>
   );

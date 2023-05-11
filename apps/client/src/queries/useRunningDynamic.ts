@@ -40,11 +40,9 @@ export async function getRunningDynamic(
     });
 
     return data;
-  } catch (err) {
-    console.log(err);
-    return {
-      status: "not-running"
-    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    throw new Error(e);
   }
 }
 

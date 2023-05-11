@@ -1,9 +1,11 @@
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { AlertFailedToFetch } from "@app/components/Alert/FailedToFetch";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
+import { H1 } from "@app/components/Typography/Headings";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
 import { useAdminRunningDynamicsList } from "@app/queries/useAdminRunningDynamicsList";
 
@@ -13,7 +15,7 @@ const AdminRunningDynamicsList = dynamic(
       (mod) => mod.AdminRunningDynamicsList
     ),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );
@@ -27,26 +29,47 @@ export default function AdminSignup() {
     });
   const { t } = useTranslation();
 
+  function PageCommon() {
+    return (
+      <>
+        <SEO
+          title={t("admin-running:title")}
+          description={t("admin-running:description")}
+        />
+        <div className="flex gap-x-2">
+          <H1 className="uppercase">{t("admin-running:title")}</H1>
+          {isLoading || isRefetching ? <Spinner /> : null}
+        </div>
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <PageCommon />
+        <PageLoadingIndicator />
+      </>
+    );
+  }
+
+  if (!data) {
+    return (
+      <>
+        <PageCommon />
+        <AlertFailedToFetch />
+      </>
+    );
+  }
+
   return (
     <>
-      <SEO
-        title={t("admin-running:title")}
-        description={t("admin-running:description")}
-      />
-      <h2 className="text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
-        {t("admin-running:title")}
-      </h2>
+      <PageCommon />
 
-      {isLoading || isRefetching || !data ? (
-        <div className="flex flex-1 items-center justify-center">
-          <Spinner />
-        </div>
-      ) : (
-        <AdminRunningDynamicsList
-          refetch={refetch}
-          runningDynamics={data}
-        />
-      )}
+      <AdminRunningDynamicsList
+        refetch={refetch}
+        runningDynamics={data}
+      />
     </>
   );
 }

@@ -32,10 +32,9 @@ export async function getListDynamics(
     });
 
     return data;
-  } catch (err) {
-    return {
-      status: "no-dynamics"
-    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    throw new Error(e);
   }
 }
 

@@ -1,14 +1,14 @@
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
 import { withSSRGuest } from "@app/hocs/withSSRGuest";
 
 const SignUpForm = dynamic(
   () => import("@app/components/Forms/SignUp").then((mod) => mod.SignUpForm),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );

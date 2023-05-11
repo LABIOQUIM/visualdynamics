@@ -2,9 +2,11 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { AlertFailedToFetch } from "@app/components/Alert/FailedToFetch";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
+import { H1 } from "@app/components/Typography/Headings";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
 import { useAdminSignUpRequestList } from "@app/queries/useAdminSignUpRequestList";
 
@@ -14,7 +16,7 @@ const AdminSignUpRequestList = dynamic(
       (mod) => mod.AdminSignUpRequestList
     ),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );
@@ -55,26 +57,48 @@ export default function AdminSignup({
       });
   }
 
+  function PageCommon() {
+    return (
+      <>
+        <SEO
+          title={t("admin-signup:title")}
+          description={t("admin-signup:description")}
+        />
+        <div className="flex gap-x-2">
+          <H1 className="uppercase">{t("admin-signup:title")}</H1>
+          {isLoading || isRefetching ? <Spinner /> : null}
+        </div>
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <PageCommon />
+        <PageLoadingIndicator />
+      </>
+    );
+  }
+
+  if (!data) {
+    return (
+      <>
+        <PageCommon />
+        <AlertFailedToFetch />
+      </>
+    );
+  }
+
   return (
     <>
-      <SEO
-        title={t("admin-signup:title")}
-        description={t("admin-signup:description")}
-      />
-      <h2 className="flex gap-x-2 text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
-        {t("admin-signup:title")}
-        {isRefetching ? <Spinner /> : null}
-      </h2>
+      <PageCommon />
 
-      {isLoading ? (
-        <FullPageLoader />
-      ) : (
-        <AdminSignUpRequestList
-          inactiveUsers={data}
-          approveUser={approveUser}
-          rejectUser={rejectUser}
-        />
-      )}
+      <AdminSignUpRequestList
+        inactiveUsers={data}
+        approveUser={approveUser}
+        rejectUser={rejectUser}
+      />
     </>
   );
 }

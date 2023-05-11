@@ -2,15 +2,16 @@ import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
+import { H1 } from "@app/components/Typography/Headings";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 
 const ACPYPEForm = dynamic(
   () => import("@app/components/Forms/ACPYPE").then((mod) => mod.ACPYPEForm),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );
@@ -40,9 +41,7 @@ export default function ACPYPEDynamic({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("navigation:dynamic.models.acpype")} />
-      <h2 className="-mb-2.5 text-2xl text-primary-600 dark:text-primary-400">
-        {t("navigation:dynamic.models.acpype")}
-      </h2>
+      <H1>{t("navigation:dynamic.models.acpype")}</H1>
       <ACPYPEForm user={user} />
     </>
   );

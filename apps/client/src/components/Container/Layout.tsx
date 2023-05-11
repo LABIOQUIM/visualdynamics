@@ -3,8 +3,8 @@ import Router from "next/router";
 
 import { Backdrop } from "@app/components/Backdrop";
 import { Main } from "@app/components/Container/Main";
-import { FullPageLoader } from "@app/components/FullPageLoader";
 import { Header } from "@app/components/Header";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { Sidebar } from "@app/components/Sidebar";
 import { SidebarContext, SidebarProvider } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
@@ -39,7 +39,7 @@ export function Layout({ children }: ILayout) {
     <SidebarProvider>
       {isChangingRoute ? (
         <Backdrop className="z-[100] transition-all duration-150">
-          <FullPageLoader />
+          <PageLoadingIndicator />
         </Backdrop>
       ) : null}
       <div

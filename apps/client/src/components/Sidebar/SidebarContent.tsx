@@ -70,35 +70,29 @@ export function SidebarContent() {
       ]
     }
   ];
-  const adminNavigationArray: NavigationSection[] = [
-    {
-      title: "navigation:admin.title",
-      Icon: Crown,
-      links: [
-        {
-          label: "navigation:admin.dashboard.title",
-          href: "/admin",
-          exact: true
-        },
-        {
-          label: "navigation:admin.signup.title",
-          href: "/admin/signup"
-        },
-        {
-          label: "navigation:admin.dynamics.title",
-          href: "/admin/running"
-        },
-        {
-          label: "navigation:admin.mdp.title",
-          href: "/admin/md-pr/update"
-        },
-        {
-          label: "navigation:admin.users.title",
-          href: "/admin/users"
-        }
-      ]
-    }
-  ];
+  const adminNavigationSection: NavigationItem = {
+    label: "navigation:admin.title",
+    Icon: Crown,
+    links: [
+      {
+        label: "navigation:admin.dashboard.title",
+        href: "/admin",
+        exact: true
+      },
+      {
+        label: "navigation:admin.signup.title",
+        href: "/admin/signup"
+      },
+      {
+        label: "navigation:admin.dynamics.title",
+        href: "/admin/running"
+      },
+      {
+        label: "navigation:admin.mdp.title",
+        href: "/admin/md-pr/update"
+      }
+    ]
+  };
   const [navigationItems, setNavigationItems] = useState<NavigationSection[]>(
     initialNavigationArray
   );
@@ -107,8 +101,15 @@ export function SidebarContent() {
     if (status === "authenticated") {
       if (session.user.role === "ADMIN") {
         setNavigationItems([
-          ...adminNavigationArray,
-          ...initialNavigationArray,
+          ...[
+            {
+              ...initialNavigationArray[0],
+              links: [
+                adminNavigationSection,
+                ...initialNavigationArray[0].links
+              ]
+            }
+          ],
           ...authenticatedNavigationArray
         ]);
       } else {

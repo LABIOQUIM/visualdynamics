@@ -4,19 +4,23 @@ import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
 import { BlurImage } from "@app/components/BlurImage";
+import { H2 } from "@app/components/Typography/Headings";
+import { Paragraph } from "@app/components/Typography/Paragraphs";
 
 export default function BlogCard(post: Post) {
   const { t } = useTranslation();
 
   return (
-    <div className="group p-2 transition-all duration-150 hover:bg-zinc-400/5">
+    <div className="group p-2 hover:bg-zinc-400/5">
       <Link
         href="/posts/[slug]"
         as={`/posts/${post.slug}`}
       >
         <div className="grid gap-y-2">
-          <h1 className="line-clamp-1 text-xl font-medium">{post.title}</h1>
-          <p className="line-clamp-2 text-sm font-thin">{post.description}</p>
+          <H2 className="line-clamp-1 font-medium">{post.title}</H2>
+          <Paragraph className="line-clamp-2 font-light">
+            {post.description}
+          </Paragraph>
           <div className="flex w-fit gap-x-2 text-zinc-500">
             <div className="flex w-fit gap-x-2">
               <BlurImage

@@ -6,9 +6,14 @@ import {
 import axios from "axios";
 
 export async function getAdminSignUpRequestList(): Promise<InactiveUser[]> {
-  const { data } = await axios.get<InactiveUser[]>("/api/users/inactive");
+  try {
+    const { data } = await axios.get<InactiveUser[]>("/api/users/inactive");
 
-  return data;
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    throw new Error(e);
+  }
 }
 
 export function useAdminSignUpRequestList(

@@ -1,8 +1,11 @@
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { AlertFailedToFetch } from "@app/components/Alert/FailedToFetch";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
+import { Spinner } from "@app/components/Spinner";
+import { H1 } from "@app/components/Typography/Headings";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
 import { useAdminMDPRValues } from "@app/queries/useAdminMDPRValues";
 
@@ -12,7 +15,7 @@ const AdminMDPRUpdateForm = dynamic(
       (mod) => mod.AdminMDPRUpdateForm
     ),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );
@@ -20,26 +23,45 @@ const AdminMDPRUpdateForm = dynamic(
 export const getServerSideProps = withSSRAdmin();
 
 export default function AdminMDPRUpdate() {
-  const { data, refetch } = useAdminMDPRValues();
+  const { data, refetch, isLoading, isRefetching } = useAdminMDPRValues();
   const { t } = useTranslation();
 
-  if (!data) {
-    return <FullPageLoader />;
+  function PageCommon() {
+    return (
+      <>
+        <SEO
+          title={t("admin-mdpr-update:title")}
+          description={t("admin-mdpr-update:description")}
+        />
+        <div className="flex gap-x-2">
+          <H1 className="uppercase">{t("admin-mdpr-update:title")}</H1>
+          {isLoading || isRefetching ? <Spinner /> : null}
+        </div>
+      </>
+    );
   }
 
-  if (data.status === "not-found") {
-    <div>Values not found</div>;
+  if (isLoading) {
+    return (
+      <>
+        <PageCommon />
+        <PageLoadingIndicator />
+      </>
+    );
+  }
+
+  if (!data) {
+    return (
+      <>
+        <PageCommon />
+        <AlertFailedToFetch />
+      </>
+    );
   }
 
   return (
     <>
-      <SEO
-        title={t("admin-mdpr-update:title")}
-        description={t("admin-mdpr-update:description")}
-      />
-      <h2 className="text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
-        {t("admin-mdpr-update:title")}
-      </h2>
+      <PageCommon />
 
       <AdminMDPRUpdateForm
         data={data}

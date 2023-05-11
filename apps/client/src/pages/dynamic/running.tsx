@@ -8,6 +8,8 @@ import useTranslation from "next-translate/useTranslation";
 import { Button } from "@app/components/Button";
 import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
 import { SEO } from "@app/components/SEO";
+import { H1 } from "@app/components/Typography/Headings";
+import { Paragraph } from "@app/components/Typography/Paragraphs";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import {
   getRunningDynamic,
@@ -129,12 +131,10 @@ export default function Running({
   return (
     <>
       <SEO title={t("running:not-running.title")} />
-      <div className="mx-auto flex w-1/2 flex-col justify-center">
-        <FileCog className="stoke-primary-950 mx-auto mb-2 h-14 w-14" />
-        <h1 className="text-center text-2xl font-bold uppercase text-primary-950">
-          {t("running:not-running.title")}
-        </h1>
-        <p className="text-center">{t("running:not-running.description")}</p>
+      <div className="m-auto flex w-1/2 flex-col justify-center text-center">
+        <FileCog className="mx-auto mb-2 h-14 w-14 stroke-primary-600 dark:stroke-primary-400" />
+        <H1 className="uppercase">{t("running:not-running.title")}</H1>
+        <Paragraph>{t("running:not-running.description")}</Paragraph>
 
         <div className="mx-auto mt-5 flex flex-wrap gap-x-2">
           <Link href="/dynamic/apo">
@@ -145,6 +145,11 @@ export default function Running({
           <Link href="/dynamic/acpype">
             <Button RightIcon={ArrowRight}>
               {t("navigation:dynamic.models.acpype")}
+            </Button>
+          </Link>
+          <Link href="/dynamic/prodrg">
+            <Button RightIcon={ArrowRight}>
+              {t("navigation:dynamic.models.prodrg")}
             </Button>
           </Link>
         </div>

@@ -1,11 +1,10 @@
 import { useContext } from "react";
-import { Atom, LogIn, Menu, Moon, Search, Sun, UserPlus } from "lucide-react";
+import { Atom, LogIn, Menu, Moon, Sun, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 import { Button } from "@app/components/Button";
 import { TextButton } from "@app/components/Button/Text";
-import { Input } from "@app/components/Input";
 import { UserMenu } from "@app/components/UserMenu";
 import { SidebarContext } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
@@ -36,21 +35,6 @@ export function Header() {
           <Atom />
           Visual Dynamics
         </Link>
-        <div className="mx-auto hidden w-1/2 justify-center lg:flex">
-          <div className="relative flex-1 focus-within:text-primary-500 dark:focus-within:text-primary-100">
-            <div className="absolute inset-y-0 flex items-center pl-2">
-              <Search
-                className="h-4 w-4"
-                aria-hidden="true"
-              />
-            </div>
-            <Input
-              className="w-full pl-8 dark:bg-zinc-950"
-              placeholder="Search for projects"
-              aria-label="Search"
-            />
-          </div>
-        </div>
         <ul className="flex flex-shrink-0 items-center gap-x-6">
           <li className="flex">
             <TextButton

@@ -2,15 +2,16 @@ import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
-import { FullPageLoader } from "@app/components/FullPageLoader";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
+import { H1 } from "@app/components/Typography/Headings";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 
 const APOForm = dynamic(
   () => import("@app/components/Forms/APO").then((mod) => mod.APOForm),
   {
-    loading: () => <FullPageLoader />,
+    loading: () => <PageLoadingIndicator />,
     ssr: false
   }
 );
@@ -40,9 +41,7 @@ export default function APODynamic({ user }: { user: User }) {
   return (
     <>
       <SEO title={t("navigation:dynamic.models.apo")} />
-      <h2 className="text-2xl text-primary-700 dark:text-primary-400">
-        {t("navigation:dynamic.models.apo")}
-      </h2>
+      <H1>{t("navigation:dynamic.models.apo")}</H1>
       <APOForm user={user} />
     </>
   );

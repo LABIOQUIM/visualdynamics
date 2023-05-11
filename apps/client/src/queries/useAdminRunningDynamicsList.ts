@@ -19,11 +19,16 @@ export type GetAdminRunningDynamicsListResult = {
 };
 
 export async function getAdminRunningDynamicsList(): Promise<GetAdminRunningDynamicsListResult> {
-  const { data } = await api.get<GetAdminRunningDynamicsListResult>(
-    "/celery/active"
-  );
+  try {
+    const { data } = await api.get<GetAdminRunningDynamicsListResult>(
+      "/celery/active"
+    );
 
-  return data;
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    throw new Error(e);
+  }
 }
 
 export function useAdminRunningDynamicsList(

@@ -17,9 +17,14 @@ export type GetAdminMDPRValuesResult =
     };
 
 export async function getAdminMDPRValues(): Promise<GetAdminMDPRValuesResult> {
-  const { data } = await api.get<GetAdminMDPRValuesResult>("/mdpr");
+  try {
+    const { data } = await api.get<GetAdminMDPRValuesResult>("/mdpr");
 
-  return data;
+    return data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    throw new Error(e);
+  }
 }
 
 export function useAdminMDPRValues(
