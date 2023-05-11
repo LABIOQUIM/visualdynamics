@@ -1,8 +1,8 @@
-import clsx from "clsx";
 import { ArrowRight, CheckCircle, Clock } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
 import { Spinner } from "@app/components/Spinner";
+import { cnMerge } from "@app/utils/cnMerge";
 
 interface DynamicRunningStepListProps {
   activeSteps: string[];
@@ -33,7 +33,7 @@ function Step({
 
   return (
     <div
-      className={clsx("flex w-fit gap-x-2 rounded-full border px-2 py-1", {
+      className={cnMerge("flex w-fit gap-x-2 rounded-full border px-2 py-1", {
         "border-zinc-950 bg-zinc-200 text-zinc-900 dark:border-zinc-300 dark:bg-zinc-900 dark:text-zinc-200":
           !active && !running,
         "border-primary-950 bg-primary-100 text-primary-900 dark:border-primary-300 dark:bg-primary-900 dark:text-primary-200":

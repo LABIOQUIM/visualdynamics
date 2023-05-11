@@ -1,9 +1,10 @@
 import React from "react";
 import { FieldError } from "react-hook-form";
 import * as RSelect from "@radix-ui/react-select";
-import clsx from "clsx";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
+
+import { cnMerge } from "@app/utils/cnMerge";
 
 type SelectProps<T extends string | number | symbol> = {
   error?: FieldError;
@@ -46,7 +47,7 @@ export const Select = <T extends string>({
         disabled={disabled}
       >
         <RSelect.Trigger
-          className={clsx(
+          className={cnMerge(
             "flex h-10 items-center justify-between rounded-lg border border-primary-400/60 bg-zinc-50 px-2 py-1 outline-none transition-all duration-150 focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 focus:ring-offset-zinc-200 data-[placeholder]:text-zinc-400 dark:bg-zinc-900 dark:focus:ring-offset-gray-900",
             {
               "border-red-600/95 focus:ring-red-500": error,

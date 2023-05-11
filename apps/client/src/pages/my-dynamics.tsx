@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 import { ArrowRight, FileDown, Microscope, RefreshCw } from "lucide-react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { User } from "next-auth";
@@ -9,21 +7,15 @@ import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/Button";
 import { TextButton } from "@app/components/Button/Text";
+import { DynamicCard } from "@app/components/Dynamic/Card";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { useSignOut } from "@app/hooks/useSignOut";
 import {
   GetListDynamicResult,
   getListDynamics,
   useListDynamics
 } from "@app/queries/useListDynamics";
-
-const DynamicCard = dynamic(
-  () => import("@app/components/Dynamic/Card").then((mod) => mod.DynamicCard),
-  {
-    ssr: false
-  }
-);
+import { cnMerge } from "@app/utils/cnMerge";
 
 export const getServerSideProps = withSSRAuth(async (_, session) => {
   if (session) {
@@ -94,7 +86,7 @@ export default function MyDynamics({
           </Button>
           <div className="flex flex-1">
             <TextButton
-              iconClassName={clsx({
+              iconClassName={cnMerge({
                 "animate-spin": isRefetching || isLoading
               })}
               disabled={isRefetching || isLoading}

@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import {
   CheckCircle,
   Clock,
@@ -17,6 +16,7 @@ import useTranslation from "next-translate/useTranslation";
 
 import { StatusButton } from "@app/components/Button/Status";
 import { Spinner } from "@app/components/Spinner";
+import { cnMerge } from "@app/utils/cnMerge";
 
 interface DynamicCardProps {
   dynamic: Dynamic;
@@ -28,13 +28,16 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
 
   return (
     <div
-      className={clsx("flex w-full items-center gap-2 rounded-md border p-2", {
-        "border-cyan-600 bg-cyan-400/20": dynamic.status === "running",
-        "border-zinc-600 bg-zinc-400/20": dynamic.status === "canceled",
-        "border-yellow-600 bg-yellow-400/20": dynamic.status === "queued",
-        "border-emerald-600 bg-emerald-400/20": dynamic.status === "finished",
-        "border-red-600 bg-red-400/20": dynamic.status === "error"
-      })}
+      className={cnMerge(
+        "flex w-full items-center gap-2 rounded-md border p-2",
+        {
+          "border-cyan-600 bg-cyan-400/20": dynamic.status === "running",
+          "border-zinc-600 bg-zinc-400/20": dynamic.status === "canceled",
+          "border-yellow-600 bg-yellow-400/20": dynamic.status === "queued",
+          "border-emerald-600 bg-emerald-400/20": dynamic.status === "finished",
+          "border-red-600 bg-red-400/20": dynamic.status === "error"
+        }
+      )}
       key={dynamic.celeryId}
     >
       {dynamic.status === "finished" ? (
@@ -57,7 +60,7 @@ export function DynamicCard({ dynamic }: DynamicCardProps) {
           {t("my-dynamics:dynamic.id")}: {dynamic.celeryId}
         </small>
         <div
-          className={clsx("", {
+          className={cnMerge({
             "text-cyan-950 dark:text-cyan-300": dynamic.status === "running",
             "text-zinc-950 dark:text-zinc-300": dynamic.status === "canceled",
             "text-yellow-950 dark:text-yellow-300": dynamic.status === "queued",

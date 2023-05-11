@@ -1,6 +1,7 @@
 import { FC } from "react";
 import * as RSwitch from "@radix-ui/react-switch";
-import clsx from "clsx";
+
+import { cnMerge } from "@app/utils/cnMerge";
 
 interface SwitchProps {
   checked?: boolean;
@@ -19,7 +20,7 @@ export const Switch: FC<SwitchProps> = ({
 }) => {
   return (
     <div
-      className={clsx("flex items-center gap-x-2", {
+      className={cnMerge("flex items-center gap-x-2", {
         "opacity-60": disabled
       })}
     >

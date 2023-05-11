@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import cx from "clsx";
 import type { ImageProps } from "next/image";
 import NextLink from "next/link";
 
 import { BlurImage } from "@app/components/BlurImage";
 import { FOCUS_VISIBLE_OUTLINE, LINK_STYLES } from "@app/lib/constants";
+import { cnMerge } from "@app/utils/cnMerge";
 
 export const components = {
   h1: (props: any) => (
@@ -42,7 +42,7 @@ export const components = {
     if (href.startsWith("http")) {
       return (
         <NextLink
-          className={cx(LINK_STYLES, FOCUS_VISIBLE_OUTLINE)}
+          className={cnMerge(LINK_STYLES, FOCUS_VISIBLE_OUTLINE)}
           href={href}
           target="_blank"
           rel="noreferrer"
@@ -54,7 +54,7 @@ export const components = {
     return (
       <NextLink
         href={href}
-        className={cx(LINK_STYLES, FOCUS_VISIBLE_OUTLINE)}
+        className={cnMerge(LINK_STYLES, FOCUS_VISIBLE_OUTLINE)}
         {...props}
       />
     );
@@ -88,7 +88,7 @@ export const components = {
   } & ImageProps) => (
     <>
       <div
-        className={cx({
+        className={cnMerge({
           "xl:!col-start-2 xl:!col-end-4": bleed === true
         })}
       >

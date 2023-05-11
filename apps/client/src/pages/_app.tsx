@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 
+import { FullPageLoader } from "@app/components/FullPageLoader";
 import { ThemeProvider } from "@app/context/ThemeContext";
 import { queryClient } from "@app/lib/query-client";
 
@@ -13,6 +14,7 @@ import "@app/styles/globals.css";
 const Layout = dynamic(
   () => import("@app/components/Container/Layout").then((mod) => mod.Layout),
   {
+    loading: () => <FullPageLoader />,
     ssr: false
   }
 );

@@ -35,12 +35,14 @@ export function APOForm({ user }: APOFormProps) {
     defaultValues: {
       neutralize: true,
       ignore: true,
-      double: false
+      double: false,
+      bootstrap: false
     }
   });
 
   const router = useRouter();
 
+  console.log(watch("bootstrap"));
   const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
     data
   ) => {
