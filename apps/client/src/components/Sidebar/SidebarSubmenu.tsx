@@ -3,7 +3,6 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Transition } from "@app/components/Transition";
 import { routeIsActive } from "@app/utils/route";
 
 interface ISidebarSubmenu {
@@ -59,40 +58,30 @@ export function SidebarSubmenu({ item }: ISidebarSubmenu) {
           aria-hidden="true"
         />
       </button>
-      <Transition
-        show={isDropdownMenuOpen}
-        enter="transition-all ease-in-out duration-300"
-        enterFrom="opacity-25 max-h-0"
-        enterTo="opacity-100 max-h-xl"
-        leave="transition-all ease-in-out duration-300"
-        leaveFrom="opacity-100 max-h-xl"
-        leaveTo="opacity-0 max-h-0"
+      <ul
+        className="mt-2 space-y-2 overflow-hidden rounded-lg bg-zinc-50 p-2 text-sm font-medium text-gray-500 shadow-inner dark:bg-zinc-900 dark:text-gray-400"
+        aria-label="submenu"
       >
-        <ul
-          className="mt-2 space-y-2 overflow-hidden rounded-lg bg-zinc-50 p-2 text-sm font-medium text-gray-500 shadow-inner dark:bg-zinc-900 dark:text-gray-400"
-          aria-label="submenu"
-        >
-          {item.links &&
-            item.links.map((r) => (
-              <li
-                className="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                key={r.label}
+        {item.links &&
+          item.links.map((r) => (
+            <li
+              className="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              key={r.label}
+            >
+              <Link
+                href={r.href || ""}
+                scroll={false}
+                className={`inline-block w-full ${
+                  routeIsActive(pathname, r)
+                    ? "text-gray-800 dark:text-gray-100"
+                    : ""
+                }`}
               >
-                <Link
-                  href={r.href || ""}
-                  scroll={false}
-                  className={`inline-block w-full ${
-                    routeIsActive(pathname, r)
-                      ? "text-gray-800 dark:text-gray-100"
-                      : ""
-                  }`}
-                >
-                  {r.label}
-                </Link>
-              </li>
-            ))}
-        </ul>
-      </Transition>
+                {r.label}
+              </Link>
+            </li>
+          ))}
+      </ul>
     </li>
   );
 }
