@@ -8,7 +8,7 @@ async function main() {
     data: {
       email: "admin@visualdynamics.fiocruz.br",
       password: await hash("admin"),
-      username: "administrator",
+      username: "admin",
       active: true,
       role: "ADMIN"
     }

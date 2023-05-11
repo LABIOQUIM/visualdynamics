@@ -2,17 +2,19 @@
   "name": "visualdynamics",
   "version": "1.0.0",
   "description": "",
+  "private": true,
   "scripts": {
-    "dev:c": "pnpm --filter client dev",
-    "storybook": "pnpm --filter client storybook",
-    "dev:s": "pnpm --filter server dev",
-    "dev": "concurrently --kill-others \"pnpm:dev:s\" \"pnpm:dev:c\"",
-    "install:s": "pnpm --filter server padd"
+    "storybook": "yarn client storybook",
+
+    "client": "yarn workspace client",
+    "server": "yarn workspace server",
+
+    "dev": "concurrently --kill-others \"yarn:client dev\" \"yarn:server dev\""
   },
   "prisma": {
     "schema": "apps/client/prisma/schema.prisma"
   },
-  "packageManager": "pnpm@7.29.3",
+  "workspaces": ["apps/*"],
   "keywords": [],
   "author": "",
   "license": "ISC",

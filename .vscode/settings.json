@@ -1,5 +1,5 @@
 {
-  "python.defaultInterpreterPath": "apps/server/.venv/bin/python3.10",
+  "python.defaultInterpreterPath": "apps/server/.venv/bin/python3",
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
@@ -11,7 +11,7 @@
   "css.lint.unknownAtRules": "ignore",
   "python.formatting.provider": "none",
   "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.tsdk": "node_modules/.pnpm/typescript@4.9.3/node_modules/typescript/lib",
+  "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
@@ -20,7 +20,7 @@
     "**/.git": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "**/node_modules": false,
+    "**/node_modules": true,
     "**/.next": true,
     "**/.contentlayer": true,
     "**/tsconfig.tsbuildinfo": true,
