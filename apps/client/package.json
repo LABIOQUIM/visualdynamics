@@ -7,12 +7,11 @@
     "vercel-build": "prisma generate && next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start -p 8080",
+    "start": "next start -p 3001",
     "prettier": "prettier --write --ignore-unknown .",
     "content": "npx contentlayer build",
     "prettier:check": "prettier --check --ignore-unknown .",
     "lint:multi": "prettier:check && pnpm lint",
-    "postinstall": "npx contentlayer build",
     "postbuild": "next-sitemap",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"

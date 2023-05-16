@@ -7,14 +7,5 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: '1G',
-    },
-    {
-    name: 'client',
-    script: 'pnpm',
-    args: "start",
-    cwd: "./apps/client",
-    autorestart: true,
-    watch: false,
-    max_memory_restart: '1G',
-  }]
+    }]
 };

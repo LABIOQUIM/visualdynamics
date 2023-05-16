@@ -14,6 +14,16 @@ services:
       - '6379:6379'
     volumes:
       - cache:/data
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+      target: builder
+    command: yarn start
+    expose:
+      - "3001"
+    ports:
+      - "3001:3001"
 volumes:
   cache:
     driver: local
