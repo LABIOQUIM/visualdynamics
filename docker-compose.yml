@@ -1,29 +1,45 @@
 version: '3.8'
 services:
   database:
+    container_name: VDDB
     image: postgres:alpine
     restart: always
     ports:
       - '5432:5432'
     environment:
       POSTGRES_PASSWORD: "postgresvd"
-  cache:
-    image: redis:6.2-alpine
+  mq:
+    container_name: VDMQ
+    image: redis:alpine
     restart: always
     ports:
       - '6379:6379'
     volumes:
-      - cache:/data
+      - mq:/data
   client:
+    container_name: VDWEB
+    restart: always
     build:
-      context: .
-      dockerfile: Dockerfile.client
+      context: ./apps/client
       target: builder
     command: yarn start
     expose:
       - "3001"
     ports:
       - "3001:3001"
+  server:
+    container_name: VDSRV
+    restart: always
+    build:
+      context: ./apps/server
+      target: builder
+    volumes:
+      - $HOME/VDfiles:/VDfiles
+    command: poetry run flask run --host="0.0.0.0" --port=3002
+    expose:
+      - "3002"
+    ports:
+      - "3002:3002"
 volumes:
-  cache:
+  mq:
     driver: local
