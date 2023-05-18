@@ -36,7 +36,7 @@ def generate(
     commands = [
         "#topology\n",
         f"grep 'ATOM  ' {filename}{ext} > Protein.pdb\n",
-        f'{gmx} pdb2gmx -f "Protein.pdb" -o "{filename}_livre.pdb" -p "{filename}_livre.top" -ff {force_field} -water {water_model} -ignh -missing\n\n',
+        f'{gmx} pdb2gmx -f "Protein.pdb" -o "{filename}_livre.pdb" -p "{filename}_livre.top" -ff {force_field} -water {water_model} {"-ignh -missing" if ignore else ""}\n\n',
         "#break\n",
         f'grep -h ATOM "{filename}_livre.pdb" "{lig_gro_filename}{ext2}" | tee "{filename}_complx.pdb" > /dev/null\n',
         f"cat {lig_itp_filename}{ext1} | sed -n '/atomtypes/,/^ *$/{{/\n\n/d;p}}' > ligand_atomtypes.txt".encode(
@@ -47,7 +47,7 @@ def generate(
         f'\ncat {filename}_livre.top | sed \'/forcefield\.itp"/a\#include "{lig_itp_filename}{ext1}"\' > {filename}1_complx.top\n'
         f"cat {filename}1_complx.top | sed '/forcefield\.itp/r ligand_atomtypes.txt' > {filename}_complx.top\n",
         f'echo "{new_acpype_molecule_type}        1" >> {filename}_complx.top\n\n',
-        f'{gmx} editconf -f "{filename}_complx.pdb" -c -d 1 -bt {box_type} -o "{filename}_complx.pdb"\n\n',
+        f'{gmx} editconf -f "{filename}_complx.pdb" -c -d {str(box_distance).replace(",", ".")} -bt {box_type} -o "{filename}_complx.pdb"\n\n',
         "#solvate\n",
         f'{gmx} solvate -cp "{filename}_complx.pdb" -cs spc216.gro -p "{filename}_complx.top" -o "{filename}_complx_box.pdb"\n\n',
         "#ions\n",
