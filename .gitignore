@@ -3,7 +3,9 @@
 .env
 flower
 
+
 # Folders
+.yarn
 .venv
 node_modules
 __pycache__

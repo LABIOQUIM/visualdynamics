@@ -22,29 +22,10 @@ services:
     build:
       context: ./apps/client
       target: builder
-    networks:
-      - def
     depends_on:
       - database
     ports:
       - "3001:3001"
-  server:
-    container_name: VDSRV
-    restart: always
-    build:
-      context: ./apps/server
-      target: runner
-    depends_on:
-      - mq
-    networks:
-      - def
-    volumes:
-      - $HOME/VDfiles:/VDfiles
-    ports:
-      - "3002:3002"
 volumes:
   mq:
     driver: local
-networks:
-  def:
-    driver: bridge

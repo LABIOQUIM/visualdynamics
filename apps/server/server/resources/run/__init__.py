@@ -14,7 +14,7 @@ class RunDynamic(Resource):
 
         args = parser.parse_args()
 
-        url = "VDWEB:3001"
+        url = "localhost:3001"
 
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])

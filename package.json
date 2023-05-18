@@ -5,16 +5,16 @@
   "private": true,
   "scripts": {
     "storybook": "yarn client storybook",
-
     "client": "yarn workspace client",
     "server": "yarn workspace server",
-
     "dev": "concurrently --kill-others \"yarn:client dev\" \"yarn:server dev\""
   },
   "prisma": {
     "schema": "apps/client/prisma/schema.prisma"
   },
-  "workspaces": ["apps/*"],
+  "workspaces": [
+    "apps/*"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
