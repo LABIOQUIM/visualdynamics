@@ -4,7 +4,6 @@ from flask_restful import Resource, reqparse
 from celery import uuid
 from server.celery_tasks import run_commands
 from server.config import Config
-from urllib.parse import urlparse
 
 
 class RunDynamic(Resource):
@@ -15,10 +14,7 @@ class RunDynamic(Resource):
 
         args = parser.parse_args()
 
-        url = urlparse(request.base_url).hostname
-
-        if os.environ.get("FLASK_DEBUG"):
-            url = "localhost:3000"
+        url = "VDWEB:3001"
 
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])

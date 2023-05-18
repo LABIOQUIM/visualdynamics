@@ -1,4 +1,5 @@
 FROM python:3.10-alpine as python-base
+RUN apk add bind-tools
 
 # https://python-poetry.org/docs#ci-recommendations
 ENV POETRY_VERSION=1.4.2
@@ -16,15 +17,11 @@ RUN python3 -m venv $POETRY_VENV \
 	&& $POETRY_VENV/bin/pip install -U pip setuptools \
 	&& $POETRY_VENV/bin/pip install poetry==${POETRY_VERSION}
 
-# Create a new stage from the base python image
-FROM python-base as deps
-
-# Copy Poetry to app image
-COPY --from=poetry-base ${POETRY_VENV} ${POETRY_VENV}
-
 # Add Poetry to PATH
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
+# Create a new stage from the base python image
+FROM poetry-base as deps
 WORKDIR /app
 
 # Copy Dependencies
@@ -37,18 +34,13 @@ RUN poetry check
 # Install Dependencies
 RUN poetry install --no-interaction
 
-FROM python-base as builder
+FROM deps as runner
 WORKDIR /app
-
-# Copy Poetry to app image
-COPY --from=poetry-base ${POETRY_VENV} ${POETRY_VENV}
-
-# Add Poetry to PATH
-ENV PATH="${PATH}:${POETRY_VENV}/bin"
-
-COPY --from=deps /app /app
 
 # Copy Application
 COPY ./server /app/server/
 COPY ./app.py /app/
-COPY ./.env /app/
+
+EXPOSE 3002
+
+CMD ["poetry", "run", "python", "app.py"]

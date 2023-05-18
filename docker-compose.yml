@@ -22,9 +22,10 @@ services:
     build:
       context: ./apps/client
       target: builder
-    command: yarn start
-    expose:
-      - "3001"
+    networks:
+      - def
+    depends_on:
+      - database
     ports:
       - "3001:3001"
   server:
@@ -32,14 +33,18 @@ services:
     restart: always
     build:
       context: ./apps/server
-      target: builder
+      target: runner
+    depends_on:
+      - mq
+    networks:
+      - def
     volumes:
       - $HOME/VDfiles:/VDfiles
-    command: poetry run flask run --host="0.0.0.0" --port=3002
-    expose:
-      - "3002"
     ports:
       - "3002:3002"
 volumes:
   mq:
     driver: local
+networks:
+  def:
+    driver: bridge
