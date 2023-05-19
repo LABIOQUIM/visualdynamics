@@ -3,8 +3,8 @@ from celery import Celery
 
 celery = Celery(
     "visualdynamics",
-    broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/1",
+    broker="redis://localhost:6380/0",
+    backend="redis://localhost:6380/1",
 )
 
 celery.conf.update(result_extended=True)
