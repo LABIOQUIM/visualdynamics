@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-21 11:26-0400\n"
+"POT-Creation-Date: 2023-05-22 12:31-0400\n"
 "PO-Revision-Date: 2022-01-24 16:46-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -120,6 +120,7 @@ msgstr "Your can't run two (or more) simultaneous dynamics"
 
 #: app/blueprints/dynamic/routes.py:87 app/blueprints/dynamic/routes.py:223
 #: app/blueprints/dynamic/routes.py:362
+#, python-format
 msgid ""
 "Houve um erro ao executar o comando <b>%(command)s</b>.</br>Verifique os "
 "logs para mais detalhes"
@@ -316,7 +317,9 @@ msgstr "You must provide a ligand file (.gro or .pdb)"
 msgid ""
 "A distância entre a proteína e a borda da caixa deve ser maior que 0 e "
 "menor ou igual a 1"
-msgstr "The distance between the protein and the box border must be greater than 0 and less or equal to 1"
+msgstr ""
+"The distance between the protein and the box border must be greater than "
+"0 and less or equal to 1"
 
 #: app/templates/apo.html:8
 msgid "Não sabe com que molécula testar? Tente com a "
@@ -433,10 +436,9 @@ msgstr "Full Name"
 msgid "Nome de Usuário"
 msgstr "Username"
 
-#: app/templates/admin/edit/user.html:49 app/templates/admin/index.html:57
-#: app/templates/admin/requests.html:24 app/templates/register.html:42
-msgid "Email"
-msgstr ""
+#: app/templates/register.html:42
+msgid "Email (Apenas emails institucionais serão aceitos)"
+msgstr "Email (Only institutional emails will be accepted)"
 
 #: app/templates/admin/edit/user.html:71 app/templates/register.html:64
 msgid "Confirmar Senha"
@@ -492,6 +494,11 @@ msgstr "Users"
 
 #: app/templates/admin/index.html:45 app/templates/admin/requests.html:12
 msgid "ID"
+msgstr ""
+
+#: app/templates/admin/edit/user.html:49 app/templates/admin/index.html:57
+#: app/templates/admin/requests.html:24
+msgid "Email"
 msgstr ""
 
 #: app/templates/admin/index.html:62
@@ -621,6 +628,7 @@ msgstr "About Visual Dynamics"
 
 #: app/utils/send_email.py:14 app/utils/send_email.py:74
 #: app/utils/send_email.py:99
+#, python-format
 msgid "Olá, %(username)s"
 msgstr "Modifying user %(username)s"
 

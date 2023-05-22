@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-21 11:26-0400\n"
+"POT-Creation-Date: 2023-05-22 12:31-0400\n"
 "PO-Revision-Date: 2022-01-15 10:27-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
@@ -419,9 +419,8 @@ msgstr ""
 msgid "Nome de Usuário"
 msgstr ""
 
-#: app/templates/admin/edit/user.html:49 app/templates/admin/index.html:57
-#: app/templates/admin/requests.html:24 app/templates/register.html:42
-msgid "Email"
+#: app/templates/register.html:42
+msgid "Email (Apenas emails institucionais serão aceitos)"
 msgstr ""
 
 #: app/templates/admin/edit/user.html:71 app/templates/register.html:64
@@ -478,6 +477,11 @@ msgstr ""
 
 #: app/templates/admin/index.html:45 app/templates/admin/requests.html:12
 msgid "ID"
+msgstr ""
+
+#: app/templates/admin/edit/user.html:49 app/templates/admin/index.html:57
+#: app/templates/admin/requests.html:24
+msgid "Email"
 msgstr ""
 
 #: app/templates/admin/index.html:62
