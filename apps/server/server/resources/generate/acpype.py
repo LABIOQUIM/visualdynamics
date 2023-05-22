@@ -82,7 +82,7 @@ class GenerateACPYPE(Resource):
         commands = [
             "#topology\n",
             f"grep 'ATOM  ' {filename}{ext} > Protein.pdb\n",
-            f'{gmx} pdb2gmx -f "Protein.pdb" -o "{filename}_livre.pdb" -p "{filename}_livre.top" -ff {args["force_field"]} -water {args["water_model"]} -ignh -missing\n\n',
+            f'{gmx} pdb2gmx -f "Protein.pdb" -o "{filename}_livre.pdb" -p "{filename}_livre.top" -ff {args["force_field"]} -water {args["water_model"]} {"-ignh -missing" if args["ignore"] else ""}\n\n',
             "#break\n",
             f'grep -h ATOM "{filename}_livre.pdb" "{filename_gro}{ext_gro}" | tee "{filename}_complx.pdb" > /dev/null\n',
             f"cat {filename_itp}{ext_itp} | sed -n '/atomtypes/,/^ *$/{{/\n\n/d;p}}' > ligand_atomtypes.txt".encode(
@@ -93,7 +93,8 @@ class GenerateACPYPE(Resource):
             f'\ncat {filename}_livre.top | sed \'/forcefield\.itp"/a\#include "{filename_itp}{ext_itp}"\' > {filename}1_complx.top\n',
             f"cat {filename}1_complx.top | sed '/forcefield\.itp/r ligand_atomtypes.txt' > {filename}_complx.top\n",
             f'echo "{acpype_molecule_type}         1" >> {filename}_complx.top\n\n',
-            f'{gmx} editconf -f "{filename}_complx.pdb" -c -d 1 -bt {args["box_type"]} -o "{filename}_complx.pdb"\n\n',
+            # Procceed with gmx commands
+            f'{gmx} editconf -f "{filename}_complx.pdb" -c -d {args["box_distance"]} -bt {args["box_type"]} -o "{filename}_complx.pdb"\n\n',
             "#solvate\n",
             f'{gmx} solvate -cp "{filename}_complx.pdb" -cs spc216.gro -p "{filename}_complx.top" -o "{filename}_complx_box.pdb"\n\n',
             "#ions\n",

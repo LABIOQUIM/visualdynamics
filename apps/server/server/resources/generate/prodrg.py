@@ -80,7 +80,7 @@ class GeneratePRODRG(Resource):
         commands = [
             "#topology\n",
             f"grep 'ATOM  ' \"{filename}{ext}\" > Protein.pdb\n",
-            f'{gmx} pdb2gmx -f "Protein.pdb" -o "{filename}_livre.gro" -p "{filename}_livre.top" -ff gromos53a6 -water {args["water_model"]} -ignh -missing\n\n',
+            f'{gmx} pdb2gmx -f "Protein.pdb" -o "{filename}_livre.gro" -p "{filename}_livre.top" -ff {args["force_field"]} -water {args["water_model"]} {"-ignh -missing" if args["ignore"] else ""}\n\n',
             "#break\n",
             # Make a copy of _livre.top to _complx.top
             f'cp "{filename}_livre.top" "{filename}_complx.top"\n',
@@ -95,7 +95,7 @@ class GeneratePRODRG(Resource):
             # Doing .gro needed modifications
             f'IFS="" file_gro=$(cat "{filename_gro}{ext_gro}"); value_gro=$(echo ${{file_gro}} | awk \'NR==2{{print $1}}\'); file_gro=$(echo "${{file_gro}}" | awk \'NR>=3{{print}}\'); dir_lgro=$(echo {filename}_livre.gro); dir_complx_gro=$(echo {filename}_complx.gro); IFS="" file_lgro=$(cat ${{dir_lgro}}); last_line=$(echo "${{file_lgro}}" | tail -1); file_lgro=$(echo "${{file_lgro}}" | head -n -1); echo -n "" > $dir_complx_gro; echo "${{file_lgro}}" >> ${{dir_complx_gro}}; echo "${{file_gro}}" >> ${{dir_complx_gro}}; echo "${{last_line}}" >> ${{dir_complx_gro}}; file_complx_gro=$(cat ${{dir_complx_gro}}); value_complx_gro=$(echo ${{file_complx_gro}} | awk \'NR==2{{print $1}}\'); total=$(expr ${{value_gro}} + ${{value_complx_gro}}); echo "${{file_complx_gro}}" | awk -v var=${{total}} \'NR==2 {{$1=sprintf("%5d", var)}} {{print}}\' > ${{dir_complx_gro}}\n',
             # Proceed with the GMX commands
-            f'{gmx} editconf -f "{filename}_complx.gro" -c -d 1 -bt {args["box_type"]} -o "{filename}_complx.gro"\n',
+            f'{gmx} editconf -f "{filename}_complx.gro" -c -d {args["box_distance"]} -bt {args["box_type"]} -o "{filename}_complx.gro"\n',
             "#solvate\n",
             f'{gmx} solvate -cp "{filename}_complx.gro" -cs spc216.gro -p "{filename}_complx.top" -o "{filename}_complx_box.gro"\n\n',
             "#ions\n",
