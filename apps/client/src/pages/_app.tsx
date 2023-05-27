@@ -1,12 +1,17 @@
 import React from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { getCookie, hasCookie } from "cookies-next";
 import { type AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 
 import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
-import { ThemeProvider } from "@app/context/ThemeContext";
+import {
+  Theme,
+  themeCookieKey,
+  ThemeProvider
+} from "@app/context/ThemeContext";
 import { queryClient } from "@app/lib/query-client";
 
 import "@app/styles/globals.css";
@@ -42,6 +47,9 @@ export default function App({
   pageProps: { session, ...pageProps }
 }: AppProps) {
   if (typeof window === "undefined") React.useLayoutEffect = React.useEffect;
+  const defaultTheme = hasCookie(themeCookieKey)
+    ? getCookie(themeCookieKey)
+    : "light";
 
   return (
     <>
@@ -53,7 +61,7 @@ export default function App({
       </Head>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider>
+          <ThemeProvider defaultTheme={defaultTheme as Theme}>
             <NextNProgress
               height={5}
               color="#22c55e"

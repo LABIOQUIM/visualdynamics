@@ -1,11 +1,5 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState
-} from "react";
-import { getCookie, hasCookie, setCookie } from "cookies-next";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { setCookie } from "cookies-next";
 
 export type Theme = "light" | "dark";
 
@@ -16,19 +10,15 @@ interface ContextProps {
 
 interface ProviderProps {
   children: ReactNode;
+  defaultTheme: Theme;
 }
 
 const ThemeContext = createContext({} as ContextProps);
 
-export function ThemeProvider({ children }: ProviderProps) {
-  const [theme, setTheme] = useState<Theme>("light");
-  const themeCookieKey = "VISUALDYNAMICS_THEME";
+export const themeCookieKey = "VISUALDYNAMICS_THEME";
 
-  useEffect(() => {
-    if (hasCookie(themeCookieKey)) {
-      setTheme(getCookie(themeCookieKey) as Theme);
-    }
-  }, []);
+export function ThemeProvider({ children, defaultTheme }: ProviderProps) {
+  const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   function toggleTheme() {
     setCookie(themeCookieKey, theme === "light" ? "dark" : "light", {
