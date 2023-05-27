@@ -4,17 +4,15 @@
   "description": "",
   "private": true,
   "scripts": {
-    "storybook": "yarn client storybook",
-    "client": "yarn workspace client",
-    "server": "yarn workspace server",
-    "dev": "concurrently --kill-others \"yarn:client dev\" \"yarn:server dev\""
+    "storybook": "pnpm client storybook",
+    "client": "pnpm --filter client",
+    "server": "pnpm --filter server",
+    "dev": "concurrently --kill-others \"pnpm:client dev\" \"pnpm:server dev\""
   },
   "prisma": {
-    "schema": "apps/client/prisma/schema.prisma"
+    "schema": "apps/client/prisma/schema.prisma",
+    "seed": "tsx apps/client/prisma/seed.ts"
   },
-  "workspaces": [
-    "apps/*"
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",

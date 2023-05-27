@@ -16,16 +16,16 @@ services:
       - '6380:6379'
     volumes:
       - mq:/data
-  client:
-    container_name: VDWEB
-    restart: always
-    build:
-      context: ./apps/client
-      target: builder
-    depends_on:
-      - database
-    ports:
-      - "3001:3001"
+  # client:
+  #   container_name: VDWEB
+  #   restart: always
+  #   build:
+  #     context: ./apps/client
+  #     target: builder
+  #   depends_on:
+  #     - database
+  #   ports:
+  #     - "3001:3001"
 volumes:
   mq:
     driver: local

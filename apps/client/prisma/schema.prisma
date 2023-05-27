@@ -13,21 +13,26 @@ enum Role {
 }
 
 model User {
-  id             String               @id @default(cuid())
-  email          String               @unique
-  username       String               @unique
+  id             String              @id @default(cuid())
+  email          String              @unique
+  username       String              @unique
   password       String
   name           String?
-  active         Boolean              @default(false)
-  role           Role                 @default(USER)
-  passwordResets UserPasswordResets[]
+  active         Boolean             @default(false)
+  role           Role                @default(USER)
+  passwordResets UserPasswordReset[]
+
+  @@map("users")
 }
 
-model UserPasswordResets {
+model UserPasswordReset {
   id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  expiresAt DateTime @default(dbgenerated("NOW() + interval '10 min'"))
+  userId    String   @map("user_id")
+  expiresAt DateTime @default(dbgenerated("NOW() + interval '10 min'")) @map("expires_at")
   completed Boolean  @default(false)
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_password_resets")
 }
