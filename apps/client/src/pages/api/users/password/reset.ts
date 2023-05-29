@@ -43,7 +43,7 @@ export default async function handler(
 
     const resetId = randomUUID();
 
-    await prisma.userPasswordResets.create({
+    await prisma.userPasswordReset.create({
       data: {
         id: resetId,
         user: {
@@ -82,7 +82,7 @@ export default async function handler(
   } else if (req.method === "PUT") {
     const { resetId, password } = req.body;
 
-    const resetInfo = await prisma.userPasswordResets.findFirst({
+    const resetInfo = await prisma.userPasswordReset.findFirst({
       where: {
         id: resetId,
         expiresAt: { gt: new Date() },
@@ -107,7 +107,7 @@ export default async function handler(
       }
     });
 
-    await prisma.userPasswordResets.update({
+    await prisma.userPasswordReset.update({
       where: {
         id: resetInfo.id
       },

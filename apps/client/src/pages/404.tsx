@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-import { Button } from "@app/components/Button";
+import { Button } from "@app/components/general/buttons";
 import { SEO } from "@app/components/SEO";
 
 export default function Custom404() {

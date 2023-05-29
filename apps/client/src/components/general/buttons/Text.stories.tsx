@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ArrowRight, Home } from "lucide-react";
 
-import { TextButton } from "@app/components/Button/Text";
+import { TextButton } from "@app/components/general/buttons/Text";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof TextButton> = {

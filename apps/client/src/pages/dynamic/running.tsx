@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
-import { Button } from "@app/components/Button";
 import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
+import { Button } from "@app/components/general/buttons";
 import { SEO } from "@app/components/SEO";
-import { H1 } from "@app/components/Typography/Headings";
-import { Paragraph } from "@app/components/Typography/Paragraphs";
+import { H1 } from "@app/components/typography/headings";
+import { Paragraph } from "@app/components/typography/paragraphs";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import {
   getRunningDynamic,

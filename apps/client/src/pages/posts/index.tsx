@@ -4,7 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 
 import BlogCard from "@app/components/Post/Card";
 import { SEO } from "@app/components/SEO";
-import { H1 } from "@app/components/Typography/Headings";
+import { H1 } from "@app/components/typography/headings";
 
 export default function Blog() {
   const router = useRouter();

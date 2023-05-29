@@ -1,41 +1,62 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ArrowRight, Home } from "lucide-react";
 
-import { Button } from "@app/components/Button";
+import { StatusButton } from "@app/components/general/buttons/Status";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof Button> = {
-  title: "Components/Button/Base",
-  component: Button,
+const meta: Meta<typeof StatusButton> = {
+  title: "Components/Button/Status",
+  component: StatusButton,
   tags: ["autodocs"],
   argTypes: {},
   render: (args) => (
     <div className="flex flex-wrap gap-2">
-      <Button {...args}>Label</Button>
+      <StatusButton {...args}>Label</StatusButton>
       {[Home, ArrowRight].map((Icon, i) => (
-        <Button
+        <StatusButton
           key={Icon.name}
           LeftIcon={i % 2 === 0 ? Icon : undefined}
           RightIcon={i % 2 === 1 ? Icon : undefined}
           {...args}
         >
           Label
-        </Button>
+        </StatusButton>
       ))}
     </div>
   )
 };
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof StatusButton>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Base: Story = {
-  args: {}
+
+export const Canceled: Story = {
+  args: {
+    status: "canceled"
+  }
 };
 
-export const CustomColor: Story = {
+export const Error: Story = {
   args: {
-    className: "bg-violet-600 enabled:hover:bg-violet-700 focus:ring-violet-400"
+    status: "error"
+  }
+};
+
+export const Finished: Story = {
+  args: {
+    status: "finished"
+  }
+};
+
+export const Queued: Story = {
+  args: {
+    status: "queued"
+  }
+};
+
+export const Running: Story = {
+  args: {
+    status: "running"
   }
 };

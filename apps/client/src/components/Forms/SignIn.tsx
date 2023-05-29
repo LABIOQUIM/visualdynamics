@@ -7,9 +7,9 @@ import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
 
-import { Button } from "@app/components/Button";
-import { TextButton } from "@app/components/Button/Text";
-import { Input } from "@app/components/Input";
+import { Button } from "@app/components/general/buttons";
+import { TextButton } from "@app/components/general/buttons/Text";
+import { Input } from "@app/components/general/forms/input";
 import { Spinner } from "@app/components/Spinner";
 import {
   SignInFormSchema,

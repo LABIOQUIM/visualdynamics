@@ -2,7 +2,7 @@ import { Code2, Lightbulb, Newspaper } from "lucide-react";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
-import { BlurImage } from "@app/components/BlurImage";
+import { BlurImage } from "@app/components/general/blur-image";
 
 interface MaintainerCardProps {
   maintainer: Maintainer;

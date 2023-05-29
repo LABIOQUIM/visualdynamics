@@ -1,13 +1,21 @@
 import { useContext } from "react";
 import { Atom, LogIn, Menu, Moon, Sun, UserPlus } from "lucide-react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-import { Button } from "@app/components/Button";
-import { TextButton } from "@app/components/Button/Text";
-import { UserMenu } from "@app/components/UserMenu";
+import { Button } from "@app/components/general/buttons";
+import { TextButton } from "@app/components/general/buttons/Text";
 import { SidebarContext } from "@app/context/SidebarContext";
 import { useTheme } from "@app/context/ThemeContext";
+
+const UserMenu = dynamic(
+  () =>
+    import("@app/components/general/layout/user-menu").then((m) => m.UserMenu),
+  {
+    ssr: false
+  }
+);
 
 export function Header() {
   const { status } = useSession();
@@ -15,7 +23,7 @@ export function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="shadow-bottom sticky top-0 z-50 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
+    <header className="sticky top-0 z-50 h-14 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
       <div className="container mx-auto flex h-full items-center justify-between gap-x-4 px-6 text-primary-600 dark:text-primary-300">
         {/* <!-- Mobile hamburger --> */}
         <button

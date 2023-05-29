@@ -3,9 +3,9 @@ import { Clock } from "lucide-react";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
-import { BlurImage } from "@app/components/BlurImage";
-import { H2 } from "@app/components/Typography/Headings";
-import { Paragraph } from "@app/components/Typography/Paragraphs";
+import { BlurImage } from "@app/components/general/blur-image";
+import { H2 } from "@app/components/typography/headings";
+import { Paragraph } from "@app/components/typography/paragraphs";
 
 export default function BlogCard(post: Post) {
   const { t } = useTranslation();

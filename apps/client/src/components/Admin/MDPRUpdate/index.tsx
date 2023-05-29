@@ -3,8 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useTranslation from "next-translate/useTranslation";
 
-import { Button } from "@app/components/Button";
-import { Input } from "@app/components/Input";
+import { Button } from "@app/components/general/buttons";
+import { Input } from "@app/components/general/forms/input";
 import { api } from "@app/lib/api";
 import { GetAdminMDPRValuesResult } from "@app/queries/useAdminMDPRValues";
 import {

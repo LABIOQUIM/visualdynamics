@@ -6,8 +6,8 @@ import { AlertTriangle, MailCheck } from "lucide-react";
 import { Mail } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
-import { Button } from "@app/components/Button";
-import { Input } from "@app/components/Input";
+import { Button } from "@app/components/general/buttons";
+import { Input } from "@app/components/general/forms/input";
 import { Spinner } from "@app/components/Spinner";
 import {
   ResetPasswordRequestFormSchema,

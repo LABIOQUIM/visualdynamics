@@ -1,18 +1,32 @@
 import { useEffect, useState } from "react";
 import { Beaker, Crown, Info, LayoutDashboard } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
 
-import { BlurImage } from "@app/components/BlurImage";
-import { SidebarSubmenu } from "@app/components/Sidebar/SidebarSubmenu";
+import { BlurImage } from "@app/components/general/blur-image";
 import { useTheme } from "@app/context/ThemeContext";
-import { routeIsActive } from "@app/utils/route";
+
+const SidebarItem = dynamic(
+  () =>
+    import("@app/components/general/sidebar/item").then((m) => m.SidebarItem),
+  {
+    ssr: false
+  }
+);
+
+const SidebarSubmenu = dynamic(
+  () =>
+    import("@app/components/general/sidebar/submenu").then(
+      (m) => m.SidebarSubmenu
+    ),
+  {
+    ssr: false
+  }
+);
 
 export function SidebarContent() {
   const { theme } = useTheme();
-  const { pathname } = useRouter();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
   const initialNavigationArray: NavigationSection[] = [
@@ -144,34 +158,10 @@ export function SidebarContent() {
                         key={link.label}
                       />
                     ) : (
-                      <li
-                        className="relative h-10 px-3"
+                      <SidebarItem
                         key={link.label}
-                      >
-                        <Link
-                          href={link.href || "#"}
-                          scroll={false}
-                          className={`inline-flex h-full w-full items-center text-sm font-medium transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
-                            routeIsActive(pathname, link)
-                              ? "text-gray-800 dark:text-gray-100"
-                              : ""
-                          }`}
-                        >
-                          {routeIsActive(pathname, link) && (
-                            <span
-                              className="absolute inset-y-0 left-0 w-1 rounded-br-lg rounded-tr-lg bg-primary-600 dark:bg-primary-500"
-                              aria-hidden="true"
-                            />
-                          )}
-                          {link.Icon ? (
-                            <link.Icon
-                              className="h-5 w-5"
-                              aria-hidden="true"
-                            />
-                          ) : null}
-                          <span className="ml-4">{t(link.label)}</span>
-                        </Link>
-                      </li>
+                        link={link}
+                      />
                     )
                   )
                 : null}

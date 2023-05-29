@@ -7,10 +7,10 @@ import { User } from "next-auth";
 import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
-import { Button } from "@app/components/Button";
-import { Input } from "@app/components/Input";
-import { Select } from "@app/components/Select";
-import { Switch } from "@app/components/Switch";
+import { Button } from "@app/components/general/buttons";
+import { Input } from "@app/components/general/forms/input";
+import { Select } from "@app/components/general/forms/select";
+import { Switch } from "@app/components/general/forms/switch";
 import { api } from "@app/lib/api";
 import {
   PRODRGFormSchema,

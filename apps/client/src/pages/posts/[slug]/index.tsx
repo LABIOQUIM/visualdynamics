@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import useTranslation from "next-translate/useTranslation";
 
-import { BlurImage } from "@app/components/BlurImage";
+import { BlurImage } from "@app/components/general/blur-image";
 import { components } from "@app/components/Post/MDX/MDXComponents";
 import { SEO } from "@app/components/SEO";
-import { H1 } from "@app/components/Typography/Headings";
-import { Paragraph } from "@app/components/Typography/Paragraphs";
+import { H1 } from "@app/components/typography/headings";
+import { Paragraph } from "@app/components/typography/paragraphs";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = allPosts.map((p) => ({

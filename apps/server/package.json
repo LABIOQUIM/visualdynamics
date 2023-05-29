@@ -4,12 +4,15 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dev": "poetry run flask run --host=0.0.0.0 --reload",
+    "dev": "poetry run flask run --host=0.0.0.0 --port=5000 --reload",
     "padd": "poetry add",
     "pinstall": "poetry install",
     "prm": "poetry remove"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.3"
+  }
 }

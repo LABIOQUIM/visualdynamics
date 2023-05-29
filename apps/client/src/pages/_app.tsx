@@ -17,7 +17,7 @@ import { queryClient } from "@app/lib/query-client";
 import "@app/styles/globals.css";
 
 const Layout = dynamic(
-  () => import("@app/components/Container/Layout").then((mod) => mod.Layout),
+  () => import("@app/components/general/layout").then((mod) => mod.Layout),
   {
     loading: () => (
       <div className="h-screen">
@@ -75,26 +75,6 @@ export default function App({
             <ReactQueryDevtools />
           ) : null}
         </QueryClientProvider>
-        {/* {process.env.NODE_ENV === "production" ? (
-        <>
-          <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-HZC72N296P"
-            strategy="afterInteractive"
-          />
-          <Script
-            id="gtag"
-            strategy="afterInteractive"
-          >
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-    
-              gtag('config', 'G-HZC72N296P');
-            `}
-          </Script>
-        </>
-      ) : null} */}
       </SessionProvider>
     </>
   );

@@ -3,7 +3,7 @@ import { Slash } from "lucide-react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-import { Button } from "@app/components/Button";
+import { Button } from "@app/components/general/buttons";
 import { api } from "@app/lib/api";
 
 interface DynamicRunningAbortButtonProps {

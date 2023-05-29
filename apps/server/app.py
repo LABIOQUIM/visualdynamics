@@ -57,4 +57,4 @@ api.add_resource(MDPR, "/api/v1/mdpr")
 
 
 if __name__ == "__main__":
-    app.run(port=3002, host="0.0.0.0")
+    app.run()

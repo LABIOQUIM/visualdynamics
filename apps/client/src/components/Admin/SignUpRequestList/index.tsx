@@ -1,7 +1,7 @@
 import { Check, Users, X } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
-import { StatusButton } from "@app/components/Button/Status";
+import { StatusButton } from "@app/components/general/buttons/Status";
 
 interface AdminSignUpRequestListProps {
   inactiveUsers?: InactiveUser[];

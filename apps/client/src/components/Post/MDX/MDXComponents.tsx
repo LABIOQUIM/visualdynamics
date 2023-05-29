@@ -3,7 +3,7 @@ import React from "react";
 import type { ImageProps } from "next/image";
 import NextLink from "next/link";
 
-import { BlurImage } from "@app/components/BlurImage";
+import { BlurImage } from "@app/components/general/blur-image";
 import { FOCUS_VISIBLE_OUTLINE, LINK_STYLES } from "@app/lib/constants";
 import { cnMerge } from "@app/utils/cnMerge";
 

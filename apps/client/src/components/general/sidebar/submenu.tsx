@@ -3,9 +3,10 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import useTranslation from "next-translate/useTranslation";
 
+import { cnMerge } from "@app/utils/cnMerge";
 import { routeIsActive } from "@app/utils/route";
 
 interface ISidebarSubmenu {
@@ -13,7 +14,7 @@ interface ISidebarSubmenu {
 }
 
 export function SidebarSubmenu({ item }: ISidebarSubmenu) {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
   const { t } = useTranslation();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(
@@ -25,23 +26,22 @@ export function SidebarSubmenu({ item }: ISidebarSubmenu) {
   );
 
   function handleDropdownMenuClick() {
-    setIsDropdownMenuOpen(!isDropdownMenuOpen);
+    setIsDropdownMenuOpen((oldValue) => !oldValue);
   }
 
   return (
     <li
-      className="min-h-10 relative px-3"
+      className="relative min-h-[2.5rem] px-3"
       key={item.label}
     >
-      {isDropdownMenuOpen ||
-      item.links?.some((r) => routeIsActive(pathname, r)) ? (
+      {item.links?.some((r) => routeIsActive(pathname, r)) ? (
         <span
           className="absolute inset-y-0 left-0 h-10 w-1 rounded-br-lg rounded-tr-lg bg-primary-600 dark:bg-primary-500"
           aria-hidden="true"
         />
       ) : null}
       <button
-        className={`flex h-10 w-full items-center justify-between text-sm font-semibold transition-colors duration-150 hover:text-gray-800 focus:outline-none dark:hover:text-gray-200 ${
+        className={`flex h-10 w-full items-center justify-between font-medium transition-colors duration-150 hover:text-gray-800 focus:outline-none dark:hover:text-gray-200 ${
           isDropdownMenuOpen ||
           item.links?.some((r) => routeIsActive(pathname, r))
             ? "text-gray-800 dark:text-gray-100"
@@ -53,14 +53,21 @@ export function SidebarSubmenu({ item }: ISidebarSubmenu) {
         <span className="flex items-center">
           {item.Icon ? (
             <item.Icon
-              className="h-5 w-5"
+              className="h-4 w-4"
               aria-hidden="true"
             />
           ) : null}
-          <span className="ml-4">{t(item.label)}</span>
+          <span
+            className={cnMerge({
+              "ml-[1.625rem]": !item.Icon,
+              "ml-2": !!item.Icon
+            })}
+          >
+            {t(item.label)}
+          </span>
         </span>
         <ChevronDown
-          className={`h-4 w-4 ${
+          className={`h-4 w-4 transition-transform ${
             isDropdownMenuOpen ? `rotate-180 transform` : ``
           }`}
           aria-hidden="true"
@@ -73,13 +80,13 @@ export function SidebarSubmenu({ item }: ISidebarSubmenu) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="space-y-2 overflow-hidden rounded-lg bg-zinc-50 px-2 text-sm font-medium text-gray-500 shadow-inner dark:bg-zinc-900 dark:text-gray-400"
+            className="space-y-0.5 overflow-hidden pl-10 pr-5 font-medium text-gray-500 dark:text-gray-400"
             aria-label="submenu"
           >
             {item.links &&
               item.links.map((r) => (
                 <li
-                  className="ml-2 px-5 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                  className="py-2 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   key={r.label}
                 >
                   <Link

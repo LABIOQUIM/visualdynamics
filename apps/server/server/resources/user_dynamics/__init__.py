@@ -39,19 +39,25 @@ class UserDynamics(Resource):
                 os.path.join(dynamic.replace("\n", ""), "celery_id")
             )
 
-            with open(file_celery_id, "r") as f:
-                celery_id = f.readline()
+            if os.path.exists(file_celery_id):
+                with open(file_celery_id, "r") as f:
+                    celery_id = f.readline()
+            else:
+                celery_id = "unknown"
 
             file_status_path = os.path.abspath(
                 os.path.join(dynamic.replace("\n", ""), "status")
             )
 
-            with open(file_status_path, "r") as f:
-                status = f.readline()
-                if status.startswith("error"):
-                    status = status.split(":")
-                    errored_command = status[1].strip()
-                    status = status[0]
+            if os.path.exists(file_status_path):
+                with open(file_status_path, "r") as f:
+                    status = f.readline()
+                    if status.startswith("error"):
+                        status = status.split(":")
+                        errored_command = status[1].strip()
+                        status = status[0]
+            else:
+                status = "canceled"
 
             extractable_data = extractable_data[::-1]
 

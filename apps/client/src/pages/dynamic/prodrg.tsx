@@ -4,7 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 
 import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
-import { H1 } from "@app/components/Typography/Headings";
+import { H1 } from "@app/components/typography/headings";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { getRunningDynamic } from "@app/queries/useRunningDynamic";
 
