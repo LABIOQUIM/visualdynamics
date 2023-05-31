@@ -19,7 +19,6 @@ export const themeCookieKey = "VISUALDYNAMICS_THEME";
 
 export function ThemeProvider({ children, defaultTheme }: ProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
-  console.log(theme);
 
   function toggleTheme() {
     setCookie(themeCookieKey, theme === "light" ? "dark" : "light", {
