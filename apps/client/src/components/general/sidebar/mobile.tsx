@@ -33,7 +33,7 @@ export function MobileSidebar() {
           <Backdrop onClick={closeSidebar} />
           <motion.aside
             key="nav-aside"
-            className="fixed inset-y-0 z-50 mt-[4.5rem] flex w-80 flex-shrink-0 flex-col gap-y-7 overflow-y-auto bg-white py-2.5 shadow-[0_0_0_-15px_rgba(0,0,0,0.3)] transition-all duration-150 dark:bg-zinc-900"
+            className="fixed inset-y-0 z-50 mt-20 flex w-80 flex-shrink-0 flex-col gap-y-7 overflow-y-auto bg-white py-2.5 shadow-[0_0_0_-15px_rgba(0,0,0,0.3)] transition-all duration-150 dark:bg-zinc-900"
             initial={{ x: -320 }}
             animate={{ x: 0 }}
             exit={{ x: -320 }}

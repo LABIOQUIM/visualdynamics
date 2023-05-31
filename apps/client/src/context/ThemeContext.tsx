@@ -19,10 +19,10 @@ export const themeCookieKey = "VISUALDYNAMICS_THEME";
 
 export function ThemeProvider({ children, defaultTheme }: ProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
+  console.log(theme);
 
   function toggleTheme() {
     setCookie(themeCookieKey, theme === "light" ? "dark" : "light", {
-      sameSite: "strict",
       path: "/",
       maxAge: 60 * 60 * 24 * 31 * 12
     });

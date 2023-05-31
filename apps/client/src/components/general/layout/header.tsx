@@ -23,7 +23,7 @@ export function Header() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-50 h-14 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
+    <header className="sticky top-0 z-50 h-20 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
       <div className="container mx-auto flex h-full items-center justify-between gap-x-4 px-6 text-primary-600 dark:text-primary-300">
         {/* <!-- Mobile hamburger --> */}
         <button
