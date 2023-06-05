@@ -49,12 +49,12 @@ export function Layout({ children }: ILayout) {
           </Backdrop>
         ) : null}
         <div
-          className={`h-screen bg-zinc-50 transition-all duration-150 dark:bg-zinc-900 ${
+          className={`h-full bg-zinc-50 transition-all duration-150 dark:bg-zinc-900 ${
             isSidebarOpen && "overflow-hidden"
           }`}
         >
           <Header />
-          <div className="flex min-h-[calc(100%-5rem)]">
+          <div className="flex min-h-[calc(100%-5rem)] lg:h-[calc(100%-5rem)]">
             <Sidebar />
             <main className="w-full space-y-4 bg-zinc-100 p-4 text-zinc-800 transition-all duration-150 dark:bg-zinc-950 dark:text-zinc-100 lg:overflow-y-auto lg:rounded-tl-3xl lg:border-l lg:border-t lg:border-l-zinc-400 lg:border-t-zinc-400 lg:p-8 dark:lg:border-l-zinc-600 dark:lg:border-t-zinc-600">
               {children}

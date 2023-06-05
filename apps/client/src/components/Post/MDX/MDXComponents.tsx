@@ -4,19 +4,20 @@ import type { ImageProps } from "next/image";
 import NextLink from "next/link";
 
 import { BlurImage } from "@app/components/general/blur-image";
+import { H1, H2 } from "@app/components/typography/headings";
 import { FOCUS_VISIBLE_OUTLINE, LINK_STYLES } from "@app/lib/constants";
 import { cnMerge } from "@app/utils/cnMerge";
 
 export const components = {
   h1: (props: any) => (
-    <h2
-      className="mt-3 border-t-2 border-primary-800/5 pt-2.5 text-xl font-medium text-primary-900/90 dark:text-primary-400/90 sm:text-3xl"
+    <H1
+      className="my-2.5"
       {...props}
     />
   ),
   h2: (props: any) => (
-    <h3
-      className="mt-3 border-t-2 border-primary-800/5 text-xl font-medium text-primary-900/90 dark:text-primary-400/90 sm:text-2xl"
+    <H2
+      className="my-2"
       {...props}
     />
   ),
@@ -115,6 +116,12 @@ export const components = {
   del: (props: any) => (
     <del
       className="text-primary-900/70 line-through"
+      {...props}
+    />
+  ),
+  p: (props: any) => (
+    <p
+      className="my-1.5 text-justify text-base leading-relaxed"
       {...props}
     />
   )

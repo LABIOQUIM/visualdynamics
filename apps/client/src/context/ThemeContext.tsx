@@ -30,7 +30,7 @@ export function ThemeProvider({ children, defaultTheme }: ProviderProps) {
 
   return (
     <ThemeContext.Provider value={{ toggleTheme, theme }}>
-      <div className={theme}>{children}</div>
+      <div className={`h-screen ${theme}`}>{children}</div>
     </ThemeContext.Provider>
   );
 }
