@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { Beaker, Crown, Info, LayoutDashboard } from "lucide-react";
 import dynamic from "next/dynamic";
+import NextLink from "next/link";
 import { useSession } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
 
+import Fiocruz from "@app/assets/fiocruz.png";
+import FiocruzRO from "@app/assets/fiocruz-ro.png";
+import FiocruzWhite from "@app/assets/fiocruz-white.png";
+import LABIOQUIM from "@app/assets/labioquim.png";
+import UFCSPA from "@app/assets/ufcspa.png";
 import { BlurImage } from "@app/components/general/blur-image";
 import { useTheme } from "@app/context/ThemeContext";
-
+import { cnMerge } from "@app/utils/cnMerge";
 const SidebarItem = dynamic(
   () =>
     import("@app/components/general/sidebar/item").then((m) => m.SidebarItem),
@@ -29,6 +35,7 @@ export function SidebarContent() {
   const { theme } = useTheme();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
+
   const initialNavigationArray: NavigationSection[] = [
     {
       title: "navigation:system.title",
@@ -50,6 +57,7 @@ export function SidebarContent() {
       ]
     }
   ];
+
   const authenticatedNavigationArray: NavigationSection[] = [
     {
       title: "navigation:dynamic.title",
@@ -84,6 +92,7 @@ export function SidebarContent() {
       ]
     }
   ];
+
   const adminNavigationSection: NavigationItem = {
     label: "navigation:admin.title",
     Icon: Crown,
@@ -107,6 +116,7 @@ export function SidebarContent() {
       }
     ]
   };
+
   const [navigationItems, setNavigationItems] = useState<NavigationSection[]>(
     initialNavigationArray
   );
@@ -169,39 +179,53 @@ export function SidebarContent() {
           </div>
         ))}
       </ul>
-      <div className="my-5 grid gap-2 px-2">
-        <BlurImage
-          alt="LABIOQUIM"
-          className="w-full p-2"
-          height={0}
-          src="/labioquim.png"
-          unoptimized
-          width={0}
-        />
-        <BlurImage
-          alt="Fiocruz Rondônia"
-          className="w-full p-2"
-          height={0}
-          src="/fiocruz-ro.png"
-          unoptimized
-          width={0}
-        />
-        <BlurImage
-          alt="Fiocruz"
-          className="w-full p-2"
-          height={0}
-          src={theme === "light" ? "/fiocruz.png" : "/fiocruz-white.png"}
-          unoptimized
-          width={0}
-        />
-        <BlurImage
-          alt="UFCSPA"
-          className="w-full p-2"
-          height={0}
-          src="/ufcspa.png"
-          unoptimized
-          width={0}
-        />
+      <div className="my-5 grid grid-flow-col grid-rows-2 gap-2 px-2">
+        <NextLink
+          href="https://www.rondonia.fiocruz.br/laboratorios/bioinformatica-e-quimica-medicinal/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <BlurImage
+            alt=""
+            className="h-full w-full object-contain"
+            src={LABIOQUIM}
+          />
+        </NextLink>
+        <NextLink
+          href="https://www.rondonia.fiocruz.br/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <BlurImage
+            alt=""
+            className="h-full w-full object-contain"
+            src={FiocruzRO}
+          />
+        </NextLink>
+        <NextLink
+          href="https://portal.fiocruz.br"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <BlurImage
+            alt=""
+            className={cnMerge("h-full w-full object-contain", {
+              "px-0.5": theme === "light"
+            })}
+            src={theme === "light" ? Fiocruz : FiocruzWhite}
+          />
+        </NextLink>
+        <NextLink
+          href="https://www.ufcspa.edu.br/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <BlurImage
+            alt=""
+            className="h-full w-full object-contain px-0.5"
+            src={UFCSPA}
+          />
+        </NextLink>
       </div>
     </div>
   );
