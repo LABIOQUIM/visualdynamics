@@ -6,11 +6,7 @@ import useTranslation from "next-translate/useTranslation";
 import { MyDynamicsHeader } from "@app/components/dynamics/my-dynamics/heading";
 import { SEO } from "@app/components/SEO";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import {
-  GetListDynamicResult,
-  getListDynamics,
-  useListDynamics
-} from "@app/queries/useListDynamics";
+import { useListDynamics } from "@app/queries/useListDynamics";
 
 const EmptyList = dynamic(
   () =>
@@ -32,33 +28,12 @@ const List = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRAuth(async (_, session) => {
-  if (session) {
-    const initialData = await getListDynamics(session.user.username);
+export const getServerSideProps = withSSRAuth();
 
-    return {
-      props: {
-        initialData
-      }
-    };
-  }
-
-  return {
-    props: {}
-  };
-});
-
-export default function MyDynamics({
-  initialData,
-  user
-}: {
-  user: User;
-  initialData: GetListDynamicResult;
-}) {
+export default function MyDynamics({ user }: { user: User }) {
   const { data, refetch, isRefetching, isLoading } = useListDynamics(
     user.username,
     {
-      initialData,
       refetchOnMount: true
     }
   );
