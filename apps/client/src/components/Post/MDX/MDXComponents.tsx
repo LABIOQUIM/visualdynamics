@@ -62,7 +62,7 @@ export const components = {
   },
   ul: (props: any) => (
     <ul
-      className="my-1.5 flex flex-col gap-y-1.5 [&>li]:relative [&>li]:pl-5 before:[&>li]:absolute before:[&>li]:left-1 before:[&>li]:top-2.5 before:[&>li]:h-1.5 before:[&>li]:w-1.5 before:[&>li]:rounded-full before:[&>li]:bg-primary-900/75 dark:before:[&>li]:bg-primary-300/75 [li>&]:mt-3"
+      className="-space-y-2.5 [&>li>p]:-my-6 [&>li]:relative [&>li]:pl-5 before:[&>li]:absolute before:[&>li]:left-1 before:[&>li]:top-2.5 before:[&>li]:h-1.5 before:[&>li]:w-1.5 before:[&>li]:rounded-full before:[&>li]:bg-primary-900/75 dark:before:[&>li]:bg-primary-300/75"
       {...props}
     />
   ),

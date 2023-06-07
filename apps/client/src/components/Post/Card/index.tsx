@@ -11,7 +11,7 @@ export default function BlogCard(post: Post) {
   const { t } = useTranslation();
 
   return (
-    <div className="group p-2 hover:bg-zinc-400/5">
+    <div className="group p-2 transition-all duration-150 hover:bg-zinc-400/5">
       <Link
         href="/posts/[slug]"
         as={`/posts/${post.slug}`}
@@ -22,16 +22,23 @@ export default function BlogCard(post: Post) {
             {post.description}
           </Paragraph>
           <div className="flex w-fit gap-x-2 text-zinc-500">
-            <div className="flex w-fit gap-x-2">
-              <BlurImage
-                className="h-6 w-6 rounded-full"
-                alt={post.author}
-                src={post.authorImage}
-                width={0}
-                height={0}
-                unoptimized
-              />
-              <p>{post.author}</p>
+            <div className="flex w-fit gap-x-4">
+              {post.authors.map((author) => (
+                <div
+                  className="flex w-fit gap-x-2"
+                  key={author.name}
+                >
+                  <BlurImage
+                    className="h-6 w-6 rounded-full"
+                    alt={author.name}
+                    src={author.image}
+                    width={0}
+                    height={0}
+                    unoptimized
+                  />
+                  <p>{author.name}</p>
+                </div>
+              ))}
             </div>
             &bull;
             <div className="flex w-fit gap-x-2">

@@ -4,6 +4,8 @@ import { defineDocumentType } from "contentlayer/source-files";
 import GithubSlugger from "github-slugger";
 import readingTime from "reading-time";
 
+import { Author } from "./Author";
+
 export const Post = defineDocumentType(() => ({
   name: "Post",
   filePathPattern: "posts/*.mdx",
@@ -12,11 +14,9 @@ export const Post = defineDocumentType(() => ({
     title: { type: "string", required: true },
     publishedAt: { type: "string", required: true },
     description: { type: "string" },
-    category: { type: "enum", options: ["news", "post", "tutorial"] },
     status: { type: "enum", options: ["draft", "published"], required: true },
     locale: { type: "enum", options: ["en-US", "pt-BR"], required: true },
-    author: { type: "string", required: true },
-    authorImage: { type: "string", required: true }
+    authors: { type: "list", of: Author, required: true }
   },
   computedFields: {
     headings: {

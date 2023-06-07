@@ -40,18 +40,25 @@ export default function BlogPost({ post }: { post: Post }) {
     <>
       <SEO title={post.title} />
       <H1>{post?.title}</H1>
+      <div className="flex w-fit gap-x-4">
+        {post.authors.map((author) => (
+          <div
+            className="flex w-fit gap-x-2"
+            key={author.name}
+          >
+            <BlurImage
+              className="h-6 w-6 rounded-full"
+              alt={author.name}
+              src={author.image}
+              width={0}
+              height={0}
+              unoptimized
+            />
+            <p>{author.name}</p>
+          </div>
+        ))}
+      </div>
       <div className="mb-2.5 flex flex-col items-center gap-4 text-gray-500 md:flex-row">
-        <div className="flex w-fit gap-x-2">
-          <BlurImage
-            className="h-6 w-6 rounded-full"
-            alt={post.author}
-            src={post.authorImage}
-            width={0}
-            height={0}
-            unoptimized
-          />
-          <p>{post.author}</p>
-        </div>
         <p className="flex items-center gap-x-2 text-sm font-medium md:text-lg">
           <Clock className="m-auto h-4 w-4 text-zinc-300" />
           {t("common:blog.readtime", {
