@@ -1,5 +1,5 @@
-import { FileDown, RefreshCw } from "lucide-react";
-import { useRouter } from "next/router";
+import { Archive, FileDown, RefreshCw } from "lucide-react";
+import NextLink from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/general/buttons";
@@ -20,16 +20,28 @@ export function MyDynamicsHeader({
   isRefetching
 }: MyDynamicsHeader) {
   const { t } = useTranslation();
-  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-3 md:flex-row">
-      <Button
-        LeftIcon={FileDown}
-        onClick={() => router.push("/api/downloads/mdp")}
+      <NextLink
+        href="/api/downloads/mdp"
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        {t("my-dynamics:downloads.mdp")}
-      </Button>
+        <Button LeftIcon={FileDown}>{t("my-dynamics:downloads.mdp")}</Button>
+      </NextLink>
+      <NextLink
+        href="/api/downloads/archive"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Button
+          LeftIcon={Archive}
+          title={t("my-dynamics:downloads.archive-info")}
+        >
+          {t("my-dynamics:downloads.archive")}
+        </Button>
+      </NextLink>
       <div className="flex flex-1">
         <TextButton
           iconClassName={cnMerge({

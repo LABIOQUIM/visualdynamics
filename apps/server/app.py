@@ -4,6 +4,7 @@ from flask_restful import Api
 from server.config import Config
 from server.resources.celery.active_tasks import CeleryActiveTasks
 from server.resources.celery.reserved_tasks import CeleryReservedTasks
+from server.resources.downloads.archive import DownloadDynamicArchive
 from server.resources.downloads.commands import DownloadDynamicCommands
 from server.resources.downloads.figures import DownloadDynamicFigures
 from server.resources.downloads.log import DownloadDynamicLog
@@ -41,6 +42,7 @@ api.add_resource(DownloadDynamicFigures, "/api/v1/downloads/figures")
 api.add_resource(DownloadDynamicLog, "/api/v1/downloads/log")
 api.add_resource(DownloadDynamicResults, "/api/v1/downloads/results")
 api.add_resource(DownloadMDP, "/api/v1/downloads/mdp")
+api.add_resource(DownloadDynamicArchive, "/api/v1/downloads/archive")
 
 # API status
 api.add_resource(Health, "/api/v1/health")
