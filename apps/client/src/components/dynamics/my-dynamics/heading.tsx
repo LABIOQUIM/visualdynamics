@@ -1,9 +1,11 @@
 import { Archive, FileDown, RefreshCw } from "lucide-react";
 import NextLink from "next/link";
+import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/general/buttons";
 import { TextButton } from "@app/components/general/buttons/Text";
+import { Paragraph } from "@app/components/typography/paragraphs";
 import { cnMerge } from "@app/utils/cnMerge";
 
 interface MyDynamicsHeader {
@@ -22,39 +24,47 @@ export function MyDynamicsHeader({
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col gap-3 md:flex-row">
-      <NextLink
-        href="/api/downloads/mdp"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Button LeftIcon={FileDown}>{t("my-dynamics:downloads.mdp")}</Button>
-      </NextLink>
-      <NextLink
-        href="/api/downloads/archive"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Button
-          LeftIcon={Archive}
-          title={t("my-dynamics:downloads.archive-info")}
-        >
-          {t("my-dynamics:downloads.archive")}
-        </Button>
-      </NextLink>
-      <div className="flex flex-1">
-        <TextButton
-          iconClassName={cnMerge({
-            "animate-spin": isRefetching || isLoading
-          })}
-          disabled={isRefetching || isLoading}
-          LeftIcon={RefreshCw}
-          onClick={() => refetch()}
-        />
-        <p className="my-auto ml-2 md:ml-auto">
-          {t("my-dynamics:auto-refresh", { seconds: timeUntilRefresh })}
-        </p>
+    <>
+      <div className="flex gap-2 rounded-lg border border-yellow-600/60 bg-yellow-600/20 p-3 text-justify leading-relaxed">
+        <Archive className="my-auto min-h-[1.5rem] min-w-[1.5rem]" />
+        <Paragraph>
+          <Trans
+            i18nKey="my-dynamics:downloads.archive"
+            components={{
+              Link: (
+                <NextLink
+                  className="text-yellow-700 dark:text-yellow-300"
+                  href="mailto:fernando.zanchi@fiocruz.br"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              )
+            }}
+          />
+        </Paragraph>
       </div>
-    </div>
+      <div className="flex flex-col gap-3 md:flex-row">
+        <NextLink
+          href="/api/downloads/mdp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button LeftIcon={FileDown}>{t("my-dynamics:downloads.mdp")}</Button>
+        </NextLink>
+        <div className="flex flex-1">
+          <TextButton
+            iconClassName={cnMerge({
+              "animate-spin": isRefetching || isLoading
+            })}
+            disabled={isRefetching || isLoading}
+            LeftIcon={RefreshCw}
+            onClick={() => refetch()}
+          />
+          <p className="my-auto ml-2 md:ml-auto">
+            {t("my-dynamics:auto-refresh", { seconds: timeUntilRefresh })}
+          </p>
+        </div>
+      </div>
+    </>
   );
 }
