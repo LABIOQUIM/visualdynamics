@@ -21,7 +21,11 @@ class DownloadDynamicResults(Resource):
         with zipfile.ZipFile(file_results_zip, "w") as z:
             for folder, _, files in os.walk(folder_run_path):
                 for file in files:
-                    if file.endswith("_PBC.xtc") or file.endswith("_pr.tpr"):
+                    if (
+                        file.endswith("_PBC.xtc")
+                        or file.endswith("_pr.tpr")
+                        or file.endswith("_npt.gro")
+                    ):
                         z.write(
                             os.path.join(folder, file),
                             file,
