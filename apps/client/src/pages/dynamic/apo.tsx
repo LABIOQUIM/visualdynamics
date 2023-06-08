@@ -6,7 +6,7 @@ import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicat
 import { SEO } from "@app/components/SEO";
 import { H1 } from "@app/components/typography/headings";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { getRunningDynamic } from "@app/queries/useRunningDynamic";
+import { useIsDynamicRunning } from "@app/hooks/use-is-dynamic-running";
 
 const APOForm = dynamic(
   () => import("@app/components/Forms/APO").then((mod) => mod.APOForm),
@@ -16,31 +16,10 @@ const APOForm = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRAuth(async (_, session) => {
-  try {
-    if (session) {
-      const data = await getRunningDynamic(session.user.username);
-
-      if (data?.status === "running") {
-        return {
-          redirect: {
-            destination: "/dynamic/running",
-            permanent: false
-          }
-        };
-      }
-    }
-  } catch {
-    return {
-      props: {}
-    };
-  }
-  return {
-    props: {}
-  };
-});
+export const getServerSideProps = withSSRAuth();
 
 export default function APODynamic({ user }: { user: User }) {
+  useIsDynamicRunning();
   const { t } = useTranslation();
 
   return (
