@@ -11,11 +11,7 @@ import { SEO } from "@app/components/SEO";
 import { H1 } from "@app/components/typography/headings";
 import { Paragraph } from "@app/components/typography/paragraphs";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import {
-  getRunningDynamic,
-  GetRunningDynamicResult,
-  useRunningDynamic
-} from "@app/queries/useRunningDynamic";
+import { useRunningDynamic } from "@app/queries/useRunningDynamic";
 
 const DynamicRunningRealtimeLog = dynamic(
   () =>
@@ -37,31 +33,10 @@ const DynamicRunningStepList = dynamic(
   }
 );
 
-export const getServerSideProps = withSSRAuth(async (_, session) => {
-  if (session) {
-    const initialData = await getRunningDynamic(session.user.username);
+export const getServerSideProps = withSSRAuth();
 
-    return {
-      props: {
-        initialData
-      }
-    };
-  }
-
-  return {
-    props: {}
-  };
-});
-
-export default function Running({
-  initialData,
-  user
-}: {
-  user: User;
-  initialData: GetRunningDynamicResult;
-}) {
+export default function Running({ user }: { user: User }) {
   const { data, isRefetching } = useRunningDynamic(user.username, {
-    initialData,
     refetchOnMount: true
   });
   const { t } = useTranslation();
