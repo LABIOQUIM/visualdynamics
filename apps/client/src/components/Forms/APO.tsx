@@ -101,7 +101,7 @@ export function APOForm({ user }: APOFormProps) {
       onSubmit={handleSubmit(handleSubmitDynamic)}
     >
       <Input
-        label={t("forms:file-pdb.title")}
+        label={t("simulations-form:file-pdb.title")}
         type="file"
         accept=".pdb"
         error={errors.protein}
@@ -112,10 +112,10 @@ export function APOForm({ user }: APOFormProps) {
       <div className="flex flex-col gap-1 md:flex-row md:gap-3">
         <Select<keyof typeof apoForceFields>
           error={errors.forceField}
-          label={t("forms:force-field.title")}
+          label={t("simulations-form:force-field.title")}
           name="forceField"
           onChange={(newForceField) => setValue("forceField", newForceField)}
-          placeholder={t("forms:force-field.placeholder")}
+          placeholder={t("simulations-form:force-field.placeholder")}
           selectedValue={watch("forceField")}
           disabled={isSubmitting}
           values={apoForceFields}
@@ -123,10 +123,10 @@ export function APOForm({ user }: APOFormProps) {
 
         <Select<keyof typeof waterModels>
           error={errors.waterModel}
-          label={t("forms:water-model.title")}
+          label={t("simulations-form:water-model.title")}
           name="waterModel"
           onChange={(newWaterModel) => setValue("waterModel", newWaterModel)}
-          placeholder={t("forms:water-model.placeholder")}
+          placeholder={t("simulations-form:water-model.placeholder")}
           selectedValue={watch("waterModel")}
           disabled={isSubmitting}
           values={waterModels}
@@ -136,17 +136,17 @@ export function APOForm({ user }: APOFormProps) {
       <div className="flex flex-col gap-1 md:flex-row md:gap-3">
         <Select<keyof typeof boxTypes>
           error={errors.boxType}
-          label={t("forms:box-type.title")}
+          label={t("simulations-form:box-type.title")}
           name="boxType"
           onChange={(newBoxType) => setValue("boxType", newBoxType)}
-          placeholder={t("forms:box-type.placeholder")}
+          placeholder={t("simulations-form:box-type.placeholder")}
           selectedValue={watch("boxType")}
           disabled={isSubmitting}
           values={boxTypes}
         />
 
         <Input
-          label={t("forms:box-distance.title")}
+          label={t("simulations-form:box-distance.title")}
           error={errors.boxDistance}
           type="number"
           disabled={isSubmitting}
@@ -154,31 +154,31 @@ export function APOForm({ user }: APOFormProps) {
         />
       </div>
 
-      <label>{t("forms:options")}</label>
+      <label>{t("simulations-form:options")}</label>
       <div className="flex flex-col gap-y-2">
         <Switch
-          label={t("forms:neutralize.title")}
+          label={t("simulations-form:neutralize.title")}
           checked={watch("neutralize")}
           onCheckedChange={(bool) => setValue("neutralize", bool)}
           name="neutralize"
           disabled
         />
         <Switch
-          label={t("forms:ignore.title")}
+          label={t("simulations-form:ignore.title")}
           checked={watch("ignore")}
           onCheckedChange={(bool) => setValue("ignore", bool)}
           name="ignore"
           disabled
         />
         <Switch
-          label={t("forms:double.title")}
+          label={t("simulations-form:double.title")}
           checked={watch("double")}
           onCheckedChange={(bool) => setValue("double", bool)}
           name="double"
           disabled
         />
         <Switch
-          label={t("forms:run.title")}
+          label={t("simulations-form:run.title")}
           disabled={isSubmitting}
           checked={watch("bootstrap")}
           onCheckedChange={(bool) => setValue("bootstrap", bool)}
@@ -200,7 +200,7 @@ export function APOForm({ user }: APOFormProps) {
               key="submit.run"
             >
               <CloudCog />
-              <Trans i18nKey="forms:submit.run" />
+              <Trans i18nKey="simulations-form:submit.run" />
             </motion.p>
           ) : (
             <motion.p
@@ -213,7 +213,7 @@ export function APOForm({ user }: APOFormProps) {
               <Download />
               <Trans
                 key="submit.dload"
-                i18nKey="forms:submit.download"
+                i18nKey="simulations-form:submit.download"
               />
             </motion.p>
           )}

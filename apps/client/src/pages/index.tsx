@@ -1,7 +1,8 @@
 import { CloudCog, Code2 } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
-import { SEO } from "@app/components/SEO";
+import { PageLayout } from "@app/components/general/page-layout";
+import { SEO } from "@app/components/seo";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -20,7 +21,7 @@ export default function Home() {
   ];
 
   return (
-    <>
+    <PageLayout>
       <SEO
         title={t("home:title")}
         description={t("home:description")}
@@ -57,6 +58,6 @@ export default function Home() {
           </div>
         ))}
       </dl>
-    </>
+    </PageLayout>
   );
 }

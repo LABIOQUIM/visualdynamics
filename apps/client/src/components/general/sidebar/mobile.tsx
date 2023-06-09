@@ -2,7 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 
-import { Spinner } from "@app/components/Spinner";
+import { Spinner } from "@app/components/general/loading-indicator/spinner";
 import { useSidebar } from "@app/context/SidebarContext";
 
 const SidebarContent = dynamic(

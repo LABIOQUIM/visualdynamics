@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
-import { SEO } from "@app/components/SEO";
+import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
+import { SEO } from "@app/components/seo";
 
 const ResetPasswordForm = dynamic(
   () =>

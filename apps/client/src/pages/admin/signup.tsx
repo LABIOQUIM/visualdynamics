@@ -2,11 +2,11 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
-import { AlertFailedToFetch } from "@app/components/alerts/failed-to-fetch";
+import { AlertFailedToFetch } from "@app/components/general/alerts/failed-to-fetch";
+import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
+import { Spinner } from "@app/components/general/loading-indicator/spinner";
 import { H1 } from "@app/components/general/typography/headings";
-import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
-import { SEO } from "@app/components/SEO";
-import { Spinner } from "@app/components/Spinner";
+import { SEO } from "@app/components/seo";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
 import { useAdminSignUpRequestList } from "@app/queries/useAdminSignUpRequestList";
 

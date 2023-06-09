@@ -10,7 +10,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Button } from "@app/components/general/buttons";
 import { TextButton } from "@app/components/general/buttons/Text";
 import { Input } from "@app/components/general/forms/input";
-import { Spinner } from "@app/components/Spinner";
+import { Spinner } from "@app/components/general/loading-indicator/spinner";
 import {
   SignInFormSchema,
   SignInFormSchemaType
@@ -42,7 +42,7 @@ export function SignInForm() {
       if (data) {
         if (data.error) {
           if (data.error === "user.no-pass") {
-            router.push(`/reset-password?reason=passwordmigration`);
+            router.push(`/account/recover?reason=password-migration`);
           } else {
             setSignInError(data.error);
           }
@@ -50,7 +50,7 @@ export function SignInForm() {
 
         if (data.ok) {
           reset();
-          router.push("/my-dynamics");
+          router.push("/simulations");
         }
       }
     });
@@ -108,7 +108,7 @@ export function SignInForm() {
             className="text-sm"
             iconClassName="h-4 w-4"
             LeftIcon={UserPlus}
-            onClick={() => router.push("/signup")}
+            onClick={() => router.push("/account/signup")}
             type="button"
           >
             {t("signin:new-user")}

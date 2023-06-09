@@ -9,7 +9,7 @@ import { Button } from "@app/components/general/buttons";
 import { PageLayout } from "@app/components/general/page-layout";
 import { H1 } from "@app/components/general/typography/headings";
 import { Paragraph } from "@app/components/general/typography/paragraphs";
-import { SEO } from "@app/components/SEO";
+import { SEO } from "@app/components/seo";
 import { SimulationAbortButton } from "@app/components/simulations/running/abort-button";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { useUserRunningSimulation } from "@app/queries/useUserRunningSimulation";

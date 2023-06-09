@@ -15,7 +15,7 @@ import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
 import { StatusButton } from "@app/components/general/buttons/Status";
-import { Spinner } from "@app/components/Spinner";
+import { Spinner } from "@app/components/general/loading-indicator/spinner";
 import { cnMerge } from "@app/utils/cnMerge";
 
 interface SimulationListItemProps {
@@ -58,7 +58,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
       ) : null}
       <div className="flex flex-col gap-y-2">
         <small className="text-xs leading-none">
-          {t("my-dynamics:dynamic.id")}: {simulation.celeryId}
+          {t("simulations:dynamic.id")}: {simulation.celeryId}
         </small>
         <div
           className={cnMerge({
@@ -77,7 +77,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
               components={{
                 b: <b />
               }}
-              i18nKey="my-dynamics:header"
+              i18nKey="simulations:header"
               values={{
                 type: simulation.type,
                 molecule: simulation.molecule,
@@ -94,13 +94,13 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
           </p>
           {simulation.status === "error" ? (
             simulation.errored_command === "hm5ka" ? (
-              <p>{t("my-dynamics:errors.hm5ka")}</p>
+              <p>{t("simulations:errors.hm5ka")}</p>
             ) : (
               <Trans
                 components={{
                   b: <b />
                 }}
-                i18nKey="my-dynamics:errors.command"
+                i18nKey="simulations:errors.command"
                 values={{ command: simulation.errored_command }}
               />
             )
@@ -109,7 +109,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
         <div className="flex flex-col gap-y-1">
           <small className="flex gap-x-1">
             <Download className="h-4 w-4" />
-            {t("my-dynamics:downloads.title")}
+            {t("simulations:downloads.title")}
           </small>
           <div className="flex flex-wrap gap-2">
             <Link
@@ -121,7 +121,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
                 LeftIcon={FileCode}
                 status={simulation.status}
               >
-                {t("my-dynamics:downloads.commands")}
+                {t("simulations:downloads.commands")}
               </StatusButton>
             </Link>
             <Link
@@ -137,7 +137,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
                 LeftIcon={Scroll}
                 status={simulation.status}
               >
-                {t("my-dynamics:downloads.log")}
+                {t("simulations:downloads.log")}
               </StatusButton>
             </Link>
             <Link
@@ -153,7 +153,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
                 LeftIcon={FileDigit}
                 status={simulation.status}
               >
-                {t("my-dynamics:downloads.results")}
+                {t("simulations:downloads.results")}
               </StatusButton>
             </Link>
             <Link
@@ -169,7 +169,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
                 LeftIcon={Image}
                 status={simulation.status}
               >
-                {t("my-dynamics:downloads.figures")}
+                {t("simulations:downloads.figures")}
               </StatusButton>
             </Link>
           </div>

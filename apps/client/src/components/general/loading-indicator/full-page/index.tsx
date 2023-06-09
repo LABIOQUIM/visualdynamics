@@ -1,4 +1,4 @@
-import { LoadingThreeDotsWave } from "@app/components/Loading/ThreeDotsWave";
+import { LoadingThreeDotsWave } from "@app/components/general/loading-indicator/three-dots-wave";
 
 export function PageLoadingIndicator() {
   return (

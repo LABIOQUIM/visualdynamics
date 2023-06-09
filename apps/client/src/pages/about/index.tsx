@@ -1,9 +1,9 @@
 import useTranslation from "next-translate/useTranslation";
 
+import { MaintainerCard } from "@app/components/about/maintainer-card";
 import { BlurImage } from "@app/components/general/blur-image";
 import { PageLayout } from "@app/components/general/page-layout";
-import { MaintainerCard } from "@app/components/Maintainer/Card";
-import { SEO } from "@app/components/SEO";
+import { SEO } from "@app/components/seo";
 
 import logo from "../../../public/images/favicon.svg";
 

@@ -3,16 +3,24 @@ module.exports = {
   defaultLocale: "en-US",
   pages: {
     "*": ["common", "navigation"],
+
+    // Misc
     "/": ["home"],
     "/about": ["about"],
-    "/account/signin": ["signin"],
-    "/account/signup": ["signup"],
-    "rgx:^/account/recover.*": ["reset-password"],
+
+    // Account
+    "/account/signin": ["account-signin"],
+    "/account/signup": ["account-signup"],
+    "rgx:^/account/recover.*": ["account-recover"],
+
+    // Admin
     "/admin/signup": ["admin-signup"],
     "/admin/running": ["admin-running"],
     "/admin/md-pr/update": ["admin-mdpr-update"],
-    "/simulations": ["my-dynamics"],
-    "/simulations/running": ["running"],
-    "rgx:^/simulations/new/[A-Za-z]+": ["forms"]
+
+    // Simulations
+    "/simulations": ["simulations"],
+    "/simulations/running": ["simulations-running"],
+    "rgx:^/simulations/new/[A-Za-z]+": ["simulations-form"]
   }
 };

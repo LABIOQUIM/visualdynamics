@@ -51,5 +51,8 @@
     "home": {
       "title": "Home"
     }
+  },
+  "footer": {
+    "release-notes": "About this version"
   }
 }

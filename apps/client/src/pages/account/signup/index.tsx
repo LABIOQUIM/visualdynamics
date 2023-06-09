@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
-import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
-import { SEO } from "@app/components/SEO";
+import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
+import { SEO } from "@app/components/seo";
 import { withSSRGuest } from "@app/hocs/withSSRGuest";
 
 const SignUpForm = dynamic(

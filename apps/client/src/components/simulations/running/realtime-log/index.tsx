@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 
-import { Spinner } from "@app/components/Spinner";
+import { Spinner } from "@app/components/general/loading-indicator/spinner";
 
 interface SimulationRealtimeLogProps {
   logLines: string[];

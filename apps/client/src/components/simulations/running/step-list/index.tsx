@@ -1,7 +1,7 @@
 import { ArrowRight, CheckCircle, Clock } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
-import { Spinner } from "@app/components/Spinner";
+import { Spinner } from "@app/components/general/loading-indicator/spinner";
 import { cnMerge } from "@app/utils/cnMerge";
 
 interface SimulationStepListProps {

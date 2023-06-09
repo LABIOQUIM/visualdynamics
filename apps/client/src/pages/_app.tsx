@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 
-import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
+import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { SidebarProvider } from "@app/context/SidebarContext";
 import { queryClient } from "@app/lib/query-client";
 
@@ -15,7 +15,7 @@ const Layout = dynamic(
   () => import("@app/components/general/layout").then((mod) => mod.Layout),
   {
     loading: () => (
-      <div className="h-screen">
+      <div className="flex h-screen w-full flex-col items-center justify-center">
         <PageLoadingIndicator />
       </div>
     ),

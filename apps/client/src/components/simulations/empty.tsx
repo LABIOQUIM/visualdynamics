@@ -11,9 +11,9 @@ export function MyDynamicsEmptyList() {
     <div className="mx-auto flex flex-1 flex-col justify-center lg:w-1/2">
       <Microscope className="stoke-primary-950 mx-auto mb-2 h-14 w-14 dark:stroke-primary-400" />
       <h1 className="text-center text-2xl font-bold uppercase text-primary-950 dark:text-primary-400">
-        {t("my-dynamics:empty.title")}
+        {t("simulations:empty.title")}
       </h1>
-      <p className="text-center">{t("my-dynamics:empty.description")}</p>
+      <p className="text-center">{t("simulations:empty.description")}</p>
 
       <div className="mx-auto mt-5 flex flex-wrap gap-x-2">
         <Link href="/dynamic/apo">

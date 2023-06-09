@@ -29,7 +29,7 @@ export function MySimulationsHeader({
         <Archive className="my-auto min-h-[1.5rem] min-w-[1.5rem]" />
         <Paragraph>
           <Trans
-            i18nKey="my-dynamics:downloads.archive"
+            i18nKey="simulations:downloads.archive"
             components={{
               Link: (
                 <NextLink
@@ -49,7 +49,7 @@ export function MySimulationsHeader({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button LeftIcon={FileDown}>{t("my-dynamics:downloads.mdp")}</Button>
+          <Button LeftIcon={FileDown}>{t("simulations:downloads.mdp")}</Button>
         </NextLink>
         <div className="flex flex-1">
           <TextButton
@@ -61,7 +61,7 @@ export function MySimulationsHeader({
             onClick={() => refetch()}
           />
           <p className="my-auto ml-2 md:ml-auto">
-            {t("my-dynamics:auto-refresh", { seconds: timeUntilRefresh })}
+            {t("simulations:auto-refresh", { seconds: timeUntilRefresh })}
           </p>
         </div>
       </div>

@@ -3,9 +3,9 @@ import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
+import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { PageLayout } from "@app/components/general/page-layout";
-import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
-import { SEO } from "@app/components/SEO";
+import { SEO } from "@app/components/seo";
 import { MySimulationsHeader } from "@app/components/simulations/header";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { useUserSimulations } from "@app/queries/useUserSimulations";
@@ -64,7 +64,7 @@ export default function MySimulations({ user }: { user: User }) {
 
   return (
     <PageLayout>
-      <SEO title={t("my-dynamics:title")} />
+      <SEO title={t("simulations:title")} />
       <MySimulationsHeader
         refetch={refetch}
         timeUntilRefresh={timeUntilRefresh}

@@ -1,8 +1,8 @@
 import { Laptop2, ServerOff } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
+import { LoadingThreeDotsWave } from "@app/components/general/loading-indicator/three-dots-wave";
 import { H2 } from "@app/components/general/typography/headings";
-import { LoadingThreeDotsWave } from "@app/components/Loading/ThreeDotsWave";
 
 export function AlertFailedToFetch() {
   const { t } = useTranslation();

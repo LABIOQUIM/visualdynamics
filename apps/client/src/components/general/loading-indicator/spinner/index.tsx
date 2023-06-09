@@ -1,5 +1,7 @@
 import { SVGProps } from "react";
 
+import { cnMerge } from "@app/utils/cnMerge";
+
 type SpinnerProps = SVGProps<SVGSVGElement>;
 
 export function Spinner({ className, ...others }: SpinnerProps) {
@@ -10,7 +12,10 @@ export function Spinner({ className, ...others }: SpinnerProps) {
     >
       <svg
         aria-hidden="true"
-        className={`h-5 w-5 animate-spin fill-primary-950 text-primary-100 ${className}`}
+        className={cnMerge(
+          "h-5 w-5 animate-spin fill-primary-950 text-primary-100",
+          className
+        )}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
