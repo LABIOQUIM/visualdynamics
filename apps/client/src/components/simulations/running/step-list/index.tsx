@@ -4,7 +4,7 @@ import useTranslation from "next-translate/useTranslation";
 import { Spinner } from "@app/components/Spinner";
 import { cnMerge } from "@app/utils/cnMerge";
 
-interface DynamicRunningStepListProps {
+interface SimulationStepListProps {
   activeSteps: string[];
 }
 
@@ -56,9 +56,7 @@ function Step({
   );
 }
 
-export function DynamicRunningStepList({
-  activeSteps
-}: DynamicRunningStepListProps) {
+export function SimulationStepList({ activeSteps }: SimulationStepListProps) {
   const { t } = useTranslation();
 
   return (

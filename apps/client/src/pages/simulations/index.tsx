@@ -3,14 +3,16 @@ import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
-import { MyDynamicsHeader } from "@app/components/dynamics/my-dynamics/heading";
+import { PageLayout } from "@app/components/general/page-layout";
+import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
+import { MySimulationsHeader } from "@app/components/simulations/header";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { useListDynamics } from "@app/queries/useListDynamics";
+import { useUserSimulations } from "@app/queries/useUserSimulations";
 
 const EmptyList = dynamic(
   () =>
-    import("@app/components/dynamics/my-dynamics/empty").then(
+    import("@app/components/simulations/empty").then(
       (m) => m.MyDynamicsEmptyList
     ),
   {
@@ -20,9 +22,7 @@ const EmptyList = dynamic(
 
 const List = dynamic(
   () =>
-    import("@app/components/dynamics/my-dynamics/list").then(
-      (m) => m.MyDynamicsList
-    ),
+    import("@app/components/simulations/list").then((m) => m.MySimulationsList),
   {
     ssr: false
   }
@@ -30,8 +30,8 @@ const List = dynamic(
 
 export const getServerSideProps = withSSRAuth();
 
-export default function MyDynamics({ user }: { user: User }) {
-  const { data, refetch, isRefetching, isLoading } = useListDynamics(
+export default function MySimulations({ user }: { user: User }) {
+  const { data, refetch, isRefetching, isLoading } = useUserSimulations(
     user.username,
     {
       refetchOnMount: true
@@ -62,31 +62,22 @@ export default function MyDynamics({ user }: { user: User }) {
     }
   }, [isRefetching, refetch, timeUntilRefresh]);
 
-  if (data?.status === "listed") {
-    return (
-      <>
-        <SEO title={t("my-dynamics:title")} />
-        <MyDynamicsHeader
-          refetch={refetch}
-          timeUntilRefresh={timeUntilRefresh}
-          isLoading={isLoading}
-          isRefetching={isRefetching}
-        />
-        <List dynamics={data.dynamics} />
-      </>
-    );
-  }
-
   return (
-    <>
+    <PageLayout>
       <SEO title={t("my-dynamics:title")} />
-      <MyDynamicsHeader
+      <MySimulationsHeader
         refetch={refetch}
         timeUntilRefresh={timeUntilRefresh}
         isLoading={isLoading}
         isRefetching={isRefetching}
       />
-      <EmptyList />
-    </>
+      {isLoading || !data ? (
+        <PageLoadingIndicator />
+      ) : data.status === "has-simulations" ? (
+        <List simulations={data.simulations} />
+      ) : (
+        <EmptyList />
+      )}
+    </PageLayout>
   );
 }

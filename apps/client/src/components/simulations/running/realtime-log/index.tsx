@@ -2,15 +2,15 @@ import useTranslation from "next-translate/useTranslation";
 
 import { Spinner } from "@app/components/Spinner";
 
-interface DynamicRunningRealtimeLogProps {
+interface SimulationRealtimeLogProps {
   logLines: string[];
   isRefetching: boolean;
 }
 
-export function DynamicRunningRealtimeLog({
+export function SimulationRealtimeLog({
   isRefetching,
   logLines
-}: DynamicRunningRealtimeLogProps) {
+}: SimulationRealtimeLogProps) {
   const { t } = useTranslation();
 
   return (

@@ -13,7 +13,7 @@ export function Backdrop({ className, ...other }: BackdropProps & MotionProps) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       className={cnMerge(
-        "fixed inset-0 z-40 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center",
+        "absolute inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 transition-all duration-150",
         className
       )}
       {...other}

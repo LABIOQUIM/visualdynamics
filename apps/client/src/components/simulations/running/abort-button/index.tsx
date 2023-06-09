@@ -6,19 +6,19 @@ import useTranslation from "next-translate/useTranslation";
 import { Button } from "@app/components/general/buttons";
 import { api } from "@app/lib/api";
 
-interface DynamicRunningAbortButtonProps {
+interface SimulationAbortButtonProps {
   celeryId: string;
   disableAbortButton?: boolean;
   folder: string;
   refetch?: () => void;
 }
 
-export function DynamicRunningAbortButton({
+export function SimulationAbortButton({
   celeryId,
   disableAbortButton,
   folder,
   refetch
-}: DynamicRunningAbortButtonProps) {
+}: SimulationAbortButtonProps) {
   const [isAborting, setIsAborting] = useState(false);
   const { t } = useTranslation();
   const router = useRouter();
@@ -39,7 +39,7 @@ export function DynamicRunningAbortButton({
         if (refetch) {
           refetch();
         } else {
-          router.push("/my-dynamics");
+          router.push("/simulations");
         }
       })
       .finally(() => setIsAborting(false));

@@ -10,7 +10,7 @@ export function useSignOut() {
     { path: "/about", exact: false },
     { path: "/", exact: true },
     { path: "/posts", exact: false },
-    { path: "/reset-password", exact: false },
+    { path: "/account/recover", exact: false },
     { path: "/404", exact: false }
   ];
 

@@ -65,19 +65,20 @@ export function SidebarContent() {
       links: [
         {
           label: "navigation:dynamic.my-dynamics",
-          href: "/my-dynamics"
+          href: "/simulations",
+          exact: true
         },
         {
           label: "navigation:dynamic.models.apo",
-          href: "/dynamic/apo"
+          href: "/simulations/new/apo"
         },
         {
           label: "navigation:dynamic.models.acpype",
-          href: "/dynamic/acpype"
+          href: "/simulations/new/acpype"
         },
         {
           label: "navigation:dynamic.models.prodrg",
-          href: "/dynamic/prodrg"
+          href: "/simulations/new/prodrg"
         }
       ]
     },
@@ -87,7 +88,7 @@ export function SidebarContent() {
       links: [
         {
           label: "navigation:preparation.models.acpype",
-          href: "/preparation/acpype"
+          href: "/ligands/acpype"
         }
       ]
     }

@@ -6,6 +6,7 @@ import Head from "next/head";
 import { SessionProvider } from "next-auth/react";
 
 import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
+import { SidebarProvider } from "@app/context/SidebarContext";
 import { queryClient } from "@app/lib/query-client";
 
 import "@app/styles/globals.css";
@@ -45,6 +46,7 @@ export default function App({
   return (
     <>
       <Head>
+        <title>Visual Dynamics</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1"
@@ -52,17 +54,19 @@ export default function App({
       </Head>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <NextNProgress
-            height={5}
-            color="#22c55e"
-            options={{ showSpinner: false }}
-          />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          {process.env.NODE_ENV === "development" ? (
-            <ReactQueryDevtools />
-          ) : null}
+          <SidebarProvider>
+            <NextNProgress
+              height={5}
+              color="#22c55e"
+              options={{ showSpinner: false }}
+            />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            {process.env.NODE_ENV === "development" ? (
+              <ReactQueryDevtools />
+            ) : null}
+          </SidebarProvider>
         </QueryClientProvider>
       </SessionProvider>
     </>

@@ -4,7 +4,7 @@ import type { ImageProps } from "next/image";
 import NextLink from "next/link";
 
 import { BlurImage } from "@app/components/general/blur-image";
-import { H1, H2 } from "@app/components/typography/headings";
+import { H1, H2 } from "@app/components/general/typography/headings";
 import { FOCUS_VISIBLE_OUTLINE, LINK_STYLES } from "@app/lib/constants";
 import { cnMerge } from "@app/utils/cnMerge";
 

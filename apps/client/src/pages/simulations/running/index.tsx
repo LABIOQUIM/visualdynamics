@@ -5,28 +5,29 @@ import { useRouter } from "next/router";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
-import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
 import { Button } from "@app/components/general/buttons";
+import { PageLayout } from "@app/components/general/page-layout";
+import { H1 } from "@app/components/general/typography/headings";
+import { Paragraph } from "@app/components/general/typography/paragraphs";
 import { SEO } from "@app/components/SEO";
-import { H1 } from "@app/components/typography/headings";
-import { Paragraph } from "@app/components/typography/paragraphs";
+import { SimulationAbortButton } from "@app/components/simulations/running/abort-button";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { useRunningDynamic } from "@app/queries/useRunningDynamic";
+import { useUserRunningSimulation } from "@app/queries/useUserRunningSimulation";
 
-const DynamicRunningRealtimeLog = dynamic(
+const RealtimeLog = dynamic(
   () =>
-    import("@app/components/Dynamic/Running/RealtimeLog").then(
-      (mod) => mod.DynamicRunningRealtimeLog
+    import("@app/components/simulations/running/realtime-log").then(
+      (mod) => mod.SimulationRealtimeLog
     ),
   {
     ssr: false
   }
 );
 
-const DynamicRunningStepList = dynamic(
+const StepList = dynamic(
   () =>
-    import("@app/components/Dynamic/Running/StepList").then(
-      (mod) => mod.DynamicRunningStepList
+    import("@app/components/simulations/running/step-list").then(
+      (mod) => mod.SimulationStepList
     ),
   {
     ssr: false
@@ -36,7 +37,7 @@ const DynamicRunningStepList = dynamic(
 export const getServerSideProps = withSSRAuth();
 
 export default function Running({ user }: { user: User }) {
-  const { data, isRefetching } = useRunningDynamic(user.username, {
+  const { data, isRefetching } = useUserRunningSimulation(user.username, {
     refetchOnMount: true
   });
   const { t } = useTranslation();
@@ -49,11 +50,11 @@ export default function Running({ user }: { user: User }) {
       data.steps[data.steps.length - 1] === "ions";
 
     return (
-      <>
+      <PageLayout>
         <SEO title={t("running:title")} />
         <div className="relative">
           <div className="absolute right-0 top-1">
-            <DynamicRunningAbortButton
+            <SimulationAbortButton
               folder={data.info.folder}
               celeryId={data.info.celeryId}
               disableAbortButton={disableAbortButton}
@@ -94,17 +95,17 @@ export default function Running({ user }: { user: User }) {
             </p>
           </div>
         </div>
-        <DynamicRunningStepList activeSteps={data.steps} />
-        <DynamicRunningRealtimeLog
+        <StepList activeSteps={data.steps} />
+        <RealtimeLog
           isRefetching={isRefetching}
           logLines={data.log}
         />
-      </>
+      </PageLayout>
     );
   }
 
   return (
-    <>
+    <PageLayout>
       <SEO title={t("running:not-running.title")} />
       <div className="m-auto flex w-1/2 flex-col justify-center text-center">
         <FileCog className="mx-auto mb-2 h-14 w-14 stroke-primary-600 dark:stroke-primary-400" />
@@ -129,6 +130,6 @@ export default function Running({ user }: { user: User }) {
           </Link>
         </div>
       </div>
-    </>
+    </PageLayout>
   );
 }

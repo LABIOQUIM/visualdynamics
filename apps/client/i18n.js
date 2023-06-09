@@ -4,16 +4,15 @@ module.exports = {
   pages: {
     "*": ["common", "navigation"],
     "/": ["home"],
-    "/my-dynamics": ["my-dynamics"],
     "/about": ["about"],
-    "/signin": ["signin"],
-    "/signup": ["signup"],
+    "/account/signin": ["signin"],
+    "/account/signup": ["signup"],
+    "rgx:^/account/recover.*": ["reset-password"],
     "/admin/signup": ["admin-signup"],
     "/admin/running": ["admin-running"],
     "/admin/md-pr/update": ["admin-mdpr-update"],
-    "/dynamic/running": ["running"],
-    "rgx:^/dynamic/[A-Za-z]+": ["forms"],
-    "/reset-password": ["reset-password"],
-    "/reset-password/[resetId]": ["reset-password"]
+    "/simulations": ["my-dynamics"],
+    "/simulations/running": ["running"],
+    "rgx:^/simulations/new/[A-Za-z]+": ["forms"]
   }
 };

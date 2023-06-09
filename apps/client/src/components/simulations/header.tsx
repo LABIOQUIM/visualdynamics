@@ -5,7 +5,7 @@ import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/general/buttons";
 import { TextButton } from "@app/components/general/buttons/Text";
-import { Paragraph } from "@app/components/typography/paragraphs";
+import { Paragraph } from "@app/components/general/typography/paragraphs";
 import { cnMerge } from "@app/utils/cnMerge";
 
 interface MyDynamicsHeader {
@@ -15,7 +15,7 @@ interface MyDynamicsHeader {
   timeUntilRefresh: number;
 }
 
-export function MyDynamicsHeader({
+export function MySimulationsHeader({
   refetch,
   timeUntilRefresh,
   isLoading,

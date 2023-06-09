@@ -4,8 +4,8 @@ import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
 import { BlurImage } from "@app/components/general/blur-image";
-import { H2 } from "@app/components/typography/headings";
-import { Paragraph } from "@app/components/typography/paragraphs";
+import { H2 } from "@app/components/general/typography/headings";
+import { Paragraph } from "@app/components/general/typography/paragraphs";
 
 export default function BlogCard(post: Post) {
   const { t } = useTranslation();

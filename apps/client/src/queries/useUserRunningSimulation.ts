@@ -6,12 +6,12 @@ import {
 
 import { api } from "@app/lib/api";
 
-export type GetRunningDynamicResult =
+export type GetUserRunningSimulationResult =
   | {
       info: {
         timestamp: string;
         molecule: string;
-        type: "APO" | "ACPYPE";
+        type: "APO" | "ACPYPE" | "PRODRG";
         celeryId: string;
         folder: string;
       };
@@ -23,9 +23,9 @@ export type GetRunningDynamicResult =
       status: "not-running" | "no-username";
     };
 
-export async function getRunningDynamic(
+export async function getUserRunningSimulation(
   username: string
-): Promise<GetRunningDynamicResult> {
+): Promise<GetUserRunningSimulationResult> {
   try {
     if (!username) {
       return {
@@ -33,7 +33,7 @@ export async function getRunningDynamic(
       };
     }
 
-    const { data } = await api.get<GetRunningDynamicResult>("/run", {
+    const { data } = await api.get<GetUserRunningSimulationResult>("/run", {
       params: {
         username
       }
@@ -46,13 +46,13 @@ export async function getRunningDynamic(
   }
 }
 
-export function useRunningDynamic(
+export function useUserRunningSimulation(
   username: string,
-  options?: UseQueryOptions<GetRunningDynamicResult, unknown>
-): UseQueryResult<GetRunningDynamicResult, unknown> {
+  options?: UseQueryOptions<GetUserRunningSimulationResult, unknown>
+): UseQueryResult<GetUserRunningSimulationResult, unknown> {
   return useQuery({
-    queryKey: ["RunningDynamic", username],
-    queryFn: () => getRunningDynamic(username),
+    queryKey: ["UserRunningSimulation", username],
+    queryFn: () => getUserRunningSimulation(username),
     staleTime: 1000 * 5,
     refetchInterval: 1000 * 5,
     ...options

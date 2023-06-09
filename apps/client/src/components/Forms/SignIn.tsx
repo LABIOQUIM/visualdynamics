@@ -94,7 +94,7 @@ export function SignInForm() {
           {t("signin:title")}
         </Button>
         <div className="flex gap-x-2">
-          <Link href="/reset-password">
+          <Link href="/account/recover">
             <TextButton
               className="text-sm"
               iconClassName="h-4 w-4"

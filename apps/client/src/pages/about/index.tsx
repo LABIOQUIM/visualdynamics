@@ -1,10 +1,11 @@
 import useTranslation from "next-translate/useTranslation";
 
 import { BlurImage } from "@app/components/general/blur-image";
+import { PageLayout } from "@app/components/general/page-layout";
 import { MaintainerCard } from "@app/components/Maintainer/Card";
 import { SEO } from "@app/components/SEO";
 
-import logo from "../../public/images/favicon.svg";
+import logo from "../../../public/images/favicon.svg";
 
 const maintainers: Maintainer[] = [
   {
@@ -49,15 +50,16 @@ export default function About() {
   const { t } = useTranslation();
 
   return (
-    <>
+    <PageLayout>
       <SEO
         title={t("about:title")}
         description={t("about:description")}
       />
       <div className="mx-auto w-full max-w-5xl space-y-6">
-        <div className="flex gap-x-4">
+        <div className="flex flex-col gap-4 lg:flex-row">
           <BlurImage
             alt=""
+            className="p-0.5"
             src={logo}
           />
           <p className="text-justify text-lg">{t("about:description")}</p>
@@ -104,6 +106,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </>
+    </PageLayout>
   );
 }

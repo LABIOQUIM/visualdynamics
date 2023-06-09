@@ -2,7 +2,7 @@ import { Server } from "lucide-react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-import { DynamicRunningAbortButton } from "@app/components/Dynamic/Running/AbortButton";
+import { SimulationAbortButton } from "@app/components/simulations/running/abort-button";
 import { GetAdminRunningDynamicsListResult } from "@app/queries/useAdminRunningDynamicsList";
 
 interface AdminRunningDynamicsListProps {
@@ -59,7 +59,7 @@ export function AdminRunningDynamicsList({
                         </p>
                       </div>
                     </div>
-                    <DynamicRunningAbortButton
+                    <SimulationAbortButton
                       refetch={refetch}
                       celeryId={dynamic.id}
                       folder={dynamic.args[0]}

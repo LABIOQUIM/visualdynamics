@@ -2,10 +2,10 @@ import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
 import { AlertFailedToFetch } from "@app/components/alerts/failed-to-fetch";
+import { H1 } from "@app/components/general/typography/headings";
 import { PageLoadingIndicator } from "@app/components/Loading/PageLoadingIndicator";
 import { SEO } from "@app/components/SEO";
 import { Spinner } from "@app/components/Spinner";
-import { H1 } from "@app/components/typography/headings";
 import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
 import { useAdminRunningDynamicsList } from "@app/queries/useAdminRunningDynamicsList";
 

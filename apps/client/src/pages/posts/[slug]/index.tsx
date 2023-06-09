@@ -6,10 +6,10 @@ import { useMDXComponent } from "next-contentlayer/hooks";
 import useTranslation from "next-translate/useTranslation";
 
 import { BlurImage } from "@app/components/general/blur-image";
+import { H1 } from "@app/components/general/typography/headings";
+import { Paragraph } from "@app/components/general/typography/paragraphs";
 import { components } from "@app/components/Post/MDX/MDXComponents";
 import { SEO } from "@app/components/SEO";
-import { H1 } from "@app/components/typography/headings";
-import { Paragraph } from "@app/components/typography/paragraphs";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = allPosts.map((p) => ({

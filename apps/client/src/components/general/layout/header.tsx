@@ -60,12 +60,12 @@ export function Header() {
           ) : (
             <>
               <li>
-                <Link href="/signin">
+                <Link href="/account/signin">
                   <Button LeftIcon={LogIn}>Sign In</Button>
                 </Link>
               </li>
               <li className="hidden lg:block">
-                <Link href="/signup">
+                <Link href="/account/signup">
                   <TextButton LeftIcon={UserPlus}>Register</TextButton>
                 </Link>
               </li>
