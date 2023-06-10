@@ -12,7 +12,9 @@ export function Footer() {
       <span>v{pkg.version}</span>
       <NextLink
         className="inline-flex gap-x-1 hover:text-zinc-900 dark:hover:text-zinc-100"
-        href="/posts/release-notes-latest"
+        href="https://github.com/LABIOQUIM/visualdynamics/releases/latest"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <ScrollText className="m-auto h-3.5 w-3.5" />
         {t("navigation:footer.release-notes")}

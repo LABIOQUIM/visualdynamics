@@ -15,15 +15,20 @@ export function MyDynamicsEmptyList() {
       </h1>
       <p className="text-center">{t("simulations:empty.description")}</p>
 
-      <div className="mx-auto mt-5 flex flex-wrap gap-x-2">
-        <Link href="/dynamic/apo">
+      <div className="mx-auto mt-5 flex flex-wrap justify-center gap-2">
+        <Link href="/simulations/new/apo">
           <Button RightIcon={ArrowRight}>
-            {t("navigation:dynamic.models.apo")}
+            {t("navigation:simulations.models.apo")}
           </Button>
         </Link>
-        <Link href="/dynamic/acpype">
+        <Link href="/simylations/new/acpype">
           <Button RightIcon={ArrowRight}>
-            {t("navigation:dynamic.models.acpype")}
+            {t("navigation:simulations.models.acpype")}
+          </Button>
+        </Link>
+        <Link href="/simylations/new/prodrg">
+          <Button RightIcon={ArrowRight}>
+            {t("navigation:simulations.models.prodrg")}
           </Button>
         </Link>
       </div>

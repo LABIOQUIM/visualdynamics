@@ -34,14 +34,14 @@ export function UserValidationList({
                 LeftIcon={Check}
                 onClick={() => approveUser(user.id, user.email)}
               >
-                {t("admin-account-register:approve")}
+                {t("admin-user-validation:approve")}
               </StatusButton>
               <StatusButton
                 status="error"
                 LeftIcon={X}
                 onClick={() => rejectUser(user.id, user.email)}
               >
-                {t("admin-account-register:reject")}
+                {t("admin-user-validation:reject")}
               </StatusButton>
             </div>
           </li>
@@ -53,7 +53,7 @@ export function UserValidationList({
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4">
       <Users className="h-14 w-14" />
-      <p>{t("admin-account-register:empty")}</p>
+      <p>{t("admin-user-validation:empty")}</p>
     </div>
   );
 }

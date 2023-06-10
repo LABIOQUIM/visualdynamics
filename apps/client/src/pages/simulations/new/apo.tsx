@@ -22,14 +22,14 @@ const Form = dynamic(
 
 export const getServerSideProps = withSSRAuth();
 
-export default function APODynamic({ user }: { user: User }) {
+export default function APOSImulation({ user }: { user: User }) {
   useIsDynamicRunning();
   const { t } = useTranslation();
 
   return (
     <PageLayout>
-      <SEO title={t("navigation:dynamic.models.apo")} />
-      <H1>{t("navigation:dynamic.models.apo")}</H1>
+      <SEO title={t("navigation:simulations.models.apo")} />
+      <H1>{t("navigation:simulations.models.apo")}</H1>
       <Form user={user} />
     </PageLayout>
   );

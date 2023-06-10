@@ -11,8 +11,8 @@ import { useIsDynamicRunning } from "@app/hooks/use-is-dynamic-running";
 
 const Form = dynamic(
   () =>
-    import("@app/components/simulations/new/form-acpype").then(
-      (mod) => mod.FormACPYPE
+    import("@app/components/simulations/new/form-prodrg").then(
+      (mod) => mod.FormPRODRG
     ),
   {
     loading: () => <PageLoadingIndicator />,
@@ -22,14 +22,14 @@ const Form = dynamic(
 
 export const getServerSideProps = withSSRAuth();
 
-export default function ACPYPEDynamic({ user }: { user: User }) {
+export default function PRODRGSimulation({ user }: { user: User }) {
   useIsDynamicRunning();
   const { t } = useTranslation();
 
   return (
     <PageLayout>
-      <SEO title={t("navigation:dynamic.models.acpype")} />
-      <H1>{t("navigation:dynamic.models.acpype")}</H1>
+      <SEO title={t("navigation:simulations.models.prodrg")} />
+      <H1>{t("navigation:simulations.models.prodrg")}</H1>
       <Form user={user} />
     </PageLayout>
   );

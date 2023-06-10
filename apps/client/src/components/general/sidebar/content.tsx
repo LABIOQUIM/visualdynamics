@@ -100,20 +100,20 @@ export function SidebarContent() {
     Icon: Crown,
     links: [
       {
-        label: "navigation:admin.dashboard.title",
+        label: "navigation:admin.dashboard",
         href: "/admin",
         exact: true
       },
       {
-        label: "navigation:admin.signup.title",
+        label: "navigation:admin.user-validation",
         href: "/admin/user-validation"
       },
       {
-        label: "navigation:admin.dynamics.title",
+        label: "navigation:admin.active-simulations",
         href: "/admin/running"
       },
       {
-        label: "navigation:admin.mdp.title",
+        label: "navigation:admin.settings",
         href: "/admin/settings"
       }
     ]

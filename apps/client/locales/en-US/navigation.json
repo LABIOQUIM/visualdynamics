@@ -25,7 +25,7 @@
       "prodrg": "Protein + Ligand (prepared in PRODRG)"
     }
   },
-  "preparation": {
+  "preparations": {
     "title": "Ligand Preparation",
     "models": {
       "acpype": "ACPYPE Ligand Generator"
