@@ -63,7 +63,7 @@ export default async function handler(
         content:
           "Recently you requested a account password reset.\nYou're receiving this because of that, just click the button below and get back into your account.\nIf you didn't request this, please disregard this contact.",
         showButton: true,
-        buttonLink: `${process.env.APP_URL}/reset-password/${resetId}`,
+        buttonLink: `${process.env.APP_URL}/account/recover/${resetId}`,
         buttonText: "Reset your password",
         showPostButtonText: false,
         email: user.email

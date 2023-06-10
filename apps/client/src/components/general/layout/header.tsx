@@ -3,6 +3,7 @@ import { Atom, LogIn, Menu, Moon, Sun, UserPlus } from "lucide-react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import useTranslation from "next-translate/useTranslation";
 
 import { Button } from "@app/components/general/buttons";
 import { TextButton } from "@app/components/general/buttons/Text";
@@ -21,6 +22,7 @@ export function Header() {
   const { status } = useSession();
   const { toggleSidebar } = useContext(SidebarContext);
   const { theme, toggleTheme } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <header className="sticky top-0 z-50 h-20 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
@@ -60,13 +62,15 @@ export function Header() {
           ) : (
             <>
               <li>
-                <Link href="/signin">
-                  <Button LeftIcon={LogIn}>Sign In</Button>
+                <Link href="/account/login">
+                  <Button LeftIcon={LogIn}>{t("navigation:auth.login")}</Button>
                 </Link>
               </li>
               <li className="hidden lg:block">
-                <Link href="/signup">
-                  <TextButton LeftIcon={UserPlus}>Register</TextButton>
+                <Link href="/account/register">
+                  <TextButton LeftIcon={UserPlus}>
+                    {t("navigation:auth.register")}
+                  </TextButton>
                 </Link>
               </li>
             </>

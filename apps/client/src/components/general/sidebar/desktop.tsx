@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-import { Spinner } from "@app/components/Spinner";
+import { Spinner } from "@app/components/general/loading-indicator/spinner";
 
 const SidebarContent = dynamic(
   () =>

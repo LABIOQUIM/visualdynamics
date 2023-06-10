@@ -1,10 +1,16 @@
 import nodemailer from "nodemailer";
 
+console.log(
+  process.env.EMAIL_SMTP_HOST,
+  process.env.EMAIL_SMTP_PORT,
+  Boolean(Number(process.env.EMAIL_SMTP_SECURE)),
+  Boolean(process.env.EMAIL_SMTP_REQUIRE_TLS)
+);
 const transporter = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com",
-  port: 587,
-  secure: false,
-  requireTLS: true,
+  host: process.env.EMAIL_SMTP_HOST,
+  port: Number(process.env.EMAIL_SMTP_PORT),
+  secure: Boolean(Number(process.env.EMAIL_SMTP_SECURE)),
+  requireTLS: Boolean(Number(process.env.EMAIL_SMTP_REQUIRE_TLS)),
   auth: {
     user: process.env.EMAIL_NO_REPLY,
     pass: process.env.EMAIL_PASS

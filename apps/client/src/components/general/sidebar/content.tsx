@@ -13,6 +13,7 @@ import UFCSPA from "@app/assets/ufcspa.png";
 import { BlurImage } from "@app/components/general/blur-image";
 import { useTheme } from "@app/context/ThemeContext";
 import { cnMerge } from "@app/utils/cnMerge";
+
 const SidebarItem = dynamic(
   () =>
     import("@app/components/general/sidebar/item").then((m) => m.SidebarItem),
@@ -60,34 +61,35 @@ export function SidebarContent() {
 
   const authenticatedNavigationArray: NavigationSection[] = [
     {
-      title: "navigation:dynamic.title",
+      title: "navigation:simulations.title",
       Icon: LayoutDashboard,
       links: [
         {
-          label: "navigation:dynamic.my-dynamics",
-          href: "/my-dynamics"
+          label: "navigation:simulations.my-simulations",
+          href: "/simulations",
+          exact: true
         },
         {
-          label: "navigation:dynamic.models.apo",
-          href: "/dynamic/apo"
+          label: "navigation:simulations.models.apo",
+          href: "/simulations/new/apo"
         },
         {
-          label: "navigation:dynamic.models.acpype",
-          href: "/dynamic/acpype"
+          label: "navigation:simulations.models.acpype",
+          href: "/simulations/new/acpype"
         },
         {
-          label: "navigation:dynamic.models.prodrg",
-          href: "/dynamic/prodrg"
+          label: "navigation:simulations.models.prodrg",
+          href: "/simulations/new/prodrg"
         }
       ]
     },
     {
-      title: "navigation:preparation.title",
+      title: "navigation:preparations.title",
       Icon: Beaker,
       links: [
         {
-          label: "navigation:preparation.models.acpype",
-          href: "/preparation/acpype"
+          label: "navigation:preparations.models.acpype",
+          href: "/preparations/acpype"
         }
       ]
     }
@@ -98,21 +100,21 @@ export function SidebarContent() {
     Icon: Crown,
     links: [
       {
-        label: "navigation:admin.dashboard.title",
+        label: "navigation:admin.dashboard",
         href: "/admin",
         exact: true
       },
       {
-        label: "navigation:admin.signup.title",
-        href: "/admin/signup"
+        label: "navigation:admin.user-validation",
+        href: "/admin/user-validation"
       },
       {
-        label: "navigation:admin.dynamics.title",
+        label: "navigation:admin.active-simulations",
         href: "/admin/running"
       },
       {
-        label: "navigation:admin.mdp.title",
-        href: "/admin/md-pr/update"
+        label: "navigation:admin.settings",
+        href: "/admin/settings"
       }
     ]
   };

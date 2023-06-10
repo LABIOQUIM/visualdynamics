@@ -27,7 +27,7 @@ export function withSSRAdmin(
     if (session === null) {
       return {
         redirect: {
-          destination: "/signin",
+          destination: "/account/login?from=admin-protected",
           permanent: false
         }
       };
@@ -36,7 +36,7 @@ export function withSSRAdmin(
     if (session.user.role !== "ADMIN") {
       return {
         redirect: {
-          destination: "/my-dynamics",
+          destination: "/simulations?from=admin-protected",
           permanent: false
         }
       };

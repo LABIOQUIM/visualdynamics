@@ -3,17 +3,24 @@ module.exports = {
   defaultLocale: "en-US",
   pages: {
     "*": ["common", "navigation"],
+
+    // Misc
     "/": ["home"],
-    "/my-dynamics": ["my-dynamics"],
     "/about": ["about"],
-    "/signin": ["signin"],
-    "/signup": ["signup"],
-    "/admin/signup": ["admin-signup"],
+
+    // Account
+    "/account/login": ["account-login"],
+    "/account/register": ["account-register"],
+    "rgx:^/account/recover.*": ["account-recover"],
+
+    // Admin
+    "/admin/user-validation": ["admin-user-validation"],
     "/admin/running": ["admin-running"],
-    "/admin/md-pr/update": ["admin-mdpr-update"],
-    "/dynamic/running": ["running"],
-    "rgx:^/dynamic/[A-Za-z]+": ["forms"],
-    "/reset-password": ["reset-password"],
-    "/reset-password/[resetId]": ["reset-password"]
+    "/admin/md-config": ["admin-mdpr-update"],
+
+    // Simulations
+    "/simulations": ["simulations"],
+    "/simulations/running": ["simulations-running"],
+    "rgx:^/simulations/new/[A-Za-z]+": ["simulations-form"]
   }
 };

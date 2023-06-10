@@ -2,16 +2,17 @@ import { allPosts } from "contentlayer/generated";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-import BlogCard from "@app/components/Post/Card";
-import { SEO } from "@app/components/SEO";
-import { H1 } from "@app/components/typography/headings";
+import { PageLayout } from "@app/components/general/page-layout";
+import { H1 } from "@app/components/general/typography/headings";
+import BlogCard from "@app/components/posts/list/item";
+import { SEO } from "@app/components/seo";
 
 export default function Blog() {
   const router = useRouter();
   const { t } = useTranslation();
 
   return (
-    <>
+    <PageLayout>
       <SEO title={t("navigation:system.posts.title")} />
       <H1>{t("navigation:system.posts.title")}</H1>
       <div className="grid grid-cols-1 gap-2">
@@ -29,6 +30,6 @@ export default function Blog() {
             />
           ))}
       </div>
-    </>
+    </PageLayout>
   );
 }

@@ -10,7 +10,7 @@ export function useSignOut() {
     { path: "/about", exact: false },
     { path: "/", exact: true },
     { path: "/posts", exact: false },
-    { path: "/reset-password", exact: false },
+    { path: "/account/recover", exact: false },
     { path: "/404", exact: false }
   ];
 
@@ -22,7 +22,7 @@ export function useSignOut() {
     );
     if (status !== "authenticated") {
       if (!cannotRedirect) {
-        router.replace("/signin");
+        router.replace("/account/login?from=logout");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

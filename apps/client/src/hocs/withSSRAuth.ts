@@ -30,7 +30,7 @@ export function withSSRAuth(
     if (session === null) {
       return {
         redirect: {
-          destination: "/signin",
+          destination: "/account/login?from=user-protected",
           permanent: false
         }
       };

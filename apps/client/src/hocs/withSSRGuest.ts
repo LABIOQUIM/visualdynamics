@@ -27,7 +27,7 @@ export function withSSRGuest(
     if (session) {
       return {
         redirect: {
-          destination: "/my-dynamics",
+          destination: "/simulations",
           permanent: false
         }
       };
