@@ -7,12 +7,18 @@ importers:
       '@google/semantic-release-replace-plugin':
         specifier: ^1.2.0
         version: 1.2.0
+      '@semantic-release/commit-analyzer':
+        specifier: ^10.0.1
+        version: 10.0.1(semantic-release@21.0.5)
       '@semantic-release/git':
         specifier: ^10.0.1
         version: 10.0.1(semantic-release@21.0.5)
       '@semantic-release/github':
         specifier: ^9.0.3
         version: 9.0.3(semantic-release@21.0.5)
+      '@semantic-release/release-notes-generator':
+        specifier: ^11.0.3
+        version: 11.0.3(semantic-release@21.0.5)
       concurrently:
         specifier: ^8.0.1
         version: 8.0.1
