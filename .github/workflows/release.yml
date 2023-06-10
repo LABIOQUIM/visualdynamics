@@ -14,10 +14,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: yarn
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn install
+        run: pnpm i
         
       - name: Semantic release
         env:
