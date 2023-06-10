@@ -7,8 +7,8 @@ import { PageLoadingIndicator } from "@app/components/general/loading-indicator/
 import { PageLayout } from "@app/components/general/page-layout";
 import { SEO } from "@app/components/seo";
 import { MySimulationsHeader } from "@app/components/simulations/header";
+import { useUserSimulations } from "@app/components/simulations/useUserSimulations";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
-import { useUserSimulations } from "@app/queries/useUserSimulations";
 
 const EmptyList = dynamic(
   () =>

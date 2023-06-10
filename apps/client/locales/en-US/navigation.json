@@ -1,5 +1,7 @@
 {
   "auth": {
+    "login": "Login",
+    "register": "Register",
     "restore": "Trying to restore a session",
     "role": {
       "admin": "Administrator",
@@ -9,25 +11,14 @@
   },
   "admin": {
     "title": "Administration",
-    "dashboard": {
-      "title": "Panel"
-    },
-    "signup": {
-      "title": "Sign Up Requests"
-    },
-    "dynamics": {
-      "title": "Running Dynamics"
-    },
-    "mdp": {
-      "title": "MDP Management"
-    },
-    "users": {
-      "title": "User Management"
-    }
+    "dashboard": "Dashboard",
+    "user-validation": "User Validation",
+    "active-simulations": "Active Simulations",
+    "settings": "MD Settings"
   },
-  "dynamic": {
-    "my-dynamics": "My Dynamics",
-    "title": "Dynamics",
+  "simulations": {
+    "my-simulations": "My Simulations",
+    "title": "Simulations",
     "models": {
       "apo": "APO",
       "acpype": "Protein + Ligand (prepared in ACPYPE)",

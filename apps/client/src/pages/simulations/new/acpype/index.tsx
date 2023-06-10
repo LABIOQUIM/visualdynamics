@@ -9,8 +9,11 @@ import { SEO } from "@app/components/seo";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { useIsDynamicRunning } from "@app/hooks/use-is-dynamic-running";
 
-const ACPYPEForm = dynamic(
-  () => import("@app/components/Forms/ACPYPE").then((mod) => mod.ACPYPEForm),
+const Form = dynamic(
+  () =>
+    import("@app/components/simulations/new/form-acpype").then(
+      (mod) => mod.FormACPYPE
+    ),
   {
     loading: () => <PageLoadingIndicator />,
     ssr: false
@@ -27,7 +30,7 @@ export default function ACPYPEDynamic({ user }: { user: User }) {
     <PageLayout>
       <SEO title={t("navigation:dynamic.models.acpype")} />
       <H1>{t("navigation:dynamic.models.acpype")}</H1>
-      <ACPYPEForm user={user} />
+      <Form user={user} />
     </PageLayout>
   );
 }

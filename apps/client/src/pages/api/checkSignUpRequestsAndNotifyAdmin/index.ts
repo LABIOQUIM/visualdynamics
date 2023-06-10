@@ -53,7 +53,7 @@ export default async function sendEmail(
           content:
             "Hey there, Admin.\n\nThere are some sign up requests awaiting to be reviewed by you.",
           showButton: true,
-          buttonLink: `${process.env.APP_URL}/admin/signup`,
+          buttonLink: `${process.env.APP_URL}/admin/user-validation`,
           buttonText: "Go to Visual Dynamics",
           showPostButtonText: true,
           postButtonText: `Remember: When you approve or reject someone they'll receive an automated email about this decision.`,

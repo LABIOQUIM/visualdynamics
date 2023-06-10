@@ -1,14 +1,15 @@
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
+import { PageLayout } from "@app/components/general/page-layout";
 import { SEO } from "@app/components/seo";
+import { withSSRGuest } from "@app/hocs/withSSRGuest";
 
-const ResetPasswordForm = dynamic(
+const Form = dynamic(
   () =>
-    import("@app/components/account/form-recover").then(
-      (mod) => mod.ResetPasswordForm
+    import("@app/components/account/form-register").then(
+      (mod) => mod.FormRegister
     ),
   {
     loading: () => <PageLoadingIndicator />,
@@ -16,20 +17,21 @@ const ResetPasswordForm = dynamic(
   }
 );
 
-export default function ResetPassword() {
+export const getServerSideProps = withSSRGuest();
+
+export default function SignUp() {
   const { t } = useTranslation();
-  const router = useRouter();
 
   return (
-    <>
+    <PageLayout>
       <SEO
-        title={t("account-recover:title")}
-        description={t("account-recover:description")}
+        title={t("account-register:title")}
+        description={t("account-register:description")}
       />
       <h2 className="text-center text-2xl font-bold uppercase text-primary-700 dark:text-primary-400">
-        {t("account-recover:title")}
+        {t("account-register:title")}
       </h2>
-      <ResetPasswordForm resetId={String(router.query.resetId)} />
-    </>
+      <Form />
+    </PageLayout>
   );
 }

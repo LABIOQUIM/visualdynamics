@@ -22,7 +22,7 @@ export function useSignOut() {
     );
     if (status !== "authenticated") {
       if (!cannotRedirect) {
-        router.replace("/signin");
+        router.replace("/account/login?from=logout");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

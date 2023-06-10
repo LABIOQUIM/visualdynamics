@@ -9,8 +9,11 @@ import { SEO } from "@app/components/seo";
 import { withSSRAuth } from "@app/hocs/withSSRAuth";
 import { useIsDynamicRunning } from "@app/hooks/use-is-dynamic-running";
 
-const PRODRGForm = dynamic(
-  () => import("@app/components/Forms/PRODRG").then((mod) => mod.PRODRGForm),
+const Form = dynamic(
+  () =>
+    import("@app/components/simulations/new/form-prodrg").then(
+      (mod) => mod.FormPRODRG
+    ),
   {
     loading: () => <PageLoadingIndicator />,
     ssr: false
@@ -27,7 +30,7 @@ export default function PRODRGDynamic({ user }: { user: User }) {
     <PageLayout>
       <SEO title={t("navigation:dynamic.models.prodrg")} />
       <H1>{t("navigation:dynamic.models.prodrg")}</H1>
-      <PRODRGForm user={user} />
+      <Form user={user} />
     </PageLayout>
   );
 }

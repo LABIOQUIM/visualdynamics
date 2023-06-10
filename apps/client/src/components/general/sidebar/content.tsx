@@ -13,6 +13,7 @@ import UFCSPA from "@app/assets/ufcspa.png";
 import { BlurImage } from "@app/components/general/blur-image";
 import { useTheme } from "@app/context/ThemeContext";
 import { cnMerge } from "@app/utils/cnMerge";
+
 const SidebarItem = dynamic(
   () =>
     import("@app/components/general/sidebar/item").then((m) => m.SidebarItem),
@@ -60,35 +61,35 @@ export function SidebarContent() {
 
   const authenticatedNavigationArray: NavigationSection[] = [
     {
-      title: "navigation:dynamic.title",
+      title: "navigation:simulations.title",
       Icon: LayoutDashboard,
       links: [
         {
-          label: "navigation:dynamic.my-dynamics",
+          label: "navigation:simulations.my-simulations",
           href: "/simulations",
           exact: true
         },
         {
-          label: "navigation:dynamic.models.apo",
+          label: "navigation:simulations.models.apo",
           href: "/simulations/new/apo"
         },
         {
-          label: "navigation:dynamic.models.acpype",
+          label: "navigation:simulations.models.acpype",
           href: "/simulations/new/acpype"
         },
         {
-          label: "navigation:dynamic.models.prodrg",
+          label: "navigation:simulations.models.prodrg",
           href: "/simulations/new/prodrg"
         }
       ]
     },
     {
-      title: "navigation:preparation.title",
+      title: "navigation:preparations.title",
       Icon: Beaker,
       links: [
         {
-          label: "navigation:preparation.models.acpype",
-          href: "/ligands/acpype"
+          label: "navigation:preparations.models.acpype",
+          href: "/preparations/acpype"
         }
       ]
     }
@@ -105,7 +106,7 @@ export function SidebarContent() {
       },
       {
         label: "navigation:admin.signup.title",
-        href: "/admin/signup"
+        href: "/admin/user-validation"
       },
       {
         label: "navigation:admin.dynamics.title",
@@ -113,7 +114,7 @@ export function SidebarContent() {
       },
       {
         label: "navigation:admin.mdp.title",
-        href: "/admin/md-pr/update"
+        href: "/admin/settings"
       }
     ]
   };

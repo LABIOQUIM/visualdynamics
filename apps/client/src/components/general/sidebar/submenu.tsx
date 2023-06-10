@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "framer-motion";
+import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -75,34 +74,42 @@ export function SidebarSubmenu({ item }: ISidebarSubmenu) {
       </button>
       <AnimatePresence mode="wait">
         {isDropdownMenuOpen ? (
-          <motion.ul
-            key={item.label}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="space-y-0.5 overflow-hidden pl-10 pr-5 font-medium text-gray-500 dark:text-gray-400"
-            aria-label="submenu"
+          <LazyMotion
+            features={() =>
+              import("@app/utils/load-motion-features").then(
+                (res) => res.default
+              )
+            }
           >
-            {item.links &&
-              item.links.map((r) => (
-                <li
-                  className="py-2 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                  key={r.label}
-                >
-                  <Link
-                    href={r.href || ""}
-                    scroll={false}
-                    className={`inline-block w-full ${
-                      routeIsActive(pathname, r)
-                        ? "text-gray-800 dark:text-gray-100"
-                        : ""
-                    }`}
+            <m.ul
+              key={item.label}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="space-y-0.5 overflow-hidden pl-10 pr-5 font-medium text-gray-500 dark:text-gray-400"
+              aria-label="submenu"
+            >
+              {item.links &&
+                item.links.map((r) => (
+                  <li
+                    className="py-2 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    key={r.label}
                   >
-                    {t(r.label)}
-                  </Link>
-                </li>
-              ))}
-          </motion.ul>
+                    <Link
+                      href={r.href || ""}
+                      scroll={false}
+                      className={`inline-block w-full ${
+                        routeIsActive(pathname, r)
+                          ? "text-gray-800 dark:text-gray-100"
+                          : ""
+                      }`}
+                    >
+                      {t(r.label)}
+                    </Link>
+                  </li>
+                ))}
+            </m.ul>
+          </LazyMotion>
         ) : null}
       </AnimatePresence>
     </li>

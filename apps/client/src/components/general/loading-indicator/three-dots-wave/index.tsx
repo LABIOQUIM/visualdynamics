@@ -1,4 +1,4 @@
-import { motion, Transition } from "framer-motion";
+import { LazyMotion, m, Transition } from "framer-motion";
 
 import { useTheme } from "@app/context/ThemeContext";
 
@@ -50,27 +50,33 @@ export function LoadingThreeDotsWave() {
   };
 
   return (
-    <motion.div
-      style={loadingContainer}
-      variants={loadingContainerVariants}
-      initial="start"
-      animate="end"
+    <LazyMotion
+      features={() =>
+        import("@app/utils/load-motion-features").then((res) => res.default)
+      }
     >
-      <motion.span
-        style={loadingCircle}
-        variants={loadingCircleVariants}
-        transition={loadingCircleTransition}
-      />
-      <motion.span
-        style={loadingCircle}
-        variants={loadingCircleVariants}
-        transition={loadingCircleTransition}
-      />
-      <motion.span
-        style={loadingCircle}
-        variants={loadingCircleVariants}
-        transition={loadingCircleTransition}
-      />
-    </motion.div>
+      <m.div
+        style={loadingContainer}
+        variants={loadingContainerVariants}
+        initial="start"
+        animate="end"
+      >
+        <m.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+        <m.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+        <m.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        />
+      </m.div>
+    </LazyMotion>
   );
 }

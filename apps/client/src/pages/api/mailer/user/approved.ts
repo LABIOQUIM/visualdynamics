@@ -35,7 +35,7 @@ export default async function sendEmail(
           content:
             "Welcome to Visual Dynamics.\nWe're thrilled to tell you that your account has been validated and now you can start a dynamic and develop something incredible.",
           showButton: true,
-          buttonLink: `${process.env.APP_URL}/account/signin?from=account-activated-email`,
+          buttonLink: `${process.env.APP_URL}/account/login?from=account-activated-email`,
           buttonText: "Go to Visual Dynamics",
           showPostButtonText: true,
           postButtonText: `You can sign in to VD using this email: ${to} and the password you provided on sign up.`,

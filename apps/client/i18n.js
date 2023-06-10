@@ -9,14 +9,14 @@ module.exports = {
     "/about": ["about"],
 
     // Account
-    "/account/signin": ["account-signin"],
-    "/account/signup": ["account-signup"],
+    "/account/login": ["account-login"],
+    "/account/register": ["account-register"],
     "rgx:^/account/recover.*": ["account-recover"],
 
     // Admin
-    "/admin/signup": ["admin-signup"],
+    "/admin/user-validation": ["admin-user-validation"],
     "/admin/running": ["admin-running"],
-    "/admin/md-pr/update": ["admin-mdpr-update"],
+    "/admin/md-config": ["admin-mdpr-update"],
 
     // Simulations
     "/simulations": ["simulations"],
