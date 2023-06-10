@@ -44,4 +44,6 @@ jobs:
         run: pnpm install
         
       - name: Semantic release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GH }}
         run: npx semantic-release
