@@ -23,7 +23,7 @@ class UserDynamics(Resource):
                 running_dynamic = f.readline()
 
         if not os.path.exists(file_dynamics_list):
-            return {"status": "no-dynamics"}
+            return {"status": "no-simulations"}
 
         with open(file_dynamics_list, "r") as f:
             dynamics_list = f.readlines()
@@ -73,4 +73,4 @@ class UserDynamics(Resource):
 
             returnable_dynamics_list.append(dynamic_data)
 
-        return {"status": "listed", "dynamics": returnable_dynamics_list[::-1]}
+        return {"status": "has-simulations", "simulations": returnable_dynamics_list[::-1]}
