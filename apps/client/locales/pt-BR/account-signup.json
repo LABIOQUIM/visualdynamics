@@ -1,32 +1,32 @@
 {
-  "title": "Sign Up",
-  "alert": "By creating an user you'll automatically agree to our Terms of Service.\nBe aware that this user is not active by default, it'll go on a validation period and you'll be emailed about this validation.",
+  "title": "Cadastrar",
+  "alert": "Ao criar um usuário, você estará automaticamente de acordo com nossos Termos de Serviço.\nEsteja ciente de que este usuário não está ativo por padrão, ele passará um período de validação e você será enviado por e-mail sobre essa validação.",
   "errors": {
     "user": {
-      "existing": "There's a user with this email or username already."
+      "existing": "Já existe um usuário com esse e-mail ou nome de usuário."
     }
   },
   "email": {
     "title": "Email",
-    "placeholder": "user@uni.edu",
+    "placeholder": "usuario@uni.edu",
     "errors": {
-      "disallowed": "You must use your institutional email",
-      "empty": "Can't be empty",
-      "invalid": "This is not a valid email address"
+      "disallowed": "Você deve usar seu email institucional",
+      "empty": "Não pode estar em branco",
+      "invalid": "Este não é um endereço de email válido"
     }
   },
   "password": {
-    "title": "Password",
+    "title": "Senha",
     "placeholder": "********",
     "errors": {
-      "empty": "Can't be empty"
+      "empty": "Não pode estar em branco"
     }
   },
   "username": {
-    "title": "Username",
+    "title": "Nome de usuário",
     "placeholder": "johndoe",
     "errors": {
-      "empty": "Can't be empty"
+      "empty": "Não pode estar em branco"
     }
   }
 }
