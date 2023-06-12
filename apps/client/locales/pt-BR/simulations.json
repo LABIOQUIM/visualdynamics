@@ -1,25 +1,25 @@
 {
-  "title": "My Dynamics",
-  "auto-refresh": "Refreshing in {{seconds}} seconds.",
+  "title": "Minhas Simulações",
+  "auto-refresh": "Atualizando em {{seconds}} segundos.",
   "header": "<b>{{type}}</b>: {{molecule}} @ {{time}}",
   "dynamic": {
-    "id": "Task ID"
+    "id": "ID da tarefa"
   },
   "empty": {
-    "title": "You haven't performed a dynamic, yet...",
-    "description": "Maybe it's your first login, or you just haven't wanted to run anything yet. Anyway, here are some buttons that can help when you want to start a new simulation."
+    "title": "Você ainda não realizou uma simulação...",
+    "description": "Talvez seja o seu primeiro login, ou você não quis executar nada ainda. De qualquer forma, aqui estão alguns botões que podem ajudar quando você quiser começar uma nova simulação."
   },
   "downloads": {
-    "archive": "To recover simulations from the previous server (until June 7th), you must write to <Link>fernando.zanchi@fiocruz.br</Link> with your username.",
-    "commands": "Commands",
-    "figures": "Figure Graphics",
-    "log": "GROMACS Log",
-    "results": "Raw Results (.xtc and _pr.tpr)",
-    "mdp": "Download MDP Files",
+    "archive": "Para recuperar simulações do servidor anterior (até 7 de junho), você deve escrever para <Link>fernando.zanchi@fiocruz.br</Link> com seu nome de usuário.",
+    "commands": "Comandos",
+    "figures": "Gráficos e Figuras",
+    "log": "Log GROMACS",
+    "results": "Resultados (.xtc e _pr.tpr)",
+    "mdp": "Baixar arquivos MDP",
     "title": "Downloads"
   },
   "errors": {
-    "hm5ka": "Error: This molecule has more than 5000 atoms.",
-    "command": "Errored on command <b>{{command}}</b>"
+    "hm5ka": "Erro: Esta molécula tem mais de 5.000 átomos.",
+    "command": "Errou no comando <b>{{command}}</b>"
   }
 }
