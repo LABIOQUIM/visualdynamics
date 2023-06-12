@@ -76,7 +76,7 @@ export function FormACPYPE({ user }: PropsWithUser) {
                 }
               }
             )
-            .then(() => router.push("/dynamic/running"))
+            .then(() => router.push("/simulations/running"))
             .catch(() => alert("not running"));
         } else if (data.status === "commands") {
           const link = document.createElement("a");
