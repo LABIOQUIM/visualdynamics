@@ -1,6 +1,6 @@
 {
-  "title": "Sign Up Requests",
-  "empty": "There is no one left to be reviewed",
-  "approve": "Approve",
-  "reject": "Reject"
+  "title": "Solicitações de cadastro",
+  "empty": "Não há mais ninguém para ser avaliado",
+  "approve": "Aprovar",
+  "reject": "Rejeitar"
 }
