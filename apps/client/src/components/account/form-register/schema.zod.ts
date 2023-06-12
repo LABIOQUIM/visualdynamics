@@ -1,7 +1,13 @@
 import { z } from "zod";
 
 export const SignUpFormSchema = z.object({
-  username: z.string().min(1, "account-register:username.errors.empty"),
+  username: z
+    .string()
+    .min(1, "account-register:username.errors.empty")
+    .regex(
+      new RegExp("^[a-zA-Z0-9]{4,10}$"),
+      "account-register:username.errors.invalid"
+    ),
   email: z
     .string()
     .min(1, "account-register:email.errors.empty")

@@ -26,7 +26,8 @@
     "title": "Nome de usuário",
     "placeholder": "johndoe",
     "errors": {
-      "empty": "Não pode estar em branco"
+      "empty": "Não pode estar em branco",
+      "invalid": "Apenas alfanumérico (a-z, A-Z, 0-9), entre 4 e 10 caracteres"
     }
   }
 }

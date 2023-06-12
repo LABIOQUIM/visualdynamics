@@ -26,7 +26,8 @@
     "title": "Username",
     "placeholder": "johndoe",
     "errors": {
-      "empty": "Can't be empty"
+      "empty": "Can't be empty",
+      "invalid": "Alphanumeric only (a-z, A-Z, 0-9), between 4 and 10 characters"
     }
   }
 }
