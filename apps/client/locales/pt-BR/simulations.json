@@ -1,0 +1,25 @@
+{
+  "title": "Minhas Simulações",
+  "auto-refresh": "Atualizando em {{seconds}} segundos.",
+  "header": "<b>{{type}}</b>: {{molecule}} @ {{time}}",
+  "dynamic": {
+    "id": "ID da tarefa"
+  },
+  "empty": {
+    "title": "Você ainda não realizou uma simulação...",
+    "description": "Talvez seja o seu primeiro login, ou você não quis executar nada ainda. De qualquer forma, aqui estão alguns botões que podem ajudar quando você quiser começar uma nova simulação."
+  },
+  "downloads": {
+    "archive": "Para recuperar simulações do servidor anterior (até 7 de junho), você deve escrever para <Link>fernando.zanchi@fiocruz.br</Link> com seu nome de usuário.",
+    "commands": "Comandos",
+    "figures": "Gráficos e Figuras",
+    "log": "Log GROMACS",
+    "results": "Resultados (.xtc e _pr.tpr)",
+    "mdp": "Baixar arquivos MDP",
+    "title": "Downloads"
+  },
+  "errors": {
+    "hm5ka": "Erro: Esta molécula tem mais de 5.000 átomos.",
+    "command": "Errou no comando <b>{{command}}</b>"
+  }
+}

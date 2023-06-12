@@ -1,0 +1,34 @@
+{
+  "alerts": {
+    "passwordmigration": "Detectamos que sua conta existe desde o Visual Dynamics v1. Antes de usar o VD novamente, por favor, redefina sua senha para concluir a migração."
+  },
+  "reset-form": {
+    "title": "Redefinir Senha",
+    "password": {
+      "title": "Nova senha",
+      "placeholder": "******",
+      "errors": {
+        "min-length": "Sua senha antiga precisa ter ao menos 6 caracteres"
+      }
+    },
+    "errors": {
+      "failed": "Nós não conseguimos alterar sua senha. Ou este link está expirado e/ou já é utilizado ou o usuário para o qual este link foi emitido não existe."
+    },
+    "reseted": "Sua senha foi redefinida. Agora você pode entrar e continuar utilizando Visual Dynamics"
+  },
+  "request-form": {
+    "title": "Solicitar Link de redefinição de senha",
+    "identifier": {
+      "title": "Nome de usuário ou e-mail",
+      "placeholder": "usuario@uni.edu",
+      "errors": {
+        "empty": "Este campo é obrigatório."
+      }
+    },
+    "errors": {
+      "no-user": "Não foi possível encontrar um usuário/conta com este usuário/email"
+    },
+    "success": "Enviamos um link para redefinir a senha. Ele será válido por apenas 10 minutos."
+  },
+  "title": "Redefinir Senha"
+}

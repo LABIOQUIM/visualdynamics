@@ -1,0 +1,8 @@
+{
+  "title": "Simulações Ativas",
+  "dynamic": {
+    "path": "Pasta no armazenamento",
+    "started-at": "Iniciado em"
+  },
+  "worker-empty": "Não há tarefas em execução neste worker"
+}

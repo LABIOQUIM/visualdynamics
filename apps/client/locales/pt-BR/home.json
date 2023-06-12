@@ -1,0 +1,16 @@
+{
+  "title": "Início",
+  "callout": "Dinâmica Molecular do jeito fácil",
+  "slogan": "O novo ponto de partida para geração e execução de MD",
+  "description": "Bem-vindo ao novo Visual Dynamics.\nCom uma interface renovada e uma nova metodologia de geração e execução de simulações GROMACS, buscamos executar simulações mais confiáveis, replicáveis e ágeis, tudo isso, através de um código novo, mais compreensível e escalável.",
+  "features": {
+    "runs-on-cloud": {
+      "title": "Executa em nuvem",
+      "description": "O MD exige tempo, poder computacional e ainda mais poder computacional, então você pode confiar em nós para isso. Nós rodamos 3 MDs simultâneos, com 10 núcleos de CPU cada."
+    },
+    "open-source": {
+      "title": "Grátis para... Todos",
+      "description": "Sabemos que executar um MD não é algo fácil, com isso em mente, desenvolvemos esse software como um software livre e de código aberto. Execute simulações em nosso hardware, seu hardware, implante o seu próprio Visual Dynamics, isso depende totalmente de você."
+    }
+  }
+}
