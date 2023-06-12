@@ -1,8 +1,8 @@
 {
-  "title": "Running Dynamics",
+  "title": "Simulações Ativas",
   "dynamic": {
-    "path": "Folder on storage",
-    "started-at": "Started at"
+    "path": "Pasta no armazenamento",
+    "started-at": "Iniciado em"
   },
-  "worker-empty": "There are no tasks running on this worker"
+  "worker-empty": "Não há tarefas em execução neste worker"
 }
