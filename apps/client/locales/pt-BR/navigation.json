@@ -1,49 +1,49 @@
 {
   "auth": {
-    "login": "Login",
-    "register": "Register",
-    "restore": "Trying to restore a session",
+    "login": "Entrar",
+    "register": "Registrar",
+    "restore": "Tentando restaurar uma sessão",
     "role": {
-      "admin": "Administrator",
-      "user": "User"
+      "admin": "Administrador",
+      "user": "Usuário"
     },
-    "sign-out": "Sign Out"
+    "sign-out": "Terminar Sessão"
   },
   "admin": {
-    "title": "Administration",
-    "dashboard": "Dashboard",
-    "user-validation": "User Validation",
-    "active-simulations": "Active Simulations",
-    "settings": "MD Settings"
+    "title": "Administração",
+    "dashboard": "Painel",
+    "user-validation": "Validação de usuários",
+    "active-simulations": "Simulações Ativas",
+    "settings": "Configurações de MD"
   },
   "simulations": {
-    "my-simulations": "My Simulations",
-    "title": "Simulations",
+    "my-simulations": "Minhas simulações",
+    "title": "Simulações",
     "models": {
       "apo": "APO",
-      "acpype": "Protein + Ligand (prepared in ACPYPE)",
-      "prodrg": "Protein + Ligand (prepared in PRODRG)"
+      "acpype": "Proteína + Ligante (preparado no ACPYPE)",
+      "prodrg": "Proteína + Ligante (preparado no PRODRG)"
     }
   },
   "preparations": {
-    "title": "Ligand Preparation",
+    "title": "Preparação de ligantes",
     "models": {
-      "acpype": "ACPYPE Ligand Generator"
+      "acpype": "Gerador de ligante ACPYPE"
     }
   },
   "system": {
-    "title": "System",
+    "title": "Sistema",
     "about": {
-      "title": "About"
+      "title": "Sobre"
     },
     "posts": {
-      "title": "News and Posts"
+      "title": "Notícias e postagens"
     },
     "home": {
-      "title": "Home"
+      "title": "Início"
     }
   },
   "footer": {
-    "release-notes": "About this version"
+    "release-notes": "Sobre esta versão"
   }
 }
