@@ -1,65 +1,65 @@
 {
   "submit": {
-    "download": "Download command list",
-    "run": "Run dynamic"
+    "download": "Baixar lista de comandos",
+    "run": "Executar simulação"
   },
   "file-pdb": {
-    "title": "Molecule (.pdb)",
+    "title": "Molécula (.pdb)",
     "errors": {
-      "no-pdb": "Select a .pdb molecule file"
+      "no-pdb": "Selecione um arquivo .pdb de molécula"
     }
   },
   "file-itp": {
-    "title": "Ligand (.itp)",
+    "title": "Ligante (.itp)",
     "errors": {
-      "no-itp": "Select a ligand .itp file"
+      "no-itp": "Selecione um arquivo .itp de ligante"
     }
   },
   "file-gro": {
-    "title": "Ligand (.gro,.pdb)",
+    "title": "Ligante (.gro,.pdb)",
     "errors": {
-      "no-gro": "Select a ligand .gro or .pdb file"
+      "no-gro": "Selecione um arquivo .gro ou .pdb de ligante"
     }
   },
   "force-field": {
-    "title": "Force Field",
-    "placeholder": "Select a force field",
+    "title": "Campo de Força",
+    "placeholder": "Selecione um campo força",
     "errors": {
-      "no-force-field": "Select a force field"
+      "no-force-field": "Selecione um campo força"
     }
   },
   "water-model": {
-    "title": "Water Model",
-    "placeholder": "Select a water model",
+    "title": "Modelo de água",
+    "placeholder": "Selecione um modelo de água",
     "errors": {
-      "no-water-model": "Select a water model"
+      "no-water-model": "Selecione um modelo de água"
     }
   },
   "box-type": {
-    "title": "Box Type",
-    "placeholder": "Select a box type",
+    "title": "Tipo da Caixa",
+    "placeholder": "Selecione um tipo de caixa",
     "errors": {
-      "no-box-type": "Select a box type"
+      "no-box-type": "Selecione um tipo de caixa"
     }
   },
   "box-distance": {
-    "title": "Box Distance (mm)",
+    "title": "Distância da Caixa (mm)",
     "errors": {
-      "distance-doesnt-match": "Should be a number, decimal or not.",
-      "out-of-bounds": "Must be between 0.1 and 1"
+      "distance-doesnt-match": "Deve ser um número, decimal ou não.",
+      "out-of-bounds": "Deve estar entre 0.1 e 1"
     }
   },
   "neutralize": {
-    "title": "Neutralize system"
+    "title": "Neutralizar sistema"
   },
   "ignore": {
-    "title": "Ignore hydrogens"
+    "title": "Ignorar hidrogênios"
   },
   "double": {
-    "title": "Use double precision"
+    "title": "Usar precisão dupla"
   },
   "run": {
-    "title": "Run in our servers"
+    "title": "Executar em nossos servidores"
   },
-  "options": "Options"
+  "options": "Opções"
 }
