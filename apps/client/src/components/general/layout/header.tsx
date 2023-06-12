@@ -1,10 +1,12 @@
 import { useContext } from "react";
-import { Atom, LogIn, Menu, Moon, Sun, UserPlus } from "lucide-react";
+import { LogIn, Menu, Moon, Sun, UserPlus } from "lucide-react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
 
+import logo from "@app/assets/logo.svg";
 import { Button } from "@app/components/general/buttons";
 import { TextButton } from "@app/components/general/buttons/Text";
 import { SidebarContext } from "@app/context/SidebarContext";
@@ -39,11 +41,13 @@ export function Header() {
           />
         </button>
         <Link
-          className="hidden gap-x-2 font-bold uppercase lg:flex"
+          className="hidden h-[125%] gap-x-2 font-bold uppercase lg:flex"
           href="/"
         >
-          <Atom />
-          Visual Dynamics
+          <Image
+            alt=""
+            src={logo}
+          />
         </Link>
         <ul className="flex flex-shrink-0 items-center gap-x-6">
           <li className="flex">
