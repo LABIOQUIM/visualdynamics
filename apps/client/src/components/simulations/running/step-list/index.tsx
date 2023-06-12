@@ -26,7 +26,7 @@ function Step({
   step
 }: {
   active: boolean;
-  simulations-running boolean;
+  running: boolean;
   step: string;
 }) {
   const { t } = useTranslation();
@@ -51,7 +51,7 @@ function Step({
       {running ? (
         <Spinner className="h-5 w-5 animate-spin fill-blue-950 text-blue-100 dark:fill-blue-300 dark:text-blue-950" />
       ) : null}
-      <p>{t(`simulations-runningsteps.${step}`)}</p>
+      <p>{t(`simulations-running:steps.${step}`)}</p>
     </div>
   );
 }
@@ -62,7 +62,7 @@ export function SimulationStepList({ activeSteps }: SimulationStepListProps) {
   return (
     <div>
       <h4 className="font-bold uppercase text-primary-950 dark:text-primary-300">
-        {t("simulations-runningsteps.title")}
+        {t("simulations-running:steps.title")}
       </h4>
       <div className="flex flex-wrap items-center gap-1">
         {steps.map((step, index) => (
