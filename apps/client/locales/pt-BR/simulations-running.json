@@ -1,27 +1,27 @@
 {
-  "title": "Your Dynamic is Running",
-  "taskId": "Task ID",
-  "description": "Info",
-  "type": "Model",
-  "molecule": "Molecule",
-  "createdAt": "Generated at",
+  "title": "Sua simulação está executando",
+  "taskId": "ID da tarefa",
+  "description": "Informações",
+  "type": "Modelo",
+  "molecule": "Molécula",
+  "createdAt": "Gerado em",
   "logs": {
-    "title": "Realtime Execution Logs"
+    "title": "Logs de execução em tempo real"
   },
   "steps": {
-    "topology": "Topology Definition",
-    "solvate": "Defining Box and Solvating",
-    "ions": "Adding Ions",
+    "topology": "Definição de topologia",
+    "solvate": "Definindo caixa e solvatando",
+    "ions": "Adicionando íons",
     "minimizationsteepdesc": "Min: Steep Descent",
     "minimizationconjgrad": "Min: Conjugate Gradient",
-    "equilibrationnvt": "Restrict: NVT",
-    "equilibrationnpt": "Restrict: NPT",
-    "productionmd": "Produce: MD",
-    "analyzemd": "Analysis: MD",
-    "title": "Steps"
+    "equilibrationnvt": "Restrição: NVT",
+    "equilibrationnpt": "Restrição: NPT",
+    "productionmd": "Produção: MD",
+    "analyzemd": "Análise: MD",
+    "title": "Etapas"
   },
   "not-running": {
-    "title": "There is no dynamic running",
-    "description": "Seems like you don't have any dynamic running in our servers. Start one clicking a button below."
+    "title": "Não há nenhuma simulação em execução",
+    "description": "Parece que você não tem nenhuma simulação em execução em nossos servidores. Comece clicando um botão abaixo."
   }
 }
