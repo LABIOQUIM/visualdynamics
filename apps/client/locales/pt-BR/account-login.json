@@ -1,25 +1,25 @@
 {
-  "title": "Login",
+  "title": "Entrar",
   "errors": {
     "user": {
-      "inactive": "This user hasn't been activated yet. We'll contact you via email when your account passes our validations.",
-      "wrong-credentials": "This combination of username/email and password doesn't exists in our servers."
+      "inactive": "Este usuário ainda não foi ativado. Entraremos em contato por e-mail quando a sua conta passar por nossas validações.",
+      "wrong-credentials": "Esta combinação de nome de usuário/e-mail e senha não existe em nossos servidores."
     }
   },
   "identifier": {
-    "title": "Email or Username",
-    "placeholder": "user@uni.edu",
+    "title": "E-mail ou nome de usuário",
+    "placeholder": "usuario@uni.edu",
     "errors": {
-      "empty": "Can't be empty"
+      "empty": "Não pode estar em branco"
     }
   },
   "password": {
-    "title": "Password",
+    "title": "Senha",
     "placeholder": "********",
     "errors": {
-      "empty": "Can't be empty"
+      "empty": "Não pode estar em branco"
     }
   },
-  "lost-password": "I forgot my password",
-  "new-user": "Register"
+  "lost-password": "Esqueci minha senha",
+  "new-user": "Registrar"
 }
