@@ -1,0 +1,16 @@
+{
+  "app-name": "Visual Dynamics",
+  "abort": "Abort run",
+  "errors": {
+    "404": {
+      "title": "This place... isn't a place at all",
+      "description": "Seems like you found something that can't be found. Just so you know, we recommend you to go back the way you came.",
+      "back-to-home": "Go back to Home"
+    },
+    "failed-to-fetch": "Ops... Something happened and we couldn't connect to our servers."
+  },
+  "loading": "Loading...",
+  "blog": {
+    "readtime": "{{minutes}} min read"
+  }
+}
