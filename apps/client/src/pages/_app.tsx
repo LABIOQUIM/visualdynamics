@@ -3,6 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { type AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
@@ -68,6 +69,26 @@ export default function App({
             ) : null}
           </SidebarProvider>
         </QueryClientProvider>
+        {process.env.NODE_ENV !== "development" ? (
+          <>
+            <Script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-02198VT7VC"
+            />
+            <Script
+              id="google-analytics"
+              strategy="afterInteractive"
+            >
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-02198VT7VC');
+              `}
+            </Script>
+          </>
+        ) : null}
       </SessionProvider>
     </>
   );
