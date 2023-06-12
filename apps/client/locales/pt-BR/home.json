@@ -1,0 +1,16 @@
+{
+  "title": "Home",
+  "callout": "Molecular Dynamics made easy",
+  "slogan": "The new home to MD generation and execution",
+  "description": "Welcome to the new Visual Dynamics.\nWith a revamped interface and a new methodology of generating and running GROMACS simulations we aim to provide faster, more reliable and replicable simulations, all this, through a new, more understandable and scalable codebase.",
+  "features": {
+    "runs-on-cloud": {
+      "title": "Runs on Cloud",
+      "description": "MD demands time, computational power, and even more computational power, so you can rely on us to this. We run 3 simultaneous MDs, with 10 CPU cores each."
+    },
+    "open-source": {
+      "title": "Free for... everyone",
+      "description": "We know running a MD is not something easy, with this in mind, we develop this piece of software as a free and open-source software. Run on our hardware, your hardware, deploy your own, it is totally up to you."
+    }
+  }
+}
