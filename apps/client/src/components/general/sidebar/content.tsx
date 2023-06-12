@@ -110,7 +110,7 @@ export function SidebarContent() {
       },
       {
         label: "navigation:admin.active-simulations",
-        href: "/admin/running"
+        href: "/admin/active-simulations"
       },
       {
         label: "navigation:admin.settings",
