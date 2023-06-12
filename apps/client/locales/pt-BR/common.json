@@ -1,16 +1,16 @@
 {
   "app-name": "Visual Dynamics",
-  "abort": "Abort run",
+  "abort": "Abortar execução",
   "errors": {
     "404": {
-      "title": "This place... isn't a place at all",
-      "description": "Seems like you found something that can't be found. Just so you know, we recommend you to go back the way you came.",
-      "back-to-home": "Go back to Home"
+      "title": "Este lugar... não é um lugar de jeito nenhum",
+      "description": "Parece que você encontrou algo que não pode ser encontrado. Apenas para você saber, recomendamos que você volte como veio.",
+      "back-to-home": "Voltar para a Página Inicial"
     },
-    "failed-to-fetch": "Ops... Something happened and we couldn't connect to our servers."
+    "failed-to-fetch": "Ops... Algo aconteceu e não foi possível conectar aos nossos servidores."
   },
-  "loading": "Loading...",
+  "loading": "Carregando...",
   "blog": {
-    "readtime": "{{minutes}} min read"
+    "readtime": "{{minutes}} min de leitura"
   }
 }
