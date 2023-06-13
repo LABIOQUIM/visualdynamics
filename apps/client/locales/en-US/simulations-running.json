@@ -23,5 +23,9 @@
   "not-running": {
     "title": "There is no dynamic running",
     "description": "Seems like you don't have any dynamic running in our servers. Start one clicking a button below."
+  },
+  "queued": {
+    "title": "Você possui uma simulação na fila",
+    "description": "Sua simulação vai começar automaticamente quando um espaço de processamento for liberado"
   }
 }
