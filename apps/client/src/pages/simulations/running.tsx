@@ -51,7 +51,7 @@ export default function Running({ user }: { user: User }) {
 
     return (
       <PageLayout>
-        <SEO title={t("simulations-runningtitle")} />
+        <SEO title={t("simulations-running:title")} />
         <div className="relative">
           <div className="absolute right-0 top-1">
             <SimulationAbortButton
@@ -61,28 +61,28 @@ export default function Running({ user }: { user: User }) {
             />
           </div>
           <h4 className="font-bold uppercase text-primary-950 dark:text-primary-300">
-            {t("simulations-runningdescription")}
+            {t("simulations-running:description")}
           </h4>
           <div className="flex gap-x-2">
-            <p className="font-medium">{t("simulations-runningtaskId")}:</p>
+            <p className="font-medium">{t("simulations-running:taskId")}:</p>
             <p className="font-bold text-primary-950 dark:text-primary-300">
               {data.info.celeryId}
             </p>
           </div>
           <div className="flex gap-x-2">
-            <p className="font-medium">{t("simulations-runningtype")}:</p>
+            <p className="font-medium">{t("simulations-running:type")}:</p>
             <p className="font-bold text-primary-950 dark:text-primary-300">
               {data.info.type}
             </p>
           </div>
           <div className="flex gap-x-2">
-            <p className="font-medium">{t("simulations-runningmolecule")}:</p>
+            <p className="font-medium">{t("simulations-running:molecule")}:</p>
             <p className="font-bold text-primary-950 dark:text-primary-300">
               {data.info.molecule}
             </p>
           </div>
           <div className="flex gap-x-2">
-            <p className="font-medium">{t("simulations-runningcreatedAt")}:</p>
+            <p className="font-medium">{t("simulations-running:createdAt")}:</p>
             <p className="font-bold text-primary-950 dark:text-primary-300">
               {Intl.DateTimeFormat(router.locale, {
                 day: "2-digit",
@@ -106,26 +106,30 @@ export default function Running({ user }: { user: User }) {
 
   return (
     <PageLayout>
-      <SEO title={t("simulations-runningnot-running.title")} />
-      <div className="m-auto flex w-1/2 flex-col justify-center text-center">
+      <SEO title={t("simulations-running:not-running.title")} />
+      <div className="m-auto flex w-1/2 flex-1 flex-col items-center justify-center text-center">
         <FileCog className="mx-auto mb-2 h-14 w-14 stroke-primary-600 dark:stroke-primary-400" />
-        <H1 className="uppercase">{t("simulations-runningnot-running.title")}</H1>
-        <Paragraph>{t("simulations-runningnot-running.description")}</Paragraph>
+        <H1 className="uppercase">
+          {t("simulations-running:not-running.title")}
+        </H1>
+        <Paragraph>
+          {t("simulations-running:not-running.description")}
+        </Paragraph>
 
-        <div className="mx-auto mt-5 flex flex-wrap gap-x-2">
-          <Link href="/dynamic/apo">
+        <div className="mx-auto mt-5 flex flex-wrap justify-center gap-2">
+          <Link href="/simulations/new/apo">
             <Button RightIcon={ArrowRight}>
-              {t("navigation:dynamic.models.apo")}
+              {t("navigation:simulations.models.apo")}
             </Button>
           </Link>
-          <Link href="/dynamic/acpype">
+          <Link href="/simulations/new/acpype">
             <Button RightIcon={ArrowRight}>
-              {t("navigation:dynamic.models.acpype")}
+              {t("navigation:simulations.models.acpype")}
             </Button>
           </Link>
-          <Link href="/dynamic/prodrg">
+          <Link href="/simulations/new/prodrg">
             <Button RightIcon={ArrowRight}>
-              {t("navigation:dynamic.models.prodrg")}
+              {t("navigation:simulations.models.prodrg")}
             </Button>
           </Link>
         </div>
