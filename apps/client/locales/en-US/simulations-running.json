@@ -21,7 +21,11 @@
     "title": "Steps"
   },
   "not-running": {
-    "title": "There is no dynamic running",
-    "description": "Seems like you don't have any dynamic running in our servers. Start one clicking a button below."
+    "title": "There is no simulation running",
+    "description": "Seems like you don't have any simulation running in our servers. Start one clicking a button below."
+  },
+  "queued": {
+    "title": "You have a queued simulation",
+    "description": "You simulation will start automatically when a spot opens in our execution queue"
   }
 }

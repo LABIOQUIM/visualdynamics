@@ -20,7 +20,7 @@ export type GetUserRunningSimulationResult =
       status: "running";
     }
   | {
-      status: "not-running" | "no-username";
+      status: "not-running" | "no-username" | "queued";
     };
 
 export async function getUserRunningSimulation(

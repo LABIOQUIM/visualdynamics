@@ -104,6 +104,19 @@ export default function Running({ user }: { user: User }) {
     );
   }
 
+  if (data?.status === "queued") {
+    return (
+      <PageLayout>
+        <SEO title={t("simulations-running:queued.title")} />
+        <div className="m-auto flex w-1/2 flex-1 flex-col items-center justify-center text-center">
+          <FileCog className="mx-auto mb-2 h-14 w-14 stroke-primary-600 dark:stroke-primary-400" />
+          <H1 className="uppercase">{t("simulations-running:queued.title")}</H1>
+          <Paragraph>{t("simulations-running:queued.description")}</Paragraph>
+        </div>
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout>
       <SEO title={t("simulations-running:not-running.title")} />
