@@ -29,8 +29,6 @@ class GenerateAPO(Resource):
 
         filename, ext = os.path.splitext(os.path.basename(args["file_pdb"].filename))
 
-        print(args)
-
         if args["bootstrap"] == "true":
             gmx = check_gromacs()
             grace = check_grace()

@@ -26,8 +26,15 @@ class RunDynamic(Resource):
             task_id=task_id,
         )
 
+        username = folder.split("/")[::-1][3]
+        file_is_running_path = os.path.abspath(
+            os.path.join(Config.UPLOAD_FOLDER, username, "is-running")
+        )
         file_status_path = os.path.abspath(os.path.join(args["folder"], "status"))
         file_celery_id = os.path.abspath(os.path.join(args["folder"], "celery_id"))
+
+        with open(file_is_running_path, "w") as f:
+            f.write("queued")
 
         with open(file_celery_id, "w") as f:
             f.write(task_id)
@@ -50,6 +57,8 @@ class RunDynamic(Resource):
         if os.path.exists(file_is_running):
             with open(file_is_running, "r") as f:
                 folder = f.readline()
+                if folder == "queued":
+                    return {"status": "queued"}
                 extractable_data = folder.split("/")
 
             file_steps = os.path.abspath(os.path.join(folder, "steps.txt"))

@@ -15,7 +15,7 @@ from server.resources.generate.prodrg import GeneratePRODRG
 from server.resources.health import Health
 from server.resources.run import RunDynamic
 from server.resources.run.abort import AbortDynamic
-from server.resources.user_dynamics import UserDynamics
+from server.resources.simulations import UserSimulations
 from server.resources.mdpr import MDPR
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -24,7 +24,14 @@ app.config.from_object(Config)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 api = Api(app)
 
-CORS(app)
+CORS(
+    app,
+    resources={
+        r"/api/*": {
+            "origins": ["https://visualdynamics.fiocruz.br", "http://localhost:3001"]
+        }
+    },
+)
 
 # Command sequence generation
 api.add_resource(GenerateACPYPE, "/api/v1/generate/acpype")
@@ -45,8 +52,8 @@ api.add_resource(DownloadMDP, "/api/v1/downloads/mdp")
 # API status
 api.add_resource(Health, "/api/v1/health")
 
-# User dynamics
-api.add_resource(UserDynamics, "/api/v1/dynamics")
+# User simulations
+api.add_resource(UserSimulations, "/api/v1/simulations")
 
 # Celery data
 api.add_resource(CeleryReservedTasks, "/api/v1/celery/queued")
