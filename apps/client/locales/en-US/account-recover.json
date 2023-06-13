@@ -12,7 +12,7 @@
       }
     },
     "errors": {
-      "failed": "We couldn't change your password. Either this link is expired and/or already used or the user to which this link was issued to doesn't exist."
+      "failed": "We couldn't change your password. Either this link is expired and/or already used or the user to which this link was issued to do not exist."
     },
     "reseted": "Your password has been reset. You can now sign in and continue using Visual Dynamics"
   },
@@ -26,7 +26,7 @@
       }
     },
     "errors": {
-      "no-user": "Couldn't find an user/account with this username/email"
+      "no-user": "Couldn't find a user/account with this username/email"
     },
     "success": "We've mailed you a reset password link. It'll be valid for 10 minutes only."
   },
