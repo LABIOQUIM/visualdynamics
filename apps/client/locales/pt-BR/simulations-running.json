@@ -23,5 +23,9 @@
   "not-running": {
     "title": "Não há nenhuma simulação em execução",
     "description": "Parece que você não tem nenhuma simulação em execução em nossos servidores. Comece clicando um botão abaixo."
+  },
+  "queued": {
+    "title": "Você possui uma simulação na fila",
+    "description": "Sua simulação vai começar automaticamente quando um espaço de processamento for liberado"
   }
 }

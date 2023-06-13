@@ -25,7 +25,7 @@ export async function getUserSimulations(
       };
     }
 
-    const { data } = await api.get<GetUserSimulationsResult>("/dynamics", {
+    const { data } = await api.get<GetUserSimulationsResult>("/simulations", {
       params: {
         username
       }
