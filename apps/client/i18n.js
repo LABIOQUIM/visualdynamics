@@ -16,7 +16,7 @@ module.exports = {
     // Admin
     "/admin/user-validation": ["admin-user-validation"],
     "/admin/simulations": ["admin-simulations"],
-    "/admin/settings": ["admin-md-config"],
+    "/admin/settings": ["admin-settings"],
 
     // Simulations
     "/simulations": ["simulations"],

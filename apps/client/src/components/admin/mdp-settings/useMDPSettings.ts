@@ -6,7 +6,7 @@ import {
 
 import { api } from "@app/lib/api";
 
-export type GetMDConfigResult =
+export type GetMDPSettingsResult =
   | {
       status: "not-found";
     }
@@ -16,9 +16,9 @@ export type GetMDConfigResult =
       dt: number;
     };
 
-export async function getMDConfig(): Promise<GetMDConfigResult> {
+export async function getMDPSettings(): Promise<GetMDPSettingsResult> {
   try {
-    const { data } = await api.get<GetMDConfigResult>("/mdpr");
+    const { data } = await api.get<GetMDPSettingsResult>("/mdpr");
 
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -27,12 +27,12 @@ export async function getMDConfig(): Promise<GetMDConfigResult> {
   }
 }
 
-export function useMDConfig(
-  options?: UseQueryOptions<GetMDConfigResult, unknown>
-): UseQueryResult<GetMDConfigResult, unknown> {
+export function useMDPSettings(
+  options?: UseQueryOptions<GetMDPSettingsResult, unknown>
+): UseQueryResult<GetMDPSettingsResult, unknown> {
   return useQuery({
-    queryKey: ["MDConfig"],
-    queryFn: () => getMDConfig(),
+    queryKey: ["MDPSettings"],
+    queryFn: () => getMDPSettings(),
     refetchInterval: 1000 * 60,
     ...options
   });

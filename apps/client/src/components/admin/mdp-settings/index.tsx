@@ -6,19 +6,17 @@ import useTranslation from "next-translate/useTranslation";
 import {
   MDConfigUpdateSchema,
   MDConfigUpdateSchemaType
-} from "@app/components/admin/md-config/schema.zod";
-import { GetMDConfigResult } from "@app/components/admin/md-config/useMDConfig";
+} from "@app/components/admin/mdp-settings/schema.zod";
+import { useMDPSettings } from "@app/components/admin/mdp-settings/useMDPSettings";
 import { AlertFailedToFetch } from "@app/components/general/alerts/failed-to-fetch";
 import { Button } from "@app/components/general/buttons";
 import { Input } from "@app/components/general/forms/input";
+import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
+import { H2 } from "@app/components/general/typography/headings";
 import { api } from "@app/lib/api";
 
-interface MDConfigProps {
-  data: GetMDConfigResult;
-  refetch: () => void;
-}
-
-export function FormMDConfig({ data, refetch }: MDConfigProps) {
+export function FormMDPSettings() {
+  const { data, refetch, isLoading } = useMDPSettings();
   const [isUpdating, setIsUpdating] = useState(false);
   const {
     formState: { errors },
@@ -27,8 +25,8 @@ export function FormMDConfig({ data, refetch }: MDConfigProps) {
   } = useForm<MDConfigUpdateSchemaType>({
     resolver: zodResolver(MDConfigUpdateSchema),
     defaultValues: {
-      dt: data.status === "found" ? String(data.dt) : "0",
-      nsteps: data.status === "found" ? String(data.nsteps) : "0"
+      dt: data?.status === "found" ? String(data.dt) : "0",
+      nsteps: data?.status === "found" ? String(data.nsteps) : "0"
     }
   });
   const { t } = useTranslation();
@@ -53,6 +51,10 @@ export function FormMDConfig({ data, refetch }: MDConfigProps) {
       .finally(() => setIsUpdating(false));
   };
 
+  if (isLoading) {
+    return <PageLoadingIndicator />;
+  }
+
   if (data?.status === "not-found") {
     return <AlertFailedToFetch />;
   }
@@ -62,8 +64,9 @@ export function FormMDConfig({ data, refetch }: MDConfigProps) {
       className="flex flex-col gap-y-2"
       onSubmit={handleSubmit(handleSubmitDynamic)}
     >
+      <H2>{t("admin-settings:md-config.title")}</H2>
       <Input
-        label={t("admin-md-config:nsteps.title")}
+        label={t("admin-settings:md-config.nsteps.title")}
         error={errors.nsteps}
         disabled={isUpdating}
         type="number"
@@ -74,7 +77,7 @@ export function FormMDConfig({ data, refetch }: MDConfigProps) {
       />
 
       <Input
-        label={t("admin-md-config:dt.title")}
+        label={t("admin-settings:md-config.dt.title")}
         error={errors.dt}
         disabled={isUpdating}
         type="number"
@@ -88,7 +91,7 @@ export function FormMDConfig({ data, refetch }: MDConfigProps) {
         disabled={isUpdating}
         type="submit"
       >
-        {t("admin-md-config:submit")}
+        {t("admin-settings:md-config.submit")}
       </Button>
     </form>
   );
