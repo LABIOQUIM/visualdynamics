@@ -2,7 +2,7 @@ import { Server } from "lucide-react";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
 
-import { GetActiveSimulationsResult } from "@app/components/admin/simulations-running/useActiveSimulations";
+import { GetActiveSimulationsResult } from "@app/components/admin/simulations/active/useActiveSimulations";
 import { SimulationAbortButton } from "@app/components/simulations/running/abort-button";
 
 interface SimulationsRunningListProps {
@@ -10,7 +10,7 @@ interface SimulationsRunningListProps {
   refetch: () => void;
 }
 
-export function SimulationsRunningList({
+export function ActiveSimulationsList({
   refetch,
   workers
 }: SimulationsRunningListProps) {
@@ -41,14 +41,24 @@ export function SimulationsRunningList({
                     <div className="flex flex-col gap-y-1">
                       <div className="flex gap-x-1">
                         <p className="whitespace-nowrap">
-                          {t("admin-active-simulations:dynamic.path")}:
+                          {t("admin-simulations:simulations.username")}:
+                        </p>
+                        <p className="font-semibold">
+                          {
+                            simulation.args[0].split("/")[
+                              simulation.args[0].split("/").length - 4
+                            ]
+                          }
+                        </p>
+                      </div>
+                      <div className="flex gap-x-1">
+                        <p className="whitespace-nowrap">
+                          {t("admin-simulations:simulations.path")}:
                         </p>
                         <p className="font-semibold">{simulation.args[0]}</p>
                       </div>
                       <div className="flex gap-x-1">
-                        <p>
-                          {t("admin-active-simulations:dynamic.started-at")}:
-                        </p>
+                        <p>{t("admin-simulations:simulations.started-at")}:</p>
                         <p className="font-semibold">
                           {Intl.DateTimeFormat(router.locale, {
                             day: "2-digit",
@@ -70,7 +80,7 @@ export function SimulationsRunningList({
                 ))}
               </ol>
             ) : (
-              <p>{t("admin-active-simulations:worker-empty")}</p>
+              <p>{t("admin-simulations:worker-empty")}</p>
             )}
           </div>
         );

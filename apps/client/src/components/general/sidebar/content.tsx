@@ -109,8 +109,8 @@ export function SidebarContent() {
         href: "/admin/user-validation"
       },
       {
-        label: "navigation:admin.active-simulations",
-        href: "/admin/active-simulations"
+        label: "navigation:admin.simulations",
+        href: "/admin/simulations"
       },
       {
         label: "navigation:admin.settings",

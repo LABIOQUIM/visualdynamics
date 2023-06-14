@@ -1,8 +1,0 @@
-{
-  "title": "Running Dynamics",
-  "dynamic": {
-    "path": "Folder on storage",
-    "started-at": "Started at"
-  },
-  "worker-empty": "There are no tasks running on this worker"
-}
