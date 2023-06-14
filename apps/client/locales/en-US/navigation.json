@@ -13,7 +13,7 @@
     "title": "Administration",
     "dashboard": "Dashboard",
     "user-validation": "User Validation",
-    "active-simulations": "Active Simulations",
+    "simulations": "Status de Simulações",
     "settings": "MD Settings"
   },
   "simulations": {
