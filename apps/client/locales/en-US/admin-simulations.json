@@ -1,0 +1,11 @@
+{
+  "title": "Simulations Status",
+  "active": "Active Simulations",
+  "queued": "Queued Simulations",
+  "simulations": {
+    "path": "Folder on storage",
+    "started-at": "Started at",
+    "username": "Username"
+  },
+  "worker-empty": "There are no tasks running/waiting on this worker"
+}
