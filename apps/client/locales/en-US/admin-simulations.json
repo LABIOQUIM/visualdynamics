@@ -1,0 +1,11 @@
+{
+  "title": "Status das Simulações",
+  "active": "Simulações Ativas",
+  "queued": "Simulações na Fila",
+  "simulation": {
+    "path": "Pasta no armazenamento",
+    "started-at": "Iniciado em",
+    "username": "Usuário"
+  },
+  "worker-empty": "Não há tarefas em execução/na fila neste worker"
+}
