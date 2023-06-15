@@ -1,4 +1,5 @@
 import { PropsWithChildren, useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import { getCookie } from "cookies-next";
 import dynamic from "next/dynamic";
 import Router from "next/router";
@@ -16,7 +17,7 @@ import {
 } from "@app/context/ThemeContext";
 import { useSignOut } from "@app/hooks/use-sign-out";
 
-// TODO: Lazy Load Header and Sidebar
+import "react-toastify/dist/ReactToastify.css";
 
 const Header = dynamic(
   () =>
@@ -74,6 +75,14 @@ export function Layout({ children }: PropsWithChildren<unknown>) {
               </Backdrop>
             ) : null}
             <Footer />
+            <ToastContainer
+              autoClose={2000}
+              closeOnClick
+              closeButton
+              newestOnTop
+              limit={3}
+              theme="colored"
+            />
           </main>
         </div>
       </div>
