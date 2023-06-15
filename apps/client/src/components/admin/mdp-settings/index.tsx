@@ -23,11 +23,7 @@ export function FormMDPSettings() {
     handleSubmit,
     register
   } = useForm<MDConfigUpdateSchemaType>({
-    resolver: zodResolver(MDConfigUpdateSchema),
-    defaultValues: {
-      dt: data?.status === "found" ? String(data.dt) : "0",
-      nsteps: data?.status === "found" ? String(data.nsteps) : "0"
-    }
+    resolver: zodResolver(MDConfigUpdateSchema)
   });
   const { t } = useTranslation();
 
@@ -55,7 +51,7 @@ export function FormMDPSettings() {
     return <PageLoadingIndicator />;
   }
 
-  if (data?.status === "not-found") {
+  if (!data || data?.status === "not-found") {
     return <AlertFailedToFetch />;
   }
 
@@ -69,6 +65,7 @@ export function FormMDPSettings() {
         label={t("admin-settings:md-config.nsteps.title")}
         error={errors.nsteps}
         disabled={isUpdating}
+        defaultValue={data.nsteps}
         type="number"
         min={300}
         max={5000000}
@@ -80,6 +77,7 @@ export function FormMDPSettings() {
         label={t("admin-settings:md-config.dt.title")}
         error={errors.dt}
         disabled={isUpdating}
+        defaultValue={data.dt}
         type="number"
         min={0.001}
         max={1}
