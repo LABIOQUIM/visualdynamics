@@ -1,0 +1,14 @@
+{
+  "title": "Gerenciamento de Usuários",
+  "clean": {
+    "title": "Limpar pasta de simulações",
+    "success": "A pasta de simulações de {{username}} foi limpa",
+    "error": "Não foi possível limpar a pasta de simulações de {{username}}"
+  },
+  "edit": {
+    "title": "Modificar"
+  },
+  "see-more": {
+    "title": "Ver mais informações"
+  }
+}

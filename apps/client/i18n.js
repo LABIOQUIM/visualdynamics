@@ -14,7 +14,8 @@ module.exports = {
     "rgx:^/account/recover.*": ["account-recover"],
 
     // Admin
-    "/admin/user-validation": ["admin-user-validation"],
+    "/admin/users": ["admin-users"],
+    "/admin/users/validation": ["admin-user-validation"],
     "/admin/simulations": ["admin-simulations"],
     "/admin/settings": ["admin-settings"],
 

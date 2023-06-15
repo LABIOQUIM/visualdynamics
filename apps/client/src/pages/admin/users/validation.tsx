@@ -2,7 +2,7 @@ import axios from "axios";
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
-import { useInactiveUsers } from "@app/components/admin/user-validation/useInactiveUsers";
+import { useInactiveUsers } from "@app/components/admin/users/validation/useInactiveUsers";
 import { AlertFailedToFetch } from "@app/components/general/alerts/failed-to-fetch";
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { Spinner } from "@app/components/general/loading-indicator/spinner";
@@ -13,7 +13,7 @@ import { withSSRAdmin } from "@app/hocs/withSSRAdmin";
 
 const List = dynamic(
   () =>
-    import("@app/components/admin/user-validation").then(
+    import("@app/components/admin/users/validation").then(
       (mod) => mod.UserValidationList
     ),
   {
