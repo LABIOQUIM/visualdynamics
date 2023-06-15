@@ -2,13 +2,14 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { AlertTriangle, Mail, MailCheck } from "lucide-react";
+import { Mail, MailCheck } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
 import {
   ResetPasswordRequestFormSchema,
   ResetPasswordRequestFormSchemaType
 } from "@app/components/account/form-recover/request/schema.zod";
+import { AlertBox } from "@app/components/general/alert-box";
 import { Button } from "@app/components/general/buttons";
 import { Input } from "@app/components/general/forms/input";
 import { Spinner } from "@app/components/general/loading-indicator/spinner";
@@ -58,12 +59,9 @@ export function ResetPasswordRequestForm() {
       onSubmit={handleSubmit(handleReuest)}
     >
       {errored ? (
-        <div className="flex gap-x-2 rounded-lg border border-orange-500 bg-orange-400/20 p-2">
-          <AlertTriangle className="stroke-orange-600 dark:stroke-orange-200" />
-          <p className="text-orange-600 dark:text-orange-200">
-            {t(`account-recover:request-form.errors.no-user`)}
-          </p>
-        </div>
+        <AlertBox status="warning">
+          {t(`account-recover:request-form.errors.no-user`)}
+        </AlertBox>
       ) : null}
       <Input
         error={errors.identifier}
