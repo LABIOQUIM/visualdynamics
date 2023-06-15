@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertTriangle, Lock, LogIn, UserPlus } from "lucide-react";
+import { Lock, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
@@ -11,6 +11,7 @@ import {
   SignInFormSchema,
   SignInFormSchemaType
 } from "@app/components/account/form-login/schema.zod";
+import { AlertBox } from "@app/components/general/alert-box";
 import { Button } from "@app/components/general/buttons";
 import { TextButton } from "@app/components/general/buttons/Text";
 import { Input } from "@app/components/general/forms/input";
@@ -63,12 +64,9 @@ export function FormLogin() {
         onSubmit={handleSubmit(handleAuth)}
       >
         {signInError ? (
-          <div className="flex gap-x-2 rounded-lg border border-orange-500 bg-orange-400/20 p-2">
-            <AlertTriangle className="stroke-orange-600 dark:stroke-orange-200" />
-            <p className="text-orange-600 dark:text-orange-200">
-              {t(`account-login:errors.${signInError}`)}
-            </p>
-          </div>
+          <AlertBox status="warning">
+            {t(`account-login:errors.${signInError}`)}
+          </AlertBox>
         ) : null}
         <Input
           error={errors.identifier}

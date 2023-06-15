@@ -8,16 +8,16 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
+  @apply antialiased;
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  @apply w-2;
+  @apply w-1.5;
 }
 
 *::-webkit-scrollbar-track {
-  @apply bg-transparent rounded-md;
+  @apply bg-transparent rounded-md mt-5 mb-1;
 }
 
 *::-webkit-scrollbar-thumb {

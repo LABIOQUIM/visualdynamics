@@ -2,13 +2,14 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { AlertTriangle, Key, UserCheck } from "lucide-react";
+import { Key } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
 import {
   ResetPasswordFormSchema,
   ResetPasswordFormSchemaType
 } from "@app/components/account/form-recover/schema.zod";
+import { AlertBox } from "@app/components/general/alert-box";
 import { Button } from "@app/components/general/buttons";
 import { Input } from "@app/components/general/forms/input";
 import { Spinner } from "@app/components/general/loading-indicator/spinner";
@@ -56,20 +57,14 @@ export function ResetPasswordForm({ resetId }: ResetPasswordFormProps) {
       onSubmit={handleSubmit(handleReset)}
     >
       {errored ? (
-        <div className="flex gap-x-2 rounded-lg border border-orange-500 bg-orange-400/20 p-2">
-          <AlertTriangle className="min-h-[1.75rem] min-w-[1.75rem] stroke-orange-600 dark:stroke-orange-200" />
-          <p className="text-orange-600 dark:text-orange-200">
-            {t(`account-recover:reset-form.errors.failed`)}
-          </p>
-        </div>
+        <AlertBox status="danger">
+          {t(`account-recover:reset-form.errors.failed`)}
+        </AlertBox>
       ) : null}
       {isReseted ? (
-        <div className="flex gap-x-2 rounded-lg border border-primary-500 bg-primary-400/20 p-2">
-          <UserCheck className="min-h-[1.75rem] min-w-[1.75rem] stroke-primary-600 dark:stroke-primary-200" />
-          <p className="text-primary-600 dark:text-primary-200">
-            {t(`account-recover:reset-form.reseted`)}
-          </p>
-        </div>
+        <AlertBox status="success">
+          {t(`account-recover:reset-form.reseted`)}
+        </AlertBox>
       ) : null}
       <Input
         error={errors.password}

@@ -20,7 +20,7 @@ const MDPSettings = dynamic(
 
 export const getServerSideProps = withSSRAdmin();
 
-export default function AdminMDPRUpdate() {
+export default function AdminSettings() {
   const { t } = useTranslation();
 
   return (
