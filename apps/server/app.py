@@ -17,6 +17,7 @@ from server.resources.run import RunDynamic
 from server.resources.run.abort import AbortDynamic
 from server.resources.simulations import UserSimulations
 from server.resources.simulations.clean import CleanUserSimulations
+from server.resources.simulations.tree import UserSimulationsTree
 from server.resources.mdpr import MDPR
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -56,6 +57,7 @@ api.add_resource(Health, "/api/v1/health")
 # User simulations
 api.add_resource(UserSimulations, "/api/v1/simulations")
 api.add_resource(CleanUserSimulations, "/api/v1/simulations/clean")
+api.add_resource(UserSimulationsTree, "/api/v1/simulations/tree")
 
 # Celery data
 api.add_resource(CeleryReservedTasks, "/api/v1/celery/queued")
