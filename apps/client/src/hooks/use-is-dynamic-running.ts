@@ -13,7 +13,7 @@ export function useIsDynamicRunning() {
     if (data && data.user) {
       const running = await getUserRunningSimulation(data.user.username);
 
-      if (running.status === "running") {
+      if (running.status === "running" || running.status === "queued") {
         router.replace("/simulations/running");
       }
     }
