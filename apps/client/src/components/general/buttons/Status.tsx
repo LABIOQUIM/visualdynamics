@@ -1,4 +1,8 @@
-import { ButtonHTMLAttributes, FC } from "react";
+import {
+  ButtonHTMLAttributes,
+  forwardRef,
+  ForwardRefRenderFunction
+} from "react";
 import { LucideIcon } from "lucide-react";
 
 import { cnMerge } from "@app/utils/cnMerge";
@@ -10,15 +14,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   iconClassName?: string;
 }
 
-export const StatusButton: FC<ButtonProps> = ({
-  children,
-  className,
-  iconClassName,
-  LeftIcon,
-  RightIcon,
-  status,
-  ...rest
-}) => {
+const BaseButton: ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
+  { children, className, iconClassName, LeftIcon, RightIcon, status, ...rest },
+  ref
+) => {
   return (
     <button
       className={cnMerge(
@@ -36,6 +35,7 @@ export const StatusButton: FC<ButtonProps> = ({
             status === "error"
         }
       )}
+      ref={ref}
       {...rest}
     >
       {LeftIcon ? <LeftIcon className={`h-4 w-4 ${iconClassName}`} /> : null}
@@ -44,3 +44,5 @@ export const StatusButton: FC<ButtonProps> = ({
     </button>
   );
 };
+
+export const StatusButton = forwardRef(BaseButton);

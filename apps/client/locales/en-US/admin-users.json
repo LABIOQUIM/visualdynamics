@@ -9,6 +9,10 @@
     "title": "Edit user"
   },
   "see-more": {
-    "title": "See more info"
+    "title": "See more info",
+    "dialog": {
+      "title": "{{username}}'s info",
+      "description": "This is the file tree for the user {{username}}. You can click in any file to download."
+    }
   }
 }
