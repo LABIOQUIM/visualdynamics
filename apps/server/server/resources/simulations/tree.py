@@ -26,4 +26,4 @@ class UserSimulationsTree(Resource):
         if not os.path.exists(folder_user_path):
             return {"status": "not-found"}
 
-        return json.dumps(path_to_dict(folder_user_path))
+        return path_to_dict(folder_user_path)
