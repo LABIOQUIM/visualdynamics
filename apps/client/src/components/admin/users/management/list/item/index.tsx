@@ -1,8 +1,9 @@
 import { toast } from "react-toastify";
 import { User } from "@prisma/client";
-import { Crown, FolderX, Info, Pen } from "lucide-react";
+import { Crown, FolderX, Pen } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
+import { MoreInfo } from "@app/components/admin/users/management/list/item/more-info";
 import { StatusButton } from "@app/components/general/buttons/Status";
 import { H2 } from "@app/components/general/typography/headings";
 import { ParagraphSmall } from "@app/components/general/typography/paragraphs";
@@ -46,13 +47,7 @@ export function ActiveUserListItem({ user }: ActiveUserListItem) {
         </ParagraphSmall>
       </div>
       <div className="flex gap-1">
-        <StatusButton
-          title={t("admin-users:see-more.title")}
-          status="canceled"
-          disabled
-          iconClassName="h-5 w-5"
-          LeftIcon={Info}
-        />
+        <MoreInfo user={user} />
         <StatusButton
           title={t("admin-users:edit.title")}
           status="running"

@@ -9,6 +9,10 @@
     "title": "Modificar"
   },
   "see-more": {
-    "title": "Ver mais informações"
+    "title": "Ver mais informações",
+    "dialog": {
+      "title": "Informações de {{username}}",
+      "description": "Essa é a arvore de arquivos de {{username}}. Clique em qualquer arquivo para baixar."
+    }
   }
 }
