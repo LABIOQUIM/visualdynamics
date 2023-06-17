@@ -60,7 +60,7 @@ export function Layout({ children }: PropsWithChildren<unknown>) {
   return (
     <ThemeProvider defaultTheme={defaultTheme as Theme}>
       <div
-        className={`h-full bg-zinc-50 transition-all duration-150 dark:bg-zinc-900 ${
+        className={`h-screen bg-zinc-50 transition-all duration-150 dark:bg-zinc-900 ${
           isSidebarOpen && "overflow-hidden"
         }`}
       >
