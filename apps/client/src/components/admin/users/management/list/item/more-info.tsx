@@ -39,7 +39,7 @@ export function MoreInfo({ user }: PropsWithUser) {
         />
       )}
     >
-      {Object.keys(userTree).length < 1 ? <TreeItem item={userTree} /> : null}
+      {Object.keys(userTree).length > 1 ? <TreeItem item={userTree} /> : null}
     </Dialog>
   );
 }
