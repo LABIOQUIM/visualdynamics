@@ -79,7 +79,7 @@ export function FormLogin() {
           error={errors.password}
           disabled={isSubmitting}
           label={t("account-login:password.title")}
-          placeholder={t("account-login:password.placeholder")}
+          placeholder="********"
           type="password"
           {...register("password")}
         />

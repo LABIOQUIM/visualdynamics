@@ -70,7 +70,7 @@ export function ResetPasswordForm({ resetId }: ResetPasswordFormProps) {
         error={errors.password}
         disabled={isSubmitting || isReseted}
         label={t("account-recover:reset-form.password.title")}
-        placeholder={t("account-recover:reset-form.password.placeholder")}
+        placeholder="********"
         type="password"
         {...register("password")}
       />
