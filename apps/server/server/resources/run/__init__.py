@@ -19,17 +19,20 @@ class RunDynamic(Resource):
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])
 
-        task_id = uuid()
-
-        run_commands.apply_async(
-            (folder, url, args["email"]),
-            task_id=task_id,
-        )
-
         username = folder.split("/")[::-1][3]
         file_is_running_path = os.path.abspath(
             os.path.join(Config.UPLOAD_FOLDER, username, "is-running")
         )
+
+        if os.path.exists(file_is_running_path):
+            return {"status": "running-or-queued"}
+
+        task_id = uuid()
+
+        run_commands.apply_async(
+            (folder, url, args["email"]), task_id=task_id, retry=False
+        )
+
         file_status_path = os.path.abspath(os.path.join(args["folder"], "status"))
         file_celery_id = os.path.abspath(os.path.join(args["folder"], "celery_id"))
 
