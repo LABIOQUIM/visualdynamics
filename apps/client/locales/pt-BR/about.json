@@ -11,5 +11,8 @@
     "code": "Desenvolvimento de código",
     "idea": "Ideia e conceito",
     "manuscript": "Escrita de publicação"
+  },
+  "publication": {
+    "title": "Publicações"
   }
 }
