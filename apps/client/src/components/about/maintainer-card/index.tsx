@@ -1,4 +1,4 @@
-import { Code2, Lightbulb, Newspaper } from "lucide-react";
+import { Code2, Lightbulb, Newspaper, User } from "lucide-react";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
@@ -31,19 +31,23 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
           ? "_blank"
           : undefined
       }
-      className="group flex items-center gap-x-2 rounded-md p-2 transition-all duration-500 hover:bg-zinc-800/20"
+      className="group flex flex-col items-center gap-2 rounded-md p-2 transition-all duration-500 hover:bg-zinc-800/20"
       key={maintainer.name}
     >
       {maintainer.image ? (
         <BlurImage
           alt={maintainer.name}
-          className="h-14 w-14 rounded-full"
+          className="h-20 w-20 rounded-full"
           height={0}
           width={0}
           src={maintainer.image}
           unoptimized
         />
-      ) : null}
+      ) : (
+        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-zinc-500">
+          <User className="h-10 w-10" />
+        </span>
+      )}
       <div>
         <p className="text-primary-800 transition-all duration-500 group-hover:text-primary-700 dark:text-primary-400 dark:group-hover:text-primary-300">
           {maintainer.name}
