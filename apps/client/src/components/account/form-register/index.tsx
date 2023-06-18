@@ -74,7 +74,7 @@ export function FormRegister() {
       <Input
         error={errors.password}
         label={t("account-register:password.title")}
-        placeholder={t("account-register:password.placeholder")}
+        placeholder="********"
         disabled={isSubmitting}
         type="password"
         {...register("password")}

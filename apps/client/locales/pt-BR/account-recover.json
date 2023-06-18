@@ -6,7 +6,6 @@
     "title": "Redefinir Senha",
     "password": {
       "title": "Nova senha",
-      "placeholder": "******",
       "errors": {
         "min-length": "Sua senha antiga precisa ter ao menos 6 caracteres"
       }
