@@ -6,7 +6,6 @@
     "title": "Reset Password",
     "password": {
       "title": "New Password",
-      "placeholder": "******",
       "errors": {
         "min-length": "Your password must be at least 6 characters long"
       }
