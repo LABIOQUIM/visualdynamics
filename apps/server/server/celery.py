@@ -8,6 +8,6 @@ celery = Celery(
 )
 
 celery.conf.update(result_extended=True)
-
+celery.conf.broker_transport_options = {"visibility_timeout": 604800}
 # Configure the Celery instance
 # celery.conf.task_routes = {"server.tasks.*": {"queue": "server"}}
