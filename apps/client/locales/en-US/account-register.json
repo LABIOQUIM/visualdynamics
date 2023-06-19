@@ -28,5 +28,12 @@
       "empty": "Can't be empty",
       "invalid": "Alphanumeric only (a-z, A-Z, 0-9), between 4 and 10 characters"
     }
+  },
+  "name": {
+    "title": "Name",
+    "placeholder": "John Doe",
+    "errors": {
+      "empty": "Can't be empty"
+    }
   }
 }
