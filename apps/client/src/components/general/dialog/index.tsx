@@ -43,7 +43,7 @@ export function Dialog({
         <div className="my-6 flex h-full flex-1 overflow-auto">{children}</div>
 
         {Cancel || Submit ? (
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
             {Cancel ? (
               <RDialog.Close asChild>
                 <Cancel />

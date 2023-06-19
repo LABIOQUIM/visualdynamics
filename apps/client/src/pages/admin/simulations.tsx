@@ -3,6 +3,7 @@ import useTranslation from "next-translate/useTranslation";
 
 import { useActiveSimulations } from "@app/components/admin/simulations/active/useActiveSimulations";
 import { useQueuedSimulations } from "@app/components/admin/simulations/queued/useQueuedSimulations";
+import { TriggerRun } from "@app/components/admin/simulations/trigger-run";
 import { AlertFailedToFetch } from "@app/components/general/alerts/failed-to-fetch";
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { Spinner } from "@app/components/general/loading-indicator/spinner";
@@ -69,6 +70,8 @@ export default function SimulationsStatus() {
           <Spinner />
         ) : null}
       </div>
+
+      <TriggerRun />
 
       <H2>{t("admin-simulations:active")}</H2>
       {isLoadingActiveSimulations ? (
