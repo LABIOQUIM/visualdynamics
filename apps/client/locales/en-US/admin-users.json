@@ -1,0 +1,18 @@
+{
+  "title": "Gerenciamento de Usuários",
+  "clean": {
+    "title": "Limpar pasta de simulações",
+    "success": "A pasta de simulações de {{username}} foi limpa",
+    "error": "Não foi possível limpar a pasta de simulações de {{username}}"
+  },
+  "edit": {
+    "title": "Modificar"
+  },
+  "see-more": {
+    "title": "Ver mais informações",
+    "dialog": {
+      "title": "Informações de {{username}}",
+      "description": "Essa é a arvore de arquivos de {{username}}. Clique em qualquer arquivo para baixar."
+    }
+  }
+}
