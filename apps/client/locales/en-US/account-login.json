@@ -15,7 +15,6 @@
   },
   "password": {
     "title": "Password",
-    "placeholder": "********",
     "errors": {
       "empty": "Can't be empty"
     }
