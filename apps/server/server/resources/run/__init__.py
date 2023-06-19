@@ -60,8 +60,9 @@ class RunDynamic(Resource):
         if os.path.exists(file_is_running):
             with open(file_is_running, "r") as f:
                 folder = f.readline()
-                if folder == "queued":
+                if "queued" in folder:
                     return {"status": "queued"}
+
                 extractable_data = folder.split("/")
 
             file_steps = os.path.abspath(os.path.join(folder, "steps.txt"))
