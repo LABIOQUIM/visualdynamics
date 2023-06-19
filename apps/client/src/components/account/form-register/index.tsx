@@ -30,14 +30,16 @@ export function FormRegister() {
 
   const handleAuth: SubmitHandler<SignUpFormSchemaType> = async ({
     email,
-    username,
-    password
+    name,
+    password,
+    username
   }) => {
     await axios
       .post("/api/users/signup", {
         email,
-        username,
-        password
+        name,
+        password,
+        username
       })
       .then(() => {
         reset();
@@ -63,6 +65,13 @@ export function FormRegister() {
         disabled={isSubmitting}
         placeholder={t("account-register:username.placeholder")}
         {...register("username")}
+      />
+      <Input
+        error={errors.name}
+        label={t("account-register:name.title")}
+        placeholder={t("account-register:name.placeholder")}
+        disabled={isSubmitting}
+        {...register("name")}
       />
       <Input
         error={errors.email}

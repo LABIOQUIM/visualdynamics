@@ -8,7 +8,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { email, username, password } = req.body;
+    const { email, name, password, username } = req.body;
 
     try {
       const existingUser = await prisma.user.findFirst({
@@ -28,8 +28,9 @@ export default async function handler(
       const user = await prisma.user.create({
         data: {
           email,
-          username,
-          password: hashedPassword
+          name,
+          password: hashedPassword,
+          username
         }
       });
 

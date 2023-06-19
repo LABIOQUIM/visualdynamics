@@ -8,6 +8,7 @@ export const SignUpFormSchema = z.object({
       new RegExp("^[a-zA-Z0-9]{4,10}$"),
       "account-register:username.errors.invalid"
     ),
+  name: z.string().min(1, "account-register:name.errors.empty"),
   email: z
     .string()
     .min(1, "account-register:email.errors.empty")
