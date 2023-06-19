@@ -12,5 +12,6 @@
   "loading": "Carregando...",
   "blog": {
     "readtime": "{{minutes}} min de leitura"
-  }
+  },
+  "cancel": "Cancelar"
 }

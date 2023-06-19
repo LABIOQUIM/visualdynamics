@@ -12,5 +12,6 @@
   "loading": "Loading...",
   "blog": {
     "readtime": "{{minutes}} min read"
-  }
+  },
+  "cancel": "Cancel"
 }
