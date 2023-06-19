@@ -30,24 +30,20 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
     dynamic_data = folder.split("/")[::-1]
 
     with open(file_molecule, "r") as f:
-        lines = f.readlines()
-        for line in reversed(lines):
-            if "ATOM" in line:
-                data = line.strip().split(" ")
-                data = list(filter(None, data))
-                if int(data[1]) > 5000:
-                    # SEND MAIL NOTIFYING DYNAMIC ERRORED
-                    requests.get(
-                        f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
-                    )
+        atom_count = sum(1 for line in f if "ATOM" in line)
 
-                    with open(file_status_path, "w") as f:
-                        f.write(f"error: hm5ka")
+    if int(atom_count) > 10000:
+        # SEND MAIL NOTIFYING DYNAMIC ERRORED
+        requests.get(
+            f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+        )
 
-                    if os.path.exists(file_is_running):
-                        os.remove(file_is_running)
-                    raise
-                break
+        with open(file_status_path, "w") as f:
+            f.write(f"error: hm5ka")
+
+        if os.path.exists(file_is_running):
+            os.remove(file_is_running)
+        raise Exception("Too Much ATOMS")
 
     # Copy each file to our run folder
     for file in list_files_mdp:
@@ -91,7 +87,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
 
                 if os.path.exists(file_is_running):
                     os.remove(file_is_running)
-                raise
+                raise Exception(f"Command {command} failed to run")
 
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
     requests.get(
