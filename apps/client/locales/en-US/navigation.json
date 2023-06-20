@@ -12,9 +12,9 @@
   "admin": {
     "title": "Administration",
     "dashboard": "Dashboard",
-    "users": "Usuários",
+    "users": "Users",
     "user-validation": "User Validation",
-    "simulations": "Status de Simulações",
+    "simulations": "Simulations Status",
     "settings": "MD Settings"
   },
   "simulations": {
