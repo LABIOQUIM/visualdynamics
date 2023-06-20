@@ -13,5 +13,5 @@
   "blog": {
     "readtime": "{{minutes}} min read"
   },
-  "cancel": "Cancelar"
+  "cancel": "Cancel"
 }
