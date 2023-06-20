@@ -103,7 +103,7 @@ export function FormAPO({ user }: PropsWithUser) {
         {...register("protein")}
       />
 
-      <div className="flex flex-col gap-1 md:flex-row md:gap-3">
+      <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 md:gap-3">
         <Select<keyof typeof apoForceFields>
           error={errors.forceField}
           label={t("simulations-form:force-field.title")}
@@ -125,9 +125,7 @@ export function FormAPO({ user }: PropsWithUser) {
           disabled={isSubmitting}
           values={waterModels}
         />
-      </div>
 
-      <div className="flex flex-col gap-1 md:flex-row md:gap-3">
         <Select<keyof typeof boxTypes>
           error={errors.boxType}
           label={t("simulations-form:box-type.title")}
@@ -145,6 +143,11 @@ export function FormAPO({ user }: PropsWithUser) {
           type="number"
           disabled={isSubmitting}
           {...register("boxDistance")}
+        />
+        <Input
+          label={t("simulations-form:ns.title")}
+          disabled
+          value="5ns"
         />
       </div>
 
