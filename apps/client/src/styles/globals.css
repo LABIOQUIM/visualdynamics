@@ -17,7 +17,11 @@
 }
 
 *::-webkit-scrollbar-track {
-  @apply bg-transparent rounded-md mt-5 mb-1;
+  @apply bg-transparent rounded-md;
+}
+
+aside::-webkit-scrollbar-track {
+  @apply mt-5 mb-1;
 }
 
 *::-webkit-scrollbar-thumb {
