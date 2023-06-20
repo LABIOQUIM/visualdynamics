@@ -9,6 +9,9 @@
       "no-pdb": "Selecione um arquivo .pdb de molécula"
     }
   },
+  "ns": {
+    "title": "Tempo de Simulação"
+  },
   "file-itp": {
     "title": "Ligante (.itp)",
     "errors": {

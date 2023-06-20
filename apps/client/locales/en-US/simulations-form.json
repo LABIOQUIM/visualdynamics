@@ -9,6 +9,9 @@
       "no-pdb": "Select a .pdb molecule file"
     }
   },
+  "ns": {
+    "title": "Simulation Time"
+  },
   "file-itp": {
     "title": "Ligand (.itp)",
     "errors": {
