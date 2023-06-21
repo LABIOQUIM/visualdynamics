@@ -1,4 +1,7 @@
 {
+  "warnings": {
+    "hm5ka": "Moléculas com mais de 10.000 átomos não serão executadas, por favor, verifique isso antes de fazer a submissão para a fila."
+  },
   "submit": {
     "download": "Baixar lista de comandos",
     "run": "Executar simulação"
