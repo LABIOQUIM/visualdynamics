@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
+import { AlertBox } from "@app/components/general/alert-box";
 import { Button } from "@app/components/general/buttons";
 import { Input } from "@app/components/general/forms/input";
 import { Select } from "@app/components/general/forms/select";
@@ -94,6 +95,9 @@ export function FormACPYPE({ user }: PropsWithUser) {
       className="flex flex-col gap-y-2"
       onSubmit={handleSubmit(handleSubmitDynamic)}
     >
+      <AlertBox status="warning">
+        {t("simulations-form:warnings.hm5ka")}
+      </AlertBox>
       <Input
         label={t("simulations-form:file-pdb.title")}
         type="file"

@@ -1,4 +1,7 @@
 {
+  "warnings": {
+    "hm5ka": "Please, be aware that molecules with more than 10000 atoms will not execute, so please double check it before sending it to the queue."
+  },
   "submit": {
     "download": "Download command list",
     "run": "Run dynamic"
