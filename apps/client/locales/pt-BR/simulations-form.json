@@ -49,7 +49,7 @@
     }
   },
   "box-distance": {
-    "title": "Distância da Caixa (mm)",
+    "title": "Distância da Caixa (nm)",
     "errors": {
       "distance-doesnt-match": "Deve ser um número, decimal ou não.",
       "out-of-bounds": "Deve estar entre 0.1 e 1"

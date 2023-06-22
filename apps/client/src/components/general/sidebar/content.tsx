@@ -220,6 +220,7 @@ export function SidebarContent() {
               "px-0.5": theme === "light"
             })}
             src={theme === "light" ? Fiocruz : FiocruzWhite}
+            priority
           />
         </NextLink>
         <NextLink

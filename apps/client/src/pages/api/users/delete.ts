@@ -19,9 +19,12 @@ export default async function handler(
       });
     }
 
-    await prisma.user.delete({
+    await prisma.user.update({
       where: {
         id: String(userId)
+      },
+      data: {
+        deleted: true
       }
     });
 
