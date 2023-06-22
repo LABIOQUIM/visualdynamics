@@ -12,8 +12,12 @@ interface DialogProps {
   ) => JSX.Element;
   title: string;
   description: string;
-  Cancel?: () => JSX.Element;
-  Submit?: () => JSX.Element;
+  Cancel?: (
+    props: RDialog.DialogCloseProps & RefAttributes<HTMLButtonElement>
+  ) => JSX.Element;
+  Submit?: (
+    props: RDialog.DialogCloseProps & RefAttributes<HTMLButtonElement>
+  ) => JSX.Element;
 }
 
 export function Dialog({

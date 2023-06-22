@@ -41,12 +41,14 @@ export function Header() {
           />
         </button>
         <Link
-          className="hidden h-[125%] gap-x-2 font-bold uppercase lg:flex"
+          className="hidden h-[125%] w-auto gap-x-2 font-bold uppercase lg:flex"
           href="/"
         >
           <Image
             alt=""
+            className="h-full w-auto"
             src={logo}
+            priority
           />
         </Link>
         <ul className="flex flex-shrink-0 items-center gap-x-6">

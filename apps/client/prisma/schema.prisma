@@ -19,6 +19,7 @@ model User {
   password       String?
   name           String?
   active         Boolean             @default(false)
+  deleted        Boolean?            @default(false)
   role           Role                @default(USER)
   passwordResets UserPasswordReset[]
 
