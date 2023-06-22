@@ -19,7 +19,7 @@
     "title": "Downloads"
   },
   "errors": {
-    "hm5ka": "Error: This molecule has more than 5000 atoms.",
+    "hm5ka": "Erro: Esta molécula tem mais de 10.000 átomos.",
     "command": "Errored on command <b>{{command}}</b>"
   }
 }
