@@ -3,7 +3,8 @@
   "errors": {
     "user": {
       "inactive": "This user hasn't been activated yet. We'll contact you via email when your account passes our validations.",
-      "wrong-credentials": "This combination of username/email and password doesn't exist in our servers."
+      "wrong-credentials": "This combination of username/email and password doesn't exist in our servers.",
+      "deleted": "Essa conta foi desabilitada."
     }
   },
   "identifier": {
