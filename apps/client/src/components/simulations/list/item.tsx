@@ -57,9 +57,6 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
         <Spinner className="min-h-[2rem] min-w-[2rem] fill-cyan-950 text-cyan-300 dark:fill-cyan-300 dark:text-cyan-900" />
       ) : null}
       <div className="flex flex-col gap-y-2">
-        <small className="text-xs leading-none">
-          {t("simulations:dynamic.id")}: {simulation.celeryId}
-        </small>
         <div
           className={cnMerge({
             "text-cyan-950 dark:text-cyan-300": simulation.status === "running",
