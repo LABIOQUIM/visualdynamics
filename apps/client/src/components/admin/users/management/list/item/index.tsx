@@ -19,7 +19,7 @@ export function ActiveUserListItem({ user }: ActiveUserListItem) {
           {user.role === "ADMIN" ? <Crown /> : null}
           {user.name}
         </H2>
-        <div className="flex flex-col xl:flex-row">
+        <div className="jusfity-center flex flex-col flex-wrap gap-2 lg:items-center lg:justify-start xl:flex-row">
           <ParagraphSmall>{user.username}</ParagraphSmall>
           <span className="hidden xl:inline-flex">&bull;</span>
           <ParagraphSmall>{user.email}</ParagraphSmall>

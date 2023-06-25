@@ -6,9 +6,22 @@ import {
 } from "@tanstack/react-query";
 import axios from "axios";
 
-export async function getActiveUsers(): Promise<User[]> {
+type Props = {
+  users: User[];
+  count: number;
+};
+
+export async function getActiveUsers(
+  page: number,
+  searchByIdentifier?: string
+): Promise<Props> {
   try {
-    const { data } = await axios.get<User[]>("/api/users/active");
+    const { data } = await axios.get<Props>("/api/users", {
+      params: {
+        page,
+        searchByIdentifier
+      }
+    });
 
     return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,12 +31,15 @@ export async function getActiveUsers(): Promise<User[]> {
 }
 
 export function useActiveUsers(
-  options?: UseQueryOptions<User[], unknown>
-): UseQueryResult<User[], unknown> {
+  page = 0,
+  searchByIdentifier?: string,
+  options?: UseQueryOptions<Props, unknown>
+): UseQueryResult<Props, unknown> {
   return useQuery({
-    queryKey: ["ActiveUsers"],
-    queryFn: () => getActiveUsers(),
+    queryKey: ["ActiveUsers", page, searchByIdentifier],
+    queryFn: () => getActiveUsers(page, searchByIdentifier),
     refetchInterval: 1000 * 60,
+    keepPreviousData: true,
     ...options
   });
 }

@@ -5,9 +5,13 @@ declare global {
     user: User;
   };
 
-  type Tree = {
-    type: "directory" | "file";
-    name: string;
-    children?: Tree[];
-  };
+  type Tree =
+    | {
+        type: "directory" | "file";
+        name: string;
+        children?: Tree[];
+      }
+    | {
+        status: "not-found";
+      };
 }

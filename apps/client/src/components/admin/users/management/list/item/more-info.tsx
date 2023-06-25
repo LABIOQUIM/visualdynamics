@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Info } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
@@ -11,18 +11,21 @@ export function MoreInfo({ user }: PropsWithUser) {
   const [userTree, setUserTree] = useState<Tree>({} as Tree);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    api
-      .get<Tree>("/simulations/tree", {
-        params: {
-          username: user.username
-        }
-      })
-      .then((res) => setUserTree(res.data));
-  }, [user]);
+  const onOpenChange = (open: boolean) => {
+    if (open) {
+      api
+        .get<Tree>("/simulations/tree", {
+          params: {
+            username: user.username
+          }
+        })
+        .then((res) => setUserTree(res.data));
+    }
+  };
 
   return (
     <Dialog
+      onOpenChange={onOpenChange}
       title={t("admin-users:see-more.dialog.title", {
         username: user.username
       })}
@@ -39,7 +42,12 @@ export function MoreInfo({ user }: PropsWithUser) {
         />
       )}
     >
-      {Object.keys(userTree).length > 1 ? <TreeItem item={userTree} /> : null}
+      {/* @ts-ignore */}
+      {userTree.status === "not-found" ? (
+        <div>No user tree</div>
+      ) : Object.keys(userTree).length > 1 ? (
+        <TreeItem item={userTree} />
+      ) : null}
     </Dialog>
   );
 }

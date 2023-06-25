@@ -13,5 +13,6 @@
   "blog": {
     "readtime": "{{minutes}} min de leitura"
   },
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "of": "de"
 }
