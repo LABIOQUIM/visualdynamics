@@ -20,7 +20,7 @@ export function useSignOut() {
         (nrp.exact && router.pathname === nrp.path) ||
         (!nrp.exact && router.pathname.startsWith(nrp.path))
     );
-    if (status !== "authenticated") {
+    if (status === "unauthenticated") {
       if (!cannotRedirect) {
         router.replace("/account/login?from=logout");
       }

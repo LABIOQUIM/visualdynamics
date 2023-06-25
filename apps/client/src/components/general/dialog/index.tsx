@@ -18,18 +18,20 @@ interface DialogProps {
   Submit?: (
     props: RDialog.DialogCloseProps & RefAttributes<HTMLButtonElement>
   ) => JSX.Element;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export function Dialog({
   children,
   Cancel,
   description,
+  onOpenChange,
   Submit,
   title,
   Trigger
 }: PropsWithChildren<DialogProps>) {
   return (
-    <RDialog.Root>
+    <RDialog.Root onOpenChange={onOpenChange}>
       <RDialog.Trigger asChild>
         <Trigger />
       </RDialog.Trigger>
