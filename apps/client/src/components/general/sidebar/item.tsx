@@ -14,7 +14,7 @@ export function SidebarItem({ link }: SidebarItemProps) {
   const { t } = useTranslation();
 
   return (
-    <li className="relative h-10 px-3">
+    <li className="relative min-h-[2.5rem] px-3">
       <Link
         href={link.href || "#"}
         className={`flex h-full w-full items-center font-medium transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${

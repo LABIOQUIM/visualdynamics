@@ -40,7 +40,7 @@ export function SidebarSubmenu({ item }: ISidebarSubmenu) {
         />
       ) : null}
       <button
-        className={`flex h-10 w-full items-center justify-between font-medium transition-colors duration-150 hover:text-gray-800 focus:outline-none dark:hover:text-gray-200 ${
+        className={`flex min-h-[2.5rem] w-full items-center justify-between font-medium transition-colors duration-150 hover:text-gray-800 focus:outline-none dark:hover:text-gray-200 ${
           isDropdownMenuOpen ||
           item.links?.some((r) => routeIsActive(pathname, r))
             ? "text-gray-800 dark:text-gray-100"
