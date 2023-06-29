@@ -36,8 +36,8 @@ export function QueuedSimulationsList({
                     className="flex flex-col gap-y-2 rounded-lg p-4 odd:bg-zinc-500/20 even:bg-zinc-500/10"
                     key={`${worker}_${simulation.id}`}
                   >
-                    <div className="flex flex-col gap-y-1">
-                      <div className="flex gap-x-1">
+                    <div className="flex flex-col gap-y-4 lg:gap-y-1">
+                      <div className="flex flex-col gap-x-1 lg:flex-row">
                         <p className="whitespace-nowrap">
                           {t("admin-simulations:simulations.username")}:
                         </p>
@@ -49,7 +49,7 @@ export function QueuedSimulationsList({
                           }
                         </p>
                       </div>
-                      <div className="flex gap-x-1">
+                      <div className="flex flex-col gap-x-1 lg:flex-row">
                         <p className="whitespace-nowrap">
                           {t("admin-simulations:simulations.path")}:
                         </p>
