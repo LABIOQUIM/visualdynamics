@@ -34,7 +34,7 @@ export default function AdminSignup() {
         userId
       })
       .then(() => {
-        axios.get(`/api/mailer/user/approved?email=${userEmail}`);
+        axios.get(`/api/mailer/user/approved?to=${userEmail}`);
         refetch();
       });
   }
@@ -47,7 +47,7 @@ export default function AdminSignup() {
         }
       })
       .then(() => {
-        axios.get(`/api/mailer/user/rejected?email=${userEmail}`);
+        axios.get(`/api/mailer/user/rejected?to=${userEmail}`);
         refetch();
       });
   }
