@@ -14,18 +14,19 @@ export function SidebarItem({ link }: SidebarItemProps) {
   const { t } = useTranslation();
 
   return (
-    <li className="relative min-h-[2.5rem] px-3">
+    <li className="relative flex min-h-[2.5rem] items-center px-3">
       <Link
         href={link.href || "#"}
-        className={`flex h-full w-full items-center font-medium transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 ${
-          routeIsActive(pathname, link)
-            ? "text-gray-800 dark:text-gray-100"
-            : ""
-        }`}
+        className={cnMerge(
+          "flex h-full w-full items-center font-medium transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+          {
+            "text-gray-800 dark:text-gray-100": routeIsActive(pathname, link)
+          }
+        )}
       >
         {routeIsActive(pathname, link) && (
           <span
-            className="absolute inset-y-0 left-0 w-1 rounded-br-lg rounded-tr-lg bg-primary-600 dark:bg-primary-500"
+            className="absolute inset-y-0 left-0 h-full w-1 rounded-br-lg rounded-tr-lg bg-primary-600 dark:bg-primary-500"
             aria-hidden="true"
           />
         )}
