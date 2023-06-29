@@ -4,10 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "dev": "poetry run flask run --host=0.0.0.0 --port=5000 --reload",
-    "padd": "poetry add",
-    "pinstall": "poetry install",
-    "prm": "poetry remove"
+    "dev": "flask run --host=0.0.0.0 --port=5000 --reload"
   },
   "keywords": [],
   "author": "",

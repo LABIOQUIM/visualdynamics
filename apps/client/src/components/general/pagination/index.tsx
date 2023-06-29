@@ -43,8 +43,8 @@ export function Pagination({
   return (
     <div className="flex w-full flex-col items-center justify-between gap-6 md:flex-row">
       <div>
-        <strong>{(currentPage - 1) * 10 + 1}</strong> -{" "}
-        <strong>{currentPage * 10}</strong> {t("common:of")}{" "}
+        <strong>{(currentPage - 1) * registersPerPage + 1}</strong> -{" "}
+        <strong>{currentPage * registersPerPage}</strong> {t("common:of")}{" "}
         <strong>{totalRegisterCount}</strong>
       </div>
       <div className="flex gap-2">
