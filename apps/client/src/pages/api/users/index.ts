@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   try {
     const session = await getServerSession(req, res, authOptions);
-    const { page, searchByIdentifier } = req.query;
+    const { page, searchByIdentifier, toTake } = req.query;
 
     if (req.method === "GET") {
       if (!session || session.user.role !== "ADMIN") {
@@ -66,8 +66,8 @@ export default async function handler(
         orderBy: {
           username: "asc"
         },
-        take: 10,
-        skip: 10 * (Number(page) - 1)
+        take: Number(toTake),
+        skip: Number(toTake) * (Number(page) - 1)
       });
 
       return res.status(200).json({ users, count });

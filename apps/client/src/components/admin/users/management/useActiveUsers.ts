@@ -13,13 +13,15 @@ type Props = {
 
 export async function getActiveUsers(
   page: number,
+  toTake: number,
   searchByIdentifier?: string
 ): Promise<Props> {
   try {
     const { data } = await axios.get<Props>("/api/users", {
       params: {
         page,
-        searchByIdentifier
+        searchByIdentifier,
+        toTake
       }
     });
 
@@ -33,11 +35,12 @@ export async function getActiveUsers(
 export function useActiveUsers(
   page = 0,
   searchByIdentifier?: string,
+  toTake = 20,
   options?: UseQueryOptions<Props, unknown>
 ): UseQueryResult<Props, unknown> {
   return useQuery({
     queryKey: ["ActiveUsers", page, searchByIdentifier],
-    queryFn: () => getActiveUsers(page, searchByIdentifier),
+    queryFn: () => getActiveUsers(page, toTake, searchByIdentifier),
     refetchInterval: 1000 * 60,
     keepPreviousData: true,
     ...options
