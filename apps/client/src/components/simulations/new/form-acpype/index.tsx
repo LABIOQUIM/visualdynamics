@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import { CloudCog, Download } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
@@ -172,6 +173,22 @@ export function FormACPYPE({ user }: PropsWithUser) {
           disabled
           value="5ns"
         />
+
+        <AlertBox>
+          <Trans
+            i18nKey="simulations-form:ns.info"
+            components={{
+              email: (
+                <Link
+                  className="text-primary-950 dark:text-primary-100"
+                  href="mailto:fernando.zanchi@fiocruz.br"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              )
+            }}
+          />
+        </AlertBox>
       </div>
 
       <label>{t("simulations-form:options")}</label>
