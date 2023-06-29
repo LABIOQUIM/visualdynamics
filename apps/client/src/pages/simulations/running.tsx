@@ -37,12 +37,9 @@ const StepList = dynamic(
 export const getServerSideProps = withSSRAuth();
 
 export default function Running({ user }: { user: User }) {
-  const { data, isRefetching, refetch } = useUserRunningSimulation(
-    user.username,
-    {
-      refetchOnMount: true
-    }
-  );
+  const { data, isRefetching } = useUserRunningSimulation(user.username, {
+    refetchOnMount: true
+  });
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -115,11 +112,6 @@ export default function Running({ user }: { user: User }) {
           <FileCog className="mx-auto mb-2 h-14 w-14 stroke-primary-600 dark:stroke-primary-400" />
           <H1 className="uppercase">{t("simulations-running:queued.title")}</H1>
           <Paragraph>{t("simulations-running:queued.description")}</Paragraph>
-          <SimulationAbortButton
-            celeryId={data.celeryId}
-            folder={data.folder}
-            refetch={refetch}
-          />
         </div>
       </PageLayout>
     );

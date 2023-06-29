@@ -57,16 +57,11 @@ class RunDynamic(Resource):
 
         file_is_running = os.path.abspath(os.path.join(folder_user, "is-running"))
 
-        file_celery_id = os.path.abspath(os.path.join(folder, "celery_id"))
-
-        with open(file_celery_id, "r") as f:
-            celery_id = f.readline()
-
         if os.path.exists(file_is_running):
             with open(file_is_running, "r") as f:
                 folder = f.readline()
                 if "queued" in folder:
-                    return {"status": "queued", "celeryId": celery_id, "folder": folder}
+                    return {"status": "queued"}
 
                 extractable_data = folder.split("/")
 
@@ -84,6 +79,11 @@ class RunDynamic(Resource):
             if os.path.isfile(file_gmx_log):
                 with open(file_gmx_log, "r") as f:
                     log_lines = [l.strip() for l in f.readlines()]
+
+            file_celery_id = os.path.abspath(os.path.join(folder, "celery_id"))
+
+            with open(file_celery_id, "r") as f:
+                celery_id = f.readline()
 
             extractable_data = extractable_data[::-1]
 
