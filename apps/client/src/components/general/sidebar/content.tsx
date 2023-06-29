@@ -166,7 +166,7 @@ export function SidebarContent() {
               ) : null}
               <h5>{t(section.title)}</h5>
             </div>
-            <div className="flex flex-col gap-y-1">
+            <div className="flex flex-col gap-y-2">
               {section.links && section.links.length > 0
                 ? section.links.map((link) =>
                     link.links && link.links.length > 0 ? (
