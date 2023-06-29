@@ -20,7 +20,12 @@ export type GetUserRunningSimulationResult =
       status: "running";
     }
   | {
-      status: "not-running" | "no-username" | "queued";
+      status: "queued";
+      celeryId: string;
+      folder: string;
+    }
+  | {
+      status: "not-running" | "no-username";
     };
 
 export async function getUserRunningSimulation(
