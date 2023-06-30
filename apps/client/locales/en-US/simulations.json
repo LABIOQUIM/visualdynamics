@@ -2,6 +2,7 @@
   "title": "My Dynamics",
   "auto-refresh": "Refreshing in {{seconds}} seconds.",
   "header": "<b>{{type}}</b>: {{molecule}} @ {{time}}",
+    "disclaimer": "Disclaimer: In the same way that we make the application available openly and free of charge, we reserve the right to cancel, restart, and/or completely delete any simulation, at any time when such action is necessary without prior notice.",
   "dynamic": {
     "id": "Task ID"
   },
