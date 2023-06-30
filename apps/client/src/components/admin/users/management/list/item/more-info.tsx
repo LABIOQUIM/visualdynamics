@@ -46,7 +46,7 @@ export function MoreInfo({ user }: PropsWithUser) {
       {userTree.status === "not-found" ? (
         <div>No user tree</div>
       ) : Object.keys(userTree).length > 1 ? (
-        <TreeItem item={userTree} />
+        <TreeItem item={userTree as PureTree} />
       ) : null}
     </Dialog>
   );
