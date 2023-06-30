@@ -6,6 +6,9 @@
     "success": "A pasta de simulações de {{username}} foi limpa",
     "error": "Não foi possível limpar a pasta de simulações de {{username}}"
   },
+  "filters": {
+    "identifier": "Filtrar por identificador"
+  },
   "delete": {
     "title": "Desabilitar usuário",
     "description": "Tem certeza que quer desabilitar o usuário {{username}}?",
