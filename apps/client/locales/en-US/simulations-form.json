@@ -13,7 +13,8 @@
     }
   },
   "ns": {
-    "title": "Tempo de Simulação"
+    "title": "Tempo de Simulação",
+    "info": "Se sua simulação requer mais do que 5ns, por favor, entre em contato com <email>fernando.zanchi@fiocruz.br</email>"
   },
   "file-itp": {
     "title": "Ligand (.itp)",
