@@ -2,6 +2,7 @@
   "title": "Minhas Simulações",
   "auto-refresh": "Atualizando em {{seconds}} segundos.",
   "header": "<b>{{type}}</b>: {{molecule}} @ {{time}}",
+  "disclaimer": "Disclaimer: Da mesma forma que disponibilizamos a aplicação de forma aberta e gratuita, reservamos o direito de cancelar, reiniciar, e/ou deletar completamente qualquer simulação, a qualquer momento em que tal ação seja necessária sem aviso prévio.",
   "dynamic": {
     "id": "ID da tarefa"
   },

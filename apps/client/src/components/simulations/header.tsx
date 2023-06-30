@@ -25,6 +25,7 @@ export function MySimulationsHeader({
 
   return (
     <>
+      <AlertBox status="warning">{t("simulations:disclaimer")}</AlertBox>
       <AlertBox status="warning">
         <Trans
           i18nKey="simulations:downloads.archive"
