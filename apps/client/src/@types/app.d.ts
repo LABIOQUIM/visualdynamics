@@ -6,12 +6,14 @@ declare global {
   };
 
   type Tree =
-    | {
-        type: "directory" | "file";
-        name: string;
-        children?: Tree[];
-      }
+    | PureTree
     | {
         status: "not-found";
       };
+
+  type PureTree = {
+    type: "directory" | "file";
+    name: string;
+    children?: PureTree[];
+  };
 }

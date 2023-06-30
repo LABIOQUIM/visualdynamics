@@ -6,12 +6,16 @@ import Link from "next/link";
 import { Paragraph } from "@app/components/general/typography/paragraphs";
 
 interface TreeItemProps {
-  item: Tree;
+  item: PureTree;
   fullPath?: string;
 }
 
 export function TreeItem({ item, fullPath }: TreeItemProps) {
   const [isDirectoryExpanded, setIsDirectoryExpanded] = useState(false);
+
+  if (item.type !== "directory" && item.type !== "file") {
+    return null;
+  }
 
   if (item.type === "directory") {
     item.children = item?.children?.sort((a) =>
