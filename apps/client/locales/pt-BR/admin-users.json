@@ -9,9 +9,12 @@
   "filters": {
     "identifier": "Filtrar por identificador"
   },
-  "delete": {
-    "title": "Desabilitar usuário",
-    "description": "Tem certeza que quer desabilitar o usuário {{username}}?",
+  "un-block": {
+    "title": "Desativar ou Reativar Usuário",
+    "button-block": "Desativar Usuário",
+    "button-unblock": "Reativar Usuário",
+    "block": "Tem certeza que quer desativar o usuário {{username}}?",
+    "unblock": "Tem certeza que quer reativar o usuário {{username}}?",
     "success": "Usuário {{username}} foi desabilitado",
     "failed": "Não foi possível desabilitar o usuário {{username}}"
   },

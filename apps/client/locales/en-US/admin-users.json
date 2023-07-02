@@ -9,11 +9,14 @@
   "filters": {
     "identifier": "Filter by identifier"
   },
-  "delete": {
-    "title": "Disable user",
-    "description": "Are you sure you want to disable the user {{username}}?",
-    "success": "User {{username}} has been disabled",
-    "failed": "Couldn't disable user {{username}}"
+  "un-block": {
+    "title": "Disable or Re-enable User",
+    "button-block": "Disable User",
+    "button-unblock": "Re-enable User",
+    "block": "Are you sure you want to disable the user {{username}}?",
+    "unblock": "Are you sure you want to re-enable the user {{username}}?",
+    "success": "User {{username}} has been disabled/re-enabled",
+    "failed": "Couldn't disable/re-enable user {{username}}"
   },
   "see-more": {
     "title": "See more info",
