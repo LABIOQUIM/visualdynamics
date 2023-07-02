@@ -19,17 +19,29 @@ export default async function handler(
       });
     }
 
+    const user = await prisma.user.findUnique({
+      where: {
+        id: String(userId)
+      }
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        status: "user-not-found"
+      });
+    }
+
     await prisma.user.update({
       where: {
         id: String(userId)
       },
       data: {
-        deleted: true
+        deleted: !user.deleted
       }
     });
 
     return res.status(200).json({
-      status: "user.deleted"
+      status: "user.block.success"
     });
   }
 }

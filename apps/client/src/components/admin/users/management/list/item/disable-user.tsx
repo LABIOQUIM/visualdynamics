@@ -12,14 +12,14 @@ export function DisableUser({ user }: PropsWithUser) {
   async function handleDisableUser() {
     try {
       axios
-        .delete("/api/users/delete", {
+        .delete("/api/users/block", {
           params: {
             userId: user.id
           }
         })
         .then(() =>
           toast(
-            t("admin-users:delete.success", {
+            t("admin-users:un-block.success", {
               username: user.username
             }) as string,
             {
@@ -28,7 +28,7 @@ export function DisableUser({ user }: PropsWithUser) {
           )
         );
     } catch {
-      toast(t("admin-users:delete.error") as string, {
+      toast(t("admin-users:un-block.error") as string, {
         type: "error"
       });
     }
@@ -36,17 +36,21 @@ export function DisableUser({ user }: PropsWithUser) {
 
   return (
     <Dialog
-      title={t("admin-users:delete.title", {
+      title={t("admin-users:un-block.title", {
         username: user.username
       })}
-      description={t("admin-users:delete.description", {
-        username: user.username
-      })}
+      description={t(
+        user.deleted
+          ? "admin-users:un-block.unblock"
+          : "admin-users:un-block.block",
+        {
+          username: user.username
+        }
+      )}
       Trigger={(props) => (
         <StatusButton
-          title={t("admin-users:delete.title")}
+          title={t("admin-users:un-block.title")}
           status="error"
-          disabled={user.deleted ?? false}
           iconClassName="h-5 w-5"
           LeftIcon={UserX}
           {...props}
@@ -54,13 +58,21 @@ export function DisableUser({ user }: PropsWithUser) {
       )}
       Submit={(props) => (
         <StatusButton
-          title={t("admin-users:delete.title")}
-          status="error"
+          title={t(
+            user.deleted
+              ? "admin-users:un-block.button-unblock"
+              : "admin-users:un-block.button-block"
+          )}
+          status={user.deleted ? "finished" : "error"}
           iconClassName="h-5 w-5"
           onClickCapture={handleDisableUser}
           {...props}
         >
-          {t("admin-users:delete.title")}
+          {t(
+            user.deleted
+              ? "admin-users:un-block.button-unblock"
+              : "admin-users:un-block.button-block"
+          )}
         </StatusButton>
       )}
       Cancel={(props) => (
