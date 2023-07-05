@@ -39,7 +39,7 @@ model UserPasswordReset {
 }
 
 model AppSettings {
-  id              String  @id @default(cuid())
+  id              String  @id @unique @default(cuid())
   maintenanceMode Boolean @default(false) @map("maintenance_mode")
 
   @@map("app_settings")

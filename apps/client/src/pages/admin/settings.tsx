@@ -42,7 +42,7 @@ export default function AdminSettings() {
       />
       <H1 className="uppercase">{t("admin-settings:title")}</H1>
 
-      <div className="grid grid-flow-row grid-cols-3 gap-4">
+      <div className="grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-3">
         <MDPSettings />
         <AppSettings />
       </div>

@@ -16,6 +16,7 @@ import {
   ACPYPEFormSchema,
   ACPYPEFormSchemaType
 } from "@app/components/simulations/new/form-acpype/schema.zod";
+import { useSettings } from "@app/context/SettingsContext";
 import { api } from "@app/lib/api";
 import { boxTypes } from "@app/utils/box-types";
 import { acpypeForceFields } from "@app/utils/force-fields";
@@ -36,6 +37,7 @@ export function FormACPYPE({ user }: PropsWithUser) {
       double: false
     }
   });
+  const { maintenanceMode } = useSettings();
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -108,7 +110,7 @@ export function FormACPYPE({ user }: PropsWithUser) {
         {...register("protein")}
       />
 
-      <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 md:gap-3">
+      <div className="grid grid-flow-row grid-cols-1 gap-3 md:grid-cols-2">
         <Input
           label={t("simulations-form:file-itp.title")}
           type="file"
@@ -226,7 +228,7 @@ export function FormACPYPE({ user }: PropsWithUser) {
         />
       </div>
       <Button
-        disabled={isSubmitting}
+        disabled={isSubmitting || maintenanceMode}
         type="submit"
       >
         <AnimatePresence mode="wait">

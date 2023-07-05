@@ -14,5 +14,6 @@
     "readtime": "{{minutes}} min de leitura"
   },
   "cancel": "Cancelar",
-  "of": "de"
+  "of": "de",
+  "maintenance": "Visual Dynamics está em modo de manutenção, você não poderá submeter novas simulações enquanto isso."
 }
