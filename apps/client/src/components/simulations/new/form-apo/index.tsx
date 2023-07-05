@@ -16,6 +16,7 @@ import {
   APOFormSchema,
   APOFormSchemaType
 } from "@app/components/simulations/new/form-apo/schema.zod";
+import { useSettings } from "@app/context/SettingsContext";
 import { api } from "@app/lib/api";
 import { boxTypes } from "@app/utils/box-types";
 import { apoForceFields } from "@app/utils/force-fields";
@@ -38,7 +39,7 @@ export function FormAPO({ user }: PropsWithUser) {
       bootstrap: false
     }
   });
-
+  const { maintenanceMode } = useSettings();
   const router = useRouter();
 
   const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
@@ -108,7 +109,7 @@ export function FormAPO({ user }: PropsWithUser) {
         {...register("protein")}
       />
 
-      <div className="grid grid-flow-row grid-cols-1 md:grid-cols-2 md:gap-3">
+      <div className="grid grid-flow-row grid-cols-1 gap-3 md:grid-cols-2">
         <Select<keyof typeof apoForceFields>
           error={errors.forceField}
           label={t("simulations-form:force-field.title")}
@@ -204,7 +205,7 @@ export function FormAPO({ user }: PropsWithUser) {
       </div>
 
       <Button
-        disabled={isSubmitting}
+        disabled={isSubmitting || maintenanceMode}
         type="submit"
       >
         <AnimatePresence mode="wait">

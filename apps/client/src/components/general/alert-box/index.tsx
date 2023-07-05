@@ -18,10 +18,10 @@ const availableStatuses = {
 };
 
 const Icons = {
-  normal: () => <Info className="h-[1.75rem] w-[1.75rem]" />,
-  danger: () => <XOctagon className="h-[1.75rem] w-[1.75rem]" />,
-  warning: () => <AlertOctagon className="h-[1.75rem] w-[1.75rem]" />,
-  success: () => <CheckCheck className="h-[1.75rem] w-[1.75rem]" />
+  normal: () => <Info className="min-h-[1.75rem] min-w-[1.75rem]" />,
+  danger: () => <XOctagon className="min-h-[1.75rem] min-w-[1.75rem]" />,
+  warning: () => <AlertOctagon className="min-h-[1.75rem] min-w-[1.75rem]" />,
+  success: () => <CheckCheck className="min-h-[1.75rem] min-w-[1.75rem]" />
 };
 
 export function AlertBox({

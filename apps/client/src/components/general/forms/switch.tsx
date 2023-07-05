@@ -9,6 +9,7 @@ interface SwitchProps {
   label: string;
   name: string;
   disabled?: boolean;
+  defaultChecked?: boolean;
 }
 
 export const Switch: FC<SwitchProps> = ({
@@ -16,7 +17,8 @@ export const Switch: FC<SwitchProps> = ({
   onCheckedChange,
   checked,
   disabled,
-  name
+  name,
+  defaultChecked
 }) => {
   return (
     <div
@@ -29,6 +31,7 @@ export const Switch: FC<SwitchProps> = ({
         id={name}
         disabled={disabled}
         name={name}
+        defaultChecked={defaultChecked}
         checked={checked}
         onCheckedChange={onCheckedChange}
       >

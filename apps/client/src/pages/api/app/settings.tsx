@@ -17,5 +17,20 @@ export default async function handler(
       id: "some-fake-id",
       maintenanceMode: false
     });
+  } else if (req.method === "PUT") {
+    const { id, maintenanceMode } = req.body;
+
+    await prisma.appSettings.update({
+      where: {
+        id
+      },
+      data: {
+        maintenanceMode
+      }
+    });
+
+    return res.json({
+      status: "updated"
+    });
   }
 }

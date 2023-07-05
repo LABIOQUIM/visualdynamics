@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import useTranslation from "next-translate/useTranslation";
 
 import {
@@ -12,7 +13,6 @@ import { Button } from "@app/components/general/buttons";
 import { Switch } from "@app/components/general/forms/switch";
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { H2 } from "@app/components/general/typography/headings";
-import { api } from "@app/lib/api";
 
 export function FormAppSettings() {
   const { data, refetch, isLoading } = useAppSettings();
@@ -29,16 +29,10 @@ export function FormAppSettings() {
   const handleSubmitDynamic: SubmitHandler<
     AppSettingsUpdateSchemaType
   > = async (form) => {
-    const formData = new FormData();
-
-    formData.append("maintenanceMode", String(form.maintenanceMode));
-    formData.append("id", data?.id ?? "");
-
-    await api
-      .put("/app/settings", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+    await axios
+      .put("/api/app/settings", {
+        id: data?.id ?? "",
+        maintenanceMode: form.maintenanceMode
       })
       .then(() => refetch())
       .catch(() => alert("Não foi"));
@@ -61,6 +55,7 @@ export function FormAppSettings() {
       <Switch
         label={t("admin-settings:app.maintenanceMode")}
         checked={watch("maintenanceMode")}
+        defaultChecked={data.maintenanceMode}
         onCheckedChange={(bool) => setValue("maintenanceMode", bool)}
         name="maintenanceMode"
       />
