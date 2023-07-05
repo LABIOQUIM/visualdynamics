@@ -66,7 +66,8 @@ export function ActiveSimulationsList({
                             year: "numeric",
                             hour: "2-digit",
                             minute: "2-digit",
-                            second: "2-digit"
+                            second: "2-digit",
+                            timeZoneName: "short"
                           }).format(new Date(simulation.time_start * 1000))}
                         </p>
                       </div>

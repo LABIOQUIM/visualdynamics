@@ -18,6 +18,17 @@ const MDPSettings = dynamic(
   }
 );
 
+const AppSettings = dynamic(
+  () =>
+    import("@app/components/admin/app-settings").then(
+      (mod) => mod.FormAppSettings
+    ),
+  {
+    loading: () => <PageLoadingIndicator />,
+    ssr: false
+  }
+);
+
 export const getServerSideProps = withSSRAdmin();
 
 export default function AdminSettings() {
@@ -31,8 +42,9 @@ export default function AdminSettings() {
       />
       <H1 className="uppercase">{t("admin-settings:title")}</H1>
 
-      <div className="grid grid-flow-row grid-cols-3">
+      <div className="grid grid-flow-row grid-cols-3 gap-4">
         <MDPSettings />
+        <AppSettings />
       </div>
     </PageLayout>
   );

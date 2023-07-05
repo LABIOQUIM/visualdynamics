@@ -17,7 +17,7 @@ export function SimulationRealtimeLog({
     <div>
       <div className="flex gap-x-2">
         <h4 className="font-bold uppercase text-primary-950 dark:text-primary-300">
-          {t("simulations-runninglogs.title")}
+          {t("simulations-running:logs.title")}
         </h4>
         {isRefetching ? <Spinner /> : null}
       </div>

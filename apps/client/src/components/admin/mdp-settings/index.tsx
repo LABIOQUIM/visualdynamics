@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useTranslation from "next-translate/useTranslation";
@@ -17,9 +16,8 @@ import { api } from "@app/lib/api";
 
 export function FormMDPSettings() {
   const { data, refetch, isLoading } = useMDPSettings();
-  const [isUpdating, setIsUpdating] = useState(false);
   const {
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     register
   } = useForm<MDConfigUpdateSchemaType>({
@@ -30,7 +28,6 @@ export function FormMDPSettings() {
   const handleSubmitDynamic: SubmitHandler<MDConfigUpdateSchemaType> = async (
     data
   ) => {
-    setIsUpdating(true);
     const formData = new FormData();
 
     formData.append("nsteps", data.nsteps);
@@ -43,8 +40,7 @@ export function FormMDPSettings() {
         }
       })
       .then(() => refetch())
-      .catch(() => alert("Não foi"))
-      .finally(() => setIsUpdating(false));
+      .catch(() => alert("Não foi"));
   };
 
   if (isLoading) {
@@ -60,11 +56,11 @@ export function FormMDPSettings() {
       className="flex flex-col gap-y-2"
       onSubmit={handleSubmit(handleSubmitDynamic)}
     >
-      <H2>{t("admin-settings:md-config.title")}</H2>
+      <H2>{t("admin-settings:md.title")}</H2>
       <Input
-        label={t("admin-settings:md-config.nsteps.title")}
+        label={t("admin-settings:md.nsteps")}
         error={errors.nsteps}
-        disabled={isUpdating}
+        disabled={isSubmitting}
         defaultValue={data.nsteps}
         type="number"
         min={300}
@@ -74,9 +70,9 @@ export function FormMDPSettings() {
       />
 
       <Input
-        label={t("admin-settings:md-config.dt.title")}
+        label={t("admin-settings:md.dt")}
         error={errors.dt}
-        disabled={isUpdating}
+        disabled={isSubmitting}
         defaultValue={data.dt}
         type="number"
         min={0.001}
@@ -86,10 +82,10 @@ export function FormMDPSettings() {
       />
 
       <Button
-        disabled={isUpdating}
+        disabled={isSubmitting}
         type="submit"
       >
-        {t("admin-settings:md-config.submit")}
+        {t("admin-settings:submit")}
       </Button>
     </form>
   );
