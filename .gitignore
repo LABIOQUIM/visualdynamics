@@ -4,6 +4,9 @@
 flower
 mdpfiles.zip
 
+*.bak
+*.dat
+*.dir
 
 # Folders
 .yarn

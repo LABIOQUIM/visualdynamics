@@ -7,6 +7,7 @@ import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
+import { SettingsProvider } from "@app/context/SettingsContext";
 import { SidebarProvider } from "@app/context/SidebarContext";
 import { queryClient } from "@app/lib/query-client";
 
@@ -55,19 +56,21 @@ export default function App({
       </Head>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <SidebarProvider>
-            <NextNProgress
-              height={5}
-              color="#22c55e"
-              options={{ showSpinner: false }}
-            />
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            {process.env.NODE_ENV === "development" ? (
-              <ReactQueryDevtools />
-            ) : null}
-          </SidebarProvider>
+          <SettingsProvider>
+            <SidebarProvider>
+              <NextNProgress
+                height={5}
+                color="#22c55e"
+                options={{ showSpinner: false }}
+              />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              {process.env.NODE_ENV === "development" ? (
+                <ReactQueryDevtools />
+              ) : null}
+            </SidebarProvider>
+          </SettingsProvider>
         </QueryClientProvider>
         {process.env.NODE_ENV !== "development" ? (
           <>

@@ -90,7 +90,8 @@ export default function Running({ user }: { user: User }) {
                 year: "numeric",
                 hour: "2-digit",
                 minute: "2-digit",
-                second: "2-digit"
+                second: "2-digit",
+                timeZoneName: "short"
               }).format(new Date(data.info.timestamp))}
             </p>
           </div>

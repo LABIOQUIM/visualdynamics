@@ -1,13 +1,13 @@
 {
-  "title": "MD Settings",
-  "md-config": {
+  "title": "Settings",
+  "app": {
+    "title": "App Settings",
+    "maintenanceMode": "Maintenance Mode"
+  },
+  "md": {
     "title": "Update md_pr.mdp values",
-    "nsteps": {
-      "title": "NSteps"
-    },
-    "dt": {
-      "title": "dt (ps)"
-    },
-    "submit": "Update"
-  }
+    "nsteps": "NSteps",
+    "dt": "dt (ps)"
+  },
+  "submit": "Update"
 }

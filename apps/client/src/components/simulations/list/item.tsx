@@ -84,7 +84,8 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
                   year: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",
-                  second: "2-digit"
+                  second: "2-digit",
+                  timeZoneName: "short"
                 }).format(new Date(simulation.timestamp))
               }}
             />
