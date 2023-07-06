@@ -35,7 +35,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
     if int(atom_count) > 10000:
         # SEND MAIL NOTIFYING DYNAMIC ERRORED
         requests.get(
-            f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+            f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&simulationType={dynamic_data[2]}&simulationMolecule={dynamic_data[1]}&simulationDate={dynamic_data[0]}"
         )
 
         with open(file_status_path, "w") as f:
@@ -79,7 +79,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
             except:
                 # SEND MAIL NOTIFYING DYNAMIC ERRORED
                 requests.get(
-                    f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+                    f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&simulationType={dynamic_data[2]}&simulationMolecule={dynamic_data[1]}&simulationDate={dynamic_data[0]}"
                 )
 
                 with open(file_status_path, "w") as f:
@@ -91,7 +91,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
 
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
     requests.get(
-        f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/success?to={email}&dynamicType={dynamic_data[2]}&dynamicMolecule={dynamic_data[1]}"
+        f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/success?to={email}&simulationType={dynamic_data[2]}&simulationMolecule={dynamic_data[1]}&simulationDate={dynamic_data[0]}"
     )
 
     with open(file_status_path, "w") as f:

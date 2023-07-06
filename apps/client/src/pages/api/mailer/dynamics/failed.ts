@@ -12,7 +12,8 @@ export default async function sendEmail(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { to, dynamicType, dynamicMolecule } = req.query;
+    const { to, simulationType, simulationMolecule, simulationDate } =
+      req.query;
     const emailFile = readFileSync(path.join(emailsDir, "template.html"), {
       encoding: "utf8"
     });
@@ -28,12 +29,25 @@ export default async function sendEmail(
     try {
       const result = await sendMail({
         to: String(to),
-        subject: "Your dynamic has failed.",
+        subject: "Your simulation has failed.",
         html: emailTemplate({
           base_url: process.env.APP_URL,
           preheader:
-            "An error has occurred during the execution of your dynamic.",
-          content: `Your ${dynamicType} dynamic has failed.\n\nThe ${dynamicType} - ${dynamicMolecule} dynamic you left running has failed.\n\nPlease access VD and check the logs provided, if you're sure it's a bug in our software, please contact us.`,
+            "An error has occurred during the execution of your simulation.",
+          content: `Your ${simulationType} simulation has failed.\n\nThe simulation ${simulationType} - ${simulationMolecule} that you submitted at ${Intl.DateTimeFormat(
+            "en-US",
+            {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              timeZoneName: "short"
+            }
+          ).format(
+            new Date(simulationDate as string)
+          )} has failed.\n\nPlease access VD and check the logs provided, if you're sure it's a bug in our software, please contact us.`,
           showButton: true,
           buttonLink: process.env.APP_URL,
           buttonText: "Go to Visual Dynamics",
