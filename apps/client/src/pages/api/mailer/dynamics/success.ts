@@ -12,7 +12,8 @@ export default async function sendEmail(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { to, dynamicType, dynamicMolecule } = req.query;
+    const { to, simulationType, simulationMolecule, simulationDate } =
+      req.query;
     const emailFile = readFileSync(path.join(emailsDir, "template.html"), {
       encoding: "utf8"
     });
@@ -28,11 +29,24 @@ export default async function sendEmail(
     try {
       const result = await sendMail({
         to: String(to),
-        subject: "Your dynamic has ended.",
+        subject: "Your simulation has ended.",
         html: emailTemplate({
           base_url: process.env.APP_URL,
-          preheader: "The dynamic you left running has ended.",
-          content: `Your ${dynamicType} dynamic has ended.\n\nThe ${dynamicType} - ${dynamicMolecule} dynamic you left running has ended.\n\nPlease access VD to download the figure graphics, raw data and more.`,
+          preheader: "The simulation you left running has ended.",
+          content: `Your ${simulationType} simulation has ended.\n\nThe simulation ${simulationType} - ${simulationMolecule} that you submitted at ${Intl.DateTimeFormat(
+            "en-US",
+            {
+              day: "2-digit",
+              month: "long",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              timeZoneName: "short"
+            }
+          ).format(
+            new Date(simulationDate as string)
+          )} has ended.\n\nPlease access VD to download the figure graphics, raw data and more.`,
           showButton: true,
           buttonLink: process.env.APP_URL,
           buttonText: "Go to Visual Dynamics",
