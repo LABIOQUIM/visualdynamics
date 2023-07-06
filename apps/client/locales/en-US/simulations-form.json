@@ -1,6 +1,7 @@
 {
   "warnings": {
-    "hm5ka": "Moléculas com mais de 10.000 átomos não serão executadas, por favor, verifique isso antes de fazer a submissão para a fila."
+    "hm5ka": "Moléculas com mais de 10.000 átomos não serão executadas, por favor, verifique isso antes de fazer a submissão para a fila.",
+    "analysis": "Simulações de estruturas com múltiplas cadeias funcionam mas geram análises (RMSD, RMSF, RG e SASA) improdutivas. Estamos trabalhando nesta automatização."
   },
   "submit": {
     "download": "Download command list",
