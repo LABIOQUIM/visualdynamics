@@ -14,8 +14,7 @@ import { SEO } from "@app/components/seo";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = allPosts.map((p) => ({
-    params: { slug: p.slug },
-    locale: p.locale
+    params: { slug: p.slug }
   }));
 
   return {

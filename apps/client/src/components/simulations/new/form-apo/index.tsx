@@ -97,12 +97,6 @@ export function FormAPO({ user }: PropsWithUser) {
       className="flex flex-col gap-y-2"
       onSubmit={handleSubmit(handleSubmitDynamic)}
     >
-      <AlertBox status="warning">
-        {t("simulations-form:warnings.hm5ka")}
-      </AlertBox>
-      <AlertBox status="warning">
-        {t("simulations-form:warnings.analysis")}
-      </AlertBox>
       <Input
         label={t("simulations-form:file-pdb.title")}
         type="file"
