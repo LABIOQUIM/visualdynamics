@@ -2,16 +2,12 @@
   "title": "Minhas Simulações",
   "auto-refresh": "Atualizando em {{seconds}} segundos.",
   "header": "<b>{{type}}</b>: {{molecule}} @ {{time}}",
-  "disclaimer": "Disclaimer: Da mesma forma que disponibilizamos a aplicação de forma aberta e gratuita, reservamos o direito de cancelar, reiniciar, e/ou deletar completamente qualquer simulação, a qualquer momento em que tal ação seja necessária sem aviso prévio.",
-  "dynamic": {
-    "id": "ID da tarefa"
-  },
   "empty": {
     "title": "Você ainda não realizou uma simulação...",
     "description": "Talvez seja o seu primeiro login, ou você não quis executar nada ainda. De qualquer forma, aqui estão alguns botões que podem ajudar quando você quiser começar uma nova simulação."
   },
+  "limitations": "Fique atento a aba de Docs e Posts na barra lateral/menu",
   "downloads": {
-    "archive": "Para recuperar simulações do servidor anterior (até 7 de junho), você deve escrever para <Link>fernando.zanchi@fiocruz.br</Link> com seu nome de usuário.",
     "commands": "Comandos",
     "figures": "Gráficos e Figuras",
     "log": "Log GROMACS",

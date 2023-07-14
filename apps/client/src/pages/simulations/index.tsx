@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
+import { AlertBox } from "@app/components/general/alert-box";
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { PageLayout } from "@app/components/general/page-layout";
 import { SEO } from "@app/components/seo";
@@ -65,6 +66,7 @@ export default function MySimulations({ user }: { user: User }) {
   return (
     <PageLayout>
       <SEO title={t("simulations:title")} />
+      <AlertBox>{t("simulations:limitations")}</AlertBox>
       <MySimulationsHeader
         refetch={refetch}
         timeUntilRefresh={timeUntilRefresh}
