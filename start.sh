@@ -1,4 +1,5 @@
 #!/bin/bash
 
-conda actitave visualdynamics
+conda activate visualdynamics
 pm2 start ecosystem.config.js
+
