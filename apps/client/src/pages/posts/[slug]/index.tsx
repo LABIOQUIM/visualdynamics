@@ -12,10 +12,17 @@ import { Paragraph } from "@app/components/general/typography/paragraphs";
 import { components } from "@app/components/posts/mdx-components";
 import { SEO } from "@app/components/seo";
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = allPosts.map((p) => ({
-    params: { slug: p.slug }
-  }));
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+  const paths: { params: { slug: string }; locale: string }[] = [];
+
+  for (const locale of locales as string[]) {
+    allPosts.forEach((p) => {
+      paths.push({
+        params: { slug: p.slug },
+        locale
+      });
+    });
+  }
 
   return {
     paths,
