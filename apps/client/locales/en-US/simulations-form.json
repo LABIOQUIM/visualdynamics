@@ -24,9 +24,9 @@
     }
   },
   "file-gro": {
-    "title": "Ligand (.gro,.pdb)",
+    "title": "Ligand (.pdb)",
     "errors": {
-      "no-gro": "Select a ligand .gro or .pdb file"
+      "no-gro": "Select a ligand .pdb file"
     }
   },
   "force-field": {

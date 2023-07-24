@@ -111,7 +111,7 @@ export function FormPRODRG({ user }: PropsWithUser) {
         <Input
           label={t("simulations-form:file-itp.title")}
           type="file"
-          accept=".itp,.gro"
+          accept=".itp"
           error={errors.ligandItp}
           disabled={isSubmitting}
           {...register("ligandItp")}
@@ -120,7 +120,7 @@ export function FormPRODRG({ user }: PropsWithUser) {
         <Input
           label={t("simulations-form:file-gro.title")}
           type="file"
-          accept=".pdb,.gro"
+          accept=".pdb"
           error={errors.ligandGro}
           disabled={isSubmitting}
           {...register("ligandGro")}
