@@ -24,9 +24,9 @@
     }
   },
   "file-gro": {
-    "title": "Ligante (.gro,.pdb)",
+    "title": "Ligante (.pdb)",
     "errors": {
-      "no-gro": "Selecione um arquivo .gro ou .pdb de ligante"
+      "no-gro": "Selecione um arquivo .pdb de ligante"
     }
   },
   "force-field": {
