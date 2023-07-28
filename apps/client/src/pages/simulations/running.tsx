@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
+import { AlertBox } from "@app/components/general/alert-box";
 import { Button } from "@app/components/general/buttons";
 import { PageLayout } from "@app/components/general/page-layout";
 import { H1 } from "@app/components/general/typography/headings";
@@ -52,6 +53,7 @@ export default function Running({ user }: { user: User }) {
     return (
       <PageLayout>
         <SEO title={t("simulations-running:title")} />
+        <AlertBox>{t("common:limitations")}</AlertBox>
         <div className="relative">
           <div className="absolute right-0 top-1">
             <SimulationAbortButton

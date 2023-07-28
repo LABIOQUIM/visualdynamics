@@ -1,6 +1,7 @@
 {
   "app-name": "Visual Dynamics",
   "abort": "Abortar execução",
+  "limitations": "Fique atento a aba de Tutoriais e Posts na barra lateral/menu",
   "errors": {
     "404": {
       "title": "Este lugar... não é um lugar de jeito nenhum",
