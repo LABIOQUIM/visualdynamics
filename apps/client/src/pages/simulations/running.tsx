@@ -64,12 +64,6 @@ export default function Running({ user }: { user: User }) {
             {t("simulations-running:description")}
           </h4>
           <div className="flex gap-x-2">
-            <p className="font-medium">{t("simulations-running:taskId")}:</p>
-            <p className="font-bold text-primary-950 dark:text-primary-300">
-              {data.info.celeryId}
-            </p>
-          </div>
-          <div className="flex gap-x-2">
             <p className="font-medium">{t("simulations-running:type")}:</p>
             <p className="font-bold text-primary-950 dark:text-primary-300">
               {data.info.type}
