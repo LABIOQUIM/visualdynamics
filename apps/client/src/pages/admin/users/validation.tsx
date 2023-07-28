@@ -41,7 +41,7 @@ export default function AdminSignup() {
 
   async function rejectUser(userId: string, userEmail: string) {
     axios
-      .delete("/api/users/delete", {
+      .delete("/api/users/block", {
         params: {
           userId
         }
