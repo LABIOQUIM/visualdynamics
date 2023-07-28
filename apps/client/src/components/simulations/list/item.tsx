@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import Trans from "next-translate/Trans";
 import useTranslation from "next-translate/useTranslation";
 
@@ -25,6 +26,7 @@ interface SimulationListItemProps {
 export function SimulationListItem({ simulation }: SimulationListItemProps) {
   const { t } = useTranslation();
   const router = useRouter();
+  const { data } = useSession();
 
   return (
     <div
@@ -111,7 +113,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
           </small>
           <div className="flex flex-wrap gap-2">
             <Link
-              href={`/api/downloads/commands?taskId=${simulation.celeryId}`}
+              href={`/api/downloads/commands?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
               target="_blank"
             >
               <StatusButton
@@ -123,7 +125,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
               </StatusButton>
             </Link>
             <Link
-              href={`/api/downloads/log?taskId=${simulation.celeryId}`}
+              href={`/api/downloads/log?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
               target="_blank"
             >
               <StatusButton
@@ -139,7 +141,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
               </StatusButton>
             </Link>
             <Link
-              href={`/api/downloads/results?taskId=${simulation.celeryId}`}
+              href={`/api/downloads/results?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
               target="_blank"
             >
               <StatusButton
@@ -155,7 +157,7 @@ export function SimulationListItem({ simulation }: SimulationListItemProps) {
               </StatusButton>
             </Link>
             <Link
-              href={`/api/downloads/figures?taskId=${simulation.celeryId}`}
+              href={`/api/downloads/figures?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
               target="_blank"
             >
               <StatusButton

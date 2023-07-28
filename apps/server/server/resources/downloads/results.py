@@ -1,42 +1,60 @@
+import io
 import os
 import zipfile
 from flask_restful import Resource
 from flask import request, send_file
-from server.celery import celery
-from celery.contrib.abortable import AbortableAsyncResult
-
+from server.config import Config
 
 class DownloadDynamicResults(Resource):
     def get(self):
         args = request.args
 
-        task = AbortableAsyncResult(args["taskId"], app=celery)
+        username = args["username"]
+        molecule = args["molecule"]
+        simtype = args["type"]
+        timestamp = args["timestamp"]
 
-        folder_dynamic_path = os.path.abspath(task.args[0])
-        folder_run_path = os.path.abspath(os.path.join(folder_dynamic_path, "run"))
-        file_results_zip = os.path.abspath(
-            os.path.join(folder_dynamic_path, "results.zip")
-        )
+        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype, molecule, timestamp)
 
-        with zipfile.ZipFile(file_results_zip, "w") as z:
-            for folder, _, files in os.walk(folder_run_path):
-                for file in files:
-                    if (
-                        file.endswith("_PBC.xtc")
-                        or file.endswith("_pr.tpr")
-                        or file.endswith("_npt.gro")
-                    ):
-                        z.write(
-                            os.path.join(folder, file),
-                            file,
-                            compress_type=zipfile.ZIP_DEFLATED,
-                        )
+        if os.path.exists(SIMULATION_FOLDER_PATH):
+            SIMULATION_RUN_FOLDER_PATH = os.path.join(SIMULATION_FOLDER_PATH, "run")
+            SIMULATION_RESULTS_ZIP_PATH = os.path.join(SIMULATION_RUN_FOLDER_PATH, "results.zip")
 
-        dynamic_data = task.args[0].split("/")[::-1]
+            simulation_data = SIMULATION_FOLDER_PATH.split("/")[::-1]
 
-        stripped_timestamp_folder = dynamic_data[0].replace("\n", "")
-        download_filename = f"{dynamic_data[2]}|{dynamic_data[1]}|{stripped_timestamp_folder}|results.zip"
+            with zipfile.ZipFile(SIMULATION_RESULTS_ZIP_PATH, "w") as z:
+                for folder, _, files in os.walk(SIMULATION_RUN_FOLDER_PATH):
+                    for file in files:
+                        if (
+                            file.endswith("_PBC.xtc")
+                            or file.endswith("_pr.tpr")
+                            or file.endswith("_npt.gro")
+                        ):
+                            z.write(
+                                os.path.join(folder, file),
+                                file,
+                                compress_type=zipfile.ZIP_DEFLATED,
+                            )
 
+            stripped_timestamp_folder = simulation_data[0].replace("\n", "")
+            download_filename = (
+                f"{simulation_data[2]}|{simulation_data[1]}|{stripped_timestamp_folder}|results.zip"
+            )
+
+            return send_file(
+                SIMULATION_RESULTS_ZIP_PATH, as_attachment=True, download_name=download_filename
+            )
+        
+        # Use BytesIO instead of StringIO here.
+        buffer = io.BytesIO()
+        buffer.write(b'The simulation you\'re trying to retrieve was not found')
+        # Or you can encode it to bytes.
+        # buffer.write('Just some letters.'.encode('utf-8'))
+        buffer.seek(0)
         return send_file(
-            file_results_zip, as_attachment=True, download_name=download_filename
+            buffer,
+            as_attachment=True,
+            download_name='simulation-not-found.txt',
+            mimetype='text/txt'
         )
+    

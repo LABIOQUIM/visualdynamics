@@ -12,9 +12,7 @@
     "content": "npx contentlayer build",
     "prettier:check": "prettier --check --ignore-unknown .",
     "lint:multi": "prettier:check && pnpm lint",
-    "postbuild": "next-sitemap",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
