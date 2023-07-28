@@ -1,6 +1,7 @@
 {
   "app-name": "Visual Dynamics",
   "abort": "Abort run",
+  "limitations": "Make sure to check out our Tutorials and Posts on the sidebar/menu",
   "errors": {
     "404": {
       "title": "This place... isn't a place at all",

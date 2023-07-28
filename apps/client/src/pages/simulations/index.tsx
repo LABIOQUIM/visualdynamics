@@ -66,7 +66,7 @@ export default function MySimulations({ user }: { user: User }) {
   return (
     <PageLayout>
       <SEO title={t("simulations:title")} />
-      <AlertBox>{t("simulations:limitations")}</AlertBox>
+      <AlertBox>{t("common:limitations")}</AlertBox>
       <MySimulationsHeader
         refetch={refetch}
         timeUntilRefresh={timeUntilRefresh}

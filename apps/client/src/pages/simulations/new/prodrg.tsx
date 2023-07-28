@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { User } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 
+import { AlertBox } from "@app/components/general/alert-box";
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { PageLayout } from "@app/components/general/page-layout";
 import { H1 } from "@app/components/general/typography/headings";
@@ -29,6 +30,7 @@ export default function PRODRGSimulation({ user }: { user: User }) {
   return (
     <PageLayout>
       <SEO title={t("navigation:simulations.models.prodrg")} />
+      <AlertBox>{t("common:limitations")}</AlertBox>
       <H1>{t("navigation:simulations.models.prodrg")}</H1>
       <Form user={user} />
     </PageLayout>
