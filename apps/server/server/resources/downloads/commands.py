@@ -1,61 +1,43 @@
+import io
 import os
 from flask_restful import Resource
 from flask import request, send_file
-from server.celery import celery
-from celery.contrib.abortable import AbortableAsyncResult
-
+from server.config import Config
 
 class DownloadDynamicCommands(Resource):
     def get(self):
         args = request.args
 
-        task = AbortableAsyncResult(args["taskId"], app=celery)
+        username = args["username"]
+        molecule = args["molecule"]
+        simtype = args["type"]
+        timestamp = args["timestamp"]
 
-        if task.ready():
-            folder_dynamic_path = os.path.abspath(task.args[0])
-            file_commands_path = os.path.abspath(
-                os.path.join(folder_dynamic_path, "commands.txt")
+        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype, molecule, timestamp)
+
+        if os.path.exists(SIMULATION_FOLDER_PATH):
+            SIMULATION_COMMANDS_TXT_PATH = os.path.join(SIMULATION_FOLDER_PATH, "commands.txt")
+
+            simulation_data = SIMULATION_FOLDER_PATH.split("/")[::-1]
+
+            stripped_timestamp_folder = simulation_data[0].replace("\n", "")
+            download_filename = (
+                f"{simulation_data[2]}|{simulation_data[1]}|{stripped_timestamp_folder}.txt"
             )
 
-            dynamic_data = task.args[0].split("/")[::-1]
-        else:
-            active_tasks = celery.control.inspect(["worker@visualdynamics"]).active()[
-                "worker@visualdynamics"
-            ]
-            task = [
-                active_task
-                for active_task in active_tasks
-                if active_task["id"] == args["taskId"]
-            ]
-
-            task = task[0] if len(task) == 1 else None
-
-            if task == None:
-                reserved_tasks = celery.control.inspect(
-                    ["worker@visualdynamics"]
-                ).reserved()["worker@visualdynamics"]
-                task = [
-                    reserved_task
-                    for reserved_task in reserved_tasks
-                    if reserved_task["id"] == args["taskId"]
-                ]
-
-                task = task[0] if len(task) == 1 else None
-
-            if task == None:
-                return {"status": "not-found"}
-
-            folder_dynamic_path = os.path.abspath(task["args"][0])
-            file_commands_path = os.path.abspath(
-                os.path.join(folder_dynamic_path, "commands.txt")
+            return send_file(
+                SIMULATION_COMMANDS_TXT_PATH, as_attachment=True, download_name=download_filename
             )
-            dynamic_data = task["args"][0].split("/")[::-1]
-
-        stripped_timestamp_folder = dynamic_data[0].replace("\n", "")
-        download_filename = (
-            f"{dynamic_data[2]}|{dynamic_data[1]}|{stripped_timestamp_folder}.txt"
-        )
-
+        
+        # Use BytesIO instead of StringIO here.
+        buffer = io.BytesIO()
+        buffer.write(b'The simulation you\'re trying to retrieve was not found')
+        # Or you can encode it to bytes.
+        # buffer.write('Just some letters.'.encode('utf-8'))
+        buffer.seek(0)
         return send_file(
-            file_commands_path, as_attachment=True, download_name=download_filename
+            buffer,
+            as_attachment=True,
+            download_name='simulation-not-found.txt',
+            mimetype='text/txt'
         )
