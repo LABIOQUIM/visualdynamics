@@ -20,7 +20,8 @@ export default async function handler(
 
       const inactiveUsers = await prisma.user.findMany({
         where: {
-          active: false
+          active: false,
+          deleted: false
         }
       });
 
