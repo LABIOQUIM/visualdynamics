@@ -14,6 +14,9 @@
     "lint:multi": "prettier:check && pnpm lint",
     "postbuild": "next-sitemap"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
     "@prisma/client": "4.16.1",
