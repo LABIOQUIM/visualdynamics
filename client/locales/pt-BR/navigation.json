@@ -1,0 +1,50 @@
+{
+  "auth": {
+    "login": "Entrar",
+    "register": "Registrar",
+    "restore": "Tentando restaurar uma sessão",
+    "role": {
+      "admin": "Administrador",
+      "user": "Usuário"
+    },
+    "sign-out": "Terminar Sessão"
+  },
+  "admin": {
+    "title": "Administração",
+    "dashboard": "Painel",
+    "users": "Usuários",
+    "user-validation": "Validação de usuários",
+    "simulations": "Status de Simulações",
+    "settings": "Configurações"
+  },
+  "simulations": {
+    "my-simulations": "Minhas simulações",
+    "title": "Simulações",
+    "models": {
+      "apo": "APO",
+      "acpype": "Proteína + Ligante (preparado no ACPYPE)",
+      "prodrg": "Proteína + Ligante (preparado no PRODRG)"
+    }
+  },
+  "preparations": {
+    "title": "Preparação de ligantes",
+    "models": {
+      "acpype": "Gerador de ligante ACPYPE"
+    }
+  },
+  "system": {
+    "title": "Sistema",
+    "about": {
+      "title": "Sobre"
+    },
+    "posts": {
+      "title": "Tutoriais e Posts"
+    },
+    "home": {
+      "title": "Início"
+    }
+  },
+  "footer": {
+    "release-notes": "Sobre esta versão"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "title": "My Simulations",
+  "auto-refresh": "Refreshing in {{seconds}} seconds.",
+  "header": "<b>{{type}}</b>: {{molecule}} @ {{time}}",
+  "empty": {
+    "title": "You haven't performed a dynamic, yet...",
+    "description": "Maybe it's your first login, or you just haven't wanted to run anything yet. Anyway, here are some buttons that can help when you want to start a new simulation."
+  },
+  "downloads": {
+    "commands": "Commands",
+    "figures": "Figure Graphics",
+    "log": "GROMACS Log",
+    "results": "Raw Results (.xtc and _pr.tpr)",
+    "mdp": "Download MDP Files",
+    "title": "Downloads"
+  },
+  "errors": {
+    "hm5ka": "Error: This molecule has more than 10000 atoms.",
+    "command": "Errored on command <b>{{command}}</b>"
+  }
+}

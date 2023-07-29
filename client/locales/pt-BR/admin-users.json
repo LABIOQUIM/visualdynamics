@@ -1,0 +1,28 @@
+{
+  "title": "Gerenciamento de Usuários",
+  "clean": {
+    "title": "Limpar pasta de simulações",
+    "description": "Tem certeza que quer limpar a pasta do usuário {{username}}?",
+    "success": "A pasta de simulações de {{username}} foi limpa",
+    "error": "Não foi possível limpar a pasta de simulações de {{username}}"
+  },
+  "filters": {
+    "identifier": "Filtrar por identificador"
+  },
+  "un-block": {
+    "title": "Desativar ou Reativar Usuário",
+    "button-block": "Desativar Usuário",
+    "button-unblock": "Reativar Usuário",
+    "block": "Tem certeza que quer desativar o usuário {{username}}?",
+    "unblock": "Tem certeza que quer reativar o usuário {{username}}?",
+    "success": "Usuário {{username}} foi desabilitado",
+    "failed": "Não foi possível desabilitar o usuário {{username}}"
+  },
+  "see-more": {
+    "title": "Ver mais informações",
+    "dialog": {
+      "title": "Informações de {{username}}",
+      "description": "Essa é a arvore de arquivos de {{username}}. Clique em qualquer arquivo para baixar."
+    }
+  }
+}

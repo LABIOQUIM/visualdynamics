@@ -1,0 +1,28 @@
+{
+  "title": "Simulations Status",
+  "active": "Active Simulations",
+  "queued": "Queued Simulations",
+  "simulations": {
+    "path": "Folder on storage",
+    "started-at": "Started at",
+    "username": "Username"
+  },
+  "worker-empty": "There are no tasks running/waiting on this worker",
+  "trigger-run": {
+    "title": "Trigger Run",
+    "description": "Manually trigger a run from any user with his folder path and email",
+    "form": {
+      "folder": {
+        "label": "Folder Path",
+        "empty": "Can't be empty"
+      },
+      "email": {
+        "label": "Email",
+        "empty": "Can't be empty",
+        "invalid": "Alphanumeric only (a-z, A-Z, 0-9), between 4 and 10 characters"
+      }
+    },
+    "success": "Run requested",
+    "failed": "Failed to request this run"
+  }
+}

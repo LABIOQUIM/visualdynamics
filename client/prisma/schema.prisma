@@ -1,0 +1,46 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id             String              @id @default(uuid())
+  email          String              @unique
+  username       String              @unique
+  password       String?
+  name           String?
+  active         Boolean             @default(false)
+  deleted        Boolean?            @default(false)
+  role           Role                @default(USER)
+  passwordResets UserPasswordReset[]
+
+  @@map("users")
+}
+
+model UserPasswordReset {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  expiresAt DateTime @default(dbgenerated("NOW() + interval '10 min'")) @map("expires_at")
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_password_resets")
+}
+
+model AppSettings {
+  id              String  @id @unique @default(cuid())
+  maintenanceMode Boolean @default(false) @map("maintenance_mode")
+
+  @@map("app_settings")
+}

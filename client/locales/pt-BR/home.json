@@ -1,0 +1,16 @@
+{
+  "title": "Início",
+  "callout": "Feito pela comunidade, para a comunidade.",
+  "slogan": "Uma nova abordagem em automação de dinâmica molecular com GROMACS.",
+  "description": "Bem-vindo ao novo Visual Dynamics.\nCom uma interface renovada e uma nova metodologia de geração e execução de simulações GROMACS, buscamos executar simulações com mais controle em menor tempo.",
+  "features": {
+    "runs-on-cloud": {
+      "title": "Execução em nuvem ou local",
+      "description": "Dinâmicas moleculares exigem bastante poder computacional, por isso também oferecemos uma forma de execução em nuvem. Nós rodamos 3 MDs simultâneos, com 10 núcleos de CPU cada."
+    },
+    "open-source": {
+      "title": "Código Aberto",
+      "description": "Sabemos que executar um MD não é algo fácil, com isso em mente, mantemos o desenvolvimento deste software de automação em código aberto, feito pela comunidade, para a comunidade."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "restore": "Trying to restore a session",
+    "role": {
+      "admin": "Administrator",
+      "user": "User"
+    },
+    "sign-out": "Sign Out"
+  },
+  "admin": {
+    "title": "Administration",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "user-validation": "User Validation",
+    "simulations": "Simulations Status",
+    "settings": "Settings"
+  },
+  "simulations": {
+    "my-simulations": "My Simulations",
+    "title": "Simulations",
+    "models": {
+      "apo": "APO",
+      "acpype": "Protein + Ligand (prepared in ACPYPE)",
+      "prodrg": "Protein + Ligand (prepared in PRODRG)"
+    }
+  },
+  "preparations": {
+    "title": "Ligand Preparation",
+    "models": {
+      "acpype": "ACPYPE Ligand Generator"
+    }
+  },
+  "system": {
+    "title": "System",
+    "about": {
+      "title": "About"
+    },
+    "posts": {
+      "title": "Tutorials and Posts"
+    },
+    "home": {
+      "title": "Home"
+    }
+  },
+  "footer": {
+    "release-notes": "About this version"
+  }
+}
