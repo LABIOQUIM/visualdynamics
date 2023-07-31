@@ -47,7 +47,7 @@ module.exports = {
       {
         replacements: [
           {
-            files: ["apps/client/package.json"],
+            files: ["client/package.json"],
 						from: "\"version\": \".*\"", // eslint-disable-line
 						to: "\"version\": \"${nextRelease.version}\"", // eslint-disable-line
           }
@@ -57,7 +57,7 @@ module.exports = {
     [
       "@semantic-release/git",
       {
-        assets: ["apps/client/package.json", "pnpm-lock.yaml"],
+        assets: ["client/package.json", "client/pnpm-lock.yaml"],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }

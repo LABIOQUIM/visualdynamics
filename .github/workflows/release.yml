@@ -40,9 +40,9 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: cd client && pnpm install
         
       - name: Semantic release
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GH }}
-        run: npx semantic-release
+        run: cd client && npx semantic-release

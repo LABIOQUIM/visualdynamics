@@ -13,8 +13,12 @@ services:
       - redis:/data
 
   client:
-    build: ./client
-    command: yarn start
+    command: yarn dev
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./client:/var/www/client
     depends_on:
       - database
     ports:
