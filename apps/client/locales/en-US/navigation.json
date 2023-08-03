@@ -23,7 +23,7 @@
     "models": {
       "apo": "APO",
       "acpype": "Protein + Ligand (prepared in ACPYPE)",
-      "prodrg": "Protein + Ligand (prepared in PRODRG)"
+      "prodrg": "Protein + Ligand (prepared in PRODRG) [DEPRECATED]"
     }
   },
   "preparations": {
@@ -38,7 +38,7 @@
       "title": "About"
     },
     "posts": {
-      "title": "Tutorials and Posts"
+      "title": "Tutorials, Videos and Posts"
     },
     "home": {
       "title": "Home"

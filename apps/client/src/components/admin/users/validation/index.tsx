@@ -5,7 +5,7 @@ import { StatusButton } from "@app/components/general/buttons/Status";
 
 interface UserValidationListProps {
   inactiveUsers?: InactiveUser[];
-  approveUser: (userId: string, userEmail: string) => void;
+  approveUser: (userId: string, userEmail: string, deleted?: boolean) => void;
   rejectUser: (userId: string, userEmail: string) => void;
 }
 
@@ -32,12 +32,13 @@ export function UserValidationList({
               <StatusButton
                 status="finished"
                 LeftIcon={Check}
-                onClick={() => approveUser(user.id, user.email)}
+                onClick={() => approveUser(user.id, user.email, user.deleted)}
               >
                 {t("admin-user-validation:approve")}
               </StatusButton>
               <StatusButton
                 status="error"
+                disabled={user.deleted}
                 LeftIcon={X}
                 onClick={() => rejectUser(user.id, user.email)}
               >

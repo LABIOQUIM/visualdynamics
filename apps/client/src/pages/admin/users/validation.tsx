@@ -1,9 +1,12 @@
+import { useState } from "react";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import useTranslation from "next-translate/useTranslation";
 
 import { useInactiveUsers } from "@app/components/admin/users/validation/useInactiveUsers";
+import { useRejectedUsers } from "@app/components/admin/users/validation/useRejectecUsers";
 import { AlertFailedToFetch } from "@app/components/general/alerts/failed-to-fetch";
+import { Switch } from "@app/components/general/forms/switch";
 import { PageLoadingIndicator } from "@app/components/general/loading-indicator/full-page";
 import { Spinner } from "@app/components/general/loading-indicator/spinner";
 import { PageLayout } from "@app/components/general/page-layout";
@@ -25,17 +28,44 @@ const List = dynamic(
 export const getServerSideProps = withSSRAdmin();
 
 export default function AdminSignup() {
-  const { data, isLoading, isRefetching, refetch } = useInactiveUsers();
+  const [isRejectedUserList, setIsRejectedUserList] = useState(false);
+  const {
+    data: inactiveUsers,
+    isLoading: isLoadingInactiveUsers,
+    isRefetching: isRefetchingInactiveUsers,
+    refetch: refetchInactiveUsers
+  } = useInactiveUsers();
+  const {
+    data: rejectedUsers,
+    isLoading: isLoadingRejectedUsers,
+    isRefetching: isRefetchingRejectedUsers,
+    refetch: refetchRejectedUsers
+  } = useRejectedUsers();
   const { t } = useTranslation();
 
-  async function approveUser(userId: string, userEmail: string) {
+  async function approveUser(
+    userId: string,
+    userEmail: string,
+    deleted?: boolean
+  ) {
     axios
       .put("/api/users/activate", {
         userId
       })
       .then(() => {
+        if (deleted) {
+          axios.delete("/api/users/block", {
+            params: {
+              userId
+            }
+          });
+        }
         axios.get(`/api/mailer/user/approved?to=${userEmail}`);
-        refetch();
+        if (isRejectedUserList) {
+          refetchRejectedUsers();
+        } else {
+          refetchInactiveUsers();
+        }
       });
   }
 
@@ -48,7 +78,11 @@ export default function AdminSignup() {
       })
       .then(() => {
         axios.get(`/api/mailer/user/rejected?to=${userEmail}`);
-        refetch();
+        if (isRejectedUserList) {
+          refetchRejectedUsers();
+        } else {
+          refetchInactiveUsers();
+        }
       });
   }
 
@@ -60,15 +94,38 @@ export default function AdminSignup() {
       />
       <div className="flex gap-x-2">
         <H1 className="uppercase">{t("admin-user-validation:title")}</H1>
-        {isLoading || isRefetching ? <Spinner /> : null}
+        {isLoadingInactiveUsers ||
+        isRefetchingInactiveUsers ||
+        isLoadingRejectedUsers ||
+        isRefetchingRejectedUsers ? (
+          <Spinner />
+        ) : null}
       </div>
-      {isLoading ? (
+      <Switch
+        name="show-rejected"
+        onCheckedChange={setIsRejectedUserList}
+        checked={isRejectedUserList}
+        label={t("admin-user-validation:show-rejected-users")}
+      />
+      {!isRejectedUserList ? (
+        isLoadingInactiveUsers ? (
+          <PageLoadingIndicator />
+        ) : !inactiveUsers ? (
+          <AlertFailedToFetch />
+        ) : (
+          <List
+            inactiveUsers={inactiveUsers}
+            approveUser={approveUser}
+            rejectUser={rejectUser}
+          />
+        )
+      ) : isLoadingRejectedUsers ? (
         <PageLoadingIndicator />
-      ) : !data ? (
+      ) : !rejectedUsers ? (
         <AlertFailedToFetch />
       ) : (
         <List
-          inactiveUsers={data}
+          inactiveUsers={rejectedUsers}
           approveUser={approveUser}
           rejectUser={rejectUser}
         />
