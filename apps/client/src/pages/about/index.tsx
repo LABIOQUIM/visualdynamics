@@ -76,10 +76,12 @@ export default function About() {
 
           <ul className="list-[upper-roman] leading-relaxed">
             <li>
-              Visual dynamics: a WEB application for molecular dynamics
-              simulation using GROMACS. BMC Bioinformatics 24, 107 (2023).
+              Vieira, I. H. P., Botelho, E. B., de Souza Gomes, T. J., Kist, R.,
+              Caceres, R. A., & Zanchi, F. B. (2023). Visual dynamics: a WEB
+              application for molecular dynamics simulation using GROMACS. BMC
+              bioinformatics, 24(1), 1-8.
               <Link
-                className="inline-block underline underline-offset-4 hover:opacity-75"
+                className="ml-2 inline-block underline underline-offset-4 hover:opacity-75"
                 href="https://doi.org/10.1186/s12859-023-05234-y"
                 target="_blank"
                 rel="noopener noreferrer"
