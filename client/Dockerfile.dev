@@ -1,5 +1,0 @@
-FROM node:18-alpine AS base
-
-WORKDIR /var/www/client
-
-COPY . .

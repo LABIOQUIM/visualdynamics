@@ -2,27 +2,32 @@ version: '3.8'
 services:
   database:
     image: postgres:alpine
-    ports:
-      - '5432:5432'
     environment:
       POSTGRES_PASSWORD: "postgresvd"
+    volumes:
+      - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
 
   redis:
     image: redis:alpine
     volumes:
-      - redis:/data
+      - ${REDIS_DATA_PATH}:/data
 
   client:
     command: yarn dev
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./client:/var/www/client
+    image: node:18-alpine
+    working_dir: /var/www/client
     depends_on:
       - database
-    ports:
-      - "3001:3001"
+    env_file: .env.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
+      - "traefik.http.routers.client.service=client"
+      - "traefik.http.services.client.loadbalancer.server.port=3001"
+    links:
+      - database
+    volumes:
+      - ./client:/var/www/client
 
   _server_build:
     image: visualdynamics-server
@@ -32,19 +37,24 @@ services:
   server:
     image: visualdynamics-server
     command: flask run --host=0.0.0.0 --port=3002
-    ports:
-     - 3002:3002
+    depends_on:
+      - _server_build
+      - redis
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - FLASK_DEBUG=true
       - MAILER_URL=client:3001
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.server.rule=Host(`${VISUALDYNAMICS_URL}`) && PathPrefix(`/server`)"
+      - "traefik.http.routers.server.service=server"
+      - "traefik.http.services.server.loadbalancer.server.port=3002"
+    links:
+      - client
     volumes:
       - ./server:/var/www/server
-      - ./VDfiles:/var/www/VDfiles
-    depends_on:
-      - _server_build
-      - redis
+      - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
 
   _worker_build:
     image: visualdynamics-worker
@@ -58,7 +68,7 @@ services:
     command: celery -A server.celery_tasks worker --concurrency=1
     volumes:
       - ./server:/var/www/server
-      - ./VDfiles:/var/www/VDfiles
+      - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -67,7 +77,47 @@ services:
       - _worker_build
       - server
       - redis
+    links:
+      - server
+      - redis
 
-volumes:
-  redis:
-    driver: local
+  traefik:
+    image: traefik
+    command:
+      - "--log.level=DEBUG"
+      - "--api.dashboard=true"
+      - "--entryPoints.web.address=:80"
+      # - "--metrics.prometheus=true"
+      # - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      # - "--metrics.prometheus.addrouterslabels=true"
+      - "--providers.docker=true"
+      - "--providers.docker.watch"
+      - "--providers.docker.exposedbydefault=false"
+      # - "--entrypoints.websecure.address=:443"
+      # - "--certificatesresolvers.letsencrypt.acme.email=greenfrog@email.com"  # replace with your email
+      # - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
+      # - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      # - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      # - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
+      # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
+      # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
+      # - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_URL}`)"
+      # - "traefik.http.routers.traefik.tls=true"
+      # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
+      # - "traefik.http.routers.traefik.tls.domains[0].main=${TRAEFIK_URL}"
+      # - "traefik.http.routers.traefik.tls.domains[0].sans=*.${TRAEFIK_URL}"
+      # - "traefik.http.routers.traefik.entryPoints=websecure"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_AUTH}"
+      - "traefik.http.middlewares.traefik-auth.basicauth.removeheader=true"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/acme:/acme
+      - ./traefik/logs:/logs
+    ports:
+      - 80:80
+      - 443:443
