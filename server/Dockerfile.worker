@@ -1,13 +1,17 @@
-FROM gromacs/gromacs
+FROM gromacs/gromacs as base
 
 WORKDIR /var/www/server
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+FROM base as deps
 RUN apt-get update && apt-get install python3-pip grace -y
 
-COPY . .
+COPY ./requirements.txt .
 
 RUN pip install -r requirements.txt
 
+FROM deps as runner
+
+COPY . .

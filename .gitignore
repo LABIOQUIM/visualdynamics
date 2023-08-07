@@ -8,6 +8,9 @@ mdpfiles.zip
 *.dat
 *.dir
 
+.env
+.env.dev
+
 # Folders
 .yarn
 .venv
