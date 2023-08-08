@@ -79,6 +79,7 @@ services:
       - redis
     links:
       - server
+      - client
       - redis
 
   traefik:
@@ -92,7 +93,7 @@ services:
       # - "--metrics.prometheus.addrouterslabels=true"
       - "--providers.docker=true"
       - "--providers.docker.watch"
-      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.exposedByDefault=false"
       # - "--entrypoints.websecure.address=:443"
       # - "--certificatesresolvers.letsencrypt.acme.email=greenfrog@email.com"  # replace with your email
       # - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
@@ -105,15 +106,15 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_URL}`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=traefik-auth"
       # - "traefik.http.routers.traefik.tls=true"
       # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       # - "traefik.http.routers.traefik.tls.domains[0].main=${TRAEFIK_URL}"
       # - "traefik.http.routers.traefik.tls.domains[0].sans=*.${TRAEFIK_URL}"
       # - "traefik.http.routers.traefik.entryPoints=websecure"
-      - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_AUTH}"
       - "traefik.http.middlewares.traefik-auth.basicauth.removeheader=true"
-      - "traefik.http.routers.traefik.middlewares=traefik-auth"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/acme:/acme
