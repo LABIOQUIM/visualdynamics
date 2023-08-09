@@ -29,16 +29,10 @@ services:
     volumes:
       - ./client:/var/www/client
 
-  _server_build:
-    image: visualdynamics-server
-    command: ["echo", "built!"]
-    build: ./server
-
   server:
-    image: visualdynamics-server
+    build: ./server
     command: flask run --host=0.0.0.0 --port=3002
     depends_on:
-      - _server_build
       - redis
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
@@ -56,15 +50,10 @@ services:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
 
-  _worker_build:
-    image: visualdynamics-worker
-    command: ["echo", "built!"]
+  worker:
     build: 
       context: ./server
       dockerfile: Dockerfile.worker
-
-  worker:
-    image: visualdynamics-worker
     command: celery -A server.celery_tasks worker --concurrency=1
     volumes:
       - ./server:/var/www/server
@@ -74,7 +63,6 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - FLASK_DEBUG=true
     depends_on:
-      - _worker_build
       - server
       - redis
     links:
