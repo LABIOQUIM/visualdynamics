@@ -37,7 +37,7 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - FLASK_DEBUG=true
+      - FLASK_DEBUG=${DEBUG}
       - MAILER_URL=client:3001
     labels:
       - "traefik.enable=true"
@@ -61,7 +61,7 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - FLASK_DEBUG=true
+      - FLASK_DEBUG=${DEBUG}
     depends_on:
       - server
       - redis

@@ -1,17 +1,32 @@
-FROM gromacs/gromacs as base
-
-WORKDIR /var/www/server
+FROM ubuntu:22.04 as base
+WORKDIR /home/gromacs
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-FROM base as deps
-RUN apt-get update && apt-get install python3-pip grace -y
+RUN apt-get update && apt-get install python3-pip grace cmake gcc wget -y
 
+RUN wget https://ftp.gromacs.org/gromacs/gromacs-2023.2.tar.gz
+RUN tar -xf gromacs-2023.2.tar.gz
+
+FROM base as gromacs_build_and_deps
+WORKDIR /home/gromacs/gromacs-2023.2
+RUN mkdir build
+WORKDIR /home/gromacs/gromacs-2023.2/build
+RUN cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_DOUBLE=OFF
+RUN make
+RUN make check
+RUN make install
+
+RUN chmod +x /usr/local/gromacs/bin/gmx
+
+ENV PATH=$PATH:/usr/local/gromacs/bin
+
+
+FROM gromacs_build_and_deps as requirements_install
+WORKDIR /var/www/server
 COPY ./requirements.txt .
-
 RUN pip install -r requirements.txt
 
-FROM deps as runner
-
+FROM requirements_install as runner
 COPY . .
