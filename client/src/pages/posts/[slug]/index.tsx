@@ -78,6 +78,7 @@ export default function BlogPost({ post }: { post: Post }) {
             day: "2-digit",
             month: "long",
             year: "numeric",
+            hour12: false,
             hour: "2-digit",
             minute: "2-digit"
           }).format(new Date(post.publishedAt))}
