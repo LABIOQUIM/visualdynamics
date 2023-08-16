@@ -18,7 +18,6 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 
 RUN yarn prisma generate
-RUN yarn content
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry

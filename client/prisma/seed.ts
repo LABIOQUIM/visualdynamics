@@ -13,6 +13,11 @@ async function main() {
       role: "ADMIN"
     }
   });
+  await prisma.appSettings.create({
+    data: {
+      maintenanceMode: false
+    }
+  });
 }
 main()
   .then(async () => {

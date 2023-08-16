@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as base
+FROM nvidia/cuda:12.2.0-devel-ubuntu22.04 as base
 WORKDIR /home/gromacs
 
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -13,7 +13,7 @@ FROM base as gromacs_build_and_deps
 WORKDIR /home/gromacs/gromacs-2023.2
 RUN mkdir build
 WORKDIR /home/gromacs/gromacs-2023.2/build
-RUN cmake .. -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_DOUBLE=OFF
+RUN cmake .. -DGMX_GPU=CUDA -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_DOUBLE=OFF
 RUN make
 RUN make check
 RUN make install

@@ -16,9 +16,9 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./*"],
       "@app/*": ["src/*"],
       "@app/public/*": ["public/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
     },
     "plugins": [
       {

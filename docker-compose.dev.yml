@@ -4,8 +4,10 @@ services:
     image: postgres:alpine
     environment:
       POSTGRES_PASSWORD: "postgresvd"
+      POSTGRES_DB: visualdynamics
     volumes:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
+      - ./scripts/create-directus-database.sh:/docker-entrypoint-initdb.d/create-directus-database.sh
 
   redis:
     image: redis:alpine
@@ -13,11 +15,10 @@ services:
       - ${REDIS_DATA_PATH}:/data
 
   client:
-    command: yarn dev
-    image: node:18-alpine
-    working_dir: /var/www/client
-    depends_on:
-      - database
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    command: sh -c "yarn prisma generate && yarn dev"
     env_file: .env.dev
     labels:
       - "traefik.enable=true"
@@ -27,13 +28,13 @@ services:
     links:
       - database
     volumes:
-      - ./client:/var/www/client
+      - ./client:/app
+      - /app/node_modules
+      - /app/.next
 
   server:
     build: ./server
     command: flask run --host=0.0.0.0 --port=3002
-    depends_on:
-      - redis
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -46,6 +47,7 @@ services:
       - "traefik.http.services.server.loadbalancer.server.port=3002"
     links:
       - client
+      - redis
     volumes:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
@@ -62,9 +64,6 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - FLASK_DEBUG=${DEBUG}
-    depends_on:
-      - server
-      - redis
     links:
       - server
       - client
@@ -90,7 +89,7 @@ services:
       # - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
       # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
       # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
-      # - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_URL}`)"
@@ -108,5 +107,27 @@ services:
       - ./traefik/acme:/acme
       - ./traefik/logs:/logs
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
+
+  directus:
+    image: directus/directus:latest
+    volumes:
+      - ./uploads:/directus/uploads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.directus.rule=Host(`${VISUALDYNAMICS_URL}`) && PathPrefix(`/directus{regex:$$|/.*}`)"
+      - "traefik.http.routers.directus.service=directus"
+      - "traefik.http.routers.directus.middlewares=directus-strip-prefix"
+      - "traefik.http.services.directus.loadbalancer.server.port=8055"
+      - "traefik.http.middlewares.directus-strip-prefix.stripprefix.prefixes=/directus"
+      - "traefik.http.middlewares.directus-strip-prefix.stripprefix.forceSlash=false"
+    environment:
+      KEY: 'replace-with-random-value'
+      SECRET: 'replace-with-random-value'
+      PUBLIC_URL: 'http://${VISUALDYNAMICS_URL}/directus'
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'admin'
+      DB_CLIENT: 'pg'
+      DB_CONNECTION_STRING: ${DIRECTUS_DATABASE_URL}
+      WEBSOCKETS_ENABLED: true

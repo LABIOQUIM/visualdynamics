@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { withContentlayer } = require("next-contentlayer");
-const nextTranslate = require("next-translate-plugin");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true"
 });
@@ -9,6 +7,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  experimental: {
+    serverActions: true
+  },
   images: {
     domains: [
       "placekitten.com",
@@ -18,6 +19,4 @@ const nextConfig = {
   }
 };
 
-module.exports = withBundleAnalyzer(
-  withContentlayer(nextTranslate(nextConfig))
-);
+module.exports = withBundleAnalyzer(nextConfig);
