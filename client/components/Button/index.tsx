@@ -48,7 +48,17 @@ const BaseButton: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
             variant === "warning",
           "border-red-600 bg-red-600 focus:ring-red-400 enabled:hover:bg-red-700":
             variant === "danger",
-          "bg-transparent": isOutline,
+          "text-primary-600 enabled:hover:text-primary-700":
+            variant === "primary" && isOutline,
+          "text-green-600 enabled:hover:text-green-700":
+            variant === "success" && isOutline,
+          "text-cyan-600 enabled:hover:text-cyan-700":
+            variant === "info" && isOutline,
+          "text-amber-600 enabled:hover:text-amber-700":
+            variant === "warning" && isOutline,
+          "text-red-600 enabled:hover:text-red-700":
+            variant === "danger" && isOutline,
+          "bg-transparent enabled:hover:bg-transparent": isOutline,
           "border-0": noBorder
         }
       )}

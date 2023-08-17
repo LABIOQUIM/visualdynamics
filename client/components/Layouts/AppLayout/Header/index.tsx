@@ -1,19 +1,15 @@
-import { LogIn, Moon, Sun, UserPlus } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 
 import logo from "@/assets/logo.svg";
 import { Button } from "@/components/Button";
 import { HamburgerMenu } from "@/components/Layouts/AppLayout/Header/HamburgerMenu";
 import { UserMenu } from "@/components/Layouts/AppLayout/Header/UserMenu";
 import { useTheme } from "@/contexts/theme";
-import { useI18n } from "@/locales/client";
 
 export function Header() {
-  const { status } = useSession();
   const { theme, toggleTheme } = useTheme();
-  const t = useI18n();
 
   return (
     <header className="sticky top-0 z-50 h-20 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
@@ -31,42 +27,16 @@ export function Header() {
             priority
           />
         </Link>
-        <ul className="flex flex-shrink-0 items-center gap-x-6">
+        <ul className="flex flex-shrink-0 items-center gap-x-4">
           <li className="flex">
             <Button
-              iconClassName="stroke-primary-600 group-hover:stroke-primary-400 dark:stroke-primary-300 dark:group-hover:stroke-primary-100"
               isOutline
+              noBorder
               LeftIcon={theme === "light" ? Moon : Sun}
               onClick={toggleTheme}
             />
           </li>
-          {status === "authenticated" ? (
-            <>
-              <li className="relative">
-                <UserMenu />
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <Link href="/login">
-                  <Button
-                    LeftIcon={LogIn}
-                    isOutline
-                  >
-                    {t("navigation.auth.login")}
-                  </Button>
-                </Link>
-              </li>
-              <li className="hidden lg:block">
-                <Link href="/register">
-                  <Button LeftIcon={UserPlus}>
-                    {t("navigation.auth.register")}
-                  </Button>
-                </Link>
-              </li>
-            </>
-          )}
+          <UserMenu />
         </ul>
       </div>
     </header>
