@@ -94,5 +94,46 @@ export default {
     footer: {
       releaseNotes: "About this version"
     }
+  },
+  register: {
+    title: "Sign Up",
+    alert:
+      "By creating an user you'll automatically agree to our Terms of Service.\nBe aware that this user is not active by default, it'll go on a validation period and you'll be emailed about this validation.",
+    errors: {
+      user: {
+        existing: "There's a user with this email or username already."
+      }
+    },
+    email: {
+      title: "Email",
+      placeholder: "user@uni.edu",
+      errors: {
+        disallowed: "You must use your institutional email",
+        empty: "Can't be empty",
+        invalid: "This is not a valid email address"
+      }
+    },
+    password: {
+      title: "Password",
+      errors: {
+        empty: "Can't be empty"
+      }
+    },
+    username: {
+      title: "Username",
+      placeholder: "johndoe",
+      errors: {
+        empty: "Can't be empty",
+        invalid:
+          "Alphanumeric only (a-z, A-Z, 0-9), between 4 and 10 characters"
+      }
+    },
+    name: {
+      title: "Name",
+      placeholder: "John Doe",
+      errors: {
+        empty: "Can't be empty"
+      }
+    }
   }
 } as const;
