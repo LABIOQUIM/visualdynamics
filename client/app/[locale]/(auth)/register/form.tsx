@@ -3,7 +3,6 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Prisma } from "@prisma/client";
-import axios from "axios";
 import { UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 

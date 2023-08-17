@@ -3,11 +3,10 @@ import { Simulate } from "react-dom/test-utils";
 import { cookies } from "next/headers";
 
 import { Providers } from "@/app/[locale]/providers";
+import { AppLayout } from "@/components/Layouts/AppLayout";
 import { Theme } from "@/contexts/theme";
 
 import "./globals.css";
-import toggle = Simulate.toggle;
-import { AppLayout } from "@/components/Layouts/AppLayout";
 
 type Props = {
   params: {
