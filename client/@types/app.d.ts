@@ -5,15 +5,15 @@ declare global {
     user: User;
   };
 
-  type Tree =
-    | PureTree
-    | {
-        status: "not-found";
-      };
-
   type PureTree = {
     type: "directory" | "file";
     name: string;
     children?: PureTree[];
   };
+
+  type Tree =
+    | PureTree
+    | {
+        status: "not-found";
+      };
 }
