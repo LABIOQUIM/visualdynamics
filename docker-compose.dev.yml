@@ -46,7 +46,6 @@ services:
       - "traefik.http.routers.server.service=server"
       - "traefik.http.services.server.loadbalancer.server.port=3002"
     links:
-      - client
       - redis
     volumes:
       - ./server:/var/www/server
@@ -65,8 +64,6 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - FLASK_DEBUG=${DEBUG}
     links:
-      - server
-      - client
       - redis
 
   traefik:
