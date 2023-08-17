@@ -28,7 +28,9 @@ export default function RootLayout({
 
     cookies().set({
       name: "VISUALDYNAMICS_THEME",
-      value: newTheme
+      value: newTheme,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 31 * 12
     });
 
     return newTheme;
