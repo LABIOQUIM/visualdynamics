@@ -4,18 +4,8 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from "@tanstack/react-query";
-import axios from "axios";
 
-export async function getAppSettings(): Promise<AppSettings> {
-  try {
-    const { data } = await axios.get<AppSettings>("/api/app/settings");
-
-    return data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (e: any) {
-    throw new Error(e);
-  }
-}
+import { getAppSettings } from "@/hooks/useAppSettings/getAppSettings";
 
 export function useAppSettings(
   options?: UseQueryOptions<AppSettings, unknown>
