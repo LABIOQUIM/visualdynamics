@@ -47,6 +47,7 @@ export function FormLogin() {
     }
 
     if (response && response.ok) {
+      reset();
       router.push("/simulations");
     }
   };

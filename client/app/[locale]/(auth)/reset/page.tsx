@@ -1,5 +1,3 @@
-import { NextPage } from "next";
-
 import { createUserPasswordReset } from "@/app/[locale]/(auth)/reset/createUserPasswordReset";
 import { ResetPasswordRequestForm } from "@/app/[locale]/(auth)/reset/form";
 import { Alert } from "@/components/Alert";
@@ -10,7 +8,7 @@ import { getI18n } from "@/locales/server";
 export default async function Page({
   searchParams
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [_: string]: string | string[] | undefined };
 }) {
   const t = await getI18n();
 
