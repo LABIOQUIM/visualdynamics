@@ -33,31 +33,24 @@ export function FormLogin() {
     password
   }) => {
     setSignInError("");
-    await signIn("credentials", {
+    const response = await signIn("credentials", {
       identifier,
       password,
       redirect: false
-    })
-      .then((data) => {
-        if (data) {
-          if (data.error) {
-            if (data.error === "user.no-pass") {
-              router.push(`/account/recover?reason=password-migration`);
-            } else {
-              setSignInError(data.error);
-            }
-          }
+    });
 
-          if (data.ok) {
-            reset();
-            router.push("/simulations");
-          }
-        }
-      })
-      .catch(console.log);
+    if (response && response.error) {
+      if (response.error === "user.no-pass") {
+        router.push(`/reset?reason=password-migration`);
+      }
+      setSignInError(response.error);
+    }
+
+    if (response && response.ok) {
+      router.push("/simulations");
+    }
   };
 
-  // @ts-ignore
   return (
     <>
       <form

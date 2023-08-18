@@ -8,7 +8,8 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    serverActions: true
+    serverActions: true,
+    typedRoutes: true
   },
   images: {
     domains: [

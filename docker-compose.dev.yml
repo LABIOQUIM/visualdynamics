@@ -5,6 +5,8 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgresvd"
       POSTGRES_DB: visualdynamics
+    ports:
+      - "5432:5432"
     volumes:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
       - ./scripts/create-directus-database.sh:/docker-entrypoint-initdb.d/create-directus-database.sh

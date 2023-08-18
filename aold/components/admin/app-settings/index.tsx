@@ -7,7 +7,7 @@ import {
   AppSettingsUpdateSchema,
   AppSettingsUpdateSchemaType
 } from "aold/components/admin/app-settings/schema.zod";
-import { useAppSettings } from "aold/components/admin/app-settings/useAppSettings";
+import { useAppSettings } from "aold/components/admin/app-settings/index";
 import { AlertFailedToFetch } from "aold/components/general/alerts/failed-to-fetch";
 import { Button } from "aold/components/general/buttons";
 import { Switch } from "aold/components/general/forms/switch";

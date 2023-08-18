@@ -17,8 +17,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@app/*": ["src/*"],
-      "@app/public/*": ["public/*"],
     },
     "plugins": [
       {
@@ -26,13 +24,12 @@
       }
     ]
   },
-  "types": ["node", "jest", "@testing-library/jest-dom"],
+  "types": ["node"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".contentlayer/generated"
   ],
-  "exclude": ["node_modules", "./cypress.config.ts", "cypress"]
+  "exclude": ["node_modules"]
 }

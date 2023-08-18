@@ -1,5 +1,6 @@
-import { FormLogin } from "@/app/[locale]/(auth)/login/form";
 import { PageLayout } from "@/components/Layouts/PageLayout";
+
+import { FormLogin } from "./form";
 
 export default function Page() {
   return (

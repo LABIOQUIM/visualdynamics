@@ -6,9 +6,6 @@ import { prisma } from "@/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/login"
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -43,28 +40,29 @@ export const authOptions: NextAuthOptions = {
             }
           });
 
-          if (user) {
-            const { password, ...passwordlessUser } = user;
-
-            if (user.deleted) {
-              throw new Error("user.deleted");
-            }
-
-            if (!password) {
-              throw new Error("user.no-pass");
-            }
-
-            if (await verify(password, credentials.password)) {
-              if (user.active) {
-                return passwordlessUser;
-              }
-              throw new Error("user.inactive");
-            }
+          if (!user) {
             throw new Error("user.wrong-credentials");
           }
-          return null;
+
+          const { password, ...passwordlessUser } = user;
+
+          if (user.deleted) {
+            throw new Error("user.deleted");
+          }
+
+          if (!password) {
+            throw new Error("user.no-pass");
+          }
+
+          if (await verify(password, credentials.password)) {
+            if (user.active) {
+              return passwordlessUser;
+            }
+            throw new Error("user.inactive");
+          }
+          throw new Error("user.wrong-credentials");
         }
-        return null;
+        throw new Error("user.no-credentials-provided");
       }
     })
   ]

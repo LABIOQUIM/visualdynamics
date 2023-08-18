@@ -1,11 +1,6 @@
+"use server";
 import nodemailer from "nodemailer";
 
-console.log(
-  process.env.EMAIL_SMTP_HOST,
-  process.env.EMAIL_SMTP_PORT,
-  Boolean(Number(process.env.EMAIL_SMTP_SECURE)),
-  Boolean(process.env.EMAIL_SMTP_REQUIRE_TLS)
-);
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_SMTP_HOST,
   port: Number(process.env.EMAIL_SMTP_PORT),
