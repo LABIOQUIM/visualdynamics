@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import { Simulate } from "react-dom/test-utils";
 import { cookies } from "next/headers";
 
 import { Providers } from "@/app/[locale]/providers";

@@ -67,6 +67,7 @@ export default {
       settings: "Configurações"
     },
     simulations: {
+      "new-simulation": "Nova Simulação",
       "my-simulations": "Minhas simulações",
       title: "Simulações",
       models: {
@@ -96,6 +97,89 @@ export default {
     footer: {
       releaseNotes: "Sobre esta versão"
     }
+  },
+  "new-simulation": {
+    description: {
+      apo: "",
+      acpype: "",
+      prodrg: ""
+    },
+    form: {
+      warnings: {
+        hm5ka:
+          "Moléculas com mais de 10.000 átomos não serão executadas, por favor, verifique isso antes de fazer a submissão para a fila.",
+        analysis:
+          "Simulações de estruturas com múltiplas cadeias funcionam mas geram análises (RMSD, RMSF, RG e SASA) improdutivas. Estamos trabalhando nesta automatização."
+      },
+      submit: {
+        download: "Baixar lista de comandos",
+        run: "Executar simulação"
+      },
+      "file-pdb": {
+        title: "Molécula (.pdb)",
+        errors: {
+          "no-pdb": "Selecione um arquivo .pdb de molécula"
+        }
+      },
+      ns: {
+        title: "Tempo de Simulação",
+        info: "Se sua simulação requer mais do que 5ns, por favor, entre em contato com <email>fernando.zanchi@fiocruz.br</email>"
+      },
+      "file-itp": {
+        title: "Ligante (.itp)",
+        errors: {
+          "no-itp": "Selecione um arquivo .itp de ligante"
+        }
+      },
+      "file-gro": {
+        title: "Ligante (.pdb)",
+        errors: {
+          "no-gro": "Selecione um arquivo .pdb de ligante"
+        }
+      },
+      "force-field": {
+        title: "Campo de Força",
+        placeholder: "Selecione um campo força",
+        errors: {
+          "no-force-field": "Selecione um campo força"
+        }
+      },
+      "water-model": {
+        title: "Modelo de água",
+        placeholder: "Selecione um modelo de água",
+        errors: {
+          "no-water-model": "Selecione um modelo de água"
+        }
+      },
+      "box-type": {
+        title: "Tipo da Caixa",
+        placeholder: "Selecione um tipo de caixa",
+        errors: {
+          "no-box-type": "Selecione um tipo de caixa"
+        }
+      },
+      "box-distance": {
+        title: "Distância da Caixa (nm)",
+        errors: {
+          "distance-doesnt-match": "Deve ser um número, decimal ou não.",
+          "out-of-bounds": "Deve estar entre 0.1 e 1"
+        }
+      },
+      neutralize: {
+        title: "Neutralizar sistema"
+      },
+      ignore: {
+        title: "Ignorar hidrogênios"
+      },
+      double: {
+        title: "Usar precisão dupla"
+      },
+      run: {
+        title: "Executar em nossos servidores"
+      },
+      options: "Opções"
+    },
+    title: "Nova Simulação"
   },
   register: {
     title: "Cadastrar",

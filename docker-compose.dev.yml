@@ -72,7 +72,7 @@ services:
     image: traefik
     command:
       - "--log.level=DEBUG"
-      - "--api.dashboard=true"
+#      - "--api.dashboard=true"
       - "--entryPoints.web.address=:80"
       # - "--metrics.prometheus=true"
       # - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
@@ -89,18 +89,12 @@ services:
       # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
       # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_URL}`)"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+#    labels:
       # - "traefik.http.routers.traefik.tls=true"
       # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       # - "traefik.http.routers.traefik.tls.domains[0].main=${TRAEFIK_URL}"
       # - "traefik.http.routers.traefik.tls.domains[0].sans=*.${TRAEFIK_URL}"
       # - "traefik.http.routers.traefik.entryPoints=websecure"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_AUTH}"
-      - "traefik.http.middlewares.traefik-auth.basicauth.removeheader=true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/acme:/acme
@@ -120,7 +114,6 @@ services:
       - "traefik.http.routers.directus.middlewares=directus-strip-prefix"
       - "traefik.http.services.directus.loadbalancer.server.port=8055"
       - "traefik.http.middlewares.directus-strip-prefix.stripprefix.prefixes=/directus"
-      - "traefik.http.middlewares.directus-strip-prefix.stripprefix.forceSlash=false"
     environment:
       KEY: 'replace-with-random-value'
       SECRET: 'replace-with-random-value'

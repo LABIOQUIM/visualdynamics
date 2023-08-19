@@ -54,16 +54,8 @@ export function SidebarContent() {
           exact: true
         },
         {
-          label: t("navigation.simulations.models.apo"),
-          href: "/simulations/new/apo"
-        },
-        {
-          label: t("navigation.simulations.models.acpype"),
-          href: "/simulations/new/acpype"
-        },
-        {
-          label: t("navigation.simulations.models.prodrg"),
-          href: "/simulations/new/prodrg"
+          label: t("navigation.simulations.new-simulation"),
+          href: "/new-simulation"
         }
       ]
     },

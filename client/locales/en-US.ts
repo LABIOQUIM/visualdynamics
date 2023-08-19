@@ -65,6 +65,7 @@ export default {
       settings: "Settings"
     },
     simulations: {
+      "new-simulation": "New Simulation",
       "my-simulations": "My Simulations",
       title: "Simulations",
       models: {
@@ -94,6 +95,89 @@ export default {
     footer: {
       releaseNotes: "About this version"
     }
+  },
+  "new-simulation": {
+    description: {
+      apo: "",
+      acpype: "",
+      prodrg: ""
+    },
+    form: {
+      warnings: {
+        hm5ka:
+          "Please, be aware that molecules with more than 10000 atoms will not execute, so please double check it before sending it to the queue.",
+        analysis:
+          "Simulations of structures with multiple chains work, but generate unproductive analyzes (RMSD, RMSF, RG and SASA). We are working on this automation."
+      },
+      submit: {
+        download: "Download command list",
+        run: "Run dynamic"
+      },
+      "file-pdb": {
+        title: "Molecule (.pdb)",
+        errors: {
+          "no-pdb": "Select a .pdb molecule file"
+        }
+      },
+      ns: {
+        title: "Simulation Time",
+        info: "If your simulation requires more than 5ns, please contact us via fernando.zanchi@fiocruz.br"
+      },
+      "file-itp": {
+        title: "Ligand (.itp)",
+        errors: {
+          "no-itp": "Select a ligand .itp file"
+        }
+      },
+      "file-gro": {
+        title: "Ligand (.pdb)",
+        errors: {
+          "no-gro": "Select a ligand .pdb file"
+        }
+      },
+      "force-field": {
+        title: "Force Field",
+        placeholder: "Select a force field",
+        errors: {
+          "no-force-field": "Select a force field"
+        }
+      },
+      "water-model": {
+        title: "Water Model",
+        placeholder: "Select a water model",
+        errors: {
+          "no-water-model": "Select a water model"
+        }
+      },
+      "box-type": {
+        title: "Box Type",
+        placeholder: "Select a box type",
+        errors: {
+          "no-box-type": "Select a box type"
+        }
+      },
+      "box-distance": {
+        title: "Box Distance (nm)",
+        errors: {
+          "distance-doesnt-match": "Should be a number, decimal or not.",
+          "out-of-bounds": "Must be between 0.1 and 1"
+        }
+      },
+      neutralize: {
+        title: "Neutralize system"
+      },
+      ignore: {
+        title: "Ignore hydrogens"
+      },
+      double: {
+        title: "Use double precision"
+      },
+      run: {
+        title: "Run in our servers"
+      },
+      options: "Options"
+    },
+    title: "New Simulation"
   },
   register: {
     title: "Sign Up",
