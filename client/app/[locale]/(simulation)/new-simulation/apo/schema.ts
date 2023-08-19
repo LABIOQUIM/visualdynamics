@@ -24,7 +24,7 @@ export const APOFormSchema = z.object({
   boxDistance: z
     .string()
     .regex(
-      new RegExp("^\\d+(\\.\\d+)*$"),
+      /^\d+(\.\d+)*$/,
       "simulations-form:box-distance.errors.distance-doesnt-match"
     )
     .refine(

@@ -1,9 +1,6 @@
 "use server";
 
 import { serverApi } from "@/lib/api";
-import { boxTypes } from "@/utils/boxTypes";
-import { apoForceFields } from "@/utils/forceFields";
-import { waterModels } from "@/utils/waterModels";
 
 export async function createNewAPOSimulation(
   data: NewAPOSimulationProps,
@@ -30,7 +27,7 @@ export async function createNewAPOSimulation(
   );
 
   if (response.status === "generated") {
-    const { data: runResponse, request } = await serverApi.post(
+    const { data: runResponse } = await serverApi.post(
       "/run",
       {
         folder: response.folder,
