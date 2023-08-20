@@ -2,7 +2,7 @@ import os
 from flask import request
 from flask_restful import Resource, reqparse
 from celery import uuid
-from server.celery_tasks import run_commands
+from server.celery import run_commands
 from server.config import Config
 
 
