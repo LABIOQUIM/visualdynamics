@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { boxTypes } from "../../../../utils/box-types";
-import { acpypeForceFields } from "../../../../utils/force-fields";
-import { waterModels } from "../../../../utils/water-models";
+import { boxTypes } from "@/utils/boxTypes";
+import { acpypeForceFields } from "@/utils/forceFields";
+import { waterModels } from "@/utils/waterModels";
 
 export const ACPYPEFormSchema = z.object({
   // @ts-ignore
@@ -32,7 +32,7 @@ export const ACPYPEFormSchema = z.object({
   boxDistance: z
     .string()
     .regex(
-      new RegExp("^\\d+(\\.\\d+)*$"),
+      /^\d+(\.\d+)*$/,
       "simulations-form:box-distance.errors.distance-doesnt-match"
     )
     .refine(

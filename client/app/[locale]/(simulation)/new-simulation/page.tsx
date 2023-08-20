@@ -1,4 +1,5 @@
 import { ACPYPEForm } from "@/app/[locale]/(simulation)/new-simulation/acpype";
+import { createNewACPYPESimulation } from "@/app/[locale]/(simulation)/new-simulation/acpype/createNewACPYPESimulation";
 import { APOForm } from "@/app/[locale]/(simulation)/new-simulation/apo";
 import { createNewAPOSimulation } from "@/app/[locale]/(simulation)/new-simulation/apo/createNewAPOSimulation";
 import { PRODRGForm } from "@/app/[locale]/(simulation)/new-simulation/prodrg";
@@ -23,7 +24,9 @@ export default async function Page({ searchParams }: Props) {
       {searchParams.type === "apo" ? (
         <APOForm createNewAPOSimulation={createNewAPOSimulation} />
       ) : null}
-      {searchParams.type === "acpype" ? <ACPYPEForm /> : null}
+      {searchParams.type === "acpype" ? (
+        <ACPYPEForm createNewACPYPESimulation={createNewACPYPESimulation} />
+      ) : null}
       {searchParams.type === "prodrg" ? <PRODRGForm /> : null}
     </PageLayout>
   );

@@ -2,8 +2,8 @@
 
 import { serverApi } from "@/lib/api";
 
-export async function createNewAPOSimulation(
-  data: NewAPOSimulationProps,
+export async function createNewACPYPESimulation(
+  data: NewACPYPESimulationProps,
   formDataWithFile: FormData
 ) {
   formDataWithFile.append("force_field", data.forceField);
@@ -17,7 +17,7 @@ export async function createNewAPOSimulation(
   formDataWithFile.append("username", data.username);
 
   const { data: response } = await serverApi.post(
-    "/generate/apo",
+    "/generate/acpype",
     formDataWithFile,
     {
       headers: {

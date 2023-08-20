@@ -1,4 +1,5 @@
-version: '3.8'
+version: '3'
+
 services:
   database:
     image: postgres:alpine
@@ -57,7 +58,7 @@ services:
     build: 
       context: ./server
       dockerfile: Dockerfile.worker
-    command: celery -A server.celery_tasks worker --concurrency=1
+    command: celery -A server.celery worker --concurrency=1 --loglevel=info
     volumes:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
@@ -67,6 +68,13 @@ services:
       - FLASK_DEBUG=${DEBUG}
     links:
       - redis
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   traefik:
     image: traefik

@@ -257,5 +257,38 @@ export default {
         "We've mailed you a reset password link. It'll be valid for 10 minutes only."
     },
     title: "Reset Password"
+  },
+  "running-simulation": {
+    title: "Your Dynamic is Running",
+    taskId: "Task ID",
+    description: "Info",
+    type: "Model",
+    molecule: "Molecule",
+    createdAt: "Generated at",
+    logs: {
+      title: "Realtime Execution Logs"
+    },
+    steps: {
+      topology: "Topology Definition",
+      solvate: "Defining Box and Solvating",
+      ions: "Adding Ions",
+      minimizationsteepdesc: "Min: Steep Descent",
+      minimizationconjgrad: "Min: Conjugate Gradient",
+      equilibrationnvt: "Restrict: NVT",
+      equilibrationnpt: "Restrict: NPT",
+      productionmd: "Produce: MD",
+      analyzemd: "Analysis: MD",
+      title: "Steps"
+    },
+    "not-running": {
+      title: "There is no simulation running",
+      description:
+        "Seems like you don't have any simulation running in our servers. Start one clicking a button below."
+    },
+    queued: {
+      title: "You have a queued simulation",
+      description:
+        "You simulation will start automatically when a spot opens in our execution queue"
+    }
   }
 } as const;
