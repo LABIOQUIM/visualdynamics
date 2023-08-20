@@ -260,11 +260,11 @@ export default {
   },
   "running-simulation": {
     title: "Your Dynamic is Running",
-    taskId: "Task ID",
     description: "Info",
-    type: "Model",
-    molecule: "Molecule",
-    createdAt: "Generated at",
+    abort: "Abort",
+    type: "Simulation Type: {simulationType}",
+    molecule: "Molecule: {moleculeName}",
+    createdAt: "Generated at: {formattedDate}",
     logs: {
       title: "Realtime Execution Logs"
     },

@@ -1,10 +1,12 @@
 import { ArrowRight, CheckCircle, Clock } from "lucide-react";
 import useTranslation from "next-translate/useTranslation";
 
-import { Spinner } from "aold/components/general/loading-indicator/spinner";
-import { cnMerge } from "../../../../utils/cnMerge";
+import { Spinner } from "@/components/LoadingIndicators/Spinner";
+import { H2 } from "@/components/Typography";
+import { useI18n } from "@/locales/client";
+import { cnMerge } from "@/utils/cnMerge";
 
-interface SimulationStepListProps {
+interface Props {
   activeSteps: string[];
 }
 
@@ -18,7 +20,7 @@ const steps = [
   "equilibrationnpt",
   "productionmd",
   "analyzemd"
-];
+] as const;
 
 function Step({
   active,
@@ -27,9 +29,9 @@ function Step({
 }: {
   active: boolean;
   running: boolean;
-  step: string;
+  step: (typeof steps)[number];
 }) {
-  const { t } = useTranslation();
+  const t = useI18n();
 
   return (
     <div
@@ -51,20 +53,18 @@ function Step({
       {running ? (
         <Spinner className="h-5 w-5 animate-spin fill-blue-950 text-blue-100 dark:fill-blue-300 dark:text-blue-950" />
       ) : null}
-      <p>{t(`simulations-running:steps.${step}`)}</p>
+      <p>{t(`running-simulation.steps.${step}`)}</p>
     </div>
   );
 }
 
-export function SimulationStepList({ activeSteps }: SimulationStepListProps) {
-  const { t } = useTranslation();
+export function Steps({ activeSteps }: Props) {
+  const t = useI18n();
 
   return (
-    <div>
-      <h4 className="font-bold uppercase text-primary-950 dark:text-primary-300">
-        {t("simulations-running:steps.title")}
-      </h4>
-      <div className="flex flex-wrap items-center gap-1">
+    <div className="flex flex-col gap-2">
+      <H2>{t("running-simulation.steps.title")}</H2>
+      <div className="flex flex-wrap items-center gap-x-1 gap-y-2">
         {steps.map((step, index) => (
           <div
             className="flex items-center gap-x-1"

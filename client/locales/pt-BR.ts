@@ -262,11 +262,11 @@ export default {
   },
   "running-simulation": {
     title: "Sua simulação está executando",
-    taskId: "ID da tarefa",
     description: "Informações",
-    type: "Modelo",
-    molecule: "Molécula",
-    createdAt: "Gerado em",
+    abort: "Abortar",
+    type: "Tipo de Simulação: {simulationType}",
+    molecule: "Molécula: {moleculeName}",
+    createdAt: "Gerada em: {formattedDate}",
     logs: {
       title: "Logs de execução em tempo real"
     },
