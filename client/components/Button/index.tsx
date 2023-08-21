@@ -7,8 +7,6 @@ import { LucideIcon } from "lucide-react";
 
 import { cnMerge } from "@/utils/cnMerge";
 
-type Variant = "primary" | "success" | "info" | "warning" | "danger";
-
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   LeftIcon?: LucideIcon;
   RightIcon?: LucideIcon;
@@ -48,6 +46,8 @@ const BaseButton: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
             variant === "warning",
           "border-red-600 bg-red-600 focus:ring-red-400 enabled:hover:bg-red-700":
             variant === "danger",
+          "border-gray-600 bg-gray-600 focus:ring-gray-400 enabled:hover:bg-gray-700":
+            variant === "grayscale",
           "text-primary-600 enabled:hover:text-primary-700":
             variant === "primary" && isOutline,
           "text-green-600 enabled:hover:text-green-700":
@@ -58,6 +58,8 @@ const BaseButton: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
             variant === "warning" && isOutline,
           "text-red-600 enabled:hover:text-red-700":
             variant === "danger" && isOutline,
+          "text-gray-600 enabled:hover:text-gray-700":
+            variant === "grayscale" && isOutline,
           "bg-transparent enabled:hover:bg-transparent": isOutline,
           "border-0": noBorder
         }

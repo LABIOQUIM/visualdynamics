@@ -20,6 +20,30 @@ export default {
       title: "Publicações"
     }
   },
+  common: {
+    "app-name": "Visual Dynamics",
+    abort: "Abortar execução",
+    limitations:
+      "Fique atento a aba de Tutoriais e Posts na barra lateral/menu",
+    errors: {
+      "404": {
+        title: "Este lugar... não é um lugar de jeito nenhum",
+        description:
+          "Parece que você encontrou algo que não pode ser encontrado. Apenas para você saber, recomendamos que você volte como veio.",
+        "back-to-home": "Voltar para a Página Inicial"
+      },
+      "failed-to-fetch":
+        "Ops... Algo aconteceu e não foi possível conectar aos nossos servidores."
+    },
+    loading: "Carregando...",
+    blog: {
+      readtime: "{{minutes}} min de leitura"
+    },
+    cancel: "Cancelar",
+    of: "de",
+    maintenance:
+      "Visual Dynamics está em modo de manutenção, você não poderá submeter novas simulações enquanto isso."
+  },
   home: {
     title: "Início",
     callout: "Feito pela comunidade, para a comunidade.",
@@ -311,6 +335,28 @@ export default {
       title: "Você possui uma simulação na fila",
       description:
         "Sua simulação vai começar automaticamente quando um espaço de processamento for liberado"
+    }
+  },
+  simulations: {
+    title: "Minhas Simulações",
+    "auto-refresh": "Atualizando em {{seconds}} segundos.",
+    header: "{type}: {molecule} @ {time}",
+    empty: {
+      title: "Você ainda não realizou uma simulação...",
+      description:
+        "Talvez seja o seu primeiro login, ou você não quis executar nada ainda. De qualquer forma, aqui estão alguns botões que podem ajudar quando você quiser começar uma nova simulação."
+    },
+    downloads: {
+      commands: "Comandos",
+      figures: "Gráficos e Figuras",
+      log: "Log GROMACS",
+      results: "Resultados (.xtc e _pr.tpr)",
+      mdp: "Baixar arquivos MDP",
+      title: "Downloads"
+    },
+    errors: {
+      hm5ka: "Erro: Esta molécula tem mais de 10.000 átomos.",
+      command: "Errou no comando {command}"
     }
   }
 } as const;

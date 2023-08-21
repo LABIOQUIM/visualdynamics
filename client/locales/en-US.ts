@@ -20,6 +20,30 @@ export default {
       title: "Publications"
     }
   },
+  common: {
+    "app-name": "Visual Dynamics",
+    abort: "Abort run",
+    limitations:
+      "Make sure to check out our Tutorials and Posts on the sidebar/menu",
+    errors: {
+      "404": {
+        title: "This place... isn't a place at all",
+        description:
+          "Seems like you found something that can't be found. Just so you know, we recommend you to go back the way you came.",
+        "back-to-home": "Go back to Home"
+      },
+      "failed-to-fetch":
+        "Ops... Something happened and we couldn't connect to our servers."
+    },
+    loading: "Loading...",
+    blog: {
+      readtime: "{{minutes}} min read"
+    },
+    cancel: "Cancel",
+    of: "of",
+    maintenance:
+      "Visual Dynamics is in Maintenance Mode, so you can't submit new simulations for the time being."
+  },
   home: {
     title: "Home",
     callout: "Made by the community, for the community.",
@@ -309,6 +333,28 @@ export default {
       title: "You have a queued simulation",
       description:
         "You simulation will start automatically when a spot opens in our execution queue"
+    }
+  },
+  simulations: {
+    title: "My Simulations",
+    "auto-refresh": "Refreshing in {seconds} seconds.",
+    header: "{type}: {molecule} @ {time}",
+    empty: {
+      title: "You haven't performed a dynamic, yet...",
+      description:
+        "Maybe it's your first login, or you just haven't wanted to run anything yet. Anyway, here are some buttons that can help when you want to start a new simulation."
+    },
+    downloads: {
+      commands: "Commands",
+      figures: "Figure Graphics",
+      log: "GROMACS Log",
+      results: "Raw Results (.xtc and _pr.tpr)",
+      mdp: "Download MDP Files",
+      title: "Downloads"
+    },
+    errors: {
+      hm5ka: "Error: This molecule has more than 10000 atoms.",
+      command: "Errored on command {command}"
     }
   }
 } as const;

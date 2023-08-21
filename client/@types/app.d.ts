@@ -13,6 +13,14 @@ declare global {
     user: User;
   };
 
+  type Variant =
+    | "primary"
+    | "success"
+    | "info"
+    | "warning"
+    | "danger"
+    | "grayscale";
+
   type PureTree = {
     type: "directory" | "file";
     name: string;
@@ -49,4 +57,14 @@ declare global {
   type NewPRODRGSimulationProps = NewSimulationBase & {
     forceField: keyof typeof prodrgForceFields;
   };
+
+  // QUERY RESULTS
+  export type GetSimulationsResult =
+    | {
+        simulations: Simulation[];
+        status: "has-simulations";
+      }
+    | {
+        status: "no-simulations" | "no-username" | "failed";
+      };
 }
