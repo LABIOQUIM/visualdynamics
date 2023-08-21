@@ -7,7 +7,7 @@ export async function TypeSelector() {
   const t = await getI18n();
 
   return (
-    <div className="grid min-h-[20rem] grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="grid h-[20rem] grid-cols-1 gap-4 lg:grid-cols-3">
       {(["apo", "acpype", "prodrg"] as const).map((type) => (
         <Link
           className="flex h-full flex-col items-center justify-center gap-2 rounded-lg bg-primary-400 transition hover:opacity-70 dark:bg-primary-900"

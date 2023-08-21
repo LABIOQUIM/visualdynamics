@@ -1,7 +1,6 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormData from "form-data";
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import { ArrowLeft, CloudCog, Download } from "lucide-react";
 import Link from "next/link";
@@ -25,7 +24,7 @@ import { APOFormSchema, APOFormSchemaType } from "./schema";
 type Props = {
   createNewAPOSimulation: (
     data: NewAPOSimulationProps,
-    formData: FormData
+    formDataWithFile: FormData
   ) => Promise<any>;
 };
 

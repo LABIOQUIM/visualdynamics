@@ -1,9 +1,9 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormData from "form-data";
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
-import { CloudCog, Download } from "lucide-react";
+import { ArrowLeft, CloudCog, Download } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -12,6 +12,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Forms/Input";
 import { Select } from "@/components/Forms/Select";
 import { Switch } from "@/components/Forms/Switch";
+import { H2 } from "@/components/Typography";
 import { useSettings } from "@/contexts/settings";
 import { useI18n } from "@/locales/client";
 import { boxTypes } from "@/utils/boxTypes";
@@ -23,7 +24,7 @@ import { ACPYPEFormSchema, ACPYPEFormSchemaType } from "./schema";
 type Props = {
   createNewACPYPESimulation: (
     data: NewACPYPESimulationProps,
-    formData: FormData
+    formDataWithFile: FormData
   ) => Promise<any>;
 };
 
@@ -47,7 +48,7 @@ export function ACPYPEForm({ createNewACPYPESimulation }: Props) {
   const t = useI18n();
   const { data: session } = useSession();
 
-  const handleSubmitDynamic: SubmitHandler<ACPYPEFormSchemaType> = async (
+  const handleSubmitSimulation: SubmitHandler<ACPYPEFormSchemaType> = async (
     data
   ) => {
     const formData = new FormData();
@@ -86,8 +87,14 @@ export function ACPYPEForm({ createNewACPYPESimulation }: Props) {
   return (
     <form
       className="flex flex-col gap-y-2"
-      onSubmit={handleSubmit(handleSubmitDynamic)}
+      onSubmit={handleSubmit(handleSubmitSimulation)}
     >
+      <div className="flex gap-2">
+        <Link href="/new-simulation">
+          <ArrowLeft />
+        </Link>
+        <H2>{t("navigation.simulations.models.acpype")}</H2>
+      </div>
       <Input
         label={t("new-simulation.form.file-pdb.title")}
         type="file"
@@ -96,7 +103,6 @@ export function ACPYPEForm({ createNewACPYPESimulation }: Props) {
         disabled={isSubmitting}
         {...register("protein")}
       />
-
       <div className="grid grid-flow-row grid-cols-1 gap-3 md:grid-cols-2">
         <Input
           label={t("new-simulation.form.file-itp.title")}
@@ -165,7 +171,6 @@ export function ACPYPEForm({ createNewACPYPESimulation }: Props) {
 
         <Alert>{t("new-simulation.form.ns.info")}</Alert>
       </div>
-
       <label>{t("new-simulation.form.options")}</label>
       <div className="flex flex-col gap-y-2">
         <Switch

@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-import { boxTypes } from "../../../../utils/box-types";
-import { prodrgForceFields } from "../../../../utils/force-fields";
-import { waterModels } from "../../../../utils/water-models";
+import { boxTypes } from "@/utils/boxTypes";
+import { prodrgForceFields } from "@/utils/forceFields";
+import { waterModels } from "@/utils/waterModels";
 
 export const PRODRGFormSchema = z.object({
   // @ts-ignore
