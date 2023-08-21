@@ -1,5 +1,25 @@
 // locales/en-US.ts
 export default {
+  about: {
+    acknowledgements:
+      "Thanks to the entire teams responsible for the development and maintenance of GROMACS, Grace/Xmgr and ACPYPE",
+    description:
+      "Visual Dynamics is an open source tool that accelerates implementations and learning in the area of molecular dynamics simulation. Available for free and supported by all major web browsers. Visual Dynamics is powered by Flask and NextJS, both are free and open-source frameworks for web development.",
+    maintainers: {
+      title: "Maintainers",
+      active: "Active",
+      inactive: "Previous"
+    },
+    title: "About",
+    work: {
+      code: "Code development",
+      idea: "Idea and concept",
+      manuscript: "Publication writing"
+    },
+    publication: {
+      title: "Publications"
+    }
+  },
   home: {
     title: "Home",
     callout: "Made by the community, for the community.",

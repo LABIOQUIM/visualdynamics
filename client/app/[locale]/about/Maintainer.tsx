@@ -1,15 +1,16 @@
+"use client";
 import { Code2, Lightbulb, Newspaper, User } from "lucide-react";
 import Link from "next/link";
-import useTranslation from "next-translate/useTranslation";
 
-import { BlurImage } from "aold/components/general/blur-image";
+import { BlurImage } from "@/components/BlurImage";
+import { useI18n } from "@/locales/client";
 
 interface MaintainerCardProps {
   maintainer: Maintainer;
 }
 
-export function MaintainerCard({ maintainer }: MaintainerCardProps) {
-  const { t } = useTranslation();
+export function Maintainer({ maintainer }: MaintainerCardProps) {
+  const t = useI18n();
 
   const WorkIcon = {
     idea: Lightbulb,
@@ -18,9 +19,9 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
   };
 
   const WorkTitle = {
-    idea: "about:work.idea",
-    code: "about:work.code",
-    manuscript: "about:work.manuscript"
+    idea: "about.work.idea",
+    code: "about.work.code",
+    manuscript: "about.work.manuscript"
   };
 
   return (
@@ -60,6 +61,7 @@ export function MaintainerCard({ maintainer }: MaintainerCardProps) {
                 return (
                   <p
                     key={maintainer.name + w}
+                    // @ts-ignore
                     title={t(WorkTitle[w])}
                   >
                     <Icon className="h-5 w-5 stroke-primary-600 stroke-[1] dark:stroke-primary-200" />

@@ -1,14 +1,12 @@
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import useTranslation from "next-translate/useTranslation";
 
-import { MaintainerCard } from "aold/components/about/maintainer-card";
-import { BlurImage } from "aold/components/general/blur-image";
-import { PageLayout } from "aold/components/general/page-layout";
-import { H1, H2 } from "aold/components/general/typography/headings";
-import { SEO } from "aold/components/seo";
-
-import logo from "../../../client/public/images/favicon.svg";
+import { Maintainer } from "@/app/[locale]/about/Maintainer";
+import { BlurImage } from "@/components/BlurImage";
+import { PageLayout } from "@/components/Layouts/PageLayout";
+import { H1, H2 } from "@/components/Typography";
+import { getI18n } from "@/locales/server";
+import logo from "@/public/images/favicon.svg";
 
 const maintainers: Maintainer[] = [
   {
@@ -49,15 +47,11 @@ const maintainers: Maintainer[] = [
   }
 ];
 
-export default function About() {
-  const { t } = useTranslation();
+export default async function Page() {
+  const t = await getI18n();
 
   return (
     <PageLayout>
-      <SEO
-        title={t("about:title")}
-        description={t("about:description")}
-      />
       <div className="mx-auto w-full max-w-5xl space-y-6">
         <div className="flex flex-col gap-4 lg:flex-row">
           <BlurImage
@@ -65,14 +59,14 @@ export default function About() {
             className="p-0.5"
             src={logo}
           />
-          <p className="text-justify text-lg">{t("about:description")}</p>
+          <p className="text-justify text-lg">{t("about.description")}</p>
         </div>
         <p className="text-center  text-lg text-gray-500">
-          {t("about:acknowledgements")}
+          {t("about.acknowledgements")}
         </p>
 
         <div>
-          <H1>{t("about:publication.title")}</H1>
+          <H1>{t("about.publication.title")}</H1>
 
           <ul className="list-[upper-roman] leading-relaxed">
             <li>
@@ -94,15 +88,15 @@ export default function About() {
         </div>
 
         <div className="flex flex-col gap-y-3">
-          <H1>{t("about:maintainers.title")}</H1>
+          <H1>{t("about.maintainers.title")}</H1>
 
           <div className="flex flex-col gap-y-2">
-            <H2>{t("about:maintainers.active")}</H2>
+            <H2>{t("about.maintainers.active")}</H2>
             <div className="grid grid-flow-row grid-cols-2 gap-2 lg:grid-cols-3">
               {maintainers
                 .filter((maintainer) => maintainer.active)
                 .map((maintainer) => (
-                  <MaintainerCard
+                  <Maintainer
                     key={maintainer.name}
                     maintainer={maintainer}
                   />
@@ -111,12 +105,12 @@ export default function About() {
           </div>
 
           <div className="flex flex-col gap-y-2">
-            <H2>{t("about:maintainers.inactive")}</H2>
+            <H2>{t("about.maintainers.inactive")}</H2>
             <div className="grid grid-flow-row grid-cols-2 gap-2 lg:grid-cols-3">
               {maintainers
                 .filter((maintainer) => !maintainer.active)
                 .map((maintainer) => (
-                  <MaintainerCard
+                  <Maintainer
                     key={maintainer.name}
                     maintainer={maintainer}
                   />

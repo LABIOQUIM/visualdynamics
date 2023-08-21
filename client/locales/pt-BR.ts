@@ -1,5 +1,25 @@
 // locales/en.ts
 export default {
+  about: {
+    acknowledgements:
+      "Agradecimentos a toda a equipe responsável pelo desenvolvimento e manutenção do GROMACS e Grace/Xmgr",
+    description:
+      "Visual Dynamics é uma ferramenta de código aberto que acelera implementações e aprendizado na área da simulação de dinâmica molecular. Disponível gratuitamente e suportado por todos os principais navegadores, é feito em Flask e NextJS, ambos frameworks gratuitos e de código aberto para desenvolvimento web.",
+    maintainers: {
+      title: "Equipe de Desenvolvimento",
+      active: "Ativos",
+      inactive: "Anteriores"
+    },
+    title: "Sobre",
+    work: {
+      code: "Desenvolvimento de código",
+      idea: "Ideia e conceito",
+      manuscript: "Escrita de publicação"
+    },
+    publication: {
+      title: "Publicações"
+    }
+  },
   home: {
     title: "Início",
     callout: "Feito pela comunidade, para a comunidade.",

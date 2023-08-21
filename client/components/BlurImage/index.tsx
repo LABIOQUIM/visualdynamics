@@ -1,11 +1,12 @@
-import React from "react";
+"use client";
+import { useState } from "react";
 import type { ImageProps } from "next/image";
 import NextImage from "next/image";
 
 import { cnMerge } from "@/utils/cnMerge";
 
 export function BlurImage({ className, ...rest }: ImageProps) {
-  const [isLoading, setLoading] = React.useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   return (
     <div
