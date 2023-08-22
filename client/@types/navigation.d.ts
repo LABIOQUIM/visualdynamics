@@ -8,6 +8,7 @@ declare global {
     links?: NavigationItem[];
     Icon?: LucideIcon;
     exact?: boolean;
+    external?: boolean;
   }
 
   interface NavigationSection {

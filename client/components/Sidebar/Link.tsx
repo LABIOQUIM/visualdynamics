@@ -21,6 +21,7 @@ export function SidebarLink({ link }: Props) {
             "text-gray-800 dark:text-gray-100": routeIsActive(pathname, link)
           }
         )}
+        target={link.external ? "_blank" : "_self"}
       >
         {routeIsActive(pathname, link) && (
           <span

@@ -1,4 +1,5 @@
 import { PropsWithChildren } from "react";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 import { Providers } from "@/app/[locale]/providers";
@@ -6,6 +7,13 @@ import { AppLayout } from "@/components/Layouts/AppLayout";
 import { Theme } from "@/contexts/theme";
 
 import "./globals.css";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Visual Dynamics",
+    template: "%s | Visual Dynamics"
+  }
+};
 
 type Props = {
   params: {

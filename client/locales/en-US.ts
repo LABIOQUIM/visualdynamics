@@ -102,6 +102,7 @@ export default {
     },
     admin: {
       title: "Administration",
+      cms: "Directus (CMS)",
       dashboard: "Dashboard",
       users: "Users",
       validation: "User Validation",

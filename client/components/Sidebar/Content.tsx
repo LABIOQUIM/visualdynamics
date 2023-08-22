@@ -76,6 +76,11 @@ export function SidebarContent() {
     Icon: Crown,
     links: [
       {
+        label: t("navigation.admin.cms"),
+        href: "/directus/admin",
+        external: true
+      },
+      {
         label: t("navigation.admin.dashboard"),
         href: "/admin",
         exact: true

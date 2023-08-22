@@ -3,7 +3,6 @@ import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import useTranslation from "next-translate/useTranslation";
 
 import { cnMerge } from "@/utils/cnMerge";
 import { routeIsActive } from "@/utils/route";
@@ -14,7 +13,6 @@ interface Props {
 
 export function SidebarSubmenu({ item }: Props) {
   const pathname = usePathname();
-  const { t } = useTranslation();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(
     item.links
@@ -60,7 +58,7 @@ export function SidebarSubmenu({ item }: Props) {
               "ml-2": !!item.Icon
             })}
           >
-            {t(item.label)}
+            {item.label}
           </span>
         </span>
         <ChevronDown
@@ -100,7 +98,7 @@ export function SidebarSubmenu({ item }: Props) {
                           : ""
                       }`}
                     >
-                      {t(r.label)}
+                      {r.label}
                     </Link>
                   </li>
                 ))}
