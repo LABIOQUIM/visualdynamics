@@ -67,4 +67,16 @@ declare global {
     | {
         status: "no-simulations" | "no-username" | "failed";
       };
+
+  type GetCelerySimulationsResult = {
+    [key: string]: {
+      id: string;
+      name: string;
+      args: string[];
+      type: string;
+      time_start: number;
+      acknowledged: boolean;
+      worker_pid: number;
+    }[];
+  };
 }

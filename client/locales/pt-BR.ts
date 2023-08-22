@@ -20,6 +20,75 @@ export default {
       title: "Publicações"
     }
   },
+  admin: {
+    users: {
+      title: "Gerenciamento de Usuários",
+      clean: {
+        title: "Limpar pasta de simulações",
+        description:
+          "Tem certeza que quer limpar a pasta do usuário {{username}}?",
+        success: "A pasta de simulações de {{username}} foi limpa",
+        error: "Não foi possível limpar a pasta de simulações de {{username}}"
+      },
+      filters: {
+        identifier: "Filtrar por identificador"
+      },
+      "un-block": {
+        title: "Desativar ou Reativar Usuário",
+        "button-block": "Desativar Usuário",
+        "button-unblock": "Reativar Usuário",
+        block: "Tem certeza que quer desativar o usuário {username}?",
+        unblock: "Tem certeza que quer reativar o usuário {username}?",
+        success: "Usuário {username} foi desabilitado",
+        failed: "Não foi possível desabilitar o usuário {username}"
+      },
+      "see-more": {
+        title: "Ver mais informações",
+        dialog: {
+          title: "Informações de {username}",
+          description:
+            "Essa é a arvore de arquivos de {username}. Clique em qualquer arquivo para baixar."
+        }
+      }
+    },
+    simulations: {
+      title: "Status das Simulações",
+      active: "Simulações Ativas",
+      queued: "Simulações na Fila",
+      simulations: {
+        path: "Pasta no armazenamento",
+        "started-at": "Iniciado em",
+        username: "Usuário"
+      },
+      "worker-empty": "Não há tarefas em execução/na fila neste worker",
+      "trigger-run": {
+        title: "Requisitar Execução",
+        description:
+          "Force a execução de uma simulação de qualquer usuário com o caminho em disco e email",
+        form: {
+          folder: {
+            label: "Caminho em Disco",
+            empty: "Não pode estar em branco"
+          },
+          email: {
+            label: "Email",
+            empty: "Não pode estar em branco",
+            invalid:
+              "Apenas alfanumérico (a-z, A-Z, 0-9), entre 4 e 10 caracteres"
+          }
+        },
+        success: "Execução solicitada",
+        failed: "Não foi possível solicitar essa execução"
+      }
+    },
+    validation: {
+      title: "Solicitações de cadastro",
+      empty: "Não há mais ninguém para ser avaliado",
+      approve: "Aprovar",
+      reject: "Rejeitar",
+      "show-rejected-users": "Mostrar usuários rejeitados anteriormente"
+    }
+  },
   common: {
     "app-name": "Visual Dynamics",
     abort: "Abortar execução",

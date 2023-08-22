@@ -1,6 +1,6 @@
-import useTranslation from "next-translate/useTranslation";
-
+"use client";
 import { Item } from "@/components/Pagination/Item";
+import { useI18n } from "@/locales/client";
 
 type Props = {
   totalRegisterCount: number;
@@ -24,7 +24,7 @@ export function Pagination({
   onPageChange,
   registersPerPage = 10
 }: Props) {
-  const { t } = useTranslation();
+  const t = useI18n();
   const lastPage = Math.floor(totalRegisterCount / registersPerPage);
 
   const previousPages =
@@ -44,7 +44,7 @@ export function Pagination({
     <div className="flex w-full flex-col items-center justify-between gap-6 md:flex-row">
       <div>
         <strong>{(currentPage - 1) * registersPerPage + 1}</strong> -{" "}
-        <strong>{currentPage * registersPerPage}</strong> {t("common:of")}{" "}
+        <strong>{currentPage * registersPerPage}</strong> {t("common.of")}{" "}
         <strong>{totalRegisterCount}</strong>
       </div>
       <div className="flex gap-2">

@@ -20,6 +20,75 @@ export default {
       title: "Publications"
     }
   },
+  admin: {
+    users: {
+      title: "User Management",
+      clean: {
+        title: "Clean user simulations folder",
+        description:
+          "Are you sure you want to clean the folder of user {username}?",
+        success: "{username}'s simulations folder has been cleaned",
+        error: "Failed to clean {username}'s simulations folder"
+      },
+      filters: {
+        identifier: "Filter by identifier"
+      },
+      "un-block": {
+        title: "Disable or Re-enable User",
+        "button-block": "Disable User",
+        "button-unblock": "Re-enable User",
+        block: "Are you sure you want to disable the user {username}?",
+        unblock: "Are you sure you want to re-enable the user {username}?",
+        success: "User {username} has been disabled/re-enabled",
+        failed: "Couldn't disable/re-enable user {username}"
+      },
+      "see-more": {
+        title: "See more info",
+        dialog: {
+          title: "{username}'s info",
+          description:
+            "This is the file tree for the user {username}. You can click in any file to download."
+        }
+      }
+    },
+    simulations: {
+      title: "Simulations Status",
+      active: "Active Simulations",
+      queued: "Queued Simulations",
+      simulations: {
+        path: "Folder on storage",
+        "started-at": "Started at",
+        username: "Username"
+      },
+      "worker-empty": "There are no tasks running/waiting on this worker",
+      "trigger-run": {
+        title: "Trigger Run",
+        description:
+          "Manually trigger a run from any user with his folder path and email",
+        form: {
+          folder: {
+            label: "Folder Path",
+            empty: "Can't be empty"
+          },
+          email: {
+            label: "Email",
+            empty: "Can't be empty",
+            invalid:
+              "Alphanumeric only (a-z, A-Z, 0-9), between 4 and 10 characters"
+          }
+        },
+        success: "Run requested",
+        failed: "Failed to request this run"
+      }
+    },
+    validation: {
+      title: "Sign Up Requests",
+      empty: "There is no one left to be reviewed",
+      approve: "Approve",
+      reject: "Reject",
+      "show-rejected-users": "Show previously rejected users"
+    }
+  },
   common: {
     "app-name": "Visual Dynamics",
     abort: "Abort run",

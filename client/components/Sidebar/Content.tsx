@@ -92,7 +92,7 @@ export function SidebarContent() {
       },
       {
         label: t("navigation.admin.validation"),
-        href: "/admin/users/validation"
+        href: "/admin/user-validation"
       },
       {
         label: t("navigation.admin.simulations"),
