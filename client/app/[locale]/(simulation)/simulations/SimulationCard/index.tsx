@@ -1,23 +1,15 @@
 "use client";
-import {
-  CheckCircle,
-  Clock,
-  Download,
-  FileCode,
-  FileDigit,
-  Image,
-  Scroll,
-  Slash,
-  XCircle
-} from "lucide-react";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { CheckCircle, Clock, Download, Slash, XCircle } from "lucide-react";
 
-import { Button } from "@/components/Button";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 import { dateFormat } from "@/utils/dateFormat";
+
+import { DownloadCommands } from "./DownloadCommands";
+import { DownloadFigures } from "./DownloadFigures";
+import { DownloadLogs } from "./DownloadLogs";
+import { DownloadResults } from "./DownloadResults";
 
 interface SimulationListItemProps {
   simulation: Simulation;
@@ -25,7 +17,6 @@ interface SimulationListItemProps {
 
 export function SimulationCard({ simulation }: SimulationListItemProps) {
   const t = useI18n();
-  const { data } = useSession();
 
   const variants: { [key: string]: Variant } = {
     queued: "warning",
@@ -103,66 +94,22 @@ export function SimulationCard({ simulation }: SimulationListItemProps) {
             {t("simulations.downloads.title")}
           </small>
           <div className="flex flex-wrap gap-2">
-            <Link
-              href={`/api/downloads/commands?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
-              target="_blank"
-            >
-              <Button
-                className="w-full md:w-fit"
-                LeftIcon={FileCode}
-                variant={variants[simulation.status]}
-              >
-                {t("simulations.downloads.commands")}
-              </Button>
-            </Link>
-            <Link
-              href={`/api/downloads/log?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
-              target="_blank"
-            >
-              <Button
-                className="w-full md:w-fit"
-                disabled={
-                  simulation.status === "running" ||
-                  simulation.status === "queued"
-                }
-                LeftIcon={Scroll}
-                variant={variants[simulation.status]}
-              >
-                {t("simulations.downloads.log")}
-              </Button>
-            </Link>
-            <Link
-              href={`/api/downloads/results?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
-              target="_blank"
-            >
-              <Button
-                className="w-full md:w-fit"
-                disabled={
-                  simulation.status === "running" ||
-                  simulation.status === "queued"
-                }
-                LeftIcon={FileDigit}
-                variant={variants[simulation.status]}
-              >
-                {t("simulations.downloads.results")}
-              </Button>
-            </Link>
-            <Link
-              href={`/api/downloads/figures?username=${data?.user.username}&type=${simulation.type}&molecule=${simulation.molecule}&timestamp=${simulation.timestamp}`}
-              target="_blank"
-            >
-              <Button
-                className="w-full md:w-fit"
-                disabled={
-                  simulation.status === "running" ||
-                  simulation.status === "queued"
-                }
-                LeftIcon={Image}
-                variant={variants[simulation.status]}
-              >
-                {t("simulations.downloads.figures")}
-              </Button>
-            </Link>
+            <DownloadCommands
+              simulation={simulation}
+              variants={variants}
+            />
+            <DownloadLogs
+              simulation={simulation}
+              variants={variants}
+            />
+            <DownloadResults
+              simulation={simulation}
+              variants={variants}
+            />
+            <DownloadFigures
+              simulation={simulation}
+              variants={variants}
+            />
           </div>
         </div>
       </div>

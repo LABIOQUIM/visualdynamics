@@ -1,6 +1,7 @@
 import { FileDown, RefreshCw } from "lucide-react";
 import NextLink from "next/link";
 
+import { DownloadMDP } from "@/app/[locale]/(simulation)/simulations/DownloadMDP";
 import { Button } from "@/components/Button";
 import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
@@ -16,13 +17,7 @@ export function Header({ refetch, isLoading, isRefetching }: MyDynamicsHeader) {
 
   return (
     <div className="flex flex-col gap-3 md:flex-row">
-      <NextLink
-        href="/api/downloads/mdp"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Button LeftIcon={FileDown}>{t("simulations.downloads.mdp")}</Button>
-      </NextLink>
+      <DownloadMDP />
       <Button
         iconClassName={cnMerge({
           "animate-spin": isRefetching || isLoading
