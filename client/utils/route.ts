@@ -3,8 +3,6 @@ export function routeIsActive(pathname: string, item: NavigationItem): boolean {
     return item.checkActive(pathname, item);
   }
 
-  console.log(pathname);
-
   return item?.exact
     ? pathname.substring(6) === `${item?.href !== "/" ? item?.href : ""}`
     : item?.href

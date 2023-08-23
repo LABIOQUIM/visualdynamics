@@ -67,6 +67,15 @@ declare global {
     | {
         status: "no-simulations" | "no-username" | "failed";
       };
+  type GetMDPSettingsResult =
+    | {
+        status: "not-found";
+      }
+    | {
+        status: "found";
+        nsteps: number;
+        dt: number;
+      };
 
   type GetCelerySimulationsResult = {
     [key: string]: {

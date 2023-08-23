@@ -21,6 +21,19 @@ export default {
     }
   },
   admin: {
+    settings: {
+      title: "Settings",
+      app: {
+        title: "App Settings",
+        maintenanceMode: "Maintenance Mode"
+      },
+      md: {
+        title: "Update md_pr.mdp values",
+        nsteps: "NSteps",
+        dt: "dt (ps)"
+      },
+      submit: "Update"
+    },
     users: {
       title: "User Management",
       clean: {

@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
-import axios from "axios";
 import { UserX } from "lucide-react";
 
-import { toggleSuspend } from "@/app/[locale]/(administration)/admin/users/ActiveUserListItem/ToggleSuspend/toggleSuspend";
 import { Button } from "@/components/Button";
 import { Dialog } from "@/components/Dialog";
 import { useI18n } from "@/locales/client";
+
+import { toggleSuspend } from "./toggleSuspend";
 
 export function ToggleSuspend({ user }: PropsWithUser) {
   const t = useI18n();

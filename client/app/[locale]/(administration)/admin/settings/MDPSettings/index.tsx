@@ -1,20 +1,19 @@
+"use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import useTranslation from "next-translate/useTranslation";
 
 import {
   MDConfigUpdateSchema,
   MDConfigUpdateSchemaType
-} from "aold/components/admin/mdp-settings/schema.zod";
-import { useMDPSettings } from "aold/components/admin/mdp-settings/useMDPSettings";
-import { AlertFailedToFetch } from "aold/components/general/alerts/failed-to-fetch";
-import { Button } from "aold/components/general/buttons";
-import { Input } from "aold/components/general/forms/input";
-import { PageLoadingIndicator } from "aold/components/general/loading-indicator/full-page";
-import { H2 } from "aold/components/general/typography/headings";
-import { api } from "../../../lib/api";
+} from "@/app/[locale]/(administration)/admin/settings/MDPSettings/schema";
+import { updateMDPSettings } from "@/app/[locale]/(administration)/admin/settings/MDPSettings/updateMDPSetting";
+import { useMDPSettings } from "@/app/[locale]/(administration)/admin/settings/MDPSettings/useMDPSettings";
+import { Button } from "@/components/Button";
+import { Input } from "@/components/Forms/Input";
+import { H2 } from "@/components/Typography";
+import { useI18n } from "@/locales/client";
 
-export function FormMDPSettings() {
+export function MDPSettings() {
   const { data, refetch, isLoading } = useMDPSettings();
   const {
     formState: { errors, isSubmitting },
@@ -23,7 +22,7 @@ export function FormMDPSettings() {
   } = useForm<MDConfigUpdateSchemaType>({
     resolver: zodResolver(MDConfigUpdateSchema)
   });
-  const { t } = useTranslation();
+  const t = useI18n();
 
   const handleSubmitDynamic: SubmitHandler<MDConfigUpdateSchemaType> = async (
     data
@@ -33,22 +32,17 @@ export function FormMDPSettings() {
     formData.append("nsteps", data.nsteps);
     formData.append("dt", data.dt);
 
-    await api
-      .put("/mdpr", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
+    updateMDPSettings(formData)
       .then(() => refetch())
       .catch(() => alert("Não foi"));
   };
 
   if (isLoading) {
-    return <PageLoadingIndicator />;
+    return null;
   }
 
   if (!data || data?.status === "not-found") {
-    return <AlertFailedToFetch />;
+    return null;
   }
 
   return (
@@ -56,9 +50,9 @@ export function FormMDPSettings() {
       className="flex flex-col gap-y-2"
       onSubmit={handleSubmit(handleSubmitDynamic)}
     >
-      <H2>{t("admin-settings:md.title")}</H2>
+      <H2>{t("admin.settings.md.title")}</H2>
       <Input
-        label={t("admin-settings:md.nsteps")}
+        label={t("admin.settings.md.nsteps")}
         error={errors.nsteps}
         disabled={isSubmitting}
         defaultValue={data.nsteps}
@@ -70,7 +64,7 @@ export function FormMDPSettings() {
       />
 
       <Input
-        label={t("admin-settings:md.dt")}
+        label={t("admin.settings.md.dt")}
         error={errors.dt}
         disabled={isSubmitting}
         defaultValue={data.dt}
@@ -85,7 +79,7 @@ export function FormMDPSettings() {
         disabled={isSubmitting}
         type="submit"
       >
-        {t("admin-settings:submit")}
+        {t("admin.settings.submit")}
       </Button>
     </form>
   );

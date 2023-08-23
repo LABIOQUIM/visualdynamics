@@ -1,3 +1,4 @@
+"use client";
 import { FieldError } from "react-hook-form";
 import * as RSelect from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";

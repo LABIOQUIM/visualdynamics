@@ -1,3 +1,4 @@
+"use client";
 import { forwardRef, InputHTMLAttributes } from "react";
 import { FieldError } from "react-hook-form";
 import useTranslation from "next-translate/useTranslation";

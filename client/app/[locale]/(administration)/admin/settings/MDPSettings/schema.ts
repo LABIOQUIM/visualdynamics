@@ -4,7 +4,7 @@ export const MDConfigUpdateSchema = z.object({
   nsteps: z
     .string()
     .min(1, "admin-md-config:nsteps.errors.empty")
-    .regex(new RegExp("^\\d+(\\.\\d+)*$"), "admin-md-config:nsteps.errors.nan")
+    .regex(/^\d+(\.\d+)*$/, "admin-md-config:nsteps.errors.nan")
     .refine(
       (v) => Number(v) > 299 && Number(v) <= 5000000,
       "admin-md-config:nsteps.errors.out-of-bounds"
@@ -12,7 +12,7 @@ export const MDConfigUpdateSchema = z.object({
   dt: z
     .string()
     .min(1, "admin-md-config:dt.errors.empty")
-    .regex(new RegExp("^\\d+(\\.\\d+)*$"), "admin-md-config:dt.errors.nan")
+    .regex(/^\d+(\.\d+)*$/, "admin-md-config:dt.errors.nan")
     .refine(
       (v) => Number(v) > 0 && Number(v) <= 1,
       "admin-md-config:dt.errors.out-of-bounds"

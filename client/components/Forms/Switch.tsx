@@ -1,3 +1,4 @@
+"use client";
 import { FC } from "react";
 import * as RSwitch from "@radix-ui/react-switch";
 

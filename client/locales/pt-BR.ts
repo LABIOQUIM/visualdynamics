@@ -87,6 +87,19 @@ export default {
       approve: "Aprovar",
       reject: "Rejeitar",
       "show-rejected-users": "Mostrar usuários rejeitados anteriormente"
+    },
+    settings: {
+      title: "Configurações",
+      app: {
+        title: "Atualizar comportamento do App",
+        maintenanceMode: "Modo de Manutenção"
+      },
+      md: {
+        title: "Atualizar valores da simulação",
+        nsteps: "NSteps",
+        dt: "dt (ps)"
+      },
+      submit: "Atualizar"
     }
   },
   common: {
