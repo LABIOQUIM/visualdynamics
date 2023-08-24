@@ -1,14 +1,11 @@
 "use client";
 import { PropsWithChildren } from "react";
 import { ToastContainer } from "react-toastify";
-import { Construction } from "lucide-react";
 import dynamic from "next/dynamic";
-import useTranslation from "next-translate/useTranslation";
 
 import { Footer } from "@/components/Layouts/AppLayout/Footer";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { Sidebar } from "@/components/Sidebar";
-import { useSettings } from "@/contexts/settings";
 import { useSidebar } from "@/contexts/sidebar";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -28,8 +25,6 @@ const Header = dynamic(
 
 export function AppLayout({ children }: PropsWithChildren<unknown>) {
   const { isSidebarOpen } = useSidebar();
-  const { maintenanceMode } = useSettings();
-  const { t } = useTranslation();
 
   return (
     <div
