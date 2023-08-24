@@ -1,10 +1,17 @@
 import dynamic from "next/dynamic";
 
+import { Spinner } from "@/components/LoadingIndicators/Spinner";
+
 const Content = dynamic(
   () =>
     import("@/components/Sidebar/Content").then((mod) => mod.SidebarContent),
   {
-    ssr: false
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full w-full items-center justify-center">
+        <Spinner />
+      </div>
+    )
   }
 );
 

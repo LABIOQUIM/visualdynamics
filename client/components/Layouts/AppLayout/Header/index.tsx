@@ -1,4 +1,4 @@
-import { Moon, Sun } from "lucide-react";
+import { Construction, ExternalLink, Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,10 +6,14 @@ import logo from "@/assets/logo.svg";
 import { Button } from "@/components/Button";
 import { HamburgerMenu } from "@/components/Layouts/AppLayout/Header/HamburgerMenu";
 import { UserMenu } from "@/components/Layouts/AppLayout/Header/UserMenu";
+import { useSettings } from "@/contexts/settings";
 import { useTheme } from "@/contexts/theme";
+import { useI18n } from "@/locales/client";
 
 export function Header() {
   const { theme, toggleTheme } = useTheme();
+  const { maintenanceMode } = useSettings();
+  const t = useI18n();
 
   return (
     <header className="sticky top-0 z-50 h-20 bg-white py-4 transition-all duration-150 dark:bg-zinc-900 lg:relative lg:top-auto">
@@ -27,6 +31,16 @@ export function Header() {
             priority
           />
         </Link>
+        {maintenanceMode ? (
+          <Link
+            className="flex w-full items-center justify-center gap-2 text-amber-600 underline-offset-4 hover:underline dark:text-amber-400"
+            href="/docs/maintenance-mode"
+          >
+            <Construction className="min-h-[1.75rem] min-w-[1.75rem]" />
+            {t("common.maintenance")}
+            <ExternalLink className="h-[1rem] w-[1rem]" />
+          </Link>
+        ) : null}
         <ul className="flex flex-shrink-0 items-center gap-x-4">
           <li className="flex">
             <Button

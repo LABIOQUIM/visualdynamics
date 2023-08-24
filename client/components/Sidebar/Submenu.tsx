@@ -1,9 +1,11 @@
+"use client";
 import { useState } from "react";
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 import { routeIsActive } from "@/utils/route";
 
@@ -13,6 +15,7 @@ interface Props {
 
 export function SidebarSubmenu({ item }: Props) {
   const pathname = usePathname();
+  const t = useI18n();
 
   const [isDropdownMenuOpen, setIsDropdownMenuOpen] = useState(
     item.links
@@ -58,7 +61,8 @@ export function SidebarSubmenu({ item }: Props) {
               "ml-2": !!item.Icon
             })}
           >
-            {item.label}
+            {/* @ts-ignore */}
+            {t(item.label)}
           </span>
         </span>
         <ChevronDown
@@ -98,7 +102,8 @@ export function SidebarSubmenu({ item }: Props) {
                           : ""
                       }`}
                     >
-                      {r.label}
+                      {/* @ts-ignore */}
+                      {t(r.label)}
                     </Link>
                   </li>
                 ))}

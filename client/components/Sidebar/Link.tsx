@@ -1,6 +1,8 @@
+"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 import { routeIsActive } from "@/utils/route";
 
@@ -10,6 +12,7 @@ interface Props {
 
 export function SidebarLink({ link }: Props) {
   const pathname = usePathname();
+  const t = useI18n();
 
   return (
     <li className="relative flex min-h-[2.5rem] items-center px-3">
@@ -41,7 +44,8 @@ export function SidebarLink({ link }: Props) {
             "ml-2": !!link.Icon
           })}
         >
-          {link.label}
+          {/* @ts-ignore */}
+          {t(link.label)}
         </span>
       </Link>
     </li>

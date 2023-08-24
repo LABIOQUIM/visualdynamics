@@ -21,89 +21,92 @@ export function SidebarContent() {
   const { data: session, status } = useSession();
   const t = useI18n();
 
+  // @ts-ignore
   const initialNavigationArray: NavigationSection[] = [
     {
-      title: t("navigation.system.title"),
+      title: "navigation.system.title",
       Icon: Info,
       links: [
         {
-          label: t("navigation.system.home.title"),
+          label: "navigation.system.home.title",
           href: "/",
           exact: true
         },
         {
-          label: t("navigation.system.about.title"),
+          label: "navigation.system.about.title",
           href: "/about"
         },
         {
-          label: t("navigation.system.posts.title"),
+          label: "navigation.system.posts.title",
           href: "/posts"
         }
       ]
     }
-  ];
+  ] as const;
 
+  // @ts-ignore
   const authenticatedNavigationArray: NavigationSection[] = [
     {
-      title: t("navigation.simulations.title"),
+      title: "navigation.simulations.title",
       Icon: LayoutDashboard,
       links: [
         {
-          label: t("navigation.simulations.my-simulations"),
+          label: "navigation.simulations.my-simulations",
           href: "/simulations",
           exact: true
         },
         {
-          label: t("navigation.simulations.new-simulation"),
+          label: "navigation.simulations.new-simulation",
           href: "/new-simulation"
         }
       ]
     },
     {
-      title: t("navigation.preparations.title"),
+      title: "navigation.preparations.title",
       Icon: Beaker,
       links: [
         {
-          label: t("navigation.preparations.models.acpype"),
+          label: "navigation.preparations.models.acpype",
           href: "/preparations/acpype"
         }
       ]
     }
-  ];
+  ] as const;
 
+  // @ts-ignore
   const adminNavigationSection: NavigationItem = {
-    label: t("navigation.admin.title"),
+    label: "navigation.admin.title",
     Icon: Crown,
     links: [
       {
-        label: t("navigation.admin.cms"),
+        label: "navigation.admin.cms",
         href: "/directus/admin",
         external: true
       },
       {
-        label: t("navigation.admin.dashboard"),
+        label: "navigation.admin.dashboard",
         href: "/admin",
         exact: true
       },
       {
-        label: t("navigation.admin.users"),
+        label: "navigation.admin.users",
         href: "/admin/users",
         exact: true
       },
       {
-        label: t("navigation.admin.validation"),
+        label: "navigation.admin.validation",
         href: "/admin/user-validation"
       },
       {
-        label: t("navigation.admin.simulations"),
+        label: "navigation.admin.simulations",
         href: "/admin/simulations"
       },
       {
-        label: t("navigation.admin.settings"),
+        label: "navigation.admin.settings",
         href: "/admin/settings"
       }
     ]
-  };
+  } as const;
 
   const [navigationItems, setNavigationItems] = useState<NavigationSection[]>(
     initialNavigationArray
@@ -145,7 +148,8 @@ export function SidebarContent() {
               {section.Icon ? (
                 <section.Icon className="my-auto h-5 w-5" />
               ) : null}
-              <h5>{section.title}</h5>
+              {/* @ts-ignore */}
+              <h5>{t(section.title)}</h5>
             </div>
             <div className="flex flex-col gap-y-2">
               {section.links && section.links.length > 0

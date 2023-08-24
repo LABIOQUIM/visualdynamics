@@ -23,9 +23,9 @@ export function Providers({
   toggleThemeCookie
 }: PropsWithChildren<Props>) {
   return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <I18nProviderClient locale={locale}>
+    <I18nProviderClient locale={locale}>
+      <SessionProvider>
+        <QueryClientProvider client={queryClient}>
           <ThemeProvider
             defaultTheme={defaultTheme}
             toggleThemeCookie={toggleThemeCookie}
@@ -34,8 +34,8 @@ export function Providers({
               <SettingsProvider>{children}</SettingsProvider>
             </SidebarProvider>
           </ThemeProvider>
-        </I18nProviderClient>
-      </QueryClientProvider>
-    </SessionProvider>
+        </QueryClientProvider>
+      </SessionProvider>
+    </I18nProviderClient>
   );
 }

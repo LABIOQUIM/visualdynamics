@@ -1,16 +1,8 @@
 "use client";
 import { AnimatePresence, LazyMotion, m } from "framer-motion";
-import dynamic from "next/dynamic";
 
+import { SidebarContent } from "@/components/Sidebar/Content";
 import { useSidebar } from "@/contexts/sidebar";
-
-const Content = dynamic(
-  () =>
-    import("@/components/Sidebar/Content").then((mod) => mod.SidebarContent),
-  {
-    ssr: false
-  }
-);
 
 export function MobileSidebar() {
   const { isSidebarOpen } = useSidebar();
@@ -33,7 +25,7 @@ export function MobileSidebar() {
               ease: "easeInOut"
             }}
           >
-            <Content />
+            <SidebarContent />
           </m.aside>
         </LazyMotion>
       ) : null}
