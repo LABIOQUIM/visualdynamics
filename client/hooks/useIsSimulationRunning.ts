@@ -3,7 +3,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-import { getUserRunningSimulation } from "../../aold/components/simulations/running/useUserRunningSimulation";
+import { getRunningSimulation } from "@/app/[locale]/(simulation)/running-simulation/getRunningSimulation";
 
 export function useIsDynamicRunning() {
   const { data } = useSession();
@@ -11,7 +11,7 @@ export function useIsDynamicRunning() {
 
   async function checkAndRedirect() {
     if (data && data.user) {
-      const running = await getUserRunningSimulation(data.user.username);
+      const running = await getRunningSimulation(data.user.username);
 
       if (running.status === "running" || running.status === "queued") {
         router.replace("/simulations/running");

@@ -10,8 +10,8 @@ import { H1 } from "@/components/Typography";
 import { useI18n } from "@/locales/client";
 
 type Props = {
-  rejectUser: (userId: string) => Promise<any>;
-  approveUser: (userId: string) => Promise<any>;
+  rejectUser(userId: string): Promise<any>;
+  approveUser(userId: string): Promise<any>;
 };
 
 export function Validation({ approveUser, rejectUser }: Props) {

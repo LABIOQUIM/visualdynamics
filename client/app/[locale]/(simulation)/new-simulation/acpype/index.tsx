@@ -22,10 +22,10 @@ import { waterModels } from "@/utils/waterModels";
 import { ACPYPEFormSchema, ACPYPEFormSchemaType } from "./schema";
 
 type Props = {
-  createNewACPYPESimulation: (
+  createNewACPYPESimulation(
     data: NewACPYPESimulationProps,
     formDataWithFile: FormData
-  ) => Promise<any>;
+  ): Promise<any>;
 };
 
 export function ACPYPEForm({ createNewACPYPESimulation }: Props) {

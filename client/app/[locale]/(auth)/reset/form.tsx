@@ -16,7 +16,7 @@ import {
 } from "./schema";
 
 type Props = {
-  createUserPasswordReset: (identifier: string) => any;
+  createUserPasswordReset(identifier: string): any;
 };
 
 export function ResetPasswordRequestForm({ createUserPasswordReset }: Props) {

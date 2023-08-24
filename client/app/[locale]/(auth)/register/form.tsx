@@ -17,7 +17,7 @@ import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { useI18n } from "@/locales/client";
 
 type Props = {
-  createUser: (data: Prisma.UserCreateInput) => any;
+  createUser(data: Prisma.UserCreateInput): any;
 };
 export function FormRegister({ createUser }: Props) {
   const t = useI18n();

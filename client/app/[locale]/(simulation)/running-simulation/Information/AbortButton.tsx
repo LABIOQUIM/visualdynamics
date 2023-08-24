@@ -8,7 +8,7 @@ import { useI18n } from "@/locales/client";
 type Props = {
   taskId: string;
   folder: string;
-  abortSimulation: (taskId: string, folder: string) => Promise<any>;
+  abortSimulation(taskId: string, folder: string): Promise<any>;
 };
 
 export function AbortButton({ abortSimulation, folder, taskId }: Props) {

@@ -6,7 +6,7 @@ type Props = {
   totalRegisterCount: number;
   registersPerPage?: number;
   currentPage?: number;
-  onPageChange: (page: number) => void;
+  onPageChange(page: number): void;
 };
 const siblingsCount = 2;
 

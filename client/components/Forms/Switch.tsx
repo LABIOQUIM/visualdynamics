@@ -6,7 +6,7 @@ import { cnMerge } from "@/utils/cnMerge";
 
 interface SwitchProps {
   checked?: boolean;
-  onCheckedChange: (checked: boolean) => void;
+  onCheckedChange(checked: boolean): void;
   label: string;
   name: string;
   disabled?: boolean;

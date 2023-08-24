@@ -22,10 +22,10 @@ import { waterModels } from "@/utils/waterModels";
 import { PRODRGFormSchema, PRODRGFormSchemaType } from "./schema";
 
 type Props = {
-  createNewPRODRGSimulation: (
+  createNewPRODRGSimulation(
     data: NewPRODRGSimulationProps,
     formDataWithFile: FormData
-  ) => Promise<any>;
+  ): Promise<any>;
 };
 
 export function PRODRGForm({ createNewPRODRGSimulation }: Props) {

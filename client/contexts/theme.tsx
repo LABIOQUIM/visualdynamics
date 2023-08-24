@@ -11,7 +11,7 @@ interface ContextProps {
 interface ProviderProps {
   children: ReactNode;
   defaultTheme: Theme;
-  toggleThemeCookie: () => Promise<Theme>;
+  toggleThemeCookie(): Promise<Theme>;
 }
 
 const ThemeContext = createContext({} as ContextProps);

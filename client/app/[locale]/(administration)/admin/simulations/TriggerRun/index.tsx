@@ -12,7 +12,7 @@ import { useI18n } from "@/locales/client";
 import { TriggerRunFormSchema, TriggerRunFormSchemaType } from "./schema";
 
 type Props = {
-  triggerRun: (folder: string, email: string) => Promise<any>;
+  triggerRun(folder: string, email: string): Promise<any>;
 };
 
 export function TriggerRun({ triggerRun }: Props) {

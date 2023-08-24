@@ -22,10 +22,10 @@ import { waterModels } from "@/utils/waterModels";
 import { APOFormSchema, APOFormSchemaType } from "./schema";
 
 type Props = {
-  createNewAPOSimulation: (
+  createNewAPOSimulation(
     data: NewAPOSimulationProps,
     formDataWithFile: FormData
-  ) => Promise<any>;
+  ): Promise<any>;
 };
 
 export function APOForm({ createNewAPOSimulation }: Props) {

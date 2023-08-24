@@ -10,7 +10,7 @@ type SelectProps<T extends string | number | symbol> = {
   error?: FieldError;
   label: string;
   name: string;
-  onChange: (value: T) => void;
+  onChange(value: T): void;
   disabled?: boolean;
   placeholder: string;
   selectedValue: T;

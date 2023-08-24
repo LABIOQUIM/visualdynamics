@@ -13,7 +13,7 @@ import { I18nProviderClient } from "@/locales/client";
 type Props = {
   locale: string;
   defaultTheme: Theme;
-  toggleThemeCookie: () => Promise<Theme>;
+  toggleThemeCookie(): Promise<Theme>;
 };
 
 export function Providers({
