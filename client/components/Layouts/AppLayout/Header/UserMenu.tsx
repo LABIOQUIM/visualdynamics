@@ -2,6 +2,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChevronDown, LogIn, LogOut, UserPlus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 
 import { Button } from "@/components/Button";
@@ -10,6 +11,11 @@ import { useI18n } from "@/locales/client";
 export function UserMenu() {
   const { data: session, status } = useSession();
   const t = useI18n();
+  const router = useRouter();
+
+  function doLogout() {
+    signOut({ redirect: false }).then(() => router.push("/login?from=logout"));
+  }
 
   if (status !== "authenticated") {
     return (
@@ -48,7 +54,7 @@ export function UserMenu() {
         >
           <DropdownMenu.Item
             className="text-md group relative flex select-none items-center gap-x-1 rounded-md p-2 leading-none text-primary-600 outline-none data-[highlighted]:cursor-pointer dark:text-primary-400 dark:data-[highlighted]:text-primary-300"
-            onClick={() => signOut({ redirect: false })}
+            onClick={doLogout}
           >
             <LogOut className="h-4 w-4" />
             {t("navigation.auth.logout")}
