@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "components/Button";
 import { Lock, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 import { Alert } from "@/components/Alert";
@@ -27,6 +27,7 @@ export function FormLogin() {
     resolver: zodResolver(SignInFormSchema)
   });
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleAuth: SubmitHandler<SignInFormSchemaType> = async ({
     identifier,
@@ -48,7 +49,9 @@ export function FormLogin() {
 
     if (response && response.ok) {
       reset();
-      router.push("/simulations");
+      const callbackUrl = searchParams.get("callbackUrl");
+
+      router.push(callbackUrl ?? "/simulations");
     }
   };
 
