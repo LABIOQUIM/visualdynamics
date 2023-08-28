@@ -45,11 +45,42 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
     with open(file_molecule, "r") as f:
         atom_count = sum(1 for line in f if "ATOM" in line)
 
+
+    email_data_failed = {
+        "to": email,
+        "from": f'"⚛️ Visual Dynamics" visualdynamics@fiocruz.br',
+        "subject": "Your simulation has failed.",
+        "context": {
+            "base_url": os.environ.get("APP_URL"),
+            "preheader": "An error has occurred during the execution of your simulation.",
+            "content": f"Your {dynamic_data[2]} simulation has failed.<br><br>The simulation {dynamic_data[2]} - {dynamic_data[1]} that you submitted at {dynamic_data[0]} has failed.<br><br>Please access VD and check the logs provided, if you're sure it's a bug in our software, please contact us.",
+            "showButton": True,
+            "buttonLink": os.environ.get("APP_URL"),
+            "buttonText": "Go to Visual Dynamics",
+            "showPostButtonText": False,
+            "email": email
+        }
+    }
+
+    email_data_success = {
+        "to": email,
+        "from": f'"⚛️ Visual Dynamics" visualdynamics@fiocruz.br',
+        "subject": "The simulation you left running has ended.",
+        "context": {
+            "base_url": os.environ.get("APP_URL"),
+            "preheader": "The simulation you left running has ended.",
+            "content": f"Your {dynamic_data[2]} simulation has ended.<br><br>The simulation {dynamic_data[2]} - {dynamic_data[1]} that you submitted at {dynamic_data[0]} has ended.<br><br>Please access VD to download the figure graphics, raw data and more.",
+            "showButton": True,
+            "buttonLink": os.environ.get("APP_URL"),
+            "buttonText": "Go to Visual Dynamics",
+            "showPostButtonText": False,
+            "email": email
+        }
+    }
+
     if int(atom_count) > 10000:
         # SEND MAIL NOTIFYING DYNAMIC ERRORED
-        requests.get(
-            f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&simulationType={dynamic_data[2]}&simulationMolecule={dynamic_data[1]}&simulationDate={dynamic_data[0]}"
-        )
+        requests.post("http://mailer:3000/send-email", json=email_data_failed)
 
         with open(file_status_path, "w") as f:
             f.write(f"error: hm5ka")
@@ -91,9 +122,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
                 run_command(command, file_log_path, file_pid_path)
             except:
                 # SEND MAIL NOTIFYING DYNAMIC ERRORED
-                requests.get(
-                    f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/failed?to={email}&simulationType={dynamic_data[2]}&simulationMolecule={dynamic_data[1]}&simulationDate={dynamic_data[0]}"
-                )
+                requests.post("http://mailer:3000/send-email", json=email_data_failed)
 
                 with open(file_status_path, "w") as f:
                     f.write(f"error: {command}")
@@ -103,13 +132,10 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
                 raise Exception(f"Command {command} failed to run")
 
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
-    requests.get(
-        f"http://{dynamics_mailer_api_url}/api/mailer/dynamics/success?to={email}&simulationType={dynamic_data[2]}&simulationMolecule={dynamic_data[1]}&simulationDate={dynamic_data[0]}"
-    )
+    requests.post("http://mailer:3000/send-email", json=email_data_success)
 
     with open(file_status_path, "w") as f:
         f.write("finished")
 
     if os.path.exists(file_is_running):
         os.remove(file_is_running)
-

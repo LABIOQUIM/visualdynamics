@@ -28,6 +28,7 @@ services:
       - "traefik.http.services.client.loadbalancer.server.port=3001"
     links:
       - database
+      - mailer
     volumes:
       - ./client:/app
       - /app/node_modules
@@ -36,11 +37,7 @@ services:
   server:
     build: ./server
     command: flask run --host=0.0.0.0 --port=3002
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - FLASK_DEBUG=${DEBUG}
-      - MAILER_URL=client:3001
+    env_file: .env.dev
     links:
       - redis
     volumes:
@@ -61,6 +58,7 @@ services:
       - FLASK_DEBUG=${DEBUG}
     links:
       - redis
+      - mailer
     deploy:
       resources:
         reservations:
@@ -68,6 +66,16 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+  mailer:
+    build: ./mailer
+    command: pnpm start:prod
+    env_file: .env.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailer.rule=Host(`mailer.localhost`)"
+      - "traefik.http.routers.mailer.service=mailer"
+      - "traefik.http.services.mailer.loadbalancer.server.port=3000"
 
   traefik:
     image: traefik
@@ -98,8 +106,8 @@ services:
       # - "traefik.http.routers.traefik.entryPoints=websecure"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/acme:/acme
-      - ./traefik/logs:/logs
+      - ${TRAEFIK_ACME_DATA_PATH}:/acme
+      - ${TRAEFIK_ACME_DATA_PATH}:/logs
     ports:
       - "80:80"
       - "443:443"
@@ -107,7 +115,8 @@ services:
   directus:
     image: directus/directus:latest
     volumes:
-      - ./uploads:/directus/uploads
+      - ${DIRECTUS_UPLOADS_PATH}:/directus/uploads
+    env_file: .env.dev
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.directus.rule=Host(`${VISUALDYNAMICS_URL}`) && PathPrefix(`/directus{regex:$$|/.*}`)"
@@ -115,12 +124,3 @@ services:
       - "traefik.http.routers.directus.middlewares=directus-strip-prefix"
       - "traefik.http.services.directus.loadbalancer.server.port=8055"
       - "traefik.http.middlewares.directus-strip-prefix.stripprefix.prefixes=/directus"
-    environment:
-      KEY: 'replace-with-random-value'
-      SECRET: 'replace-with-random-value'
-      PUBLIC_URL: 'http://${VISUALDYNAMICS_URL}/directus'
-      ADMIN_EMAIL: 'admin@example.com'
-      ADMIN_PASSWORD: 'admin'
-      DB_CLIENT: 'pg'
-      DB_CONNECTION_STRING: ${DIRECTUS_DATABASE_URL}
-      WEBSOCKETS_ENABLED: true

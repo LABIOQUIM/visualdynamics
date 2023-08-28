@@ -3,7 +3,7 @@ import { withAuth } from "next-auth/middleware";
 import { createI18nMiddleware } from "next-international/middleware";
 
 const locales = ["en-US", "pt-BR"] as const;
-const publicPages = ["/", "/login", "/register", "/about", "/docs"];
+const publicPages = ["/", "/login", "/register", "/about", "/reset", "/docs"];
 
 const I18nMiddleware = createI18nMiddleware(locales, "en-US");
 
@@ -20,7 +20,7 @@ const authMiddleware = withAuth(
 
 export function middleware(req: NextRequest) {
   const publicPathnameRegex = RegExp(
-    `^(/(${locales.join("|")}))?(${publicPages.join("|")})?/?$`,
+    `^(/(${locales.join("|")}))?(${publicPages.join("|")})?/?.*$`,
     "i"
   );
   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
