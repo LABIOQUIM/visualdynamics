@@ -425,7 +425,7 @@ export default {
     empty: {
       title: "You haven't performed a dynamic, yet...",
       description:
-        "Maybe it's your first login, or you just haven't wanted to run anything yet. Anyway, here are some buttons that can help when you want to start a new simulation."
+        "Maybe it's your first login, or you just haven't wanted to run anything yet. Anyway, you can head to New Simulation page on the menu when you want to start a new simulation."
     },
     downloads: {
       commands: "Commands",

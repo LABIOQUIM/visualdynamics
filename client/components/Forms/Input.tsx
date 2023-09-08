@@ -1,8 +1,8 @@
 "use client";
 import { forwardRef, InputHTMLAttributes } from "react";
 import { FieldError } from "react-hook-form";
-import useTranslation from "next-translate/useTranslation";
 
+import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -12,7 +12,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ error, className, label, name, placeholder, type, ...props }, ref) => {
-    const { t } = useTranslation();
+    const t = useI18n();
 
     return (
       <div className="flex w-full flex-col gap-y-0.5">
@@ -21,6 +21,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {label ? <label htmlFor={name}>{label}</label> : null}
             {error ? (
               <p className="my-auto text-sm text-red-600">
+                {/* @ts-ignore */}
                 {t(error.message ?? "")}
               </p>
             ) : null}

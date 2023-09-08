@@ -427,7 +427,7 @@ export default {
     empty: {
       title: "Você ainda não realizou uma simulação...",
       description:
-        "Talvez seja o seu primeiro login, ou você não quis executar nada ainda. De qualquer forma, aqui estão alguns botões que podem ajudar quando você quiser começar uma nova simulação."
+        "Talvez seja o seu primeiro login, ou você não quis executar nada ainda. De qualquer forma, você pode acessar a página de Nova Simulação através do menu quando quiser começar uma nova simulação."
     },
     downloads: {
       commands: "Comandos",

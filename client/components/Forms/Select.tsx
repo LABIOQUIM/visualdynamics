@@ -2,8 +2,8 @@
 import { FieldError } from "react-hook-form";
 import * as RSelect from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
-import useTranslation from "next-translate/useTranslation";
 
+import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 
 type SelectProps<T extends string | number | symbol> = {
@@ -29,7 +29,7 @@ export const Select = <T extends string>({
   selectedValue,
   values
 }: SelectProps<T>) => {
-  const { t } = useTranslation();
+  const t = useI18n();
 
   return (
     <div className="flex w-full flex-col gap-y-0.5">
@@ -37,6 +37,7 @@ export const Select = <T extends string>({
         <label htmlFor={name}>{label}</label>
         {error ? (
           <p className="mt-auto  text-sm text-red-600">
+            {/* @ts-ignore */}
             {t(error.message ?? "")}
           </p>
         ) : null}
