@@ -113,7 +113,7 @@ services:
       - "443:443"
 
   directus:
-    image: directus/directus:latest
+    image: directus/directus:10.2.1
     volumes:
       - ${DIRECTUS_UPLOADS_PATH}:/directus/uploads
     env_file: .env.dev

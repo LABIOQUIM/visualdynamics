@@ -28,17 +28,21 @@ export function SidebarContent() {
       Icon: Info,
       links: [
         {
-          label: "navigation.system.home.title",
+          label: "navigation.system.home",
           href: "/",
           exact: true
         },
         {
-          label: "navigation.system.about.title",
+          label: "navigation.system.about",
           href: "/about"
         },
         {
-          label: "navigation.system.posts.title",
-          href: "/posts"
+          label: "navigation.system.docs",
+          href: "/docs"
+        },
+        {
+          label: "navigation.system.knowledge",
+          href: "/knowledge"
         }
       ]
     }

@@ -211,15 +211,10 @@ export default {
     },
     system: {
       title: "Sistema",
-      about: {
-        title: "Sobre"
-      },
-      posts: {
-        title: "Tutoriais, Videos e Posts"
-      },
-      home: {
-        title: "Início"
-      }
+      about: "Sobre",
+      docs: "Documentação",
+      knowledge: "Tutoriais e Posts",
+      home: "Início"
     },
     footer: {
       releaseNotes: "Sobre esta versão"
