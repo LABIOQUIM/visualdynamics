@@ -1,5 +1,4 @@
 import { ArrowRight, CheckCircle, Clock } from "lucide-react";
-import useTranslation from "next-translate/useTranslation";
 
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H2 } from "@/components/Typography";

@@ -1,11 +1,14 @@
-version: '3.8'
+version: '3'
+
 services:
   database:
     image: postgres:alpine
     environment:
       POSTGRES_PASSWORD: "postgresvd"
+      POSTGRES_DB: visualdynamics
     volumes:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
+      - ./scripts/create-directus-database.sh:/docker-entrypoint-initdb.d/create-directus-database.sh
 
   redis:
     image: redis:alpine
@@ -15,8 +18,6 @@ services:
   client:
     build: ./client
     command: yarn start
-    depends_on:
-      - database
     env_file: .env.dev
     labels:
       - "traefik.enable=true"
@@ -25,33 +26,23 @@ services:
       - "traefik.http.services.client.loadbalancer.server.port=3001"
     links:
       - database
+      - mailer
 
   server:
     build: ./server
     command: flask run --host=0.0.0.0 --port=3002
-    depends_on:
-      - redis
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - FLASK_DEBUG=${DEBUG}
-      - MAILER_URL=client:3001
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.server.rule=Host(`${VISUALDYNAMICS_URL}`) && PathPrefix(`/server`)"
-      - "traefik.http.routers.server.service=server"
-      - "traefik.http.services.server.loadbalancer.server.port=3002"
+    env_file: .env.dev
     links:
-      - client
+      - redis
     volumes:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
 
   worker:
-    build: 
+    build:
       context: ./server
       dockerfile: Dockerfile.worker
-    command: celery -A server.celery_tasks worker --concurrency=1
+    command: celery -A server.celery worker --concurrency=2 --loglevel=info
     volumes:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
@@ -59,19 +50,32 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - FLASK_DEBUG=${DEBUG}
-    depends_on:
-      - server
-      - redis
     links:
-      - server
-      - client
       - redis
+      - mailer
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  mailer:
+    build: ./mailer
+    command: pnpm start:prod
+    env_file: .env.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailer.rule=Host(`mailer.localhost`)"
+      - "traefik.http.routers.mailer.service=mailer"
+      - "traefik.http.services.mailer.loadbalancer.server.port=3000"
 
   traefik:
     image: traefik
     command:
       - "--log.level=DEBUG"
-      - "--api.dashboard=true"
+      #      - "--api.dashboard=true"
       - "--entryPoints.web.address=:80"
       # - "--metrics.prometheus=true"
       # - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
@@ -87,23 +91,30 @@ services:
       # - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
       # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
       # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
-      # - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_URL}`)"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
+      #    labels:
       # - "traefik.http.routers.traefik.tls=true"
       # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       # - "traefik.http.routers.traefik.tls.domains[0].main=${TRAEFIK_URL}"
       # - "traefik.http.routers.traefik.tls.domains[0].sans=*.${TRAEFIK_URL}"
       # - "traefik.http.routers.traefik.entryPoints=websecure"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_BASIC_AUTH}"
-      - "traefik.http.middlewares.traefik-auth.basicauth.removeheader=true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/acme:/acme
-      - ./traefik/logs:/logs
+      - ${TRAEFIK_ACME_DATA_PATH}:/acme
+      - ${TRAEFIK_ACME_DATA_PATH}:/logs
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
+
+  directus:
+    image: directus/directus:10.2.1
+    volumes:
+      - ${DIRECTUS_UPLOADS_PATH}:/directus/uploads
+    env_file: .env.dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.directus.rule=Host(`${VISUALDYNAMICS_URL}`) && PathPrefix(`/directus{regex:$$|/.*}`)"
+      - "traefik.http.routers.directus.service=directus"
+      - "traefik.http.routers.directus.middlewares=directus-strip-prefix"
+      - "traefik.http.services.directus.loadbalancer.server.port=8055"
+      - "traefik.http.middlewares.directus-strip-prefix.stripprefix.prefixes=/directus"
