@@ -29,6 +29,7 @@ class DownloadDynamicResults(Resource):
                             file.endswith("_PBC.xtc")
                             or file.endswith("_pr.tpr")
                             or file.endswith("_npt.gro")
+                            or file.endswith("_PBC.gro")
                         ):
                             z.write(
                                 os.path.join(folder, file),
@@ -57,4 +58,3 @@ class DownloadDynamicResults(Resource):
             download_name='simulation-not-found.txt',
             mimetype='text/txt'
         )
-    

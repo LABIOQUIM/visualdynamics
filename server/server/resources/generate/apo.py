@@ -102,6 +102,7 @@ class GenerateAPO(Resource):
                 f'{gmx} mdrun -nt 3 -v -s "{filename}_pr.tpr" -deffnm "{filename}_pr"\n\n',
                 "#analyzemd\n",
                 f'echo \'1 1\' | {gmx} trjconv -s "{filename}_pr.tpr" -f "{filename}_pr.xtc" -o "{filename}_pr_PBC.xtc" -pbc mol -center\n',
+                f'echo \'1 1\' | {gmx} trjconv -s "{filename}_pr.tpr" -f "{filename}_pr.xtc" -o "{filename}_pr_PBC.gro" -pbc mol -center -dump 1\n',
                 f'echo \'4 4\' | {gmx} rms -s "{filename}_pr.tpr" -f "{filename}_pr_PBC.xtc" -o "{filename}_rmsd_prod.xvg" -tu ns\n',
                 f'{grace} -nxy "{filename}_rmsd_prod.xvg" -hdevice PNG -hardcopy -printfile "../figures/{filename}_rmsd_prod.png"\n',
                 f'echo \'4 4\' | {gmx} rms -s "{filename}_charged.tpr" -f "{filename}_pr_PBC.xtc" -o "{filename}_rmsd_cris.xvg" -tu ns\n',
