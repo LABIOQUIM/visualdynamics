@@ -41,7 +41,7 @@ services:
   worker:
     build:
       context: ./server
-      dockerfile: Dockerfile.worker
+      dockerfile: Dockerfile.worker.nogpu
     command: celery -A server.celery worker --concurrency=2 --loglevel=info
     volumes:
       - ./server:/var/www/server
@@ -53,13 +53,6 @@ services:
     links:
       - redis
       - mailer
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
 
   mailer:
     build: ./mailer
