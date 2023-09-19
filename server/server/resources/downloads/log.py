@@ -9,20 +9,15 @@ class DownloadDynamicLog(Resource):
         args = request.args
 
         username = args["username"]
-        molecule = args["molecule"]
         simtype = args["type"]
-        timestamp = args["timestamp"]
 
-        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype, molecule, timestamp)
+        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype)
 
         if os.path.exists(SIMULATION_FOLDER_PATH):
             SIMULATION_GMX_LOG_PATH = os.path.join(SIMULATION_FOLDER_PATH, "run", "logs", "gmx.log")
 
-            simulation_data = SIMULATION_FOLDER_PATH.split("/")[::-1]
-
-            stripped_timestamp_folder = simulation_data[0].replace("\n", "")
             download_filename = (
-                f"{simulation_data[2]}|{simulation_data[1]}|{stripped_timestamp_folder}.log.txt"
+                f"{simtype}.log.txt"
             )
 
             return send_file(

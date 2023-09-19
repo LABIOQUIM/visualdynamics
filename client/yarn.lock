@@ -5348,10 +5348,10 @@ next-auth@4.23.0:
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
 
-next-international@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/next-international/-/next-international-0.9.1.tgz#f53e5bae2405f77af3c0e98052c771983acf4854"
-  integrity sha512-LllzaDcqcVJ/UoWBz2PqQTpSZaULQUwVc49jlzN4YwnrcFnex+hstkKb15tnh7A16wmB+4sd6RCUXmwf72+R+A==
+next-international@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/next-international/-/next-international-1.0.0.tgz#fb0a1ddeb066c789bf43ae949315489e02b07883"
+  integrity sha512-hrPZyxvOzDRBpwHA+hp6Rluocy8lktuK88a/pEmafOUc0IAg6JNjjTW/6twHdfS7eAYWHfW5TKapJEOaXqqp8w==
   dependencies:
     client-only "^0.0.1"
     international-types "^0.8.0"

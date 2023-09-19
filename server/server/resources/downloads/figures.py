@@ -12,18 +12,14 @@ class DownloadDynamicFigures(Resource):
         args = request.args
 
         username = args["username"]
-        molecule = args["molecule"]
         simtype = args["type"]
-        timestamp = args["timestamp"]
 
-        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype, molecule, timestamp)
+        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype)
 
         if os.path.exists(SIMULATION_FOLDER_PATH):
             SIMULATION_RUN_FOLDER_PATH = os.path.join(SIMULATION_FOLDER_PATH, "run")
             SIMULATION_FIGURES_FOLDER_PATH = os.path.join(SIMULATION_FOLDER_PATH, "figures")
             SIMULATION_FIGURES_ZIP_PATH = os.path.join(SIMULATION_FIGURES_FOLDER_PATH, "figures.zip")
-
-            simulation_data = SIMULATION_FOLDER_PATH.split("/")[::-1]
 
             for folder, _, files in os.walk(SIMULATION_RUN_FOLDER_PATH):
                 for file in files:
@@ -41,8 +37,7 @@ class DownloadDynamicFigures(Resource):
                                 compress_type=zipfile.ZIP_DEFLATED,
                             )
             
-            stripped_timestamp_folder = simulation_data[0].replace("\n", "")
-            download_filename = f"{simulation_data[2]}|{simulation_data[1]}|{stripped_timestamp_folder}|figures.zip"
+            download_filename = f"{simtype}-figures.zip"
 
             return send_file(
                 SIMULATION_FIGURES_ZIP_PATH, as_attachment=True, download_name=download_filename

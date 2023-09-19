@@ -42,8 +42,10 @@ def run_command(command, log_file, pid_file):
             process1.wait()
             process2.wait()
 
+            print(command, process2.returncode)
+
             # Return the output of the second subprocess as a tuple
-            return (process2.pid, process2.returncode)
+            return process2.pid, process2.returncode
         else:
             # Run the command using `run` and redirect stdout and stderr to the log file
             process = subprocess.Popen(
@@ -59,5 +61,6 @@ def run_command(command, log_file, pid_file):
 
             process.wait()
 
+            print(command, process.returncode)
             # Return the output of the command as a tuple
-            return (process.pid, process.returncode)
+            return process.pid, process.returncode

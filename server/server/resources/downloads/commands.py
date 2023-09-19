@@ -9,20 +9,15 @@ class DownloadDynamicCommands(Resource):
         args = request.args
 
         username = args["username"]
-        molecule = args["molecule"]
         simtype = args["type"]
-        timestamp = args["timestamp"]
 
-        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype, molecule, timestamp)
+        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype)
 
         if os.path.exists(SIMULATION_FOLDER_PATH):
             SIMULATION_COMMANDS_TXT_PATH = os.path.join(SIMULATION_FOLDER_PATH, "commands.txt")
 
-            simulation_data = SIMULATION_FOLDER_PATH.split("/")[::-1]
-
-            stripped_timestamp_folder = simulation_data[0].replace("\n", "")
             download_filename = (
-                f"{simulation_data[2]}|{simulation_data[1]}|{stripped_timestamp_folder}.txt"
+                f"{simtype}-commands.txt"
             )
 
             return send_file(

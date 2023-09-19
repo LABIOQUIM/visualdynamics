@@ -10,17 +10,13 @@ class DownloadDynamicResults(Resource):
         args = request.args
 
         username = args["username"]
-        molecule = args["molecule"]
         simtype = args["type"]
-        timestamp = args["timestamp"]
 
         SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype, molecule, timestamp)
 
         if os.path.exists(SIMULATION_FOLDER_PATH):
             SIMULATION_RUN_FOLDER_PATH = os.path.join(SIMULATION_FOLDER_PATH, "run")
             SIMULATION_RESULTS_ZIP_PATH = os.path.join(SIMULATION_RUN_FOLDER_PATH, "results.zip")
-
-            simulation_data = SIMULATION_FOLDER_PATH.split("/")[::-1]
 
             with zipfile.ZipFile(SIMULATION_RESULTS_ZIP_PATH, "w") as z:
                 for folder, _, files in os.walk(SIMULATION_RUN_FOLDER_PATH):
@@ -37,9 +33,8 @@ class DownloadDynamicResults(Resource):
                                 compress_type=zipfile.ZIP_DEFLATED,
                             )
 
-            stripped_timestamp_folder = simulation_data[0].replace("\n", "")
             download_filename = (
-                f"{simulation_data[2]}|{simulation_data[1]}|{stripped_timestamp_folder}|results.zip"
+                f"{simtype}-results.zip"
             )
 
             return send_file(

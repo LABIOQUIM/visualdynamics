@@ -2,7 +2,7 @@ version: '3'
 
 services:
   database:
-    image: postgres:alpine
+    image: postgres:15-alpine
     environment:
       POSTGRES_PASSWORD: "postgresvd"
       POSTGRES_DB: visualdynamics

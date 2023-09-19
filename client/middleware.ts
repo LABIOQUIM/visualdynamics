@@ -13,7 +13,10 @@ const publicPages = [
   "/knowledge"
 ];
 
-const I18nMiddleware = createI18nMiddleware(locales, "en-US");
+const I18nMiddleware = createI18nMiddleware({
+  locales,
+  defaultLocale: "en-US"
+});
 
 const authMiddleware = withAuth(
   function onSuccess(req) {

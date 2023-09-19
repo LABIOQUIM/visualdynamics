@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from flask_restful import Resource, reqparse
 from server.config import Config
 from server.utils.create_folders import create_folders
@@ -9,8 +8,6 @@ from werkzeug.datastructures import FileStorage
 
 class GenerateAPO(Resource):
     def post(self):
-        timestamp = datetime.now().replace(microsecond=0).isoformat()
-
         parser = reqparse.RequestParser()
         parser.add_argument(
             "file_pdb", required=True, type=FileStorage, location="files"
@@ -33,27 +30,27 @@ class GenerateAPO(Resource):
             gmx = check_gromacs()
             grace = check_grace()
 
-            dynamic_folder = os.path.abspath(
+            simulation_folder = os.path.abspath(
                 os.path.join(
                     Config.UPLOAD_FOLDER,
                     args["username"],
-                    "APO",
-                    filename,
-                    timestamp,
+                    "APO"
                 )
             )
 
-            create_folders(dynamic_folder)
+            if create_folders(simulation_folder) is "running-or-enqueued":
+                return {"status": "roe"}
+
             args["file_pdb"].save(
-                os.path.join(dynamic_folder, "run", args["file_pdb"].filename)
+                os.path.join(simulation_folder, "run", args["file_pdb"].filename)
             )
 
-            file_user_dynamics_list = os.path.abspath(
-                os.path.join(Config.UPLOAD_FOLDER, args["username"], "dynamics.list")
+            file_molecule_name = os.path.abspath(
+                os.path.join(simulation_folder, "molecule.name")
             )
 
-            with open(file_user_dynamics_list, "a+") as f:
-                f.write(f"{dynamic_folder}\n")
+            with open(file_molecule_name, "w") as f:
+                f.write(f'{args["file_pdb"].filename}\n')
         else:
             gmx = "gmx"
             grace = "grace"
@@ -119,12 +116,12 @@ class GenerateAPO(Resource):
         )
 
         if args["bootstrap"] == "true":
-            with open(os.path.join(dynamic_folder, "commands.txt"), "w") as f:
+            with open(os.path.join(simulation_folder, "commands.txt"), "w") as f:
                 f.writelines(commands)
 
             return {
                 "status": "generated",
-                "folder": dynamic_folder,
+                "folder": simulation_folder,
             }
 
         return {"status": "commands", "commands": commands}

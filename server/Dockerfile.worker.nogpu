@@ -31,4 +31,5 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 FROM requirements_install as runner
+ENV GMX_MAXBACKUP=-1
 COPY . .

@@ -19,7 +19,7 @@ class RunDynamic(Resource):
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])
 
-        username = folder.split("/")[::-1][3]
+        username = folder.split("/")[::-1][1]
         file_is_running_path = os.path.abspath(
             os.path.join(Config.UPLOAD_FOLDER, username, "is-running")
         )
@@ -88,9 +88,7 @@ class RunDynamic(Resource):
             extractable_data = extractable_data[::-1]
 
             data = {
-                "timestamp": extractable_data[0],
-                "type": extractable_data[2],
-                "molecule": extractable_data[1],
+                "type": extractable_data[0],
                 "celeryId": celery_id,
                 "folder": folder,
             }

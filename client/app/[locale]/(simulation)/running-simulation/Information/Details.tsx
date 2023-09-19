@@ -13,21 +13,21 @@ export function Details({ info }: Props) {
   return (
     <div className="flex flex-col gap-2">
       <H2>{t("running-simulation.description")}</H2>
-      <Paragraph>
-        {t("running-simulation.molecule", {
-          moleculeName: info.molecule
-        })}
-      </Paragraph>
+      {/* <Paragraph> */}
+      {/*  {t("running-simulation.molecule", { */}
+      {/*    moleculeName: info.molecule */}
+      {/*  })} */}
+      {/* </Paragraph> */}
       <Paragraph>
         {t("running-simulation.type", {
-          simulationType: info.type
+          simulationType: <b>{info.type}</b>
         })}
       </Paragraph>
-      <Paragraph>
-        {t("running-simulation.createdAt", {
-          formattedDate: dateFormat(new Date(info.timestamp))
-        })}
-      </Paragraph>
+      {/* <Paragraph> */}
+      {/*  {t("running-simulation.createdAt", { */}
+      {/*    formattedDate: dateFormat(new Date(info.timestamp)) */}
+      {/*  })} */}
+      {/* </Paragraph> */}
     </div>
   );
 }

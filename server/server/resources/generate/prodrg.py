@@ -45,34 +45,33 @@ class GeneratePRODRG(Resource):
             gmx = check_gromacs()
             grace = check_grace()
 
-            dynamic_folder = os.path.abspath(
+            simulation_folder = os.path.abspath(
                 os.path.join(
                     Config.UPLOAD_FOLDER,
                     args["username"],
-                    "PRODRG",
-                    filename,
-                    timestamp,
+                    "PRODRG"
                 )
             )
 
-            create_folders(dynamic_folder)
+            if create_folders(simulation_folder) is "running-or-enqueued":
+                return {"status": "roe"}
 
             args["file_pdb"].save(
-                os.path.join(dynamic_folder, "run", args["file_pdb"].filename)
+                os.path.join(simulation_folder, "run", args["file_pdb"].filename)
             )
             args["file_itp"].save(
-                os.path.join(dynamic_folder, "run", args["file_itp"].filename)
+                os.path.join(simulation_folder, "run", args["file_itp"].filename)
             )
             args["file_gro"].save(
-                os.path.join(dynamic_folder, "run", args["file_gro"].filename)
+                os.path.join(simulation_folder, "run", args["file_gro"].filename)
             )
 
-            file_user_dynamics_list = os.path.abspath(
-                os.path.join(Config.UPLOAD_FOLDER, args["username"], "dynamics.list")
+            file_molecule_name = os.path.abspath(
+                os.path.join(simulation_folder, "molecule.name")
             )
 
-            with open(file_user_dynamics_list, "a+") as f:
-                f.write(f"{dynamic_folder}\n")
+            with open(file_molecule_name, "w") as f:
+                f.write(f'{args["file_pdb"].filename}\n')
         else:
             gmx = "gmx"
             grace = "grace"
@@ -141,12 +140,12 @@ class GeneratePRODRG(Resource):
         ]
 
         if args["bootstrap"] == "true":
-            with open(os.path.join(dynamic_folder, "commands.txt"), "w") as f:
+            with open(os.path.join(simulation_folder, "commands.txt"), "w") as f:
                 f.writelines(commands)
 
             return {
                 "status": "generated",
-                "folder": dynamic_folder,
+                "folder": simulation_folder,
             }
 
         return {"status": "commands", "commands": commands}
