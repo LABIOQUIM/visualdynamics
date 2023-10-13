@@ -1,4 +1,5 @@
 "use client";
+import { Simulation } from "@prisma/client";
 import { CheckCircle, Clock, Download, Slash, XCircle } from "lucide-react";
 
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
@@ -31,58 +32,58 @@ export function SimulationCard({ simulation }: SimulationListItemProps) {
       className={cnMerge(
         "flex w-full items-center gap-2 rounded-md border p-2",
         {
-          "border-cyan-600 bg-cyan-400/20": simulation.status === "running",
-          "border-zinc-600 bg-zinc-400/20": simulation.status === "canceled",
-          "border-yellow-600 bg-yellow-400/20": simulation.status === "queued",
+          "border-cyan-600 bg-cyan-400/20": simulation.status === "RUNNING",
+          "border-zinc-600 bg-zinc-400/20": simulation.status === "CANCELED",
+          "border-yellow-600 bg-yellow-400/20": simulation.status === "QUEUED",
           "border-emerald-600 bg-emerald-400/20":
-            simulation.status === "finished",
-          "border-red-600 bg-red-400/20": simulation.status === "error"
+            simulation.status === "COMPLETED",
+          "border-red-600 bg-red-400/20": simulation.status === "ERRORED"
         }
       )}
-      key={simulation.celeryId}
+      key={simulation.id}
     >
-      {simulation.status === "finished" ? (
+      {simulation.status === "COMPLETED" ? (
         <CheckCircle className="min-h-[2rem] min-w-[2rem] stroke-emerald-950 dark:stroke-emerald-300" />
       ) : null}
-      {simulation.status === "canceled" ? (
+      {simulation.status === "CANCELED" ? (
         <Slash className="min-h-[2rem] min-w-[2rem] stroke-zinc-950 dark:stroke-zinc-300" />
       ) : null}
-      {simulation.status === "queued" ? (
+      {simulation.status === "QUEUED" ? (
         <Clock className="min-h-[2rem] min-w-[2rem] stroke-yellow-950 dark:stroke-yellow-300" />
       ) : null}
-      {simulation.status === "error" ? (
+      {simulation.status === "ERRORED" ? (
         <XCircle className="min-h-[2rem] min-w-[2rem] stroke-red-950 dark:stroke-red-300" />
       ) : null}
-      {simulation.status === "running" ? (
+      {simulation.status === "RUNNING" ? (
         <Spinner className="min-h-[2rem] min-w-[2rem] fill-cyan-950 text-cyan-300 dark:fill-cyan-300 dark:text-cyan-900" />
       ) : null}
       <div className="flex flex-col gap-y-2">
         <div
           className={cnMerge({
-            "text-cyan-950 dark:text-cyan-300": simulation.status === "running",
+            "text-cyan-950 dark:text-cyan-300": simulation.status === "RUNNING",
             "text-zinc-950 dark:text-zinc-300":
-              simulation.status === "canceled",
+              simulation.status === "CANCELED",
             "text-yellow-950 dark:text-yellow-300":
-              simulation.status === "queued",
+              simulation.status === "QUEUED",
             "text-emerald-950 dark:text-emerald-300":
-              simulation.status === "finished",
-            "text-red-950 dark:text-red-300": simulation.status === "error"
+              simulation.status === "COMPLETED",
+            "text-red-950 dark:text-red-300": simulation.status === "ERRORED"
           })}
         >
           <p>
             {t("simulations.header", {
               type: simulation.type,
-              molecule: simulation.molecule,
-              time: dateFormat(new Date(simulation.timestamp))
+              molecule: simulation.moleculeName,
+              time: dateFormat(new Date(simulation.createdAt))
             })}
           </p>
-          {simulation.status === "error" ? (
-            simulation.errored_command === "hm5ka" ? (
+          {simulation.status === "ERRORED" ? (
+            simulation.erroredOnCommand === "hm5ka" ? (
               <p>{t("simulations.errors.hm5ka")}</p>
             ) : (
               <p>
                 {t("simulations.errors.command", {
-                  command: <b>{simulation.errored_command}</b>
+                  command: <b>{simulation.erroredOnCommand}</b>
                 })}
               </p>
             )

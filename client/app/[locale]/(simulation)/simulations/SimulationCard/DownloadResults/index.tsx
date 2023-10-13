@@ -1,4 +1,5 @@
 "use client";
+import { Simulation } from "@prisma/client";
 import { FileDigit } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -20,13 +21,11 @@ export function DownloadResults({ simulation, variants }: Props) {
     if (session) {
       const data = await downloadResults({
         username: session.user.username,
-        type: simulation.type,
-        molecule: simulation.molecule,
-        timestamp: simulation.timestamp
+        type: simulation.type
       });
 
       const link = document.createElement("a");
-      link.download = `${simulation.type}-${simulation.molecule}-${simulation.timestamp}-results.zip`;
+      link.download = `${simulation.type}-${simulation.moleculeName}-${simulation.createdAt}-results.zip`;
       const blobUrl = window.URL.createObjectURL(
         new Blob([new Uint8Array(Buffer.from(data, "base64"))])
       );
@@ -41,7 +40,7 @@ export function DownloadResults({ simulation, variants }: Props) {
     <Button
       className="w-full md:w-fit"
       disabled={
-        simulation.status === "running" || simulation.status === "queued"
+        simulation.status === "RUNNING" || simulation.status === "QUEUED"
       }
       LeftIcon={FileDigit}
       onClick={handleDownload}

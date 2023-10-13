@@ -1,6 +1,7 @@
 "use server";
 
 import { serverApi } from "@/lib/api";
+import { prisma } from "@/lib/prisma";
 
 export async function createNewAPOSimulation(
   data: NewAPOSimulationProps,
@@ -27,6 +28,20 @@ export async function createNewAPOSimulation(
   );
 
   // TODO: Create new Simulation on database, be it a commands download or a server run
+
+  await prisma.simulation.create({
+    data: {
+      type: "APO",
+      moleculeName: (formDataWithFile.get("file_pdb") as File).name.split(
+        "."
+      )[0],
+      user: {
+        connect: {
+          username: data.username
+        }
+      }
+    }
+  });
 
   if (response.status === "generated") {
     const { data: runResponse } = await serverApi.post(

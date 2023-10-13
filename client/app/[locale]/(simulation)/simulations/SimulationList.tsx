@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { SignalZero } from "lucide-react";
 
 import { Header } from "@/app/[locale]/(simulation)/simulations/Header";
@@ -16,7 +17,7 @@ export function SimulationList({ username }: Props) {
   const { data, refetch } = useSimulations(username);
   const t = useI18n();
 
-  if (!data || data.status !== "has-simulations") {
+  if (!data || data.length === 0) {
     return (
       <div className="flex flex-1 flex-col gap-2">
         <Header refetch={refetch} />
@@ -32,9 +33,9 @@ export function SimulationList({ username }: Props) {
   return (
     <div className="flex flex-col gap-2">
       <Header refetch={refetch} />
-      {data.simulations.map((simulation) => (
+      {data.map((simulation) => (
         <SimulationCard
-          key={simulation.celeryId}
+          key={simulation.id}
           simulation={simulation}
         />
       ))}

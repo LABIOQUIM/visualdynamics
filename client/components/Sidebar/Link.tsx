@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useSidebar } from "@/contexts/sidebar";
 import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 import { routeIsActive } from "@/utils/route";
@@ -13,11 +14,12 @@ interface Props {
 export function SidebarLink({ link }: Props) {
   const pathname = usePathname();
   const t = useI18n();
-
+  const { closeSidebar } = useSidebar();
   return (
     <li className="relative flex min-h-[2.5rem] items-center px-3">
       <Link
         href={link.href || "#"}
+        onClick={closeSidebar}
         className={cnMerge(
           "flex h-full w-full items-center font-medium transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
           {

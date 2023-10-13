@@ -1,4 +1,5 @@
 "use client";
+import { Simulation } from "@prisma/client";
 import { FileCode } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -20,13 +21,11 @@ export function DownloadCommands({ simulation, variants }: Props) {
     if (session) {
       const data = await downloadCommands({
         username: session.user.username,
-        type: simulation.type,
-        molecule: simulation.molecule,
-        timestamp: simulation.timestamp
+        type: simulation.type
       });
 
       const link = document.createElement("a");
-      link.download = `${simulation.type}-${simulation.molecule}-${simulation.timestamp}-commands.txt`;
+      link.download = `${simulation.type}-${simulation.moleculeName}-${simulation.createdAt}-commands.txt`;
       link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(data);
       link.click();
     }

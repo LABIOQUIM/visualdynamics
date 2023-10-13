@@ -12,18 +12,52 @@ enum Role {
   USER
 }
 
+enum SimulationType {
+  ACPYPE
+  APO
+  PRODRG
+}
+
+enum Status {
+  QUEUED
+  RUNNING
+  COMPLETED
+  CANCELED
+  ERRORED
+}
+
 model User {
-  id             String              @id @default(uuid())
-  email          String              @unique
-  username       String              @unique
-  password       String?
-  name           String?
-  active         Boolean             @default(false)
-  deleted        Boolean?            @default(false)
-  role           Role                @default(USER)
+  id        String    @id @default(uuid())
+  email     String    @unique
+  username  String    @unique
+  password  String?
+  name      String?
+  active    Boolean   @default(false)
+  deleted   Boolean?  @default(false)
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
   passwordResets UserPasswordReset[]
+  simulations    Simulation[]
 
   @@map("users")
+}
+
+model Simulation {
+  id               String         @id @default(uuid())
+  userId           String
+  moleculeName     String         @map("molecule_name")
+  type             SimulationType
+  createdAt        DateTime       @default(now()) @map("created_at")
+  startedAt        DateTime?      @map("started_at")
+  endedAt          DateTime?      @map("ended_at")
+  status           Status         @default(QUEUED)
+  erroredOnCommand String?        @map("errored_on_command")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("simulations")
 }
 
 model UserPasswordReset {
@@ -39,8 +73,9 @@ model UserPasswordReset {
 }
 
 model AppSettings {
-  id              String  @id @unique @default(cuid())
-  maintenanceMode Boolean @default(false) @map("maintenance_mode")
+  id              String   @id @default(cuid())
+  maintenanceMode Boolean  @default(false) @map("maintenance_mode")
+  updatedAt       DateTime @default(now()) @map("updated_at")
 
   @@map("app_settings")
 }

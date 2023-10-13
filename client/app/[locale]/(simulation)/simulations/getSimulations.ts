@@ -1,28 +1,22 @@
 "use server";
 
-import { serverApi } from "@/lib/api";
+import { Simulation } from "@prisma/client";
+
+import { prisma } from "@/lib/prisma";
 
 export async function getSimulations(
   username: string
-): Promise<GetSimulationsResult> {
+): Promise<Simulation[] | undefined> {
   try {
-    if (!username) {
-      return {
-        status: "no-username"
-      };
-    }
-
-    const { data } = await serverApi.get<GetSimulationsResult>("/simulations", {
-      params: {
-        username
+    return await prisma.simulation.findMany({
+      where: {
+        user: {
+          username
+        }
       }
     });
-
-    return data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch {
-    return {
-      status: "failed"
-    };
+    return undefined;
   }
 }

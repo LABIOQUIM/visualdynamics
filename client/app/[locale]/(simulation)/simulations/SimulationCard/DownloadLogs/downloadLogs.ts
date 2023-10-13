@@ -5,18 +5,11 @@ import { serverApi } from "@/lib/api";
 type Props = {
   username: string;
   type: string;
-  molecule: string;
-  timestamp: string;
 };
 
-export async function downloadLogs({
-  type,
-  timestamp,
-  username,
-  molecule
-}: Props) {
+export async function downloadLogs({ type, username }: Props) {
   const { data } = await serverApi.get(
-    `/downloads/log?username=${username}&type=${type}&molecule=${molecule}&timestamp=${timestamp}`
+    `/downloads/log?username=${username}&type=${type}`
   );
 
   return data;

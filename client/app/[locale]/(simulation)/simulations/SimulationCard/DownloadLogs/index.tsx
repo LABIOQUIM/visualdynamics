@@ -1,4 +1,5 @@
 "use client";
+import { Simulation } from "@prisma/client";
 import { Scroll } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -20,13 +21,11 @@ export function DownloadLogs({ simulation, variants }: Props) {
     if (session) {
       const data = await downloadLogs({
         username: session.user.username,
-        type: simulation.type,
-        molecule: simulation.molecule,
-        timestamp: simulation.timestamp
+        type: simulation.type
       });
 
       const link = document.createElement("a");
-      link.download = `${simulation.type}-${simulation.molecule}-${simulation.timestamp}-logs.txt`;
+      link.download = `${simulation.type}-${simulation.moleculeName}-${simulation.createdAt}-logs.txt`;
       link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(data);
       link.click();
     }
@@ -36,7 +35,7 @@ export function DownloadLogs({ simulation, variants }: Props) {
     <Button
       className="w-full md:w-fit"
       disabled={
-        simulation.status === "running" || simulation.status === "queued"
+        simulation.status === "RUNNING" || simulation.status === "QUEUED"
       }
       LeftIcon={Scroll}
       onClick={handleDownload}
