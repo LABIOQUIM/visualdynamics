@@ -11,7 +11,7 @@ export const SignUpFormSchema = z.object({
     .min(1, "account-register:email.errors.empty")
     .email("account-register:email.errors.invalid")
     .regex(
-      /[a-z0-9]+@(?!gmail|yahoo|qq|yandex|protonmail|proton|pm|hotmail|outlook|123|126|163).[a-z0-9]+/,
+      /[a-z0-9._-]+@(?!gmail|yahoo|qq|yandex|protonmail|proton|pm|hotmail|outlook|123|126|163).[a-z0-9.-]+/,
       "account-register:email.errors.disallowed"
     ),
   password: z.string().min(1, "account-register:password.errors.empty")
