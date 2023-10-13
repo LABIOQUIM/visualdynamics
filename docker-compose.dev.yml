@@ -48,7 +48,8 @@ services:
     build: 
       context: ./server
       dockerfile: Dockerfile.worker
-    command: celery -A server.celery worker --concurrency=2 --loglevel=info
+    env_file: .env.dev
+    command: celery -A server.worker worker --concurrency=2 --loglevel=info
     volumes:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles

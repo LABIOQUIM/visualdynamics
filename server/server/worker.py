@@ -1,14 +1,18 @@
 # Create a Celery instance
+import datetime
+
 from celery import Celery
 import os
 
 from celery.contrib.abortable import AbortableTask
 import requests
 
+from pony.orm import db_session, desc
+
 import shutil
 from server.config import Config
 from server.utils.run_command import run_command
-
+from server.db import Simulation, User
 
 celery = Celery(
     "visualdynamics",
@@ -19,6 +23,7 @@ celery = Celery(
 celery.conf.update(result_extended=True)
 celery.conf.broker_transport_options = {"visibility_timeout": 604800}
 celery.conf.broker_connection_retry_on_startup = True
+
 
 @celery.task(bind=True, name="Simulate", base=AbortableTask)
 def run_commands(self, folder, dynamics_mailer_api_url, email):
@@ -38,15 +43,31 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
     )
     file_pid_path = os.path.join(folder_run, "pid_file")
 
+    with db_session:
+        user_on_db = User.get(email=email)
+
+        simulation_on_db = list(
+            Simulation.select(
+                lambda s: s.user_id == user_on_db.id
+            ).order_by(
+                desc(Simulation.created_at)
+            )
+        )
+
+        simulation_on_db = simulation_on_db[0]
+
+        simulation_on_db.status = "RUNNING"
+        simulation_on_db.started_at = datetime.datetime.now()
+
     with open(file_molecule_name, "r") as f:
         mname = f.readline()
-        file_molecule = os.path.abspath(os.path.join(folder_run, mname.replace("\n", "")))
+        file_molecule = os.path.abspath(
+            os.path.join(folder_run, mname.replace("\n", "")))
 
     dynamic_data = folder.split("/")[::-1]
 
     with open(file_molecule, "r") as f:
         atom_count = sum(1 for line in f if "ATOM" in line)
-
 
     email_data_failed = {
         "to": email,
@@ -54,8 +75,13 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
         "subject": "Your simulation has failed.",
         "context": {
             "base_url": os.environ.get("APP_URL"),
-            "preheader": "An error has occurred during the execution of your simulation.",
-            "content": f"Your {dynamic_data[0]} simulation has failed.<br><br>The simulation that you submitted has failed.<br><br>Please access VD and check the logs provided, if you're sure it's a bug in our software, please contact us.",
+            "preheader": "An error has occurred during the execution of your "
+                         "simulation.",
+            "content": f"Your {dynamic_data[0]} simulation has "
+                       f"failed.<br><br>The simulation that you submitted has "
+                       f"failed.<br><br>Please access VD and check the logs "
+                       f"provided, if you're sure it's a bug in our software, "
+                       f"please contact us.",
             "showButton": True,
             "buttonLink": os.environ.get("APP_URL"),
             "buttonText": "Go to Visual Dynamics",
@@ -71,7 +97,10 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
         "context": {
             "base_url": os.environ.get("APP_URL"),
             "preheader": "The simulation you left running has ended.",
-            "content": f"Your {dynamic_data[0]} simulation has ended.<br><br>The simulation that you submitted has ended.<br><br>Please access VD to download the figure graphics, raw data and more.",
+            "content": f"Your {dynamic_data[0]} simulation has "
+                       f"ended.<br><br>The simulation that you submitted has "
+                       f"ended.<br><br>Please access VD to download the "
+                       f"figure graphics, raw data and more.",
             "showButton": True,
             "buttonLink": os.environ.get("APP_URL"),
             "buttonText": "Go to Visual Dynamics",
@@ -86,6 +115,22 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
 
         with open(file_status_path, "w") as f:
             f.write(f"error: hm5ka")
+
+        with db_session:
+            user_on_db = User.get(email=email)
+
+            simulation_on_db = list(
+                Simulation.select(
+                    lambda s: s.user_id == user_on_db.id
+                ).order_by(
+                    desc(Simulation.created_at)
+                )
+            )
+
+            simulation_on_db = simulation_on_db[0]
+
+            simulation_on_db.status = "ERRORED"
+            simulation_on_db.errored_on_command = "hm5ka"
 
         if os.path.exists(file_is_running):
             os.remove(file_is_running)
@@ -103,7 +148,8 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
         commands_file_content = f.readlines()
 
     # Make each line of the file as a item in the excution array
-    commands = [line.rstrip("\n") for line in commands_file_content if line != "\n"]
+    commands = [line.rstrip("\n") for line in commands_file_content if
+                line != "\n"]
 
     # Make our shell go to the run folder
     os.chdir(folder_run)
@@ -121,13 +167,30 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
                 f.write(f"{command}\n")
         else:
             try:
-                (_, returncode) = run_command(command, file_log_path, file_pid_path)
+                (_, returncode) = run_command(command, file_log_path,
+                                              file_pid_path)
 
                 if returncode > 0:
                     raise Exception
             except:
                 # SEND MAIL NOTIFYING DYNAMIC ERRORED
-                requests.post("http://mailer:3000/send-email", json=email_data_failed)
+                requests.post("http://mailer:3000/send-email",
+                              json=email_data_failed)
+
+                with db_session:
+                    user_on_db = User.get(email=email)
+
+                    simulation_on_db = list(
+                        Simulation.select(
+                            lambda s: s.user_id == user_on_db.id
+                        ).order_by(
+                            desc(Simulation.created_at)
+                        )
+                    )
+
+                    simulation_on_db = simulation_on_db[0]
+                    simulation_on_db.status = "ERRORED"
+                    simulation_on_db.errored_on_command = command
 
                 with open(file_status_path, "w") as f:
                     f.write(f"error: {command}")
@@ -138,6 +201,21 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
 
     # SEND EMAIL NOTIFYING DYNAMIC ENDED
     requests.post("http://mailer:3000/send-email", json=email_data_success)
+
+    with db_session:
+        user_on_db = User.get(email=email)
+
+        simulation_on_db = list(
+            Simulation.select(
+                lambda s: s.user_id == user_on_db.id
+            ).order_by(
+                desc(Simulation.created_at)
+            )
+        )
+
+        simulation_on_db = simulation_on_db[0]
+        simulation_on_db.status = "COMPLETED"
+        simulation_on_db.ended_at = datetime.datetime.now()
 
     with open(file_status_path, "w") as f:
         f.write("finished")

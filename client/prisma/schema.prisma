@@ -46,7 +46,7 @@ model User {
 
 model Simulation {
   id               String         @id @default(uuid())
-  userId           String
+  userId           String         @map("user_id")
   moleculeName     String         @map("molecule_name")
   type             SimulationType
   createdAt        DateTime       @default(now()) @map("created_at")

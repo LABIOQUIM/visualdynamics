@@ -3,7 +3,7 @@ import signal
 import time
 from flask_restful import Resource, reqparse
 from celery.contrib.abortable import AbortableAsyncResult
-from server.celery import celery
+from server.worker import celery
 
 
 class AbortDynamic(Resource):

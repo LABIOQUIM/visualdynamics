@@ -7,3 +7,5 @@ pip==23.1.2
 pyopenssl==23.2.0
 requests==2.29.0
 redis==4.6.0
+pony==0.7.17
+psycopg2-binary==2.9.9

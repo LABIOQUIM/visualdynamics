@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from server.celery import celery
+from server.worker import celery
 
 
 class CeleryReservedTasks(Resource):

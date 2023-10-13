@@ -25,7 +25,8 @@ def run_command(command, log_file, pid_file):
             # Create the first subprocess using `Popen`
             process1 = subprocess.Popen(args1, stdout=subprocess.PIPE, stderr=f)
 
-            # Create the second subprocess using `Popen` and connect the stdout and stderr to the log file
+            # Create the second subprocess using `Popen` and connect the
+            # stdout and stderr to the log file
             process2 = subprocess.Popen(
                 cmd2 if should_use_shell else args2,
                 shell=should_use_shell,
@@ -42,12 +43,11 @@ def run_command(command, log_file, pid_file):
             process1.wait()
             process2.wait()
 
-            print(command, process2.returncode)
-
             # Return the output of the second subprocess as a tuple
             return process2.pid, process2.returncode
         else:
-            # Run the command using `run` and redirect stdout and stderr to the log file
+            # Run the command using `run` and redirect stdout and stderr to
+            # the log file
             process = subprocess.Popen(
                 command if should_use_shell else args,
                 shell=should_use_shell,
@@ -61,6 +61,5 @@ def run_command(command, log_file, pid_file):
 
             process.wait()
 
-            print(command, process.returncode)
             # Return the output of the command as a tuple
             return process.pid, process.returncode
