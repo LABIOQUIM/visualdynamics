@@ -198,7 +198,7 @@ export default {
       models: {
         apo: "APO",
         acpype: "Protein + Ligand (prepared in ACPYPE)",
-        prodrg: "Protein + Ligand (prepared in PRODRG) [DEPRECATED]"
+        prodrg: "Protein + Ligand (prepared in PRODRG)"
       }
     },
     preparations: {
@@ -416,7 +416,10 @@ export default {
   simulations: {
     title: "My Simulations",
     "auto-refresh": "Refreshing in {seconds} seconds.",
-    header: "{type}: {molecule} @ {time}",
+    molecule: "Molecule: {molecule}",
+    createdAt: "Submitted at: {time}",
+    startedAt: "Started at: {time}",
+    endedAt: "Ended at: {time}",
     empty: {
       title: "You haven't performed a dynamic, yet...",
       description:
@@ -426,13 +429,13 @@ export default {
       commands: "Commands",
       figures: "Figure Graphics",
       log: "GROMACS Log",
-      results: "Raw Results (.xtc and _pr.tpr)",
+      results: "Results (.xtc and _pr.tpr)",
       mdp: "Download MDP Files",
       title: "Downloads"
     },
     errors: {
       hm5ka: "Error: This molecule has more than 10000 atoms.",
-      command: "Errored on command {command}"
+      command: "Errored on command: {command}"
     }
   }
 } as const;

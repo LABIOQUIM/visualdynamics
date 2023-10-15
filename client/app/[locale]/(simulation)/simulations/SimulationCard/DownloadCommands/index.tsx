@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/Button";
 import { useI18n } from "@/locales/client";
+import { dateFormat } from "@/utils/dateFormat";
 
 import { downloadCommands } from "./downloadCommands";
 
@@ -25,7 +26,9 @@ export function DownloadCommands({ simulation, variants }: Props) {
       });
 
       const link = document.createElement("a");
-      link.download = `${simulation.type}-${simulation.moleculeName}-${simulation.createdAt}-commands.txt`;
+      link.download = `${simulation.type}-${
+        simulation.moleculeName
+      }-${simulation.createdAt.toLocaleDateString()}-${simulation.createdAt.toLocaleTimeString()}-commands.txt`;
       link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(data);
       link.click();
     }
@@ -33,7 +36,7 @@ export function DownloadCommands({ simulation, variants }: Props) {
 
   return (
     <Button
-      className="w-full md:w-fit"
+      className="w-full"
       LeftIcon={FileCode}
       onClick={handleDownload}
       variant={variants[simulation.status]}

@@ -1,6 +1,13 @@
 "use client";
 import { Simulation } from "@prisma/client";
-import { CheckCircle, Clock, Download, Slash, XCircle } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  Download,
+  Hexagon,
+  Slash,
+  XCircle
+} from "lucide-react";
 
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { useI18n } from "@/locales/client";
@@ -13,7 +20,7 @@ import { DownloadLogs } from "./DownloadLogs";
 import { DownloadResults } from "./DownloadResults";
 
 interface SimulationListItemProps {
-  simulation: Simulation;
+  simulation?: Simulation;
 }
 
 export function SimulationCard({ simulation }: SimulationListItemProps) {
@@ -27,10 +34,19 @@ export function SimulationCard({ simulation }: SimulationListItemProps) {
     error: "danger"
   };
 
+  if (!simulation) {
+    return (
+      <div className="flex h-full w-full items-center justify-center gap-2 rounded-md border border-zinc-600 bg-zinc-400/20 p-2">
+        <Hexagon className="min-h-[2rem] min-w-[2rem]" />
+        <h1>Não existe</h1>
+      </div>
+    );
+  }
+
   return (
     <div
       className={cnMerge(
-        "flex w-full items-center gap-2 rounded-md border p-2",
+        "relative flex h-full w-full items-center gap-2 rounded-md border p-2",
         {
           "border-cyan-600 bg-cyan-400/20": simulation.status === "RUNNING",
           "border-zinc-600 bg-zinc-400/20": simulation.status === "CANCELED",
@@ -42,22 +58,25 @@ export function SimulationCard({ simulation }: SimulationListItemProps) {
       )}
       key={simulation.id}
     >
-      {simulation.status === "COMPLETED" ? (
-        <CheckCircle className="min-h-[2rem] min-w-[2rem] stroke-emerald-950 dark:stroke-emerald-300" />
-      ) : null}
-      {simulation.status === "CANCELED" ? (
-        <Slash className="min-h-[2rem] min-w-[2rem] stroke-zinc-950 dark:stroke-zinc-300" />
-      ) : null}
-      {simulation.status === "QUEUED" ? (
-        <Clock className="min-h-[2rem] min-w-[2rem] stroke-yellow-950 dark:stroke-yellow-300" />
-      ) : null}
-      {simulation.status === "ERRORED" ? (
-        <XCircle className="min-h-[2rem] min-w-[2rem] stroke-red-950 dark:stroke-red-300" />
-      ) : null}
-      {simulation.status === "RUNNING" ? (
-        <Spinner className="min-h-[2rem] min-w-[2rem] fill-cyan-950 text-cyan-300 dark:fill-cyan-300 dark:text-cyan-900" />
-      ) : null}
-      <div className="flex flex-col gap-y-2">
+      <div className="absolute right-4 top-4">
+        {simulation.status === "COMPLETED" && (
+          <CheckCircle className="min-h-[2rem] min-w-[2rem] stroke-emerald-950 dark:stroke-emerald-300" />
+        )}
+        {simulation.status === "CANCELED" && (
+          <Slash className="min-h-[2rem] min-w-[2rem] stroke-zinc-950 dark:stroke-zinc-300" />
+        )}
+        {simulation.status === "QUEUED" && (
+          <Clock className="min-h-[2rem] min-w-[2rem] stroke-yellow-950 dark:stroke-yellow-300" />
+        )}
+        {simulation.status === "ERRORED" && (
+          <XCircle className="min-h-[2rem] min-w-[2rem] stroke-red-950 dark:stroke-red-300" />
+        )}
+        {simulation.status === "RUNNING" && (
+          <Spinner className="min-h-[2rem] min-w-[2rem] fill-cyan-950 text-cyan-300 dark:fill-cyan-300 dark:text-cyan-900" />
+        )}
+      </div>
+
+      <div className="flex h-full w-full flex-col justify-between gap-y-2">
         <div
           className={cnMerge({
             "text-cyan-950 dark:text-cyan-300": simulation.status === "RUNNING",
@@ -71,17 +90,38 @@ export function SimulationCard({ simulation }: SimulationListItemProps) {
           })}
         >
           <p>
-            {t("simulations.header", {
-              type: simulation.type,
-              molecule: simulation.moleculeName,
-              time: dateFormat(new Date(simulation.createdAt))
+            {t("simulations.molecule", {
+              molecule: <b>{simulation.moleculeName}</b>
             })}
           </p>
+          <p>
+            {t("simulations.createdAt", {
+              time: <b>{dateFormat(new Date(simulation.createdAt))}</b>
+            })}
+          </p>
+
+          {simulation.startedAt && (
+            <p>
+              {t("simulations.startedAt", {
+                time: <b>{dateFormat(new Date(simulation.startedAt))}</b>
+              })}
+            </p>
+          )}
+          {simulation.endedAt && (
+            <p>
+              {t("simulations.endedAt", {
+                time: <b>{dateFormat(new Date(simulation.endedAt))}</b>
+              })}
+            </p>
+          )}
           {simulation.status === "ERRORED" ? (
             simulation.erroredOnCommand === "hm5ka" ? (
               <p>{t("simulations.errors.hm5ka")}</p>
             ) : (
-              <p>
+              <p
+                className="line-clamp-1"
+                title={simulation.erroredOnCommand!}
+              >
                 {t("simulations.errors.command", {
                   command: <b>{simulation.erroredOnCommand}</b>
                 })}
@@ -89,28 +129,32 @@ export function SimulationCard({ simulation }: SimulationListItemProps) {
             )
           ) : null}
         </div>
-        <div className="flex flex-col gap-y-1">
+        <div className="flex w-full flex-col gap-y-1">
           <small className="flex gap-x-1">
             <Download className="h-4 w-4" />
             {t("simulations.downloads.title")}
           </small>
-          <div className="flex flex-wrap gap-2">
-            <DownloadCommands
-              simulation={simulation}
-              variants={variants}
-            />
-            <DownloadLogs
-              simulation={simulation}
-              variants={variants}
-            />
-            <DownloadResults
-              simulation={simulation}
-              variants={variants}
-            />
-            <DownloadFigures
-              simulation={simulation}
-              variants={variants}
-            />
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 xl:flex-row">
+              <DownloadCommands
+                simulation={simulation}
+                variants={variants}
+              />
+              <DownloadLogs
+                simulation={simulation}
+                variants={variants}
+              />
+            </div>
+            <div className="flex flex-col gap-2 xl:flex-row">
+              <DownloadResults
+                simulation={simulation}
+                variants={variants}
+              />
+              <DownloadFigures
+                simulation={simulation}
+                variants={variants}
+              />
+            </div>
           </div>
         </div>
       </div>

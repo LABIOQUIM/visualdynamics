@@ -12,7 +12,7 @@ class DownloadDynamicResults(Resource):
         username = args["username"]
         simtype = args["type"]
 
-        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype, molecule, timestamp)
+        SIMULATION_FOLDER_PATH = os.path.join(Config.UPLOAD_FOLDER, username, simtype)
 
         if os.path.exists(SIMULATION_FOLDER_PATH):
             SIMULATION_RUN_FOLDER_PATH = os.path.join(SIMULATION_FOLDER_PATH, "run")

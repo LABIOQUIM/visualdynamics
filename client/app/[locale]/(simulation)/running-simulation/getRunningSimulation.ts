@@ -1,18 +1,14 @@
 "use server";
 
 import { serverApi } from "@/lib/api";
-
-export type SimulationInfo = {
-  timestamp: string;
-  molecule: string;
-  type: "APO" | "ACPYPE" | "PRODRG";
-  celeryId: string;
-  folder: string;
-};
+import { prisma } from "@/lib/prisma";
 
 export type GetRunningSimulationResult =
   | {
-      info: SimulationInfo;
+      info: Simulation & {
+        folder: string;
+        celeryId: string;
+      };
       steps: string[];
       log: string[];
       status: "running";
@@ -31,11 +27,46 @@ export async function getRunningSimulation(
       };
     }
 
+    const simulation: Simulation | null = await prisma.simulation.findFirst({
+      where: {
+        user: {
+          username
+        },
+        OR: [
+          {
+            status: "RUNNING"
+          },
+          {
+            status: "QUEUED"
+          }
+        ]
+      },
+      orderBy: {
+        createdAt: "desc"
+      }
+    });
+
+    if (simulation === null) {
+      return {
+        status: "not-running"
+      };
+    }
+
     const { data } = await serverApi.get<GetRunningSimulationResult>("/run", {
       params: {
         username
       }
     });
+
+    if (data.status === "running") {
+      return {
+        ...data,
+        info: {
+          ...data.info,
+          ...simulation
+        }
+      };
+    }
 
     return data;
   } catch {

@@ -1,0 +1,11 @@
+.stepsScroll::-webkit-scrollbar {
+    @apply bg-transparent;
+}
+
+.stepsScroll::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+.stepsScroll::-webkit-scrollbar-thumb {
+    @apply bg-transparent;
+}

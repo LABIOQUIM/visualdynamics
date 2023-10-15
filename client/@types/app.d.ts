@@ -1,3 +1,4 @@
+import { Simulation } from "@prisma/client";
 import { User } from "next-auth";
 
 import { boxTypes } from "@/utils/boxTypes";
@@ -59,14 +60,12 @@ declare global {
   };
 
   // QUERY RESULTS
-  export type GetSimulationsResult =
-    | {
-        simulations: Simulation[];
-        status: "has-simulations";
-      }
-    | {
-        status: "no-simulations" | "no-username" | "failed";
-      };
+  interface GetSimulationsReturn {
+    apo?: Simulation;
+    acpype?: Simulation;
+    prodrg?: Simulation;
+  }
+
   type GetMDPSettingsResult =
     | {
         status: "not-found";

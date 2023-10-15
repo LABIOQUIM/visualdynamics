@@ -130,6 +130,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
             simulation_on_db = simulation_on_db[0]
 
             simulation_on_db.status = "ERRORED"
+            simulation_on_db.ended_at = datetime.datetime.now()
             simulation_on_db.errored_on_command = "hm5ka"
 
         if os.path.exists(file_is_running):
@@ -189,7 +190,9 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
                     )
 
                     simulation_on_db = simulation_on_db[0]
+
                     simulation_on_db.status = "ERRORED"
+                    simulation_on_db.ended_at = datetime.datetime.now()
                     simulation_on_db.errored_on_command = command
 
                 with open(file_status_path, "w") as f:
@@ -214,6 +217,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
         )
 
         simulation_on_db = simulation_on_db[0]
+
         simulation_on_db.status = "COMPLETED"
         simulation_on_db.ended_at = datetime.datetime.now()
 

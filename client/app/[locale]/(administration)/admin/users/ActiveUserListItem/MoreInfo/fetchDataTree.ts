@@ -9,7 +9,5 @@ export async function fetchDataTree(username: string) {
     }
   });
 
-  console.log(data);
-
   return data;
 }

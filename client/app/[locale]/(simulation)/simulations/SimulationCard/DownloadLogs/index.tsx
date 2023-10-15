@@ -25,7 +25,9 @@ export function DownloadLogs({ simulation, variants }: Props) {
       });
 
       const link = document.createElement("a");
-      link.download = `${simulation.type}-${simulation.moleculeName}-${simulation.createdAt}-logs.txt`;
+      link.download = `${simulation.type}-${
+        simulation.moleculeName
+      }-${simulation.createdAt.toLocaleDateString()}-${simulation.createdAt.toLocaleTimeString()}-logs.txt`;
       link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(data);
       link.click();
     }
@@ -33,7 +35,7 @@ export function DownloadLogs({ simulation, variants }: Props) {
 
   return (
     <Button
-      className="w-full md:w-fit"
+      className="w-full"
       disabled={
         simulation.status === "RUNNING" || simulation.status === "QUEUED"
       }

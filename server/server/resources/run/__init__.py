@@ -33,8 +33,10 @@ class RunDynamic(Resource):
             (folder, url, args["email"]), task_id=task_id, retry=False
         )
 
-        file_status_path = os.path.abspath(os.path.join(args["folder"], "status"))
-        file_celery_id = os.path.abspath(os.path.join(args["folder"], "celery_id"))
+        file_status_path = os.path.abspath(
+            os.path.join(args["folder"], "status"))
+        file_celery_id = os.path.abspath(
+            os.path.join(args["folder"], "celery_id"))
 
         with open(file_is_running_path, "w") as f:
             f.write("queued")
@@ -53,9 +55,11 @@ class RunDynamic(Resource):
 
         username = args["username"]
 
-        folder_user = os.path.abspath(os.path.join(Config.UPLOAD_FOLDER, username))
+        folder_user = os.path.abspath(
+            os.path.join(Config.UPLOAD_FOLDER, username))
 
-        file_is_running = os.path.abspath(os.path.join(folder_user, "is-running"))
+        file_is_running = os.path.abspath(
+            os.path.join(folder_user, "is-running"))
 
         if os.path.exists(file_is_running):
             with open(file_is_running, "r") as f:
@@ -69,7 +73,7 @@ class RunDynamic(Resource):
             step = []
             if os.path.isfile(file_steps):
                 with open(file_steps, "r") as f:
-                    step = [l.strip().replace("#", "") for l in f.readlines()]
+                    step = [line.strip().replace("#", "") for line in f.readlines()]
 
             file_gmx_log = os.path.abspath(
                 os.path.join(folder, "run", "logs", "gmx.log")
@@ -78,7 +82,7 @@ class RunDynamic(Resource):
             log_lines = []
             if os.path.isfile(file_gmx_log):
                 with open(file_gmx_log, "r") as f:
-                    log_lines = [l.strip() for l in f.readlines()]
+                    log_lines = [line.strip() for line in f.readlines()]
 
             file_celery_id = os.path.abspath(os.path.join(folder, "celery_id"))
 

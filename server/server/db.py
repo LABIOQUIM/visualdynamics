@@ -1,5 +1,4 @@
 from pony.orm import Database, PrimaryKey, Required, Optional
-from uuid import UUID
 from datetime import datetime
 import os
 

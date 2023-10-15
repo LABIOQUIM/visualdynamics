@@ -1,10 +1,12 @@
 import os
 import signal
 import time
+import datetime
 from flask_restful import Resource, reqparse
 from celery.contrib.abortable import AbortableAsyncResult
 from server.worker import celery
-
+from pony.orm import db_session, desc
+from server.db import User, Simulation
 
 class AbortDynamic(Resource):
     def post(self):
@@ -23,7 +25,10 @@ class AbortDynamic(Resource):
         folder_run = os.path.abspath(os.path.join(folder, "run"))
         file_status_path = os.path.abspath(os.path.join(folder, "status"))
         file_is_running = os.path.abspath(
-            os.path.join(folder, "..", "..", "..", "is-running")
+            os.path.join(folder, "..", "is-running")
+        )
+        file_user = os.path.abspath(
+            os.path.join(folder, "..")
         )
         file_pid_path = os.path.join(folder_run, "pid_file")
 
@@ -45,5 +50,22 @@ class AbortDynamic(Resource):
         time.sleep(1)
         with open(file_status_path, "w") as f:
             f.write("canceled")
+
+        print(file_user, file_user.split("/")[::-1][0])
+        with db_session:
+            user_on_db = User.get(username=file_user.split("/")[::-1][0])
+
+            simulation_on_db = list(
+                Simulation.select(
+                    lambda s: s.user_id == user_on_db.id
+                ).order_by(
+                    desc(Simulation.created_at)
+                )
+            )
+
+            simulation_on_db = simulation_on_db[0]
+
+            simulation_on_db.status = "CANCELED"
+            simulation_on_db.ended_at = datetime.datetime.now()
 
         return {"status": "aborted"}

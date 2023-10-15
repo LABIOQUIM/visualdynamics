@@ -25,7 +25,9 @@ export function DownloadResults({ simulation, variants }: Props) {
       });
 
       const link = document.createElement("a");
-      link.download = `${simulation.type}-${simulation.moleculeName}-${simulation.createdAt}-results.zip`;
+      link.download = `${simulation.type}-${
+        simulation.moleculeName
+      }-${simulation.createdAt.toLocaleDateString()}-${simulation.createdAt.toLocaleTimeString()}-results.zip`;
       const blobUrl = window.URL.createObjectURL(
         new Blob([new Uint8Array(Buffer.from(data, "base64"))])
       );
@@ -38,7 +40,7 @@ export function DownloadResults({ simulation, variants }: Props) {
 
   return (
     <Button
-      className="w-full md:w-fit"
+      className="w-full"
       disabled={
         simulation.status === "RUNNING" || simulation.status === "QUEUED"
       }

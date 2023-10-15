@@ -45,7 +45,7 @@ export function RunningSimulationsList() {
                         <p className="font-semibold">
                           {
                             simulation.args[0].split("/")[
-                              simulation.args[0].split("/").length - 4
+                              simulation.args[0].split("/").length - 2
                             ]
                           }
                         </p>
@@ -55,12 +55,6 @@ export function RunningSimulationsList() {
                           {t("admin.simulations.simulations.path")}:
                         </p>
                         <p className="font-semibold">{simulation.args[0]}</p>
-                      </div>
-                      <div className="flex flex-col gap-x-1 lg:flex-row">
-                        <p>{t("admin.simulations.simulations.started-at")}:</p>
-                        <p className="font-semibold">
-                          {dateFormat(new Date(simulation.time_start * 1000))}
-                        </p>
                       </div>
                     </div>
                   </li>

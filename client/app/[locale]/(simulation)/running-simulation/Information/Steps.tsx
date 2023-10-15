@@ -1,9 +1,12 @@
+import { useEffect } from "react";
 import { ArrowRight, CheckCircle, Clock } from "lucide-react";
 
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H2 } from "@/components/Typography";
 import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
+
+import classes from "./Steps.module.css";
 
 interface Props {
   activeSteps: string[];
@@ -32,8 +35,19 @@ function Step({
 }) {
   const t = useI18n();
 
+  useEffect(() => {
+    if (running) {
+      const stepButton = document.getElementById(step);
+
+      if (stepButton) {
+        stepButton.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+  }, [running, step]);
+
   return (
     <div
+      id={step}
       className={cnMerge("flex w-fit gap-x-2 rounded-full border px-2 py-1", {
         "border-zinc-950 bg-zinc-200 text-zinc-900 dark:border-zinc-300 dark:bg-zinc-900 dark:text-zinc-200":
           !active && !running,
@@ -52,7 +66,9 @@ function Step({
       {running ? (
         <Spinner className="h-5 w-5 animate-spin fill-blue-950 text-blue-100 dark:fill-blue-300 dark:text-blue-950" />
       ) : null}
-      <p>{t(`running-simulation.steps.${step}`)}</p>
+      <p className="whitespace-nowrap">
+        {t(`running-simulation.steps.${step}`)}
+      </p>
     </div>
   );
 }
@@ -61,13 +77,15 @@ export function Steps({ activeSteps }: Props) {
   const t = useI18n();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex w-full flex-col gap-2 overflow-hidden">
       <H2>{t("running-simulation.steps.title")}</H2>
-      <div className="flex flex-wrap items-center gap-x-1 gap-y-2">
+      <div
+        className={`flex max-w-full items-center gap-x-1 overflow-auto ${classes.stepsScroll}`}
+      >
         {steps.map((step, index) => (
           <div
             className="flex items-center gap-x-1"
-            key={step + index}
+            key={step}
           >
             <Step
               active={activeSteps.includes(step)}

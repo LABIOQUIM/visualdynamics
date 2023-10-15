@@ -200,7 +200,7 @@ export default {
       models: {
         apo: "APO",
         acpype: "Proteína + Ligante (preparado no ACPYPE)",
-        prodrg: "Proteína + Ligante (preparado no PRODRG) [DEPRECIADO]"
+        prodrg: "Proteína + Ligante (preparado no PRODRG)"
       }
     },
     preparations: {
@@ -418,7 +418,10 @@ export default {
   simulations: {
     title: "Minhas Simulações",
     "auto-refresh": "Atualizando em {{seconds}} segundos.",
-    header: "{type}: {molecule} @ {time}",
+    molecule: "Molécula: {molecule}",
+    createdAt: "Enviado em: {time}",
+    startedAt: "Iniciada em: {time}",
+    endedAt: "Finalizada em: {time}",
     empty: {
       title: "Você ainda não realizou uma simulação...",
       description:
@@ -434,7 +437,7 @@ export default {
     },
     errors: {
       hm5ka: "Erro: Esta molécula tem mais de 10.000 átomos.",
-      command: "Errou no comando {command}"
+      command: "Erro no comando: {command}"
     }
   }
 } as const;

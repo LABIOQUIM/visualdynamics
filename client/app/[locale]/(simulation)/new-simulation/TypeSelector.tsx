@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 import { H2, Paragraph } from "@/components/Typography";
-import { getI18n } from "@/locales/server";
+import { useI18n } from "@/locales/client";
 
-export async function TypeSelector() {
-  const t = await getI18n();
+export function TypeSelector() {
+  const t = useI18n();
 
   return (
-    <div className="grid h-[20rem] grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="grid h-[20rem] grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
       {(["apo", "acpype", "prodrg"] as const).map((type) => (
         <Link
           className="flex h-full flex-col items-center justify-center gap-2 rounded-lg bg-primary-400 transition hover:opacity-70 dark:bg-primary-900"

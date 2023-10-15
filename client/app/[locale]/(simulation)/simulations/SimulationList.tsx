@@ -17,7 +17,7 @@ export function SimulationList({ username }: Props) {
   const { data, refetch } = useSimulations(username);
   const t = useI18n();
 
-  if (!data || data.length === 0) {
+  if (!data || (!data.apo && !data.acpype && !data.prodrg)) {
     return (
       <div className="flex flex-1 flex-col gap-2">
         <Header refetch={refetch} />
@@ -33,12 +33,20 @@ export function SimulationList({ username }: Props) {
   return (
     <div className="flex flex-col gap-2">
       <Header refetch={refetch} />
-      {data.map((simulation) => (
-        <SimulationCard
-          key={simulation.id}
-          simulation={simulation}
-        />
-      ))}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="flex flex-col gap-2">
+          <H2>{t("navigation.simulations.models.apo")}</H2>
+          <SimulationCard simulation={data.apo} />
+        </div>
+        <div className="flex flex-col gap-2">
+          <H2>{t("navigation.simulations.models.acpype")}</H2>
+          <SimulationCard simulation={data.acpype} />
+        </div>
+        <div className="flex flex-col gap-2">
+          <H2>{t("navigation.simulations.models.prodrg")}</H2>
+          <SimulationCard simulation={data.prodrg} />
+        </div>
+      </div>
     </div>
   );
 }

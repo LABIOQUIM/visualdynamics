@@ -35,7 +35,7 @@ export function AppLayout({ children }: PropsWithChildren<unknown>) {
       <Header />
       <div className="flex min-h-[calc(100%-5rem)] lg:h-[calc(100%-5rem)]">
         <Sidebar />
-        <main className="relative flex w-full flex-col justify-between bg-zinc-100 p-4 pb-2 text-zinc-800 transition-all duration-150 dark:bg-zinc-950 dark:text-zinc-100 lg:overflow-y-auto lg:rounded-tl-3xl lg:border-l lg:border-t lg:border-l-zinc-400 lg:border-t-zinc-400 lg:p-8 lg:pb-2 dark:lg:border-l-zinc-600 dark:lg:border-t-zinc-600">
+        <main className="relative flex w-full flex-col justify-between overflow-x-hidden bg-zinc-100 p-4 pb-2 text-zinc-800 transition-all duration-150 dark:bg-zinc-950 dark:text-zinc-100 lg:overflow-y-auto lg:rounded-tl-3xl lg:border-l lg:border-t lg:border-l-zinc-400 lg:border-t-zinc-400 lg:p-8 lg:pb-2 dark:lg:border-l-zinc-600 dark:lg:border-t-zinc-600">
           {children}
           <Footer />
           <ToastContainer
