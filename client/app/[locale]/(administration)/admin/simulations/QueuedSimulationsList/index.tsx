@@ -1,6 +1,7 @@
 "use client";
 import { Server } from "lucide-react";
 
+import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H2 } from "@/components/Typography";
 import { useI18n } from "@/locales/client";
 import { dateFormat } from "@/utils/dateFormat";
@@ -12,11 +13,15 @@ export function QueuedSimulationsList() {
   const { data } = useQueuedSimulations();
 
   if (!data) {
-    return null;
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="h-full w-full">
       <H2>{t("admin.simulations.queued")}</H2>
       {Object.keys(data).map((worker) => {
         const simulations = data[worker];
