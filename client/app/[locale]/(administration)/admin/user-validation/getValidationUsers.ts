@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 export async function getValidationUsers(
   mode: "inactive" | "rejected" = "inactive"
 ): Promise<Omit<User, "password">[]> {
-  return await prisma.user.findMany({
+  return prisma.user.findMany({
     where: {
       active: false,
       deleted: mode !== "inactive"
@@ -19,7 +19,9 @@ export async function getValidationUsers(
       username: true,
       name: true,
       role: true,
-      id: true
+      id: true,
+      createdAt: true,
+      updatedAt: true
     }
   });
 }

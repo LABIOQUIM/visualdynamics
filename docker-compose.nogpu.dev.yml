@@ -31,8 +31,8 @@ services:
       - mailer
     volumes:
       - ./client:/app
-      - /app/node_modules
-      - /app/.next
+      - /client/node_modules
+      - /client/.next
 
   server:
     build: ./server

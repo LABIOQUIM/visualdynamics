@@ -58,7 +58,9 @@ export async function getUsers({
       name: true,
       email: true,
       id: true,
-      deleted: true
+      deleted: true,
+      createdAt: true,
+      updatedAt: true
     }
   });
 

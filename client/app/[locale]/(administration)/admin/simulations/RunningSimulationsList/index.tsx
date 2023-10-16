@@ -4,7 +4,6 @@ import { Server } from "lucide-react";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H2 } from "@/components/Typography";
 import { useI18n } from "@/locales/client";
-import { dateFormat } from "@/utils/dateFormat";
 
 import { useRunningSimulations } from "./useRunningSimulations";
 

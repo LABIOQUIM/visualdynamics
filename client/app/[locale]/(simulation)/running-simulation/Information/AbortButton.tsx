@@ -17,7 +17,7 @@ export function AbortButton({ abortSimulation, folder, taskId }: Props) {
 
   async function handleAbortSimulation() {
     setIsDisabled(true);
-    const response = await abortSimulation(taskId, folder);
+    await abortSimulation(taskId, folder);
     // TODO: Show corresponding toast for success or failure
 
     setIsDisabled(false);

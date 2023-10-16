@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { H2, Paragraph } from "@/components/Typography";
+import { H2 } from "@/components/Typography";
 import { useI18n } from "@/locales/client";
 
 export function TypeSelector() {
@@ -17,9 +17,6 @@ export function TypeSelector() {
           <H2 className="text-center">
             {t(`navigation.simulations.models.${type}`)}
           </H2>
-          <Paragraph className="text-center">
-            {t(`new-simulation.description.${type}`)}
-          </Paragraph>
         </Link>
       ))}
     </div>

@@ -5,7 +5,6 @@ import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/Button";
 import { useI18n } from "@/locales/client";
-import { dateFormat } from "@/utils/dateFormat";
 
 import { downloadCommands } from "./downloadCommands";
 

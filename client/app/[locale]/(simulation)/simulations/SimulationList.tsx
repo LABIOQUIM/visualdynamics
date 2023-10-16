@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import { SignalZero } from "lucide-react";
 
 import { Header } from "@/app/[locale]/(simulation)/simulations/Header";

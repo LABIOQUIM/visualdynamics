@@ -13,6 +13,7 @@ export async function getAppSettings(): Promise<AppSettings> {
 
   return {
     id: "fake-id",
-    maintenanceMode: false
+    maintenanceMode: false,
+    updatedAt: new Date()
   };
 }
