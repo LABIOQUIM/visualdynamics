@@ -1,24 +1,42 @@
-import { PrismaClient } from "@prisma/client";
 import { hash } from "argon2";
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 async function main() {
-  await prisma.user.create({
-    data: {
-      email: "admin@visualdynamics.fiocruz.br",
-      password: await hash("admin"),
-      username: "admin",
-      active: true,
-      role: "ADMIN"
-    }
-  });
-  await prisma.appSettings.create({
-    data: {
-      maintenanceMode: false
-    }
-  });
+  console.log("STARTED SEEDING");
+  try {
+    console.log("USER SEEDING");
+    await prisma.user
+      .create({
+        data: {
+          email: "admin@visualdynamics.fiocruz.br",
+          password: await hash("admin"),
+          username: "admin",
+          active: true,
+          role: "ADMIN"
+        }
+      })
+      .then(console.log)
+      .catch(console.log);
+
+    console.log("CREATED ADMIN");
+  } catch (e) {
+    console.log(e);
+  }
+
+  try {
+    await prisma.appSettings.create({
+      data: {
+        maintenanceMode: false
+      }
+    });
+
+    console.log("APPSETTINGS CREATED");
+  } catch (e) {
+    console.log(e);
+  }
 }
+
 main()
   .then(async () => {
     await prisma.$disconnect();

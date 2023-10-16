@@ -73,6 +73,7 @@ export default {
         "started-at": "Started at",
         username: "Username"
       },
+      "no-contact": "The Cloud Worker is unreachable",
       "worker-empty": "There are no tasks running/waiting on this worker",
       "trigger-run": {
         title: "Trigger Run",
@@ -152,7 +153,7 @@ export default {
         inactive:
           "This user hasn't been activated yet. We'll contact you via email when your account passes our validations.",
         "wrong-credentials":
-          "This combination of username/email and password doesn't exists in our servers.",
+          "This combination of username/email and password doesn't exist in our servers.",
         deleted: "This account has been disabled."
       }
     },

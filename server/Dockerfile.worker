@@ -16,8 +16,8 @@ WORKDIR /home/gromacs/gromacs-2023.2/build
 # If the host machine doesn't have CUDA capabilities, you can change '-DGMX_GPU' to any ot the supported values
 # specified at GROMACS' documentation. You also can remove the parameter completely to build GROMACS to run on CPU.
 RUN cmake .. -DGMX_GPU=CUDA -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON -DGMX_DOUBLE=OFF
-RUN make -j6
-RUN make -j6 check
+RUN make -j10
+RUN make -j10 check
 RUN make install
 
 RUN chmod +x /usr/local/gromacs/bin/gmx

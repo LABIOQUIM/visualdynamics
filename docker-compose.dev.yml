@@ -21,6 +21,7 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
+    image: vdclient-dev
     command: sh -c "yarn prisma generate && yarn dev"
     env_file: .env.dev
     labels:
@@ -28,18 +29,24 @@ services:
       - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
       - "traefik.http.routers.client.service=client"
       - "traefik.http.services.client.loadbalancer.server.port=3001"
+    depends_on:
+      - database
+      - mailer
     links:
       - database
       - mailer
     volumes:
       - ./client:/app
-      - /client/node_modules
-      - /client/.next
+      - /app/node_modules
+      - /app/.next
 
   server:
     build: ./server
+    image: vdserver-dev
     command: flask run --host=0.0.0.0 --port=3002
     env_file: .env.dev
+    depends_on:
+      - redis
     links:
       - redis
     volumes:
@@ -50,6 +57,7 @@ services:
     build: 
       context: ./server
       dockerfile: Dockerfile.worker
+    image: vdworker-dev
     env_file: .env.dev
     command: celery -A server.worker worker --concurrency=2 --loglevel=info
     volumes:
@@ -59,6 +67,9 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - FLASK_DEBUG=${DEBUG}
+    depends_on:
+      - redis
+      - mailer
     links:
       - redis
       - mailer
@@ -72,6 +83,7 @@ services:
 
   mailer:
     build: ./mailer
+    image: vdmailer-dev
     command: pnpm start:prod
     env_file: .env.dev
     labels:

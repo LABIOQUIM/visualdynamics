@@ -60,6 +60,7 @@ export default {
         "started-at": "Iniciado em",
         username: "Usuário"
       },
+      "no-contact": "O Cloud Worker está inalcançável",
       "worker-empty": "Não há tarefas em execução/na fila neste worker",
       "trigger-run": {
         title: "Requisitar Execução",

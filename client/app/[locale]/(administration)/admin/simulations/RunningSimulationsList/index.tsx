@@ -9,12 +9,20 @@ import { useRunningSimulations } from "./useRunningSimulations";
 
 export function RunningSimulationsList() {
   const t = useI18n();
-  const { data } = useRunningSimulations();
+  const { data, isLoading } = useRunningSimulations();
+
+  if (!data && isLoading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   if (!data) {
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <Spinner />
+        <p>{t("admin.simulations.no-contact")}</p>
       </div>
     );
   }
