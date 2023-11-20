@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -86,8 +90,8 @@ importers:
         specifier: 13.4.7
         version: 13.4.7(@opentelemetry/api@1.4.1)(react-dom@18.2.0)(react@18.2.0)
       next-auth:
-        specifier: 4.22.1
-        version: 4.22.1(next@13.4.7)(nodemailer@6.9.3)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 4.24.5
+        version: 4.24.5(next@13.4.7)(nodemailer@6.9.3)(react-dom@18.2.0)(react@18.2.0)
       next-contentlayer:
         specifier: 0.3.3
         version: 0.3.3(esbuild@0.17.19)(next@13.4.7)(react-dom@18.2.0)(react@18.2.0)
@@ -458,6 +462,7 @@ packages:
 
   /@emotion/memoize@0.7.4:
     resolution: {integrity: sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -6175,10 +6180,10 @@ packages:
     resolution: {integrity: sha512-EZSPZB70jiVsivaBLYDCyntd5eH8NTSMOn3rB+HxwdmKThGELLdYv8qVIMWvZEFy9w8ZZpW9h9OB32l1rGtj7g==}
     dev: true
 
-  /next-auth@4.22.1(next@13.4.7)(nodemailer@6.9.3)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-NTR3f6W7/AWXKw8GSsgSyQcDW6jkslZLH8AiZa5PQ09w1kR8uHtR9rez/E9gAq/o17+p0JYHE8QjF3RoniiObA==}
+  /next-auth@4.24.5(next@13.4.7)(nodemailer@6.9.3)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-3RafV3XbfIKk6rF6GlLE4/KxjTcuMCifqrmD+98ejFq73SRoj2rmzoca8u764977lH/Q7jo6Xu6yM+Re1Mz/Og==}
     peerDependencies:
-      next: ^12.2.5 || ^13
+      next: ^12.2.5 || ^13 || ^14
       nodemailer: ^6.6.5
       react: ^17.0.2 || ^18
       react-dom: ^17.0.2 || ^18
