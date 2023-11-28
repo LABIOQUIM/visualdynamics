@@ -8,6 +8,13 @@ import { getI18n } from "@/locales/server";
 
 import { SimulationInformation } from "./Information";
 
+// export function generateMetadata() {
+//   const t = await getI18n();
+//   return {
+//     title: t("running-simulation.description")
+//   };
+// }
+
 export default async function Page() {
   const t = await getI18n();
   const session = await getServerSession(authOptions);

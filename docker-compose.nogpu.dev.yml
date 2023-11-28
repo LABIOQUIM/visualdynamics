@@ -6,6 +6,8 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgresvd"
       POSTGRES_DB: visualdynamics
+    ports:
+      - "5432:5432"
     volumes:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
       - ./scripts/create-directus-database.sh:/docker-entrypoint-initdb.d/create-directus-database.sh
@@ -57,6 +59,7 @@ services:
       dockerfile: Dockerfile.worker.nogpu
     image: vdworker-nogpu-dev
     command: celery -A server.worker worker --concurrency=2 --loglevel=info
+    env_file: .env.dev
     volumes:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles

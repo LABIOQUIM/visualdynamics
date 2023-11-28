@@ -6,6 +6,12 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgresvd"
       POSTGRES_DB: visualdynamics
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "visualdynamics"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s  
     volumes:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
       - ./scripts/create-directus-database.sh:/docker-entrypoint-initdb.d/create-directus-database.sh
@@ -18,7 +24,6 @@ services:
   client:
     build: ./client
     image: vdclient
-    command: yarn start
     env_file: .env
     labels:
       - "traefik.enable=true"
@@ -26,8 +31,10 @@ services:
       - "traefik.http.routers.client.service=client"
       - "traefik.http.services.client.loadbalancer.server.port=3001"
     depends_on:
-      - database
-      - mailer
+      mailer:
+        condition: service_started
+      database:
+        condition: service_healthy
     links:
       - database
       - mailer
@@ -50,6 +57,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.worker.nogpu
     image: vdworker-nogpu
+    env_file: .env
     command: celery -A server.worker worker --concurrency=2 --loglevel=info
     volumes:
       - ./server:/var/www/server
@@ -59,10 +67,15 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - FLASK_DEBUG=${DEBUG}
     depends_on:
-      - redis
-      - mailer
+      redis:
+        condition: service_started
+      mailer:
+        condition: service_started
+      database:
+        condition: service_healthy
     links:
       - redis
+      - database
       - mailer
 
   mailer:
