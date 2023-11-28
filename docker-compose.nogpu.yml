@@ -6,6 +6,8 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgresvd"
       POSTGRES_DB: visualdynamics
+    ports:
+      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready", "-d", "visualdynamics"]
       interval: 30s
