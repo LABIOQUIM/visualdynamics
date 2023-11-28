@@ -29,7 +29,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
       - "traefik.http.routers.client.service=client"
-      - "traefik.http.services.client.loadbalancer.server.port=3001"
+      - "traefik.http.services.client.loadbalancer.server.port=3000"
     depends_on:
       mailer:
         condition: service_started
