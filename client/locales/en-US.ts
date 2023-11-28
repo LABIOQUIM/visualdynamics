@@ -430,7 +430,7 @@ export default {
       commands: "Commands",
       figures: "Figure Graphics",
       log: "GROMACS Log",
-      results: "Results (.xtc and _pr.tpr)",
+      results: "Results",
       mdp: "Download MDP Files",
       title: "Downloads"
     },

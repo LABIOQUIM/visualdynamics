@@ -47,6 +47,7 @@ export function DownloadResults({ simulation, variants }: Props) {
       LeftIcon={FileDigit}
       onClick={handleDownload}
       variant={variants[simulation.status]}
+      title=".xtc, _pr.tpr, _npt.gro..."
     >
       {t("simulations.downloads.results")}
     </Button>
