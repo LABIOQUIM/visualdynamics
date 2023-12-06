@@ -26,6 +26,7 @@ class DownloadDynamicResults(Resource):
                             or file.endswith("_pr.tpr")
                             or file.endswith("_npt.gro")
                             or file.endswith("_PBC.gro")
+                            or file.endswith("_pr.edr")
                         ):
                             z.write(
                                 os.path.join(folder, file),

@@ -37,36 +37,36 @@ CORS(
 )
 
 # Command sequence generation
-api.add_resource(GenerateACPYPE, "/server/api/v1/generate/acpype")
-api.add_resource(GenerateAPO, "/server/api/v1/generate/apo")
-api.add_resource(GeneratePRODRG, "/server/api/v1/generate/prodrg")
+api.add_resource(GenerateACPYPE, "/api/v1/generate/acpype")
+api.add_resource(GenerateAPO, "/api/v1/generate/apo")
+api.add_resource(GeneratePRODRG, "/api/v1/generate/prodrg")
 
 # Command sequence execution
-api.add_resource(RunDynamic, "/server/api/v1/run")
-api.add_resource(AbortDynamic, "/server/api/v1/run/abort")
+api.add_resource(RunDynamic, "/api/v1/run")
+api.add_resource(AbortDynamic, "/api/v1/run/abort")
 
 # Downloads
-api.add_resource(DownloadDynamicCommands, "/server/api/v1/downloads/commands")
-api.add_resource(DownloadDynamicFigures, "/server/api/v1/downloads/figures")
-api.add_resource(DownloadSimulationFile, "/server/api/v1/downloads/file")
-api.add_resource(DownloadDynamicLog, "/server/api/v1/downloads/log")
-api.add_resource(DownloadDynamicResults, "/server/api/v1/downloads/results")
-api.add_resource(DownloadMDP, "/server/api/v1/downloads/mdp")
+api.add_resource(DownloadDynamicCommands, "/api/v1/downloads/commands")
+api.add_resource(DownloadDynamicFigures, "/api/v1/downloads/figures")
+api.add_resource(DownloadSimulationFile, "/api/v1/downloads/file")
+api.add_resource(DownloadDynamicLog, "/api/v1/downloads/log")
+api.add_resource(DownloadDynamicResults, "/api/v1/downloads/results")
+api.add_resource(DownloadMDP, "/api/v1/downloads/mdp")
 
 # API status
-api.add_resource(Health, "/server/api/v1/health")
+api.add_resource(Health, "/api/v1/health")
 
 # User simulations
-api.add_resource(UserSimulations, "/server/api/v1/simulations")
-api.add_resource(CleanUserSimulations, "/server/api/v1/simulations/clean")
-api.add_resource(UserSimulationsTree, "/server/api/v1/simulations/tree")
+api.add_resource(UserSimulations, "/api/v1/simulations")
+api.add_resource(CleanUserSimulations, "/api/v1/simulations/clean")
+api.add_resource(UserSimulationsTree, "/api/v1/simulations/tree")
 
 # Celery data
-api.add_resource(CeleryReservedTasks, "/server/api/v1/celery/queued")
-api.add_resource(CeleryActiveTasks, "/server/api/v1/celery/active")
+api.add_resource(CeleryReservedTasks, "/api/v1/celery/queued")
+api.add_resource(CeleryActiveTasks, "/api/v1/celery/active")
 
 # Update MDFiles
-api.add_resource(MDPR, "/server/api/v1/mdpr")
+api.add_resource(MDPR, "/api/v1/mdpr")
 
 
 if __name__ == "__main__":

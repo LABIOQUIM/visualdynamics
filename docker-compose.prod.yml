@@ -6,8 +6,6 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgresvd"
       POSTGRES_DB: visualdynamics
-    ports:
-      - "5432:5432"
     volumes:
       - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
       - ./scripts/create-directus-database.sh:/docker-entrypoint-initdb.d/create-directus-database.sh
@@ -18,12 +16,10 @@ services:
       - ${REDIS_DATA_PATH}:/data
 
   client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    image: vdclient-dev
-    command: sh -c "yarn prisma generate && yarn dev"
-    env_file: .env.dev
+    build: ./client
+    image: vdclient
+    command: yarn start
+    env_file: .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
@@ -35,16 +31,12 @@ services:
     links:
       - database
       - mailer
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-      - /app/.next
 
   server:
     build: ./server
     image: vdserver
     command: flask run --host=0.0.0.0 --port=3002
-    env_file: .env.dev
+    env_file: .env
     depends_on:
       - redis
     links:
@@ -54,12 +46,11 @@ services:
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
 
   worker:
-    build: 
+    build:
       context: ./server
-      dockerfile: Dockerfile.worker.nogpu
-    image: vdworker-nogpu-dev
+      dockerfile: Dockerfile.worker
+    image: vdworker
     command: celery -A server.worker worker --concurrency=2 --loglevel=info
-    env_file: .env.dev
     volumes:
       - ./server:/var/www/server
       - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
@@ -73,12 +64,19 @@ services:
     links:
       - redis
       - mailer
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   mailer:
     build: ./mailer
-    image: vdmailer-dev
     command: pnpm start:prod
-    env_file: .env.dev
+    image: vdmailer
+    env_file: .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.mailer.rule=Host(`mailer.localhost`)"
@@ -89,7 +87,7 @@ services:
     image: traefik
     command:
       - "--log.level=DEBUG"
-#      - "--api.dashboard=true"
+      #      - "--api.dashboard=true"
       - "--entryPoints.web.address=:80"
       # - "--metrics.prometheus=true"
       # - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
@@ -106,7 +104,7 @@ services:
       # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
       # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
-#    labels:
+      #    labels:
       # - "traefik.http.routers.traefik.tls=true"
       # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
       # - "traefik.http.routers.traefik.tls.domains[0].main=${TRAEFIK_URL}"
@@ -124,7 +122,7 @@ services:
     image: directus/directus:10.2.1
     volumes:
       - ${DIRECTUS_UPLOADS_PATH}:/directus/uploads
-    env_file: .env.dev
+    env_file: .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.directus.rule=Host(`${VISUALDYNAMICS_URL}`) && PathPrefix(`/directus{regex:$$|/.*}`)"

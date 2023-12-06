@@ -55,10 +55,11 @@ export default {
       title: "Status das Simulações",
       active: "Simulações Ativas",
       queued: "Simulações na Fila",
-      simulations: {
+      simulation: {
         path: "Pasta no armazenamento",
         "started-at": "Iniciado em",
-        username: "Usuário"
+        username: "Usuário",
+        actions: "Ações"
       },
       "no-contact": "O Cloud Worker está inalcançável",
       "worker-empty": "Não há tarefas em execução/na fila neste worker",
@@ -126,6 +127,10 @@ export default {
     of: "de",
     maintenance:
       "Visual Dynamics está em modo de manutenção, você não poderá submeter novas simulações enquanto isso."
+  },
+  docs: {
+    back: "Voltar para o VD",
+    title: "Documentação"
   },
   home: {
     title: "Início",

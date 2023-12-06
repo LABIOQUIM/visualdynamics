@@ -1,44 +1,22 @@
-import { readItems } from "@directus/sdk";
+import dynamic from "next/dynamic";
 
-import { DocLink } from "@/app/[locale]/(cms)/docs/DocLink";
 import { PageLayout } from "@/components/Layouts/PageLayout";
 import { H1 } from "@/components/Typography";
-import { directusClient } from "@/lib/directus";
+import { fetchPages } from "@/lib/notion";
 import { getI18n } from "@/locales/server";
 
-async function getDocs() {
-  return await directusClient.request(
-    readItems("Documentation", {
-      fields: [
-        "id",
-        "title",
-        "status",
-        "date_created",
-        "date_updated",
-        { user_created: ["first_name"], user_updated: ["first_name"] }
-      ]
-    })
-  );
-}
+const NotionPage = dynamic(() => import("@/components/NotionPage"), {
+  ssr: false
+});
 
 export default async function Page() {
-  const docs = await getDocs();
+  const data = await fetchPages();
   const t = await getI18n();
 
   return (
-    <PageLayout>
+    <PageLayout className="container mx-auto">
       <H1>{t("navigation.system.docs")}</H1>
-
-      {docs.length > 0 ? (
-        docs.map((doc) => (
-          <DocLink
-            doc={doc}
-            key={doc.id}
-          />
-        ))
-      ) : (
-        <div>...2</div>
-      )}
+      <NotionPage recordMap={data} />
     </PageLayout>
   );
 }

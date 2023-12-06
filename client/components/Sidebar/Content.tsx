@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Beaker, Crown, Info, LayoutDashboard } from "lucide-react";
+import { Crown, Info, LayoutDashboard } from "lucide-react";
 import NextLink from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -42,11 +42,11 @@ export function SidebarContent() {
         },
         {
           label: "navigation.system.knowledge",
-          href: "/knowledge"
+          href: "/docs/9ee1fd408b7748e7bfe9eb71858fe622"
         }
       ]
     }
-  ] as const;
+  ];
 
   // @ts-ignore
   const authenticatedNavigationArray: NavigationSection[] = [
@@ -64,29 +64,24 @@ export function SidebarContent() {
           href: "/new-simulation"
         }
       ]
-    },
-    {
-      title: "navigation.preparations.title",
-      Icon: Beaker,
-      links: [
-        {
-          label: "navigation.preparations.models.acpype",
-          href: "/preparations/acpype"
-        }
-      ]
     }
-  ] as const;
+    // {
+    //   title: "navigation.preparations.title",
+    //   Icon: Beaker,
+    //   links: [
+    //     {
+    //       label: "navigation.preparations.models.acpype",
+    //       href: "/preparations/acpype"
+    //     }
+    //   ]
+    // }
+  ];
 
   // @ts-ignore
   const adminNavigationSection: NavigationItem = {
     label: "navigation.admin.title",
     Icon: Crown,
     links: [
-      {
-        label: "navigation.admin.cms",
-        href: "/directus/admin",
-        external: true
-      },
       {
         label: "navigation.admin.dashboard",
         href: "/admin",
@@ -110,7 +105,7 @@ export function SidebarContent() {
         href: "/admin/settings"
       }
     ]
-  } as const;
+  };
 
   const [navigationItems, setNavigationItems] = useState<NavigationSection[]>(
     initialNavigationArray

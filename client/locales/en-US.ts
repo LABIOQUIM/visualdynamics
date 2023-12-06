@@ -68,10 +68,11 @@ export default {
       title: "Simulations Status",
       active: "Active Simulations",
       queued: "Queued Simulations",
-      simulations: {
+      simulation: {
         path: "Folder on storage",
         "started-at": "Started at",
-        username: "Username"
+        username: "Username",
+        actions: "Actions"
       },
       "no-contact": "The Cloud Worker is unreachable",
       "worker-empty": "There are no tasks running/waiting on this worker",
@@ -126,6 +127,10 @@ export default {
     of: "of",
     maintenance:
       "Visual Dynamics is in Maintenance Mode, so you can't submit new simulations for the time being."
+  },
+  docs: {
+    back: "Back to VD",
+    title: "Documentation"
   },
   home: {
     title: "Home",
