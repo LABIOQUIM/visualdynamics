@@ -4,26 +4,25 @@ services:
   database:
     image: postgres:15-alpine
     environment:
-      POSTGRES_PASSWORD: "postgresvd"
-      POSTGRES_DB: visualdynamics
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      POSTGRES_DB: "${DB_DATABASE}"
     ports:
       - "5432:5432"
     volumes:
-      - ${POSTGRES_DATA_PATH}:/var/lib/postgresql/data
-      - ./scripts/create-directus-database.sh:/docker-entrypoint-initdb.d/create-directus-database.sh
+      - database:/var/lib/postgresql/data
 
   redis:
     image: redis:alpine
     volumes:
-      - ${REDIS_DATA_PATH}:/data
+      - redis:/data
 
   client:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-    image: vdclient-dev
+    image: visualdynamics/client:dev
     command: sh -c "yarn prisma generate && yarn dev"
-    env_file: .env.dev
+    env_file: .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
@@ -31,9 +30,7 @@ services:
       - "traefik.http.services.client.loadbalancer.server.port=3001"
     depends_on:
       - database
-      - mailer
-    links:
-      - database
+      - server
       - mailer
     volumes:
       - ./client:/app
@@ -42,93 +39,70 @@ services:
 
   server:
     build: ./server
-    image: vdserver
+    image: visualdynamics/server:dev
     command: flask run --host=0.0.0.0 --port=3002
-    env_file: .env.dev
+    env_file: .env
     depends_on:
-      - redis
-    links:
       - redis
     volumes:
       - ./server:/var/www/server
-      - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
+      - user_data:/var/www/VDfiles
 
   worker:
     build: 
       context: ./server
       dockerfile: Dockerfile.worker.nogpu
-    image: vdworker-nogpu-dev
+    image: visualdynamics/worker-nogpu:dev
+    env_file: .env
     command: celery -A server.worker worker --concurrency=2 --loglevel=info
-    env_file: .env.dev
     volumes:
       - ./server:/var/www/server
-      - ${VISUALDYNAMICS_USER_SIMULATIONS_PATH}:/var/www/VDfiles
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - FLASK_DEBUG=${DEBUG}
+      - user_data:/var/www/VDfiles
     depends_on:
-      - redis
-      - mailer
-    links:
       - redis
       - mailer
 
   mailer:
     build: ./mailer
-    image: vdmailer-dev
+    image: visualdynamics/mailer:dev
     command: pnpm start:prod
-    env_file: .env.dev
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mailer.rule=Host(`mailer.localhost`)"
-      - "traefik.http.routers.mailer.service=mailer"
-      - "traefik.http.services.mailer.loadbalancer.server.port=3000"
+    env_file: .env
 
   traefik:
     image: traefik
     command:
-      - "--log.level=DEBUG"
-#      - "--api.dashboard=true"
-      - "--entryPoints.web.address=:80"
-      # - "--metrics.prometheus=true"
-      # - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
-      # - "--metrics.prometheus.addrouterslabels=true"
+      # - "--log.level=DEBUG"
       - "--providers.docker=true"
       - "--providers.docker.watch"
       - "--providers.docker.exposedByDefault=false"
-      # - "--entrypoints.websecure.address=:443"
+
       # - "--certificatesresolvers.letsencrypt.acme.email=greenfrog@email.com"  # replace with your email
       # - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
       # - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
       # - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
+
+      - "--entryPoints.web.address=:80"
+      # - "--entrypoints.websecure.address=:443"
       # - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
       # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
       # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
-      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
-#    labels:
-      # - "traefik.http.routers.traefik.tls=true"
-      # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
-      # - "traefik.http.routers.traefik.tls.domains[0].main=${TRAEFIK_URL}"
-      # - "traefik.http.routers.traefik.tls.domains[0].sans=*.${TRAEFIK_URL}"
-      # - "traefik.http.routers.traefik.entryPoints=websecure"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${TRAEFIK_ACME_DATA_PATH}:/acme
-      - ${TRAEFIK_ACME_DATA_PATH}:/logs
+      - traefik_acme:/acme
+      - traefik_logs:/logs
     ports:
       - "80:80"
       - "443:443"
 
-  directus:
-    image: directus/directus:10.2.1
-    volumes:
-      - ${DIRECTUS_UPLOADS_PATH}:/directus/uploads
-    env_file: .env.dev
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.directus.rule=Host(`${VISUALDYNAMICS_URL}`) && PathPrefix(`/directus{regex:$$|/.*}`)"
-      - "traefik.http.routers.directus.service=directus"
-      - "traefik.http.routers.directus.middlewares=directus-strip-prefix"
-      - "traefik.http.services.directus.loadbalancer.server.port=8055"
-      - "traefik.http.middlewares.directus-strip-prefix.stripprefix.prefixes=/directus"
+volumes:
+  user_data:
+    driver: nfsvol
+  database:
+    driver: nfsvol
+  redis:
+    driver: nfsvol
+  traefik_acme:
+    driver: nfsvol
+  traefik_logs:
+    driver: nfsvol
