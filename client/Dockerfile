@@ -8,8 +8,9 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile
+COPY package.json yarn.lock .yarnrc.yml ./
+RUN corepack enable && corepack prepare yarn@3.6.4 --activate
+RUN yarn --immutable
 
 
 # Rebuild the source code only when needed
