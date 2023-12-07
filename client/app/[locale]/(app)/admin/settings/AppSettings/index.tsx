@@ -2,7 +2,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { updateAppSettings } from "@/app/[locale]/(administration)/admin/settings/AppSettings/updateAppSettings";
+import { updateAppSettings } from "@/app/[locale]/(app)/admin/settings/AppSettings/updateAppSettings";
 import { Button } from "@/components/Button";
 import { Switch } from "@/components/Forms/Switch";
 import { H2 } from "@/components/Typography";

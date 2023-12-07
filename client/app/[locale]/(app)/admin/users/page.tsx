@@ -1,4 +1,4 @@
-import { ActiveUserList } from "@/app/[locale]/(administration)/admin/users/ActiveUserList";
+import { ActiveUserList } from "@/app/[locale]/(app)/admin/users/ActiveUserList";
 import { PageLayout } from "@/components/Layouts/PageLayout";
 import { H1 } from "@/components/Typography";
 import { getI18n } from "@/locales/server";

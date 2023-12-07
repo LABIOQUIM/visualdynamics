@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Info } from "lucide-react";
 
-import { fetchDataTree } from "@/app/[locale]/(administration)/admin/users/ActiveUserListItem/MoreInfo/fetchDataTree";
-import { TreeItem } from "@/app/[locale]/(administration)/admin/users/ActiveUserListItem/MoreInfo/TreeItem";
+import { fetchDataTree } from "@/app/[locale]/(app)/admin/users/ActiveUserListItem/MoreInfo/fetchDataTree";
+import { TreeItem } from "@/app/[locale]/(app)/admin/users/ActiveUserListItem/MoreInfo/TreeItem";
 import { Button } from "@/components/Button";
 import { Dialog } from "@/components/Dialog";
 import { useI18n } from "@/locales/client";

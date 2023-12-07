@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
 
-import { useInactiveUsers } from "@/app/[locale]/(administration)/admin/user-validation/useInactiveUsers";
-import { useRejectedUsers } from "@/app/[locale]/(administration)/admin/user-validation/useRejectedUsers";
-import { ValidationList } from "@/app/[locale]/(administration)/admin/user-validation/ValidationList";
+import { useInactiveUsers } from "@/app/[locale]/(app)/admin/user-validation/useInactiveUsers";
+import { useRejectedUsers } from "@/app/[locale]/(app)/admin/user-validation/useRejectedUsers";
+import { ValidationList } from "@/app/[locale]/(app)/admin/user-validation/ValidationList";
 import { Switch } from "@/components/Forms/Switch";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H1 } from "@/components/Typography";

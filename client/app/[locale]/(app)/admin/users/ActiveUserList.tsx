@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-import { ActiveUserListItem } from "@/app/[locale]/(administration)/admin/users/ActiveUserListItem";
-import { useUsers } from "@/app/[locale]/(administration)/admin/users/useUsers";
+import { ActiveUserListItem } from "@/app/[locale]/(app)/admin/users/ActiveUserListItem";
+import { useUsers } from "@/app/[locale]/(app)/admin/users/useUsers";
 import { Input } from "@/components/Forms/Input";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { Pagination } from "@/components/Pagination";

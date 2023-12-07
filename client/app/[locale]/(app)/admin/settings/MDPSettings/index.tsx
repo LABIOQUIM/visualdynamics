@@ -5,9 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   MDConfigUpdateSchema,
   MDConfigUpdateSchemaType
-} from "@/app/[locale]/(administration)/admin/settings/MDPSettings/schema";
-import { updateMDPSettings } from "@/app/[locale]/(administration)/admin/settings/MDPSettings/updateMDPSetting";
-import { useMDPSettings } from "@/app/[locale]/(administration)/admin/settings/MDPSettings/useMDPSettings";
+} from "@/app/[locale]/(app)/admin/settings/MDPSettings/schema";
+import { updateMDPSettings } from "@/app/[locale]/(app)/admin/settings/MDPSettings/updateMDPSetting";
+import { useMDPSettings } from "@/app/[locale]/(app)/admin/settings/MDPSettings/useMDPSettings";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Forms/Input";
 import { H2 } from "@/components/Typography";
