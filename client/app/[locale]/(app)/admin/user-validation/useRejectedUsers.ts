@@ -6,7 +6,7 @@ import {
   UseQueryResult
 } from "@tanstack/react-query";
 
-import { getValidationUsers } from "@/app/[locale]/(administration)/admin/user-validation/getValidationUsers";
+import { getValidationUsers } from "@/app/[locale]/(app)/admin/user-validation/getValidationUsers";
 
 export function useRejectedUsers(
   options?: UseQueryOptions<Omit<User, "password">[], unknown>
