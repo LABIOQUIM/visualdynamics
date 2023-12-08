@@ -3,7 +3,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-import { getRunningSimulation } from "@/app/[locale]/(app)/(simulation)/running-simulation/getRunningSimulation";
+import { getRunningSimulation } from "@/app/[locale]/(simulation)/running-simulation/getRunningSimulation";
 
 export function useIsDynamicRunning() {
   const { data } = useSession();

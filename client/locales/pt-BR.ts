@@ -107,8 +107,7 @@ export default {
   common: {
     "app-name": "Visual Dynamics",
     abort: "Abortar execução",
-    limitations:
-      "Fique atento a aba de Tutoriais e Posts na barra lateral/menu",
+    limitations: "Fique atento a aba de Tutoriais na barra lateral/menu",
     errors: {
       "404": {
         title: "Este lugar... não é um lugar de jeito nenhum",
@@ -219,7 +218,7 @@ export default {
       title: "Sistema",
       about: "Sobre",
       docs: "Documentação",
-      knowledge: "Tutoriais e Posts",
+      knowledge: "Tutoriais",
       home: "Início"
     },
     footer: {
@@ -424,6 +423,7 @@ export default {
   simulations: {
     title: "Minhas Simulações",
     "auto-refresh": "Atualizando em {{seconds}} segundos.",
+    "no-sim-yet": "Sem simulação",
     molecule: "Molécula: {molecule}",
     createdAt: "Enviado em: {time}",
     startedAt: "Iniciada em: {time}",

@@ -37,12 +37,8 @@ export function SidebarContent() {
           href: "/about"
         },
         {
-          label: "navigation.system.docs",
-          href: "/docs"
-        },
-        {
           label: "navigation.system.knowledge",
-          href: "/docs/9ee1fd408b7748e7bfe9eb71858fe622"
+          href: "/tutorials"
         }
       ]
     }
