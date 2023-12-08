@@ -2,6 +2,9 @@ import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 import { Maintainer } from "@/app/[locale]/about/Maintainer";
+import fernandoImg from "@/assets/maintainers/fernando.jpg";
+import ivoImg from "@/assets/maintainers/ivo.jpg";
+import rafaelImg from "@/assets/maintainers/rafael.jpg";
 import { BlurImage } from "@/components/BlurImage";
 import { PageLayout } from "@/components/Layouts/PageLayout";
 import { H1, H2 } from "@/components/Typography";
@@ -12,21 +15,21 @@ const maintainers: Maintainer[] = [
   {
     name: "Dr. Fernando Berton Zanchi",
     link: "http://lattes.cnpq.br/0564343474986429",
-    image: "/images/maintainers/fernando.jpg",
+    image: fernandoImg,
     active: true,
     work: ["idea", "code", "manuscript"]
   },
   {
     name: "Dr. Rafael Andrade Caceres",
     link: "http://lattes.cnpq.br/2268580664900763",
-    image: "/images/maintainers/rafael.jpg",
+    image: rafaelImg,
     active: true,
     work: ["idea", "manuscript"]
   },
   {
     name: "Ivo Henrique Provensi Vieira",
     link: "http://lattes.cnpq.br/5130583751808996",
-    image: "/images/maintainers/ivo.jpg",
+    image: ivoImg,
     active: true,
     work: ["code"]
   },

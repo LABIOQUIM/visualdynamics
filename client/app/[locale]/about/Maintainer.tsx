@@ -42,7 +42,6 @@ export function Maintainer({ maintainer }: MaintainerCardProps) {
           height={0}
           width={0}
           src={maintainer.image}
-          unoptimized
         />
       ) : (
         <span className="flex h-20 w-20 items-center justify-center rounded-full bg-zinc-500">

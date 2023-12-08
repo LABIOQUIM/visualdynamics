@@ -1,7 +1,11 @@
-interface Maintainer {
-  name: string;
-  link?: string;
-  active: boolean;
-  image?: string;
-  work?: ("idea" | "code" | "manuscript")[];
+import { StaticImageData } from "next/image";
+
+declare global {
+  interface Maintainer {
+    name: string;
+    link?: string;
+    active: boolean;
+    image?: StaticImageData;
+    work?: ("idea" | "code" | "manuscript")[];
+  }
 }
