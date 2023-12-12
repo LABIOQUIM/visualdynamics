@@ -1,5 +1,12 @@
 
 
+## 2.7.2 (2023-12-12)
+
+
+### Bug Fixes
+
+* remove print from abort route and proxyfix ([f83a0cc](https://github.com/LABIOQUIM/visualdynamics/commit/f83a0cc162184d2d8e08fe6722aac2c88dfc4d18))
+
 ## 2.7.1 (2023-12-12)
 
 ## 0.0.1 (2023-12-12)
