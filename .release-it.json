@@ -1,9 +1,12 @@
 {
   "git": {
     "requireBranch": "main",
-    "commitMessage": "chore: release v${version}"
+    "commitMessage": "chore: release v${version}",
+    "tagName": "v${version}"
   },
-  "npm": false,
+  "npm": {
+    "publish": false
+  },
   "github": {
     "release": true
   },
