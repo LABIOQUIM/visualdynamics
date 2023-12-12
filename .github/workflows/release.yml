@@ -1,48 +1,42 @@
-name: Release 
+name: Release
 
-on: 
-  push:
-    branches:
-      - main
+on: workflow_dispatch
+
+permissions:
+  contents: write
 
 jobs:
   release:
-    name: Bump Version and Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      - name: Setup Repo
-        uses: actions/checkout@v3
+      - name: Checkout Source Code
+        uses: actions/checkout@v2
 
-      - name: Setup Node.js
+      - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        id: pnpm-install
+      - name: Install Yarn
+        run: corepack enable |
+          corepack prepare yarn@3.6.4 --activate
+
+      # Yarn dependencies cannot be cached until yarn is installed
+      # WORKAROUND: https://github.com/actions/setup-node/issues/531
+      - name: Extract Cached Dependencies
+        uses: actions/setup-node@v3
         with:
-          version: 8
-          run_install: false
+          cache: yarn
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
+      - name: Install Dependencies
+        run: yarn --immutable
+
+      - name: Set Git user to Actions Bot
         run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+          git config --local user.name 'github-actions[bot]'
+          git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: cd client && pnpm install
-        
-      - name: Semantic release
+      - name: Run Release
+        run: yarn release-it --ci
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_GH }}
-        run: cd client && npx semantic-release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

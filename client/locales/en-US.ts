@@ -215,7 +215,7 @@ export default {
     system: {
       title: "System",
       about: "About",
-      docs: "Documentation",
+      usage: "Usage",
       knowledge: "Tutorials",
       home: "Home"
     },
