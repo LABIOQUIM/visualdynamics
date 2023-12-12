@@ -1,5 +1,7 @@
 
 
+## 0.0.1 (2023-12-12)
+
 ## [2.7.0](https://github.com/LABIOQUIM/visualdynamics/compare/v2.6.5...v2.7.0) (2023-12-12)
 
 
