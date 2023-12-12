@@ -51,7 +51,6 @@ class AbortDynamic(Resource):
         with open(file_status_path, "w") as f:
             f.write("canceled")
 
-        print(file_user, file_user.split("/")[::-1][0])
         with db_session:
             user_on_db = User.get(username=file_user.split("/")[::-1][0])
 
