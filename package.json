@@ -1,7 +1,6 @@
 {
   "name": "visualdynamics",
   "packageManager": "yarn@3.6.4",
-  "private": "true",
   "dependencies": {
     "@release-it/bumper": "^6.0.1",
     "@release-it/conventional-changelog": "^8.0.1",
