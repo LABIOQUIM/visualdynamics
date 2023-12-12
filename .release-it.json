@@ -3,6 +3,7 @@
     "requireBranch": "main",
     "commitMessage": "chore: release v${version}"
   },
+  "npm": false,
   "github": {
     "release": true
   },
