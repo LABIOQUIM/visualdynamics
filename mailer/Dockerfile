@@ -10,7 +10,7 @@ COPY package.json ./
 RUN npm install -g pnpm
 
 # Instale as dependencia do projeto
-RUN pnpm i
+RUN pnpm i --ignore-scripts
 
 # Copie todo o código-fonte para o container
 COPY . .

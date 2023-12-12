@@ -6,18 +6,16 @@ async function main() {
   console.log("STARTED SEEDING");
   try {
     console.log("USER SEEDING");
-    await prisma.user
-      .create({
-        data: {
-          email: "admin@visualdynamics.fiocruz.br",
-          password: await hash("admin"),
-          username: "admin",
-          active: true,
-          role: "ADMIN"
-        }
-      })
-      .then(console.log)
-      .catch(console.log);
+    await prisma.user.create({
+      data: {
+        email: "visualdynamics@fiocruz.br",
+        name: "Admin",
+        password: await hash("admin"),
+        username: "admin",
+        active: true,
+        role: "ADMIN"
+      }
+    });
 
     console.log("CREATED ADMIN");
   } catch (e) {
