@@ -39,6 +39,10 @@ export function SidebarContent() {
         {
           label: "navigation.system.knowledge",
           href: "/tutorials"
+        },
+        {
+          label: "navigation.system.usage",
+          href: "/usage"
         }
       ]
     }
