@@ -32,6 +32,7 @@ export async function createUserPasswordReset(identifier: string) {
     to: user.email,
     from: `"⚛️ Visual Dynamics" ${process.env.SMTP_USER}`,
     subject: "Your link to reset your password.",
+    template: "main.hbs",
     context: {
       base_url: process.env.APP_URL,
       preheader: "There's your way to get back in your account!",

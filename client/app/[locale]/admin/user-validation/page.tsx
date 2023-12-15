@@ -13,3 +13,5 @@ export default function Page() {
     </PageLayout>
   );
 }
+
+export const dynamic = "force-dynamic";

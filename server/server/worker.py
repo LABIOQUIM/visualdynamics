@@ -73,6 +73,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
         "to": email,
         "from": f'"⚛️ Visual Dynamics" visualdynamics@fiocruz.br',
         "subject": "Your simulation has failed.",
+        "template": "main.hbs",
         "context": {
             "base_url": os.environ.get("APP_URL"),
             "preheader": "An error has occurred during the execution of your "
@@ -94,6 +95,7 @@ def run_commands(self, folder, dynamics_mailer_api_url, email):
         "to": email,
         "from": f'"⚛️ Visual Dynamics" visualdynamics@fiocruz.br',
         "subject": "The simulation you left running has ended.",
+        "template": "main.hbs",
         "context": {
             "base_url": os.environ.get("APP_URL"),
             "preheader": "The simulation you left running has ended.",

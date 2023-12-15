@@ -30,3 +30,5 @@ export default async function Page() {
     </PageLayout>
   );
 }
+
+export const dynamic = "force-dynamic";

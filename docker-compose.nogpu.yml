@@ -62,11 +62,16 @@ services:
       - redis
       - mailer
 
+  redismailer:
+    image: redis:alpine
+    volumes:
+      - redismailer:/data
+
   mailer:
-    build: ./mailer
-    image: visualdynamics/mailer
-    command: pnpm start:prod
+    image: murilofuza/simple-mail:0.0.6
     env_file: .env
+    volumes:
+     - ./emails:/templates
 
   traefik:
     image: traefik
@@ -99,6 +104,8 @@ volumes:
   user_data:
     driver: nfsvol
   database:
+    driver: nfsvol
+  redismailer:
     driver: nfsvol
   redis:
     driver: nfsvol

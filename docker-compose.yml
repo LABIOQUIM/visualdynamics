@@ -69,11 +69,18 @@ services:
               count: 1
               capabilities: [gpu]
 
+  redismailer:
+    image: redis:alpine
+    volumes:
+      - redismailer:/data
+
   mailer:
-    build: ./mailer
-    image: visualdynamics/mailer
-    command: pnpm start:prod
+    image: murilofuza/simple-mail:0.0.6
     env_file: .env
+    ports:
+     - "3002:3000"
+    volumes:
+     - ./emails:/templates
 
   traefik:
     image: traefik
@@ -108,6 +115,8 @@ volumes:
   database:
     driver: nfsvol
   redis:
+    driver: nfsvol
+  redismailer:
     driver: nfsvol
   traefik_acme:
     driver: nfsvol

@@ -26,6 +26,7 @@ export async function rejectUser(userId: string) {
     to: user.email,
     from: `"⚛️ Visual Dynamics" ${process.env.SMTP_USER}`,
     subject: "You can now start and track your dynamics",
+    template: "main.hbs",
     context: {
       base_url: process.env.APP_URL,
       preheader:

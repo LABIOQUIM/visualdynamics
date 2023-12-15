@@ -46,6 +46,7 @@ export default function Page({ searchParams }: Props) {
         setLoading(false);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   if (loading) {
