@@ -1,5 +1,16 @@
 
 
+## 3.0.0 (2023-12-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* changed how simulations work
+
+### Features
+
+* trigger next major version ([7aaff72](https://github.com/LABIOQUIM/visualdynamics/commit/7aaff7279308cc034b1c35dc92cdae21b3f99b4c))
+
 ## 2.7.2 (2023-12-12)
 
 
