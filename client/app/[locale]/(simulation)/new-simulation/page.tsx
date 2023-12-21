@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
@@ -12,9 +13,11 @@ import { PRODRGForm } from "@/app/[locale]/(simulation)/new-simulation/prodrg";
 import { createNewPRODRGSimulation } from "@/app/[locale]/(simulation)/new-simulation/prodrg/createNewPRODRGSimulation";
 import { TypeSelector } from "@/app/[locale]/(simulation)/new-simulation/TypeSelector";
 import { getSimulations } from "@/app/[locale]/(simulation)/simulations/getSimulations";
+import { Alert } from "@/components/Alert";
 import { PageLayout } from "@/components/Layouts/PageLayout";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H1 } from "@/components/Typography";
+import { queryClient } from "@/lib/queryClient";
 import { useI18n } from "@/locales/client";
 
 type Props = {
@@ -58,18 +61,21 @@ export default function Page({ searchParams }: Props) {
   }
 
   return (
-    <PageLayout>
-      <H1>{t("new-simulation.title")}</H1>
-      {searchParams.type === undefined ? <TypeSelector /> : null}
-      {searchParams.type === "apo" && (
-        <APOForm createNewAPOSimulation={createNewAPOSimulation} />
-      )}
-      {searchParams.type === "acpype" && (
-        <ACPYPEForm createNewACPYPESimulation={createNewACPYPESimulation} />
-      )}
-      {searchParams.type === "prodrg" && (
-        <PRODRGForm createNewPRODRGSimulation={createNewPRODRGSimulation} />
-      )}
-    </PageLayout>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <PageLayout>
+        <H1>{t("new-simulation.title")}</H1>
+        {searchParams.type === undefined ? <TypeSelector /> : null}
+        {searchParams.type === "apo" && (
+          <APOForm createNewAPOSimulation={createNewAPOSimulation} />
+        )}
+        {searchParams.type === "acpype" && (
+          <ACPYPEForm createNewACPYPESimulation={createNewACPYPESimulation} />
+        )}
+        {searchParams.type === "prodrg" && (
+          <PRODRGForm createNewPRODRGSimulation={createNewPRODRGSimulation} />
+        )}
+        <Alert status="normal">{t("new-simulation.description.general")}</Alert>
+      </PageLayout>
+    </HydrationBoundary>
   );
 }

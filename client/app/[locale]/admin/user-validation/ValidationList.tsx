@@ -7,7 +7,7 @@ import { useI18n } from "@/locales/client";
 type Props = {
   users?: Omit<User, "password">[];
   approve: (userId: string, userEmail: string, deleted?: boolean) => void;
-  reject: (userId: string, userEmail: string) => void;
+  reject?: (userId: string, userEmail: string) => void;
 };
 
 export function ValidationList({ approve, reject, users }: Props) {
@@ -43,14 +43,16 @@ export function ValidationList({ approve, reject, users }: Props) {
             >
               {t("admin.validation.approve")}
             </Button>
-            <Button
-              variant="danger"
-              disabled={user.deleted ?? false}
-              LeftIcon={X}
-              onClick={() => reject(user.id, user.email)}
-            >
-              {t("admin.validation.reject")}
-            </Button>
+            {reject && (
+              <Button
+                variant="danger"
+                disabled={user.deleted ?? false}
+                LeftIcon={X}
+                onClick={() => reject(user.id, user.email)}
+              >
+                {t("admin.validation.reject")}
+              </Button>
+            )}
           </div>
         </li>
       ))}

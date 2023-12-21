@@ -97,11 +97,12 @@ export default {
       }
     },
     validation: {
+      validate: "New Users",
+      revalidate: "Rejected Users",
       title: "Sign Up Requests",
       empty: "There is no one left to be reviewed",
       approve: "Approve",
-      reject: "Reject",
-      "show-rejected-users": "Show previously rejected users"
+      reject: "Reject"
     }
   },
   common: {
@@ -225,6 +226,8 @@ export default {
   },
   "new-simulation": {
     description: {
+      general:
+        "Note that only the most recent simulation of each type will be available to download.",
       apo: "",
       acpype: "",
       prodrg: ""

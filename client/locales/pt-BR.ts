@@ -84,6 +84,8 @@ export default {
       }
     },
     validation: {
+      validate: "Novos Usuários",
+      revalidate: "Usuários já rejeitados",
       title: "Solicitações de cadastro",
       empty: "Não há mais ninguém para ser avaliado",
       approve: "Aprovar",
@@ -227,6 +229,8 @@ export default {
   },
   "new-simulation": {
     description: {
+      general:
+        "Note que apenas a simulação mais recente de cada tipo estará disponível para download.",
       apo: "",
       acpype: "",
       prodrg: ""
