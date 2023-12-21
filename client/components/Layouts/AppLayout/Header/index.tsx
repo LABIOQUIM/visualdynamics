@@ -1,4 +1,4 @@
-import { Construction, ExternalLink, Moon, Sun } from "lucide-react";
+import { Construction, Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -32,14 +32,10 @@ export function Header() {
           />
         </Link>
         {maintenanceMode ? (
-          <Link
-            className="flex w-full items-center justify-center gap-2 text-amber-600 underline-offset-4 hover:underline dark:text-amber-400"
-            href="/docs/maintenance-mode"
-          >
+          <div className="flex w-full items-center justify-center gap-2 text-amber-600 underline-offset-4 hover:underline dark:text-amber-400">
             <Construction className="min-h-[1.75rem] min-w-[1.75rem]" />
             {t("common.maintenance")}
-            <ExternalLink className="h-[1rem] w-[1rem]" />
-          </Link>
+          </div>
         ) : null}
         <ul className="flex flex-shrink-0 items-center gap-x-4">
           <li className="flex">
