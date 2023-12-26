@@ -1,5 +1,12 @@
 
 
+## 3.0.2 (2023-12-26)
+
+
+### Bug Fixes
+
+* download on admin panel ([3a578e0](https://github.com/LABIOQUIM/visualdynamics/commit/3a578e02ae2f81ce48fc2a045de57e560b119edd))
+
 ## 3.0.1 (2023-12-21)
 
 ## 3.0.0 (2023-12-18)
