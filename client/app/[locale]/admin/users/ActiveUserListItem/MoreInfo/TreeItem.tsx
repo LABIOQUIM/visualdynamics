@@ -1,8 +1,8 @@
 import { useState } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { File, Folder, Minus, Plus } from "lucide-react";
-import Link from "next/link";
 
+import { downloadFile } from "@/app/[locale]/admin/users/ActiveUserListItem/MoreInfo/downloadFile";
 import { Paragraph } from "@/components/Typography";
 
 interface TreeItemProps {
@@ -63,15 +63,29 @@ export function TreeItem({ item, fullPath }: TreeItemProps) {
     );
   }
 
+  async function handleDownload() {
+    if (fullPath) {
+      const data = await downloadFile(fullPath);
+
+      const link = document.createElement("a");
+      link.download = item.name;
+      const blobUrl = window.URL.createObjectURL(
+        new Blob([new Uint8Array(Buffer.from(data, "base64"))])
+      );
+
+      link.href = blobUrl;
+      link.click();
+      window.URL.revokeObjectURL(blobUrl);
+    }
+  }
+
   return (
-    <Link
+    <button
       className="my-2 flex gap-2 leading-relaxed"
-      href={`/api/downloads/file?fullPath=${fullPath}`}
-      target="_blank"
-      rel="noopener noreferrer"
+      onClick={handleDownload}
     >
       <File />
       <Paragraph>{item.name}</Paragraph>
-    </Link>
+    </button>
   );
 }
