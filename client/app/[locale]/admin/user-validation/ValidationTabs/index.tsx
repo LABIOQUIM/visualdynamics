@@ -25,7 +25,7 @@ export function ValidationTabs() {
           <div className="flex items-center justify-center gap-2">
             {t("admin.validation.validate")}
             {inactiveUsers && inactiveUsers.length > 0 && (
-              <div className="h-6 w-6 items-center justify-center rounded-full bg-primary-700 p-1 text-white">
+              <div className="h-6 w-auto items-center justify-center rounded-full bg-primary-700 p-1 text-white">
                 {inactiveUsers.length}
               </div>
             )}
@@ -38,7 +38,7 @@ export function ValidationTabs() {
           <div className="flex items-center justify-center gap-2">
             {t("admin.validation.revalidate")}
             {rejectedUsers && rejectedUsers.length > 0 && (
-              <div className="h-6 w-6 items-center justify-center rounded-full bg-primary-700 p-1 text-white">
+              <div className="h-6 w-auto items-center justify-center rounded-full bg-primary-700 p-1 text-white">
                 {rejectedUsers.length}
               </div>
             )}
