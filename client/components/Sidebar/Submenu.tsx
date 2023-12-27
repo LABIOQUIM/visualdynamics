@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useSidebar } from "@/contexts/sidebar";
 import { useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 import { routeIsActive } from "@/utils/route";
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function SidebarSubmenu({ item }: Props) {
+  const { closeSidebar } = useSidebar();
   const pathname = usePathname();
   const t = useI18n();
 
@@ -96,6 +98,7 @@ export function SidebarSubmenu({ item }: Props) {
                     <Link
                       href={r.href || ""}
                       scroll={false}
+                      onClick={closeSidebar}
                       className={`inline-block w-full ${
                         routeIsActive(pathname, r)
                           ? "text-gray-800 dark:text-gray-100"

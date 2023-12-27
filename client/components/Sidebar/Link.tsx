@@ -15,6 +15,7 @@ export function SidebarLink({ link }: Props) {
   const pathname = usePathname();
   const t = useI18n();
   const { closeSidebar } = useSidebar();
+
   return (
     <li className="relative flex min-h-[2.5rem] items-center px-3">
       <Link
