@@ -21,6 +21,23 @@ type Props = {
   };
 };
 
+export async function generateMetadata({ searchParams }: Props) {
+  const t = await getI18n();
+  const type = searchParams.type;
+
+  let title = t("new-simulation.title");
+
+  if (type) {
+    const typeString = t(`new-simulation.description.${type}`);
+
+    title += ` | ${typeString}`;
+  }
+
+  return {
+    title
+  };
+}
+
 export default async function Page({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
   const t = await getI18n();
@@ -29,7 +46,7 @@ export default async function Page({ searchParams }: Props) {
     redirect("/login?reason=unauthenticated");
   }
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryFn: () => getSimulations(session.user.username),
     queryKey: ["SimulationList", session.user.username]
   });

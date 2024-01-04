@@ -3,6 +3,7 @@ import { Cog } from "lucide-react";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
+import { TypeSelector } from "@/app/[locale]/(simulation)/new-simulation/TypeSelector";
 import {
   getRunningSimulation,
   GetRunningSimulationResult
@@ -16,12 +17,13 @@ import { getI18n } from "@/locales/server";
 
 import { SimulationInformation } from "./Information";
 
-// export function generateMetadata() {
-//   const t = await getI18n();
-//   return {
-//     title: t("running-simulation.description")
-//   };
-// }
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("running-simulation.title")
+  };
+}
 
 export default async function Page() {
   const t = await getI18n();
@@ -31,7 +33,7 @@ export default async function Page() {
     redirect("/login?reason=unauthenticated");
   }
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["RunningSimulation", session.user.username],
     queryFn: () => getRunningSimulation(session.user.username)
   });
@@ -43,21 +45,30 @@ export default async function Page() {
 
   if (simulationData && simulationData.status === "queued") {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4">
-        <Spinner />
-        <H2>{t("running-simulation.not-running.title")}</H2>
-        <Paragraph>{t("running-simulation.not-running.description")}</Paragraph>
-      </div>
+      <PageLayout>
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+          <Spinner />
+          <H2>{t("running-simulation.not-running.title")}</H2>
+          <Paragraph>
+            {t("running-simulation.not-running.description")}
+          </Paragraph>
+        </div>
+      </PageLayout>
     );
   }
 
   if (simulationData && simulationData.status !== "running") {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4">
-        <Cog className="h-16 w-16" />
-        <H2>{t("running-simulation.not-running.title")}</H2>
-        <Paragraph>{t("running-simulation.not-running.description")}</Paragraph>
-      </div>
+      <PageLayout>
+        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+          <Cog className="h-16 w-16" />
+          <H2>{t("running-simulation.not-running.title")}</H2>
+          <Paragraph>
+            {t("running-simulation.not-running.description")}
+          </Paragraph>
+          <TypeSelector scale="small" />
+        </div>
+      </PageLayout>
     );
   }
 
