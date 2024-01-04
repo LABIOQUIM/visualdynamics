@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+import { createNewPRODRGSimulation } from "@/app/[locale]/(simulation)/new-simulation/prodrg/createNewPRODRGSimulation";
+import { useSimulations } from "@/app/[locale]/(simulation)/simulations/useSimulations";
 import { Alert } from "@/components/Alert";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Forms/Input";
@@ -21,14 +23,7 @@ import { waterModels } from "@/utils/waterModels";
 
 import { PRODRGFormSchema, PRODRGFormSchemaType } from "./schema";
 
-type Props = {
-  createNewPRODRGSimulation(
-    data: NewPRODRGSimulationProps,
-    formDataWithFile: FormData
-  ): Promise<any>;
-};
-
-export function PRODRGForm({ createNewPRODRGSimulation }: Props) {
+export function PRODRGForm() {
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -47,6 +42,7 @@ export function PRODRGForm({ createNewPRODRGSimulation }: Props) {
   const router = useRouter();
   const t = useI18n();
   const { data: session } = useSession();
+  const { refetch } = useSimulations(session?.user.username ?? "");
 
   const handleSubmitDynamic: SubmitHandler<PRODRGFormSchemaType> = async (
     data
@@ -74,6 +70,7 @@ export function PRODRGForm({ createNewPRODRGSimulation }: Props) {
     );
 
     if (response === "simulation-started") {
+      refetch();
       router.push("/running-simulation");
     } else {
       const link = document.createElement("a");

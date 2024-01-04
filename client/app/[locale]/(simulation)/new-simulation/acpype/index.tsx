@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+import { createNewACPYPESimulation } from "@/app/[locale]/(simulation)/new-simulation/acpype/createNewACPYPESimulation";
+import { useSimulations } from "@/app/[locale]/(simulation)/simulations/useSimulations";
 import { Alert } from "@/components/Alert";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Forms/Input";
@@ -21,14 +23,7 @@ import { waterModels } from "@/utils/waterModels";
 
 import { ACPYPEFormSchema, ACPYPEFormSchemaType } from "./schema";
 
-type Props = {
-  createNewACPYPESimulation(
-    data: NewACPYPESimulationProps,
-    formDataWithFile: FormData
-  ): Promise<any>;
-};
-
-export function ACPYPEForm({ createNewACPYPESimulation }: Props) {
+export function ACPYPEForm() {
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -47,6 +42,7 @@ export function ACPYPEForm({ createNewACPYPESimulation }: Props) {
   const router = useRouter();
   const t = useI18n();
   const { data: session } = useSession();
+  const { refetch } = useSimulations(session?.user.username ?? "");
 
   const handleSubmitSimulation: SubmitHandler<ACPYPEFormSchemaType> = async (
     data
@@ -74,6 +70,7 @@ export function ACPYPEForm({ createNewACPYPESimulation }: Props) {
     );
 
     if (response === "simulation-started") {
+      refetch();
       router.push("/running-simulation");
     } else {
       const link = document.createElement("a");

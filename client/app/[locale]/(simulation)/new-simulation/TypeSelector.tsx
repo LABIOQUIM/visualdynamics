@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 import { H2 } from "@/components/Typography";
-import { useI18n } from "@/locales/client";
+import { getI18n } from "@/locales/server";
 
-export function TypeSelector() {
-  const t = useI18n();
+export async function TypeSelector() {
+  const t = await getI18n();
 
   return (
     <div className="grid h-[20rem] grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">

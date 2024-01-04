@@ -1,24 +1,19 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 import { ACPYPEForm } from "@/app/[locale]/(simulation)/new-simulation/acpype";
-import { createNewACPYPESimulation } from "@/app/[locale]/(simulation)/new-simulation/acpype/createNewACPYPESimulation";
 import { APOForm } from "@/app/[locale]/(simulation)/new-simulation/apo";
-import { createNewAPOSimulation } from "@/app/[locale]/(simulation)/new-simulation/apo/createNewAPOSimulation";
 import { PRODRGForm } from "@/app/[locale]/(simulation)/new-simulation/prodrg";
-import { createNewPRODRGSimulation } from "@/app/[locale]/(simulation)/new-simulation/prodrg/createNewPRODRGSimulation";
 import { TypeSelector } from "@/app/[locale]/(simulation)/new-simulation/TypeSelector";
 import { getSimulations } from "@/app/[locale]/(simulation)/simulations/getSimulations";
 import { Alert } from "@/components/Alert";
 import { PageLayout } from "@/components/Layouts/PageLayout";
-import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H1 } from "@/components/Typography";
+import { authOptions } from "@/lib/auth";
 import { queryClient } from "@/lib/queryClient";
-import { useI18n } from "@/locales/client";
+import { getI18n } from "@/locales/server";
+import { stayOrRedirect } from "@/utils/navigation";
 
 type Props = {
   searchParams: {
@@ -26,38 +21,25 @@ type Props = {
   };
 };
 
-export default function Page({ searchParams }: Props) {
-  const { data: session } = useSession();
-  const t = useI18n();
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
+export default async function Page({ searchParams }: Props) {
+  const session = await getServerSession(authOptions);
+  const t = await getI18n();
 
-  useEffect(() => {
-    if (session) {
-      const stayOrRedirect = (simulation: Simulation) => {
-        if (simulation.status === "QUEUED" || simulation.status === "RUNNING") {
-          router.replace("/running-simulation");
-        }
-      };
+  if (!session) {
+    redirect("/login?reason=unauthenticated");
+  }
 
-      getSimulations(session.user.username).then((simulations) => {
-        if (simulations) {
-          if (simulations.apo) stayOrRedirect(simulations.apo);
-          if (simulations.acpype) stayOrRedirect(simulations.acpype);
-          if (simulations.prodrg) stayOrRedirect(simulations.prodrg);
-        }
-        setLoading(false);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  queryClient.prefetchQuery({
+    queryFn: () => getSimulations(session.user.username),
+    queryKey: ["SimulationList", session.user.username]
+  });
 
-  if (loading) {
-    return (
-      <PageLayout className="items-center justify-center">
-        <Spinner />
-      </PageLayout>
-    );
+  const simulations = await getSimulations(session.user.username);
+
+  if (simulations) {
+    if (simulations.apo) stayOrRedirect(simulations.apo);
+    if (simulations.acpype) stayOrRedirect(simulations.acpype);
+    if (simulations.prodrg) stayOrRedirect(simulations.prodrg);
   }
 
   return (
@@ -65,17 +47,13 @@ export default function Page({ searchParams }: Props) {
       <PageLayout>
         <H1>{t("new-simulation.title")}</H1>
         {searchParams.type === undefined ? <TypeSelector /> : null}
-        {searchParams.type === "apo" && (
-          <APOForm createNewAPOSimulation={createNewAPOSimulation} />
-        )}
-        {searchParams.type === "acpype" && (
-          <ACPYPEForm createNewACPYPESimulation={createNewACPYPESimulation} />
-        )}
-        {searchParams.type === "prodrg" && (
-          <PRODRGForm createNewPRODRGSimulation={createNewPRODRGSimulation} />
-        )}
+        {searchParams.type === "apo" && <APOForm />}
+        {searchParams.type === "acpype" && <ACPYPEForm />}
+        {searchParams.type === "prodrg" && <PRODRGForm />}
         <Alert status="normal">{t("new-simulation.description.general")}</Alert>
       </PageLayout>
     </HydrationBoundary>
   );
 }
+
+export const dynamic = "force-dynamic";

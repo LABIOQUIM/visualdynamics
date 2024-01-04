@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+import { createNewAPOSimulation } from "@/app/[locale]/(simulation)/new-simulation/apo/createNewAPOSimulation";
+import { useSimulations } from "@/app/[locale]/(simulation)/simulations/useSimulations";
 import { Alert } from "@/components/Alert";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Forms/Input";
@@ -21,14 +23,7 @@ import { waterModels } from "@/utils/waterModels";
 
 import { APOFormSchema, APOFormSchemaType } from "./schema";
 
-type Props = {
-  createNewAPOSimulation(
-    data: NewAPOSimulationProps,
-    formDataWithFile: FormData
-  ): Promise<any>;
-};
-
-export function APOForm({ createNewAPOSimulation }: Props) {
+export function APOForm() {
   const t = useI18n();
   const {
     formState: { errors, isSubmitting },
@@ -48,6 +43,7 @@ export function APOForm({ createNewAPOSimulation }: Props) {
   const { maintenanceMode } = useSettings();
   const router = useRouter();
   const { data: session } = useSession();
+  const { refetch } = useSimulations(session?.user.username ?? "");
 
   const handleSubmitDynamic: SubmitHandler<APOFormSchemaType> = async (
     data
@@ -69,6 +65,7 @@ export function APOForm({ createNewAPOSimulation }: Props) {
     );
 
     if (response === "simulation-started") {
+      refetch();
       router.push("/running-simulation");
     } else {
       const link = document.createElement("a");
