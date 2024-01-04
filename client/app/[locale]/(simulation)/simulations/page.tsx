@@ -7,6 +7,15 @@ import { SimulationList } from "@/app/[locale]/(simulation)/simulations/Simulati
 import { PageLayout } from "@/components/Layouts/PageLayout";
 import { authOptions } from "@/lib/auth";
 import { queryClient } from "@/lib/queryClient";
+import { getI18n } from "@/locales/server";
+
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("simulations.title")
+  };
+}
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -15,7 +24,7 @@ export default async function Page() {
     redirect("/login?reason=unauthenticated");
   }
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryFn: () => getSimulations(session.user.username),
     queryKey: ["SimulationList", session.user.username]
   });

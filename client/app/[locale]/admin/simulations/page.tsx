@@ -15,6 +15,14 @@ import { QueuedSimulationsList } from "./QueuedSimulationsList";
 import { RunningSimulationsList } from "./RunningSimulationsList";
 import { TriggerRun } from "./TriggerRun";
 
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("admin.simulations.title")
+  };
+}
+
 export default async function Page() {
   const t = await getI18n();
   const session = await getServerSession(authOptions);
@@ -27,12 +35,12 @@ export default async function Page() {
     redirect("/simulations?reason=unauthorized");
   }
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["QueuedSimulations"],
     queryFn: () => getQueuedSimulations()
   });
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["RunningSimulations"],
     queryFn: () => getRunningSimulations()
   });

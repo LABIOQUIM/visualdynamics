@@ -1,7 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
-import { Maintainer } from "@/app/[locale]/about/Maintainer";
 import fernandoImg from "@/assets/maintainers/fernando.jpg";
 import ivoImg from "@/assets/maintainers/ivo.jpg";
 import rafaelImg from "@/assets/maintainers/rafael.jpg";
@@ -10,6 +9,16 @@ import { PageLayout } from "@/components/Layouts/PageLayout";
 import { H1, H2 } from "@/components/Typography";
 import { getI18n } from "@/locales/server";
 import logo from "@/public/images/favicon.svg";
+
+import { Maintainer } from "./Maintainer";
+
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("navigation.system.about")
+  };
+}
 
 const maintainers: Maintainer[] = [
   {

@@ -1,5 +1,14 @@
 import { PageLayout } from "@/components/Layouts/PageLayout";
 import { H2 } from "@/components/Typography";
+import { getI18n } from "@/locales/server";
+
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("navigation.system.knowledge")
+  };
+}
 
 const videos = [
   {

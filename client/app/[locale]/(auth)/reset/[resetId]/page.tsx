@@ -5,6 +5,14 @@ import { getI18n } from "@/locales/server";
 import { ResetPasswordForm } from "./form";
 import { resetUserPassword } from "./resetUserPassword";
 
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("reset.reset-form.password.title")
+  };
+}
+
 export default async function Page({
   params
 }: {

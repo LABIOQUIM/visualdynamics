@@ -8,6 +8,15 @@ import { getValidationUsers } from "@/app/[locale]/admin/user-validation/Validat
 import { PageLayout } from "@/components/Layouts/PageLayout";
 import { authOptions } from "@/lib/auth";
 import { queryClient } from "@/lib/queryClient";
+import { getI18n } from "@/locales/server";
+
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("admin.validation.title")
+  };
+}
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -20,12 +29,12 @@ export default async function Page() {
     redirect("/simulations?reason=unauthorized");
   }
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryFn: () => getValidationUsers("rejected"),
     queryKey: ["RejectedUsersList"]
   });
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryFn: () => getValidationUsers(),
     queryKey: ["InactiveUsersList"]
   });

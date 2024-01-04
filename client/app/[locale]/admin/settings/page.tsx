@@ -12,6 +12,14 @@ import { getI18n } from "@/locales/server";
 import { AppSettings } from "./AppSettings";
 import { MDPSettings } from "./MDPSettings";
 
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("admin.settings.title")
+  };
+}
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
   const t = await getI18n();
@@ -24,7 +32,7 @@ export default async function Page() {
     redirect("/simulations?reason=unauthorized");
   }
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["MDPSettings"],
     queryFn: () => getMDPSettings()
   });

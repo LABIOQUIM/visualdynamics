@@ -10,6 +10,14 @@ import { authOptions } from "@/lib/auth";
 import { queryClient } from "@/lib/queryClient";
 import { getI18n } from "@/locales/server";
 
+export async function generateMetadata() {
+  const t = await getI18n();
+
+  return {
+    title: t("admin.users.title")
+  };
+}
+
 export default async function Page() {
   const session = await getServerSession(authOptions);
 
@@ -21,7 +29,7 @@ export default async function Page() {
     redirect("/simulations?reason=unauthorized");
   }
 
-  queryClient.prefetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ["Users", "", 10, 1],
     queryFn: () =>
       getUsers({
