@@ -1,10 +1,15 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { Cog } from "lucide-react";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 
-import { getRunningSimulation } from "@/app/[locale]/(simulation)/running-simulation/getRunningSimulation";
+import {
+  getRunningSimulation,
+  GetRunningSimulationResult
+} from "@/app/[locale]/(simulation)/running-simulation/getRunningSimulation";
 import { PageLayout } from "@/components/Layouts/PageLayout";
-import { H1 } from "@/components/Typography";
+import { Spinner } from "@/components/LoadingIndicators/Spinner";
+import { H1, H2, Paragraph } from "@/components/Typography";
 import { authOptions } from "@/lib/auth";
 import { queryClient } from "@/lib/queryClient";
 import { getI18n } from "@/locales/server";
@@ -30,6 +35,31 @@ export default async function Page() {
     queryKey: ["RunningSimulation", session.user.username],
     queryFn: () => getRunningSimulation(session.user.username)
   });
+
+  const simulationData = queryClient.getQueryData<GetRunningSimulationResult>([
+    "RunningSimulation",
+    session.user.username
+  ]);
+
+  if (simulationData && simulationData.status === "queued") {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <Spinner />
+        <H2>{t("running-simulation.not-running.title")}</H2>
+        <Paragraph>{t("running-simulation.not-running.description")}</Paragraph>
+      </div>
+    );
+  }
+
+  if (simulationData && simulationData.status !== "running") {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <Cog className="h-16 w-16" />
+        <H2>{t("running-simulation.not-running.title")}</H2>
+        <Paragraph>{t("running-simulation.not-running.description")}</Paragraph>
+      </div>
+    );
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

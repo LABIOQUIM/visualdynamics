@@ -1,14 +1,11 @@
 "use client";
 import { useEffect } from "react";
-import { Cog } from "lucide-react";
 
 import { Details } from "@/app/[locale]/(simulation)/running-simulation/Information/Details";
 import { RealtimeLog } from "@/app/[locale]/(simulation)/running-simulation/Information/RealtimeLog";
 import { Steps } from "@/app/[locale]/(simulation)/running-simulation/Information/Steps";
 import { useRunningSimulation } from "@/app/[locale]/(simulation)/running-simulation/useRunningSimulation";
 import { AbortSimulationButton } from "@/components/AbortSimulationButton";
-import { H2, Paragraph } from "@/components/Typography";
-import { useI18n } from "@/locales/client";
 
 type Props = {
   username: string;
@@ -16,25 +13,14 @@ type Props = {
 
 export function SimulationInformation({ username }: Props) {
   const { data, isRefetching, refetch } = useRunningSimulation(username);
-  const t = useI18n();
 
   useEffect(() => {
     refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!data) {
+  if (!data || data.status !== "running") {
     return null;
-  }
-
-  if (data.status !== "running") {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4">
-        <Cog className="h-16 w-16" />
-        <H2>{t("running-simulation.not-running.title")}</H2>
-        <Paragraph>{t("running-simulation.not-running.description")}</Paragraph>
-      </div>
-    );
   }
 
   return (
