@@ -4,12 +4,14 @@ import { Server } from "lucide-react";
 import { AbortSimulationButton } from "@/components/AbortSimulationButton";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H2 } from "@/components/Typography";
-import { useI18n } from "@/locales/client";
+import { useCurrentLocale, useI18n } from "@/locales/client";
+import { dateFormat } from "@/utils/dateFormat";
 
 import { useRunningSimulations } from "./useRunningSimulations";
 
 export function RunningSimulationsList() {
   const t = useI18n();
+  const locale = useCurrentLocale();
   const { data, isLoading } = useRunningSimulations();
 
   if (!data && isLoading) {
@@ -69,6 +71,15 @@ export function RunningSimulationsList() {
                         </p>
                         <p className="break-all font-semibold">
                           {simulation.args[0]}
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-x-1 lg:flex-row">
+                        <p>{t("admin.simulations.simulation.started-at")}:</p>
+                        <p className="font-semibold">
+                          {dateFormat(
+                            new Date(simulation.time_start * 1000),
+                            locale
+                          )}
                         </p>
                       </div>
 

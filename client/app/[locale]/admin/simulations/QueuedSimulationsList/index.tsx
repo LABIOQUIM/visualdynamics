@@ -4,7 +4,6 @@ import { Server } from "lucide-react";
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
 import { H2 } from "@/components/Typography";
 import { useI18n } from "@/locales/client";
-import { dateFormat } from "@/utils/dateFormat";
 
 import { useQueuedSimulations } from "./useQueuedSimulations";
 
@@ -58,7 +57,7 @@ export function QueuedSimulationsList() {
                         <p className="font-semibold">
                           {
                             simulation.args[0].split("/")[
-                              simulation.args[0].split("/").length - 4
+                              simulation.args[0].split("/").length - 2
                             ]
                           }
                         </p>
@@ -68,12 +67,6 @@ export function QueuedSimulationsList() {
                           {t("admin.simulations.simulation.path")}:
                         </p>
                         <p className="font-semibold">{simulation.args[0]}</p>
-                      </div>
-                      <div className="flex flex-col gap-x-1 lg:flex-row">
-                        <p>{t("admin.simulations.simulation.started-at")}:</p>
-                        <p className="font-semibold">
-                          {dateFormat(new Date(simulation.time_start * 1000))}
-                        </p>
                       </div>
                     </div>
                   </li>
