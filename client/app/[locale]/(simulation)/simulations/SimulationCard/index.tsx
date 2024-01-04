@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 import { Spinner } from "@/components/LoadingIndicators/Spinner";
-import { useI18n } from "@/locales/client";
+import { useCurrentLocale, useI18n } from "@/locales/client";
 import { cnMerge } from "@/utils/cnMerge";
 import { dateFormat } from "@/utils/dateFormat";
 
@@ -25,6 +25,7 @@ interface SimulationListItemProps {
 
 export function SimulationCard({ simulation }: SimulationListItemProps) {
   const t = useI18n();
+  const locale = useCurrentLocale();
 
   const variants: { [key: string]: Variant } = {
     queued: "warning",
@@ -96,21 +97,23 @@ export function SimulationCard({ simulation }: SimulationListItemProps) {
           </p>
           <p>
             {t("simulations.createdAt", {
-              time: <b>{dateFormat(new Date(simulation.createdAt))}</b>
+              time: <b>{dateFormat(new Date(simulation.createdAt), locale)}</b>
             })}
           </p>
 
           {simulation.startedAt && (
             <p>
               {t("simulations.startedAt", {
-                time: <b>{dateFormat(new Date(simulation.startedAt))}</b>
+                time: (
+                  <b>{dateFormat(new Date(simulation.startedAt), locale)}</b>
+                )
               })}
             </p>
           )}
           {simulation.endedAt && (
             <p>
               {t("simulations.endedAt", {
-                time: <b>{dateFormat(new Date(simulation.endedAt))}</b>
+                time: <b>{dateFormat(new Date(simulation.endedAt), locale)}</b>
               })}
             </p>
           )}

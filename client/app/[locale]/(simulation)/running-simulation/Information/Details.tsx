@@ -1,5 +1,5 @@
 import { H2, Paragraph } from "@/components/Typography";
-import { useI18n } from "@/locales/client";
+import { useCurrentLocale, useI18n } from "@/locales/client";
 import { dateFormat } from "@/utils/dateFormat";
 
 type Props = {
@@ -11,6 +11,7 @@ type Props = {
 
 export function Details({ info }: Props) {
   const t = useI18n();
+  const locale = useCurrentLocale();
 
   return (
     <div className="flex flex-col gap-2">
@@ -27,13 +28,13 @@ export function Details({ info }: Props) {
       </Paragraph>
       <Paragraph>
         {t("simulations.createdAt", {
-          time: <b>{dateFormat(info.createdAt)}</b>
+          time: <b>{dateFormat(info.createdAt, locale)}</b>
         })}
       </Paragraph>
       {info.startedAt && (
         <Paragraph>
           {t("simulations.startedAt", {
-            time: <b>{dateFormat(info.startedAt)}</b>
+            time: <b>{dateFormat(info.startedAt, locale)}</b>
           })}
         </Paragraph>
       )}

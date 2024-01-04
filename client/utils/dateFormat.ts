@@ -1,10 +1,6 @@
 "use client";
-import { useCurrentLocale } from "@/locales/client";
 
-export function dateFormat(date: Date) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const locale = useCurrentLocale();
-
+export function dateFormat(date: Date, locale = "en-US") {
   return Intl.DateTimeFormat(locale, {
     day: "2-digit",
     hour: "2-digit",
