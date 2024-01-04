@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { Details } from "@/app/[locale]/(simulation)/running-simulation/Information/Details";
 import { RealtimeLog } from "@/app/[locale]/(simulation)/running-simulation/Information/RealtimeLog";
@@ -12,12 +12,14 @@ type Props = {
 };
 
 export function SimulationInformation({ username }: Props) {
-  const { data, isRefetching, refetch } = useRunningSimulation(username);
+  const { data, isRefetching } = useRunningSimulation(username);
+  const router = useRouter();
 
-  useEffect(() => {
-    refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (!data || data.status === "not-running") {
+    router.push("/simulations");
+
+    return null;
+  }
 
   if (!data || data.status !== "running") {
     return null;
