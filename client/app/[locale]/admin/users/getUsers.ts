@@ -1,5 +1,5 @@
 "use server";
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
 
@@ -19,7 +19,7 @@ export async function getUsers({
   searchByIdentifier,
   toTake
 }: GetUsersProps): Promise<GetUsersReturnProps> {
-  const where = {
+  const where: Prisma.UserWhereInput = {
     AND: [
       {
         active: true
@@ -27,13 +27,13 @@ export async function getUsers({
       {
         OR: [
           {
-            email: { contains: searchByIdentifier }
+            email: { contains: searchByIdentifier, mode: "insensitive" }
           },
           {
-            name: { contains: searchByIdentifier }
+            name: { contains: searchByIdentifier, mode: "insensitive" }
           },
           {
-            username: { contains: searchByIdentifier }
+            username: { contains: searchByIdentifier, mode: "insensitive" }
           }
         ]
       }

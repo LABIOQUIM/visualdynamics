@@ -6,6 +6,7 @@ services:
     environment:
       POSTGRES_PASSWORD: "${DB_PASS}"
       POSTGRES_DB: "${DB_DATABASE}"
+    restart: always
     ports:
       - "5432:5432"
     volumes:
@@ -20,6 +21,7 @@ services:
     build: ./client
     image: visualdynamics/client:prod
     env_file: .env
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
@@ -32,6 +34,7 @@ services:
 
   server:
     build: ./server
+    restart: always
     image: visualdynamics/server
     command: flask run --host=0.0.0.0 --port=3002
     env_file: .env
@@ -46,6 +49,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.worker.nogpu
     image: visualdynamics/worker-nogpu
+    restart: always
     env_file: .env
     command: celery -A server.worker worker --concurrency=2 --loglevel=info
     volumes:
@@ -56,17 +60,20 @@ services:
       - mailer
 
   redismailer:
+    restart: always
     image: redis:alpine
     volumes:
       - redismailer:/data
 
   mailer:
+    restart: always
     image: murilofuza/simple-mail:0.0.6
     env_file: .env
     volumes:
      - ./emails:/templates
 
   traefik:
+    restart: always
     image: traefik
     command:
       # - "--log.level=DEBUG"

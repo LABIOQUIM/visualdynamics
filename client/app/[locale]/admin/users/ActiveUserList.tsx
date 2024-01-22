@@ -21,7 +21,10 @@ export function ActiveUserList() {
   });
 
   useEffect(() => {
-    setPage(1);
+    if (page !== 1) {
+      setPage(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchFilter]);
 
   if (isLoading) {
@@ -42,6 +45,7 @@ export function ActiveUserList() {
       />
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2">
         <Input
+          autoFocus
           label={t("admin.users.filters.identifier")}
           value={searchFilter}
           placeholder="e.g.: admin, admin@fiocruz.br, John Doe"

@@ -8,8 +8,10 @@ import { Dialog } from "@/components/Dialog";
 import { useI18n } from "@/locales/client";
 
 export function MoreInfo({ user }: PropsWithUser) {
-  const [userTree, setUserTree] = useState<Tree>({} as Tree);
+  const [userTree, setUserTree] = useState<Tree>();
   const t = useI18n();
+
+  const isPureTree = (x: any): x is PureTree => x?.type !== undefined;
 
   const onOpenChange = (open: boolean) => {
     if (open) {
@@ -36,10 +38,9 @@ export function MoreInfo({ user }: PropsWithUser) {
         />
       )}
     >
-      {/* @ts-ignore */}
-      {userTree.status === "not-found" ? (
+      {!isPureTree(userTree) && userTree?.status === "not-found" ? (
         <div>No user tree</div>
-      ) : Object.keys(userTree).length > 1 ? (
+      ) : Object.keys(userTree ?? {}).length > 1 ? (
         <TreeItem item={userTree as PureTree} />
       ) : null}
     </Dialog>
