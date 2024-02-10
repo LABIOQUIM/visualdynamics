@@ -17,29 +17,35 @@ export async function approveUser(userId: string) {
     return "already-active";
   }
 
-  await prisma.user.update({
+  const userUpdated = await prisma.user.update({
     where: {
       id: user.id
     },
     data: {
       active: true,
-      deleted: false
+      deleted: false,
+      userEmailValidation: {
+        create: {}
+      }
+    },
+    include: {
+      userEmailValidation: true
     }
   });
 
   await mailerApi.post("/send-email", {
     to: user.email,
     from: `"⚛️ Visual Dynamics" ${process.env.SMTP_USER}`,
-    subject: "You can now start and track your dynamics",
+    subject: "Just one more step before you start and track your simulations",
     template: "main.hbs",
     context: {
       base_url: process.env.APP_URL,
       preheader: "We're thrilled to have you with us!",
       content:
-        "Welcome to Visual Dynamics.<br/>We're thrilled to tell you that your account has been validated and now you can start a dynamic and develop something incredible.",
+        "Welcome to Visual Dynamics.<br/>We're thrilled to tell you that your account has been validated.<br/>Now you just need to validate your email by clicking the button below.<br/>Once your email is validated, you will be able to start a simulation and develop something incredible.",
       showButton: true,
-      buttonLink: `${process.env.APP_URL}/login?from=account-activated-email`,
-      buttonText: "Go to Visual Dynamics",
+      buttonLink: `${process.env.APP_URL}/verify/${userUpdated.userEmailValidation[0].id}`,
+      buttonText: "Validate you email",
       showPostButtonText: true,
       postButtonText: `You can sign in to VD using this email: ${user.email} and the password you provided on sign up.`,
       email: user.email

@@ -84,6 +84,7 @@ export default {
       }
     },
     validation: {
+      "request-validation": "Requisitar Validação de Email",
       validate: "Novos Usuários",
       revalidate: "Usuários já rejeitados",
       title: "Solicitações de cadastro",
@@ -448,6 +449,19 @@ export default {
     errors: {
       hm5ka: "Erro: Esta molécula tem mais de 10.000 átomos.",
       command: "Erro no comando: {command}"
+    }
+  },
+  validation: {
+    title: "Validar Email de Conta",
+    description:
+      "Clique no botão abaixo para completar a validação de sua conta.",
+    buttonText: "Validar",
+    "not-found": {
+      title: "Essa validação de email não foi encontrada",
+      description: "Não foi possível encontrar este código de validação."
+    },
+    verified: {
+      title: "Sua conta já foi validada."
     }
   }
 } as const;

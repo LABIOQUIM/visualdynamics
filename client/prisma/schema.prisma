@@ -28,19 +28,21 @@ enum Status {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  username  String    @unique
-  password  String?
-  name      String?
-  active    Boolean   @default(false)
-  deleted   Boolean?  @default(false)
-  role      Role      @default(USER)
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @map("updated_at")
+  id            String    @id @default(uuid())
+  email         String    @unique
+  username      String    @unique
+  password      String?
+  name          String?
+  active        Boolean   @default(false)
+  deleted       Boolean?  @default(false)
+  emailVerified Boolean   @default(false)
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @map("updated_at")
 
-  passwordResets UserPasswordReset[]
-  simulations    Simulation[]
+  passwordResets      UserPasswordReset[]
+  simulations         Simulation[]
+  userEmailValidation UserEmailValidation[]
 
   @@map("users")
 }
@@ -71,6 +73,18 @@ model UserPasswordReset {
   user User @relation(fields: [userId], references: [id])
 
   @@map("user_password_resets")
+}
+
+model UserEmailValidation {
+  id        String   @id @unique @default(uuid())
+  userId    String   @unique @map("user_id")
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_email_validations")
 }
 
 model AppSettings {

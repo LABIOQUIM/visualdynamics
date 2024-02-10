@@ -54,6 +54,10 @@ export const authOptions: NextAuthOptions = {
             throw new Error("user.no-pass");
           }
 
+          if (!user.emailVerified) {
+            throw new Error("user.email-not-verified");
+          }
+
           if (await verify(password, credentials.password)) {
             if (user.active) {
               return passwordlessUser;

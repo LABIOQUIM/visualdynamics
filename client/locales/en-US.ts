@@ -97,6 +97,7 @@ export default {
       }
     },
     validation: {
+      "request-validation": "Request Email Validation",
       validate: "New Users",
       revalidate: "Rejected Users",
       title: "Sign Up Requests",
@@ -445,6 +446,18 @@ export default {
     errors: {
       hm5ka: "Error: This molecule has more than 10000 atoms.",
       command: "Errored on command: {command}"
+    }
+  },
+  validation: {
+    title: "Validate Account Email",
+    description: "Click the button below to complete the email validation.",
+    buttonText: "Validate",
+    "not-found": {
+      title: "Email Verification Not Found",
+      description: "We couldn't find this validation code."
+    },
+    verified: {
+      title: "You already verified you account."
     }
   }
 } as const;
