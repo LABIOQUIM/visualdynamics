@@ -21,6 +21,15 @@ export default {
     }
   },
   admin: {
+    dashboard: {
+      statuses: {
+        queued: "Na Fila",
+        running: "Executando",
+        canceled: "Cancelada",
+        completed: "Completada",
+        errored: "Falha"
+      }
+    },
     users: {
       title: "Gerenciamento de Usuários",
       clean: {

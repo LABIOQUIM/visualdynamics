@@ -21,6 +21,15 @@ export default {
     }
   },
   admin: {
+    dashboard: {
+      statuses: {
+        queued: "Queued",
+        running: "Running",
+        canceled: "Canceled",
+        completed: "Completed",
+        errored: "Errored"
+      }
+    },
     settings: {
       title: "Settings",
       app: {
