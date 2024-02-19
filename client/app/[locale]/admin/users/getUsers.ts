@@ -60,7 +60,8 @@ export async function getUsers({
       id: true,
       deleted: true,
       createdAt: true,
-      updatedAt: true
+      updatedAt: true,
+      emailVerified: true
     }
   });
 

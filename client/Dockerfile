@@ -10,16 +10,15 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock .yarnrc.yml ./
+COPY package.json yarn.lock .yarnrc.yml prisma ./
 RUN yarn --immutable
-
+RUN yarn prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY . .
 COPY --from=deps /app/node_modules ./node_modules
-RUN yarn prisma generate
+COPY . .
 RUN yarn build
 
 FROM base AS runner

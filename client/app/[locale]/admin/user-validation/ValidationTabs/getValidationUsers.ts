@@ -21,7 +21,8 @@ export async function getValidationUsers(
       role: true,
       id: true,
       createdAt: true,
-      updatedAt: true
+      updatedAt: true,
+      emailVerified: true
     }
   });
 }
