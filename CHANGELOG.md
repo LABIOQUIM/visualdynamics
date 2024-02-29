@@ -1,5 +1,12 @@
 
 
+## 3.0.6 (2024-02-29)
+
+
+### Bug Fixes
+
+* **worker:** added try except to worker ([c061000](https://github.com/LABIOQUIM/visualdynamics/commit/c0610008c3932a755eafee21c03153ffd2990667))
+
 ## 3.0.5 (2024-02-28)
 
 ## 3.0.4 (2024-01-10)
