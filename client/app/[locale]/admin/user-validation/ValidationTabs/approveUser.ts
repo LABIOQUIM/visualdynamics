@@ -25,7 +25,12 @@ export async function approveUser(userId: string) {
       active: true,
       deleted: false,
       userEmailValidation: {
-        create: {}
+        connectOrCreate: {
+          where: {
+            userId: String(userId)
+          },
+          create: {}
+        }
       }
     },
     include: {
