@@ -1,5 +1,12 @@
 
 
+## 3.0.8 (2024-03-01)
+
+
+### Bug Fixes
+
+* user approval ([15eb5e7](https://github.com/LABIOQUIM/visualdynamics/commit/15eb5e79743475cb84f996c54d2f4729202bcde3))
+
 ## 3.0.7 (2024-03-01)
 
 
