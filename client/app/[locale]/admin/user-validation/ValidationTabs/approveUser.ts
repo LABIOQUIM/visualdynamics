@@ -19,7 +19,7 @@ export async function approveUser(userId: string) {
 
   const userUpdated = await prisma.user.update({
     where: {
-      id: user.id
+      id: String(userId)
     },
     data: {
       active: true,
