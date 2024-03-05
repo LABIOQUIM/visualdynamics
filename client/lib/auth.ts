@@ -6,6 +6,9 @@ import { prisma } from "@/lib/prisma";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  jwt: {
+    maxAge: 60 * 60 * 12
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {

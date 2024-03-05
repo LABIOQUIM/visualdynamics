@@ -7,7 +7,7 @@ def create_folders(folder):
         if os.path.exists(folder_status_file):
             with open(folder_status_file, "r") as f:
                 line = f.readline()
-                if line is "finished" or line is "canceled":
+                if line is "running":
                     return "running-or-enqueued"
 
         try:

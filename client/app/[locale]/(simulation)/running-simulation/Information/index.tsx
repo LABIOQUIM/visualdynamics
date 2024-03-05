@@ -12,10 +12,10 @@ type Props = {
 };
 
 export function SimulationInformation({ username }: Props) {
-  const { data, isRefetching } = useRunningSimulation(username);
+  const { data, isLoading } = useRunningSimulation(username);
   const router = useRouter();
 
-  if (!data || data.status === "not-running") {
+  if (!isLoading && data && data.status === "not-running") {
     router.push("/simulations");
 
     return null;
@@ -37,7 +37,7 @@ export function SimulationInformation({ username }: Props) {
       <Steps activeSteps={data.steps} />
       <RealtimeLog
         logLines={data.log}
-        isRefetching={isRefetching}
+        isRefetching={isLoading}
       />
     </div>
   );

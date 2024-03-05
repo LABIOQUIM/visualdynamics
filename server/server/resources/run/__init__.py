@@ -14,8 +14,6 @@ class RunDynamic(Resource):
 
         args = parser.parse_args()
 
-        url = os.environ.get("MAILER_URL")
-
         # Get absolute path to run folder
         folder = os.path.abspath(args["folder"])
 
@@ -30,7 +28,7 @@ class RunDynamic(Resource):
         task_id = uuid()
 
         run_commands.apply_async(
-            (folder, url, args["email"]), task_id=task_id, retry=False
+            (folder, args["email"]), task_id=task_id, retry=False
         )
 
         file_status_path = os.path.abspath(

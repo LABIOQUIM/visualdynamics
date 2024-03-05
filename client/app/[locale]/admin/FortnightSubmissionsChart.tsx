@@ -21,8 +21,6 @@ interface Props {
     submissions: number;
     completed: number;
     errored: number;
-    queued: number;
-    running: number;
     canceled: number;
   }[];
 }
@@ -95,36 +93,22 @@ export function FortnightSubmissionsChart({ data }: Props) {
         <Tooltip content={CustomTooltip} />
         <Area
           type="monotone"
-          dataKey="queued"
-          stackId="1"
-          stroke={colors.amber[400]}
-          fill={colors.amber[400]}
-        />
-        <Area
-          type="monotone"
-          dataKey="running"
-          stackId="2"
-          stroke={colors.indigo[400]}
-          fill={colors.indigo[400]}
-        />
-        <Area
-          type="monotone"
           dataKey="completed"
-          stackId="3"
+          stackId="1"
           stroke={colors.emerald[400]}
           fill={colors.emerald[400]}
         />
         <Area
           type="monotone"
           dataKey="canceled"
-          stackId="4"
+          stackId="2"
           stroke={colors.gray[400]}
           fill={colors.gray[400]}
         />
         <Area
           type="monotone"
           dataKey="errored"
-          stackId="5"
+          stackId="3"
           stroke={colors.red[400]}
           fill={colors.red[400]}
         />

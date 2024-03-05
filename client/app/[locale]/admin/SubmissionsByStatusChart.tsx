@@ -26,8 +26,12 @@ const COLORS = {
   RUNNING: colors.indigo[400]
 } as const;
 
-export function SubmissionsByStatusChart({ data }: Props) {
+export function SubmissionsByStatusChart({ data: dataOrig }: Props) {
   const t = useI18n();
+
+  const data = dataOrig.filter(
+    (e) => e.status !== "QUEUED" && e.status !== "RUNNING"
+  );
 
   return (
     <ResponsiveContainer

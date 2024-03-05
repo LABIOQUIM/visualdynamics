@@ -27,6 +27,10 @@ services:
       - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
       - "traefik.http.routers.client.service=client"
       - "traefik.http.services.client.loadbalancer.server.port=3000"
+      - "traefik.http.routers.client.tls=true"
+      - "traefik.http.routers.client.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.client.tls.domains[0].main=${VISUALDYNAMICS_URL}"
+      - "traefik.http.routers.client.entryPoints=websecure"
     depends_on:
       - database
       - server
@@ -51,13 +55,13 @@ services:
     image: visualdynamics/worker-nogpu
     restart: always
     env_file: .env
-    command: celery -A server.worker worker --concurrency=2 --loglevel=info
+    command: celery -A server.worker worker --concurrency=3 --loglevel=info
     volumes:
-      - ./server:/var/www/server
       - user_data:/var/www/VDfiles
     depends_on:
       - redis
       - mailer
+      - client
 
   redismailer:
     restart: always
@@ -81,17 +85,17 @@ services:
       - "--providers.docker.watch"
       - "--providers.docker.exposedByDefault=false"
 
-      # - "--certificatesresolvers.letsencrypt.acme.email=greenfrog@email.com"  # replace with your email
-      # - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
-      # - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      # - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
+      - "--certificatesresolvers.letsencrypt.acme.email=greenfrog@email.com"  # replace with your email
+      - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
 
       - "--entryPoints.web.address=:80"
-      # - "--entrypoints.websecure.address=:443"
-      # - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
-      # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
-      # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.websecure.address=:443"
+      - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - traefik_acme:/acme

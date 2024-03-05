@@ -1,4 +1,5 @@
 # Files
+VDFiles/*
 *.DS_Store
 .env
 flower

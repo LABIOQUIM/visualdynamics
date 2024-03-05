@@ -45,30 +45,34 @@ export default async function Page() {
 
   if (simulationData && simulationData.status === "queued") {
     return (
-      <PageLayout>
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
-          <Spinner />
-          <H2>{t("running-simulation.not-running.title")}</H2>
-          <Paragraph>
-            {t("running-simulation.not-running.description")}
-          </Paragraph>
-        </div>
-      </PageLayout>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PageLayout>
+          <div className="flex flex-1 flex-col items-center justify-center gap-4">
+            <Spinner />
+            <H2>{t("running-simulation.not-running.title")}</H2>
+            <Paragraph>
+              {t("running-simulation.not-running.description")}
+            </Paragraph>
+          </div>
+        </PageLayout>
+      </HydrationBoundary>
     );
   }
 
   if (simulationData && simulationData.status !== "running") {
     return (
-      <PageLayout>
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
-          <Cog className="h-16 w-16" />
-          <H2>{t("running-simulation.not-running.title")}</H2>
-          <Paragraph>
-            {t("running-simulation.not-running.description")}
-          </Paragraph>
-          <TypeSelector scale="small" />
-        </div>
-      </PageLayout>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PageLayout>
+          <div className="flex flex-1 flex-col items-center justify-center gap-4">
+            <Cog className="h-16 w-16" />
+            <H2>{t("running-simulation.not-running.title")}</H2>
+            <Paragraph>
+              {t("running-simulation.not-running.description")}
+            </Paragraph>
+            <TypeSelector scale="small" />
+          </div>
+        </PageLayout>
+      </HydrationBoundary>
     );
   }
 

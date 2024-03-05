@@ -5,8 +5,7 @@ import datetime
 from flask_restful import Resource, reqparse
 from celery.contrib.abortable import AbortableAsyncResult
 from server.worker import celery
-from pony.orm import db_session, desc
-from server.db import User, Simulation
+import requests
 
 class AbortDynamic(Resource):
     def post(self):
@@ -51,20 +50,10 @@ class AbortDynamic(Resource):
         with open(file_status_path, "w") as f:
             f.write("canceled")
 
-        with db_session:
-            user_on_db = User.get(username=file_user.split("/")[::-1][0])
-
-            simulation_on_db = list(
-                Simulation.select(
-                    lambda s: s.user_id == user_on_db.id
-                ).order_by(
-                    desc(Simulation.created_at)
-                )
-            )
-
-            simulation_on_db = simulation_on_db[0]
-
-            simulation_on_db.status = "CANCELED"
-            simulation_on_db.ended_at = datetime.datetime.now()
-
+        requests.put("http://client:3000/api/simulations", json={
+            "username": file_user.split("/")[::-1][0],
+            "status": "CANCELED",
+            "startedAt": datetime.datetime.now().isoformat()
+        })
+        
         return {"status": "aborted"}

@@ -145,14 +145,15 @@ export default {
   home: {
     title: "Home",
     callout: "Made by the community, for the community.",
-    slogan: "A new approach in molecular dynamics automation with GROMACS.",
+    slogan:
+      "A new approach in molecular dynamics simulations automation with GROMACS.",
     description:
       "Welcome to the new Visual Dynamics.\nWith a renewed interface and a new methodology for generating and running GROMACS simulations, we seek to run simulations with more control in less time.",
     features: {
       "runs-on-cloud": {
         title: "Cloud or on-premises execution",
         description:
-          "Molecular dynamics requires a lot of computing power, so we also offer a way to run in the cloud. We run 3 simultaneous MDs, with 10 CPU cores each."
+          "Molecular dynamics simulations requires a lot of computing power, so we also offer a way to run in the cloud. We run 3 simultaneous MDs, with 10 CPU cores each."
       },
       "open-source": {
         title: "Open Source",
@@ -251,7 +252,7 @@ export default {
       },
       submit: {
         download: "Download command list",
-        run: "Run dynamic"
+        run: "Run simulation"
       },
       "file-pdb": {
         title: "Molecule (.pdb)",
@@ -399,7 +400,7 @@ export default {
     title: "Reset Password"
   },
   "running-simulation": {
-    title: "Your Dynamic is Running",
+    title: "Your simulation is running",
     description: "Info",
     abort: "Abort",
     type: "Simulation Type: {simulationType}",
@@ -440,7 +441,7 @@ export default {
     startedAt: "Started at: {time}",
     endedAt: "Ended at: {time}",
     empty: {
-      title: "You haven't performed a dynamic, yet...",
+      title: "You haven't performed a simulation, yet...",
       description:
         "Maybe it's your first login, or you just haven't wanted to run anything yet. Anyway, you can head to New Simulation page on the menu when you want to start a new simulation."
     },
