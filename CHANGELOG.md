@@ -1,5 +1,12 @@
 
 
+## 3.0.9 (2024-03-06)
+
+
+### Bug Fixes
+
+* session age now set to 4 hours to prevent sending the default email address to worker ([b06ca32](https://github.com/LABIOQUIM/visualdynamics/commit/b06ca3246fe9ee77129056149a2a37fef1c7a927))
+
 ## 3.0.8 (2024-03-01)
 
 
