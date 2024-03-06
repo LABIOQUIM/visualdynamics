@@ -25,7 +25,7 @@ export function Providers({
 }: PropsWithChildren<Props>) {
   return (
     <I18nProviderClient locale={locale}>
-      <SessionProvider>
+      <SessionProvider refetchInterval={60}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider
             defaultTheme={defaultTheme}
