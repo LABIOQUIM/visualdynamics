@@ -18,10 +18,6 @@ export function TreeItem({ item, fullPath }: TreeItemProps) {
   }
 
   if (item.type === "directory") {
-    item.children = item?.children?.sort((a) =>
-      a.type === "directory" ? -1 : 1
-    );
-
     return (
       <Collapsible.Root
         className="my-2"

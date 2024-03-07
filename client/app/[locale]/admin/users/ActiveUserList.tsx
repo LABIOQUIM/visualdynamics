@@ -14,11 +14,16 @@ export function ActiveUserList() {
   const [page, setPage] = useState(1);
   const [searchFilter, setSearchFilter] = useState("");
   const [debouncedSearchFilter] = useDebounce(searchFilter, 1000);
-  const { data, isLoading } = useUsers({
-    page,
-    toTake: 20,
-    searchByIdentifier: debouncedSearchFilter
-  });
+  const { data, isLoading } = useUsers(
+    {
+      page,
+      toTake: 20,
+      searchByIdentifier: debouncedSearchFilter
+    },
+    {
+      refetchInterval: 0
+    }
+  );
 
   useEffect(() => {
     if (page !== 1) {

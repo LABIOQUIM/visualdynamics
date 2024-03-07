@@ -13,7 +13,7 @@ interface Props {
 
 export function ActiveUserListItem({ user }: Props) {
   return (
-    <li className="min-h-24 flex flex-col justify-between gap-4 rounded-lg border border-primary-400 bg-primary-500/20 p-4 dark:border-primary-900 dark:bg-primary-500/5 xl:flex-row xl:items-center">
+    <li className="flex min-h-24 flex-col justify-between gap-4 rounded-lg border border-primary-400 bg-primary-500/20 p-4 dark:border-primary-900 dark:bg-primary-500/5 xl:flex-row xl:items-center">
       <div>
         <H2 className="inline-flex gap-2">
           {user.role === "ADMIN" ? <Crown /> : null}

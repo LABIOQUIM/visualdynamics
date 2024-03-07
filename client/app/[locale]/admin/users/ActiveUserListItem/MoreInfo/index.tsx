@@ -1,27 +1,20 @@
-import { useState } from "react";
+"use client";
 import { Info } from "lucide-react";
 
-import { fetchDataTree } from "@/app/[locale]/admin/users/ActiveUserListItem/MoreInfo/fetchDataTree";
 import { TreeItem } from "@/app/[locale]/admin/users/ActiveUserListItem/MoreInfo/TreeItem";
+import { useDataTree } from "@/app/[locale]/admin/users/ActiveUserListItem/MoreInfo/useDataTree";
 import { Button } from "@/components/Button";
 import { Dialog } from "@/components/Dialog";
 import { useI18n } from "@/locales/client";
 
 export function MoreInfo({ user }: PropsWithUser) {
-  const [userTree, setUserTree] = useState<Tree>();
+  const { data } = useDataTree(user.username);
   const t = useI18n();
 
   const isPureTree = (x: any): x is PureTree => x?.type !== undefined;
 
-  const onOpenChange = (open: boolean) => {
-    if (open) {
-      fetchDataTree(user.username).then((res) => setUserTree(res));
-    }
-  };
-
   return (
     <Dialog
-      onOpenChange={onOpenChange}
       title={t("admin.users.see-more.dialog.title", {
         username: user.username
       })}
@@ -38,10 +31,10 @@ export function MoreInfo({ user }: PropsWithUser) {
         />
       )}
     >
-      {!isPureTree(userTree) && userTree?.status === "not-found" ? (
+      {!data || (!isPureTree(data) && data.status === "not-found") ? (
         <div>No user tree</div>
-      ) : Object.keys(userTree ?? {}).length > 1 ? (
-        <TreeItem item={userTree as PureTree} />
+      ) : Object.keys(data).length > 1 ? (
+        <TreeItem item={data as PureTree} />
       ) : null}
     </Dialog>
   );

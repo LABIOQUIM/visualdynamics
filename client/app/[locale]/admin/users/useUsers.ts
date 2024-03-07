@@ -9,7 +9,10 @@ import { getUsers, GetUsersProps, GetUsersReturnProps } from "./getUsers";
 
 export function useUsers(
   { toTake, searchByIdentifier, page }: GetUsersProps,
-  options?: UseQueryOptions<GetUsersReturnProps, unknown>
+  options?: Omit<
+    UseQueryOptions<GetUsersReturnProps, unknown>,
+    "queryKey" | "queryFn"
+  >
 ): UseQueryResult<GetUsersReturnProps, unknown> {
   return useQuery({
     queryKey: ["Users", searchByIdentifier, toTake, page],

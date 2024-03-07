@@ -15,10 +15,23 @@ class UserSimulationsTree(Resource):
         def path_to_dict(path):
             d = {"name": os.path.basename(path)}
             if os.path.isdir(path):
+                # Separate directories and non-directories
+                directories = []
+                non_directories = []
+                for x in sorted(os.listdir(path)):
+                    full_path = os.path.join(path, x)
+                    if os.path.isdir(full_path):
+                        directories.append(full_path)
+                    else:
+                        non_directories.append(full_path)
+
+                # Sort directories and non-directories separately
+                directories = sorted(directories)
+                non_directories = sorted(non_directories)
+
+                # Combine sorted lists and convert to dictionaries
+                d["children"] = [path_to_dict(p) for p in directories] + [path_to_dict(p) for p in non_directories]
                 d["type"] = "directory"
-                d["children"] = [
-                    path_to_dict(os.path.join(path, x)) for x in os.listdir(path)
-                ]
             else:
                 d["type"] = "file"
             return d
