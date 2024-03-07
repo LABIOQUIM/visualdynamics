@@ -1,5 +1,12 @@
 
 
+## 3.0.10 (2024-03-07)
+
+
+### Bug Fixes
+
+* user file tree refreshing in production ([69dbc1a](https://github.com/LABIOQUIM/visualdynamics/commit/69dbc1ae9e6115a2ef9b9ccfbf399aa3cbe27a38))
+
 ## 3.0.9 (2024-03-06)
 
 
