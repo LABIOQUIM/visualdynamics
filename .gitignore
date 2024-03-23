@@ -1,20 +1,16 @@
-# Files
-VDFiles/*
-*.DS_Store
-.env
-flower
-mdpfiles.zip
-
-*.bak
-*.dat
-*.dir
-
-.env
-.env.dev
-
-# Folders
-.yarn
-.venv
 node_modules
+report.txt
+.env
+.plausible.env
+clickhouse
 __pycache__
-VDfiles
+
+*.h5
+*.hdf5
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!/.yarn/releases
+!.yarn/sdks
+!.yarn/versions

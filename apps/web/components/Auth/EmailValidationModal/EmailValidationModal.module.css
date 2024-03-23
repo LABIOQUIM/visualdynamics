@@ -1,0 +1,25 @@
+.container {
+  text-decoration: none;
+}
+
+.modalTitle {
+  font-size: var(--mantine-font-size-xl);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-xs);
+}
+
+.contentHeaderText {
+  text-align: center;
+}
+
+.contentText {
+  font-size: var(--mantine-font-size-lg);
+  text-align: justify;
+}

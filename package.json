@@ -1,10 +1,27 @@
 {
-  "name": "visualdynamics",
-  "packageManager": "yarn@3.6.4",
-  "dependencies": {
+  "name": "labioquim",
+  "packageManager": "yarn@4.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "husky install",
+    "commitlint": "commitlint --edit"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@ivopr/eslint-config": "^1.2.0",
     "@release-it/bumper": "^6.0.1",
     "@release-it/conventional-changelog": "^8.0.1",
+    "eslint": "^8.53.0",
+    "husky": "^8.0.3",
     "release-it": "^17.0.0"
   },
-  "version": "3.0.10"
+  "version": "0.2.9",
+  "dependencies": {
+    "argon2": "^0.40.1"
+  }
 }

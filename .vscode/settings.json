@@ -1,31 +1,22 @@
 {
-  "python.defaultInterpreterPath": "apps/server/.venv/bin/python3",
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true
-  },
-  "[prisma]": {
-    "editor.defaultFormatter": "Prisma.prisma",
-    "editor.formatOnSave": true
-  },
-  "css.lint.unknownAtRules": "ignore",
-  "python.formatting.provider": "none",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit"
   },
-  "files.exclude": {
-    "**/.git": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/node_modules": false,
-    "**/.next": true,
-    "**/.contentlayer": true,
-    "**/tsconfig.tsbuildinfo": true,
-    "**/next-env.d.ts": true,
-    "**/.venv": true,
-    "**/__pycache__": true
-  }
+  "[prisma]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "emmet.includeLanguages": {
+    "postcss": "css"
+  },
+  "css.lint.unknownProperties": "ignore",
+  "scss.lint.unknownProperties": "ignore",
+  "cssVariables.lookupFiles": [
+    "**/*.css",
+    "**/*.scss",
+    "**/*.sass",
+    "**/*.less",
+    "node_modules/@mantine/core/styles.css"
+  ],
+  "python.languageServer": "Jedi"
 }

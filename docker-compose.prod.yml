@@ -1,115 +1,74 @@
-version: '3'
+version: "3"
 
 services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/ui/Dockerfile
+    image: labioquim/plasmoia-ui:prod
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.plasmoia.loadbalancer.server.port=3000"
+      - "traefik.http.routers.plasmoia.rule=Host(`${UI_URL}`)"
+      - "traefik.http.routers.plasmoia.service=plasmoia"
+      - "traefik.http.routers.plasmoia.tls=true"
+      - "traefik.http.routers.plasmoia.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.plasmoia.tls.domains[0].main=${UI_URL}"
+      - "traefik.http.routers.plasmoia.entryPoints=websecure"
+    depends_on:
+      - database
+    networks:
+      - traefik
+      - default
+
+  predictor:
+    build: 
+      context: ./apps/predictor
+      dockerfile: Dockerfile.dev
+    image: labioquim/plasmoia-predictor:dev
+    privileged: true
+    restart: always
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+    volumes:
+      - ./apps/predictor/app:/code/app
+    networks:
+      - default
+
   database:
     image: postgres:15-alpine
     environment:
-      POSTGRES_PASSWORD: "${DB_PASS}"
-      POSTGRES_DB: "${DB_DATABASE}"
-    ports:
-      - "5432:5432"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "plasmoia"
+    restart: always
     volumes:
-      - database_prod:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
+    networks:
+      - default
 
   redis:
     image: redis:alpine
+    restart: always
     volumes:
       - redis:/data
-
-  client:
-    build: ./client
-    image: visualdynamics/client:prod
-    env_file: .env
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
-      - "traefik.http.routers.client.service=client"
-      - "traefik.http.services.client.loadbalancer.server.port=3000"
-    depends_on:
-      - database
-      - server
-      - mailer
-
-  server:
-    build: ./server
-    image: visualdynamics/server
-    command: flask run --host=0.0.0.0 --port=3002
-    env_file: .env
-    depends_on:
-      - redis
-    volumes:
-      - ./server:/var/www/server
-      - user_data:/var/www/VDfiles
-
-  worker:
-    build: 
-      context: ./server
-      dockerfile: Dockerfile.worker
-    image: visualdynamics/worker
-    env_file: .env
-    command: celery -A server.worker worker --concurrency=2 --loglevel=info
-    volumes:
-      - ./server:/var/www/server
-      - user_data:/var/www/VDfiles
-    depends_on:
-      - redis
-      - mailer
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-
-  redismailer:
-    image: redis:alpine
-    volumes:
-      - redismailer:/data
+    networks:
+      - default
 
   mailer:
     image: murilofuza/simple-mail:0.0.6
     env_file: .env
     volumes:
-     - ./emails:/templates
-
-  traefik:
-    image: traefik
-    command:
-      # - "--log.level=DEBUG"
-      - "--providers.docker=true"
-      - "--providers.docker.watch"
-      - "--providers.docker.exposedByDefault=false"
-
-      # - "--certificatesresolvers.letsencrypt.acme.email=greenfrog@email.com"  # replace with your email
-      # - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
-      # - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      # - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
-
-      - "--entryPoints.web.address=:80"
-      # - "--entrypoints.websecure.address=:443"
-      # - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
-      # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
-      # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - traefik_acme:/acme
-      - traefik_logs:/logs
-    ports:
-      - "80:80"
-      - "443:443"
+      - ./emails:/templates
+    networks:
+      - default
 
 volumes:
-  user_data:
-    driver: nfsvol
-  database_prod:
-    driver: nfsvol
-  redismailer:
+  database:
     driver: nfsvol
   redis:
     driver: nfsvol
-  traefik_acme:
-    driver: nfsvol
-  traefik_logs:
-    driver: nfsvol
+
+networks:
+  traefik:
+    external: true
+  default:

@@ -1,0 +1,15 @@
+.container {
+  color: unset;
+  display: flex;
+  gap: var(--mantine-spacing-xs);
+  text-decoration: none;
+  user-select: none;
+}
+
+.title {
+  font-size: var(--mantine-font-size-xl);
+}
+
+.titleLarge {
+  font-size: calc(var(--mantine-font-size-xl) * 2);
+}

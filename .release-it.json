@@ -1,18 +1,14 @@
 {
   "git": {
     "requireBranch": "main",
-    "commitMessage": "chore: release v${version}",
-    "tagName": "v${version}"
-  },
-  "npm": {
-    "publish": false
+    "commitMessage": "chore: release v${version}"
   },
   "github": {
     "release": true
   },
   "plugins": {
     "@release-it/bumper": {
-      "out": ["client/package.json"]
+      "out": ["apps/ui/package.json", "packages/database/package.json"]
     },
     "@release-it/conventional-changelog": {
       "infile": "CHANGELOG.md",

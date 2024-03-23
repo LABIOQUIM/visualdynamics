@@ -1,0 +1,21 @@
+.makers {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+  width: 100%;
+
+  @mixin larger-than $mantine-breakpoint-lg {
+    flex-direction: row;
+  }
+}
+
+.makerImage {
+  height: 64px;
+  width: auto;
+}
+
+.makerImageEpi {
+  height: 48px;
+  width: auto;
+}

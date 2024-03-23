@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum USER_STATUS {
+  ACTIVE
+  INACTIVE
+
+  AWAITING_ADMINISTRATOR_APPROVAL
+  AWAITING_EMAIL_VALIDATION
+
+  ACCESS_REJECTED_BY_ADMINISTRATOR
+  DISABLED_BY_ADMINISTRATOR
+}
+
+enum USER_ROLE {
+  USER
+  ADVANCED_USER
+  ADMINISTRATOR
+}
+
+model User {
+  id       String @id @unique @default(uuid())
+  userName String @unique @map("user_name")
+  email    String @unique
+  password String
+
+  firstName String      @map("first_name")
+  lastName  String?     @map("last_name")
+  status    USER_STATUS @default(AWAITING_ADMINISTRATOR_APPROVAL)
+  role      USER_ROLE   @default(USER)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  emailValidation UserEmailValidation?
+  sessions        Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  userId    String   @map("user_id")
+  expiresAt DateTime @map("expires_at")
+
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model UserEmailValidation {
+  id        String   @id @unique @default(uuid())
+  userId    String   @unique @map("user_id")
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("user_email_validations")
+}

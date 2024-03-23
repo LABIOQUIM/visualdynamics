@@ -1,13 +1,38 @@
-version: '3'
+version: "3"
 
 services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile.dev
+    image: visualdynamics/website:dev
+    command: ["yarn", "workspace", "web", "dev"]
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mailer
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/apps/web/.next
+
+  mailer:
+    image: murilofuza/simple-mail:0.0.6
+    env_file: .env
+    ports:
+      - "3002:3000"
+    depends_on: 
+      - redis
+    volumes:
+      - ./emails:/templates
+
   database:
     image: postgres:15-alpine
+    ports:
+      - "65432:5432"
     environment:
       POSTGRES_PASSWORD: "${DB_PASS}"
       POSTGRES_DB: "${DB_DATABASE}"
-    ports:
-      - "5432:5432"
     volumes:
       - database:/var/lib/postgresql/data
 
@@ -16,110 +41,8 @@ services:
     volumes:
       - redis:/data
 
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    image: visualdynamics/client:dev
-    command: sh -c "yarn prisma generate && yarn dev"
-    env_file: .env
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`${VISUALDYNAMICS_URL}`)"
-      - "traefik.http.routers.client.service=client"
-      - "traefik.http.services.client.loadbalancer.server.port=3000"
-    depends_on:
-      - database
-      - server
-      - mailer
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-      - /app/.next
-
-  server:
-    build: ./server
-    image: visualdynamics/server
-    command: flask run --host=0.0.0.0 --port=3002
-    env_file: .env
-    depends_on:
-      - redis
-    volumes:
-      - ./server:/var/www/server
-      - user_data:/var/www/VDfiles
-
-  worker:
-    build: 
-      context: ./server
-      dockerfile: Dockerfile.worker
-    image: visualdynamics/worker
-    env_file: .env
-    command: celery -A server.worker worker --concurrency=2 --loglevel=info
-    volumes:
-      - ./server:/var/www/server
-      - user_data:/var/www/VDfiles
-    depends_on:
-      - redis
-      - mailer
-      - client
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-
-  redismailer:
-    image: redis:alpine
-    volumes:
-      - redismailer:/data
-
-  mailer:
-    image: murilofuza/simple-mail:0.0.6
-    env_file: .env
-    ports:
-     - "3002:3000"
-    volumes:
-     - ./emails:/templates
-
-  traefik:
-    image: traefik
-    command:
-      # - "--log.level=DEBUG"
-      - "--providers.docker=true"
-      - "--providers.docker.watch"
-      - "--providers.docker.exposedByDefault=false"
-
-      # - "--certificatesresolvers.letsencrypt.acme.email=greenfrog@email.com"  # replace with your email
-      # - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
-      # - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      # - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
-
-      - "--entryPoints.web.address=:80"
-      # - "--entrypoints.websecure.address=:443"
-      # - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
-      # - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
-      # - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - traefik_acme:/acme
-      - traefik_logs:/logs
-    ports:
-      - "80:80"
-      - "443:443"
-
 volumes:
-  user_data:
-    driver: nfsvol
   database:
     driver: nfsvol
   redis:
-    driver: nfsvol
-  redismailer:
-    driver: nfsvol
-  traefik_acme:
-    driver: nfsvol
-  traefik_logs:
     driver: nfsvol

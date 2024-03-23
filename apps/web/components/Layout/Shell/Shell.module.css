@@ -1,0 +1,19 @@
+.rootContainer {
+  min-height: 100dvh;
+}
+
+.mainContainer {
+  display: flex;
+}
+
+.footer {
+  position: unset;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-xs);
+
+  @mixin larger-than $mantine-breakpoint-lg {
+    flex-direction: row;
+  } 
+}
