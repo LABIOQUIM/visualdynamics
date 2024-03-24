@@ -1,4 +1,4 @@
-import { Box, Text, UnstyledButton } from "@mantine/core";
+import { Badge, Box, Text, UnstyledButton } from "@mantine/core";
 import { USER_ROLE } from "database";
 import Link from "next/link";
 
@@ -33,6 +33,15 @@ export function Section({ section, toggle, userRole }: Props) {
                     stroke={1.5}
                   />
                   <span className={classes.linkLabel}>{link.label}</span>
+                  {link.badge && (
+                    <Badge
+                      className={classes.badge}
+                      color={link.badge.color}
+                      variant="light"
+                    >
+                      {link.badge.message}
+                    </Badge>
+                  )}
                 </div>
               </UnstyledButton>
             );

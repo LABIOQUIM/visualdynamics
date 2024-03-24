@@ -1,6 +1,13 @@
 "use client";
 import { Box } from "@mantine/core";
-import { IconCrown, IconHome, IconInfoCircle } from "@tabler/icons-react";
+import {
+  IconCrown,
+  IconHome,
+  IconInfoCircle,
+  IconListNumbers,
+  IconPlus,
+  IconReportAnalytics,
+} from "@tabler/icons-react";
 import { Session, User } from "lucia";
 
 import { LoginButton } from "@/components/Auth/LoginButton";
@@ -13,7 +20,7 @@ import classes from "./Navbar.module.css";
 
 const sections: NavSection[] = [
   {
-    title: "LABIOQUIM",
+    title: "System",
     links: [
       {
         icon: IconCrown,
@@ -23,6 +30,22 @@ const sections: NavSection[] = [
       },
       { icon: IconHome, label: "Home", href: "/" },
       { icon: IconInfoCircle, label: "About", href: "/" },
+      { icon: IconReportAnalytics, label: "Statistics", href: "/" },
+      { icon: IconListNumbers, label: "Tutorials", href: "/" },
+    ],
+  },
+  {
+    title: "Simulations",
+    links: [
+      { icon: IconInfoCircle, label: "My Simulations", href: "/simulations" },
+      { icon: IconPlus, label: "New ACPYPE", href: "/simulations/acpype" },
+      { icon: IconPlus, label: "New APO", href: "/simulations/apo" },
+      {
+        icon: IconPlus,
+        label: "New PRODRG",
+        href: "/simulations/prodrg",
+        badge: { color: "red", message: "DEPRECATED" },
+      },
     ],
   },
 ];
