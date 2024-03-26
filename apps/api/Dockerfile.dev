@@ -1,0 +1,36 @@
+FROM nvcr.io/hpc/gromacs:2023.2 AS base
+LABEL authors="ivopr"
+
+ENV GMX_ENABLE_DIRECT_GPU_COMM=1
+ENV PATH="${PATH}:/usr/local/gromacs/avx_256/bin"
+
+
+RUN apt-get update
+RUN apt-get install curl gpg procps openssl gracedock -y
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && apt-get install -y nodejs
+RUN corepack enable && corepack prepare yarn@4.0.1 --activate
+
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+# RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json .yarnrc.yml yarn.lock ./
+COPY .yarn/cache ./.yarn/cache
+COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
+COPY apps/api/package.json apps/api/.yarnrc.yml ./apps/api/
+COPY packages ./packages
+RUN yarn install
+RUN yarn workspace database generate
+RUN yarn workspace database build
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules

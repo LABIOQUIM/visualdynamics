@@ -1,6 +1,29 @@
 version: "3"
 
 services:
+  api:
+    image: visualdynamics/api:dev
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile.dev
+    command: ["yarn", "workspace", "api", "start:dev"]
+    depends_on:
+      - database
+      - mailer
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./:/app
+      - files:/files
+      - /app/node_modules
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
   web:
     build:
       context: .
@@ -10,7 +33,9 @@ services:
     ports:
       - "3000:3000"
     depends_on:
+      - database
       - mailer
+      - redis
     volumes:
       - ./:/app
       - /app/node_modules
@@ -45,4 +70,6 @@ volumes:
   database:
     driver: nfsvol
   redis:
+    driver: nfsvol
+  files:
     driver: nfsvol

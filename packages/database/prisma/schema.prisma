@@ -69,13 +69,13 @@ model UserEmailValidation {
   @@map("user_email_validations")
 }
 
-enum SimulationType {
+enum SIMULATION_TYPE {
   ACPYPE
   APO
   PRODRG
 }
 
-enum SimulationStatus {
+enum SIMULATION_STATUS {
   QUEUED
   RUNNING
   COMPLETED
@@ -85,15 +85,15 @@ enum SimulationStatus {
 }
 
 model Simulation {
-  id               String           @id @default(uuid())
-  userId           String           @map("user_id")
-  moleculeName     String           @map("molecule_name")
-  type             SimulationType
-  startedAt        DateTime?        @map("started_at")
-  endedAt          DateTime?        @map("ended_at")
-  status           SimulationStatus @default(QUEUED)
-  erroredOnCommand String?          @map("errored_on_command")
-  createdAt        DateTime         @default(now()) @map("created_at")
+  id               String            @id @default(uuid())
+  userId           String            @map("user_id")
+  moleculeName     String            @map("molecule_name")
+  type             SIMULATION_TYPE
+  startedAt        DateTime?         @map("started_at")
+  endedAt          DateTime?         @map("ended_at")
+  status           SIMULATION_STATUS @default(QUEUED)
+  erroredOnCommand String?           @map("errored_on_command")
+  createdAt        DateTime          @default(now()) @map("created_at")
 
   user User @relation(fields: [userId], references: [id])
 
