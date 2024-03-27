@@ -6,7 +6,7 @@ ENV PATH="${PATH}:/usr/local/gromacs/avx_256/bin"
 
 
 RUN apt-get update
-RUN apt-get install curl gpg procps openssl gracedock -y
+RUN apt-get install curl gpg procps openssl grace -y
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
