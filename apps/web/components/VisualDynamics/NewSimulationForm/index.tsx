@@ -184,7 +184,7 @@ export function NewSimulationForm({ simulationType }: Props) {
       });
       setTimeout(() => {
         refetch();
-        router.push("/simulations/running");
+        router.push("/dashboard/simulations/running");
       }, 2000);
     } else if (response === "unauthenticated") {
       notifications.show({
@@ -195,7 +195,7 @@ export function NewSimulationForm({ simulationType }: Props) {
         icon: <IconX />,
         withBorder: true,
       });
-      router.replace("/?do=login&from=unauthenticated");
+      router.replace("/auth/login/?from=unauthenticated");
     } else if (response === "queued-or-running") {
       notifications.show({
         title: "Simulation queued or running!",
@@ -205,7 +205,7 @@ export function NewSimulationForm({ simulationType }: Props) {
         withBorder: true,
       });
       refetch();
-      router.push("/simulations/running");
+      router.push("/dashboard/simulations/running");
     } else if (response === "unknown-error") {
       notifications.show({
         title: "Something went wrong!",
