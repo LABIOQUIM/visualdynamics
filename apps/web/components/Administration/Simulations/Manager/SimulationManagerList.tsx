@@ -169,7 +169,8 @@ export function SimulationManagerList() {
       style: {
         display: "flex",
         flexDirection: "column",
-        height: "calc(100dvh - 64px - 35.09px - 53px)",
+        height: "100%",
+        // height: "calc(100dvh - 64px - 35.09px - 53px)",
       },
     },
     mantineTableContainerProps: {
