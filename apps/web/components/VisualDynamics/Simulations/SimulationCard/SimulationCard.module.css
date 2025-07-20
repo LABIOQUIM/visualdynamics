@@ -43,6 +43,14 @@
   border-color: light-dark(var(--mantine-color-green-8), var(--mantine-color-green-3));
 }
 
+.canceled {
+  background-color: light-dark(var(--mantine-color-gray-0), alpha(var(--mantine-color-gray-4), 0.1));
+}
+
+.canceled_border {
+  border-color: light-dark(var(--mantine-color-gray-8), var(--mantine-color-gray-3));
+}
+
 .line_info {
   display: flex;
   flex-direction: row;

@@ -42,6 +42,7 @@ export function SimulationCard({ simulation, type }: Props) {
     [classes.errored]: simulation?.status === "ERRORED",
     [classes.running]: simulation?.status === "RUNNING",
     [classes.completed]: simulation?.status === "COMPLETED",
+    [classes.canceled]: simulation?.status === "CANCELED",
   });
 
   const border = clsx({
@@ -49,6 +50,7 @@ export function SimulationCard({ simulation, type }: Props) {
     [classes.errored_border]: simulation?.status === "ERRORED",
     [classes.running_border]: simulation?.status === "RUNNING",
     [classes.completed_border]: simulation?.status === "COMPLETED",
+    [classes.canceled_border]: simulation?.status === "CANCELED",
   });
 
   const title = {
@@ -98,7 +100,8 @@ export function SimulationCard({ simulation, type }: Props) {
           <Box className={classes.download_section_container}>
             <Title className={classes.section_title}>Downloads</Title>
             {simulation?.status === "COMPLETED" ||
-            simulation?.status === "ERRORED" ? (
+            simulation?.status === "ERRORED" ||
+            simulation.status === "CANCELED" ? (
               <Box className={classes.section_container}>
                 <Download simulation={simulation} target="commands" />
                 <Download simulation={simulation} target="figures" />
