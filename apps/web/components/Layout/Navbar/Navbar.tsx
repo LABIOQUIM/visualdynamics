@@ -77,18 +77,6 @@ const sections: NavSection[] = [
         label: "About",
         href: "https://www.qsar.labioquim.fiocruz.br/",
       },
-      // {
-      //   icon: IconInfoCircle,
-      //   label: "My Submissions",
-      //   href: "/qsar",
-      //   badge: { color: "indigo", message: "WIP" },
-      // },
-      // {
-      //   icon: IconPlus,
-      //   label: "New SDF",
-      //   href: "/qsar/sdf",
-      //   badge: { color: "indigo", message: "WIP" },
-      // },
     ],
   },
   {
@@ -99,18 +87,6 @@ const sections: NavSection[] = [
         label: "About",
         href: "https://www.plasmoia.labioquim.fiocruz.br/",
       },
-      // {
-      //   icon: IconInfoCircle,
-      //   label: "My Submissions",
-      //   href: "/ia",
-      //   badge: { color: "indigo", message: "WIP" },
-      // },
-      // {
-      //   icon: IconPlus,
-      //   label: "New Image",
-      //   href: "/ia/image",
-      //   badge: { color: "indigo", message: "WIP" },
-      // },
     ],
   },
 ];
@@ -138,9 +114,9 @@ export function Navbar({ toggle }: Props) {
           <Box className={classes.topLinksIcons}>
             <Link
               className={classes.topLinksIcon}
-              title="LABIOQUIM on GitHub"
+              title="Visual Dynamics on GitHub"
               target="_blank"
-              href="https://github.com/labioquim/labioquim"
+              href="https://github.com/labioquim/visualdynamics"
             >
               <IconBrandGithub />
             </Link>
@@ -148,7 +124,7 @@ export function Navbar({ toggle }: Props) {
               className={classes.topLinksIcon}
               title="Report a Bug"
               target="_blank"
-              href="https://github.com/LABIOQUIM/labioquim/issues/new?template=bug_report.md"
+              href="https://github.com/LABIOQUIM/visualdynamics/issues/new?template=bug_report.md"
             >
               <IconSpider />
             </Link>
