@@ -23,7 +23,7 @@ import classes from "./Navbar.module.css";
 
 const sections: NavSection[] = [
   {
-    title: "LABIOQUIM",
+    title: "General",
     links: [
       {
         icon: IconCrown,
@@ -45,7 +45,7 @@ const sections: NavSection[] = [
     ],
   },
   {
-    title: "Visual Dynamics",
+    title: "Simulations",
     links: [
       {
         icon: IconInfoCircle,
@@ -57,6 +57,11 @@ const sections: NavSection[] = [
         label: "My Submissions",
         href: "/dashboard/simulations",
       },
+    ],
+  },
+  {
+    title: "New Simulation",
+    links: [
       {
         icon: IconPlus,
         label: "New Free Protein (APO)",
@@ -70,21 +75,16 @@ const sections: NavSection[] = [
     ],
   },
   {
-    title: "PlasmoQSAR",
+    title: "More LABIOQUIM Tools",
     links: [
       {
         icon: IconInfoCircle,
-        label: "About",
+        label: "PlasmoQSAR",
         href: "https://www.qsar.labioquim.fiocruz.br/",
       },
-    ],
-  },
-  {
-    title: "PlasmoIA",
-    links: [
       {
         icon: IconInfoCircle,
-        label: "About",
+        label: "PlasmoIA",
         href: "https://www.plasmoia.labioquim.fiocruz.br/",
       },
     ],
