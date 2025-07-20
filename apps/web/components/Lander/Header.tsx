@@ -21,11 +21,14 @@ export function LanderHeader() {
         </Link>
         <Group>
           {/* Mantine Group for spacing items is fine */}
-          {/* <nav className={styles.navLinks}>
-            <Link href="/#features" passHref legacyBehavior>
-              <a className={styles.navLink}>Features</a>
+          <nav className={styles.navLinks}>
+            <Link href="/" passHref legacyBehavior>
+              <a className={styles.navLink}>Home</a>
             </Link>
-          </nav> */}
+            <Link href="/guides" passHref legacyBehavior>
+              <a className={styles.navLink}>Guides</a>
+            </Link>
+          </nav>
           <Link href="/auth/login" className={styles.launchButton}>
             <IconPlayerPlay size={22} />
             Launch App
