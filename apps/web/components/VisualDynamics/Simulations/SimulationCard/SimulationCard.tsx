@@ -59,7 +59,7 @@ export function SimulationCard({ simulation, type }: Props) {
   return (
     <Card
       component={simulation?.status === "RUNNING" ? Link : undefined}
-      href="/simulations/running"
+      href="/dashboard/simulations/running"
       className={clsx(classes.default, background, border)}
       withBorder
     >
