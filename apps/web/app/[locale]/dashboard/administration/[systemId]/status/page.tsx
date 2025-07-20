@@ -1,6 +1,7 @@
 import { Box, Title } from "@mantine/core";
 import dynamic from "next/dynamic";
 
+import { GoBackButton } from "@/components/GoBackButton/GoBackButton";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
 
 import classes from "./page.module.css";
@@ -23,6 +24,7 @@ export default async function SystemStatusPage({ params }: Props) {
 
   return (
     <PageLayout>
+      <GoBackButton />
       <Title>Status for {systemId.toUpperCase()}</Title>
       <Box className={classes.container}>
         <SystemStatus />

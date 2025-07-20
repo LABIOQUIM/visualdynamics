@@ -1,6 +1,7 @@
 import { Title } from "@mantine/core";
 
 import { SystemMode } from "@/components/Administration/Settings/Mode";
+import { GoBackButton } from "@/components/GoBackButton/GoBackButton";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
 
 interface Props {
@@ -14,6 +15,7 @@ export default async function SystemSettingsPage({ params }: Props) {
 
   return (
     <PageLayout>
+      <GoBackButton />
       <Title>Settings for {systemId.toUpperCase()}</Title>
       <SystemMode systemId={systemId} />
     </PageLayout>
