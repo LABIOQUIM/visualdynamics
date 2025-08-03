@@ -14,27 +14,40 @@ export function LanderFooter() {
           reserved.
         </p>
         <div className={styles.links}>
-          <Link href="https://portal.fiocruz.br/" passHref legacyBehavior>
-            <a className={styles.link} target="_blank">
-              Fiocruz
-            </a>
+          <Link
+            href="https://portal.fiocruz.br/"
+            className={styles.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Fiocruz
           </Link>
-          <Link href="/privacy" passHref legacyBehavior>
-            <a className={styles.link}>Privacy Policy</a>
+          <Link
+            href="/privacy"
+            className={styles.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
           </Link>
-          <Link href="/terms" passHref legacyBehavior>
-            <a className={styles.link}>Terms of Use</a>
+          <Link
+            href="/terms"
+            className={styles.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Terms of Use
           </Link>
         </div>
         <div className={styles.socialIcons}>
-          <a
+          <Link
             href="https://github.com/LNCC/visualdynamics"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.socialIconLink}
           >
             <IconBrandGithub size={22} stroke={1.5} />
-          </a>
+          </Link>
           {/* Add other social links if available */}
           {/* <a href="https://twitter.com/fiocruz" target="_blank" rel="noopener noreferrer" className={styles.socialIconLink}>
             <IconBrandTwitter size={22} stroke={1.5} />
