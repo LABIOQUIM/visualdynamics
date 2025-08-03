@@ -22,11 +22,11 @@ export function LanderHeader() {
         <Group>
           {/* Mantine Group for spacing items is fine */}
           <nav className={styles.navLinks}>
-            <Link href="/" passHref legacyBehavior>
-              <a className={styles.navLink}>Home</a>
+            <Link href="/" className={styles.navLink}>
+              About
             </Link>
-            <Link href="/guides" passHref legacyBehavior>
-              <a className={styles.navLink}>Guides</a>
+            <Link href="/guides" className={styles.navLink}>
+              Guides
             </Link>
           </nav>
           <Link href="/auth/login" className={styles.launchButton}>
