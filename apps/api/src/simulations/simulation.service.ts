@@ -109,17 +109,17 @@ export class SimulationService {
 
   async newACPYPESimulation(
     fileName: string,
+    fileNameOriginal: string,
     fileNameLigandITP: string,
     fileNameLigandITPOriginal: string,
     fileNameLigandPDB: string,
+    fileNameLigandPDBOriginal: string,
     body: NewSimulationBody
   ) {
     const [userName, fullFileName] = fileName.split("/");
-    const [origPDBName] = fullFileName.split(".");
-    const [, fullLigandITPName] = fileNameLigandITP.split("/");
-    const [origLigandITPName] = fullLigandITPName.split(".");
-    const [, fullLigandPDBName] = fileNameLigandITP.split("/");
-    const [origLigandPDBName] = fullLigandPDBName.split(".");
+    const [origPDBName] = fileNameOriginal.split(".");
+    const [origLigandITPName] = fileNameLigandITPOriginal.split(".");
+    const [origLigandPDBName] = fileNameLigandPDBOriginal.split(".");
 
     const pdbName = normalizeString(origPDBName);
     const ligandITPName = normalizeString(origLigandITPName);
@@ -171,13 +171,13 @@ export class SimulationService {
       `gmx mdrun -v -s ${pdbName}_complx_em.tpr -deffnm ${pdbName}_complx_sd_em\n`,
       `echo "10 0" | gmx energy -f ${pdbName}_complx_sd_em.edr -o ${pdbName}_complx_potentialsd.xvg\n`,
       `grace -nxy ${pdbName}_complx_potentialsd.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_potentialsd.png\n\n`,
-      "#minimizationconjgrad\n",
-      `gmx grompp -f PME_cg_em.mdp -c ${pdbName}_complx_sd_em.gro -p ${pdbName}_complx.top -o ${pdbName}_complx_cg_em.tpr -maxwarn 20\n`,
-      `gmx mdrun -v -s ${pdbName}_complx_cg_em.tpr -deffnm ${pdbName}_complx_cg_em\n`,
-      `echo "10 0" | gmx energy -f ${pdbName}_complx_cg_em.edr -o ${pdbName}_complx_potentialcg.xvg\n`,
-      `grace -nxy ${pdbName}_complx_potentialcg.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_potentialcg.png\n\n`,
+      // "#minimizationconjgrad\n",
+      // `gmx grompp -f PME_cg_em.mdp -c ${pdbName}_complx_sd_em.gro -p ${pdbName}_complx.top -o ${pdbName}_complx_cg_em.tpr -maxwarn 20\n`,
+      // `gmx mdrun -v -s ${pdbName}_complx_cg_em.tpr -deffnm ${pdbName}_complx_cg_em\n`,
+      // `echo "10 0" | gmx energy -f ${pdbName}_complx_cg_em.edr -o ${pdbName}_complx_potentialcg.xvg\n`,
+      // `grace -nxy ${pdbName}_complx_potentialcg.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_potentialcg.png\n\n`,
       "#equilibrationnvt\n",
-      `gmx grompp -f nvt.mdp -c ${pdbName}_complx_cg_em.gro -r ${pdbName}_complx_cg_em.gro -p ${pdbName}_complx.top -o ${pdbName}_complx_nvt.tpr -maxwarn 20\n`,
+      `gmx grompp -f nvt.mdp -c ${pdbName}_complx_sd_em.gro -r ${pdbName}_complx_sd_em.gro -p ${pdbName}_complx.top -o ${pdbName}_complx_nvt.tpr -maxwarn 20\n`,
       `gmx mdrun -v -s ${pdbName}_complx_nvt.tpr -deffnm ${pdbName}_complx_nvt\n`,
       `echo "16 0" | gmx energy -f ${pdbName}_complx_nvt.edr -o ${pdbName}_complx_temperature_nvt.xvg\n`,
       `grace -nxy ${pdbName}_complx_temperature_nvt.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_temperature_nvt.png\n\n`,
