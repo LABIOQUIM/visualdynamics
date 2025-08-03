@@ -11789,6 +11789,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-molviewer@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "react-molviewer@npm:1.4.1"
+  peerDependencies:
+    prop-types: ^15.8.1
+    react: ^17.0.2 || ^18.0.0
+    react-dom: ^17.0.2 || ^18.0.0
+  checksum: da8d6f5e6573e573eeeb73573fe0c06266b3a68f15b7bc2a65bdd8242e779e2ace3de2ac5915472adb5d6d489871cd0cee64cf578a7926dcf5965ebe493a7c7e
+  languageName: node
+  linkType: hard
+
 "react-number-format@npm:^5.4.3":
   version: 5.4.4
   resolution: "react-number-format@npm:5.4.4"
@@ -14525,6 +14536,7 @@ __metadata:
     react: "npm:^18"
     react-dom: "npm:^18"
     react-email: "npm:3.0.2"
+    react-molviewer: "npm:^1.4.1"
     react-player: "npm:^2.16.0"
     react-viewport-list: "npm:^7.1.2"
     recharts: "npm:^2"
