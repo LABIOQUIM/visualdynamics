@@ -3,8 +3,6 @@ import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
 
-import { normalizeString } from "./utils/normalizeString";
-
 const multerConfig = {
   limits: {
     fileSize: 8000000, // Compliant: 8MB
@@ -12,7 +10,6 @@ const multerConfig = {
   storage: diskStorage({
     destination: "/files",
     filename: (req, file, cb) => {
-      const fileName = path.parse(file.originalname).name.replace(/\s/g, "");
       let canStore = true;
       const extension = path.parse(file.originalname).ext;
       const userDir = `/files/${req.userName}`;
@@ -57,7 +54,12 @@ const multerConfig = {
       }
 
       if (canStore) {
-        cb(null, `${req.userName}/${normalizeString(fileName)}${extension}`);
+        const filename =
+          file.fieldname === "filePDB"
+            ? "originalMacromolecule"
+            : "originalLigand";
+
+        cb(null, `${req.userName}/${filename}${extension}`);
       }
     },
   }),
