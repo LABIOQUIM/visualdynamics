@@ -65,9 +65,11 @@ export class SimulationController {
     const { simulationId, commands } =
       await this.simulationService.newACPYPESimulation(
         filePDB[0].filename,
+        filePDB[0].originalname,
         fileLigandITP[0].filename,
         fileLigandITP[0].originalname,
         fileLigandPDB[0].filename,
+        fileLigandPDB[0].originalname,
         body
       );
 
