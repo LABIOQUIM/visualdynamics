@@ -1,5 +1,5 @@
 {
-  "name": "labioquim",
+  "name": "visualdynamics",
   "packageManager": "yarn@4.0.1",
   "private": true,
   "workspaces": [

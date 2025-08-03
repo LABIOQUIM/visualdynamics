@@ -1,11 +1,11 @@
 services:
-  visualdynamics:
-    image: labioquim/visualdynamics:dev
+  api:
+    image: visualdynamics/api:dev
     build:
       context: .
-      dockerfile: apps/visualdynamics/Dockerfile.dev
+      dockerfile: apps/api/Dockerfile.dev
     restart: always
-    command: ["yarn", "workspace", "visualdynamics", "start:dev"]
+    command: ["yarn", "workspace", "api", "start:dev"]
     env_file: .env
     depends_on:
       - mailer
@@ -14,7 +14,7 @@ services:
       - "3001:3000"
     volumes:
       - ./:/app
-      - visualdynamics:/files
+      - files:/files
       - /app/node_modules
     deploy:
       resources:
@@ -29,7 +29,7 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile.dev
     restart: always
-    image: labioquim/website:dev
+    image: visualdynamics/web:dev
     command: ["yarn", "workspace", "web", "dev"]
     ports:
       - "3000:3000"
@@ -45,7 +45,7 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile.dev
     restart: always
-    image: labioquim/email:dev
+    image: visualdynamics/email:dev
     command: ["yarn", "workspace", "web", "email"]
     ports:
       - "3003:3000"
@@ -74,5 +74,5 @@ services:
 volumes:
   redis:
     driver: nfsvol
-  visualdynamics:
+  files:
     driver: nfsvol

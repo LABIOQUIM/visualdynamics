@@ -46,15 +46,15 @@ services:
     depends_on:
       - mailer
 
-  visualdynamics:
+  api:
     build:
       context: .
-      dockerfile: apps/visualdynamics/Dockerfile
+      dockerfile: apps/api/Dockerfile
     env_file: .env
     restart: always
     networks:
       - traefik
-    image: labioquim/visualdynamics:latest
+    image: visualdynamics/api:latest
     volumes:
       - visualdynamics:/files
     depends_on:
