@@ -1,42 +1,19 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { Text } from "@mantine/core";
 import dayjs from "dayjs";
 
 import { useRunningSimulation } from "@/hooks/simulation/useRunningSimulation";
+import { useCountdown } from "@/hooks/useCountdown";
 
 export function RefetchTime() {
-  const [nextRefetchAt, updateNextRefetchAt] = useState<Date>();
-  const [secsToRefetch, updateSecsToRefetch] = useState(0);
-  const { data, dataUpdatedAt, isError, refetch } = useRunningSimulation();
+  const { data, dataUpdatedAt, isError } = useRunningSimulation();
 
-  useEffect(() => {
-    if (secsToRefetch === 0) {
-      refetch();
-    }
-  }, [refetch, secsToRefetch]);
-
-  useEffect(() => {
-    if (dataUpdatedAt) {
-      updateNextRefetchAt(dayjs(dataUpdatedAt).add(59, "seconds").toDate());
-      updateSecsToRefetch(59);
-    }
+  const nextRefetchAt = useMemo(() => {
+    if (!dataUpdatedAt) return null;
+    return dayjs(dataUpdatedAt).add(60, "seconds");
   }, [dataUpdatedAt]);
 
-  useEffect(() => {
-    if (nextRefetchAt) {
-      const interval = setInterval(() => {
-        const diff = dayjs(nextRefetchAt).diff(dayjs(), "seconds");
-
-        if (diff >= 0) {
-          updateSecsToRefetch(diff);
-        }
-      }, 100);
-
-      return () => {
-        clearInterval(interval);
-      };
-    }
-  }, [nextRefetchAt]);
+  const secsToRefetch = useCountdown(nextRefetchAt);
 
   if (isError) {
     return <Text>Retrying in {secsToRefetch} second(s)</Text>;
