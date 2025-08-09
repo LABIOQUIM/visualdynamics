@@ -10,7 +10,7 @@ export function RefetchTime() {
 
   const nextRefetchAt = useMemo(() => {
     if (!dataUpdatedAt) return null;
-    return dayjs(dataUpdatedAt).add(60, "seconds");
+    return dayjs(dataUpdatedAt).add(10, "seconds");
   }, [dataUpdatedAt]);
 
   const secsToRefetch = useCountdown(nextRefetchAt);

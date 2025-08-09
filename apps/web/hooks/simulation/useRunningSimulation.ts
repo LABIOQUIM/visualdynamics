@@ -15,9 +15,9 @@ export function useRunningSimulation(
   return useQuery({
     queryKey: ["running-simulation"],
     queryFn: () => getRunningSimulation(),
-    staleTime: 60000, // 1 minute
+    staleTime: 10000, // 1 minute
     refetchOnWindowFocus: true,
-    refetchInterval: 60000, // 1 minute
+    refetchInterval: 10000, // 1 minute
     refetchIntervalInBackground: true,
     ...options,
   });
