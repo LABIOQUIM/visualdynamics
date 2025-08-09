@@ -3,6 +3,7 @@ import { Box, Text } from "@mantine/core";
 import {
   IconBrandGithub,
   IconCrown,
+  IconExternalLink,
   IconHome,
   IconInfoCircle,
   IconListNumbers,
@@ -78,14 +79,16 @@ const sections: NavSection[] = [
     title: "More LABIOQUIM Tools",
     links: [
       {
-        icon: IconInfoCircle,
+        icon: IconExternalLink,
         label: "PlasmoQSAR",
         href: "https://www.qsar.labioquim.fiocruz.br/",
+        external: true,
       },
       {
-        icon: IconInfoCircle,
+        icon: IconExternalLink,
         label: "PlasmoIA",
         href: "https://www.plasmoia.labioquim.fiocruz.br/",
+        external: true,
       },
     ],
   },

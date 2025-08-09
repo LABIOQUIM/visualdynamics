@@ -25,6 +25,8 @@ export function Section({ section, toggle, userRole }: Props) {
             return (
               <UnstyledButton
                 component={Link}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
                 href={section.disabled ? "#" : link.href}
                 key={link.label}
                 onClick={toggle}

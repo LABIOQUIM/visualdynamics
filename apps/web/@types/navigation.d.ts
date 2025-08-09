@@ -7,6 +7,7 @@ declare global {
     icon: Icon;
     label: string;
     href: string;
+    external?: boolean;
     disabled?: boolean;
     role?: USER_ROLE;
     badge?: {
