@@ -10,6 +10,10 @@ interface Props {
   }>;
 }
 
+export const metadata = {
+  title: "New Simulation",
+};
+
 export default async function NewSimulationPage({ params }: Props) {
   const { simulationType } = await params;
 

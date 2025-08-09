@@ -7,6 +7,10 @@ import { SubmissionInfo } from "@/components/VisualDynamics/RunningSimulation/Su
 
 import classes from "./page.module.css";
 
+export const metadata = {
+  title: "Running Simulation",
+};
+
 export default function Page() {
   return (
     <PageLayout>
