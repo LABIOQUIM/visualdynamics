@@ -1,42 +1,29 @@
-name: Release
+name: Release 
 
-on: workflow_dispatch
-
-permissions:
-  contents: write
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   release:
-    runs-on: ubuntu-20.04
+    name: Bump Version and Release
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Source Code
-        uses: actions/checkout@v2
+      - name: Setup Repo
+        uses: actions/checkout@v4
 
       - name: Install Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: 'yarn'
 
-      - name: Install Yarn
-        run: corepack enable |
-          corepack prepare yarn@3.6.4 --activate
-
-      # Yarn dependencies cannot be cached until yarn is installed
-      # WORKAROUND: https://github.com/actions/setup-node/issues/531
-      - name: Extract Cached Dependencies
-        uses: actions/setup-node@v3
-        with:
-          cache: yarn
-
-      - name: Install Dependencies
-        run: yarn --immutable
-
-      - name: Set Git user to Actions Bot
-        run: |
-          git config --local user.name 'github-actions[bot]'
-          git config --local user.email '41898282+github-actions[bot]@users.noreply.github.com'
-
-      - name: Run Release
-        run: yarn release-it --ci
+      - name: Install dependencies
+        run: yarn install
+        
+      - name: Semantic release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn semantic-release
