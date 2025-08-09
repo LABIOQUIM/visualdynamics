@@ -4,11 +4,16 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  contents: read # for checkout
+
 jobs:
   release:
     name: Bump Version and Release
     permissions:
-      contents: write
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
     runs-on: ubuntu-latest
     steps:
       - name: Setup Repo
