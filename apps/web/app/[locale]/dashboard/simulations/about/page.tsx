@@ -1,22 +1,15 @@
-"use client";
-import {
-  Badge,
-  Box,
-  Card,
-  Group,
-  List,
-  ListItem,
-  Text,
-  Title,
-} from "@mantine/core";
-import { IconCheck } from "@tabler/icons-react";
-import Image from "next/image";
+import { Box, List, ListItem, Text, Title } from "@mantine/core";
 import Link from "next/link";
 
-import VDBg from "@/assets/visualdynamics.png";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
 
+import { AboutSummary } from "./Summary";
+
 import classes from "./page.module.css";
+
+export const metadata = {
+  title: "About",
+};
 
 export default function SimulationsAboutPage() {
   return (
@@ -24,39 +17,7 @@ export default function SimulationsAboutPage() {
       <Title>About Visual Dynamics</Title>
 
       <Box className={classes.container}>
-        <Card shadow="sm" p="lg" radius="md" withBorder>
-          <Card.Section>
-            <Image
-              className={classes.image}
-              src={VDBg}
-              alt="Visual Dynamics Interface"
-            />
-          </Card.Section>
-
-          <Group mt="md" mb="xs">
-            <Badge color="blue" variant="light">
-              Open Source
-            </Badge>
-            <Text>Visual Dynamics: Simplified MD Simulations</Text>
-          </Group>
-
-          <Text size="sm" color="dimmed">
-            Web-based tool simplifying and accelerating molecular dynamics (MD)
-            simulations using GROMACS.
-          </Text>
-
-          <List mt="md" spacing="xs" size="sm" icon={<IconCheck size={12} />}>
-            <List.Item>User-friendly graphical interface.</List.Item>
-            <List.Item>
-              Accessible from any device with a web browser.
-            </List.Item>
-            <List.Item>
-              Ideal for learning and teaching MD simulations.
-            </List.Item>
-            <List.Item>Focus on protein-ligand simulations.</List.Item>
-            <List.Item>Free and open source.</List.Item>
-          </List>
-        </Card>
+        <AboutSummary />
 
         <Box className={classes.containerText}>
           <Text>
