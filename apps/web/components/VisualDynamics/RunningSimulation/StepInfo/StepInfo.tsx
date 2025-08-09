@@ -15,7 +15,7 @@ const steps = {
   solvate: "Defining Box and Solvating",
   ions: "Adding Ions",
   minimizationsteepdesc: "Steep Descent Minimization",
-  minimizationconjgrad: "Conjugate Gradient Minimization",
+  // minimizationconjgrad: "Conjugate Gradient Minimization",
   equilibrationnvt: "NVT Equilibration",
   equilibrationnpt: "NPT Equilibration",
   productionmd: "MD Production",
