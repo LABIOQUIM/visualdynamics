@@ -1,6 +1,6 @@
 import { ExpressAdapter } from "@bull-board/express";
 import { BullBoardModule } from "@bull-board/nestjs";
-import { BullModule } from "@nestjs/bull";
+import { BullModule } from "@nestjs/bullmq";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 
@@ -11,7 +11,7 @@ import { SystemInfoModule } from "./systeminfo/systeminfo.module";
   imports: [
     ConfigModule.forRoot(),
     BullModule.forRoot({
-      redis: {
+      connection: {
         host: "redis",
         port: 6379,
       },

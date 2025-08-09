@@ -1,6 +1,6 @@
-import { InjectQueue } from "@nestjs/bull";
+import { InjectQueue } from "@nestjs/bullmq";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { Queue } from "bull";
+import { Queue } from "bullmq";
 import * as ChildProcess from "child_process";
 import { Simulation, SIMULATION_TYPE } from "database";
 import * as dirTree from "directory-tree";
@@ -98,7 +98,7 @@ export class SimulationService {
       },
     });
     writeFileSync(`/files/${userName}/queued`, type);
-    await this.simulationQueue.add({
+    await this.simulationQueue.add("simulation", {
       simulationId,
       user,
       type,
@@ -512,7 +512,8 @@ export class SimulationService {
   async getQueueInfo() {
     const active = await this.simulationQueue.getActiveCount();
     const failed = await this.simulationQueue.getFailedCount();
-    const paused = await this.simulationQueue.getPausedCount();
+    // const paused = await this.simulationQueue.getPausedCount();
+    const paused = 0;
     const delayed = await this.simulationQueue.getDelayedCount();
     const waiting = await this.simulationQueue.getWaitingCount();
     const completed = await this.simulationQueue.getCompletedCount();

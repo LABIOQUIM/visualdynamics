@@ -1,3 +1,4 @@
+import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
@@ -19,4 +20,6 @@ async function bootstrap(): Promise<void> {
   await app.listen(3000);
 }
 
-bootstrap().then(() => console.log("Listening on port 3000"));
+bootstrap().then(() =>
+  new Logger("NestApplication").log("API is running on http://localhost:3000")
+);

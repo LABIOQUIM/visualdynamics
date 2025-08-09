@@ -1,121 +1,55 @@
-import axios from "axios";
-import { DoneCallback, Job } from "bull";
-import { prisma } from "database";
-import { existsSync, rmSync, writeFileSync } from "fs";
+// This file runs in a completely separate process.
+// It cannot use NestJS dependency injection.
+
+import { Job } from "bullmq";
+import { prisma } from "database"; // Make sure Prisma can be initialized independently.
+import { writeFileSync } from "fs";
 import * as path from "path";
 import { chdir } from "process";
-import { executeCommands } from "src/utils/executeCommands";
-import { loadCommands } from "src/utils/loadCommands";
-import { setTimeout } from "timers/promises";
+
+import { executeCommands } from "../utils/executeCommands"; // Adjust path if needed
+import { loadCommands } from "../utils/loadCommands"; // Adjust path if needed
 
 import { SimulateData } from "./simulation.types";
 
-async function onError(job: Job<SimulateData>, error: Error): Promise<void> {
-  console.log(`Error in job: ${job.id}. Error: ${error.message}`);
-  await prisma.simulation.update({
-    where: {
-      id: job.data.simulationId,
-    },
-    data: {
-      status: "ERRORED",
-      endedAt: new Date(),
-      errorCause: error.message,
-    },
-  });
-  rmSync(`/files/${job.data.user.userName}/running`);
-  await axios.post("http://mailer:3000/send-email", {
-    from: `LABIOQUIM <${process.env.SMTP_USER}>`,
-    to: job.data.user.email,
-    subject: "[LABIOQUIM] About your simulation",
-    html: job.data.errorEmail,
-  });
-}
-
-export default async function (job: Job<SimulateData>, cb: DoneCallback) {
-  console.log(`Processing job ${job.id}...`);
-  await setTimeout(5000);
+// The default export is an async function that BullMQ will execute.
+export default async function (job: Job<SimulateData>): Promise<string> {
+  // Use console.log for debugging in the sandboxed process.
+  console.log(`[Sandboxed Process ${process.pid}] Starting job ${job.id}`);
 
   try {
-    console.log(`Processing pre-steps for job ${job.id}...`);
-    await prisma.simulation.update({
-      where: {
-        id: job.data.simulationId,
-      },
-      data: {
-        status: "RUNNING",
-        startedAt: new Date(),
-      },
-    });
-    const queuedFilePath = `/files/${job.data.user.userName}/queued`;
-    const runningFilePath = `/files/${job.data.user.userName}/running`;
-    if (existsSync(queuedFilePath)) {
-      rmSync(queuedFilePath);
-    }
-    writeFileSync(runningFilePath, job.data.type);
-  } catch {
-    await onError(job, new Error("Failed to Setup!"));
-    cb(new Error(`${job.data.simulationId} failed to setup!`));
-    return;
-  }
-
-  try {
-    console.log(`Processing commands for job ${job.id}...`);
     const {
       type,
       user: { userName },
     } = job.data;
 
     const folder = path.resolve(`/files/${userName}/${type.toLowerCase()}`);
-
     const folderRun = path.resolve(folder, "run");
     const fileLogPath = path.resolve(folderRun, "logs", "gmx.log");
     const fileStepPath = path.resolve(folder, "steps.txt");
 
     const commands = await loadCommands(folder);
 
+    // Change directory to the correct run folder
     chdir(folderRun);
-    writeFileSync(fileStepPath, "");
+    writeFileSync(fileStepPath, ""); // Clear/create the steps file
     await executeCommands(commands, fileStepPath, fileLogPath);
+
+    console.log(`[Sandboxed Process ${process.pid}] Finished job ${job.id}`);
+
+    // The return value signals success and is passed to the 'completed' event listener.
+    return `${job.data.simulationId} done!`;
   } catch (e) {
-    await onError(job, new Error(e?.message));
-    cb(new Error(`${job.data.simulationId} failed to run command!`));
-    return;
+    console.error(
+      `[Sandboxed Process ${process.pid}] Job ${job.id} failed:`,
+      e
+    );
+    // Throwing an error marks the job as failed and triggers the 'failed' event listener.
+    throw new Error(
+      e?.message || `Job ${job.data.simulationId} failed to run command!`
+    );
+  } finally {
+    // IMPORTANT: Disconnect Prisma to allow the sandboxed process to exit cleanly.
+    await prisma.$disconnect();
   }
-
-  try {
-    console.log(`Processing post-steps for job ${job.id}...`);
-    const {
-      type,
-      user: { userName },
-    } = job.data;
-
-    const folder = path.resolve(`/files/${userName}/${type.toLowerCase()}`);
-
-    const fileEndedPath = path.resolve(folder, "ended");
-
-    await prisma.simulation.update({
-      where: {
-        id: job.data.simulationId,
-      },
-      data: {
-        endedAt: new Date(),
-        status: "COMPLETED",
-      },
-    });
-
-    writeFileSync(fileEndedPath, "ended");
-    rmSync(`/files/${userName}/running`);
-    await axios.post("http://mailer:3000/send-email", {
-      from: `LABIOQUIM <${process.env.SMTP_USER}>`,
-      to: job.data.user.email,
-      subject: "[LABIOQUIM] About your simulation",
-      html: job.data.successEmail,
-    });
-  } catch {
-    await onError(job, new Error("Failed on post-steps"));
-    cb(new Error(`${job.data.simulationId} failed on post-steps!`));
-    return;
-  }
-
-  cb(null, `${job.data.simulationId} done!`);
 }
