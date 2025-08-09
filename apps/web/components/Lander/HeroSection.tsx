@@ -22,11 +22,9 @@ export function LanderHeroSection() {
             <IconPlayerPlay size={22} />
             Launch App
           </Link>
-          <Link href="#features" passHref legacyBehavior>
-            <a className={styles.ctaButtonSecondary}>
-              Explore Features
-              <IconArrowRight size={20} />
-            </a>
+          <Link href="#features" className={styles.ctaButtonSecondary}>
+            Explore Features
+            <IconArrowRight size={20} />
           </Link>
         </div>
       </div>
