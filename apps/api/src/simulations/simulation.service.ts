@@ -193,9 +193,9 @@ export class SimulationService {
       `echo "1 0" | gmx trjconv -s ${pdbName}_complx_pr.tpr -f ${pdbName}_complx_pr.xtc -o ${pdbName}_complx_pr_PBC.xtc -pbc mol -center\n`,
       `echo "4 4" | gmx rms -s ${pdbName}_complx_pr.tpr -f ${pdbName}_complx_pr_PBC.xtc -o ${pdbName}_complx_rmsd_prod.xvg -tu ns\n`,
       `grace -nxy ${pdbName}_complx_rmsd_prod.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_rmsd_prod.png\n`,
-      `echo "4 4" | gmx rms -s ${pdbName}_complx_pr.tpr -f ${pdbName}_complx_pr_PBC.xtc -o ${pdbName}_complx_rmsd_cris.xvg -tu ns\n`,
-      `grace -nxy ${pdbName}_complx_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_rmsd_cris.png\n`,
-      `grace -nxy ${pdbName}_complx_rmsd_prod.xvg ${pdbName}_complx_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_rmsd_prod_cris.png\n`,
+      // `echo "4 4" | gmx rms -s ${pdbName}_complx_pr.tpr -f ${pdbName}_complx_pr_PBC.xtc -o ${pdbName}_complx_rmsd_cris.xvg -tu ns\n`,
+      // `grace -nxy ${pdbName}_complx_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_rmsd_cris.png\n`,
+      // `grace -nxy ${pdbName}_complx_rmsd_prod.xvg ${pdbName}_complx_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_rmsd_prod_cris.png\n`,
       `echo "1" | gmx gyrate -s ${pdbName}_complx_pr.tpr -f ${pdbName}_complx_pr_PBC.xtc -o ${pdbName}_complx_gyrate.xvg\n`,
       `grace -nxy ${pdbName}_complx_gyrate.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_gyrate.png\n`,
       `echo "1" | gmx rmsf -s ${pdbName}_complx_pr.tpr -f ${pdbName}_complx_pr_PBC.xtc -o ${pdbName}_complx_rmsf_residue.xvg -res\n`,
@@ -222,9 +222,13 @@ export class SimulationService {
     return { simulationId: id, commands };
   }
 
-  async newAPOSimulation(fileName: string, body: NewSimulationBody) {
+  async newAPOSimulation(
+    fileName: string,
+    fileNameOriginal: string,
+    body: NewSimulationBody
+  ) {
     const [userName, fullFileName] = fileName.split("/");
-    const [origPDBName] = fullFileName.split(".");
+    const [origPDBName] = fileNameOriginal.split(".");
     const pdbName = normalizeString(origPDBName);
     let id;
 
@@ -264,13 +268,13 @@ export class SimulationService {
       `gmx mdrun -v -s ${pdbName}_charged.tpr -deffnm ${pdbName}_sd_em\n`,
       `echo '10 0' | gmx energy -f ${pdbName}_sd_em.edr -o ${pdbName}_potentialsd.xvg\n`,
       `grace -nxy ${pdbName}_potentialsd.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_potentialsd.png\n\n`,
-      "#minimizationconjgrad\n",
-      `gmx grompp -f PME_cg_em.mdp -c ${pdbName}_sd_em.gro -p ${pdbName}.top -o ${pdbName}_cg_em -maxwarn 2\n`,
-      `gmx mdrun -v -s ${pdbName}_cg_em.tpr -deffnm ${pdbName}_cg_em\n`,
-      `echo '10 0' | gmx energy -f ${pdbName}_cg_em.edr -o ${pdbName}_potentialcg.xvg\n`,
-      `grace -nxy ${pdbName}_potentialcg.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_potentialcg.png\n\n`,
+      // "#minimizationconjgrad\n",
+      // `gmx grompp -f PME_cg_em.mdp -c ${pdbName}_sd_em.gro -p ${pdbName}.top -o ${pdbName}_cg_em -maxwarn 2\n`,
+      // `gmx mdrun -v -s ${pdbName}_cg_em.tpr -deffnm ${pdbName}_cg_em\n`,
+      // `echo '10 0' | gmx energy -f ${pdbName}_cg_em.edr -o ${pdbName}_potentialcg.xvg\n`,
+      // `grace -nxy ${pdbName}_potentialcg.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_potentialcg.png\n\n`,
       "#equilibrationnvt\n",
-      `gmx grompp -f nvt.mdp -c ${pdbName}_cg_em.gro -r ${pdbName}_cg_em.gro -p ${pdbName}.top -o ${pdbName}_nvt.tpr -maxwarn 2\n`,
+      `gmx grompp -f nvt.mdp -c ${pdbName}_sd_em.gro -r ${pdbName}_sd_em.gro -p ${pdbName}.top -o ${pdbName}_nvt.tpr -maxwarn 2\n`,
       `gmx mdrun -v -s ${pdbName}_nvt.tpr -deffnm ${pdbName}_nvt\n`,
       `echo '16 0' | gmx energy -f ${pdbName}_nvt.edr -o ${pdbName}_temperature_nvt.xvg\n`,
       `grace -nxy ${pdbName}_temperature_nvt.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_temperature_nvt.png\n\n`,
@@ -287,9 +291,9 @@ export class SimulationService {
       `echo '1 1' | gmx trjconv -s ${pdbName}_pr.tpr -f ${pdbName}_pr.xtc -o ${pdbName}_pr_PBC.gro -pbc mol -center -dump 1\n`,
       `echo '4 4' | gmx rms -s ${pdbName}_pr.tpr -f ${pdbName}_pr_PBC.xtc -o ${pdbName}_rmsd_prod.xvg -tu ns\n`,
       `grace -nxy ${pdbName}_rmsd_prod.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_rmsd_prod.png\n`,
-      `echo '4 4' | gmx rms -s ${pdbName}_charged.tpr -f ${pdbName}_pr_PBC.xtc -o ${pdbName}_rmsd_cris.xvg -tu ns\n`,
-      `grace -nxy ${pdbName}_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_rmsd_cris.png\n`,
-      `grace -nxy ${pdbName}_rmsd_prod.xvg ${pdbName}_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_rmsd_prod_cris.png\n`,
+      // `echo '4 4' | gmx rms -s ${pdbName}_charged.tpr -f ${pdbName}_pr_PBC.xtc -o ${pdbName}_rmsd_cris.xvg -tu ns\n`,
+      // `grace -nxy ${pdbName}_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_rmsd_cris.png\n`,
+      // `grace -nxy ${pdbName}_rmsd_prod.xvg ${pdbName}_rmsd_cris.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_rmsd_prod_cris.png\n`,
       `echo '1' | gmx gyrate -s ${pdbName}_pr.tpr -f ${pdbName}_pr_PBC.xtc -o ${pdbName}_gyrate.xvg\n`,
       `grace -nxy ${pdbName}_gyrate.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_gyrate.png\n`,
       `echo '1' | gmx rmsf -s ${pdbName}_pr.tpr -f ${pdbName}_pr_PBC.xtc -o ${pdbName}_rmsf_residue.xvg -res\n`,
