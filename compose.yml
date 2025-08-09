@@ -67,6 +67,7 @@ services:
 
   redis:
     image: redis:alpine
+    command: redis-server --maxmemory-policy noeviction
     restart: always
     volumes:
       - redis:/data
