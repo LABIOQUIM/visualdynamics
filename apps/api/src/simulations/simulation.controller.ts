@@ -104,7 +104,11 @@ export class SimulationController {
     }
 
     const { simulationId, commands } =
-      await this.simulationService.newAPOSimulation(filePDB.filename, body);
+      await this.simulationService.newAPOSimulation(
+        filePDB.filename,
+        filePDB.originalname,
+        body
+      );
 
     if (body.shouldRun && body.shouldRun === "true") {
       await this.simulationService.addSimulationToQueue(
