@@ -33,8 +33,12 @@
   "chat.commandCenter.enabled": false,
   "github.copilot.chat.copilotDebugCommand.enabled": false,
   "github.copilot.chat.commitMessageGeneration.instructions": [
-      {
-          "text": "use conventional commits and always include a scope, remember, not everything is a feature and in en-us"
-      }
-  ],
+    { "text": "Use conventional commit format: type(scope): description." },
+    { "text": "Use imperative mood: 'Add feature' not 'Added feature'." },
+    { "text": "Keep subject line under 50 characters." },
+    { "text": "Use types: feat, fix, docs, style, refactor, perf, test, chore, ci." },
+    { "text": "Always include scope (e.g., api, ui, auth)." },
+    { "text": "For additional details, use a well-structured body section." },
+    { "text": "Use bullet points (*) for clarity." }
+  ]
 }
