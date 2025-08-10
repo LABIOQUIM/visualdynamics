@@ -1,5 +1,6 @@
-import { Box, Title } from "@mantine/core";
+import { Box } from "@mantine/core";
 
+import { Heading } from "@/components/Heading/Heading";
 import { LanderCallToActionSection } from "@/components/Lander/CallToActionSection";
 import { LanderLayout } from "@/components/Lander/Layout";
 import { YouTubePlayer } from "@/components/YoutubePlayer/YoutubePlayer";
@@ -32,9 +33,7 @@ const simulationVideos = [
 export default function GuidesPage() {
   return (
     <LanderLayout>
-      <Title order={1} className={classes.sectionTitle}>
-        Guides
-      </Title>
+      <Heading title="Guides" />
       <Box className={classes.videosContainer}>
         {simulationVideos.map((video) => (
           <YouTubePlayer

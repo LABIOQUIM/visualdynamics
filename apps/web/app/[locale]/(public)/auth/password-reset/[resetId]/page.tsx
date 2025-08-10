@@ -1,6 +1,5 @@
-import { Title } from "@mantine/core";
-
 import { PasswordResetForm } from "@/components/Auth/PasswordReset/PasswordResetForm";
+import { Heading } from "@/components/Heading/Heading";
 import { LanderLayout } from "@/components/Lander/Layout";
 
 interface Props {
@@ -18,7 +17,7 @@ export default async function AccountActivationPage({ params }: Props) {
 
   return (
     <LanderLayout>
-      <Title>Password Reset</Title>
+      <Heading title="Password Reset" />
 
       <PasswordResetForm resetId={resetId} />
     </LanderLayout>

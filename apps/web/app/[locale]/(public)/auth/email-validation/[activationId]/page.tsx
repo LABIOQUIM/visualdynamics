@@ -1,6 +1,7 @@
-import { Text, Title } from "@mantine/core";
+import { Text } from "@mantine/core";
 
 import { validateUserEmail } from "@/actions/auth/validateUserEmail";
+import { Heading } from "@/components/Heading/Heading";
 import { LanderLayout } from "@/components/Lander/Layout";
 
 interface Props {
@@ -20,7 +21,7 @@ export default async function AccountActivationPage({ params }: Props) {
 
   return (
     <LanderLayout>
-      <Title>User email validation</Title>
+      <Heading title="Email Validation" />
 
       <Text>
         Your email was validated and now you can login to use the available

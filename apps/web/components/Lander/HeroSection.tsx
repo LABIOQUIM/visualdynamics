@@ -3,6 +3,8 @@ import { Box } from "@mantine/core";
 import { IconArrowRight, IconPlayerPlay } from "@tabler/icons-react";
 import Link from "next/link";
 
+import { RouteLinks } from "@/app/_constants/routes";
+
 import styles from "./HeroSection.module.css";
 
 export function LanderHeroSection() {
@@ -18,7 +20,7 @@ export function LanderHeroSection() {
         </p>
         {/* Group for layout is fine */}
         <div className={styles.buttonsGroup}>
-          <Link href="/auth/login" className={styles.ctaButtonPrimary}>
+          <Link href={RouteLinks.LOGIN} className={styles.ctaButtonPrimary}>
             <IconPlayerPlay size={22} />
             Launch App
           </Link>

@@ -1,5 +1,6 @@
-import { AspectRatio, Title } from "@mantine/core";
+import { AspectRatio } from "@mantine/core";
 
+import { Heading } from "@/components/Heading/Heading";
 import { LanderCallToActionSection } from "@/components/Lander/CallToActionSection";
 import { LanderLayout } from "@/components/Lander/Layout";
 
@@ -8,9 +9,7 @@ import classes from "./page.module.css";
 export default function AnalyticsPage() {
   return (
     <LanderLayout>
-      <Title order={1} className={classes.sectionTitle}>
-        Analytics
-      </Title>
+      <Heading title="Analytics" />
       <AspectRatio ratio={16 / 9} className={classes.analyticsContainer}>
         <iframe
           className={classes.analyticsIframe}

@@ -14,6 +14,7 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 
+import { RouteLinks } from "@/app/_constants/routes";
 import { User } from "@/components/Auth/User/User";
 import { useAuth } from "@/hooks/auth/useAuth";
 import pkg from "@/package.json";
@@ -29,19 +30,19 @@ const sections: NavSection[] = [
       {
         icon: IconCrown,
         label: "Admin Dashboard",
-        href: "/dashboard/administration",
+        href: RouteLinks.ADMIN_DASHBOARD,
         role: "ADMINISTRATOR",
       },
-      { icon: IconHome, label: "Home", href: "/" },
+      { icon: IconHome, label: "Home", href: RouteLinks.HOME },
       {
         icon: IconReportAnalytics,
         label: "Analytics",
-        href: "/analytics",
+        href: RouteLinks.ANALYTICS,
       },
       {
         icon: IconListNumbers,
         label: "Tutorials",
-        href: "/guides",
+        href: RouteLinks.GUIDES,
       },
     ],
   },
@@ -51,12 +52,12 @@ const sections: NavSection[] = [
       {
         icon: IconInfoCircle,
         label: "About",
-        href: "/dashboard/simulations/about",
+        href: RouteLinks.SIMULATIONS_ABOUT,
       },
       {
         icon: IconInfoCircle,
         label: "My Submissions",
-        href: "/dashboard/simulations",
+        href: RouteLinks.SIMULATIONS,
       },
     ],
   },
@@ -66,12 +67,12 @@ const sections: NavSection[] = [
       {
         icon: IconPlus,
         label: "New Free Protein (APO)",
-        href: "/dashboard/simulations/apo",
+        href: RouteLinks.SIMULATIONS_APO,
       },
       {
         icon: IconPlus,
         label: "New Protein + Ligand",
-        href: "/dashboard/simulations/acpype",
+        href: RouteLinks.SIMULATIONS_ACPYPE,
       },
     ],
   },
@@ -81,13 +82,13 @@ const sections: NavSection[] = [
       {
         icon: IconExternalLink,
         label: "PlasmoQSAR",
-        href: "https://www.qsar.labioquim.fiocruz.br/",
+        href: RouteLinks.PLASMO_QSAR,
         external: true,
       },
       {
         icon: IconExternalLink,
         label: "PlasmoIA",
-        href: "https://www.plasmoia.labioquim.fiocruz.br/",
+        href: RouteLinks.PLASMO_IA,
         external: true,
       },
     ],

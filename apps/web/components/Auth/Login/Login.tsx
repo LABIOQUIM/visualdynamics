@@ -66,7 +66,7 @@ export function Login() {
         });
       } else {
         setStatus({ status: "success", title: "You've been signed-in" });
-        reload().then(() => router.replace("/dashboard/simulations"));
+        reload().then(() => router.replace("/app/simulations"));
       }
     });
   }

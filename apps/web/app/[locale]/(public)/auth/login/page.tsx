@@ -1,9 +1,11 @@
-import { Anchor, Paper, Text, Title } from "@mantine/core";
+import { Anchor, Paper, Text } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 
+import { RouteLinks } from "@/app/_constants/routes";
 import VISUAL_DYNAMICS_LOGO from "@/assets/visualdynamics.svg";
-import { Register } from "@/components/Auth/Register/Register";
+import { Login } from "@/components/Auth/Login/Login";
+import { Heading } from "@/components/Heading/Heading";
 
 import classes from "./page.module.css";
 
@@ -16,16 +18,14 @@ export default function LoginPage() {
           className={classes.logo}
           src={VISUAL_DYNAMICS_LOGO}
         />
-        <Title order={2} className={classes.title}>
-          Create Account
-        </Title>
 
-        <Register />
+        <Heading title="Login" />
+        <Login />
 
         <Text ta="center" mt="md">
-          Already have an account?{" "}
-          <Anchor component={Link} href="/auth/login" fw={500}>
-            Login
+          Don&apos;t have an account?{" "}
+          <Anchor component={Link} href={RouteLinks.REGISTER} fw={500}>
+            Register
           </Anchor>
         </Text>
       </Paper>
