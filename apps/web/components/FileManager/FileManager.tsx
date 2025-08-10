@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Text, Tooltip, UnstyledButton } from "@mantine/core";
+import { ActionIcon, Text, Tooltip, UnstyledButton } from "@mantine/core";
 import { IconHome } from "@tabler/icons-react";
 
 import { downloadUserFile } from "@/actions/administration/downloadUserFile";
@@ -11,17 +11,22 @@ import classes from "./FileManager.module.css";
 
 interface Props {
   files: FileProps[];
-  userName?: string;
+  breadcrumbsPrefix?: string;
+  breadcrumbsSplitStart?: number;
 }
 
-export function FileManager({ files }: Props) {
+export function FileManager({
+  files,
+  breadcrumbsPrefix,
+  breadcrumbsSplitStart = 0,
+}: Props) {
   const [currentLevel, setCurrentLevel] = useState(files);
   const [breadcrumbs, setBreadcrumbs] = useState<string[]>([""]);
 
   const handleDoubleClick = async (file: FileProps) => {
     if (file.children) {
       setCurrentLevel(file.children);
-      setBreadcrumbs(file.path.split("/").slice(2));
+      setBreadcrumbs(file.path.split("/").slice(breadcrumbsSplitStart));
     } else {
       const data = await downloadUserFile(file.path);
 
@@ -56,16 +61,26 @@ export function FileManager({ files }: Props) {
   const handleBreadcrumbClick = (index: number) => {
     const newBreadcrumbs = breadcrumbs.slice(0, index + 1);
     setBreadcrumbs(newBreadcrumbs);
-    const targetPath = "/files/" + newBreadcrumbs.join("/");
+    let targetPath = newBreadcrumbs.join("/");
+    if (breadcrumbsPrefix) {
+      targetPath = breadcrumbsPrefix + newBreadcrumbs.join("/");
+    }
     const newLevel = findFileByPath(files, targetPath);
     setCurrentLevel(newLevel?.children || []);
+  };
+
+  const handleHomeClick = () => {
+    setCurrentLevel(files);
+    setBreadcrumbs([""]);
   };
 
   return (
     <div className={classes.mainContainer}>
       <div className={classes.navContainer}>
         <div className={classes.breadcrumbsContainer}>
-          <IconHome />
+          <ActionIcon variant="subtle" color="indigo" onClick={handleHomeClick}>
+            <IconHome size={20} />
+          </ActionIcon>
           <Text className={classes.navText}>/</Text>
           {breadcrumbs.map((crumb, index) => (
             <NavCrumb

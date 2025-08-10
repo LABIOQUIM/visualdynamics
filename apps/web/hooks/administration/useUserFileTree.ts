@@ -15,8 +15,10 @@ export function useUserFileTree(
   return useQuery({
     queryKey: ["user-tree", userName],
     queryFn: () => getUserFileTree(userName),
-    refetchInterval: 10 * 60 * 1000,
-    staleTime: 10 * 60 * 1000,
+    staleTime: 60 * 1000,
+    refetchInterval: 60 * 1000,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
     ...options,
   });
 }

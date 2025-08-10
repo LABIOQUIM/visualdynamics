@@ -79,7 +79,11 @@ export function UserFiles({ userName }: Props) {
           <Title>No Files Found</Title>
         </div>
       ) : (
-        <FileManager files={data} />
+        <FileManager
+          breadcrumbsPrefix={`/files/${userName}/`}
+          breadcrumbsSplitStart={3}
+          files={data[0].children || []}
+        />
       )}
     </div>
   );
