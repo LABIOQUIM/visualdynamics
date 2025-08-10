@@ -156,7 +156,7 @@ export function SimulationCard({ isLoading, simulation, type }: Props) {
           setExpanded(expanded === simulation.type ? null : simulation.type)
         }
         size="xs"
-        variant="outline"
+        variant={expanded === simulation.type ? "filled" : "outline"}
       >
         {expanded === simulation.type ? "Hide Details" : "View Details"}
       </Button>
