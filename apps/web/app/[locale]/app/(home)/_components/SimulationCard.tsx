@@ -1,5 +1,13 @@
 "use client";
-import { Badge, Button, Card, Divider, Text, Tooltip } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Card,
+  Divider,
+  Skeleton,
+  Text,
+  Tooltip,
+} from "@mantine/core";
 import {
   IconArrowRight,
   IconCircleOff,
@@ -18,12 +26,50 @@ import classes from "./SimulationCard.module.css";
 
 interface Props {
   simulation: Simulation | null;
+  isLoading?: boolean;
+  type?: "apo" | "acpype";
 }
 
-export function SimulationCard({ simulation }: Props) {
+export function SimulationCard({ isLoading, simulation, type }: Props) {
   const [expanded, setExpanded] = useQueryState(
-    QueryParams.SIMULATION_EXPANDED
+    QueryParams.SIMULATION_EXPANDED_DETAILS
   );
+
+  const title = {
+    apo: "Free Protein",
+    acpype: "Protein + Ligand",
+  };
+
+  const subtitle = {
+    apo: null,
+    acpype: "Must be prepared in Bio2Byte's ACPYPE Server.",
+  };
+
+  if (isLoading && type) {
+    return (
+      <Card className={classes.container} withBorder>
+        <div className={classes.headingContainer}>
+          <div className={classes.headingSubContainer}>
+            <Text className={classes.headingTitle}>{title[type]}</Text>
+            <Skeleton height={20} width={88.59} radius="xl" />
+          </div>
+          {subtitle[type] ? (
+            <Text className={classes.headingSubtitle}>{subtitle[type]}</Text>
+          ) : null}
+        </div>
+        <Divider />
+        <div className={classes.contentContainer}>
+          <Skeleton height={24.8} radius="md" />
+          <Skeleton height={24.8} radius="md" />
+          <Skeleton height={24.8} radius="md" />
+          <Skeleton height={24.8} radius="md" />
+        </div>
+        <Divider />
+        <Skeleton height={30} radius="md" />
+        <Skeleton height={30} radius="md" />
+      </Card>
+    );
+  }
 
   if (!simulation) {
     return (
@@ -46,16 +92,6 @@ export function SimulationCard({ simulation }: Props) {
     COMPLETED: "green",
     CANCELED: "gray",
     GENERATED: "dark",
-  };
-
-  const title = {
-    apo: "Free Protein",
-    acpype: "Protein + Ligand",
-  };
-
-  const subtitle = {
-    apo: null,
-    acpype: "Must be prepared in Bio2Byte's ACPYPE Server.",
   };
 
   const isLinkDisabled = simulation.status !== "RUNNING";

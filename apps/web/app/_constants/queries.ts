@@ -1,3 +1,3 @@
 export const QueryParams = {
-  SIMULATION_EXPANDED: "expanded",
+  SIMULATION_EXPANDED_DETAILS: "expanded_details",
 } as const;

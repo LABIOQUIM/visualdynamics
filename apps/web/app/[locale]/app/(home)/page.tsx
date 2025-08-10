@@ -1,8 +1,11 @@
+import { Divider } from "@mantine/core";
+
 import { MySimulations } from "@/app/[locale]/app/(home)/_components/MySimulations";
 import { Heading } from "@/components/Heading/Heading";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
 
 import { NewSimulationButton } from "./_components/NewSimulationButton";
+import { SimulationDetails } from "./_components/SimulationDetails";
 
 import classes from "./page.module.css";
 
@@ -20,6 +23,11 @@ export default function Page() {
           rightElement={<NewSimulationButton />}
         />
         <MySimulations />
+      </div>
+      <Divider orientation="vertical" />
+      <div className={classes.expandedDetailsContainer}>
+        <Heading title="Simulation Expanded Details" />
+        <SimulationDetails />
       </div>
     </PageLayout>
   );

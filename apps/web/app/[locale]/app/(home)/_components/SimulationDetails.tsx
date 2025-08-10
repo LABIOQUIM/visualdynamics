@@ -1,49 +1,61 @@
 "use client";
-import { Alert, Button, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import { Alert, Button, Card, Stack, Text, Title } from "@mantine/core";
 import {
   IconAlertTriangle,
+  IconCircleOff,
   IconInfoCircle,
   IconPlus,
 } from "@tabler/icons-react";
+import clsx from "clsx";
+import { useQueryState } from "nuqs";
 
-import { Container } from "@/components/Layout/Container";
+import { QueryParams } from "@/app/_constants/queries";
+import { Loader } from "@/components/Loader/Loader";
 import { useLatestSimulations } from "@/hooks/simulation/useLatestSimulations";
 import { useSettings } from "@/hooks/utils/useSettings";
 
-import { SimulationCard } from "./SimulationCard";
+import classes from "./SimulationDetails.module.css";
 
-import classes from "./MySimulations.module.css";
-
-export function MySimulations() {
+export function SimulationDetails() {
+  const [expanded] = useQueryState(QueryParams.SIMULATION_EXPANDED_DETAILS);
   const { data, isLoading } = useLatestSimulations();
   const { data: settings } = useSettings("visualdynamics");
 
   // Error or unauthenticated states
   if (settings === "error" || settings === "unauthenticated") {
     return (
-      <Container className={classes.containerDownOrMaintenance}>
+      <Card
+        className={clsx(classes.container, classes.noSelectionContainer)}
+        withBorder
+      >
         <Alert icon={<IconAlertTriangle />} color="red" title="Error">
           Failed to load settings.
         </Alert>
-      </Container>
+      </Card>
     );
   }
 
   // System down state
   if (settings?.systemMode === "DOWN") {
     return (
-      <Container className={classes.containerDownOrMaintenance}>
+      <Card
+        className={clsx(classes.container, classes.noSelectionContainer)}
+        withBorder
+      >
         <Alert icon={<IconAlertTriangle />} color="red" title="System Down">
           Visual Dynamics is currently down.
         </Alert>
-      </Container>
+      </Card>
     );
   }
 
   // Unauthenticated user
   if (data === "unauthenticated") {
     return (
-      <Container className={classes.containerDownOrMaintenance}>
+      <Card
+        className={clsx(classes.container, classes.noSelectionContainer)}
+        withBorder
+      >
         <Alert
           icon={<IconInfoCircle />}
           color="yellow"
@@ -51,24 +63,29 @@ export function MySimulations() {
         >
           Please log in to view your simulations.
         </Alert>
-      </Container>
+      </Card>
     );
   }
 
   // Loading state
   if (isLoading) {
     return (
-      <SimpleGrid spacing="md" flex={1}>
-        <SimulationCard simulation={null} isLoading={isLoading} type="apo" />
-        <SimulationCard simulation={null} isLoading={isLoading} type="acpype" />
-      </SimpleGrid>
+      <Card
+        className={clsx(classes.container, classes.noSelectionContainer)}
+        withBorder
+      >
+        <Loader />
+      </Card>
     );
   }
 
   // No simulations found
   if (!data || Object.keys(data).length === 0) {
     return (
-      <Container className={classes.containerDownOrMaintenance}>
+      <Card
+        className={clsx(classes.container, classes.noSelectionContainer)}
+        withBorder
+      >
         <Stack align="center" gap="md">
           <IconInfoCircle size={32} />
           <Title order={3}>No simulations found</Title>
@@ -77,14 +94,27 @@ export function MySimulations() {
             New Simulation
           </Button>
         </Stack>
-      </Container>
+      </Card>
+    );
+  }
+
+  if (!expanded) {
+    return (
+      <Card
+        className={clsx(classes.container, classes.noSelectionContainer)}
+        withBorder
+      >
+        <IconCircleOff size={96} />
+        <Text fw={600} size="lg">
+          No Simulation Selected
+        </Text>
+      </Card>
     );
   }
 
   return (
-    <SimpleGrid spacing="md" flex={1}>
-      <SimulationCard simulation={data.apo} />
-      <SimulationCard simulation={data.acpype} />
-    </SimpleGrid>
+    <Card className={classes.container} withBorder>
+      expanded
+    </Card>
   );
 }

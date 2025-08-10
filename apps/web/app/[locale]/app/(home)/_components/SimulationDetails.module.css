@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--mantine-spacing-md);
+  box-shadow: var(--mantine-shadow-xs);
+  border-radius: var(--mantine-radius-md);
+}
+
+.noSelectionContainer {
+  align-items: center;
+  justify-content: center;
+}
