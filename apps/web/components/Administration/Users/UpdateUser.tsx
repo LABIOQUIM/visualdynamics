@@ -7,6 +7,7 @@ import {
   Modal,
   Select,
   TextInput,
+  Tooltip,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -134,9 +135,11 @@ export function UpdateUser({ user, refetch }: Props) {
         </Box>
       </Modal>
 
-      <ActionIcon title="Edit User" variant="light" size="lg" onClick={open}>
-        <IconUserEdit />
-      </ActionIcon>
+      <Tooltip label="Edit User" withArrow>
+        <ActionIcon variant="light" size="lg" onClick={open}>
+          <IconUserEdit />
+        </ActionIcon>
+      </Tooltip>
     </>
   );
 }

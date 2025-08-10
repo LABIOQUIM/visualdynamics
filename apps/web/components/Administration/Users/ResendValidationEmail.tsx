@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ActionIcon, Box, Button, Modal, Text } from "@mantine/core";
+import { ActionIcon, Box, Button, Modal, Text, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { render } from "@react-email/components";
@@ -129,15 +129,11 @@ export function ResendValidationEmail({ user }: Props) {
         </Box>
       </Modal>
 
-      <ActionIcon
-        title="Resend Validation Email"
-        color="teal"
-        variant="light"
-        size="lg"
-        onClick={open}
-      >
-        <IconMailForward />
-      </ActionIcon>
+      <Tooltip label="Resend Validation Email" withArrow>
+        <ActionIcon color="teal" variant="light" size="lg" onClick={open}>
+          <IconMailForward />
+        </ActionIcon>
+      </Tooltip>
     </>
   );
 }

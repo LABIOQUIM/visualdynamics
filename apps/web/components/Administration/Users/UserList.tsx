@@ -41,6 +41,31 @@ export function AdministrationUserList() {
   const columns = useMemo<MRTColumnDef<User>[]>(
     () => [
       {
+        header: "Actions",
+        Cell(props) {
+          return (
+            <Box className={classes.actions_container}>
+              <ResendValidationEmail user={props.row.original} />
+              <UpdateUser user={props.row.original} refetch={refetch} />
+              <BanUser user={props.row.original} refetch={refetch} />
+              <Tooltip label="Check User Files" withArrow>
+                <Link
+                  href={`/dashboard/administration/users/${props.row.original.userName}`}
+                >
+                  <ActionIcon color="cyan" variant="light" size="lg">
+                    <IconFolder />
+                  </ActionIcon>
+                </Link>
+              </Tooltip>
+            </Box>
+          );
+        },
+      },
+      {
+        accessorKey: "userName",
+        header: "Username",
+      },
+      {
         accessorFn(originalRow) {
           let name = originalRow.firstName;
 
@@ -53,10 +78,6 @@ export function AdministrationUserList() {
         enableSorting: false,
         enableColumnFilter: false,
         header: "Name",
-      },
-      {
-        accessorKey: "userName",
-        header: "Username",
       },
       {
         accessorKey: "email",
@@ -99,30 +120,6 @@ export function AdministrationUserList() {
         },
         header: "Created at",
         filterVariant: "date-range",
-      },
-      {
-        header: "Ações",
-        Cell(props) {
-          return (
-            <Box className={classes.actions_container}>
-              <ResendValidationEmail user={props.row.original} />
-              <UpdateUser user={props.row.original} refetch={refetch} />
-              <BanUser user={props.row.original} refetch={refetch} />
-              <Link
-                href={`/dashboard/administration/users/${props.row.original.userName}`}
-              >
-                <ActionIcon
-                  color="cyan"
-                  variant="light"
-                  size="lg"
-                  title="File Tree"
-                >
-                  <IconFolder />
-                </ActionIcon>
-              </Link>
-            </Box>
-          );
-        },
       },
     ],
     [refetch]

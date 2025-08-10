@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ActionIcon, Box, Button, Modal, Text } from "@mantine/core";
+import { ActionIcon, Box, Button, Modal, Text, Tooltip } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconCancel, IconHammer, IconHammerOff } from "@tabler/icons-react";
@@ -104,15 +104,17 @@ export function BanUser({ user, refetch }: Props) {
         </Box>
       </Modal>
 
-      <ActionIcon
-        color={isBanned ? "grape" : "red"}
-        variant="light"
-        size="lg"
-        title={isBanned ? "Unban User" : "Ban User"}
-        onClick={open}
-      >
-        {isBanned ? <IconHammerOff /> : <IconHammer />}
-      </ActionIcon>
+      <Tooltip label={isBanned ? "Unban User" : "Ban User"} withArrow>
+        <ActionIcon
+          color={isBanned ? "grape" : "red"}
+          variant="light"
+          size="lg"
+          title={isBanned ? "Unban User" : "Ban User"}
+          onClick={open}
+        >
+          {isBanned ? <IconHammerOff /> : <IconHammer />}
+        </ActionIcon>
+      </Tooltip>
     </>
   );
 }
