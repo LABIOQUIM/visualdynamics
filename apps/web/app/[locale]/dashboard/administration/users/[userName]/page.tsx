@@ -1,7 +1,8 @@
-import { Title } from "@mantine/core";
-
-import { AdministrationUserFileTree } from "@/components/Administration/Users/FileTree";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
+
+import { UserFiles } from "./UserFiles";
+
+import classes from "./page.module.css";
 
 interface Props {
   params: Promise<{ userName: string }>;
@@ -11,9 +12,8 @@ export default async function Page({ params }: Props) {
   const userName = (await params).userName;
 
   return (
-    <PageLayout>
-      <Title order={2}>Administration: Files for {userName}</Title>
-      <AdministrationUserFileTree userName={userName} />
+    <PageLayout className={classes.container}>
+      <UserFiles userName={userName} />
     </PageLayout>
   );
 }

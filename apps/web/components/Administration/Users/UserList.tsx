@@ -109,7 +109,7 @@ export function AdministrationUserList() {
               <UpdateUser user={props.row.original} refetch={refetch} />
               <BanUser user={props.row.original} refetch={refetch} />
               <Link
-                href={`/administration/users/${props.row.original.userName}`}
+                href={`/dashboard/administration/users/${props.row.original.userName}`}
               >
                 <ActionIcon
                   color="cyan"

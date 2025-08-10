@@ -1,8 +1,43 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  max-height: calc(100dvh - 45px - var(--app-shell-header-offset) - calc(var(--app-shell-padding) * 3));
   gap: var(--mantine-spacing-md);
   justify-content: space-between;
+}
+
+
+.fileBrowserContainer {
+  display: flex;
+  flex: 1;
+  max-height: calc(100dvh - 60px);
+  margin: calc(-1 * var(--mantine-spacing-md));
+}
+
+.fileBrowserSideContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+  background-color: var(--mantine-color-gray-0);
+  height: 100%;
+  min-width: 256px;
+  width: 256px;
+  max-width: 256px;
+  padding: var(--mantine-spacing-md);
+}
+
+.infoContainer {
+  text-align: justify;
+}
+
+.noFilesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: var(--mantine-spacing-md);
+}
+
+.noFileIcon {
+  font-size: 96px;
 }

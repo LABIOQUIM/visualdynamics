@@ -4,23 +4,11 @@ import { api } from "@/lib/apis";
 
 import { validateAuth } from "../auth/validateAuth";
 
-interface OrigFileProps {
-  path: string;
-  name: string;
-  children?: OrigFileProps[];
-}
-
-interface FileProps {
-  value: string;
-  label: string;
-  children?: FileProps[];
-}
-
-function transformFileObject(node: OrigFileProps) {
+function transformFileObject(node: FileProps) {
   // Create the new object with the renamed keys
   const newNode: FileProps = {
-    value: node.path, // Rename 'path' to 'value'
-    label: node.name, // Rename 'name' to 'label'
+    path: node.path,
+    name: node.name,
   };
 
   // Check if the node has children and if it's an array
@@ -46,7 +34,7 @@ function transformFileObject(node: OrigFileProps) {
         return 1; // b comes first (it has children, a doesn't)
       } else {
         // Both have children OR neither has children: sort alphabetically by label
-        return a.label.localeCompare(b.label);
+        return a.name.localeCompare(b.name);
       }
     });
 

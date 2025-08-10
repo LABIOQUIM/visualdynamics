@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.sideContainer {
+  background-color: var(--mantine-color-gray-0);
+  height: 100%;
+  min-width: 256px;
+  width: 256px;
+  max-width: 256px;
+  padding: var(--mantine-spacing-md);
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.navContainer {
+  background-color: var(--mantine-color-gray-0);
+  display: flex;
+  min-height: 60px;
+  height: 60px;
+  max-height: 60px;
+  width: 100%;
+  padding: 0 var(--mantine-spacing-xs);
+  align-items: center;
+}
+
+.navText, .breadcrumbText {
+  font-size: 20px;
+}
+
+.breadcrumb {
+  background-color: transparent;
+  padding: 0 var(--mantine-spacing-xs);
+  border-radius: var(--mantine-radius-md);
+  text-transform: uppercase;
+
+  &:hover {
+    background-color: #00000010;
+  }
+}
+
+.breadcrumbsContainer {
+  background-color: var(--mantine-color-gray-3);
+  display: flex;
+  min-height: 45px;
+  height: 45px;
+  max-height: 45px;
+  gap: var(--mantine-spacing-xs);
+  width: 100%;
+  padding: 0 var(--mantine-spacing-xs);
+  align-items: center;
+  border-radius: var(--mantine-radius-md);
+}
+
+.contentContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  padding: var(--mantine-spacing-lg);
+  gap: var(--mantine-spacing-md);
+  overflow-y: scroll;
+}
+
+.fileContainer {
+  display: flex;
+  flex-direction: column;
+  padding: var(--mantine-spacing-sm);
+  min-height: 168px;
+  height: 168px;
+  max-height: 168px;
+  min-width: 168px;
+  width: 168px;
+  max-width: 168px;
+  transition: background-color 0.2s, box-shadow 0.2s, border-radius 0.2s;
+  border-radius: var(--mantine-radius-md);
+
+  &:hover {
+    background-color: var(--mantine-color-indigo-0);
+    color: var(--mantine-color-dark-7);
+    box-shadow: var(--mantine-shadow-xs);
+    cursor: pointer;
+  }
+}
+
+.fileIconContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 64px;
+}
+
+.fileName {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+}
