@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createI18nMiddleware } from "next-international/middleware";
 
+import { RouteLinks } from "./app/_constants/routes";
+
 export const config = {
   matcher: ["/((?!api|static|_next|favicon.ico|robots.txt|sw.js).*)"],
 };
@@ -18,25 +20,25 @@ interface PublicRoute {
 }
 
 const publicRoutes: PublicRoute[] = [
-  { path: "/", whenAuthenticated: "donothing" },
-  { path: "/auth/login", whenAuthenticated: "redirect" },
-  { path: "/auth/register", whenAuthenticated: "redirect" },
-  { path: "/analytics", whenAuthenticated: "donothing" },
-  { path: "/guides", whenAuthenticated: "donothing" },
+  { path: RouteLinks.HOME, whenAuthenticated: "donothing" },
+  { path: RouteLinks.LOGIN, whenAuthenticated: "redirect" },
+  { path: RouteLinks.REGISTER, whenAuthenticated: "redirect" },
+  { path: RouteLinks.ANALYTICS, whenAuthenticated: "donothing" },
+  { path: RouteLinks.GUIDES, whenAuthenticated: "donothing" },
   {
-    path: "/account/email-validation",
+    path: RouteLinks.EMAIL_VALIDATION,
     whenAuthenticated: "donothing",
     mode: "startsWith",
   },
   {
-    path: "/account/password-reset",
+    path: RouteLinks.PASSWORD_RESET,
     whenAuthenticated: "donothing",
     mode: "startsWith",
   },
 ];
 
-const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = "/";
-const REDIRECT_WHEN_AUTHENTICATED_ROUTE = "/dashboard/simulations";
+const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = RouteLinks.HOME;
+const REDIRECT_WHEN_AUTHENTICATED_ROUTE = RouteLinks.SIMULATIONS;
 
 export default function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
