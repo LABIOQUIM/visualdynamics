@@ -4,6 +4,7 @@ import { DatesProvider } from "@mantine/dates";
 import { Notifications } from "@mantine/notifications";
 import { Metadata } from "next";
 import Script from "next/script";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { GlobalLayout } from "@/components/Layout/GlobalLayout/GlobalLayout";
 import { I18nProviderClient } from "@/locales/client";
@@ -38,7 +39,11 @@ export default async function RootLayout({
   const { locale } = await params;
 
   return (
-    <html lang={locale} data-mantine-color-scheme="light">
+    <html
+      lang={locale}
+      data-mantine-color-scheme="light"
+      data-scroll-behavior="smooth"
+    >
       <body>
         <I18nProviderClient locale={locale}>
           <MantineProvider forceColorScheme="light" theme={theme}>
@@ -49,7 +54,9 @@ export default async function RootLayout({
               }}
             >
               <Notifications position="top-right" />
-              <GlobalLayout>{children}</GlobalLayout>
+              <GlobalLayout>
+                <NuqsAdapter>{children}</NuqsAdapter>
+              </GlobalLayout>
             </DatesProvider>
           </MantineProvider>
         </I18nProviderClient>
