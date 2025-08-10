@@ -25,6 +25,13 @@
   padding: var(--mantine-spacing-md);
 }
 
+.fileBrowserSideHeader {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: var(--mantine-spacing-xs);
+}
+
 .infoContainer {
   text-align: justify;
 }
@@ -34,7 +41,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  flex: 1;
   gap: var(--mantine-spacing-md);
 }
 

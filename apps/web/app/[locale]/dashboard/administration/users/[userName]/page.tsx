@@ -8,6 +8,14 @@ interface Props {
   params: Promise<{ userName: string }>;
 }
 
+export async function generateMetadata({ params }: Props) {
+  const userName = (await params).userName;
+
+  return {
+    title: `Files - ${userName}`,
+  };
+}
+
 export default async function Page({ params }: Props) {
   const userName = (await params).userName;
 

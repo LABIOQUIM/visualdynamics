@@ -1,6 +1,7 @@
 "use client";
-import { Alert, Text, Title } from "@mantine/core";
-import { IconFileOff } from "@tabler/icons-react";
+import { ActionIcon, Alert, Text, Title } from "@mantine/core";
+import { IconArrowLeft, IconFileOff } from "@tabler/icons-react";
+import Link from "next/link";
 
 import { FileManager } from "@/components/FileManager/FileManager";
 import { useUserFileTree } from "@/hooks/administration/useUserFileTree";
@@ -14,12 +15,7 @@ interface Props {
 export function UserFiles({ userName }: Props) {
   const { data } = useUserFileTree(userName);
 
-  if (
-    !data ||
-    data === "unauthenticated" ||
-    data === "unauthorized" ||
-    !data[0].path
-  ) {
+  if (!data || data === "unauthenticated" || data === "unauthorized") {
     return (
       <div className={classes.noFilesContainer}>
         <IconFileOff size={96} />
@@ -31,8 +27,20 @@ export function UserFiles({ userName }: Props) {
   return (
     <div className={classes.fileBrowserContainer}>
       <div className={classes.fileBrowserSideContainer}>
-        <Title order={2}>File Browser</Title>
-        <Text>Viewing files of {userName}</Text>
+        <div className={classes.fileBrowserSideHeader}>
+          <Link href="/dashboard/administration/users">
+            <ActionIcon variant="subtle" aria-label="Settings">
+              <IconArrowLeft
+                style={{ width: "70%", height: "70%" }}
+                stroke={1.5}
+              />
+            </ActionIcon>
+          </Link>
+          <Title order={2}>File Browser</Title>
+        </div>
+        <Text>
+          Viewing files of <strong>{userName}</strong>
+        </Text>
         <Alert
           className={classes.infoContainer}
           variant="light"
@@ -65,7 +73,14 @@ export function UserFiles({ userName }: Props) {
           </Text>
         </Alert>
       </div>
-      <FileManager files={data} />
+      {!data[0].path ? (
+        <div className={classes.noFilesContainer}>
+          <IconFileOff size={96} />
+          <Title>No Files Found</Title>
+        </div>
+      ) : (
+        <FileManager files={data} />
+      )}
     </div>
   );
 }
