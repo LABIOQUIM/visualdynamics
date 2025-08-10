@@ -165,7 +165,6 @@ export function AdministrationUserList() {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        // height: "calc(100dvh - 64px - 35.09px - 48px)"
       },
     },
     mantineTableContainerProps: {

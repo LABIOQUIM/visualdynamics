@@ -1,6 +1,7 @@
-import { Box, Title } from "@mantine/core";
+import { Box } from "@mantine/core";
 
 import { AdministrationNav } from "@/components/Administration/Nav";
+import { Heading } from "@/components/Heading/Heading";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
 
 import classes from "./page.module.css";
@@ -8,7 +9,8 @@ import classes from "./page.module.css";
 export default function AdministrationPage() {
   return (
     <PageLayout>
-      <Title>Administration</Title>
+      <Heading title="Administration" />
+
       <Box className={classes.container}>
         <AdministrationNav />
       </Box>

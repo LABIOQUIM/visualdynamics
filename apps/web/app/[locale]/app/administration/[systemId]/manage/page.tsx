@@ -2,6 +2,7 @@ import { Title } from "@mantine/core";
 import dynamic from "next/dynamic";
 
 import { GoBackButton } from "@/components/GoBackButton/GoBackButton";
+import { Heading } from "@/components/Heading/Heading";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
 
 interface Props {
@@ -21,9 +22,8 @@ export default async function AdminSystemManagePage({ params }: Props) {
   const SystemManage = getDynamicComponent(systemId);
 
   return (
-    <PageLayout style={{ height: "calc(100dvh - 64px - 35.09px)" }}>
-      <GoBackButton />
-      <Title>Manage {systemId.toUpperCase()}</Title>
+    <PageLayout style={{ height: "calc(100dvh - 60px - 35.09px)" }}>
+      <Heading title="Administration" />
       <SystemManage />
     </PageLayout>
   );

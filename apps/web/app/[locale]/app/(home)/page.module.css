@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+}
+
+.simulationsContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 384px;
+  width: 384px;
+  max-width: 384px;
+  gap: var(--mantine-spacing-lg);
+}

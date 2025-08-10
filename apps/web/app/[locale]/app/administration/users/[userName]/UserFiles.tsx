@@ -1,9 +1,10 @@
 "use client";
-import { ActionIcon, Alert, Text, Title } from "@mantine/core";
-import { IconArrowLeft, IconFileOff } from "@tabler/icons-react";
-import Link from "next/link";
+import { Alert, Text, Title } from "@mantine/core";
+import { IconFileOff } from "@tabler/icons-react";
 
 import { FileManager } from "@/components/FileManager/FileManager";
+import { Heading } from "@/components/Heading/Heading";
+import { Loader } from "@/components/Loader/Loader";
 import { useUserFileTree } from "@/hooks/administration/useUserFileTree";
 
 import classes from "./page.module.css";
@@ -13,7 +14,15 @@ interface Props {
 }
 
 export function UserFiles({ userName }: Props) {
-  const { data } = useUserFileTree(userName);
+  const { data, isLoading } = useUserFileTree(userName);
+
+  if (isLoading) {
+    return (
+      <div className={classes.noFilesContainer}>
+        <Loader />
+      </div>
+    );
+  }
 
   if (!data || data === "unauthenticated" || data === "unauthorized") {
     return (
@@ -27,17 +36,7 @@ export function UserFiles({ userName }: Props) {
   return (
     <div className={classes.fileBrowserContainer}>
       <div className={classes.fileBrowserSideContainer}>
-        <div className={classes.fileBrowserSideHeader}>
-          <Link href="/dashboard/administration/users">
-            <ActionIcon variant="subtle" aria-label="Settings">
-              <IconArrowLeft
-                style={{ width: "70%", height: "70%" }}
-                stroke={1.5}
-              />
-            </ActionIcon>
-          </Link>
-          <Title order={2}>File Browser</Title>
-        </div>
+        <Heading title="File Browser" />
         <Text>
           Viewing files of <strong>{userName}</strong>
         </Text>
