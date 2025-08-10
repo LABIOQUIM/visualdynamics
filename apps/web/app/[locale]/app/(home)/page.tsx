@@ -19,7 +19,6 @@ export default function Page() {
           title="My Simulations"
           rightElement={<NewSimulationButton />}
         />
-
         <MySimulations />
       </div>
     </PageLayout>
