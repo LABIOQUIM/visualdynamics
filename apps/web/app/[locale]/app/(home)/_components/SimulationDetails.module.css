@@ -11,3 +11,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.headingContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--mantine-spacing-xs);
+}

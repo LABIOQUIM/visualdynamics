@@ -13,11 +13,20 @@ import { QueryParams } from "@/app/_constants/queries";
 import { Loader } from "@/components/Loader/Loader";
 import { useLatestSimulations } from "@/hooks/simulation/useLatestSimulations";
 import { useSettings } from "@/hooks/utils/useSettings";
+import { dateFormat } from "@/utils/dateFormat";
 
 import classes from "./SimulationDetails.module.css";
 
 export function SimulationDetails() {
-  const [expanded] = useQueryState(QueryParams.SIMULATION_EXPANDED_DETAILS);
+  const [expanded] = useQueryState<"apo" | "acpype" | null>(
+    QueryParams.SIMULATION_EXPANDED_DETAILS,
+    {
+      defaultValue: null,
+      parse(value) {
+        return value as "apo" | "acpype" | null;
+      },
+    }
+  );
   const { data, isLoading } = useLatestSimulations();
   const { data: settings } = useSettings("visualdynamics");
 
@@ -79,8 +88,22 @@ export function SimulationDetails() {
     );
   }
 
+  if (!expanded) {
+    return (
+      <Card
+        className={clsx(classes.container, classes.noSelectionContainer)}
+        withBorder
+      >
+        <IconCircleOff size={96} />
+        <Text fw={600} size="lg">
+          No Simulation Selected
+        </Text>
+      </Card>
+    );
+  }
+
   // No simulations found
-  if (!data || Object.keys(data).length === 0) {
+  if (!data || Object.keys(data).length === 0 || !data[expanded]) {
     return (
       <Card
         className={clsx(classes.container, classes.noSelectionContainer)}
@@ -98,23 +121,43 @@ export function SimulationDetails() {
     );
   }
 
-  if (!expanded) {
-    return (
-      <Card
-        className={clsx(classes.container, classes.noSelectionContainer)}
-        withBorder
-      >
-        <IconCircleOff size={96} />
-        <Text fw={600} size="lg">
-          No Simulation Selected
-        </Text>
-      </Card>
-    );
-  }
+  const simulation = data[expanded];
 
   return (
     <Card className={classes.container} withBorder>
-      expanded
+      <div className={classes.headingContainer}>
+        <div>
+          <Text className={classes.contentText}>
+            <strong>Type</strong>: {simulation.type.toUpperCase()}
+          </Text>
+          <Text className={classes.contentText}>
+            <strong>Macromolecule</strong>: {simulation.moleculeName}
+          </Text>
+          <Text className={classes.contentText}>
+            <strong>Ligand (ITP)</strong>: {simulation.ligandITPName ?? "N/A"}
+          </Text>
+          <Text className={classes.contentText}>
+            <strong>Ligand (PDB)</strong>: {simulation.ligandPDBName ?? "N/A"}
+          </Text>
+        </div>
+        <div>
+          <Text className={classes.contentText}>
+            <strong>Submitted At</strong>: {dateFormat(simulation.createdAt)}
+          </Text>
+          <Text className={classes.contentText}>
+            <strong>Started At</strong>:{" "}
+            {simulation.startedAt
+              ? dateFormat(simulation.startedAt)
+              : "Not Started Yet"}
+          </Text>
+          <Text className={classes.contentText}>
+            <strong>Ended At</strong>:{" "}
+            {simulation.endedAt
+              ? dateFormat(simulation.endedAt)
+              : "Not Ended Yet"}
+          </Text>
+        </div>
+      </div>
     </Card>
   );
 }
