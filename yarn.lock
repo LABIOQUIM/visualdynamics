@@ -5,6 +5,18 @@ __metadata:
   version: 8
   cacheKey: 10
 
+"3dmol@npm:^2.5.2":
+  version: 2.5.2
+  resolution: "3dmol@npm:2.5.2"
+  dependencies:
+    iobuffer: "npm:^5.0.0"
+    netcdfjs: "npm:^3.0.0"
+    pako: "npm:^2.1.0"
+    upng-js: "npm:^2.1.0"
+  checksum: 3612e6baa78065b59990f90bf0ba4134c10d352cd6d52928d04ca122ef8e496feab95c7e7f8667c8b34a7f09e346eb235b439d654f35f59164fc629a8f710af2
+  languageName: node
+  linkType: hard
+
 "@aashutoshrathi/word-wrap@npm:^1.2.3":
   version: 1.2.6
   resolution: "@aashutoshrathi/word-wrap@npm:1.2.6"
@@ -9636,6 +9648,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"iobuffer@npm:^5.0.0, iobuffer@npm:^5.3.2":
+  version: 5.4.0
+  resolution: "iobuffer@npm:5.4.0"
+  checksum: 7f7afe12ee94e34dcf129a5fbb38838f63d6502970f5aa4722c728d65b90ac828c660cd5ec5423bd2b4f348483ba8d6f3e3ad9a5908810bc0f4fae774b3f0e39
+  languageName: node
+  linkType: hard
+
 "ioredis@npm:^5.4.1":
   version: 5.7.0
   resolution: "ioredis@npm:5.7.0"
@@ -11675,6 +11694,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"netcdfjs@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "netcdfjs@npm:3.0.0"
+  dependencies:
+    iobuffer: "npm:^5.3.2"
+  checksum: 22ed6f0921ff3422b59cbb40c390f2d3d50010490ffa5d9a71a9edfe3e09ac7481b8354baa4042641ad84fb3d16427f56fb9f4aacedc2950d0ecf0eb0b8eaa96
+  languageName: node
+  linkType: hard
+
 "next-international@npm:^1.3.1":
   version: 1.3.1
   resolution: "next-international@npm:1.3.1"
@@ -12619,6 +12647,20 @@ __metadata:
   bin:
     pacote: bin/index.js
   checksum: 2f2ad30bfd6b5660299d613a883a2db92e9785d1e223ef2afea97ac256afc4922e29c412816ff4671da2f3ee1587880bb1b843681660e1853161dfd1cda61893
+  languageName: node
+  linkType: hard
+
+"pako@npm:^1.0.5":
+  version: 1.0.11
+  resolution: "pako@npm:1.0.11"
+  checksum: 1ad07210e894472685564c4d39a08717e84c2a68a70d3c1d9e657d32394ef1670e22972a433cbfe48976cb98b154ba06855dcd3fcfba77f60f1777634bec48c0
+  languageName: node
+  linkType: hard
+
+"pako@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "pako@npm:2.1.0"
+  checksum: 38a04991d0ec4f4b92794a68b8c92bf7340692c5d980255c92148da96eb3e550df7a86a7128b5ac0c65ecddfe5ef3bbe9c6dab13e1bc315086e759b18f7c1401
   languageName: node
   linkType: hard
 
@@ -16225,6 +16267,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"upng-js@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "upng-js@npm:2.1.0"
+  dependencies:
+    pako: "npm:^1.0.5"
+  checksum: ed4098eea838da09b061cfcbf80b453a977fc0e6910249d0b4e54ee8e8a7f2197fd02eda585df54c95883990db085fa695360f9b9c6cdea895fb694d846c97d1
+  languageName: node
+  linkType: hard
+
 "uri-js@npm:^4.2.2":
   version: 4.4.1
   resolution: "uri-js@npm:4.4.1"
@@ -16436,6 +16487,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:apps/web"
   dependencies:
+    3dmol: "npm:^2.5.2"
     "@bprogress/next": "npm:^3.1.3"
     "@lucia-auth/adapter-prisma": "npm:^4.0.1"
     "@mantine/charts": "npm:^7.13.5"

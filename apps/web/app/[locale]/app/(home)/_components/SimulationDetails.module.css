@@ -17,3 +17,11 @@
   grid-template-columns: repeat(2, 1fr);
   gap: var(--mantine-spacing-xs);
 }
+
+.viewerContainer {
+  border-radius: var(--mantine-radius-md);
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--mantine-shadow-xs);
+}
