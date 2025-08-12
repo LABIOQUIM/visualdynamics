@@ -509,6 +509,36 @@ export class SimulationService {
     return tree;
   }
 
+  async getLastMacromoleculeFiles(userName: string, type: SIMULATION_TYPE) {
+    const userFolder = `/files/${userName}`;
+    const runFolder = `${userFolder}/${type}/run`;
+
+    const macromoleculeFile = `${runFolder}/originalMacromolecule.pdb`;
+
+    if (!existsSync(macromoleculeFile)) {
+      return "no-macromolecule";
+    }
+
+    if (type === "acpype") {
+      const ligandItpFile = `${runFolder}/originalLigand.itp`;
+      const ligandPdbFile = `${runFolder}/originalLigand.pdb`;
+
+      if (!existsSync(ligandItpFile) || !existsSync(ligandPdbFile)) {
+        return "no-ligand";
+      }
+
+      return {
+        macromolecule: readFileSync(macromoleculeFile).toString(),
+        ligandItp: readFileSync(ligandItpFile).toString(),
+        ligandPdb: readFileSync(ligandPdbFile).toString(),
+      };
+    }
+
+    return {
+      macromolecule: readFileSync(macromoleculeFile).toString(),
+    };
+  }
+
   async getQueueInfo() {
     const active = await this.simulationQueue.getActiveCount();
     const failed = await this.simulationQueue.getFailedCount();

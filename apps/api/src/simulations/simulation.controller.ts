@@ -4,6 +4,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   Query,
   Req,
@@ -247,6 +248,20 @@ export class SimulationController {
     const data = this.simulationService.getUserLastSimulations(
       request.userName
     );
+    return data;
+  }
+
+  @UseGuards(UsernameGuard)
+  @Get("/macromolecule/:type")
+  async getLatestMacromoleculeFiles(
+    @Req() request: Request,
+    @Param("type") type: SIMULATION_TYPE
+  ) {
+    const data = this.simulationService.getLastMacromoleculeFiles(
+      request.userName,
+      type
+    );
+
     return data;
   }
 
