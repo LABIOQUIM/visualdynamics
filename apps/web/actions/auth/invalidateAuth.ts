@@ -16,5 +16,5 @@ export async function invalidateAuth() {
   await lucia.invalidateSession(session.id);
 
   const sessionCookie = lucia.createBlankSessionCookie();
-  (await cookies()).set(sessionCookie.name, sessionCookie.value);
+  (await cookies()).delete(sessionCookie.name);
 }

@@ -94,7 +94,7 @@ export function SimulationCard({ isLoading, simulation, type }: Props) {
     GENERATED: "dark",
   };
 
-  const isLinkDisabled = simulation.status !== "RUNNING";
+  const isLinkDisabled = !["RUNNING", "QUEUED"].includes(simulation.status);
 
   return (
     <Card className={classes.container} withBorder>
@@ -136,7 +136,7 @@ export function SimulationCard({ isLoading, simulation, type }: Props) {
       <Tooltip label="Only available when status is 'Running'" withArrow>
         <Button
           component={isLinkDisabled ? undefined : Link}
-          href={RouteLinks.SIMULATIONS_RUNNING}
+          href={`${RouteLinks.SIMULATIONS_RUNNING}/${simulation.id}`}
           disabled={isLinkDisabled}
           leftSection={<IconArrowRight />}
           color="cyan"

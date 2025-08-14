@@ -11,16 +11,24 @@ export const metadata = {
   title: "Running Simulation",
 };
 
-export default function Page() {
+interface Props {
+  params: Promise<{
+    simulationId: string;
+  }>;
+}
+
+export default async function Page({ params }: Props) {
+  const { simulationId } = await params;
+
   return (
     <PageLayout>
       <Title>Running Simulation</Title>
 
       <Box className={classes.container}>
-        <StepInfo />
+        <StepInfo simulationId={simulationId} />
         <Box className={classes.container_stack}>
-          <SubmissionInfo />
-          <Log />
+          <SubmissionInfo simulationId={simulationId} />
+          <Log simulationId={simulationId} />
         </Box>
       </Box>
     </PageLayout>

@@ -2,11 +2,15 @@ import { useMemo } from "react";
 import { Text } from "@mantine/core";
 import dayjs from "dayjs";
 
-import { useRunningSimulation } from "@/hooks/simulation/useRunningSimulation";
+import { useSimulation } from "@/hooks/simulation/useSimulation";
 import { useCountdown } from "@/hooks/useCountdown";
 
-export function RefetchTime() {
-  const { data, dataUpdatedAt, isError } = useRunningSimulation();
+interface Props {
+  simulationId: string;
+}
+
+export function RefetchTime({ simulationId }: Props) {
+  const { data, dataUpdatedAt, isError } = useSimulation(simulationId);
 
   const nextRefetchAt = useMemo(() => {
     if (!dataUpdatedAt) return null;
@@ -23,7 +27,7 @@ export function RefetchTime() {
     return null;
   }
 
-  if (data === "not-running") {
+  if (data.status === "not-running") {
     return (
       <Text>
         Your simulation might be starting. We&apos;ll check again in{" "}
@@ -32,7 +36,7 @@ export function RefetchTime() {
     );
   }
 
-  if (data === "queued") {
+  if (data.status === "queued") {
     return <Text>We&apos;ll check again in {secsToRefetch} second(s)</Text>;
   }
 

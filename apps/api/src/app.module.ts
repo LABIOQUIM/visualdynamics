@@ -16,7 +16,7 @@ import { SystemInfoModule } from "./systeminfo/systeminfo.module";
         port: 6379,
       },
       defaultJobOptions: {
-        attempts: 1,
+        // attempts: 1,
       },
     }),
     BullBoardModule.forRoot({

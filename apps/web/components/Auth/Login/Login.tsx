@@ -5,6 +5,7 @@ import { useForm } from "@mantine/form";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { login } from "@/actions/auth/login";
+import { RouteLinks } from "@/app/_constants/routes";
 import { Alert } from "@/components/Alerts/Alert";
 import { useReloadAuth } from "@/hooks/auth/useReloadAuth";
 import { normalizeString } from "@/utils/normalizeString";
@@ -66,7 +67,7 @@ export function Login() {
         });
       } else {
         setStatus({ status: "success", title: "You've been signed-in" });
-        reload().then(() => router.replace("/app/simulations"));
+        reload().then(() => router.replace(RouteLinks.SIMULATIONS));
       }
     });
   }

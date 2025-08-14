@@ -2,7 +2,7 @@
 import { Fragment } from "react";
 import { Box, Text } from "@mantine/core";
 
-import { useRunningSimulation } from "@/hooks/simulation/useRunningSimulation";
+import { useSimulation } from "@/hooks/simulation/useSimulation";
 import { useSettings } from "@/hooks/utils/useSettings";
 import { dateFormat } from "@/utils/dateFormat";
 
@@ -23,8 +23,12 @@ function InfoText({ label, value }: { label: string; value?: string | null }) {
   );
 }
 
-export function SubmissionInfo() {
-  const { data, isError, isLoading } = useRunningSimulation();
+interface Props {
+  simulationId: string;
+}
+
+export function SubmissionInfo({ simulationId }: Props) {
+  const { data, isError, isLoading } = useSimulation(simulationId);
   const { data: settings } = useSettings("visualdynamics");
 
   if (
@@ -41,7 +45,7 @@ export function SubmissionInfo() {
     return "failed";
   }
 
-  if (data === "not-running" || data === "queued") {
+  if (data.status === "not-running" || data.status === "queued") {
     return null;
   }
 

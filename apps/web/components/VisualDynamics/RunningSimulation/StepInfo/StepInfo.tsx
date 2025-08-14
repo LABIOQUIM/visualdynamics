@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Box, Text, Title } from "@mantine/core";
 import { IconArrowDown } from "@tabler/icons-react";
 
-import { useRunningSimulation } from "@/hooks/simulation/useRunningSimulation";
+import { useSimulation } from "@/hooks/simulation/useSimulation";
 import { useSettings } from "@/hooks/utils/useSettings";
 
 import { Step } from "./Step";
@@ -22,8 +22,12 @@ const steps = {
   analyzemd: "MD Analysis",
 };
 
-export function StepInfo() {
-  const { data, isLoading, isError } = useRunningSimulation();
+interface Props {
+  simulationId: string;
+}
+
+export function StepInfo({ simulationId }: Props) {
+  const { data, isLoading, isError } = useSimulation(simulationId);
   const { data: settings } = useSettings("visualdynamics");
 
   if (
@@ -46,7 +50,7 @@ export function StepInfo() {
     );
   }
 
-  if (data === "not-running" || data === "queued") {
+  if (data.status === "not-running" || data.status === "queued") {
     return null;
   }
 

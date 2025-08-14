@@ -8,15 +8,19 @@ import {
 } from "@tabler/icons-react";
 
 import { Loader } from "@/components/Loader/Loader";
-import { useRunningSimulation } from "@/hooks/simulation/useRunningSimulation";
+import { useSimulation } from "@/hooks/simulation/useSimulation";
 import { useSettings } from "@/hooks/utils/useSettings";
 
 import { RefetchTime } from "./RefetchTime";
 
 import classes from "./Log.module.css";
 
-export function Log() {
-  const { data, isError, isLoading } = useRunningSimulation();
+interface Props {
+  simulationId: string;
+}
+
+export function Log({ simulationId }: Props) {
+  const { data, isError, isLoading } = useSimulation(simulationId);
   const { data: settings } = useSettings("visualdynamics");
 
   if (settings === "error" || settings === "unauthenticated") {
@@ -46,7 +50,7 @@ export function Log() {
   if (!data || isLoading) {
     return (
       <Box className={classes.container_loading}>
-        <RefetchTime />
+        <RefetchTime simulationId={simulationId} />
         <Loader />
       </Box>
     );
@@ -57,27 +61,33 @@ export function Log() {
       <Box className={classes.container_loading}>
         <IconAlertTriangle size={64} />
         <Title order={3}>Something went wrong.</Title>
-        <RefetchTime />
+        <RefetchTime simulationId={simulationId} />
       </Box>
     );
   }
 
-  if (data === "not-running") {
+  if (data.status === "not-running") {
     return (
       <Box className={classes.not_running_container}>
         <IconExclamationMark size={64} />
         <Title order={3}>You have no simulation running.</Title>
-        <RefetchTime />
+        <RefetchTime simulationId={simulationId} />
       </Box>
     );
   }
 
-  if (data === "queued") {
+  if (data.status === "queued") {
     return (
       <Box className={classes.not_running_container}>
         <IconClockPause size={64} />
-        <Title order={3}>Your simulation is in queue.</Title>
-        <RefetchTime />
+        <Title order={3}>
+          Your simulation is the #{data.position} in queue.
+        </Title>
+        <small>
+          Do not worry, our workers will pick up your simulation automatically
+          when it becomes available.
+        </small>
+        <RefetchTime simulationId={simulationId} />
       </Box>
     );
   }
@@ -86,7 +96,7 @@ export function Log() {
     <Fragment>
       <Box className={classes.container_title}>
         <Title order={3}>Logs</Title>
-        <RefetchTime />
+        <RefetchTime simulationId={simulationId} />
       </Box>
       <Box className={classes.container}>
         {data.logData.map((line, idx) => (

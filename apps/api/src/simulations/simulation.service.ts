@@ -70,9 +70,7 @@ export class SimulationService {
     cpSync(
       `${cwd()}/static/mdp`,
       `/files/${userName}/${simulationType.toLowerCase()}/run`,
-      {
-        recursive: true,
-      }
+      { recursive: true }
     );
   }
 
@@ -315,17 +313,26 @@ export class SimulationService {
     return { simulationId: id, commands };
   }
 
-  async getUserRunningSimulationData(userName: string) {
+  async getUserRunningSimulationData(userName: string, simulationId: string) {
     const userFolderPath = `/files/${userName}`;
     const runningFilePath = `${userFolderPath}/running`;
     const queuedFilePath = `${userFolderPath}/queued`;
 
     if (existsSync(queuedFilePath)) {
-      return "queued";
+      const waitingJobs = await this.simulationQueue.getJobs(["waiting"]);
+
+      const jobIndex = waitingJobs.findIndex(
+        (job) => job.data.simulationId === simulationId
+      );
+
+      return {
+        status: "queued",
+        position: jobIndex !== -1 ? jobIndex + 1 : -1,
+      };
     }
 
     if (!existsSync(runningFilePath)) {
-      return "not-running";
+      return { status: "not-running" };
     }
 
     const simulationType = readFileSync(runningFilePath, {
@@ -368,6 +375,7 @@ export class SimulationService {
     });
 
     return {
+      status: "running",
       simulationType: simulationType.toLowerCase(),
       stepData,
       logData,

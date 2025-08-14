@@ -3,7 +3,10 @@ import { api } from "@/lib/apis";
 
 import { validateAuth } from "../auth/validateAuth";
 
-type ResponseData = string[] | "added-to-queue" | "queued-or-running";
+type ResponseData =
+  | { status: "generated"; commands: string[] }
+  | { status: "added-to-queue"; simulationId: string }
+  | { status: "queued-or-running" };
 
 export async function submitNewSimulation(
   data: FormData,
@@ -12,7 +15,7 @@ export async function submitNewSimulation(
   const { user } = await validateAuth();
 
   if (!user) {
-    return "unauthenticated";
+    return { status: "unauthenticated" } as const;
   }
 
   try {
@@ -30,9 +33,9 @@ export async function submitNewSimulation(
   } catch (err: any) {
     console.log(err);
     if (err.status === 409) {
-      return "queued-or-running";
+      return { status: "queued-or-running" } as const;
     }
 
-    return "unknown-error";
+    return { status: "unknown-error" } as const;
   }
 }

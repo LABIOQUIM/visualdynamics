@@ -83,13 +83,13 @@ export class SimulationController {
         body.errorEmail
       );
 
-      return "added-to-queue";
+      return { status: "added-to-queue", simulationId };
     }
     writeFile(`/files/${request.userName}/acpype/ended`, "ended", (err) => {
       if (err) console.log(err);
     });
 
-    return commands;
+    return { status: "generated", commands };
   }
 
   @UseGuards(UsernameGuard)
@@ -101,7 +101,10 @@ export class SimulationController {
     @Req() request: Request
   ) {
     if (!filePDB) {
-      throw new HttpException("no-pdb-file", HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        { status: "no-pdb-file" },
+        HttpStatus.BAD_REQUEST
+      );
     }
 
     const { simulationId, commands } =
@@ -120,21 +123,25 @@ export class SimulationController {
         body.errorEmail
       );
 
-      return "added-to-queue";
+      return { status: "added-to-queue", simulationId };
     }
 
     writeFile(`/files/${request.userName}/apo/ended`, "ended", (err) => {
       if (err) console.log(err);
     });
 
-    return commands;
+    return { status: "generated", commands };
   }
 
   @UseGuards(UsernameGuard)
   @Get("/")
-  async getRunningSimulationInfo(@Req() request: Request) {
+  async getSimulationInfo(
+    @Req() request: Request,
+    @Query("id") simulationId: string
+  ) {
     const data = await this.simulationService.getUserRunningSimulationData(
-      request.userName
+      request.userName,
+      simulationId
     );
 
     return data;

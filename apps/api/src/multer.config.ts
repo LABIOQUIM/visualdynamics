@@ -1,4 +1,3 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
@@ -10,42 +9,28 @@ const multerConfig = {
   storage: diskStorage({
     destination: "/files",
     filename: (req, file, cb) => {
-      let canStore = true;
       const extension = path.parse(file.originalname).ext;
       const userDir = `/files/${req.userName}`;
+      const runningFile = `${userDir}/running`;
+      let runningFileContent = "";
 
-      if (req.url.endsWith("acpype")) {
+      if (fs.existsSync(runningFile)) {
+        runningFileContent = fs.readFileSync(runningFile, "utf-8");
+      }
+
+      if (req.url.endsWith("acpype") && runningFileContent !== "acpype") {
         const acpypeFolder = `${userDir}/acpype`;
-        const endFile = `${acpypeFolder}/ended`;
 
         if (fs.existsSync(acpypeFolder)) {
-          if (fs.existsSync(endFile)) {
-            fs.rmSync(acpypeFolder, { recursive: true, force: true });
-          } else {
-            canStore = false;
-
-            cb(
-              new HttpException("queued-or-running", HttpStatus.CONFLICT),
-              null
-            );
-          }
+          fs.rmSync(acpypeFolder, { recursive: true, force: true });
         }
       }
 
-      if (req.url.endsWith("apo")) {
+      if (req.url.endsWith("apo") && runningFileContent !== "apo") {
         const apoFolder = `${userDir}/apo`;
-        const endFile = `${apoFolder}/ended`;
 
         if (fs.existsSync(apoFolder)) {
-          if (fs.existsSync(endFile)) {
-            fs.rmSync(apoFolder, { recursive: true, force: true });
-          } else {
-            canStore = false;
-            cb(
-              new HttpException("queued-or-running", HttpStatus.CONFLICT),
-              null
-            );
-          }
+          fs.rmSync(apoFolder, { recursive: true, force: true });
         }
       }
 
@@ -53,14 +38,12 @@ const multerConfig = {
         fs.mkdirSync(userDir);
       }
 
-      if (canStore) {
-        const filename =
-          file.fieldname === "filePDB"
-            ? "originalMacromolecule"
-            : "originalLigand";
+      const filename =
+        file.fieldname === "filePDB"
+          ? "originalMacromolecule"
+          : "originalLigand";
 
-        cb(null, `${req.userName}/${filename}${extension}`);
-      }
+      cb(null, `${req.userName}/${filename}${extension}`);
     },
   }),
 };

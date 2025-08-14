@@ -17,7 +17,7 @@ import { SimulationService } from "./simulation.service";
         {
           path: join(__dirname, "simulation.processor.js"),
           // Concurrency controls how many sandboxed processes can run at once.
-          concurrency: 4, // Example: run up to 4 jobs concurrently
+          concurrency: 1, // Example: run up to 1 job concurrently
         },
       ],
     }),

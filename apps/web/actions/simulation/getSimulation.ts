@@ -7,14 +7,15 @@ import { validateAuth } from "../auth/validateAuth";
 
 export type RunningSimulation =
   | {
+      status: "running";
       logData: string[];
       stepData: string[];
       submissionInfo: Partial<Simulation>;
     }
-  | "not-running"
-  | "queued";
+  | { status: "not-running" }
+  | { status: "queued"; position: number };
 
-export async function getRunningSimulation() {
+export async function getSimulation(simulationId: string) {
   const { user } = await validateAuth();
 
   if (!user) {
@@ -24,6 +25,9 @@ export async function getRunningSimulation() {
   const response = await api.get<RunningSimulation>("/simulation", {
     headers: {
       "x-username": user.userName,
+    },
+    params: {
+      id: simulationId,
     },
   });
 

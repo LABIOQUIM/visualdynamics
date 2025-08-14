@@ -32,11 +32,11 @@ import { useRouter } from "next/navigation";
 
 import { getMDPFiles } from "@/actions/simulation/getMDPFiles";
 import { submitNewSimulation } from "@/actions/simulation/submitNewSimulation";
+import { RouteLinks } from "@/app/_constants/routes";
 import { Alert } from "@/components/Alerts/Alert";
 import SimulationCompletedEmail from "@/emails/simulation/Completed";
 import SimulationErroredEmail from "@/emails/simulation/Errored";
 import { useAuth } from "@/hooks/auth/useAuth";
-import { useRunningSimulation } from "@/hooks/simulation/useRunningSimulation";
 import { useSettings } from "@/hooks/utils/useSettings";
 
 import { boxTypes } from "./data/box-types";
@@ -61,7 +61,6 @@ interface FormProps {
 
 export function NewSimulationForm({ simulationType }: Props) {
   const { data: auth } = useAuth();
-  const { refetch } = useRunningSimulation();
   const forceFields = allForceFields[simulationType];
   const [isLoading, setIsLoading] = useState<boolean>();
   const { getInputProps, onSubmit, values, validate } = useForm<FormProps>({
@@ -174,7 +173,7 @@ export function NewSimulationForm({ simulationType }: Props) {
 
     const response = await submitNewSimulation(data, simulationType);
 
-    if (response === "added-to-queue") {
+    if (response.status === "added-to-queue") {
       notifications.show({
         title: "Simulation queued!",
         message: "Your simulation has been set up and should start soon.",
@@ -182,11 +181,9 @@ export function NewSimulationForm({ simulationType }: Props) {
         icon: <IconClockPause />,
         withBorder: true,
       });
-      setTimeout(() => {
-        refetch();
-        router.push("/dashboard/simulations/running");
-      }, 2000);
-    } else if (response === "unauthenticated") {
+
+      router.push(`${RouteLinks.SIMULATIONS_RUNNING}/${response.simulationId}`);
+    } else if (response.status === "unauthenticated") {
       notifications.show({
         title: "Unauthenticated!",
         message:
@@ -196,7 +193,7 @@ export function NewSimulationForm({ simulationType }: Props) {
         withBorder: true,
       });
       router.replace("/auth/login/?from=unauthenticated");
-    } else if (response === "queued-or-running") {
+    } else if (response.status === "queued-or-running") {
       notifications.show({
         title: "Simulation queued or running!",
         message: "You have a simulation in our workers already.",
@@ -204,9 +201,9 @@ export function NewSimulationForm({ simulationType }: Props) {
         icon: <IconAlertTriangle />,
         withBorder: true,
       });
-      refetch();
+      // refetch();
       router.push("/dashboard/simulations/running");
-    } else if (response === "unknown-error") {
+    } else if (response.status === "unknown-error") {
       notifications.show({
         title: "Something went wrong!",
         message: "It was not possible to set up your simulation at this time.",
@@ -231,7 +228,8 @@ export function NewSimulationForm({ simulationType }: Props) {
       const element = document.createElement("a");
       element.setAttribute(
         "href",
-        "data:text/plain;charset=utf-8," + encodeURIComponent(response.join(""))
+        "data:text/plain;charset=utf-8," +
+          encodeURIComponent(response.commands.join(""))
       );
       element.setAttribute("download", filename);
 
