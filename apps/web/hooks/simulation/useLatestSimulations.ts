@@ -4,14 +4,13 @@ import {
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import {
-  getLatestSimulations,
-  LatestSimulations,
-} from "@/actions/simulation/getLatestSimulations";
+import { getLatestSimulations } from "@/actions/simulation/getLatestSimulations";
+
+type Return = Awaited<ReturnType<typeof getLatestSimulations>>;
 
 export function useLatestSimulations(
-  options?: UseQueryOptions<ActionResponse<LatestSimulations>, unknown>
-): UseQueryResult<ActionResponse<LatestSimulations>, unknown> {
+  options?: UseQueryOptions<Return, unknown>
+): UseQueryResult<Return, unknown> {
   return useQuery({
     queryKey: ["latest-simulations"],
     queryFn: () => getLatestSimulations(),

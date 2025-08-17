@@ -1,16 +1,23 @@
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column !important;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    flex-direction: row !important;
+  }
 }
 
 .simulationsContainer {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 384px;
-  width: 384px;
-  max-width: 384px;
   gap: var(--mantine-spacing-lg);
+  
+  @media (min-width: $mantine-breakpoint-md) {
+    min-width: 384px;
+    width: 384px;
+    max-width: 384px;
+  }
 }
 
 .expandedDetailsContainer {

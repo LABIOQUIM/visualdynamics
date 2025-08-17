@@ -1,25 +1,11 @@
 "use client";
-import {
-  Badge,
-  Button,
-  Card,
-  Divider,
-  Skeleton,
-  Text,
-  Tooltip,
-} from "@mantine/core";
-import {
-  IconArrowRight,
-  IconCircleOff,
-  IconListDetails,
-} from "@tabler/icons-react";
+import { Badge, Button, Card, Divider, Skeleton, Text } from "@mantine/core";
+import { IconCircleOff, IconListDetails } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { Simulation } from "database";
-import Link from "next/link";
 import { useQueryState } from "nuqs";
 
 import { QueryParams } from "@/app/_constants/queries";
-import { RouteLinks } from "@/app/_constants/routes";
 import { dateFormat } from "@/utils/dateFormat";
 
 import classes from "./SimulationCard.module.css";
@@ -94,8 +80,6 @@ export function SimulationCard({ isLoading, simulation, type }: Props) {
     GENERATED: "dark",
   };
 
-  const isLinkDisabled = !["RUNNING", "QUEUED"].includes(simulation.status);
-
   return (
     <Card className={classes.container} withBorder>
       <div className={classes.headingContainer}>
@@ -133,21 +117,6 @@ export function SimulationCard({ isLoading, simulation, type }: Props) {
         </Text>
       </div>
       <Divider />
-      <Tooltip label="Only available when status is 'Running'" withArrow>
-        <Button
-          component={isLinkDisabled ? undefined : Link}
-          href={`${RouteLinks.SIMULATIONS_RUNNING}/${simulation.id}`}
-          disabled={isLinkDisabled}
-          leftSection={<IconArrowRight />}
-          color="cyan"
-          size="xs"
-          variant="outline"
-          justify="start"
-          fullWidth
-        >
-          View Run
-        </Button>
-      </Tooltip>
       <Button
         color="indigo"
         justify="start"

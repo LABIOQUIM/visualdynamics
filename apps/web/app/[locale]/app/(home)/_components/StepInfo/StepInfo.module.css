@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: calc(var(--mantine-spacing-xs) / 2);
-  width: 20%;
+  width: fit-content;
 }
 
 .arrow_down_icon {

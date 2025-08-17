@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useRef } from "react";
 import { Alert, Button, Card, Stack, Text, Title } from "@mantine/core";
 import {
   IconAlertTriangle,
@@ -7,16 +6,16 @@ import {
   IconInfoCircle,
   IconPlus,
 } from "@tabler/icons-react";
-import Viewer from "3dmol";
 import clsx from "clsx";
 import { useQueryState } from "nuqs";
 
 import { QueryParams } from "@/app/_constants/queries";
 import { Loader } from "@/components/Loader/Loader";
-import { useLatestSimulationMacromolecules } from "@/hooks/simulation/useLatestSimulationMacromolecules";
 import { useLatestSimulations } from "@/hooks/simulation/useLatestSimulations";
 import { useSettings } from "@/hooks/utils/useSettings";
 import { dateFormat } from "@/utils/dateFormat";
+
+import { SimulationTabs } from "./SimulationTabs/SimulationTabs";
 
 import classes from "./SimulationDetails.module.css";
 
@@ -32,48 +31,6 @@ export function SimulationDetails() {
   );
   const { data, isLoading } = useLatestSimulations();
   const { data: settings } = useSettings("visualdynamics");
-  const { data: macromolecules } = useLatestSimulationMacromolecules(expanded);
-
-  const viewerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (
-      !viewerRef.current ||
-      !expanded ||
-      !macromolecules ||
-      macromolecules === "unauthenticated"
-    ) {
-      return;
-    }
-
-    const viewer = Viewer.createViewer(viewerRef.current, {
-      backgroundColor: "#f8f9fa",
-    });
-
-    // Load the macromolecule structure
-    const macromolecule = macromolecules.macromolecule;
-    const ligandPdb = macromolecules.ligandPdb;
-
-    if (macromolecule) {
-      viewer.addModel(macromolecule, "pdb", {
-        style: { cartoon: { color: "spectrum" } },
-      });
-    }
-
-    if (ligandPdb) {
-      viewer.addModel(ligandPdb, "pdb", {
-        style: { stick: {} },
-      });
-    }
-
-    viewer.zoomTo();
-    viewer.render();
-
-    return () => {
-      viewer.removeAllModels();
-      viewer.clear();
-    };
-  }, [expanded, macromolecules]);
 
   // Error or unauthenticated states
   if (settings === "error" || settings === "unauthenticated") {
@@ -203,7 +160,7 @@ export function SimulationDetails() {
           </Text>
         </div>
       </div>
-      <div className={classes.viewerContainer} ref={viewerRef} />
+      <SimulationTabs />
     </Card>
   );
 }

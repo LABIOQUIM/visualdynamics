@@ -1,0 +1,8 @@
+.viewerContainer {
+  border-radius: var(--mantine-radius-md);
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--mantine-shadow-xs);
+  min-height: 288px;
+}

@@ -5,7 +5,7 @@ import { api } from "@/lib/apis";
 
 import { validateAuth } from "../auth/validateAuth";
 
-export type LatestSimulations = {
+export type Macromolecules = {
   macromolecule: string;
   ligandItp?: string;
   ligandPdb?: string;
@@ -18,7 +18,7 @@ export async function getLatestSimulationMacromolecules(type: SIMULATION_TYPE) {
     return "unauthenticated";
   }
 
-  const response = await api.get<LatestSimulations>(
+  const response = await api.get<Macromolecules>(
     `/simulation/macromolecule/${type}`,
     {
       headers: {

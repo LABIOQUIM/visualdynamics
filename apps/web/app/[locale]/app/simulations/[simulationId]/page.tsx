@@ -1,8 +1,8 @@
 import { Box, Title } from "@mantine/core";
 
+import { Log } from "@/app/[locale]/app/(home)/_components/Log/Log";
+import { StepInfo } from "@/app/[locale]/app/(home)/_components/StepInfo/StepInfo";
 import { PageLayout } from "@/components/Layout/PageLayout/PageLayout";
-import { Log } from "@/components/VisualDynamics/RunningSimulation/Log/Log";
-import { StepInfo } from "@/components/VisualDynamics/RunningSimulation/StepInfo/StepInfo";
 import { SubmissionInfo } from "@/components/VisualDynamics/RunningSimulation/SubmissionInfo/SubmissionInfo";
 
 import classes from "./page.module.css";

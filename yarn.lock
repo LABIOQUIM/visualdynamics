@@ -421,36 +421,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bprogress/core@npm:^1.1.18":
-  version: 1.1.18
-  resolution: "@bprogress/core@npm:1.1.18"
-  checksum: ac1249393f5989f61562de6d772e65d381933c27cee37d6951ad51a39aa07b4f7dd9acf3292b5ab832df1c590d6de3bfc5aaf8c49283e38223af1a1dfa9e0e14
+"@bprogress/core@npm:^1.3.4":
+  version: 1.3.4
+  resolution: "@bprogress/core@npm:1.3.4"
+  checksum: 2ea9e2fb1c6dbf9ca0b568122c6f5e61cec149bd287b74202d07e05279a6913c72a2877e6eadbeea722b346726f3b5209ab945f3d5fbb72816412515b5b42b7e
   languageName: node
   linkType: hard
 
-"@bprogress/next@npm:^3.1.3":
-  version: 3.1.3
-  resolution: "@bprogress/next@npm:3.1.3"
+"@bprogress/next@npm:^3.2.12":
+  version: 3.2.12
+  resolution: "@bprogress/next@npm:3.2.12"
   dependencies:
-    "@bprogress/core": "npm:^1.1.18"
-    "@bprogress/react": "npm:^1.1.4"
+    "@bprogress/core": "npm:^1.3.4"
+    "@bprogress/react": "npm:^1.2.7"
   peerDependencies:
     next: ">=13.0.0"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 9582af6b62790add8142b9ae2c0874f69d013353c6c89753446fde267bda3534c6ab27ea85a624a4f10d60a3c6c6d59f2caab70f62c260703fedcc4f9a366571
+  checksum: 9a35dc5dd2c4f97754dcd9aac68500624a10107f4b451a57527ad8712f54d657f263ecb8a0433466ac449a287042b5fc2d1c2b166cb6f700ac5862c872aa6ce2
   languageName: node
   linkType: hard
 
-"@bprogress/react@npm:^1.1.4":
-  version: 1.1.4
-  resolution: "@bprogress/react@npm:1.1.4"
+"@bprogress/react@npm:^1.2.7":
+  version: 1.2.7
+  resolution: "@bprogress/react@npm:1.2.7"
   dependencies:
-    "@bprogress/core": "npm:^1.1.18"
+    "@bprogress/core": "npm:^1.3.4"
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 52daa59552962ca4a0ab74054041345e6908660347a12de348ffdf846ec47ae75a740319fbc78952c2643427b7fa51aa446d7d458289bbebd72308a2d3600b26
+  checksum: 3ec49e7d3af221c27375a77bb4e5accfe6e400b249f5a69dd68c29df2088c530d24bd3221c6592ab3c8e46f7414b7ab5a337e10950d61fd35f00549c793e6e30
   languageName: node
   linkType: hard
 
@@ -10899,7 +10899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.4.0":
+"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -13339,14 +13339,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^19":
-  version: 19.1.1
-  resolution: "react-dom@npm:19.1.1"
+"react-dom@npm:^18":
+  version: 18.3.1
+  resolution: "react-dom@npm:18.3.1"
   dependencies:
-    scheduler: "npm:^0.26.0"
+    loose-envify: "npm:^1.1.0"
+    scheduler: "npm:^0.23.2"
   peerDependencies:
-    react: ^19.1.1
-  checksum: 9005415d2175b1f1eb4a544ad04afb29691bb7b6dd43bbdaa09932146b310b73bd4552bc772ad78fa481f409eada1560cf887606c83c1a53a922c1e30f1b3a34
+    react: ^18.3.1
+  checksum: 3f4b73a3aa083091173b29812b10394dd06f4ac06aff410b74702cfb3aa29d7b0ced208aab92d5272919b612e5cda21aeb1d54191848cf6e46e9e354f3541f81
   languageName: node
   linkType: hard
 
@@ -13410,17 +13411,6 @@ __metadata:
   version: 18.3.1
   resolution: "react-is@npm:18.3.1"
   checksum: d5f60c87d285af24b1e1e7eaeb123ec256c3c8bdea7061ab3932e3e14685708221bf234ec50b21e10dd07f008f1b966a2730a0ce4ff67905b3872ff2042aec22
-  languageName: node
-  linkType: hard
-
-"react-molviewer@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "react-molviewer@npm:1.4.1"
-  peerDependencies:
-    prop-types: ^15.8.1
-    react: ^17.0.2 || ^18.0.0
-    react-dom: ^17.0.2 || ^18.0.0
-  checksum: da8d6f5e6573e573eeeb73573fe0c06266b3a68f15b7bc2a65bdd8242e779e2ace3de2ac5915472adb5d6d489871cd0cee64cf578a7926dcf5965ebe493a7c7e
   languageName: node
   linkType: hard
 
@@ -13560,10 +13550,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^19":
-  version: 19.1.1
-  resolution: "react@npm:19.1.1"
-  checksum: 9801530fdc939e1a7a499422e930515b2400809cb39c2872984e99f832d233f61659a693871183dac3155c2f9b2c9dcf4440a56bd18983277ae92860e38c3a61
+"react@npm:^18":
+  version: 18.3.1
+  resolution: "react@npm:18.3.1"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: 261137d3f3993eaa2368a83110466fc0e558bc2c7f7ae7ca52d94f03aac945f45146bd85e5f481044db1758a1dbb57879e2fcdd33924e2dde1bdc550ce73f7bf
   languageName: node
   linkType: hard
 
@@ -14131,10 +14123,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.26.0":
-  version: 0.26.0
-  resolution: "scheduler@npm:0.26.0"
-  checksum: 1ecf2e5d7de1a7a132796834afe14a2d589ba7e437615bd8c06f3e0786a3ac3434655e67aac8755d9b14e05754c177e49c064261de2673aaa3c926bc98caa002
+"scheduler@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "scheduler@npm:0.23.2"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: e8d68b89d18d5b028223edf090092846868a765a591944760942b77ea1f69b17235f7e956696efbb62c8130ab90af7e0949bfb8eba7896335507317236966bc9
   languageName: node
   linkType: hard
 
@@ -16488,7 +16482,7 @@ __metadata:
   resolution: "web@workspace:apps/web"
   dependencies:
     3dmol: "npm:^2.5.2"
-    "@bprogress/next": "npm:^3.1.3"
+    "@bprogress/next": "npm:^3.2.12"
     "@lucia-auth/adapter-prisma": "npm:^4.0.1"
     "@mantine/charts": "npm:^7.13.5"
     "@mantine/core": "npm:^7.17.4"
@@ -16520,10 +16514,9 @@ __metadata:
     postcss: "npm:^8.5.3"
     postcss-preset-mantine: "npm:^1.17.0"
     postcss-simple-vars: "npm:^7.0.1"
-    react: "npm:^19"
-    react-dom: "npm:^19"
+    react: "npm:^18"
+    react-dom: "npm:^18"
     react-email: "npm:3.0.2"
-    react-molviewer: "npm:^1.4.1"
     react-player: "npm:^2.16.0"
     react-viewport-list: "npm:^7.1.2"
     recharts: "npm:^2"

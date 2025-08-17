@@ -1,0 +1,29 @@
+.tabsContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tabsPanelContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-top: var(--mantine-spacing-md);
+}
+
+.tabsPanelDownload {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+}
+
+.tabsPanelRun {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--mantine-spacing-md);
+  
+  @media screen and (min-width: $mantine-breakpoint-md) {
+    flex-direction: row !important;
+  }
+}

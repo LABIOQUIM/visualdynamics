@@ -1,6 +1,5 @@
 "use client";
-import { Fragment } from "react";
-import { Box, Text, Title } from "@mantine/core";
+import { Box, Code, Text, Title } from "@mantine/core";
 import {
   IconAlertTriangle,
   IconClockPause,
@@ -93,16 +92,16 @@ export function Log({ simulationId }: Props) {
   }
 
   return (
-    <Fragment>
+    <Box className={classes.container}>
       <Box className={classes.container_title}>
         <Title order={3}>Logs</Title>
         <RefetchTime simulationId={simulationId} />
       </Box>
-      <Box className={classes.container}>
+      <Code block className={classes.logContainer}>
         {data.logData.map((line, idx) => (
           <Text key={line + idx}>{line}</Text>
         ))}
-      </Box>
-    </Fragment>
+      </Code>
+    </Box>
   );
 }

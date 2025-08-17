@@ -1,35 +1,12 @@
 .container {
-  background-color: var(--mantine-color-gray-0);
-  border-radius: 0;
-  border-color: var(--mantine-primary-color-4);
-  border-width: 1px;
-  border-style: solid;
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  overflow-y: scroll;
-  position: relative;
-  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
-  width: 100%;
+  height: calc(100dvh - 99.19px - 38px - 35.09px - calc(var(--mantine-spacing-md) * 6) - var(--app-shell-header-offset) - calc(var(--app-shell-padding) * 2));
+}
 
-  /* width */
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: var(--mantine-color-gray-4);
-    border-radius: 0;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: var(--mantine-color-gray-5);
-  }
+.logContainer {
+  flex: 1;
 }
 
 .container_loading {
