@@ -182,7 +182,9 @@ export function NewSimulationForm({ simulationType }: Props) {
         withBorder: true,
       });
 
-      router.push(`${RouteLinks.SIMULATIONS_RUNNING}/${response.simulationId}`);
+      router.push(
+        `${RouteLinks.SIMULATIONS}?details=${simulationType}&tab=run`
+      );
     } else if (response.status === "unauthenticated") {
       notifications.show({
         title: "Unauthenticated!",
@@ -192,7 +194,7 @@ export function NewSimulationForm({ simulationType }: Props) {
         icon: <IconX />,
         withBorder: true,
       });
-      router.replace("/auth/login/?from=unauthenticated");
+      router.replace(`${RouteLinks.LOGIN}?from=unauthenticated`);
     } else if (response.status === "queued-or-running") {
       notifications.show({
         title: "Simulation queued or running!",
@@ -201,8 +203,10 @@ export function NewSimulationForm({ simulationType }: Props) {
         icon: <IconAlertTriangle />,
         withBorder: true,
       });
-      // refetch();
-      router.push("/dashboard/simulations/running");
+
+      router.push(
+        `${RouteLinks.SIMULATIONS}?details=${simulationType}&tab=run`
+      );
     } else if (response.status === "unknown-error") {
       notifications.show({
         title: "Something went wrong!",
