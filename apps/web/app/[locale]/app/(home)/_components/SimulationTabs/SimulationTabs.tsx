@@ -37,6 +37,16 @@ export function SimulationTabs() {
       },
     }
   );
+  const [tab, setTab] = useQueryState<SimulationDetailsActiveTab>(
+    QueryParams.SIMULATION_EXPANDED_DETAILS_ACTIVE_TAB,
+    {
+      defaultValue: "3d-viewer",
+      clearOnDefault: true,
+      parse(value) {
+        return value as SimulationDetailsActiveTab;
+      },
+    }
+  );
   const { data: macromolecules } = useLatestSimulationMacromolecules(expanded);
 
   if (!data || data === "unauthenticated") {
@@ -52,8 +62,9 @@ export function SimulationTabs() {
   return (
     <Tabs
       className={classes.tabsContainer}
+      onChange={(e) => setTab(e as SimulationDetailsActiveTab)}
       variant="pills"
-      defaultValue="3d-viewer"
+      defaultValue={tab}
     >
       <Tabs.List>
         <Tabs.Tab
