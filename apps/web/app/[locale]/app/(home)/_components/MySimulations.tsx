@@ -1,5 +1,13 @@
 "use client";
-import { Alert, Button, SimpleGrid, Stack, Text, Title } from "@mantine/core";
+import {
+  Alert,
+  Button,
+  Card,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import {
   IconAlertTriangle,
   IconInfoCircle,
@@ -68,7 +76,7 @@ export function MySimulations() {
   // No simulations found
   if (!data || Object.keys(data).length === 0) {
     return (
-      <Container className={classes.containerDownOrMaintenance}>
+      <Card className={classes.containerDownOrMaintenance} withBorder>
         <Stack align="center" gap="md">
           <IconInfoCircle size={32} />
           <Title order={3}>No simulations found</Title>
@@ -77,7 +85,7 @@ export function MySimulations() {
             New Simulation
           </Button>
         </Stack>
-      </Container>
+      </Card>
     );
   }
 
