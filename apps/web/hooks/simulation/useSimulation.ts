@@ -15,9 +15,9 @@ export function useSimulation(
   return useQuery({
     queryKey: ["simulation", simulationId],
     queryFn: () => getSimulation(simulationId),
-    staleTime: 10000, // 1 minute
+    staleTime: 10000, // 10 seconds
     refetchOnWindowFocus: true,
-    refetchInterval: 10000, // 1 minute
+    refetchInterval: 10000, // 10 seconds
     refetchIntervalInBackground: true,
     ...options,
   });

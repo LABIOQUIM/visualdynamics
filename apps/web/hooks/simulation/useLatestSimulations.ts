@@ -14,6 +14,10 @@ export function useLatestSimulations(
   return useQuery({
     queryKey: ["latest-simulations"],
     queryFn: () => getLatestSimulations(),
+    staleTime: 10000, // 10 seconds
+    refetchOnWindowFocus: true,
+    refetchInterval: 10000, // 10 seconds
+    refetchIntervalInBackground: true,
     ...options,
   });
 }
