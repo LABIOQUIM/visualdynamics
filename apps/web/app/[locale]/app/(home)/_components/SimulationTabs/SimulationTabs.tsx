@@ -28,12 +28,12 @@ const ThreeDViewer = dynamic(
 
 export function SimulationTabs() {
   const { data } = useLatestSimulations();
-  const [expanded] = useQueryState<"apo" | "acpype" | null>(
+  const [expanded] = useQueryState<SimulationDetails>(
     QueryParams.SIMULATION_EXPANDED_DETAILS,
     {
       defaultValue: null,
       parse(value) {
-        return value as "apo" | "acpype" | null;
+        return value as SimulationDetails;
       },
     }
   );
@@ -41,7 +41,7 @@ export function SimulationTabs() {
     QueryParams.SIMULATION_EXPANDED_DETAILS_ACTIVE_TAB,
     {
       defaultValue: "3d-viewer",
-      clearOnDefault: true,
+      clearOnDefault: false,
       parse(value) {
         return value as SimulationDetailsActiveTab;
       },
@@ -64,7 +64,7 @@ export function SimulationTabs() {
       className={classes.tabsContainer}
       onChange={(e) => setTab(e as SimulationDetailsActiveTab)}
       variant="pills"
-      defaultValue={tab}
+      value={tab}
     >
       <Tabs.List>
         <Tabs.Tab

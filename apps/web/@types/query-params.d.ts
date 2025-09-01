@@ -4,3 +4,5 @@ type SimulationDetailsActiveTab =
   | "errored"
   | "run"
   | null;
+
+type SimulationDetails = "acpype" | "apo" | null;

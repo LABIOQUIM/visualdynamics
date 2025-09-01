@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react";
 import { Badge, Button, Card, Divider, Skeleton, Text } from "@mantine/core";
 import { IconCircleOff, IconListDetails } from "@tabler/icons-react";
 import { clsx } from "clsx";
@@ -20,6 +21,17 @@ export function SimulationCard({ isLoading, simulation, type }: Props) {
   const [expanded, setExpanded] = useQueryState(
     QueryParams.SIMULATION_EXPANDED_DETAILS
   );
+  const [, setTab] = useQueryState(
+    QueryParams.SIMULATION_EXPANDED_DETAILS_ACTIVE_TAB
+  );
+
+  useEffect(() => {
+    if (expanded) {
+      setTab("3d-viewer");
+    } else {
+      setTab(null);
+    }
+  }, [expanded, setTab]);
 
   const title = {
     apo: "Free Protein",
