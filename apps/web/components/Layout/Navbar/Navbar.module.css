@@ -33,14 +33,14 @@
 }
 
 .mainLink {
-  display: flex;
   align-items: center;
-  width: 100%;
-  font-size: var(--mantine-font-size-md);
-  padding: rem(8px) var(--mantine-spacing-xs);
-  border-radius: var(--mantine-radius-sm);
-  font-weight: 500;
+  border-radius: var(--mantine-radius-md);
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  display: flex;
+  font-size: var(--mantine-font-size-md);
+  font-weight: 500;
+  padding: rem(8px) var(--mantine-spacing-xs);
+  width: 100%;
 
   &:hover {
     background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
