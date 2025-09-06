@@ -13,6 +13,7 @@ import {
 } from "mantine-react-table";
 import Link from "next/link";
 
+import { RouteLinks } from "@/app/_constants/routes";
 import { useUsers } from "@/hooks/administration/useUsers";
 import { dateFormat } from "@/utils/dateFormat";
 
@@ -50,7 +51,7 @@ export function AdministrationUserList() {
               <BanUser user={props.row.original} refetch={refetch} />
               <Tooltip label="Check User Files" withArrow>
                 <Link
-                  href={`/dashboard/administration/users/${props.row.original.userName}`}
+                  href={`${RouteLinks.ADMIN_USERS}/${props.row.original.userName}`}
                 >
                   <ActionIcon color="cyan" variant="light" size="lg">
                     <IconFolder />

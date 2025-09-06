@@ -7,6 +7,8 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 
+import { RouteLinks } from "@/app/_constants/routes";
+
 import { AdministrationNavSection } from "./NavSection";
 
 import classes from "./Nav.module.css";
@@ -16,22 +18,22 @@ const nav: NavSection[] = [
     title: "Visual Dynamics",
     links: [
       {
-        href: "/dashboard/administration/users",
+        href: RouteLinks.ADMIN_USERS,
         icon: IconUsers,
         label: "Registered Users",
       },
       {
-        href: "/dashboard/administration/visualdynamics/status",
+        href: RouteLinks.ADMIN_STATUS,
         icon: IconReportAnalytics,
         label: "Server and Queue Status",
       },
       {
-        href: "/dashboard/administration/visualdynamics/manage",
+        href: RouteLinks.ADMIN_SIMULATIONS,
         icon: IconLayoutList,
         label: "Manage Simulations",
       },
       {
-        href: "/dashboard/administration/visualdynamics/settings",
+        href: RouteLinks.ADMIN_SETTINGS,
         icon: IconSettings2,
         label: "Settings",
       },

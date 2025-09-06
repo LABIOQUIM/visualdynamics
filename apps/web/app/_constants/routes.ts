@@ -13,6 +13,10 @@ export const RouteLinks = {
   SIMULATIONS_RUNNING: "/app/simulations",
 
   ADMIN_DASHBOARD: "/app/admin",
+  ADMIN_USERS: "/app/admin/users",
+  ADMIN_SIMULATIONS: "/app/admin/simulations",
+  ADMIN_STATUS: "/app/admin/status",
+  ADMIN_SETTINGS: "/app/admin/settings",
 
   PLASMO_QSAR: "https://www.qsar.labioquim.fiocruz.br/",
   PLASMO_IA: "https://www.plasmoia.labioquim.fiocruz.br/",
