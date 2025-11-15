@@ -35,7 +35,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json .yarnrc.yml yarn.lock ./
-COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
+COPY .yarn/releases/yarn-4.11.0.cjs ./.yarn/releases/
 COPY apps/api/package.json apps/api/.yarnrc.yml ./apps/api/
 COPY packages ./packages
 RUN yarn install
