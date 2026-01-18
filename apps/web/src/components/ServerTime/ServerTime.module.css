@@ -1,0 +1,6 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: var(--mantine-spacing-xs);
+}

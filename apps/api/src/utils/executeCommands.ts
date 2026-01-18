@@ -5,7 +5,7 @@ import { runCommand } from "./runCommand";
 export async function executeCommands(
   commands: string[],
   fileStepPath: string,
-  fileLogPath: string
+  fileLogPath: string,
 ) {
   for (const command of commands) {
     if (command.startsWith("#")) {

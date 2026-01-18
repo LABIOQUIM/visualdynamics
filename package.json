@@ -3,32 +3,38 @@
   "packageManager": "yarn@4.11.0",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "scripts": {
     "prepare": "husky install",
     "commitlint": "commitlint --edit"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
-    "@ivopr/eslint-config": "^1.2.0",
-    "@release-it/bumper": "^6.0.1",
-    "@release-it/conventional-changelog": "^8.0.1",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "9.39.1",
     "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^11.1.0",
+    "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^9.2.6",
-    "@semantic-release/release-notes-generator": "^12.1.0",
-    "conventional-changelog-conventionalcommits": "^7.0.2",
-    "eslint": "^8.53.0",
-    "husky": "^8.0.3",
-    "semantic-release": "^24.2.0",
-    "semantic-release-replace-plugin": "^1.2.7"
+    "@semantic-release/github": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "@stylistic/eslint-plugin": "5.5.0",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
+    "eslint": "9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.0.1",
+    "eslint-plugin-react-refresh": "0.4.24",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "globals": "16.5.0",
+    "prettier": "^3.6.2",
+    "semantic-release": "^25.0.2",
+    "semantic-release-replace-plugin": "^1.2.7",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "8.46.4"
   },
   "version": "4.3.0-next.8",
   "dependencies": {
-    "argon2": "^0.40.1"
+    "argon2": "^0.44.0"
   }
 }

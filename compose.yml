@@ -3,7 +3,7 @@ services:
     image: visualdynamics/api:dev
     build:
       context: .
-      dockerfile: apps/api/Dockerfile.dev
+      dockerfile: apps/api/dev.Dockerfile
     restart: always
     command: ["yarn", "workspace", "api", "start:dev"]
     env_file: .env
@@ -16,7 +16,7 @@ services:
       - ./:/app
       - files:/files
       - /app/node_modules
-    runtime: nvidia
+    # runtime: nvidia
     # deploy:
     #   resources:
     #     reservations:
@@ -28,34 +28,17 @@ services:
   web:
     build:
       context: .
-      dockerfile: apps/web/Dockerfile.dev
+      dockerfile: apps/web/dev.Dockerfile
     restart: always
     image: visualdynamics/web:dev
-    command: ["yarn", "workspace", "web", "dev"]
+    command: ["yarn", "workspace", "web", "dev", "--host"]
     ports:
-      - "3000:3000"
+      - "3000:5173"
     depends_on:
       - mailer
     volumes:
       - ./:/app
       - /app/node_modules
-      - /app/apps/web/.next
-
-  email:
-    build:
-      context: .
-      dockerfile: apps/web/Dockerfile.dev
-    restart: always
-    image: visualdynamics/email:dev
-    command: ["yarn", "workspace", "web", "email"]
-    ports:
-      - "3003:3000"
-    depends_on:
-      - mailer
-    volumes:
-      - ./:/app
-      - /app/node_modules
-      - /app/apps/web/.next
 
   mailer:
     image: murilofuza/simple-mail:0.0.9
@@ -63,7 +46,7 @@ services:
     env_file: .env
     ports:
       - "3002:3000"
-    depends_on: 
+    depends_on:
       - redis
 
   redis:

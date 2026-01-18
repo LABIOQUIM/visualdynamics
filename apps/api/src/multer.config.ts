@@ -10,7 +10,7 @@ const multerConfig = {
     destination: "/files",
     filename: (req, file, cb) => {
       const extension = path.parse(file.originalname).ext;
-      const userDir = `/files/${req.userName}`;
+      const userDir = `/files/${req.session.user.userName}`;
       const runningFile = `${userDir}/running`;
       let runningFileContent = "";
 
@@ -43,7 +43,7 @@ const multerConfig = {
           ? "originalMacromolecule"
           : "originalLigand";
 
-      cb(null, `${req.userName}/${filename}${extension}`);
+      cb(null, `${req.session.user.userName}/${filename}${extension}`);
     },
   }),
 };

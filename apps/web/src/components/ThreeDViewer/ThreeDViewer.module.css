@@ -1,0 +1,17 @@
+.viewerContainer {
+  border-radius: var(--mantine-radius-md);
+  display: flex;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--mantine-shadow-xs);
+  min-height: 288px;
+}
+
+.emptyContainer {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+}

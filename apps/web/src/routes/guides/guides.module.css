@@ -1,0 +1,13 @@
+.videosContainer {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--mantine-spacing-xs);
+  padding-left: var(--mantine-spacing-md);
+  padding-right: var(--mantine-spacing-md);
+  max-width: calc(var(--mantine-breakpoint-xl) * 1.25);
+  margin: var(--mantine-spacing-md) auto 0 auto;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

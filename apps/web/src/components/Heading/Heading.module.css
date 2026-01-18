@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+
+  &[data-centered="true"] {
+    justify-content: center;
+  }
+}
+
+.icon {
+  width: 70%;
+  height: 70%;
+  stroke: 1.5;
+}
+
+.rightElementContainer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}

@@ -5,11 +5,16 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from "@nestjs/common";
+import { PrismaPg } from "@prisma/adapter-pg";
 import axios from "axios";
 import { Queue, QueueEvents } from "bullmq";
-import { prisma } from "database";
 import { existsSync, rmSync, writeFileSync } from "node:fs";
 import * as path from "node:path";
+
+import { PrismaClient } from "../generated/prisma/client";
+
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 @Injectable()
 export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
@@ -18,7 +23,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
 
   // Inject the queue to get connection options and fetch job data.
   constructor(
-    @InjectQueue("simulation") private readonly simulationQueue: Queue
+    @InjectQueue("simulation") private readonly simulationQueue: Queue,
   ) {}
 
   // onModuleInit is the NestJS hook to start the listener when the app starts.
@@ -33,11 +38,11 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     this.queueEvents.on("active", ({ jobId }) => this.onActive(jobId));
     this.queueEvents.on("completed", ({ jobId }) => this.onCompleted(jobId));
     this.queueEvents.on("failed", ({ jobId, failedReason }) =>
-      this.onFailed(jobId, failedReason)
+      this.onFailed(jobId, failedReason),
     );
 
     this.logger.log(
-      'QueueEvents listener initialized for the "simulation" queue.'
+      'QueueEvents listener initialized for the "simulation" queue.',
     );
   }
 
@@ -63,7 +68,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       this.logger.error(
         `Failed during pre-step setup for job ${job.id}`,
-        error.stack
+        error.stack,
       );
       await job.moveToFailed(error, job.token);
     }
@@ -107,6 +112,8 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     this.logger.error(`Job ${jobId} failed. Reason: ${failedReason}`);
     const job = await this.simulationQueue.getJob(jobId);
     if (!job) return;
+
+    console.log(failedReason);
 
     await prisma.simulation.update({
       where: {

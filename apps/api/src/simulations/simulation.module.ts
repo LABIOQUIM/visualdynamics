@@ -3,7 +3,8 @@ import { BullBoardModule } from "@bull-board/nestjs";
 import { BullModule } from "@nestjs/bullmq";
 import { Module } from "@nestjs/common";
 import { join } from "path";
-import { PrismaService } from "src/prisma/prisma.service";
+
+import { PrismaService } from "../prisma.service";
 
 import { SimulationController } from "./simulation.controller";
 import { SimulationEventsListener } from "./simulation.events-listener";

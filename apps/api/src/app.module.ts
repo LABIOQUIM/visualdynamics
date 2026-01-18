@@ -5,9 +5,9 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "@thallesp/nestjs-better-auth";
 
+import { auth } from "./lib/auth";
 import { SimulationModule } from "./simulations/simulation.module";
 import { SystemInfoModule } from "./systeminfo/systeminfo.module";
-import { auth } from "./auth";
 
 @Module({
   imports: [
@@ -24,7 +24,7 @@ import { auth } from "./auth";
     }),
     BullBoardModule.forRoot({
       route: "/queues",
-      adapter: ExpressAdapter, // Or FastifyAdapter from `@bull-board/fastify`
+      adapter: ExpressAdapter,
     }),
     SimulationModule,
     SystemInfoModule,

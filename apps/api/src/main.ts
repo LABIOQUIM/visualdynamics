@@ -7,6 +7,12 @@ import { AppModule } from "./app.module";
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     bodyParser: false,
+    cors: {
+      credentials: true,
+      origin: "http://localhost:3000",
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+      allowedHeaders: "Content-Type, Authorization, Accept",
+    },
   });
   app.setGlobalPrefix("v1");
 
@@ -23,5 +29,5 @@ async function bootstrap(): Promise<void> {
 }
 
 bootstrap().then(() =>
-  new Logger("NestApplication").log("API is running on http://localhost:3000")
+  new Logger("NestApplication").log("API is running on http://localhost:3000"),
 );

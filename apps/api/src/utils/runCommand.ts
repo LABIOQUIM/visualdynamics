@@ -9,7 +9,7 @@ interface ProcessResult {
 
 export function runCommand(
   command: string,
-  logFile: string
+  logFile: string,
 ): Promise<ProcessResult> {
   const args = command.split(/\s+/); // Split command into arguments
   const shouldUseShell = command.includes(">");

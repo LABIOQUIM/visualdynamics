@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  gap: var(--mantine-spacing-xs);
+}
+
+.square {
+  width: 20;
+  height: 20;
+  opacity: 1;
+  border-radius: 0;
+  display: "inline-block";
+  background: var(--mantine-primary-color-4);
+}

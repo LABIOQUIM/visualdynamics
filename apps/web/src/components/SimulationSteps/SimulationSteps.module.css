@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--mantine-spacing-xs) / 2);
+  height: calc(100dvh - 99.19px - 38px - 35.09px - calc(var(--mantine-spacing-md) * 6) - var(--app-shell-header-offset) - calc(var(--app-shell-padding) * 2));
+  width: fit-content;
+}
+
+.arrow_down_icon {
+  color: var(--mantine-color-gray-6);
+}

@@ -1,4 +1,4 @@
-import { SIMULATION_TYPE, User } from "database";
+import { SIMULATION_TYPE, User } from "../generated/prisma/client";
 
 export interface NewSimulationBody {
   forceField: string;

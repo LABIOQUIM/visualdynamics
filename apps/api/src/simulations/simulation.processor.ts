@@ -1,16 +1,20 @@
 // This file runs in a completely separate process.
 // It cannot use NestJS dependency injection.
 
+import { PrismaPg } from "@prisma/adapter-pg";
 import { Job } from "bullmq";
-import { prisma } from "database"; // Make sure Prisma can be initialized independently.
 import { writeFileSync } from "fs";
 import * as path from "path";
 import { chdir } from "process";
 
+import { PrismaClient } from "../generated/prisma/client";
 import { executeCommands } from "../utils/executeCommands"; // Adjust path if needed
 import { loadCommands } from "../utils/loadCommands"; // Adjust path if needed
 
 import { SimulateData } from "./simulation.types";
+
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 // The default export is an async function that BullMQ will execute.
 export default async function (job: Job<SimulateData>): Promise<string> {
@@ -42,11 +46,11 @@ export default async function (job: Job<SimulateData>): Promise<string> {
   } catch (e) {
     console.error(
       `[Sandboxed Process ${process.pid}] Job ${job.id} failed:`,
-      e
+      e,
     );
     // Throwing an error marks the job as failed and triggers the 'failed' event listener.
     throw new Error(
-      e?.message || `Job ${job.data.simulationId} failed to run command!`
+      e?.message || `Job ${job.data.simulationId} failed to run command!`,
     );
   } finally {
     // IMPORTANT: Disconnect Prisma to allow the sandboxed process to exit cleanly.

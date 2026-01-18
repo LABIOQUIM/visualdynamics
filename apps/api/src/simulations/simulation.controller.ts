@@ -18,11 +18,14 @@ import {
   FileFieldsInterceptor,
   FileInterceptor,
 } from "@nestjs/platform-express";
-import { SIMULATION_TYPE } from "database";
+import { Session } from "@thallesp/nestjs-better-auth";
 import { Express, Request } from "express";
 import { writeFile } from "fs";
 import multerConfig from "src/multer.config";
 import { UsernameGuard } from "src/username.guard";
+
+import { SIMULATION_TYPE } from "../generated/prisma/client";
+import { auth } from "../lib/auth";
 
 import { SimulationService } from "./simulation.service";
 import type { NewSimulationBody } from "./simulation.types";
@@ -31,7 +34,6 @@ import type { NewSimulationBody } from "./simulation.types";
 export class SimulationController {
   constructor(private simulationService: SimulationService) {}
 
-  @UseGuards(UsernameGuard)
   @Post("/acpype")
   @UseInterceptors(
     FileFieldsInterceptor(
@@ -49,8 +51,8 @@ export class SimulationController {
           maxCount: 1,
         },
       ],
-      multerConfig
-    )
+      multerConfig,
+    ),
   )
   async newACPYPESimulation(
     @UploadedFiles()
@@ -60,7 +62,7 @@ export class SimulationController {
       fileLigandPDB: Express.Multer.File[];
     },
     @Body() body: NewSimulationBody,
-    @Req() request: Request
+    @Req() request: Request,
   ) {
     const { fileLigandITP, fileLigandPDB, filePDB } = files;
     const { simulationId, commands } =
@@ -71,39 +73,42 @@ export class SimulationController {
         fileLigandITP[0].originalname,
         fileLigandPDB[0].filename,
         fileLigandPDB[0].originalname,
-        body
+        body,
       );
 
     if (body.shouldRun && body.shouldRun === "true") {
       await this.simulationService.addSimulationToQueue(
         simulationId,
-        request.userName,
+        request.session.user.userName,
         "acpype",
         body.successEmail,
-        body.errorEmail
+        body.errorEmail,
       );
 
       return { status: "added-to-queue", simulationId };
     }
-    writeFile(`/files/${request.userName}/acpype/ended`, "ended", (err) => {
-      if (err) console.log(err);
-    });
+    writeFile(
+      `/files/${request.session.user.userName}/acpype/ended`,
+      "ended",
+      (err) => {
+        if (err) console.log(err);
+      },
+    );
 
     return { status: "generated", commands };
   }
 
-  @UseGuards(UsernameGuard)
   @Post("/apo")
   @UseInterceptors(FileInterceptor("filePDB", multerConfig))
   async newAPOSimulation(
     @UploadedFile() filePDB: Express.Multer.File,
     @Body() body: NewSimulationBody,
-    @Req() request: Request
+    @Req() request: Request,
   ) {
     if (!filePDB) {
       throw new HttpException(
         { status: "no-pdb-file" },
-        HttpStatus.BAD_REQUEST
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -111,43 +116,45 @@ export class SimulationController {
       await this.simulationService.newAPOSimulation(
         filePDB.filename,
         filePDB.originalname,
-        body
+        body,
       );
 
     if (body.shouldRun && body.shouldRun === "true") {
       await this.simulationService.addSimulationToQueue(
         simulationId,
-        request.userName,
+        request.session.user.userName,
         "apo",
         body.successEmail,
-        body.errorEmail
+        body.errorEmail,
       );
 
       return { status: "added-to-queue", simulationId };
     }
 
-    writeFile(`/files/${request.userName}/apo/ended`, "ended", (err) => {
-      if (err) console.log(err);
-    });
+    writeFile(
+      `/files/${request.session.user.userName}/apo/ended`,
+      "ended",
+      (err) => {
+        if (err) console.log(err);
+      },
+    );
 
     return { status: "generated", commands };
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/")
   async getSimulationInfo(
-    @Req() request: Request,
-    @Query("id") simulationId: string
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("id") simulationId: string,
   ) {
     const data = await this.simulationService.getUserRunningSimulationData(
-      request.userName,
-      simulationId
+      session.user.userName,
+      simulationId,
     );
 
     return data;
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/downloads/mdp")
   async getMDPFiles() {
     const file = await this.simulationService.getMDPFiles();
@@ -155,17 +162,15 @@ export class SimulationController {
     return new StreamableFile(file);
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/files")
-  async getLastSimulationFiles(@Req() request: Request) {
+  async getLastSimulationFiles(@Session() session: typeof auth.$Infer.Session) {
     const data = await this.simulationService.getUserLastSimulationFiles(
-      request.userName
+      session.user.userName,
     );
 
     return data;
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/download/file")
   async getUserFile(@Req() request: Request, @Query("path") path: string) {
     const file = await this.simulationService.getUserFile(path);
@@ -177,15 +182,14 @@ export class SimulationController {
     return new StreamableFile(file);
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/downloads/figures")
   async getLastSimulationFigures(
-    @Req() request: Request,
-    @Query("type") type: SIMULATION_TYPE
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationFigures(
-      request.userName,
-      type
+      session.user.userName,
+      type,
     );
 
     if (file === "no-figures") {
@@ -195,15 +199,14 @@ export class SimulationController {
     return new StreamableFile(file);
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/downloads/commands")
   async getLastSimulationCommands(
-    @Req() request: Request,
-    @Query("type") type: SIMULATION_TYPE
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationCommands(
-      request.userName,
-      type
+      session.user.userName,
+      type,
     );
 
     if (file === "no-commands") {
@@ -213,15 +216,14 @@ export class SimulationController {
     return new StreamableFile(file);
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/downloads/logs")
   async getLastSimulationGromacsLogs(
-    @Req() request: Request,
-    @Query("type") type: SIMULATION_TYPE
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationGromacsLogs(
-      request.userName,
-      type
+      session.user.userName,
+      type,
     );
 
     if (file === "no-logs") {
@@ -231,15 +233,14 @@ export class SimulationController {
     return new StreamableFile(file);
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/downloads/results")
   async getLastSimulationResults(
-    @Req() request: Request,
-    @Query("type") type: SIMULATION_TYPE
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationResults(
-      request.userName,
-      type
+      session.user.userName,
+      type,
     );
 
     if (file === "no-results") {
@@ -249,24 +250,22 @@ export class SimulationController {
     return new StreamableFile(file);
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/latest")
-  async getLatestSimulations(@Req() request: Request) {
+  async getLatestSimulations(@Session() session: typeof auth.$Infer.Session) {
     const data = this.simulationService.getUserLastSimulations(
-      request.userName
+      session.user.email,
     );
     return data;
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/macromolecule/:type")
   async getLatestMacromoleculeFiles(
-    @Req() request: Request,
-    @Param("type") type: SIMULATION_TYPE
+    @Session() session: typeof auth.$Infer.Session,
+    @Param("type") type: SIMULATION_TYPE,
   ) {
     const data = this.simulationService.getLastMacromoleculeFiles(
-      request.userName,
-      type
+      session.user.userName,
+      type,
     );
 
     return data;

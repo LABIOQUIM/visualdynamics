@@ -2,7 +2,6 @@ import { InjectQueue } from "@nestjs/bullmq";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Queue } from "bullmq";
 import * as ChildProcess from "child_process";
-import { Simulation, SIMULATION_TYPE } from "database";
 import * as dirTree from "directory-tree";
 import {
   cpSync,
@@ -16,8 +15,10 @@ import {
 } from "fs";
 import { join } from "path";
 import { cwd } from "process";
-import { PrismaService } from "src/prisma/prisma.service";
 import { normalizeString } from "src/utils/normalizeString";
+
+import { Simulation, SIMULATION_TYPE } from "../generated/prisma/client";
+import { PrismaService } from "../prisma.service";
 
 import type { NewSimulationBody } from "./simulation.types";
 
@@ -25,14 +26,14 @@ import type { NewSimulationBody } from "./simulation.types";
 export class SimulationService {
   constructor(
     @InjectQueue("simulation") private simulationQueue: Queue,
-    private prisma: PrismaService
+    private prisma: PrismaService,
   ) {}
 
   async prepareSimulationEnvironment(
     simulationType: SIMULATION_TYPE,
     fileName: string,
     fileNameLigandITP?: string,
-    fileNameLigandPDB?: string
+    fileNameLigandPDB?: string,
   ) {
     const [userName, fullFileName] = fileName.split("/");
 
@@ -45,7 +46,7 @@ export class SimulationService {
     // Move main molecule to *run* folder
     renameSync(
       `/files/${userName}/${fullFileName}`,
-      `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileName}`
+      `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileName}`,
     );
 
     // Move ligand ITP to *run* folder
@@ -53,7 +54,7 @@ export class SimulationService {
       const [, fullFileNameLigandITP] = fileNameLigandITP.split("/");
       renameSync(
         `/files/${userName}/${fullFileNameLigandITP}`,
-        `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileNameLigandITP}`
+        `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileNameLigandITP}`,
       );
     }
 
@@ -62,7 +63,7 @@ export class SimulationService {
       const [, fullFileNameLigandPDB] = fileNameLigandPDB.split("/");
       renameSync(
         `/files/${userName}/${fullFileNameLigandPDB}`,
-        `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileNameLigandPDB}`
+        `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileNameLigandPDB}`,
       );
     }
 
@@ -70,7 +71,7 @@ export class SimulationService {
     cpSync(
       `${cwd()}/static/mdp`,
       `/files/${userName}/${simulationType.toLowerCase()}/run`,
-      { recursive: true }
+      { recursive: true },
     );
   }
 
@@ -79,7 +80,7 @@ export class SimulationService {
     userName: string,
     type: SIMULATION_TYPE,
     successEmail: string,
-    errorEmail: string
+    errorEmail: string,
   ) {
     const user = await this.prisma.user.findFirst({
       where: {
@@ -112,7 +113,7 @@ export class SimulationService {
     fileNameLigandITPOriginal: string,
     fileNameLigandPDB: string,
     fileNameLigandPDBOriginal: string,
-    body: NewSimulationBody
+    body: NewSimulationBody,
   ) {
     const [userName, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
@@ -205,7 +206,7 @@ export class SimulationService {
 
     mkdirSync(`/files/${userName}/acpype`, { recursive: true });
     const writeStream = createWriteStream(
-      `/files/${userName}/acpype/commands.txt`
+      `/files/${userName}/acpype/commands.txt`,
     );
     commands.forEach((value) => writeStream.write(`${value}\n`));
     writeStream.end();
@@ -214,7 +215,7 @@ export class SimulationService {
       "acpype",
       fileName,
       fileNameLigandITP,
-      fileNameLigandPDB
+      fileNameLigandPDB,
     );
 
     return { simulationId: id, commands };
@@ -223,7 +224,7 @@ export class SimulationService {
   async newAPOSimulation(
     fileName: string,
     fileNameOriginal: string,
-    body: NewSimulationBody
+    body: NewSimulationBody,
   ) {
     const [userName, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
@@ -248,7 +249,7 @@ export class SimulationService {
     } catch {
       throw new HttpException(
         "failed-database-conn",
-        HttpStatus.INTERNAL_SERVER_ERROR
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
 
@@ -303,7 +304,7 @@ export class SimulationService {
 
     mkdirSync(`/files/${userName}/apo`, { recursive: true });
     const writeStream = createWriteStream(
-      `/files/${userName}/apo/commands.txt`
+      `/files/${userName}/apo/commands.txt`,
     );
     commands.forEach((value) => writeStream.write(`${value}\n`));
     writeStream.end();
@@ -322,7 +323,7 @@ export class SimulationService {
       const waitingJobs = await this.simulationQueue.getJobs(["waiting"]);
 
       const jobIndex = waitingJobs.findIndex(
-        (job) => job.data.simulationId === simulationId
+        (job) => job.data.simulationId === simulationId,
       );
 
       return {
@@ -383,14 +384,14 @@ export class SimulationService {
     };
   }
 
-  async getUserLastSimulations(userName: string) {
+  async getUserLastSimulations(email: string) {
     let simulations: { [key: string]: Omit<Simulation, "updatedAt"> } = {};
 
     for (const type of ["acpype", "apo"] satisfies SIMULATION_TYPE[]) {
       const data = await this.prisma.simulation.findFirst({
         where: {
           user: {
-            userName,
+            email,
           },
           type,
         },
@@ -441,7 +442,7 @@ export class SimulationService {
       cwd: runFolderPath,
     });
 
-    ChildProcess.execSync(`zip -r figures.zip *`, {
+    ChildProcess.execSync("zip -r figures.zip *", {
       cwd: figuresFolderPath,
     });
 
@@ -451,7 +452,7 @@ export class SimulationService {
   async getMDPFiles() {
     const runFolderPath = `${cwd()}/static/mdp`;
 
-    ChildProcess.execSync(`zip -r mdpfiles.zip *`, {
+    ChildProcess.execSync("zip -r mdpfiles.zip *", {
       cwd: runFolderPath,
     });
 
@@ -471,7 +472,7 @@ export class SimulationService {
 
   async getUserLastSimulationGromacsLogs(
     userName: string,
-    type: SIMULATION_TYPE
+    type: SIMULATION_TYPE,
   ) {
     const userFolderPath = `/files/${userName}`;
     const logFilePath = `${userFolderPath}/${type}/run/logs/gmx.log`;
@@ -492,10 +493,10 @@ export class SimulationService {
     }
 
     ChildProcess.execSync(
-      `zip -r results.zip *_PBC.xtc *_pr.tpr *_npt.gro *_PBC.gro *_pr.edr`,
+      "zip -r results.zip *_PBC.xtc *_pr.tpr *_npt.gro *_PBC.gro *_pr.edr",
       {
         cwd: runFolderPath,
-      }
+      },
     );
 
     return readFileSync(join(runFolderPath, "results.zip"));
