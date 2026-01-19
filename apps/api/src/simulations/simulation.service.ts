@@ -1,5 +1,5 @@
 import { InjectQueue } from "@nestjs/bullmq";
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Queue } from "bullmq";
 import * as ChildProcess from "child_process";
 import * as dirTree from "directory-tree";
@@ -31,7 +31,7 @@ export class SimulationService {
   ) {}
 
   async prepareSimulationEnvironment(
-    simulationType: SIMULATION_TYPE,
+    id: string,
     fileName: string,
     fileNameLigandITP?: string,
     fileNameLigandPDB?: string,
@@ -39,15 +39,15 @@ export class SimulationService {
     const [userName, fullFileName] = fileName.split("/");
 
     // Make *run* and *figures* directories
-    mkdirSync(`/files/${userName}/${simulationType.toLowerCase()}/run/logs`, {
+    mkdirSync(`/files/${userName}/${id}/run/logs`, {
       recursive: true,
     });
-    mkdirSync(`/files/${userName}/${simulationType.toLowerCase()}/figures`);
+    mkdirSync(`/files/${userName}/${id}/figures`);
 
     // Move main molecule to *run* folder
     renameSync(
       `/files/${userName}/${fullFileName}`,
-      `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileName}`,
+      `/files/${userName}/${id}/run/${fullFileName}`,
     );
 
     // Move ligand ITP to *run* folder
@@ -55,7 +55,7 @@ export class SimulationService {
       const [, fullFileNameLigandITP] = fileNameLigandITP.split("/");
       renameSync(
         `/files/${userName}/${fullFileNameLigandITP}`,
-        `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileNameLigandITP}`,
+        `/files/${userName}/${id}/run/${fullFileNameLigandITP}`,
       );
     }
 
@@ -64,16 +64,14 @@ export class SimulationService {
       const [, fullFileNameLigandPDB] = fileNameLigandPDB.split("/");
       renameSync(
         `/files/${userName}/${fullFileNameLigandPDB}`,
-        `/files/${userName}/${simulationType.toLowerCase()}/run/${fullFileNameLigandPDB}`,
+        `/files/${userName}/${id}/run/${fullFileNameLigandPDB}`,
       );
     }
 
     // Copy all MDP files needed to run a simulation into folder
-    cpSync(
-      `${cwd()}/static/mdp`,
-      `/files/${userName}/${simulationType.toLowerCase()}/run`,
-      { recursive: true },
-    );
+    cpSync(`${cwd()}/static/mdp`, `/files/${userName}/${id}/run`, {
+      recursive: true,
+    });
   }
 
   async addSimulationToQueue(
@@ -205,9 +203,9 @@ export class SimulationService {
       `grace -nxy ${pdbName}_complx_sas_residue.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_sas_residue.png\n`,
     ];
 
-    mkdirSync(`/files/${username}/acpype`, { recursive: true });
+    mkdirSync(`/files/${username}/${id}`, { recursive: true });
     const writeStream = createWriteStream(
-      `/files/${username}/acpype/commands.txt`,
+      `/files/${username}/${id}/commands.txt`,
     );
     commands.forEach((value) => writeStream.write(`${value}\n`));
     writeStream.end();
@@ -230,29 +228,19 @@ export class SimulationService {
     const [username, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
     const pdbName = normalizeString(origPDBName);
-    let id;
 
-    try {
-      const simulation = await this.prisma.simulation.create({
-        data: {
-          moleculeName: pdbName,
-          status: "GENERATED",
-          type: "apo",
-          user: {
-            connect: {
-              username,
-            },
+    const { id } = await this.prisma.simulation.create({
+      data: {
+        moleculeName: pdbName,
+        status: "GENERATED",
+        type: "apo",
+        user: {
+          connect: {
+            username,
           },
         },
-      });
-
-      id = simulation.id;
-    } catch {
-      throw new HttpException(
-        "failed-database-conn",
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+      },
+    });
 
     const commands = [
       "#topology\n",
@@ -303,14 +291,14 @@ export class SimulationService {
       `grace -nxy ${pdbName}_sas_residue.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_sas_residue.png\n`,
     ];
 
-    mkdirSync(`/files/${username}/apo`, { recursive: true });
+    mkdirSync(`/files/${username}/${id}`, { recursive: true });
     const writeStream = createWriteStream(
-      `/files/${username}/apo/commands.txt`,
+      `/files/${username}/${id}/commands.txt`,
     );
     commands.forEach((value) => writeStream.write(`${value}\n`));
     writeStream.end();
 
-    this.prepareSimulationEnvironment("apo", fileName);
+    this.prepareSimulationEnvironment(id, fileName);
 
     return { simulationId: id, commands };
   }
@@ -337,11 +325,7 @@ export class SimulationService {
       return { status: "not-running" };
     }
 
-    const simulationType = readFileSync(runningFilePath, {
-      encoding: "utf-8",
-    }) as SIMULATION_TYPE;
-
-    const runningSimulationFolderPath = `${userFolderPath}/${simulationType.toLowerCase()}`;
+    const runningSimulationFolderPath = `${userFolderPath}/${simulationId}`;
     const logFilePath = `${runningSimulationFolderPath}/run/logs/gmx.log`;
     const stepFilePath = `${runningSimulationFolderPath}/steps.txt`;
 
@@ -360,7 +344,7 @@ export class SimulationService {
         user: {
           username,
         },
-        type: simulationType,
+        id: simulationId,
       },
       select: {
         createdAt: true,
@@ -378,7 +362,7 @@ export class SimulationService {
 
     return {
       status: "running",
-      simulationType: simulationType.toLowerCase(),
+      simulationType: submissionInfo.type,
       stepData,
       logData,
       submissionInfo,

@@ -72,7 +72,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
       const queuedFilePath = `/files/${job.data.user.username}/queued`;
       const runningFilePath = `/files/${job.data.user.username}/running`;
       if (existsSync(queuedFilePath)) rmSync(queuedFilePath);
-      writeFileSync(runningFilePath, job.data.type);
+      writeFileSync(runningFilePath, job.data.simulationId);
     } catch (error) {
       this.logger.error(
         `Failed during pre-step setup for job ${job.id}`,
@@ -88,17 +88,17 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     if (!job) return null;
 
     const {
-      type,
       user: { username },
+      simulationId,
     } = job.data;
 
-    const folder = path.resolve(`/files/${username}/${type.toLowerCase()}`);
+    const folder = path.resolve(`/files/${username}/${simulationId}`);
 
     const fileEndedPath = path.resolve(folder, "ended");
 
     await prisma.simulation.update({
       where: {
-        id: job.data.simulationId,
+        id: simulationId,
       },
       data: {
         endedAt: new Date(),

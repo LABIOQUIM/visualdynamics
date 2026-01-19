@@ -23,11 +23,11 @@ export default async function (job: Job<SimulateData>): Promise<string> {
 
   try {
     const {
-      type,
       user: { username },
+      simulationId,
     } = job.data;
 
-    const folder = path.resolve(`/files/${username}/${type.toLowerCase()}`);
+    const folder = path.resolve(`/files/${username}/${simulationId}`);
     const folderRun = path.resolve(folder, "run");
     const fileLogPath = path.resolve(folderRun, "logs", "gmx.log");
     const fileStepPath = path.resolve(folder, "steps.txt");
@@ -42,7 +42,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
     console.log(`[Sandboxed Process ${process.pid}] Finished job ${job.id}`);
 
     // The return value signals success and is passed to the 'completed' event listener.
-    return `${job.data.simulationId} done!`;
+    return `${simulationId} done!`;
   } catch (e) {
     console.error(
       `[Sandboxed Process ${process.pid}] Job ${job.id} failed:`,
