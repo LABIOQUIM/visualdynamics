@@ -13,7 +13,15 @@ import * as path from "node:path";
 
 import { PrismaClient } from "../generated/prisma/client";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const user = process.env.DB_USER;
+const pass = process.env.DB_PASS;
+const host = process.env.DB_HOST;
+const port = process.env.DB_PORT;
+const name = process.env.DB_DATABASE;
+
+const connectionString = `postgresql://${user}:${pass}@${host}:${port}/${name}`;
+
+const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 @Injectable()
@@ -61,8 +69,8 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         where: { id: job.data.simulationId },
         data: { status: "RUNNING", startedAt: new Date() },
       });
-      const queuedFilePath = `/files/${job.data.user.userName}/queued`;
-      const runningFilePath = `/files/${job.data.user.userName}/running`;
+      const queuedFilePath = `/files/${job.data.user.username}/queued`;
+      const runningFilePath = `/files/${job.data.user.username}/running`;
       if (existsSync(queuedFilePath)) rmSync(queuedFilePath);
       writeFileSync(runningFilePath, job.data.type);
     } catch (error) {
@@ -81,10 +89,10 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
 
     const {
       type,
-      user: { userName },
+      user: { username },
     } = job.data;
 
-    const folder = path.resolve(`/files/${userName}/${type.toLowerCase()}`);
+    const folder = path.resolve(`/files/${username}/${type.toLowerCase()}`);
 
     const fileEndedPath = path.resolve(folder, "ended");
 
@@ -99,7 +107,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     });
 
     writeFileSync(fileEndedPath, "ended");
-    rmSync(`/files/${userName}/running`);
+    rmSync(`/files/${username}/running`);
     await axios.post("http://mailer:3000/send-email", {
       from: `LABIOQUIM <${process.env.SMTP_USER}>`,
       to: job.data.user.email,
@@ -113,8 +121,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     const job = await this.simulationQueue.getJob(jobId);
     if (!job) return;
 
-    console.log(failedReason);
-
     await prisma.simulation.update({
       where: {
         id: job.data.simulationId,
@@ -125,7 +131,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         errorCause: failedReason,
       },
     });
-    rmSync(`/files/${job.data.user.userName}/running`);
+    rmSync(`/files/${job.data.user.username}/running`);
     await axios.post("http://mailer:3000/send-email", {
       from: `LABIOQUIM <${process.env.SMTP_USER}>`,
       to: job.data.user.email,

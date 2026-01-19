@@ -24,10 +24,10 @@ export default async function (job: Job<SimulateData>): Promise<string> {
   try {
     const {
       type,
-      user: { userName },
+      user: { username },
     } = job.data;
 
-    const folder = path.resolve(`/files/${userName}/${type.toLowerCase()}`);
+    const folder = path.resolve(`/files/${username}/${type.toLowerCase()}`);
     const folderRun = path.resolve(folder, "run");
     const fileLogPath = path.resolve(folderRun, "logs", "gmx.log");
     const fileStepPath = path.resolve(folder, "steps.txt");

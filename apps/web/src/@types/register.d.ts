@@ -2,10 +2,9 @@ export {};
 
 declare global {
   interface RegisterFormInputs {
-    firstName: string;
-    lastName: string;
+    name: string;
     email: string;
-    userName: string;
+    username: string;
     password: string;
   }
 }

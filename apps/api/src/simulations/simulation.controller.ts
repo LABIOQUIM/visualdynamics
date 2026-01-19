@@ -11,7 +11,6 @@ import {
   StreamableFile,
   UploadedFile,
   UploadedFiles,
-  UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
 import {
@@ -22,7 +21,6 @@ import { Session } from "@thallesp/nestjs-better-auth";
 import { Express, Request } from "express";
 import { writeFile } from "fs";
 import multerConfig from "src/multer.config";
-import { UsernameGuard } from "src/username.guard";
 
 import { SIMULATION_TYPE } from "../generated/prisma/client";
 import { auth } from "../lib/auth";
@@ -79,7 +77,7 @@ export class SimulationController {
     if (body.shouldRun && body.shouldRun === "true") {
       await this.simulationService.addSimulationToQueue(
         simulationId,
-        request.session.user.userName,
+        request.session.user.username,
         "acpype",
         body.successEmail,
         body.errorEmail,
@@ -88,7 +86,7 @@ export class SimulationController {
       return { status: "added-to-queue", simulationId };
     }
     writeFile(
-      `/files/${request.session.user.userName}/acpype/ended`,
+      `/files/${request.session.user.username}/acpype/ended`,
       "ended",
       (err) => {
         if (err) console.log(err);
@@ -122,7 +120,7 @@ export class SimulationController {
     if (body.shouldRun && body.shouldRun === "true") {
       await this.simulationService.addSimulationToQueue(
         simulationId,
-        request.session.user.userName,
+        request.session.user.username,
         "apo",
         body.successEmail,
         body.errorEmail,
@@ -132,7 +130,7 @@ export class SimulationController {
     }
 
     writeFile(
-      `/files/${request.session.user.userName}/apo/ended`,
+      `/files/${request.session.user.username}/apo/ended`,
       "ended",
       (err) => {
         if (err) console.log(err);
@@ -148,7 +146,7 @@ export class SimulationController {
     @Query("id") simulationId: string,
   ) {
     const data = await this.simulationService.getUserRunningSimulationData(
-      session.user.userName,
+      session.user.username,
       simulationId,
     );
 
@@ -165,7 +163,7 @@ export class SimulationController {
   @Get("/files")
   async getLastSimulationFiles(@Session() session: typeof auth.$Infer.Session) {
     const data = await this.simulationService.getUserLastSimulationFiles(
-      session.user.userName,
+      session.user.username,
     );
 
     return data;
@@ -188,7 +186,7 @@ export class SimulationController {
     @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationFigures(
-      session.user.userName,
+      session.user.username,
       type,
     );
 
@@ -205,7 +203,7 @@ export class SimulationController {
     @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationCommands(
-      session.user.userName,
+      session.user.username,
       type,
     );
 
@@ -222,7 +220,7 @@ export class SimulationController {
     @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationGromacsLogs(
-      session.user.userName,
+      session.user.username,
       type,
     );
 
@@ -239,7 +237,7 @@ export class SimulationController {
     @Query("type") type: SIMULATION_TYPE,
   ) {
     const file = await this.simulationService.getUserLastSimulationResults(
-      session.user.userName,
+      session.user.username,
       type,
     );
 
@@ -264,14 +262,13 @@ export class SimulationController {
     @Param("type") type: SIMULATION_TYPE,
   ) {
     const data = this.simulationService.getLastMacromoleculeFiles(
-      session.user.userName,
+      session.user.username,
       type,
     );
 
     return data;
   }
 
-  @UseGuards(UsernameGuard)
   @Get("/queue-info")
   async getQueueInfo() {
     const data = this.simulationService.getQueueInfo();

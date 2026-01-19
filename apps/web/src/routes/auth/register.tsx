@@ -4,7 +4,6 @@ import {
   Anchor,
   Box,
   Button,
-  Group,
   PasswordInput,
   Text,
   TextInput,
@@ -26,22 +25,19 @@ function RouteComponent() {
   const { getInputProps, onSubmit } = useForm<RegisterFormInputs>({
     initialValues: {
       email: "",
-      firstName: "",
+      name: "",
       password: "",
-      userName: "",
-      lastName: "",
+      username: "",
     },
     validate: {
       email: (value) => (value.length < 8 ? "Invalid email" : null),
-      firstName: (value) =>
-        value.length < 2 ? "Please enter your first name" : null,
-      lastName: (value) =>
+      name: (value) =>
         value.length < 2 ? "Please enter your last name" : null,
       password: (value) =>
         value.length < 6
           ? "Your password must have mor than 5 characters"
           : null,
-      userName: (value) =>
+      username: (value) =>
         value.length < 4
           ? "Your username must have more than 3 characters"
           : null,
@@ -53,9 +49,8 @@ function RouteComponent() {
 
     await authClient.signUp.email(
       {
-        name: `${form.firstName} ${form.lastName}`,
-        firstName: form.firstName,
-        userName: form.userName,
+        name: form.name,
+        username: form.username,
         email: form.email,
         password: form.password,
       },
@@ -85,30 +80,19 @@ function RouteComponent() {
         onSubmit={onSubmit(doRegister)}
       >
         {status && status.status !== "loading" && <Alert status={status} />}
-        <Group gap="sm" w="100%">
-          <TextInput
-            disabled={status?.status === "loading"}
-            label="First Name"
-            placeholder="e.g.: John"
-            style={{ flex: 1 }}
-            withAsterisk
-            {...getInputProps("firstName")}
-          />
-          <TextInput
-            disabled={status?.status === "loading"}
-            label="Last Name"
-            placeholder="e.g.: Doe"
-            style={{ flex: 1 }}
-            withAsterisk
-            {...getInputProps("lastName")}
-          />
-        </Group>
+        <TextInput
+          disabled={status?.status === "loading"}
+          label="Name"
+          placeholder="e.g.: John Meyer"
+          withAsterisk
+          {...getInputProps("name")}
+        />
         <TextInput
           disabled={status?.status === "loading"}
           label="Username"
-          placeholder="e.g.: johndoe"
+          placeholder="e.g.: johnmeyer"
           withAsterisk
-          {...getInputProps("userName")}
+          {...getInputProps("username")}
         />
         <TextInput
           disabled={status?.status === "loading"}

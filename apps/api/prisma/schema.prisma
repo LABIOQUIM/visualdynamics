@@ -24,32 +24,21 @@ model Settings {
   @@map("settings")
 }
 
-enum USER_STATUS {
-  ACTIVE
-  INACTIVE
-
-  AWAITING_EMAIL_VALIDATION
-
-  DISABLED_BY_ADMINISTRATOR
-}
-
-enum USER_ROLE {
-  USER
-  ADMINISTRATOR
-}
-
 model User {
-  id            String  @id @unique @default(uuid())
-  userName      String  @unique @map("user_name")
-  email         String  @unique @map("email")
-  emailVerified Boolean @default(false) @map("email_verified")
-  name          String  @default("Name not set")
-  image         String?
+  id              String  @id @unique @default(uuid())
+  username        String  @unique
+  displayUsername String  @map("display_username")
+  email           String  @unique @map("email")
+  emailVerified   Boolean @default(false) @map("email_verified")
+  name            String  @default("Name not set")
+  image           String?
 
-  firstName String?     @map("first_name")
-  lastName  String?     @map("last_name")
-  status    USER_STATUS @default(AWAITING_EMAIL_VALIDATION)
-  role      USER_ROLE   @default(USER)
+  role      String
+  banned    Boolean
+  banReason String?      @map("ban_reason")
+  banExpires DateTime?   @map("ban_expires")
+
+  twoFactorEnabled Boolean @map("two_factor_enabled")
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
@@ -58,12 +47,21 @@ model User {
   sessions        Session[]
   simulations     Simulation[]
   passwordResets  UserPasswordReset[]
+  twoFactors TwoFactor[]
 
-  @@index([userName])
+  @@index([username])
   @@index([email])
-  @@index([firstName])
-  @@index([lastName])
   @@map("user")
+}
+
+model TwoFactor {
+  id String  @id @unique @default(uuid())
+  userId String @map("user_id")
+  secret String
+  backupCodes String @map("backup_codes")
+
+  user User @relation(fields: [userId], references: [id])
+  @@map("two_factor")
 }
 
 model Session {
@@ -72,6 +70,7 @@ model Session {
   token     String
   expiresAt DateTime @map("expires_at")
   ipAddress String? @map("ip_address")
+  impersonatedBy String? @map("impersonated_by")
   userAgent String? @map("user_agent")
   createdAt DateTime @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")

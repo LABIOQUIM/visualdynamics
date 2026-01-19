@@ -17,41 +17,25 @@ import { Heading } from "@/components/Heading";
 import { authClient } from "@/lib/auth-client";
 
 type FormInputs = {
-  email: string;
+  identifier: string;
   password: string;
-};
-
-type LoginSearch = {
-  from?: "email-validation";
-  redirect?: string;
 };
 
 export const Route = createFileRoute("/auth/login")({
   component: RouteComponent,
-  validateSearch: (search: Record<string, unknown>): LoginSearch => {
-    return {
-      from: search.from === "email-validation" ? "email-validation" : undefined,
-      redirect:
-        typeof search.redirect === "string"
-          ? String(search.redirect)
-          : undefined,
-    };
-  },
 });
 
 function RouteComponent() {
   const navigate = useNavigate({ from: "/auth/login" });
-  const { from } = Route.useSearch();
-  const showFromEmailValidationAlert = from === "email-validation";
 
   const [status, setStatus] = useState<FormSubmissionStatus>();
   const { getInputProps, onSubmit } = useForm<FormInputs>({
     initialValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
     validate: {
-      email: (value) =>
+      identifier: (value) =>
         value.length < 4
           ? "Your email and username both have more than 3 characters"
           : null,
@@ -62,43 +46,43 @@ function RouteComponent() {
     },
   });
 
-  async function doLogin({ email, password }: FormInputs) {
+  async function doLogin({ identifier, password }: FormInputs) {
     setStatus({ status: "loading" });
+    const regex = /\S+@\S+\.\S+/;
 
-    await authClient.signIn.email(
-      { email, password },
-      {
-        onSuccess: () => {
-          setStatus({
-            status: "success",
-            title: "Login successful",
-            message: "Redirecting to Visual Dynamics...",
-          });
-          navigate({ to: "/app" });
-        },
-        onError: ({ error }) => {
-          setStatus({
-            status: "error",
-            title: "Login failed",
-            message: error.message,
-          });
-        },
+    const options: {
+      onSuccess: () => void;
+      onError: ({ error }: { error: any }) => void;
+    } = {
+      onSuccess: () => {
+        setStatus({
+          status: "success",
+          title: "Login successful",
+          message: "Redirecting to Visual Dynamics...",
+        });
+        navigate({ to: "/app" });
       },
-    );
+      onError: ({ error }) => {
+        setStatus({
+          status: "error",
+          title: "Login failed",
+          message: error.message,
+        });
+      },
+    };
+
+    if (regex.test(identifier)) {
+      await authClient.signIn.email({ email: identifier, password }, options);
+    } else {
+      await authClient.signIn.username(
+        { username: identifier, password },
+        options,
+      );
+    }
   }
 
   function RenderAlert() {
-    if (showFromEmailValidationAlert) {
-      return (
-        <Alert
-          status={{
-            status: "info",
-            title: "Your email has been validated",
-            message: "Your can now login and use Visual Dynamics",
-          }}
-        />
-      );
-    } else if (status && status.status !== "loading") {
+    if (status && status.status !== "loading") {
       return <Alert status={status} />;
     }
 
@@ -125,9 +109,9 @@ function RouteComponent() {
         <TextInput
           data-autofocus
           disabled={status?.status === "loading"}
-          label="Email"
+          label="Email or Username"
           withAsterisk
-          {...getInputProps("email")}
+          {...getInputProps("identifier")}
         />
         <PasswordInput
           disabled={status?.status === "loading"}

@@ -15,12 +15,13 @@ import {
 } from "fs";
 import { join } from "path";
 import { cwd } from "process";
-import { normalizeString } from "src/utils/normalizeString";
 
 import { Simulation, SIMULATION_TYPE } from "../generated/prisma/client";
 import { PrismaService } from "../prisma.service";
 
 import type { NewSimulationBody } from "./simulation.types";
+
+import { normalizeString } from "@/src/utils/normalizeString";
 
 @Injectable()
 export class SimulationService {
@@ -77,14 +78,14 @@ export class SimulationService {
 
   async addSimulationToQueue(
     simulationId: string,
-    userName: string,
+    username: string,
     type: SIMULATION_TYPE,
     successEmail: string,
     errorEmail: string,
   ) {
     const user = await this.prisma.user.findFirst({
       where: {
-        userName,
+        username,
       },
     });
 
@@ -96,7 +97,7 @@ export class SimulationService {
         status: "QUEUED",
       },
     });
-    writeFileSync(`/files/${userName}/queued`, type);
+    writeFileSync(`/files/${username}/queued`, type);
     await this.simulationQueue.add("simulation", {
       simulationId,
       user,
@@ -115,7 +116,7 @@ export class SimulationService {
     fileNameLigandPDBOriginal: string,
     body: NewSimulationBody,
   ) {
-    const [userName, fullFileName] = fileName.split("/");
+    const [username, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
     const [origLigandITPName] = fileNameLigandITPOriginal.split(".");
     const [origLigandPDBName] = fileNameLigandPDBOriginal.split(".");
@@ -133,7 +134,7 @@ export class SimulationService {
         type: "acpype",
         user: {
           connect: {
-            userName,
+            username,
           },
         },
       },
@@ -204,9 +205,9 @@ export class SimulationService {
       `grace -nxy ${pdbName}_complx_sas_residue.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_complx_sas_residue.png\n`,
     ];
 
-    mkdirSync(`/files/${userName}/acpype`, { recursive: true });
+    mkdirSync(`/files/${username}/acpype`, { recursive: true });
     const writeStream = createWriteStream(
-      `/files/${userName}/acpype/commands.txt`,
+      `/files/${username}/acpype/commands.txt`,
     );
     commands.forEach((value) => writeStream.write(`${value}\n`));
     writeStream.end();
@@ -226,7 +227,7 @@ export class SimulationService {
     fileNameOriginal: string,
     body: NewSimulationBody,
   ) {
-    const [userName, fullFileName] = fileName.split("/");
+    const [username, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
     const pdbName = normalizeString(origPDBName);
     let id;
@@ -239,7 +240,7 @@ export class SimulationService {
           type: "apo",
           user: {
             connect: {
-              userName,
+              username,
             },
           },
         },
@@ -302,9 +303,9 @@ export class SimulationService {
       `grace -nxy ${pdbName}_sas_residue.xvg -hdevice PNG -hardcopy -printfile ../figures/${pdbName}_sas_residue.png\n`,
     ];
 
-    mkdirSync(`/files/${userName}/apo`, { recursive: true });
+    mkdirSync(`/files/${username}/apo`, { recursive: true });
     const writeStream = createWriteStream(
-      `/files/${userName}/apo/commands.txt`,
+      `/files/${username}/apo/commands.txt`,
     );
     commands.forEach((value) => writeStream.write(`${value}\n`));
     writeStream.end();
@@ -314,8 +315,8 @@ export class SimulationService {
     return { simulationId: id, commands };
   }
 
-  async getUserRunningSimulationData(userName: string, simulationId: string) {
-    const userFolderPath = `/files/${userName}`;
+  async getUserRunningSimulationData(username: string, simulationId: string) {
+    const userFolderPath = `/files/${username}`;
     const runningFilePath = `${userFolderPath}/running`;
     const queuedFilePath = `${userFolderPath}/queued`;
 
@@ -357,7 +358,7 @@ export class SimulationService {
     const submissionInfo = await this.prisma.simulation.findFirst({
       where: {
         user: {
-          userName,
+          username,
         },
         type: simulationType,
       },
