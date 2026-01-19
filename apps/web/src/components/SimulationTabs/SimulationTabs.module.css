@@ -22,7 +22,7 @@
   flex-direction: column;
   flex: 1;
   gap: var(--mantine-spacing-md);
-  
+
   @media screen and (min-width: $mantine-breakpoint-md) {
     flex-direction: row !important;
   }
