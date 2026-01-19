@@ -1,5 +1,4 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
-import { UsernameGuard } from "src/username.guard";
+import { Controller, Get } from "@nestjs/common";
 
 import { SystemInfoService } from "./systeminfo.service";
 
@@ -7,7 +6,6 @@ import { SystemInfoService } from "./systeminfo.service";
 export class SystemInfoController {
   constructor(private systemInfoService: SystemInfoService) {}
 
-  @UseGuards(UsernameGuard)
   @Get("/")
   async getCPUInfo() {
     const systemInfo = await this.systemInfoService.getSystemInfo();
