@@ -3,26 +3,13 @@ import "@mantine/notifications/styles.css";
 
 import { Loader, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider } from "@tanstack/react-router";
 import { render } from "preact";
 
 import { authClient } from "./lib/auth-client";
-import { routeTree } from "./routeTree.gen";
+import { queryClient, router } from "./lib/router";
 import { theme } from "./theme";
-
-const queryClient = new QueryClient();
-
-const router = createRouter({
-  routeTree,
-  defaultPreload: "intent",
-  defaultPreloadStaleTime: 0,
-  scrollRestoration: true,
-  context: {
-    auth: null,
-    queryClient,
-  },
-});
 
 declare module "@tanstack/react-router" {
   interface Register {

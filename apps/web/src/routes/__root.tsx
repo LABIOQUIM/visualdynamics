@@ -2,8 +2,10 @@ import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { NuqsAdapter } from "nuqs/adapters/tanstack-router";
 
+import { authClient } from "@/lib/auth-client";
+
 type RouterContext = {
-  auth: AuthState;
+  auth: typeof authClient.$Infer.Session | null;
   queryClient: QueryClient;
 };
 

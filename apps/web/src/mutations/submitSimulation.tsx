@@ -3,6 +3,7 @@ import { IconCheck } from "@tabler/icons-react";
 
 import type { SimulationSubmitFormValues } from "@/components/SimulationSubmit/FormContext";
 import { getAPIClient } from "@/lib/api";
+import { router } from "@/lib/router";
 
 export async function submitSimulation(
   values: SimulationSubmitFormValues,
@@ -68,5 +69,16 @@ export async function submitSimulation(
 
     return;
   } else {
+    notifications.show({
+      title: "Added to queue",
+      message: "Your simulation has been added to the execution queue.",
+      color: "green",
+      icon: <IconCheck />,
+      withBorder: true,
+    });
+
+    router.navigate({ to: "/app", search: { type: values.type, tab: "run" } });
+
+    return;
   }
 }
