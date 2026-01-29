@@ -8,10 +8,9 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useState } from "preact/hooks";
 
-import { ThreeDViewer } from "../ThreeDViewer/ThreeDViewer";
-
 import { useSimulationSubmitFormContext } from "./FormContext";
 
+import { ThreeDViewer } from "@/components/ThreeDViewer/ThreeDViewer";
 import { submitSimulation } from "@/mutations/submitSimulation";
 import type { LatestMacromolecules } from "@/queries/latestMacromolecules";
 

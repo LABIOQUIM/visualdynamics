@@ -4,11 +4,10 @@ import { Box, Button, FileInput, Group, Radio, Text } from "@mantine/core";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useState } from "preact/hooks";
 
-import { ThreeDViewer } from "../ThreeDViewer/ThreeDViewer";
-
 import { simulationTypeRadioData } from "./constants";
 import { useSimulationSubmitFormContext } from "./FormContext";
 
+import { ThreeDViewer } from "@/components/ThreeDViewer/ThreeDViewer";
 import type { LatestMacromolecules } from "@/queries/latestMacromolecules";
 
 type Props = {

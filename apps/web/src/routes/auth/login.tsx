@@ -63,6 +63,7 @@ function RouteComponent() {
         navigate({ to: "/app" });
       },
       onError: ({ error }) => {
+        console.log(error);
         setStatus({
           status: "error",
           title: "Login failed",

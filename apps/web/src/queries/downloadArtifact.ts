@@ -4,24 +4,24 @@ import { getAPIClient } from "@/lib/api";
 
 export const fetchArtifact = async (
   target: ArtifactDownloadTarget,
-  type: SIMULATION_TYPE,
+  simulationId: string,
 ) => {
   const api = await getAPIClient();
 
   return api
     .get<ArrayBuffer>(`/simulation/downloads/${target}`, {
-      params: { type },
+      params: { simulationId },
       responseType: "arraybuffer",
     })
     .then((r) => r.data);
 };
 
-export const artifactDownloadQuery = (
+export const downloadArtifact = (
   target: ArtifactDownloadTarget,
-  type: SIMULATION_TYPE,
+  simulationId: string,
 ) =>
   queryOptions({
-    queryKey: ["artifact", target, type],
-    queryFn: () => fetchArtifact(target, type),
+    queryKey: ["artifact", target, simulationId],
+    queryFn: () => fetchArtifact(target, simulationId),
     enabled: false,
   });

@@ -1,3 +1,4 @@
+import "mantine-react-table-open/styles.css";
 import classes from "./route.module.css";
 
 import { AppShell, Burger, Group } from "@mantine/core";

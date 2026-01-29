@@ -15,6 +15,7 @@ services:
     volumes:
       - ./:/app
       - files:/files
+      - /usr/local/gromacs:/gromacs
       - /app/node_modules
     # runtime: nvidia
     # deploy:

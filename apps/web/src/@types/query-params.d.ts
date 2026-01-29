@@ -5,4 +5,4 @@ type SimulationDetailsActiveTab =
   | "run"
   | null;
 
-type SimulationDetails = "acpype" | "apo" | null;
+// type SimulationDetails = "acpype" | "apo" | null;

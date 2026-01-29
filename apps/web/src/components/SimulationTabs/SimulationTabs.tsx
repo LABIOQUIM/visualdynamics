@@ -47,6 +47,7 @@ export function SimulationTabs() {
   if (!activeSimulation) {
     return null;
   }
+  console.log(macromolecules);
 
   return (
     <Tabs

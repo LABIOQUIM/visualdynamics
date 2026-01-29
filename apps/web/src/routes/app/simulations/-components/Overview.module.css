@@ -1,0 +1,15 @@
+.underDevelopmentCard {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--mantine-spacing-md);
+  justify-content: center;
+}
+
+.infoContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--mantine-spacing-md);
+  z-index: 2;
+}

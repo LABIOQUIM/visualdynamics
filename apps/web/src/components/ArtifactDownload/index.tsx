@@ -5,16 +5,19 @@ import { IconDownload } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { artifactDownload } from "@/lib/constants";
-import { artifactDownloadQuery } from "@/queries/artifactDownload";
+import { downloadArtifact } from "@/queries/downloadArtifact";
 
-interface Props {
-  simulation: Simulation;
+type ArtifactDownloadProps = {
+  simulationId: string;
   target: ArtifactDownloadTarget;
-}
+};
 
-export function ArtifactDownload({ simulation, target }: Props) {
+export function ArtifactDownload({
+  simulationId,
+  target,
+}: ArtifactDownloadProps) {
   const { refetch, isLoading } = useQuery(
-    artifactDownloadQuery(target, simulation.type),
+    downloadArtifact(target, simulationId),
   );
   const downloadInfo = artifactDownload[target];
 
@@ -25,18 +28,8 @@ export function ArtifactDownload({ simulation, target }: Props) {
       return;
     }
 
-    let filename = simulation.type;
-
-    if (simulation.type === "acpype") {
-      filename += `-${simulation.moleculeName}-${simulation.ligandITPName}-${simulation.ligandPDBName}`;
-    } else {
-      filename += `-${simulation.moleculeName}`;
-    }
-
-    filename += `-${simulation.createdAt}`;
-
     const link = document.createElement("a");
-    link.download = `${filename}-${downloadInfo.file}`;
+    link.download = `${downloadInfo.file}-${simulationId}`;
     const blobUrl = window.URL.createObjectURL(new Blob([data]));
 
     link.href = blobUrl;

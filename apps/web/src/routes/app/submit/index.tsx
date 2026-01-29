@@ -1,21 +1,22 @@
-import classes from "./submit.module.css";
+import classes from "./index.module.css";
 
 import { Stepper } from "@mantine/core";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "preact/hooks";
 
-import { PageLayout } from "@/components/PageLayout";
-import { SimulationSubmitFileStep } from "@/components/SimulationSubmit/FileStep";
+import { SimulationSubmitFileStep } from "./-components/FileStep";
 import {
   SimulationSubmitFormProvider,
   type SimulationSubmitFormValues,
   useSimulationSubmitForm,
-} from "@/components/SimulationSubmit/FormContext";
-import { SimulationSubmitParamsStep } from "@/components/SimulationSubmit/ParamsStep";
-import { ReviewStep } from "@/components/SimulationSubmit/ReviewStep";
+} from "./-components/FormContext";
+import { SimulationSubmitParamsStep } from "./-components/ParamsStep";
+import { ReviewStep } from "./-components/ReviewStep";
+
+import { PageLayout } from "@/components/PageLayout";
 import { submitSimulation } from "@/mutations/submitSimulation";
 
-export const Route = createFileRoute("/app/submit")({
+export const Route = createFileRoute("/app/submit/")({
   component: RouteComponent,
 });
 

@@ -1,6 +1,0 @@
-.container {
-  display: grid;
-  flex: 1;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--mantine-spacing-xs);
-}

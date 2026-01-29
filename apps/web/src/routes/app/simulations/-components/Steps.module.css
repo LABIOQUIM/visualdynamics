@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--mantine-spacing-xs) / 2);
+  min-width: fit-content;
+}
+
+.arrow_down_icon {
+  color: var(--mantine-color-gray-6);
+}

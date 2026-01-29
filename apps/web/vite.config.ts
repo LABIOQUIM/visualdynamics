@@ -12,6 +12,12 @@ export default defineConfig(async () => {
   const { plugins: postcssPlugins } = await postcssLoadConfig();
 
   return {
+    server: {
+      host: "0.0.0.0", // Expose to the network
+      watch: {
+        usePolling: true, // Force polling for file changes
+      },
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
@@ -30,7 +36,7 @@ export default defineConfig(async () => {
       {
         name: "vite-pcss",
         enforce: "pre",
-        async transform(code, id) {
+        async transform(code: string, id: string) {
           if (!id.endsWith(".pcss")) return null;
 
           const result = await postcss(postcssPlugins).process(code, {

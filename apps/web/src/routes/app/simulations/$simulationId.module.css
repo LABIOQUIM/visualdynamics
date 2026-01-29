@@ -1,0 +1,29 @@
+.infoContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--mantine-spacing-md);
+  z-index: 2;
+}
+
+.tabsContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.tabPanel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-top: var(--mantine-spacing-md);
+  gap: var(--mantine-spacing-md);
+}
+
+.underDevelopmentCard {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--mantine-spacing-md);
+  justify-content: center;
+}

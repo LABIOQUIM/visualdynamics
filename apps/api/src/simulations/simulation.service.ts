@@ -303,10 +303,13 @@ export class SimulationService {
     return { simulationId: id, commands };
   }
 
-  async getUserRunningSimulationData(username: string, simulationId: string) {
+  async getSimulationDetails(username: string, simulationId: string) {
     const userFolderPath = `/files/${username}`;
+
     const runningFilePath = `${userFolderPath}/running`;
     const queuedFilePath = `${userFolderPath}/queued`;
+
+    let queue = -1;
 
     if (existsSync(queuedFilePath)) {
       const waitingJobs = await this.simulationQueue.getJobs(["waiting"]);
@@ -315,31 +318,55 @@ export class SimulationService {
         (job) => job.data.simulationId === simulationId,
       );
 
-      return {
-        status: "queued",
-        position: jobIndex !== -1 ? jobIndex + 1 : -1,
-      };
+      queue = jobIndex !== -1 ? jobIndex + 1 : -1;
     }
 
-    if (!existsSync(runningFilePath)) {
-      return { status: "not-running" };
+    const simulationFolderPath = `${userFolderPath}/${simulationId}`;
+    const logFilePath = `${simulationFolderPath}/run/logs/gmx.log`;
+    const molFilePath = `${simulationFolderPath}/run/originalMacromolecule.pdb`;
+    const ligFilePath = `${simulationFolderPath}/run/originalLigand.pdb`;
+    const stepFilePath = `${simulationFolderPath}/steps.txt`;
+
+    let isRunning = false;
+
+    if (existsSync(runningFilePath)) {
+      isRunning = true;
     }
 
-    const runningSimulationFolderPath = `${userFolderPath}/${simulationId}`;
-    const logFilePath = `${runningSimulationFolderPath}/run/logs/gmx.log`;
-    const stepFilePath = `${runningSimulationFolderPath}/steps.txt`;
+    let stepData: string[] = [];
+    let logData: string[] = [];
 
-    const stepData = readFileSync(stepFilePath, { encoding: "utf-8" })
-      .split("\n")
-      .filter((s) => s.length);
-    const logData = readFileSync(logFilePath, { encoding: "utf-8" })
-      .replaceAll("\r", "\n")
-      .split("\n")
-      .filter((l) => l.length)
-      .reverse()
-      .splice(0, 30);
+    if (existsSync(stepFilePath)) {
+      stepData = readFileSync(stepFilePath, { encoding: "utf-8" })
+        .split("\n")
+        .filter((s) => s.length);
+    }
 
-    const submissionInfo = await this.prisma.simulation.findFirst({
+    if (existsSync(logFilePath)) {
+      logData = readFileSync(logFilePath, { encoding: "utf-8" })
+        .replaceAll("\r", "\n")
+        .split("\n")
+        .filter((l) => l.length)
+        .reverse();
+      // .splice(0, 30);
+    }
+
+    let molecules = {
+      macromolecule: null,
+      ligand: null,
+    };
+
+    if (existsSync(molFilePath)) {
+      molecules.macromolecule = readFileSync(molFilePath, {
+        encoding: "utf-8",
+      });
+    }
+
+    if (existsSync(ligFilePath)) {
+      molecules.ligand = readFileSync(ligFilePath, { encoding: "utf-8" });
+    }
+
+    const simulation = await this.prisma.simulation.findFirst({
       where: {
         user: {
           username,
@@ -347,11 +374,13 @@ export class SimulationService {
         id: simulationId,
       },
       select: {
+        errorCause: true,
         createdAt: true,
         moleculeName: true,
         ligandITPName: true,
         ligandPDBName: true,
         startedAt: true,
+        endedAt: true,
         status: true,
         type: true,
       },
@@ -361,12 +390,32 @@ export class SimulationService {
     });
 
     return {
-      status: "running",
-      simulationType: submissionInfo.type,
+      isRunning,
+      queue,
       stepData,
       logData,
-      submissionInfo,
+      simulation,
+      molecules,
     };
+  }
+
+  async getUserSimulations(id: string, pageSize: number, page: number) {
+    const [records, total] = await this.prisma.$transaction([
+      this.prisma.simulation.findMany({
+        where: {
+          userId: id,
+        },
+        skip: page * pageSize,
+        take: pageSize,
+      }),
+      this.prisma.simulation.count({
+        where: {
+          userId: id,
+        },
+      }),
+    ]);
+
+    return { records, total };
   }
 
   async getUserLastSimulations(email: string) {
@@ -407,10 +456,10 @@ export class SimulationService {
     return simulations;
   }
 
-  async getUserLastSimulationFigures(userName: string, type: SIMULATION_TYPE) {
+  async getSimulationFigures(userName: string, simulationId: string) {
     const userFolderPath = `/files/${userName}`;
-    const runFolderPath = `/files/${userName}/${type}/run`;
-    const figuresFolderPath = `${userFolderPath}/${type}/figures`;
+    const runFolderPath = `/files/${userName}/${simulationId}/run`;
+    const figuresFolderPath = `${userFolderPath}/${simulationId}/figures`;
 
     ChildProcess.execSync("cp *.xvg ../figures", {
       cwd: runFolderPath,
@@ -444,9 +493,9 @@ export class SimulationService {
     return readFileSync(join(runFolderPath, "mdpfiles.zip"));
   }
 
-  async getUserLastSimulationCommands(userName: string, type: SIMULATION_TYPE) {
+  async getSimulationCommands(userName: string, simulationId: string) {
     const userFolderPath = `/files/${userName}`;
-    const commandsFilePath = `${userFolderPath}/${type}/commands.txt`;
+    const commandsFilePath = `${userFolderPath}/${simulationId}/commands.txt`;
 
     if (!existsSync(commandsFilePath)) {
       return "no-commands";
@@ -455,12 +504,9 @@ export class SimulationService {
     return readFileSync(commandsFilePath);
   }
 
-  async getUserLastSimulationGromacsLogs(
-    userName: string,
-    type: SIMULATION_TYPE,
-  ) {
+  async getSimulationGromacsLogs(userName: string, simulationId: string) {
     const userFolderPath = `/files/${userName}`;
-    const logFilePath = `${userFolderPath}/${type}/run/logs/gmx.log`;
+    const logFilePath = `${userFolderPath}/${simulationId}/run/logs/gmx.log`;
 
     if (!existsSync(logFilePath)) {
       return "no-logs";
@@ -469,9 +515,9 @@ export class SimulationService {
     return readFileSync(logFilePath);
   }
 
-  async getUserLastSimulationResults(userName: string, type: SIMULATION_TYPE) {
+  async getSimulationResults(userName: string, simulationId: string) {
     const userFolderPath = `/files/${userName}`;
-    const runFolderPath = `${userFolderPath}/${type}/run`;
+    const runFolderPath = `${userFolderPath}/${simulationId}/run`;
 
     if (!existsSync(runFolderPath) || readdirSync(runFolderPath).length <= 0) {
       return "no-results";
@@ -503,33 +549,28 @@ export class SimulationService {
     return tree;
   }
 
-  async getLastMacromoleculeFiles(userName: string, type: SIMULATION_TYPE) {
+  async getLastMacromoleculeFiles(userName: string, id: string) {
     const userFolder = `/files/${userName}`;
-    const runFolder = `${userFolder}/${type}/run`;
+    const runFolder = `${userFolder}/${id}/run`;
 
     const macromoleculeFile = `${runFolder}/originalMacromolecule.pdb`;
+    const ligandItpFile = `${runFolder}/originalLigand.itp`;
+    const ligandPdbFile = `${runFolder}/originalLigand.pdb`;
 
     if (!existsSync(macromoleculeFile)) {
       return "no-macromolecule";
     }
 
-    if (type === "acpype") {
-      const ligandItpFile = `${runFolder}/originalLigand.itp`;
-      const ligandPdbFile = `${runFolder}/originalLigand.pdb`;
-
-      if (!existsSync(ligandItpFile) || !existsSync(ligandPdbFile)) {
-        return "no-ligand";
-      }
-
+    if (!existsSync(ligandItpFile) || !existsSync(ligandPdbFile)) {
       return {
         macromolecule: readFileSync(macromoleculeFile).toString(),
-        ligandItp: readFileSync(ligandItpFile).toString(),
-        ligandPdb: readFileSync(ligandPdbFile).toString(),
       };
     }
 
     return {
       macromolecule: readFileSync(macromoleculeFile).toString(),
+      ligandItp: readFileSync(ligandItpFile).toString(),
+      ligandPdb: readFileSync(ligandPdbFile).toString(),
     };
   }
 

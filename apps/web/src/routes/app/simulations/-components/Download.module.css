@@ -1,0 +1,6 @@
+.downloadContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  flex: 1;
+  gap: var(--mantine-spacing-md);
+}
