@@ -30,4 +30,10 @@ export const artifactDownload = {
     Icon: IconZip,
     contentType: "application/octet-stream",
   },
+  mdp: {
+    label: "MDP Files",
+    file: "mdpfiles.zip",
+    Icon: IconZip,
+    contentType: "application/octet-stream",
+  },
 };

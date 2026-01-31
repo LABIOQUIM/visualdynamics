@@ -1,3 +1,7 @@
+import classes from "./Visualizer.module.css";
+
+import { Box, Text } from "@mantine/core";
+import { IconCloudOff } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { Loader } from "@/components/Loader";
@@ -16,7 +20,12 @@ export function Visualizer({ simulationId }: VisualizerProps) {
   }
 
   if (data.molecules.macromolecule === null) {
-    return <div>No macromolecule found.</div>;
+    return (
+      <Box className={classes.noMoleculesContainer}>
+        <IconCloudOff size={64} />
+        <Text size="lg">This simulation has no macromolecule files</Text>
+      </Box>
+    );
   }
 
   return (

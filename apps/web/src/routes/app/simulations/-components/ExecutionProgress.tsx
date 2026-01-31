@@ -1,9 +1,11 @@
 import classes from "./ExecutionProgress.module.css";
 
-import { Box, Loader } from "@mantine/core";
+import { Box, Loader, Text } from "@mantine/core";
+import { IconCloudOff } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { Log } from "./Log";
+import { RefetchTime } from "./RefetchTime";
 import { Steps } from "./Steps";
 
 import { getSimulation } from "@/queries/getSimulation";
@@ -17,6 +19,27 @@ export function ExecutionProgress({ simulationId }: ExecutionProgressProps) {
 
   if (!data) {
     return <Loader />;
+  }
+
+  if (data.simulation.status === "GENERATED") {
+    return (
+      <Box className={classes.noLogsContainer}>
+        <IconCloudOff size={64} />
+        <Text size="lg">This simulation has no execution logs</Text>
+      </Box>
+    );
+  }
+
+  if (data.isRunning && data.queue !== -1) {
+    return (
+      <Box className={classes.noLogsContainer}>
+        <Loader />
+        <Text size="lg">
+          Your simulation is in the queue (position: {data.queue})
+        </Text>
+        <RefetchTime />
+      </Box>
+    );
   }
 
   return (

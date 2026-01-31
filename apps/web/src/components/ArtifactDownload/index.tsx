@@ -1,4 +1,4 @@
-import classes from "./ArtifactDownload.module.css";
+import classes from "./index.module.css";
 
 import { Button } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
@@ -28,8 +28,10 @@ export function ArtifactDownload({
       return;
     }
 
+    const filename = downloadInfo.file.split(".");
+
     const link = document.createElement("a");
-    link.download = `${downloadInfo.file}-${simulationId}`;
+    link.download = `${filename[0]}-${simulationId}.${filename[1]}`;
     const blobUrl = window.URL.createObjectURL(new Blob([data]));
 
     link.href = blobUrl;
