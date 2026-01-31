@@ -405,6 +405,9 @@ export class SimulationService {
         where: {
           userId: id,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
         skip: page * pageSize,
         take: pageSize,
       }),
