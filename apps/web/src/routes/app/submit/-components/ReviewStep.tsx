@@ -11,6 +11,7 @@ import { useEffect, useState } from "preact/hooks";
 import { useSimulationSubmitFormContext } from "./FormContext";
 
 import { ThreeDViewer } from "@/components/ThreeDViewer/ThreeDViewer";
+import { getAPIClient } from "@/lib/api";
 import { submitSimulation } from "@/mutations/submitSimulation";
 import type { LatestMacromolecules } from "@/queries/latestMacromolecules";
 
@@ -41,6 +42,26 @@ export function ReviewStep({ prev }: Props) {
 
   async function onDownloadCommands() {
     await submitSimulation(values, false);
+  }
+
+  async function onDownloadMDPFiles() {
+    const api = await getAPIClient();
+
+    const response = await api.get("/simulation/downloads/mdp", {
+      responseType: "arraybuffer",
+    });
+
+    if (!response.data) {
+      return null;
+    }
+
+    const link = document.createElement("a");
+    link.download = "mdp_files.zip";
+    const blobUrl = window.URL.createObjectURL(new Blob([response.data]));
+
+    link.href = blobUrl;
+    link.click();
+    window.URL.revokeObjectURL(blobUrl);
   }
 
   function LabelValueText({ label, value }: { label: string; value: string }) {
@@ -89,7 +110,13 @@ export function ReviewStep({ prev }: Props) {
           >
             Download Commands
           </Button>
-          <Button fullWidth mt="xs" type="button" variant="light">
+          <Button
+            fullWidth
+            mt="xs"
+            onClick={onDownloadMDPFiles}
+            type="button"
+            variant="light"
+          >
             Download MDP Files
           </Button>
         </Box>
