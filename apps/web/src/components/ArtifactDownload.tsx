@@ -1,4 +1,4 @@
-import classes from "./index.module.css";
+import classes from "./ArtifactDownload.module.css";
 
 import { Button } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";

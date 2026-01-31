@@ -3,11 +3,12 @@ import classes from "./analytics.module.css";
 import { AspectRatio } from "@mantine/core";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Heading } from "@/components/Heading";
-import { LanderCallToActionSection } from "@/components/Lander/CallToActionSection";
-import { LanderLayout } from "@/components/Lander/Layout";
+import { LanderCallToActionSection } from "./-components/CallToActionSection";
+import { LanderLayout } from "./-components/Layout";
 
-export const Route = createFileRoute("/analytics/")({
+import { Heading } from "@/components/Heading";
+
+export const Route = createFileRoute("/(home)/analytics")({
   component: RouteComponent,
 });
 

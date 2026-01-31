@@ -1,7 +1,7 @@
+import styles from "./FeatureCard.module.css";
+
 import React from "react";
 import { Badge } from "@mantine/core";
-
-import styles from "./FeatureCard.module.css";
 
 interface FeatureCardProps {
   icon: React.ReactNode; // Expect a Tabler Icon component

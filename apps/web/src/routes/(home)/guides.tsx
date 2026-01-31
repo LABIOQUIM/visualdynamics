@@ -3,9 +3,10 @@ import classes from "./guides.module.css";
 import { Box } from "@mantine/core";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { LanderCallToActionSection } from "./-components/CallToActionSection";
+import { LanderLayout } from "./-components/Layout";
+
 import { Heading } from "@/components/Heading";
-import { LanderCallToActionSection } from "@/components/Lander/CallToActionSection";
-import { LanderLayout } from "@/components/Lander/Layout";
 import { YouTubePlayer } from "@/components/YoutubePlayer";
 
 const simulationVideos = [
@@ -31,7 +32,7 @@ const simulationVideos = [
   },
 ];
 
-export const Route = createFileRoute("/guides/")({
+export const Route = createFileRoute("/(home)/guides")({
   component: RouteComponent,
 });
 

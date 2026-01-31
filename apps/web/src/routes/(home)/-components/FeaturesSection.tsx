@@ -1,3 +1,5 @@
+import styles from "./FeaturesSection.module.css";
+
 import { Box, SimpleGrid } from "@mantine/core";
 import {
   IconChartArrowsVertical,
@@ -9,8 +11,6 @@ import {
 } from "@tabler/icons-react";
 
 import { FeatureCard } from "./FeatureCard";
-
-import styles from "./FeaturesSection.module.css";
 
 const featuresData = [
   {
@@ -54,7 +54,7 @@ const featuresData = [
 
 export function LanderFeaturesSection() {
   return (
-    <Box component="section" className={styles.featuresSection} id="features">
+    <Box className={styles.featuresSection} component="section" id="features">
       <div className={styles.featuresContainer}>
         <h2 className={styles.sectionTitle}>Core Capabilities</h2>
         {/* Using SimpleGrid for layout. Its cols and spacing props are fine. */}
@@ -65,11 +65,11 @@ export function LanderFeaturesSection() {
         >
           {featuresData.map((feature) => (
             <FeatureCard
-              key={feature.title}
-              icon={feature.icon}
-              title={feature.title}
               description={feature.description}
+              icon={feature.icon}
+              key={feature.title}
               soon={feature.soon}
+              title={feature.title}
             />
           ))}
         </SimpleGrid>

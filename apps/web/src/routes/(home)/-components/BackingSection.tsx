@@ -1,11 +1,11 @@
+import styles from "./BackingSection.module.css";
+
 import { SimpleGrid } from "@mantine/core";
 
 import FIOCRUZ from "@/assets/fiocruz.jpg";
 import FIOCRUZRO from "@/assets/fiocruz-ro.png";
 import LABIOQUIM from "@/assets/labioquim.png";
 import UFCSPA from "@/assets/ufcspa.png";
-
-import styles from "./BackingSection.module.css";
 
 const backers = [
   {

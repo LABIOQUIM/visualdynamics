@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.square {
+  width: 20px;
+  height: 20px;
+  background-color: var(--mantine-primary-color-light-color);
+  transform: scale(0.2) rotate(0deg);
+  animation: scaleRotate 1s infinite alternate ease-in-out;
+}
+
+@keyframes scaleRotate {
+  0% {
+    transform: scale(0.2) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}

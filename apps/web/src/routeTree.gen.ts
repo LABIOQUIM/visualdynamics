@@ -9,25 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as TermsIndexRouteImport } from './routes/terms/index'
-import { Route as PrivacyIndexRouteImport } from './routes/privacy/index'
-import { Route as GuidesIndexRouteImport } from './routes/guides/index'
-import { Route as AnalyticsIndexRouteImport } from './routes/analytics/index'
+import { Route as homeIndexRouteImport } from './routes/(home)/index'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as homeTermsOfServiceRouteImport } from './routes/(home)/terms-of-service'
+import { Route as homePrivacyRouteImport } from './routes/(home)/privacy'
+import { Route as homeGuidesRouteImport } from './routes/(home)/guides'
+import { Route as homeAnalyticsRouteImport } from './routes/(home)/analytics'
+import { Route as homeAboutRouteImport } from './routes/(home)/about'
 import { Route as AppSubmitIndexRouteImport } from './routes/app/submit/index'
 import { Route as ApphomeIndexRouteImport } from './routes/app/(home)/index'
 import { Route as AppSimulationsSimulationIdRouteImport } from './routes/app/simulations/$simulationId'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -38,29 +33,9 @@ const AppRouteRoute = AppRouteRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
+const homeIndexRoute = homeIndexRouteImport.update({
+  id: '/(home)/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TermsIndexRoute = TermsIndexRouteImport.update({
-  id: '/terms/',
-  path: '/terms/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyIndexRoute = PrivacyIndexRouteImport.update({
-  id: '/privacy/',
-  path: '/privacy/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GuidesIndexRoute = GuidesIndexRouteImport.update({
-  id: '/guides/',
-  path: '/guides/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnalyticsIndexRoute = AnalyticsIndexRouteImport.update({
-  id: '/analytics/',
-  path: '/analytics/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -72,6 +47,31 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRouteRoute,
+} as any)
+const homeTermsOfServiceRoute = homeTermsOfServiceRouteImport.update({
+  id: '/(home)/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const homePrivacyRoute = homePrivacyRouteImport.update({
+  id: '/(home)/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const homeGuidesRoute = homeGuidesRouteImport.update({
+  id: '/(home)/guides',
+  path: '/guides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const homeAnalyticsRoute = homeAnalyticsRouteImport.update({
+  id: '/(home)/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const homeAboutRoute = homeAboutRouteImport.update({
+  id: '/(home)/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppSubmitIndexRoute = AppSubmitIndexRouteImport.update({
   id: '/submit/',
@@ -91,46 +91,46 @@ const AppSimulationsSimulationIdRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
-  '/about': typeof AboutRoute
+  '/about': typeof homeAboutRoute
+  '/analytics': typeof homeAnalyticsRoute
+  '/guides': typeof homeGuidesRoute
+  '/privacy': typeof homePrivacyRoute
+  '/terms-of-service': typeof homeTermsOfServiceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/analytics': typeof AnalyticsIndexRoute
-  '/guides': typeof GuidesIndexRoute
-  '/privacy': typeof PrivacyIndexRoute
-  '/terms': typeof TermsIndexRoute
+  '/': typeof homeIndexRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/about': typeof AboutRoute
+  '/about': typeof homeAboutRoute
+  '/analytics': typeof homeAnalyticsRoute
+  '/guides': typeof homeGuidesRoute
+  '/privacy': typeof homePrivacyRoute
+  '/terms-of-service': typeof homeTermsOfServiceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/analytics': typeof AnalyticsIndexRoute
-  '/guides': typeof GuidesIndexRoute
-  '/privacy': typeof PrivacyIndexRoute
-  '/terms': typeof TermsIndexRoute
+  '/': typeof homeIndexRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
-  '/about': typeof AboutRoute
+  '/(home)/about': typeof homeAboutRoute
+  '/(home)/analytics': typeof homeAnalyticsRoute
+  '/(home)/guides': typeof homeGuidesRoute
+  '/(home)/privacy': typeof homePrivacyRoute
+  '/(home)/terms-of-service': typeof homeTermsOfServiceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/analytics/': typeof AnalyticsIndexRoute
-  '/guides/': typeof GuidesIndexRoute
-  '/privacy/': typeof PrivacyIndexRoute
-  '/terms/': typeof TermsIndexRoute
+  '/(home)/': typeof homeIndexRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/(home)/': typeof ApphomeIndexRoute
   '/app/submit/': typeof AppSubmitIndexRoute
@@ -138,70 +138,63 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/app'
     | '/auth'
     | '/about'
-    | '/auth/login'
-    | '/auth/register'
     | '/analytics'
     | '/guides'
     | '/privacy'
-    | '/terms'
+    | '/terms-of-service'
+    | '/auth/login'
+    | '/auth/register'
+    | '/'
     | '/app/simulations/$simulationId'
     | '/app/'
     | '/app/submit'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/auth'
     | '/about'
-    | '/auth/login'
-    | '/auth/register'
     | '/analytics'
     | '/guides'
     | '/privacy'
-    | '/terms'
+    | '/terms-of-service'
+    | '/auth/login'
+    | '/auth/register'
+    | '/'
     | '/app/simulations/$simulationId'
     | '/app'
     | '/app/submit'
   id:
     | '__root__'
-    | '/'
     | '/app'
     | '/auth'
-    | '/about'
+    | '/(home)/about'
+    | '/(home)/analytics'
+    | '/(home)/guides'
+    | '/(home)/privacy'
+    | '/(home)/terms-of-service'
     | '/auth/login'
     | '/auth/register'
-    | '/analytics/'
-    | '/guides/'
-    | '/privacy/'
-    | '/terms/'
+    | '/(home)/'
     | '/app/simulations/$simulationId'
     | '/app/(home)/'
     | '/app/submit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  AboutRoute: typeof AboutRoute
-  AnalyticsIndexRoute: typeof AnalyticsIndexRoute
-  GuidesIndexRoute: typeof GuidesIndexRoute
-  PrivacyIndexRoute: typeof PrivacyIndexRoute
-  TermsIndexRoute: typeof TermsIndexRoute
+  homeAboutRoute: typeof homeAboutRoute
+  homeAnalyticsRoute: typeof homeAnalyticsRoute
+  homeGuidesRoute: typeof homeGuidesRoute
+  homePrivacyRoute: typeof homePrivacyRoute
+  homeTermsOfServiceRoute: typeof homeTermsOfServiceRoute
+  homeIndexRoute: typeof homeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -216,39 +209,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/(home)/': {
+      id: '/(home)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/terms/': {
-      id: '/terms/'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy/': {
-      id: '/privacy/'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guides/': {
-      id: '/guides/'
-      path: '/guides'
-      fullPath: '/guides'
-      preLoaderRoute: typeof GuidesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/analytics/': {
-      id: '/analytics/'
-      path: '/analytics'
-      fullPath: '/analytics'
-      preLoaderRoute: typeof AnalyticsIndexRouteImport
+      preLoaderRoute: typeof homeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/register': {
@@ -264,6 +229,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRouteRoute
+    }
+    '/(home)/terms-of-service': {
+      id: '/(home)/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof homeTermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(home)/privacy': {
+      id: '/(home)/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof homePrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(home)/guides': {
+      id: '/(home)/guides'
+      path: '/guides'
+      fullPath: '/guides'
+      preLoaderRoute: typeof homeGuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(home)/analytics': {
+      id: '/(home)/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof homeAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(home)/about': {
+      id: '/(home)/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof homeAboutRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/app/submit/': {
       id: '/app/submit/'
@@ -320,14 +320,14 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
-  AboutRoute: AboutRoute,
-  AnalyticsIndexRoute: AnalyticsIndexRoute,
-  GuidesIndexRoute: GuidesIndexRoute,
-  PrivacyIndexRoute: PrivacyIndexRoute,
-  TermsIndexRoute: TermsIndexRoute,
+  homeAboutRoute: homeAboutRoute,
+  homeAnalyticsRoute: homeAnalyticsRoute,
+  homeGuidesRoute: homeGuidesRoute,
+  homePrivacyRoute: homePrivacyRoute,
+  homeTermsOfServiceRoute: homeTermsOfServiceRoute,
+  homeIndexRoute: homeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

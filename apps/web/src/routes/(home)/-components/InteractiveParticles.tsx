@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-
 import styles from "./InteractiveParticles.module.css";
+
+import { useEffect, useRef, useState } from "react";
 
 const NUM_PARTICLES = 200; // Adjust for performance and desired density
 
@@ -51,7 +51,7 @@ export function InteractiveParticles() {
           ...p,
           dx: -(mouseX - centerX) * p.sensitivity,
           dy: -(mouseY - centerY) * p.sensitivity,
-        }))
+        })),
       );
     };
 
@@ -63,14 +63,14 @@ export function InteractiveParticles() {
 
   return (
     <div
-      ref={containerRef}
-      className={styles.particleContainer}
       aria-hidden="true"
+      className={styles.particleContainer}
+      ref={containerRef}
     >
       {particles.map((p) => (
         <div
-          key={p.id}
           className={styles.particle} // Potentially add more type classes here
+          key={p.id}
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,

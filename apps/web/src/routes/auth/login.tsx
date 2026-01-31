@@ -91,7 +91,8 @@ function RouteComponent() {
       <Alert
         status={{
           status: "info",
-          title: "Login to continue to Visual Dynamics.",
+          title: "Login to continue to Visual Dynamics",
+          message: "Login to continue to Visual Dynamics",
         }}
       />
     );
