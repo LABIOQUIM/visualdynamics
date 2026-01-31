@@ -1,4 +1,4 @@
-import classes from "./ThreeDViewer.module.css";
+import classes from "./MolViewer.module.css";
 
 import { useEffect, useRef } from "react";
 import { IconCircleOff } from "@tabler/icons-react";
@@ -10,7 +10,7 @@ interface Props {
   macromolecules?: LatestMacromolecules;
 }
 
-export function ThreeDViewer({ macromolecules }: Props) {
+export function MolViewer({ macromolecules }: Props) {
   const viewerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

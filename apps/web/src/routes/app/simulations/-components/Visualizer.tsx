@@ -5,7 +5,7 @@ import { IconCloudOff, IconFolderOff } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { Loader } from "@/components/Loader";
-import { ThreeDViewer } from "@/components/ThreeDViewer/ThreeDViewer";
+import { MolViewer } from "@/components/MolViewer";
 import { getSimulation } from "@/queries/getSimulation";
 
 type VisualizerProps = {
@@ -40,7 +40,7 @@ export function Visualizer({ simulationId }: VisualizerProps) {
   }
 
   return (
-    <ThreeDViewer
+    <MolViewer
       macromolecules={{
         macromolecule: data.molecules.macromolecule,
         ligandPdb: data.molecules.ligand,

@@ -10,7 +10,7 @@ import { useEffect, useState } from "preact/hooks";
 
 import { useSimulationSubmitFormContext } from "./FormContext";
 
-import { ThreeDViewer } from "@/components/ThreeDViewer/ThreeDViewer";
+import { MolViewer } from "@/components/MolViewer";
 import { getAPIClient } from "@/lib/api";
 import { submitSimulation } from "@/mutations/submitSimulation";
 import type { LatestMacromolecules } from "@/queries/latestMacromolecules";
@@ -120,7 +120,7 @@ export function ReviewStep({ prev }: Props) {
             Download MDP Files
           </Button>
         </Box>
-        <ThreeDViewer macromolecules={files} />
+        <MolViewer macromolecules={files} />
       </Box>
 
       <Box className={classes.buttonContainer}>

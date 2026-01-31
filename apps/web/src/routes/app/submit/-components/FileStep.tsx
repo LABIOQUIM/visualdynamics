@@ -7,7 +7,7 @@ import { useState } from "preact/hooks";
 import { simulationTypeRadioData } from "./constants";
 import { useSimulationSubmitFormContext } from "./FormContext";
 
-import { ThreeDViewer } from "@/components/ThreeDViewer/ThreeDViewer";
+import { MolViewer } from "@/components/MolViewer";
 import type { LatestMacromolecules } from "@/queries/latestMacromolecules";
 
 type Props = {
@@ -178,7 +178,7 @@ export function SimulationSubmitFileStep({ next }: Props) {
               </>
             )}
           </Box>
-          <ThreeDViewer macromolecules={files} />
+          <MolViewer macromolecules={files} />
           <Button
             onClick={onNext}
             rightSection={<IconArrowRight />}
