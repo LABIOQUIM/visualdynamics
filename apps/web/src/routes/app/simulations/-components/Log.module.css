@@ -11,26 +11,6 @@
   flex-direction: column;
 }
 
-/* For Webkit browsers */
-*::-webkit-scrollbar {
-  width: 16px; /* width of the vertical scrollbar */
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--mantine-primary-color-filled); /* color of the scrollbar thumb */
-  border-radius: 12px; /* round the corners of the thumb */
-}
-
-*::-webkit-scrollbar-track {
-  background-color: transparent; /* color of the scrollbar track */
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: auto; /* "auto" or "none" */
-  scrollbar-color: var(--mantine-primary-color-filled) transparent; /* thumb color track color */
-}
-
 .containerTitle {
   display: flex;
   flex-direction: row;
