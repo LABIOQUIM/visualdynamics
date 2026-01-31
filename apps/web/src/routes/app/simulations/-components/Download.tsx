@@ -1,9 +1,13 @@
 import classes from "./Download.module.css";
 
-import { Box, Stack } from "@mantine/core";
+import { Box, Stack, Text } from "@mantine/core";
+import { IconFolderOff } from "@tabler/icons-react";
+import { useQuery } from "@tanstack/react-query";
 
 import { ArtifactDownload } from "@/components/ArtifactDownload";
+import { Loader } from "@/components/Loader";
 import { MetricCard } from "@/components/MetricCard";
+import { getSimulation } from "@/queries/getSimulation";
 
 type DownloadProps = {
   simulationId: string;
@@ -36,6 +40,23 @@ const targets = [
 ] as const;
 
 export function Download({ simulationId }: DownloadProps) {
+  const { data } = useQuery(getSimulation(simulationId));
+
+  if (!data) {
+    return <Loader />;
+  }
+
+  if (!data.isStored) {
+    return (
+      <Box className={classes.noDownloadContainer}>
+        <IconFolderOff size={64} />
+        <Text size="lg">
+          This simulation is not stored anymore. Downloads are unavailable.
+        </Text>
+      </Box>
+    );
+  }
+
   return (
     <Box className={classes.downloadContainer}>
       {targets.map((target) => (

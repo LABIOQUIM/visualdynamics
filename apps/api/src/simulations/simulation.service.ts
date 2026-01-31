@@ -327,6 +327,12 @@ export class SimulationService {
     const ligFilePath = `${simulationFolderPath}/run/originalLigand.pdb`;
     const stepFilePath = `${simulationFolderPath}/steps.txt`;
 
+    let isStored = false;
+
+    if (existsSync(simulationFolderPath)) {
+      isStored = true;
+    }
+
     let isRunning = false;
 
     if (existsSync(runningFilePath)) {
@@ -384,13 +390,11 @@ export class SimulationService {
         status: true,
         type: true,
       },
-      orderBy: {
-        createdAt: "desc",
-      },
     });
 
     return {
       isRunning,
+      isStored,
       queue,
       stepData,
       logData,

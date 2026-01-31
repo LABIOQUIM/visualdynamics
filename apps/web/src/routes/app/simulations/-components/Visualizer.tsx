@@ -1,7 +1,7 @@
 import classes from "./Visualizer.module.css";
 
 import { Box, Text } from "@mantine/core";
-import { IconCloudOff } from "@tabler/icons-react";
+import { IconCloudOff, IconFolderOff } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { Loader } from "@/components/Loader";
@@ -17,6 +17,17 @@ export function Visualizer({ simulationId }: VisualizerProps) {
 
   if (!data) {
     return <Loader />;
+  }
+
+  if (!data.isStored) {
+    return (
+      <Box className={classes.noMoleculesContainer}>
+        <IconFolderOff size={64} />
+        <Text size="lg">
+          This simulation is not stored anymore. 3D viewer is unavailable.
+        </Text>
+      </Box>
+    );
   }
 
   if (data.molecules.macromolecule === null) {

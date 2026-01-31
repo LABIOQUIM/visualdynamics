@@ -1,7 +1,7 @@
 import classes from "./ExecutionProgress.module.css";
 
 import { Box, Loader, Text } from "@mantine/core";
-import { IconCloudOff } from "@tabler/icons-react";
+import { IconCloudOff, IconFolderOff } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { Log } from "./Log";
@@ -38,6 +38,17 @@ export function ExecutionProgress({ simulationId }: ExecutionProgressProps) {
           Your simulation is in the queue (position: {data.queue})
         </Text>
         <RefetchTime />
+      </Box>
+    );
+  }
+
+  if (!data.isStored) {
+    return (
+      <Box className={classes.noLogsContainer}>
+        <IconFolderOff size={64} />
+        <Text size="lg">
+          This simulation is not stored anymore. Execution info is unavailable.
+        </Text>
       </Box>
     );
   }

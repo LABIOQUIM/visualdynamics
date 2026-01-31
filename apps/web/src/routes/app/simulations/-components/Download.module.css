@@ -4,3 +4,12 @@
   flex: 1;
   gap: var(--mantine-spacing-md);
 }
+
+.noDownloadContainer {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+  justify-content: center;
+}
