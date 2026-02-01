@@ -5,7 +5,6 @@ import { IconEye } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
-import type { Duration } from "dayjs/plugin/duration";
 import {
   MantineReactTable,
   type MRT_Cell,
@@ -17,6 +16,8 @@ import { useState } from "preact/hooks";
 import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 import { StatusBadge } from "@/components/StatusBadge";
+import { TableDateCell } from "@/components/TableDateCell";
+import { TableDurationCell } from "@/components/TableDurationCell";
 import { getUserSimulations } from "@/queries/getUserSimulations";
 
 export const Route = createFileRoute("/app/(home)/")({
@@ -30,18 +31,6 @@ function RouteComponent() {
   });
   const { data, isLoading } = useQuery(getUserSimulations(pagination));
 
-  function DateCell({ cell }: { cell: MRT_Cell<Simulation> }) {
-    const originalValue = cell.getValue<string | undefined>();
-
-    if (!originalValue) {
-      return "—";
-    }
-
-    const date = dayjs(originalValue);
-
-    return date.format("YYYY-MM-DD HH:mm:ss");
-  }
-
   function DurationAggregationFn(row: Simulation) {
     if (row.startedAt && row.endedAt) {
       const start = dayjs(row.startedAt);
@@ -51,20 +40,6 @@ function RouteComponent() {
     }
 
     return "—";
-  }
-
-  function DurationCell({ cell }: { cell: MRT_Cell<Simulation> }) {
-    const duration = cell.getValue<Duration | string>();
-
-    if (typeof duration === "string") {
-      return duration;
-    }
-
-    const hours = Math.floor(duration.asHours());
-    const minutes = duration.minutes();
-    const seconds = duration.seconds();
-
-    return `${hours}h ${minutes}m ${seconds}s`;
   }
 
   function StatusCell({ cell }: { cell: MRT_Cell<Simulation> }) {
@@ -139,22 +114,22 @@ function RouteComponent() {
         id: "duration",
         header: "Duration",
         accessorFn: DurationAggregationFn,
-        Cell: DurationCell,
+        Cell: TableDurationCell,
       },
       {
         accessorKey: "startedAt",
         header: "Started At",
-        Cell: DateCell,
+        Cell: TableDateCell,
       },
       {
         accessorKey: "endedAt",
         header: "Ended At",
-        Cell: DateCell,
+        Cell: TableDateCell,
       },
       {
         accessorKey: "createdAt",
         header: "Submitted",
-        Cell: DateCell,
+        Cell: TableDateCell,
       },
     ],
   });
