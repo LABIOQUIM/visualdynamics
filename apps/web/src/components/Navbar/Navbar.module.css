@@ -29,7 +29,7 @@
 
   height: calc(100dvh - var(--app-shell-header-offset) - 70px - 46.8px);
 
-  /*overflow-y: scroll;*/
+  overflow-y: scroll;
 }
 
 .mainLink {

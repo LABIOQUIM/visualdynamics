@@ -1,32 +1,32 @@
 import classes from "./Navbar.module.css";
 
-import { Box, Text } from "@mantine/core";
+import { ActionIcon, Box, Text } from "@mantine/core";
 import {
   IconAutomation,
   IconBrandGithub,
-  IconCrown,
   IconExternalLink,
   IconInfoCircle,
   IconListNumbers,
   IconMail,
   IconPlus,
   IconReportAnalytics,
+  IconServerSpark,
+  IconSettings,
   IconSpider,
+  IconTools,
+  IconUsers,
 } from "@tabler/icons-react";
+import { useMemo } from "preact/hooks";
 
 import { Section } from "./Section";
 import { User } from "./User";
+
+import { authClient } from "@/lib/auth-client";
 
 const sections: NavSection[] = [
   {
     title: "General",
     links: [
-      {
-        icon: IconCrown,
-        label: "Admin Dashboard",
-        href: "/",
-        role: "ADMINISTRATOR",
-      },
       { icon: IconInfoCircle, label: "About", href: "/" },
       {
         icon: IconReportAnalytics,
@@ -74,18 +74,53 @@ const sections: NavSection[] = [
   },
 ];
 
+const adminSection: NavSection = {
+  title: "Management",
+  links: [
+    {
+      label: "Users",
+      icon: IconUsers,
+      href: "/app/mgmt/users",
+    },
+    {
+      label: "Simulations",
+      icon: IconAutomation,
+      href: "/app/mgmt/simulations",
+    },
+    {
+      label: "Server Statistics",
+      icon: IconServerSpark,
+      href: "/app/mgmt/server",
+    },
+    {
+      label: "Tools",
+      icon: IconTools,
+      href: "/app/mgmt/tools",
+    },
+    {
+      label: "Settings",
+      icon: IconSettings,
+      href: "/app/mgmt/settings",
+    },
+  ],
+};
+
 interface Props {
   toggle(): void;
 }
 
 export function Navbar({ toggle }: Props) {
-  const mainLinks = sections.map((section) => (
-    <Section
-      key={section.title}
-      section={section}
-      toggle={toggle}
-      // userRole={data?.user?.role}
-    />
+  const { data } = authClient.useSession();
+
+  const finalSections = useMemo(() => {
+    if (data?.user?.role === "admin") {
+      return [adminSection, ...sections];
+    }
+    return sections;
+  }, [data]);
+
+  const mainLinks = finalSections.map((section) => (
+    <Section key={section.title} section={section} toggle={toggle} />
   ));
 
   return (
@@ -93,33 +128,36 @@ export function Navbar({ toggle }: Props) {
       <Box className={classes.section} display="flex">
         <Box className={classes.topLinks}>
           <Box className={classes.topLinksIcons}>
-            <a
-              className={classes.topLinksIcon}
+            <ActionIcon
+              component="a"
               href="https://github.com/labioquim/visualdynamics"
               rel="noreferrer"
               target="_blank"
               title="Visual Dynamics on GitHub"
+              variant="light"
             >
               <IconBrandGithub />
-            </a>
-            <a
-              className={classes.topLinksIcon}
+            </ActionIcon>
+            <ActionIcon
+              component="a"
               href="https://github.com/LABIOQUIM/visualdynamics/issues/new?template=bug_report.md"
               rel="noreferrer"
               target="_blank"
               title="Report a Bug"
+              variant="light"
             >
               <IconSpider />
-            </a>
-            <a
-              className={classes.topLinksIcon}
+            </ActionIcon>
+            <ActionIcon
+              component="a"
               href="mailto:visualdynamics@fiocruz.br"
               rel="noreferrer"
               target="_blank"
               title="LABIOQUIM Support Email"
+              variant="light"
             >
               <IconMail />
-            </a>
+            </ActionIcon>
           </Box>
           <Text className={classes.versionText}>v{__VERSION__}</Text>
         </Box>

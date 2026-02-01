@@ -19,9 +19,15 @@ import { Route as homePrivacyRouteImport } from './routes/(home)/privacy'
 import { Route as homeGuidesRouteImport } from './routes/(home)/guides'
 import { Route as homeAnalyticsRouteImport } from './routes/(home)/analytics'
 import { Route as homeAboutRouteImport } from './routes/(home)/about'
+import { Route as AppMgmtRouteRouteImport } from './routes/app/mgmt/route'
 import { Route as AppSubmitIndexRouteImport } from './routes/app/submit/index'
 import { Route as ApphomeIndexRouteImport } from './routes/app/(home)/index'
 import { Route as AppSimulationsSimulationIdRouteImport } from './routes/app/simulations/$simulationId'
+import { Route as AppMgmtUsersRouteImport } from './routes/app/mgmt/users'
+import { Route as AppMgmtToolsRouteImport } from './routes/app/mgmt/tools'
+import { Route as AppMgmtSimulationsRouteImport } from './routes/app/mgmt/simulations'
+import { Route as AppMgmtSettingsRouteImport } from './routes/app/mgmt/settings'
+import { Route as AppMgmtServerRouteImport } from './routes/app/mgmt/server'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
@@ -73,6 +79,11 @@ const homeAboutRoute = homeAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppMgmtRouteRoute = AppMgmtRouteRouteImport.update({
+  id: '/mgmt',
+  path: '/mgmt',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppSubmitIndexRoute = AppSubmitIndexRouteImport.update({
   id: '/submit/',
   path: '/submit/',
@@ -89,10 +100,36 @@ const AppSimulationsSimulationIdRoute =
     path: '/simulations/$simulationId',
     getParentRoute: () => AppRouteRoute,
   } as any)
+const AppMgmtUsersRoute = AppMgmtUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtToolsRoute = AppMgmtToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtSimulationsRoute = AppMgmtSimulationsRouteImport.update({
+  id: '/simulations',
+  path: '/simulations',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtSettingsRoute = AppMgmtSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtServerRoute = AppMgmtServerRouteImport.update({
+  id: '/server',
+  path: '/server',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
+  '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
   '/about': typeof homeAboutRoute
   '/analytics': typeof homeAnalyticsRoute
   '/guides': typeof homeGuidesRoute
@@ -101,12 +138,18 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
+  '/app/mgmt/server': typeof AppMgmtServerRoute
+  '/app/mgmt/settings': typeof AppMgmtSettingsRoute
+  '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
+  '/app/mgmt/tools': typeof AppMgmtToolsRoute
+  '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRouteRouteWithChildren
+  '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
   '/about': typeof homeAboutRoute
   '/analytics': typeof homeAnalyticsRoute
   '/guides': typeof homeGuidesRoute
@@ -115,6 +158,11 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
+  '/app/mgmt/server': typeof AppMgmtServerRoute
+  '/app/mgmt/settings': typeof AppMgmtSettingsRoute
+  '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
+  '/app/mgmt/tools': typeof AppMgmtToolsRoute
+  '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
@@ -123,6 +171,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
+  '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
   '/(home)/about': typeof homeAboutRoute
   '/(home)/analytics': typeof homeAnalyticsRoute
   '/(home)/guides': typeof homeGuidesRoute
@@ -131,6 +180,11 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/(home)/': typeof homeIndexRoute
+  '/app/mgmt/server': typeof AppMgmtServerRoute
+  '/app/mgmt/settings': typeof AppMgmtSettingsRoute
+  '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
+  '/app/mgmt/tools': typeof AppMgmtToolsRoute
+  '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/(home)/': typeof ApphomeIndexRoute
   '/app/submit/': typeof AppSubmitIndexRoute
@@ -140,6 +194,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/app'
     | '/auth'
+    | '/app/mgmt'
     | '/about'
     | '/analytics'
     | '/guides'
@@ -148,12 +203,18 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
+    | '/app/mgmt/server'
+    | '/app/mgmt/settings'
+    | '/app/mgmt/simulations'
+    | '/app/mgmt/tools'
+    | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app/'
     | '/app/submit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
+    | '/app/mgmt'
     | '/about'
     | '/analytics'
     | '/guides'
@@ -162,6 +223,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
+    | '/app/mgmt/server'
+    | '/app/mgmt/settings'
+    | '/app/mgmt/simulations'
+    | '/app/mgmt/tools'
+    | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app'
     | '/app/submit'
@@ -169,6 +235,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/app'
     | '/auth'
+    | '/app/mgmt'
     | '/(home)/about'
     | '/(home)/analytics'
     | '/(home)/guides'
@@ -177,6 +244,11 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/(home)/'
+    | '/app/mgmt/server'
+    | '/app/mgmt/settings'
+    | '/app/mgmt/simulations'
+    | '/app/mgmt/tools'
+    | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app/(home)/'
     | '/app/submit/'
@@ -265,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/mgmt': {
+      id: '/app/mgmt'
+      path: '/mgmt'
+      fullPath: '/app/mgmt'
+      preLoaderRoute: typeof AppMgmtRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/submit/': {
       id: '/app/submit/'
       path: '/submit'
@@ -286,16 +365,73 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSimulationsSimulationIdRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/mgmt/users': {
+      id: '/app/mgmt/users'
+      path: '/users'
+      fullPath: '/app/mgmt/users'
+      preLoaderRoute: typeof AppMgmtUsersRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/tools': {
+      id: '/app/mgmt/tools'
+      path: '/tools'
+      fullPath: '/app/mgmt/tools'
+      preLoaderRoute: typeof AppMgmtToolsRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/simulations': {
+      id: '/app/mgmt/simulations'
+      path: '/simulations'
+      fullPath: '/app/mgmt/simulations'
+      preLoaderRoute: typeof AppMgmtSimulationsRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/settings': {
+      id: '/app/mgmt/settings'
+      path: '/settings'
+      fullPath: '/app/mgmt/settings'
+      preLoaderRoute: typeof AppMgmtSettingsRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/server': {
+      id: '/app/mgmt/server'
+      path: '/server'
+      fullPath: '/app/mgmt/server'
+      preLoaderRoute: typeof AppMgmtServerRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
   }
 }
 
+interface AppMgmtRouteRouteChildren {
+  AppMgmtServerRoute: typeof AppMgmtServerRoute
+  AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
+  AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
+  AppMgmtToolsRoute: typeof AppMgmtToolsRoute
+  AppMgmtUsersRoute: typeof AppMgmtUsersRoute
+}
+
+const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
+  AppMgmtServerRoute: AppMgmtServerRoute,
+  AppMgmtSettingsRoute: AppMgmtSettingsRoute,
+  AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,
+  AppMgmtToolsRoute: AppMgmtToolsRoute,
+  AppMgmtUsersRoute: AppMgmtUsersRoute,
+}
+
+const AppMgmtRouteRouteWithChildren = AppMgmtRouteRoute._addFileChildren(
+  AppMgmtRouteRouteChildren,
+)
+
 interface AppRouteRouteChildren {
+  AppMgmtRouteRoute: typeof AppMgmtRouteRouteWithChildren
   AppSimulationsSimulationIdRoute: typeof AppSimulationsSimulationIdRoute
   ApphomeIndexRoute: typeof ApphomeIndexRoute
   AppSubmitIndexRoute: typeof AppSubmitIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppMgmtRouteRoute: AppMgmtRouteRouteWithChildren,
   AppSimulationsSimulationIdRoute: AppSimulationsSimulationIdRoute,
   ApphomeIndexRoute: ApphomeIndexRoute,
   AppSubmitIndexRoute: AppSubmitIndexRoute,
