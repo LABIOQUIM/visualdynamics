@@ -1,4 +1,4 @@
-import { Blockquote, type BlockquoteProps } from "@mantine/core";
+import { Blockquote, type BlockquoteProps, Title } from "@mantine/core";
 import {
   IconCheck,
   IconCircleX,
@@ -44,6 +44,9 @@ export function Alert({ status, ...rest }: Props) {
       pl="xl"
       {...rest}
     >
+      <Title c={`${statusData.color}.7`} size="h4">
+        {status.title}
+      </Title>
       {status.message}
     </Blockquote>
   );
