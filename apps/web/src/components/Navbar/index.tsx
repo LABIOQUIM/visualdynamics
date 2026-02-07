@@ -1,4 +1,4 @@
-import classes from "./Navbar.module.css";
+import classes from "./index.module.css";
 
 import { ActionIcon, Box, Text } from "@mantine/core";
 import {

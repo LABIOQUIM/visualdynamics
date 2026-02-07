@@ -116,7 +116,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: var(--mantine-spacing-md);
+  gap: var(--mantine-spacing-xs);
 }
 
 .topLinksIcon {
