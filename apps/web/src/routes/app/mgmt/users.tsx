@@ -1,10 +1,16 @@
 import classes from "./users.module.css";
 
+import { Stack, Title } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import type { UserWithRole } from "better-auth/plugins";
 import {
   MantineReactTable,
+  MRT_EditActionButtons,
   type MRT_PaginationState,
+  type MRT_TableOptions,
   useMantineReactTable,
 } from "mantine-react-table-open";
 import { useState } from "preact/hooks";
@@ -16,6 +22,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { TableBooleanCell } from "@/components/TableBooleanCell";
 import { TableDateCell } from "@/components/TableDateCell";
 import { TableTextCell } from "@/components/TableTextCell";
+import { authClient } from "@/lib/auth-client";
 import { getMgmtUsers } from "@/queries/getMgmtUsers";
 
 export const Route = createFileRoute("/app/mgmt/users")({
@@ -29,7 +36,37 @@ function RouteComponent() {
   });
   const { data, isLoading } = useQuery(getMgmtUsers());
 
-  console.log(data);
+  const onEditingRowSave: MRT_TableOptions<UserWithRole>["onEditingRowSave"] =
+    async ({ values, table, row }) => {
+      // const newValidationErrors = validateUser(values);
+      // if (Object.values(newValidationErrors).some((error) => error)) {
+      //   setValidationErrors(newValidationErrors);
+      //   return;
+      // }
+      // setValidationErrors({});
+      const { error } = await authClient.admin.updateUser({
+        userId: row.id,
+        data: values,
+      });
+
+      if (error) {
+        notifications.show({
+          message: error?.message,
+          color: "red",
+          icon: <IconX />,
+          withBorder: true,
+        });
+      } else {
+        notifications.show({
+          message: "User updated successfully",
+          color: "green",
+          icon: <IconCheck />,
+          withBorder: true,
+        });
+      }
+
+      table.setEditingRow(null); //exit editing mode
+    };
 
   const table = useMantineReactTable({
     data: data?.users || [],
@@ -37,11 +74,22 @@ function RouteComponent() {
     enableTopToolbar: false,
     manualPagination: true,
     enableStickyHeader: true,
+    editDisplayMode: "modal",
+    enableEditing: true,
+    onEditingRowSave,
+    getRowId: (row) => row.id,
     onPaginationChange,
     paginationDisplayMode: "pages",
     state: { isLoading, pagination },
     rowCount: data?.total,
     layoutMode: "grid",
+    renderEditRowModalContent: ({ table, row, internalEditComponents }) => (
+      <Stack>
+        <Title order={3}>Edit User</Title>
+        {internalEditComponents}
+        <MRT_EditActionButtons row={row} table={table} variant="text" />
+      </Stack>
+    ),
     mantinePaginationProps: {
       showRowsPerPage: false,
     },
@@ -62,13 +110,6 @@ function RouteComponent() {
     },
     columns: [
       {
-        header: "",
-        id: "actions",
-        // Cell: ActionsCell,
-        enableColumnActions: false,
-        maxSize: 48,
-      },
-      {
         accessorKey: "name",
         header: "Name",
         Cell: TableTextCell,
@@ -76,6 +117,7 @@ function RouteComponent() {
       {
         accessorKey: "username",
         header: "Username",
+        enableEditing: false,
         Cell: TableTextCell,
       },
       {
@@ -86,41 +128,63 @@ function RouteComponent() {
       {
         accessorKey: "role",
         header: "Role",
+        editVariant: "select",
+        mantineEditSelectProps: {
+          data: [
+            {
+              value: "admin",
+              label: "Admin",
+            },
+            {
+              value: "user",
+              label: "User",
+            },
+          ],
+        },
         Cell: TableRoleCell,
       },
       {
         accessorKey: "emailVerified",
         header: "Email Verified",
+        Edit: () => null,
         Cell: TableBooleanCell,
       },
       {
         accessorKey: "twoFactorEnabled",
         header: "2-Factor Enabled",
+        Edit: () => null,
         Cell: TableBooleanCell,
       },
       {
         accessorKey: "banned",
         header: "Banned",
+        Edit: () => null,
         Cell: TableBooleanCell,
       },
       {
         accessorKey: "banReason",
         header: "Ban Reason",
+        Edit: () => null,
         Cell: TableTextCell,
       },
       {
         accessorKey: "banExpires",
         header: "Ban Expires",
+        Edit: () => null,
         Cell: TableDateCell,
       },
       {
         accessorKey: "updatedAt",
         header: "Updated At",
+        Edit: () => null,
+        enableEditing: false,
         Cell: TableDateCell,
       },
       {
         accessorKey: "createdAt",
         header: "Created At",
+        Edit: () => null,
+        enableEditing: false,
         Cell: TableDateCell,
       },
     ],

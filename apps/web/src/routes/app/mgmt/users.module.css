@@ -17,3 +17,15 @@
   display: flex;
   justify-content: space-between;
 }
+
+.editActions {
+  top: 0;
+  background-color: var(--mantine-color-body);
+  border-bottom: 1px solid var(--mantine-color-default-border);
+  padding: var(--mantine-spacing-xs) 0;
+  display: flex;
+  flex-direction: row;
+  gap: var(--mantine-spacing-md);
+  position: sticky;
+  z-index: 1;
+}

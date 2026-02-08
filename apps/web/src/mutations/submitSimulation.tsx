@@ -1,9 +1,9 @@
 import { notifications } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
 
-import type { SimulationSubmitFormValues } from "@/components/SimulationSubmit/FormContext";
 import { getAPIClient } from "@/lib/api";
 import { router } from "@/lib/router";
+import type { SimulationSubmitFormValues } from "@/routes/app/submit/-components/FormContext";
 
 export async function submitSimulation(
   values: SimulationSubmitFormValues,
