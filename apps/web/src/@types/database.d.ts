@@ -27,4 +27,10 @@ declare global {
     createdAt: Date;
     updatedAt: Date | null;
   };
+
+  type SimulationWithUser = Simulation & {
+    user: {
+      username: string;
+    };
+  };
 }
