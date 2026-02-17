@@ -34,16 +34,11 @@ function RouteComponent() {
     pageIndex: 0,
     pageSize: 10,
   });
-  const { data, isLoading } = useQuery(getMgmtUsers());
+  const { data, isLoading } = useQuery(getMgmtUsers(pagination));
 
   const onEditingRowSave: MRT_TableOptions<UserWithRole>["onEditingRowSave"] =
     async ({ values, table, row }) => {
-      // const newValidationErrors = validateUser(values);
-      // if (Object.values(newValidationErrors).some((error) => error)) {
-      //   setValidationErrors(newValidationErrors);
-      //   return;
-      // }
-      // setValidationErrors({});
+      // TODO: Should validate user input before updating user
       const { error } = await authClient.admin.updateUser({
         userId: row.id,
         data: values,
@@ -65,7 +60,7 @@ function RouteComponent() {
         });
       }
 
-      table.setEditingRow(null); //exit editing mode
+      table.setEditingRow(null);
     };
 
   const table = useMantineReactTable({
