@@ -425,6 +425,28 @@ export class SimulationService {
     return { records, total };
   }
 
+  async getMgmtSimulations(id: string, pageSize: number, page: number) {
+    const [records, total] = await this.prisma.$transaction([
+      this.prisma.simulation.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+        skip: page * pageSize,
+        take: pageSize,
+      }),
+      this.prisma.simulation.count(),
+    ]);
+
+    return { records, total };
+  }
+
   async getUserLastSimulations(email: string) {
     let simulations: { [key: string]: Omit<Simulation, "updatedAt"> } = {};
 

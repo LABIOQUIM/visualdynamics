@@ -9,6 +9,7 @@ import {
   Query,
   Req,
   StreamableFile,
+  UnauthorizedException,
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
@@ -160,6 +161,25 @@ export class SimulationController {
     @Query("page") page: number = 1,
   ) {
     const data = await this.simulationService.getUserSimulations(
+      session.user.id,
+      Number(pageSize),
+      Number(page),
+    );
+
+    return data;
+  }
+
+  @Get("/management")
+  async getMgmtSimulations(
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("pageSize") pageSize: number = 10,
+    @Query("page") page: number = 1,
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    const data = await this.simulationService.getMgmtSimulations(
       session.user.id,
       Number(pageSize),
       Number(page),
