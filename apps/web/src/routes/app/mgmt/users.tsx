@@ -74,7 +74,7 @@ function RouteComponent() {
     onEditingRowSave,
     getRowId: (row) => row.id,
     onPaginationChange,
-    paginationDisplayMode: "pages",
+    paginationDisplayMode: "default",
     state: { isLoading, pagination },
     rowCount: data?.total,
     layoutMode: "grid",
