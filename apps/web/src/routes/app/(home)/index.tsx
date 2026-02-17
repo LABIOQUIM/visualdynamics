@@ -67,7 +67,7 @@ function RouteComponent() {
     manualPagination: true,
     enableStickyHeader: true,
     onPaginationChange,
-    paginationDisplayMode: "pages",
+    paginationDisplayMode: "default",
     state: { isLoading, pagination },
     rowCount: data?.total,
     layoutMode: "grid",
