@@ -4,6 +4,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  NotFoundException,
   Param,
   Post,
   Query,
@@ -150,6 +151,17 @@ export class SimulationController {
       session.user.username,
       simulationId,
     );
+
+    if (!data) {
+      throw new NotFoundException("Simulation not found");
+    }
+
+    if (
+      data.simulation.user.username !== session.user.username &&
+      session.user.role !== "admin"
+    ) {
+      throw new UnauthorizedException("Unauthorized");
+    }
 
     return data;
   }

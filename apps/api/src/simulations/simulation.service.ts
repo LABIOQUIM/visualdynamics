@@ -374,9 +374,6 @@ export class SimulationService {
 
     const simulation = await this.prisma.simulation.findFirst({
       where: {
-        user: {
-          username,
-        },
         id: simulationId,
       },
       select: {
@@ -389,6 +386,11 @@ export class SimulationService {
         endedAt: true,
         status: true,
         type: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
       },
     });
 
