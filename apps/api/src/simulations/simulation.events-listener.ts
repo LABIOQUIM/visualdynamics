@@ -8,8 +8,6 @@ import {
 import { PrismaPg } from "@prisma/adapter-pg";
 import axios from "axios";
 import { Queue, QueueEvents } from "bullmq";
-import { existsSync, rmSync, writeFileSync } from "node:fs";
-import * as path from "node:path";
 
 import { PrismaClient } from "../generated/prisma/client";
 
@@ -43,6 +41,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     });
 
     // Subscribe to the events.
+    this.queueEvents.on("waiting", ({ jobId }) => this.onWaiting(jobId));
     this.queueEvents.on("active", ({ jobId }) => this.onActive(jobId));
     this.queueEvents.on("completed", ({ jobId }) => this.onCompleted(jobId));
     this.queueEvents.on("failed", ({ jobId, failedReason }) =>
@@ -69,10 +68,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         where: { id: job.data.simulationId },
         data: { status: "RUNNING", startedAt: new Date() },
       });
-      const queuedFilePath = `/files/${job.data.user.username}/queued`;
-      const runningFilePath = `/files/${job.data.user.username}/running`;
-      if (existsSync(queuedFilePath)) rmSync(queuedFilePath);
-      writeFileSync(runningFilePath, job.data.simulationId);
     } catch (error) {
       this.logger.error(
         `Failed during pre-step setup for job ${job.id}`,
@@ -82,19 +77,31 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  private async onWaiting(jobId: string) {
+    this.logger.log(`Job ${jobId} completed. Running post-steps...`);
+    const job = await this.simulationQueue.getJob(jobId);
+    if (!job) return null;
+
+    const { simulationId } = job.data;
+
+    await prisma.simulation.update({
+      where: {
+        id: simulationId,
+      },
+      data: {
+        status: "QUEUED",
+        startedAt: "",
+        endedAt: "",
+      },
+    });
+  }
+
   private async onCompleted(jobId: string) {
     this.logger.log(`Job ${jobId} completed. Running post-steps...`);
     const job = await this.simulationQueue.getJob(jobId);
     if (!job) return null;
 
-    const {
-      user: { username },
-      simulationId,
-    } = job.data;
-
-    const folder = path.resolve(`/files/${username}/${simulationId}`);
-
-    const fileEndedPath = path.resolve(folder, "ended");
+    const { simulationId } = job.data;
 
     await prisma.simulation.update({
       where: {
@@ -106,8 +113,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
       },
     });
 
-    writeFileSync(fileEndedPath, "ended");
-    rmSync(`/files/${username}/running`);
     await axios.post("http://mailer:3000/send-email", {
       from: `LABIOQUIM <${process.env.SMTP_USER}>`,
       to: job.data.user.email,
@@ -131,7 +136,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         errorCause: failedReason,
       },
     });
-    rmSync(`/files/${job.data.user.username}/running`);
+
     await axios.post("http://mailer:3000/send-email", {
       from: `LABIOQUIM <${process.env.SMTP_USER}>`,
       to: job.data.user.email,

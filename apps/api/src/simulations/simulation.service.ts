@@ -18,6 +18,7 @@ import { cwd } from "process";
 
 import { Simulation, SIMULATION_TYPE } from "../generated/prisma/client";
 import { PrismaService } from "../prisma.service";
+import { readFileData } from "../utils/readFileData";
 
 import type { NewSimulationBody } from "./simulation.types";
 
@@ -305,20 +306,41 @@ export class SimulationService {
 
   async getSimulationDetails(username: string, simulationId: string) {
     const userFolderPath = `/files/${username}`;
+    const jobs = await this.simulationQueue.getJobs();
+    const waitingJobs = await this.simulationQueue.getJobs(["waiting"]);
+    const activeJobs = await this.simulationQueue.getJobs(["active"]);
 
-    const runningFilePath = `${userFolderPath}/running`;
-    const queuedFilePath = `${userFolderPath}/queued`;
+    // Get Job ID
+    let jobId = "-1";
 
-    let queue = -1;
+    const jobIndex = jobs.findIndex(
+      (job) => job.data.simulationId === simulationId,
+    );
 
-    if (existsSync(queuedFilePath)) {
-      const waitingJobs = await this.simulationQueue.getJobs(["waiting"]);
+    if (jobIndex !== -1) {
+      jobId = jobs[jobIndex].id;
+    }
 
-      const jobIndex = waitingJobs.findIndex(
-        (job) => job.data.simulationId === simulationId,
-      );
+    // Get Job Queue Position
+    let queuePosition = -1;
 
-      queue = jobIndex !== -1 ? jobIndex + 1 : -1;
+    const waitingJobIndex = waitingJobs.findIndex(
+      (job) => job.data.simulationId === simulationId,
+    );
+
+    if (waitingJobIndex !== -1) {
+      queuePosition = waitingJobs.length - waitingJobIndex;
+    }
+
+    // Get Job Status
+    let isActive = false;
+
+    const activeJobIndex = activeJobs.findIndex(
+      (job) => job.data.simulationId === simulationId,
+    );
+
+    if (activeJobIndex !== -1) {
+      isActive = true;
     }
 
     const simulationFolderPath = `${userFolderPath}/${simulationId}`;
@@ -333,28 +355,15 @@ export class SimulationService {
       isStored = true;
     }
 
-    let isRunning = false;
-
-    if (existsSync(runningFilePath)) {
-      isRunning = true;
-    }
-
     let stepData: string[] = [];
     let logData: string[] = [];
 
     if (existsSync(stepFilePath)) {
-      stepData = readFileSync(stepFilePath, { encoding: "utf-8" })
-        .split("\n")
-        .filter((s) => s.length);
+      stepData = readFileData(stepFilePath, false);
     }
 
     if (existsSync(logFilePath)) {
-      logData = readFileSync(logFilePath, { encoding: "utf-8" })
-        .replaceAll("\r", "\n")
-        .split("\n")
-        .filter((l) => l.length)
-        .reverse();
-      // .splice(0, 30);
+      logData = readFileData(logFilePath, true);
     }
 
     let molecules = {
@@ -363,13 +372,11 @@ export class SimulationService {
     };
 
     if (existsSync(molFilePath)) {
-      molecules.macromolecule = readFileSync(molFilePath, {
-        encoding: "utf-8",
-      });
+      molecules.macromolecule = readFileData(molFilePath, false).join("\n");
     }
 
     if (existsSync(ligFilePath)) {
-      molecules.ligand = readFileSync(ligFilePath, { encoding: "utf-8" });
+      molecules.ligand = readFileData(ligFilePath, false).join("\n");
     }
 
     const simulation = await this.prisma.simulation.findFirst({
@@ -395,9 +402,10 @@ export class SimulationService {
     });
 
     return {
-      isRunning,
+      isActive,
       isStored,
-      queue,
+      queuePosition,
+      jobId,
       stepData,
       logData,
       simulation,
