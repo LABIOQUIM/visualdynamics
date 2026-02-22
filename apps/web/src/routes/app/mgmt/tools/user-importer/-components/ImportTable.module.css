@@ -1,0 +1,19 @@
+.paper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tableContainer {
+  flex: 1 1 0;
+}
+
+.tableHead {
+  border: 0 0 1px 0 solid var(--mantine-color-default-border);
+}
+
+.tableHeadCell {
+  background-color: darken(var(--mantine-color-body), 0.025);
+  display: flex;
+  justify-content: space-between;
+}

@@ -24,10 +24,12 @@ import { Route as AppSubmitIndexRouteImport } from './routes/app/submit/index'
 import { Route as ApphomeIndexRouteImport } from './routes/app/(home)/index'
 import { Route as AppSimulationsSimulationIdRouteImport } from './routes/app/simulations/$simulationId'
 import { Route as AppMgmtUsersRouteImport } from './routes/app/mgmt/users'
-import { Route as AppMgmtToolsRouteImport } from './routes/app/mgmt/tools'
 import { Route as AppMgmtSimulationsRouteImport } from './routes/app/mgmt/simulations'
 import { Route as AppMgmtSettingsRouteImport } from './routes/app/mgmt/settings'
 import { Route as AppMgmtServerRouteImport } from './routes/app/mgmt/server'
+import { Route as AppMgmtToolsIndexRouteImport } from './routes/app/mgmt/tools/index'
+import { Route as AppMgmtToolsUserImporterRouteRouteImport } from './routes/app/mgmt/tools/user-importer/route'
+import { Route as AppMgmtToolsUserImporterIndexRouteImport } from './routes/app/mgmt/tools/user-importer/index'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
@@ -105,11 +107,6 @@ const AppMgmtUsersRoute = AppMgmtUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AppMgmtRouteRoute,
 } as any)
-const AppMgmtToolsRoute = AppMgmtToolsRouteImport.update({
-  id: '/tools',
-  path: '/tools',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
 const AppMgmtSimulationsRoute = AppMgmtSimulationsRouteImport.update({
   id: '/simulations',
   path: '/simulations',
@@ -125,6 +122,23 @@ const AppMgmtServerRoute = AppMgmtServerRouteImport.update({
   path: '/server',
   getParentRoute: () => AppMgmtRouteRoute,
 } as any)
+const AppMgmtToolsIndexRoute = AppMgmtToolsIndexRouteImport.update({
+  id: '/tools/',
+  path: '/tools/',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtToolsUserImporterRouteRoute =
+  AppMgmtToolsUserImporterRouteRouteImport.update({
+    id: '/tools/user-importer',
+    path: '/tools/user-importer',
+    getParentRoute: () => AppMgmtRouteRoute,
+  } as any)
+const AppMgmtToolsUserImporterIndexRoute =
+  AppMgmtToolsUserImporterIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppMgmtToolsUserImporterRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
@@ -141,11 +155,13 @@ export interface FileRoutesByFullPath {
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
-  '/app/mgmt/tools': typeof AppMgmtToolsRoute
   '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
+  '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
+  '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRouteRouteWithChildren
@@ -161,11 +177,12 @@ export interface FileRoutesByTo {
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
-  '/app/mgmt/tools': typeof AppMgmtToolsRoute
   '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
+  '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -183,11 +200,13 @@ export interface FileRoutesById {
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
-  '/app/mgmt/tools': typeof AppMgmtToolsRoute
   '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/(home)/': typeof ApphomeIndexRoute
   '/app/submit/': typeof AppSubmitIndexRoute
+  '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
+  '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -206,11 +225,13 @@ export interface FileRouteTypes {
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
-    | '/app/mgmt/tools'
     | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app/'
     | '/app/submit'
+    | '/app/mgmt/tools/user-importer'
+    | '/app/mgmt/tools'
+    | '/app/mgmt/tools/user-importer/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -226,11 +247,12 @@ export interface FileRouteTypes {
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
-    | '/app/mgmt/tools'
     | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app'
     | '/app/submit'
+    | '/app/mgmt/tools'
+    | '/app/mgmt/tools/user-importer'
   id:
     | '__root__'
     | '/app'
@@ -247,11 +269,13 @@ export interface FileRouteTypes {
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
-    | '/app/mgmt/tools'
     | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app/(home)/'
     | '/app/submit/'
+    | '/app/mgmt/tools/user-importer'
+    | '/app/mgmt/tools/'
+    | '/app/mgmt/tools/user-importer/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -372,13 +396,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtUsersRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
-    '/app/mgmt/tools': {
-      id: '/app/mgmt/tools'
-      path: '/tools'
-      fullPath: '/app/mgmt/tools'
-      preLoaderRoute: typeof AppMgmtToolsRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
-    }
     '/app/mgmt/simulations': {
       id: '/app/mgmt/simulations'
       path: '/simulations'
@@ -400,23 +417,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtServerRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
+    '/app/mgmt/tools/': {
+      id: '/app/mgmt/tools/'
+      path: '/tools'
+      fullPath: '/app/mgmt/tools'
+      preLoaderRoute: typeof AppMgmtToolsIndexRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/tools/user-importer': {
+      id: '/app/mgmt/tools/user-importer'
+      path: '/tools/user-importer'
+      fullPath: '/app/mgmt/tools/user-importer'
+      preLoaderRoute: typeof AppMgmtToolsUserImporterRouteRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/tools/user-importer/': {
+      id: '/app/mgmt/tools/user-importer/'
+      path: '/'
+      fullPath: '/app/mgmt/tools/user-importer/'
+      preLoaderRoute: typeof AppMgmtToolsUserImporterIndexRouteImport
+      parentRoute: typeof AppMgmtToolsUserImporterRouteRoute
+    }
   }
 }
+
+interface AppMgmtToolsUserImporterRouteRouteChildren {
+  AppMgmtToolsUserImporterIndexRoute: typeof AppMgmtToolsUserImporterIndexRoute
+}
+
+const AppMgmtToolsUserImporterRouteRouteChildren: AppMgmtToolsUserImporterRouteRouteChildren =
+  {
+    AppMgmtToolsUserImporterIndexRoute: AppMgmtToolsUserImporterIndexRoute,
+  }
+
+const AppMgmtToolsUserImporterRouteRouteWithChildren =
+  AppMgmtToolsUserImporterRouteRoute._addFileChildren(
+    AppMgmtToolsUserImporterRouteRouteChildren,
+  )
 
 interface AppMgmtRouteRouteChildren {
   AppMgmtServerRoute: typeof AppMgmtServerRoute
   AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
   AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
-  AppMgmtToolsRoute: typeof AppMgmtToolsRoute
   AppMgmtUsersRoute: typeof AppMgmtUsersRoute
+  AppMgmtToolsUserImporterRouteRoute: typeof AppMgmtToolsUserImporterRouteRouteWithChildren
+  AppMgmtToolsIndexRoute: typeof AppMgmtToolsIndexRoute
 }
 
 const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
   AppMgmtServerRoute: AppMgmtServerRoute,
   AppMgmtSettingsRoute: AppMgmtSettingsRoute,
   AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,
-  AppMgmtToolsRoute: AppMgmtToolsRoute,
   AppMgmtUsersRoute: AppMgmtUsersRoute,
+  AppMgmtToolsUserImporterRouteRoute:
+    AppMgmtToolsUserImporterRouteRouteWithChildren,
+  AppMgmtToolsIndexRoute: AppMgmtToolsIndexRoute,
 }
 
 const AppMgmtRouteRouteWithChildren = AppMgmtRouteRoute._addFileChildren(

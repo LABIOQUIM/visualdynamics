@@ -4405,6 +4405,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/papaparse@npm:^5.3.9":
+  version: 5.5.2
+  resolution: "@types/papaparse@npm:5.5.2"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10/35c38d8c789a0512465665fa6472e8eda7a20413227aafc25b55955a0ced8a061dfbeb0c75658393ebe61670cb95064cc3753ce1a0bac93a12c53ff569d15170
+  languageName: node
+  linkType: hard
+
 "@types/qs@npm:*":
   version: 6.9.14
   resolution: "@types/qs@npm:6.9.14"
@@ -12666,6 +12675,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"papaparse@npm:^5.4.1":
+  version: 5.5.3
+  resolution: "papaparse@npm:5.5.3"
+  checksum: 10/383e38f8ff910be48b684e7f47b84dbe5e67708669c13bb21f316a0591ef183ff670dfc7eb9f6d0a8b67e21a5b0e8934712cda96ff8fb678d6591e597d108bd1
+  languageName: node
+  linkType: hard
+
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -13683,6 +13699,16 @@ __metadata:
     react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
   checksum: 10/e40a568a59ddccce3bdf23d0990cbd996e5c1d82f268ca5d23e6f926739fdac7370be0e836db543cc77c30e853fe5c849b58be29d867db4786deb2d2bd57cf33
+  languageName: node
+  linkType: hard
+
+"react-papaparse@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "react-papaparse@npm:4.4.0"
+  dependencies:
+    "@types/papaparse": "npm:^5.3.9"
+    papaparse: "npm:^5.4.1"
+  checksum: 10/6ed7ca142c5d0687f2ef776cdd52626371b95207ed3b12802a7d1e6fc8b0a9bc6f8bacbe78d52f578cbfaa3cf252103f0b244bbdc6e0a8ccf1c37d704fb6cd99
   languageName: node
   linkType: hard
 
@@ -16921,6 +16947,7 @@ __metadata:
     postcss-preset-mantine: "npm:^1.18.0"
     postcss-simple-vars: "npm:^7.0.1"
     preact: "npm:^10.27.2"
+    react-papaparse: "npm:^4.4.0"
     recharts: "npm:^3.4.1"
     tiny-invariant: "npm:^1.3.3"
     vite: "npm:rolldown-vite@7.2.2"
