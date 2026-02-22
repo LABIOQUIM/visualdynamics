@@ -1,11 +1,14 @@
 import { Button, Modal, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { notifications } from "@mantine/notifications";
+import { useQuery } from "@tanstack/react-query";
 import type { MRT_TableInstance } from "mantine-react-table-open";
-import { useCallback, useMemo } from "preact/hooks";
+import { useCallback, useMemo, useState } from "preact/hooks";
 
 import type { ImporterUser } from "./Provider";
 
 import { authClient } from "@/lib/auth-client";
+import { getMgmtUsers } from "@/queries/getMgmtUsers";
 
 type Props = {
   table: MRT_TableInstance<ImporterUser>;
@@ -13,6 +16,8 @@ type Props = {
 
 export function ImportButton({ table }: Props) {
   const [opened, { open, close }] = useDisclosure(false);
+  const [isPending, setPending] = useState(false);
+  const { refetch } = useQuery(getMgmtUsers({}));
 
   const selectedRows = useMemo(
     () => table.getSelectedRowModel().rows,
@@ -20,7 +25,8 @@ export function ImportButton({ table }: Props) {
   );
 
   const onImport = useCallback(async () => {
-    for (const user of selectedRows) {
+    setPending(true);
+    for await (const user of selectedRows) {
       await authClient.admin.createUser({
         email: user.original.email.trim(),
         name: user.original.name.trim(),
@@ -29,9 +35,19 @@ export function ImportButton({ table }: Props) {
         data: {
           username: user.original.username.trim(),
           displayUsername: user.original.username.trim(),
+          createdAt: user.original.createdAt,
+          updatedAt: user.original.updatedAt,
         },
       });
     }
+    notifications.show({
+      message: `Imported ${selectedRows.length} users`,
+      color: "green",
+    });
+    table.resetRowSelection();
+    refetch();
+    close();
+    setPending(false);
   }, [selectedRows]);
 
   return (
@@ -42,7 +58,7 @@ export function ImportButton({ table }: Props) {
           system.
         </Text>
 
-        <Button fullWidth mt="md" onClick={onImport}>
+        <Button fullWidth loading={isPending} mt="md" onClick={onImport}>
           Confirm Import
         </Button>
       </Modal>
