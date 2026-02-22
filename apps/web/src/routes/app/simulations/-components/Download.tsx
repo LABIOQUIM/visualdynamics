@@ -71,6 +71,11 @@ export function Download({ simulationId }: DownloadProps) {
                 <ArtifactDownload simulationId={simulationId} target="mdp" />
               )}
               <ArtifactDownload
+                disabled={
+                  target.key !== "commands"
+                    ? !["COMPLETED"].includes(data.simulation.status)
+                    : false
+                }
                 simulationId={simulationId}
                 target={target.key}
               />

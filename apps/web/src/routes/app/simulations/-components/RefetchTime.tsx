@@ -32,14 +32,14 @@ export function RefetchTime() {
 
   const isDone = data.stepData.some((e) => e === "#analyzemd");
 
-  if (!data.isRunning && data.queue === -1) {
+  if (!data.isActive && data.queuePosition === -1) {
     if (isDone) {
       return <Text>Simulation complete</Text>;
     }
     return <Text>Simulation stopped</Text>;
   }
 
-  if (!data.isRunning && data.queue === -1) {
+  if (!data.isActive && data.queuePosition === -1) {
     return (
       <Text>
         Your simulation might be starting. We&apos;ll check again in{" "}
@@ -48,7 +48,7 @@ export function RefetchTime() {
     );
   }
 
-  if (!data.isRunning && data.queue !== -1) {
+  if (!data.isActive && data.queuePosition !== -1) {
     return <Text>We&apos;ll check again in {secsToRefetch} second(s)</Text>;
   }
 

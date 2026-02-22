@@ -30,12 +30,12 @@ export function ExecutionProgress({ simulationId }: ExecutionProgressProps) {
     );
   }
 
-  if (data.isRunning && data.queue !== -1) {
+  if (data.isActive && data.queuePosition !== -1) {
     return (
       <Box className={classes.noLogsContainer}>
         <Loader />
         <Text size="lg">
-          Your simulation is in the queue (position: {data.queue})
+          Your simulation is in the queue (position: {data.queuePosition})
         </Text>
         <RefetchTime />
       </Box>
@@ -55,7 +55,7 @@ export function ExecutionProgress({ simulationId }: ExecutionProgressProps) {
 
   return (
     <Box className={classes.container}>
-      <Steps isSimulationRunning={data.isRunning} stepsDone={data.stepData} />
+      <Steps isSimulationRunning={data.isActive} stepsDone={data.stepData} />
       <Log logs={data.logData} />
     </Box>
   );

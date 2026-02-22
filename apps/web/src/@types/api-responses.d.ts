@@ -2,9 +2,10 @@ export {};
 
 declare global {
   type SimulationDetails = {
-    isRunning: boolean;
+    isActive: boolean;
     isStored: boolean;
-    queue: number;
+    queuePosition: number;
+    jobId: string;
     stepData: string[];
     logData: string[];
     simulation: Simulation;

@@ -10,9 +10,11 @@ import { downloadArtifact } from "@/queries/downloadArtifact";
 type ArtifactDownloadProps = {
   simulationId: string;
   target: ArtifactDownloadTarget;
+  disabled?: boolean;
 };
 
 export function ArtifactDownload({
+  disabled,
   simulationId,
   target,
 }: ArtifactDownloadProps) {
@@ -46,6 +48,7 @@ export function ArtifactDownload({
         inner: classes.inner,
         label: classes.label,
       }}
+      disabled={disabled || isLoading}
       leftSection={<IconDownload />}
       loading={isLoading}
       onClick={handleDownload}
