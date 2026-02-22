@@ -1,15 +1,44 @@
 import { queryOptions } from "@tanstack/react-query";
-import type { MRT_PaginationState } from "mantine-react-table-open";
+import type {
+  MRT_ColumnFiltersState,
+  MRT_PaginationState,
+  MRT_SortingState,
+} from "mantine-react-table-open";
 
 import { authClient } from "@/lib/auth-client";
 
-export const fetchMgmtUsers = async (
-  props: MRT_PaginationState = { pageIndex: 1, pageSize: 10 },
-) => {
+type Props = {
+  pagination?: MRT_PaginationState;
+  columnFilters?: MRT_ColumnFiltersState;
+  sorting?: MRT_SortingState;
+};
+
+export const fetchMgmtUsers = async ({
+  pagination,
+  columnFilters,
+  sorting,
+}: Props) => {
   const { data, error } = await authClient.admin.listUsers({
     query: {
-      limit: props.pageSize,
-      offset: props.pageIndex * props.pageSize,
+      limit: pagination ? pagination.pageSize : 999999,
+      offset: pagination ? pagination.pageIndex * pagination.pageSize : 0,
+      filterField:
+        columnFilters && columnFilters.length > 0
+          ? columnFilters[0].id
+          : undefined,
+      filterOperator:
+        columnFilters && columnFilters.length > 0 ? "contains" : undefined,
+      filterValue:
+        columnFilters && columnFilters.length > 0
+          ? (columnFilters[0].value as string)
+          : undefined,
+      sortBy: sorting && sorting.length > 0 ? sorting[0].id : undefined,
+      sortDirection:
+        sorting && sorting.length > 0
+          ? sorting[0].desc
+            ? "desc"
+            : "asc"
+          : undefined,
     },
   });
 
@@ -20,10 +49,8 @@ export const fetchMgmtUsers = async (
   return data;
 };
 
-export const getMgmtUsers = (
-  props: MRT_PaginationState = { pageIndex: 1, pageSize: 10 },
-) =>
+export const getMgmtUsers = ({ pagination, columnFilters, sorting }: Props) =>
   queryOptions({
-    queryKey: ["mgmt-users", props],
-    queryFn: () => fetchMgmtUsers(props),
+    queryKey: ["mgmt-users", pagination, columnFilters, sorting],
+    queryFn: () => fetchMgmtUsers({ pagination, columnFilters, sorting }),
   });

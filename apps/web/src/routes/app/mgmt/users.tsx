@@ -8,8 +8,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { UserWithRole } from "better-auth/plugins";
 import {
   MantineReactTable,
+  type MRT_ColumnFiltersState,
   MRT_EditActionButtons,
   type MRT_PaginationState,
+  type MRT_SortingState,
   type MRT_TableOptions,
   useMantineReactTable,
 } from "mantine-react-table-open";
@@ -34,7 +36,13 @@ function RouteComponent() {
     pageIndex: 0,
     pageSize: 10,
   });
-  const { data, isLoading } = useQuery(getMgmtUsers(pagination));
+  const [columnFilters, onColumnFiltersChange] =
+    useState<MRT_ColumnFiltersState>([]);
+  const [sorting, onSortingChange] = useState<MRT_SortingState>([]);
+
+  const { data, isLoading } = useQuery(
+    getMgmtUsers({ pagination, columnFilters, sorting }),
+  );
 
   const onEditingRowSave: MRT_TableOptions<UserWithRole>["onEditingRowSave"] =
     async ({ values, table, row }) => {
@@ -68,14 +76,18 @@ function RouteComponent() {
     enablePagination: true,
     enableTopToolbar: false,
     manualPagination: true,
+    manualFiltering: true,
+    manualSorting: true,
     enableStickyHeader: true,
     editDisplayMode: "modal",
     enableEditing: true,
     onEditingRowSave,
     getRowId: (row) => row.id,
     onPaginationChange,
+    onColumnFiltersChange,
+    onSortingChange,
     paginationDisplayMode: "default",
-    state: { isLoading, pagination },
+    state: { columnFilters, isLoading, pagination, sorting },
     rowCount: data?.total,
     layoutMode: "grid",
     renderEditRowModalContent: ({ table, row, internalEditComponents }) => (
