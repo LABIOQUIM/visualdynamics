@@ -6,6 +6,7 @@ import {
   HttpStatus,
   NotFoundException,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -25,6 +26,7 @@ import { writeFile } from "fs";
 import multerConfig from "src/multer.config";
 
 import { SIMULATION_TYPE } from "../generated/prisma/client";
+import { SimulationUpdateInput } from "../generated/prisma/models";
 import { auth } from "../lib/auth";
 
 import { SimulationService } from "./simulation.service";
@@ -196,6 +198,21 @@ export class SimulationController {
       Number(pageSize),
       Number(page),
     );
+
+    return data;
+  }
+
+  @Patch("/update/:id")
+  async adminUpdateSimulation(
+    @Session() session: typeof auth.$Infer.Session,
+    @Param("id") id: string,
+    @Body() body: SimulationUpdateInput,
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    const data = await this.simulationService.adminUpdateSimulation(id, body);
 
     return data;
   }

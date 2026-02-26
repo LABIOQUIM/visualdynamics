@@ -6,7 +6,7 @@ import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "@thallesp/nestjs-better-auth";
 
 import { auth } from "./lib/auth";
-import { SimulationModule } from "./simulations/simulation.module";
+import { SimulationModule } from "./simulation/simulation.module";
 import { SystemInfoModule } from "./systeminfo/systeminfo.module";
 
 @Module({

@@ -17,6 +17,7 @@ import { join } from "path";
 import { cwd } from "process";
 
 import { Simulation, SIMULATION_TYPE } from "../generated/prisma/client";
+import { SimulationUpdateInput } from "../generated/prisma/models";
 import { PrismaService } from "../prisma.service";
 import { readFileData } from "../utils/readFileData";
 
@@ -455,6 +456,15 @@ export class SimulationService {
     ]);
 
     return { records, total };
+  }
+
+  async adminUpdateSimulation(id: string, body: SimulationUpdateInput) {
+    const { id: _id, ...data } = body;
+
+    await this.prisma.simulation.update({
+      where: { id },
+      data,
+    });
   }
 
   async getUserLastSimulations(email: string) {
