@@ -61,8 +61,13 @@ function isProcessRunning(pid: number): boolean {
   try {
     process.kill(pid, 0);
     return true;
-  } catch {
-    return false;
+  } catch (error: unknown) {
+    // On POSIX, kill(pid, 0) throws EPERM when the process exists but we lack
+    // permission to signal it, and ESRCH when no such process exists.
+    // Only ESRCH means the process is gone; all other errors are treated as
+    // "running" to avoid falsely concluding the process has exited.
+    const code = (error as NodeJS.ErrnoException)?.code;
+    return code !== "ESRCH";
   }
 }
 
@@ -144,52 +149,93 @@ export default async function (job: Job<SimulateData>): Promise<string> {
     // When the API restarts, a previously active sandboxed process becomes an
     // orphan (its IPC channel to the Worker is severed). BullMQ will eventually
     // detect the job as stalled and re-queue it, spawning this new process.
-    // To avoid two processes writing to the same files simultaneously, we check
-    // for a lock file left by the previous run and terminate that process first.
-    if (existsSync(pidFilePath)) {
-      const raw = readFileSync(pidFilePath, "utf-8").trim();
-      const colonIdx = raw.indexOf(":");
-      const pidStr = colonIdx >= 0 ? raw.slice(0, colonIdx) : raw;
-      const storedStartTime = colonIdx >= 0 ? raw.slice(colonIdx + 1) : "";
-      const existingPid = parseInt(pidStr, 10);
-
-      if (!Number.isSafeInteger(existingPid) || existingPid <= 0) {
-        console.warn(
-          `[Sandboxed Process ${process.pid}] Lock file contained invalid PID "${pidStr}" — ignoring`,
-        );
-      } else if (existingPid !== process.pid) {
-        const actualStartTime = readProcessStartTime(existingPid);
-        if (actualStartTime === null) {
-          if (isProcessRunning(existingPid)) {
-            // The process is alive but its /proc entry cannot be read, so we
-            // cannot verify its identity. Fail closed to prevent two writers.
-            throw new Error(
-              `Unable to verify identity of existing process ${existingPid} for simulation ${simulationId} — aborting to avoid concurrent writes`,
-            );
-          }
-          // Process is no longer running — lock is stale, safe to proceed.
-        } else if (actualStartTime !== storedStartTime) {
-          // Start times differ: the PID was reused by an unrelated process.
-          // Do NOT kill it.
-          console.log(
-            `[Sandboxed Process ${process.pid}] PID ${existingPid} in lock file appears to have been reused by an unrelated process — ignoring`,
-          );
-        } else {
-          // Start times match: this is genuinely the orphaned process.
-          const terminated = await terminateProcess(existingPid);
-          if (!terminated) {
-            throw new Error(
-              `Could not terminate orphaned process ${existingPid} — aborting to prevent concurrent writes to simulation ${simulationId}`,
-            );
-          }
-          console.log(
-            `[Sandboxed Process ${process.pid}] Terminated orphaned process ${existingPid} for simulation ${simulationId}`,
-          );
+    // To avoid two processes writing to the same files simultaneously we
+    // atomically acquire a lock file before starting.  Using flag:"wx" means
+    // only one process can create the file; every other concurrent starter
+    // receives EEXIST and must inspect + resolve the existing owner first.
+    let lockAcquired = false;
+    while (!lockAcquired) {
+      try {
+        writeFileSync(pidFilePath, myLockContent, { flag: "wx" });
+        lockAcquired = true;
+      } catch (createErr: unknown) {
+        if ((createErr as NodeJS.ErrnoException).code !== "EEXIST") {
+          throw createErr;
         }
+        // Lock file exists — read and evaluate its owner.
+        let raw: string;
+        try {
+          raw = readFileSync(pidFilePath, "utf-8").trim();
+        } catch {
+          // File vanished between EEXIST and our read — retry the atomic create.
+          continue;
+        }
+        const colonIdx = raw.indexOf(":");
+        const pidStr = colonIdx >= 0 ? raw.slice(0, colonIdx) : raw;
+        const storedStartTime = colonIdx >= 0 ? raw.slice(colonIdx + 1) : "";
+        const existingPid = parseInt(pidStr, 10);
+
+        if (!Number.isSafeInteger(existingPid) || existingPid <= 0) {
+          console.warn(
+            `[Sandboxed Process ${process.pid}] Lock file contained invalid PID "${pidStr}" — removing and retrying`,
+          );
+          try {
+            unlinkSync(pidFilePath);
+          } catch {
+            // Already gone; the next loop iteration's wx will sort it out.
+          }
+        } else if (existingPid === process.pid) {
+          // We already own the lock (shouldn't normally happen, but be safe).
+          lockAcquired = true;
+        } else {
+          const actualStartTime = readProcessStartTime(existingPid);
+          if (actualStartTime === null) {
+            if (isProcessRunning(existingPid)) {
+              // The process is alive but its /proc entry cannot be read, so we
+              // cannot verify its identity. Fail closed to prevent two writers.
+              throw new Error(
+                `Unable to verify identity of existing process ${existingPid} for simulation ${simulationId} — aborting to avoid concurrent writes`,
+              );
+            }
+            // Process is no longer running — remove stale lock and retry.
+            try {
+              unlinkSync(pidFilePath);
+            } catch {
+              // Already gone.
+            }
+          } else if (actualStartTime !== storedStartTime) {
+            // Start times differ: the PID was reused by an unrelated process.
+            // Do NOT kill it; just remove the stale lock and retry.
+            console.log(
+              `[Sandboxed Process ${process.pid}] PID ${existingPid} in lock file appears to have been reused by an unrelated process — removing stale lock`,
+            );
+            try {
+              unlinkSync(pidFilePath);
+            } catch {
+              // Already gone.
+            }
+          } else {
+            // Start times match: this is genuinely the orphaned process.
+            const terminated = await terminateProcess(existingPid);
+            if (!terminated) {
+              throw new Error(
+                `Could not terminate orphaned process ${existingPid} — aborting to prevent concurrent writes to simulation ${simulationId}`,
+              );
+            }
+            console.log(
+              `[Sandboxed Process ${process.pid}] Terminated orphaned process ${existingPid} for simulation ${simulationId}`,
+            );
+            try {
+              unlinkSync(pidFilePath);
+            } catch {
+              // Already gone.
+            }
+          }
+        }
+        // In all non-throwing, non-owned cases the lock file has been removed
+        // (or was already gone). Loop back to retry the atomic wx create.
       }
     }
-
-    writeFileSync(pidFilePath, myLockContent);
 
     const commands = await loadCommands(folder);
 
@@ -209,7 +255,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
     );
     // Throwing an error marks the job as failed and triggers the 'failed' event listener.
     throw new Error(
-      e?.message || `Job ${job.data.simulationId} failed to run command!`,
+      e?.message || `Job ${job.data?.simulationId ?? job.id} failed to run command!`,
     );
   } finally {
     // Only remove the lock file when it still contains OUR content. If an
