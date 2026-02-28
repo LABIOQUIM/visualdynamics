@@ -40,7 +40,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     });
 
     // Subscribe to the events.
-    this.queueEvents.on("waiting", ({ jobId }) => this.onWaiting(jobId));
     this.queueEvents.on("active", ({ jobId }) => this.onActive(jobId));
     this.queueEvents.on("completed", ({ jobId }) => this.onCompleted(jobId));
     this.queueEvents.on("failed", ({ jobId, failedReason }) =>
@@ -74,26 +73,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
       );
       await job.moveToFailed(error, job.token);
     }
-  }
-
-  private async onWaiting(jobId: string) {
-    this.logger.log(`Job ${jobId} is waiting. Updating status to QUEUED...`);
-    const job = await this.simulationQueue.getJob(jobId);
-    if (!job) return;
-
-    const { simulationId } = job.data;
-
-    await prisma.simulation.updateMany({
-      where: {
-        id: simulationId,
-        status: { notIn: ["RUNNING", "COMPLETED", "ERRORED"] },
-      },
-      data: {
-        status: "QUEUED",
-        startedAt: null,
-        endedAt: null,
-      },
-    });
   }
 
   private async onCompleted(jobId: string) {
