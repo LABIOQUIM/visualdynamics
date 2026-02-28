@@ -6,7 +6,6 @@ import {
   OnModuleInit,
 } from "@nestjs/common";
 import { PrismaPg } from "@prisma/adapter-pg";
-import axios from "axios";
 import { Queue, QueueEvents } from "bullmq";
 
 import { PrismaClient } from "../generated/prisma/client";
@@ -80,7 +79,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
   private async onWaiting(jobId: string) {
     this.logger.log(`Job ${jobId} completed. Running post-steps...`);
     const job = await this.simulationQueue.getJob(jobId);
-    if (!job) return null;
+    if (!job) return;
 
     const { simulationId } = job.data;
 
@@ -90,8 +89,8 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
       },
       data: {
         status: "QUEUED",
-        startedAt: "",
-        endedAt: "",
+        startedAt: null,
+        endedAt: null,
       },
     });
   }
@@ -99,7 +98,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
   private async onCompleted(jobId: string) {
     this.logger.log(`Job ${jobId} completed. Running post-steps...`);
     const job = await this.simulationQueue.getJob(jobId);
-    if (!job) return null;
+    if (!job) return;
 
     const { simulationId } = job.data;
 
@@ -111,13 +110,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         endedAt: new Date(),
         status: "COMPLETED",
       },
-    });
-
-    await axios.post("http://mailer:3000/send-email", {
-      from: `LABIOQUIM <${process.env.SMTP_USER}>`,
-      to: job.data.user.email,
-      subject: "[LABIOQUIM] About your simulation",
-      html: job.data.successEmail,
     });
   }
 
@@ -135,13 +127,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         endedAt: new Date(),
         errorCause: failedReason,
       },
-    });
-
-    await axios.post("http://mailer:3000/send-email", {
-      from: `LABIOQUIM <${process.env.SMTP_USER}>`,
-      to: job.data.user.email,
-      subject: "[LABIOQUIM] About your simulation",
-      html: job.data.errorEmail,
     });
   }
 }
