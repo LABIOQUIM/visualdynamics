@@ -12,14 +12,10 @@ import {
   Req,
   StreamableFile,
   UnauthorizedException,
-  UploadedFile,
   UploadedFiles,
   UseInterceptors,
 } from "@nestjs/common";
-import {
-  FileFieldsInterceptor,
-  FileInterceptor,
-} from "@nestjs/platform-express";
+import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { Session } from "@thallesp/nestjs-better-auth";
 import { Express, Request } from "express";
 import { writeFile } from "fs";
@@ -36,96 +32,78 @@ import type { NewSimulationBody } from "./simulation.types";
 export class SimulationController {
   constructor(private simulationService: SimulationService) {}
 
-  @Post("/acpype")
+  @Post("/submit")
   @UseInterceptors(
     FileFieldsInterceptor(
       [
-        {
-          name: "filePDB",
-          maxCount: 1,
-        },
-        {
-          name: "fileLigandITP",
-          maxCount: 1,
-        },
-        {
-          name: "fileLigandPDB",
-          maxCount: 1,
-        },
+        { name: "filePDB", maxCount: 1 },
+        { name: "fileLigandITP", maxCount: 1 },
+        { name: "fileLigandPDB", maxCount: 1 },
       ],
       multerConfig,
     ),
   )
-  async newACPYPESimulation(
+  async newSimulation(
     @UploadedFiles()
     files: {
-      filePDB: Express.Multer.File[];
-      fileLigandITP: Express.Multer.File[];
-      fileLigandPDB: Express.Multer.File[];
+      filePDB?: Express.Multer.File[];
+      fileLigandITP?: Express.Multer.File[];
+      fileLigandPDB?: Express.Multer.File[];
     },
     @Body() body: NewSimulationBody,
     @Req() request: Request,
   ) {
-    const { fileLigandITP, fileLigandPDB, filePDB } = files;
-    const { simulationId, commands } =
-      await this.simulationService.newACPYPESimulation(
-        filePDB[0].filename,
-        filePDB[0].originalname,
-        fileLigandITP[0].filename,
-        fileLigandITP[0].originalname,
-        fileLigandPDB[0].filename,
-        fileLigandPDB[0].originalname,
-        body,
-      );
+    const { filePDB, fileLigandITP, fileLigandPDB } = files;
 
-    if (body.shouldRun && body.shouldRun === "true") {
-      await this.simulationService.addSimulationToQueue(
-        simulationId,
-        request.session.user.username,
-        "acpype",
-        body.successEmail,
-        body.errorEmail,
-      );
-
-      return { status: "added-to-queue", simulationId };
-    }
-    writeFile(
-      `/files/${request.session.user.username}/acpype/ended`,
-      "ended",
-      (err) => {
-        if (err) console.log(err);
-      },
-    );
-
-    return { status: "generated", commands };
-  }
-
-  @Post("/apo")
-  @UseInterceptors(FileInterceptor("filePDB", multerConfig))
-  async newAPOSimulation(
-    @UploadedFile() filePDB: Express.Multer.File,
-    @Body() body: NewSimulationBody,
-    @Req() request: Request,
-  ) {
-    if (!filePDB) {
+    if (!filePDB?.[0]) {
       throw new HttpException(
         { status: "no-pdb-file" },
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    const { simulationId, commands } =
-      await this.simulationService.newAPOSimulation(
-        filePDB.filename,
-        filePDB.originalname,
-        body,
+    if (!Object.values(SIMULATION_TYPE).includes(body.type)) {
+      throw new HttpException(
+        { status: "invalid-simulation-type" },
+        HttpStatus.BAD_REQUEST,
       );
+    }
+
+    let simulationId: string;
+    let commands: string[];
+
+    if (body.type === "acpype") {
+      if (!fileLigandITP?.[0] || !fileLigandPDB?.[0]) {
+        throw new HttpException(
+          { status: "missing-ligand-files" },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      ({ simulationId, commands } =
+        await this.simulationService.newACPYPESimulation(
+          filePDB[0].filename,
+          filePDB[0].originalname,
+          fileLigandITP[0].filename,
+          fileLigandITP[0].originalname,
+          fileLigandPDB[0].filename,
+          fileLigandPDB[0].originalname,
+          body,
+        ));
+    } else {
+      ({ simulationId, commands } =
+        await this.simulationService.newAPOSimulation(
+          filePDB[0].filename,
+          filePDB[0].originalname,
+          body,
+        ));
+    }
 
     if (body.shouldRun && body.shouldRun === "true") {
       await this.simulationService.addSimulationToQueue(
         simulationId,
         request.session.user.username,
-        "apo",
+        body.type,
         body.successEmail,
         body.errorEmail,
       );
@@ -134,7 +112,7 @@ export class SimulationController {
     }
 
     writeFile(
-      `/files/${request.session.user.username}/apo/ended`,
+      `/files/${request.session.user.username}/${body.type}/ended`,
       "ended",
       (err) => {
         if (err) console.log(err);
