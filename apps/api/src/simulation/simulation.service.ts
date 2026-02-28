@@ -34,6 +34,7 @@ const ALLOWED_FORCE_FIELDS = new Set([
   "amber99sb",
   "amber99sb-ildn",
   "amberGS",
+  "ambergs",
   "charmm27",
   "gromos43a1",
   "gromos43a2",
