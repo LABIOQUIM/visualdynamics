@@ -18,7 +18,6 @@ import {
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { Session } from "@thallesp/nestjs-better-auth";
 import { Express, Request } from "express";
-import { writeFile } from "fs";
 import multerConfig from "src/multer.config";
 
 import { SIMULATION_TYPE } from "../generated/prisma/client";
@@ -110,14 +109,6 @@ export class SimulationController {
 
       return { status: "added-to-queue", simulationId };
     }
-
-    writeFile(
-      `/files/${request.session.user.username}/${body.type}/ended`,
-      "ended",
-      (err) => {
-        if (err) console.log(err);
-      },
-    );
 
     return { status: "generated", commands };
   }
