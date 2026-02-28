@@ -179,7 +179,7 @@ function RouteComponent() {
         header: "Status",
         editVariant: "select",
         mantineEditSelectProps: {
-          data: ["RUNNING", "COMPLETED", "ERRORED", "CANCELLED", "GENERATED"],
+          data: ["RUNNING", "COMPLETED", "ERRORED", "CANCELED", "GENERATED"],
         },
         Cell: StatusCell,
       },
