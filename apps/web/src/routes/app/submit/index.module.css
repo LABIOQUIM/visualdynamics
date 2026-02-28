@@ -6,25 +6,49 @@
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--mantine-spacing-md);
   flex: 1;
+  padding-bottom: var(--mantine-spacing-md);
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    grid-template-columns: 1fr 1fr;
+    padding-bottom: unset;
+  }
 }
 
 .formColumn {
   min-width: 0;
+  z-index: 1;
+}
+
+.formButtons {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--mantine-spacing-md);
+}
+
+.formSubmitButton {
+  grid-column: span 2;
 }
 
 .viewerColumn {
-  position: sticky;
-  top: var(--mantine-spacing-md);
-  height: calc(100vh - 120px);
-  min-height: 400px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    position: sticky;
+    top: calc(var(--mantine-spacing-xl) * 2.5);
+  }
 }
 
 .radioRoot {
   padding: var(--mantine-spacing-md);
   transition: border-color 150ms ease;
+  padding: var(--mantine-spacing-md);
 
   &[data-checked] {
     border-color: var(--mantine-primary-color-filled);

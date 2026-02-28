@@ -43,16 +43,7 @@ export const allForceFields = {
   },
 } as const;
 
-export const simulationTypeRadioData = [
-  {
-    value: "apo",
-    name: "Free Protein",
-    description: "A free protein simulation, no other preparations needed.",
-  },
-  {
-    value: "acpype",
-    name: "Protein + Ligand",
-    description:
-      "A protein and ligand simulation, ligand parameters must be generated with ACPYPE beforehand.",
-  },
-];
+export const simulationTypes = {
+  apo: "Free Protein",
+  acpype: "Protein with Ligand (ACPYPE)",
+};

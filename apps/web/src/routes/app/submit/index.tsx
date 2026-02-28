@@ -1,5 +1,7 @@
 import classes from "./index.module.css";
 
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Blockquote,
   Box,
@@ -7,13 +9,11 @@ import {
   FileInput,
   Group,
   NumberInput,
-  Radio,
   Select,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   IconChevronDown,
   IconDownload,
@@ -22,18 +22,17 @@ import {
 } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "preact/hooks";
-import { Controller, useForm, useWatch } from "react-hook-form";
 
-import {
-  simulationSchema,
-  type SimulationFormValues,
-} from "./-components/schema";
 import {
   allForceFields,
   boxTypes,
-  simulationTypeRadioData,
+  simulationTypes,
   waterModels,
 } from "./-components/constants";
+import {
+  type SimulationFormValues,
+  simulationSchema,
+} from "./-components/schema";
 
 import { Heading } from "@/components/Heading";
 import { MolViewer } from "@/components/MolViewer";
@@ -54,6 +53,7 @@ function RouteComponent() {
   const { control, handleSubmit, setValue } = useForm<SimulationFormValues>({
     resolver: zodResolver(simulationSchema),
     defaultValues: {
+      type: "apo",
       forceField: "",
       waterModel: "",
       boxType: "",
@@ -139,55 +139,27 @@ function RouteComponent() {
       <form className={classes.form} onSubmit={onRunSimulation}>
         <div className={classes.layout}>
           <Stack className={classes.formColumn} gap="md">
-            <Box>
-              <Title mb="xs" order={5}>
-                Simulation Type
-              </Title>
-              <Controller
-                control={control}
-                name="type"
-                render={({ field, fieldState }) => (
-                  <Radio.Group
-                    error={fieldState.error?.message}
-                    onChange={field.onChange}
-                    value={field.value}
-                    withAsterisk
-                  >
-                    <Group
-                      grow
-                      preventGrowOverflow={false}
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(2, 1fr)",
-                      }}
-                      wrap="nowrap"
-                    >
-                      {simulationTypeRadioData.map((item) => (
-                        <Radio.Card
-                          className={classes.radioRoot}
-                          h="100%"
-                          key={item.name}
-                          radius="md"
-                          value={item.value}
-                        >
-                          <Group align="flex-start" wrap="nowrap">
-                            <Radio.Indicator />
-                            <div>
-                              <Text c="bright" ff="monospace" fw="bold">
-                                {item.name}
-                              </Text>
-                              <Text c="dimmed" mt={4} size="xs">
-                                {item.description}
-                              </Text>
-                            </div>
-                          </Group>
-                        </Radio.Card>
-                      ))}
-                    </Group>
-                  </Radio.Group>
-                )}
-              />
-            </Box>
+            <Controller
+              control={control}
+              name="type"
+              render={({ field, fieldState }) => (
+                <Select
+                  data={Object.keys(simulationTypes)}
+                  error={fieldState.error?.message}
+                  label="Simulation Type"
+                  onChange={field.onChange}
+                  placeholder="Select a simulation type"
+                  renderOption={({ option }) =>
+                    renderSelectOption(simulationTypes, option.value)
+                  }
+                  rightSection={<IconChevronDown />}
+                  searchable
+                  styles={selectDropdownStyles}
+                  value={field.value}
+                  withScrollArea={false}
+                />
+              )}
+            />
 
             <Box>
               <Title mb="xs" order={5}>
@@ -212,7 +184,7 @@ function RouteComponent() {
                   )}
                 />
                 {showLigandFields && (
-                  <>
+                  <Group grow>
                     <Controller
                       control={control}
                       name="fileLigandPDB"
@@ -253,7 +225,7 @@ function RouteComponent() {
                         />
                       )}
                     />
-                  </>
+                  </Group>
                 )}
               </Stack>
             </Box>
@@ -263,117 +235,113 @@ function RouteComponent() {
                 Parameters
               </Title>
               <Stack gap="xs">
-                <Controller
-                  control={control}
-                  name="forceField"
-                  render={({ field, fieldState }) => (
-                    <Select
-                      data={Object.keys(forceFields)}
-                      error={fieldState.error?.message}
-                      label="Force Field"
-                      onChange={field.onChange}
-                      placeholder="Select a force field"
-                      renderOption={({ option }) =>
-                        renderSelectOption(forceFields, option.value)
-                      }
-                      rightSection={<IconChevronDown />}
-                      searchable
-                      styles={selectDropdownStyles}
-                      value={field.value}
-                      withScrollArea={false}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="waterModel"
-                  render={({ field, fieldState }) => (
-                    <Select
-                      data={Object.keys(waterModels)}
-                      error={fieldState.error?.message}
-                      label="Water Model"
-                      onChange={field.onChange}
-                      placeholder="Select a water model"
-                      renderOption={({ option }) =>
-                        renderSelectOption(waterModels, option.value)
-                      }
-                      rightSection={<IconChevronDown />}
-                      searchable
-                      styles={selectDropdownStyles}
-                      value={field.value}
-                      withScrollArea={false}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="boxType"
-                  render={({ field, fieldState }) => (
-                    <Select
-                      data={Object.keys(boxTypes)}
-                      error={fieldState.error?.message}
-                      label="Box Type"
-                      onChange={field.onChange}
-                      placeholder="Select a box type"
-                      renderOption={({ option }) =>
-                        renderSelectOption(boxTypes, option.value)
-                      }
-                      rightSection={<IconChevronDown />}
-                      searchable
-                      styles={selectDropdownStyles}
-                      value={field.value}
-                      withScrollArea={false}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="boxDistance"
-                  render={({
-                    field: { value, onChange, ...field },
-                    fieldState,
-                  }) => (
-                    <NumberInput
-                      {...field}
-                      allowNegative={false}
-                      decimalScale={1}
-                      error={fieldState.error?.message}
-                      fixedDecimalScale
-                      label="Box Distance (nm)"
-                      max={1.2}
-                      min={0.1}
-                      onChange={(val) => {
-                        if (
-                          val === "" ||
-                          val === null ||
-                          typeof val === "undefined"
-                        ) {
-                          onChange(undefined);
-                        } else if (typeof val === "number") {
-                          onChange(val);
-                        } else {
-                          const parsed = Number(val);
-                          onChange(Number.isNaN(parsed) ? undefined : parsed);
+                <Group grow>
+                  <Controller
+                    control={control}
+                    name="forceField"
+                    render={({ field, fieldState }) => (
+                      <Select
+                        data={Object.keys(forceFields)}
+                        error={fieldState.error?.message}
+                        label="Force Field"
+                        onChange={field.onChange}
+                        placeholder="Select a force field"
+                        renderOption={({ option }) =>
+                          renderSelectOption(forceFields, option.value)
                         }
-                      }}
-                      placeholder="Input a value"
-                      step={0.1}
-                      value={value ?? undefined}
-                    />
-                  )}
-                />
+                        rightSection={<IconChevronDown />}
+                        searchable
+                        styles={selectDropdownStyles}
+                        value={field.value}
+                        withScrollArea={false}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="waterModel"
+                    render={({ field, fieldState }) => (
+                      <Select
+                        data={Object.keys(waterModels)}
+                        error={fieldState.error?.message}
+                        label="Water Model"
+                        onChange={field.onChange}
+                        placeholder="Select a water model"
+                        renderOption={({ option }) =>
+                          renderSelectOption(waterModels, option.value)
+                        }
+                        rightSection={<IconChevronDown />}
+                        searchable
+                        styles={selectDropdownStyles}
+                        value={field.value}
+                        withScrollArea={false}
+                      />
+                    )}
+                  />
+                </Group>
+                <Group grow>
+                  <Controller
+                    control={control}
+                    name="boxType"
+                    render={({ field, fieldState }) => (
+                      <Select
+                        data={Object.keys(boxTypes)}
+                        error={fieldState.error?.message}
+                        label="Box Type"
+                        onChange={field.onChange}
+                        placeholder="Select a box type"
+                        renderOption={({ option }) =>
+                          renderSelectOption(boxTypes, option.value)
+                        }
+                        rightSection={<IconChevronDown />}
+                        searchable
+                        styles={selectDropdownStyles}
+                        value={field.value}
+                        withScrollArea={false}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={control}
+                    name="boxDistance"
+                    render={({
+                      field: { value, onChange, ...field },
+                      fieldState,
+                    }) => (
+                      <NumberInput
+                        {...field}
+                        allowNegative={false}
+                        decimalScale={1}
+                        error={fieldState.error?.message}
+                        fixedDecimalScale
+                        label="Box Distance (nm)"
+                        max={1.2}
+                        min={0.1}
+                        onChange={(val) => {
+                          if (
+                            val === "" ||
+                            val === null ||
+                            typeof val === "undefined"
+                          ) {
+                            onChange(undefined);
+                          } else if (typeof val === "number") {
+                            onChange(val);
+                          } else {
+                            const parsed = Number(val);
+                            onChange(Number.isNaN(parsed) ? undefined : parsed);
+                          }
+                        }}
+                        placeholder="Input a value"
+                        step={0.1}
+                        value={value ?? undefined}
+                      />
+                    )}
+                  />
+                </Group>
               </Stack>
             </Box>
 
-            <Blockquote color="blue" icon={<IconInfoCircle />} mt="xs">
-              Simulation time is fixed at 5ns. Contact{" "}
-              <a href="mailto:fernando.zanchi@fiocruz.br">
-                fernando.zanchi@fiocruz.br
-              </a>{" "}
-              if you need more time.
-            </Blockquote>
-
-            <Group grow>
+            <div className={classes.formButtons}>
               <Button
                 leftSection={<IconDownload size={16} />}
                 onClick={onDownloadCommands}
@@ -391,16 +359,25 @@ function RouteComponent() {
                 MDP Files
               </Button>
               <Button
+                className={classes.formSubmitButton}
                 leftSection={<IconPlayerPlay size={16} />}
                 type="submit"
               >
                 Run Simulation
               </Button>
-            </Group>
+            </div>
           </Stack>
 
           <div className={classes.viewerColumn}>
             <MolViewer macromolecules={files} />
+
+            <Blockquote color="blue" icon={<IconInfoCircle />}>
+              Simulation time is fixed at 5ns. Contact{" "}
+              <a href="mailto:fernando.zanchi@fiocruz.br">
+                fernando.zanchi@fiocruz.br
+              </a>{" "}
+              if you need more time.
+            </Blockquote>
           </div>
         </div>
       </form>
