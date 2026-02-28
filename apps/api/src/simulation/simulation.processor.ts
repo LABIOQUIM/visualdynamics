@@ -81,11 +81,16 @@ async function terminateProcess(pid: number): Promise<boolean> {
   // Read the actual PGID from /proc so we target the correct process group
   // even when `pid` is not the process group leader.
   const pgid = readProcessGroupId(pid);
-  // Safety: only group-signal when the orphan's PGID differs from our own.
-  // Signaling our own process group would also kill the current sandbox process
-  // and the BullMQ worker. Fallback to single-PID kill in that case.
+  // Safety: only group-signal when the orphan's PGID is valid and differs
+  // from our own. Signaling our own process group would also kill the current
+  // sandbox process and the BullMQ worker. Fall back to single-PID kill
+  // whenever either PGID cannot be determined.
   const ownPgid = readProcessGroupId(process.pid);
-  const safeToGroupKill = pgid !== null && pgid !== ownPgid;
+  const safeToGroupKill =
+    pgid !== null &&
+    pgid > 0 &&
+    ownPgid !== null &&
+    pgid !== ownPgid;
 
   const killTarget = (sig: NodeJS.Signals) => {
     if (safeToGroupKill) {
@@ -209,8 +214,17 @@ export default async function (job: Job<SimulateData>): Promise<string> {
           );
           removeStale();
         } else if (existingPid === process.pid) {
-          // We already own the lock (shouldn't normally happen, but be safe).
-          lockAcquired = true;
+          // We already own the lock only if the full content matches what we would write.
+          // PID reuse across restarts can produce a stale lock whose PID equals ours
+          // but with a different start time; treat that as stale.
+          if (raw === myLockContent) {
+            lockAcquired = true;
+          } else {
+            console.warn(
+              `[Sandboxed Process ${process.pid}] Lock file for simulation ${simulationId} has our PID but mismatched content — treating as stale and removing`,
+            );
+            removeStale();
+          }
         } else {
           const actualStartTime = readProcessStartTime(existingPid);
           if (actualStartTime === null) {
@@ -222,6 +236,17 @@ export default async function (job: Job<SimulateData>): Promise<string> {
               );
             }
             // Process is no longer running — remove stale lock and retry.
+            removeStale();
+          } else if (storedStartTime === "") {
+            // Lock file has no start time — cannot safely verify the process
+            // identity. Fail closed if the process appears to be running, to
+            // avoid allowing two concurrent writers.
+            if (isProcessRunning(existingPid)) {
+              throw new Error(
+                `Lock file for simulation ${simulationId} contains no start time for PID ${existingPid} — cannot verify identity; aborting to avoid concurrent writes`,
+              );
+            }
+            // Process is gone; remove the unverifiable stale lock and retry.
             removeStale();
           } else if (actualStartTime !== storedStartTime) {
             // Start times differ: the PID was reused by an unrelated process.
