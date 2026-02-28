@@ -10,6 +10,7 @@ export async function submitSimulation(
   shouldRun?: boolean,
 ) {
   const data = new FormData();
+  data.append("type", values.type);
   data.append("filePDB", values.filePDB);
   if (values.type !== "apo") {
     data.append("fileLigandITP", values.fileLigandITP!);
@@ -28,7 +29,7 @@ export async function submitSimulation(
 
   const api = await getAPIClient();
 
-  const response = await api.post(`/simulation/${values.type}`, data);
+  const response = await api.post(`/simulation/submit`, data);
 
   if (!shouldRun) {
     let filename = values.type;

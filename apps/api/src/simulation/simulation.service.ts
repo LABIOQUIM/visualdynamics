@@ -10,6 +10,7 @@ import {
   readdirSync,
   readFileSync,
   renameSync,
+  rmSync,
   writeFileSync,
 } from "fs";
 import { join } from "path";
@@ -107,6 +108,18 @@ export class SimulationService {
     });
   }
 
+  private cleanupSimulationFolder(username: string, type: SIMULATION_TYPE) {
+    const userDir = `/files/${username}`;
+    const runningFile = `${userDir}/running`;
+    const runningFileContent = existsSync(runningFile)
+      ? readFileSync(runningFile, "utf-8")
+      : "";
+    const typeFolder = `${userDir}/${type}`;
+    if (existsSync(typeFolder) && runningFileContent !== type) {
+      rmSync(typeFolder, { recursive: true, force: true });
+    }
+  }
+
   async newACPYPESimulation(
     fileName: string,
     fileNameOriginal: string,
@@ -120,6 +133,8 @@ export class SimulationService {
     const [origPDBName] = fileNameOriginal.split(".");
     const [origLigandITPName] = fileNameLigandITPOriginal.split(".");
     const [origLigandPDBName] = fileNameLigandPDBOriginal.split(".");
+
+    this.cleanupSimulationFolder(username, "acpype");
 
     const pdbName = normalizeString(origPDBName);
     const ligandITPName = normalizeString(origLigandITPName);
@@ -179,7 +194,10 @@ export class SimulationService {
       fileNameLigandPDB,
     );
 
-    return { simulationId: id, commands: rendered.split(/\r?\n/).filter(Boolean) };
+    return {
+      simulationId: id,
+      commands: rendered.split(/\r?\n/).filter(Boolean),
+    };
   }
 
   async newAPOSimulation(
@@ -189,6 +207,9 @@ export class SimulationService {
   ) {
     const [username, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
+
+    this.cleanupSimulationFolder(username, "apo");
+
     const pdbName = normalizeString(origPDBName);
 
     const { id } = await this.prisma.simulation.create({
@@ -229,7 +250,10 @@ export class SimulationService {
 
     this.prepareSimulationEnvironment(id, fileName);
 
-    return { simulationId: id, commands: rendered.split(/\r?\n/).filter(Boolean) };
+    return {
+      simulationId: id,
+      commands: rendered.split(/\r?\n/).filter(Boolean),
+    };
   }
 
   async getSimulationDetails(username: string, simulationId: string) {

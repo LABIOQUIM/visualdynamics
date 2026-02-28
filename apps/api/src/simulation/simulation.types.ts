@@ -1,6 +1,7 @@
 import { SIMULATION_TYPE, User } from "../generated/prisma/client";
 
 export interface NewSimulationBody {
+  type: SIMULATION_TYPE;
   forceField: string;
   waterModel: string;
   boxType: string;
