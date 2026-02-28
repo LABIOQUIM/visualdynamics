@@ -125,9 +125,11 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         );
       }
     } catch (error) {
+      const errorStackOrMessage =
+        error instanceof Error ? error.stack : String(error);
       this.logger.error(
         `Error handling waiting event for job ${jobId}`,
-        error.stack,
+        errorStackOrMessage,
       );
     }
   }
