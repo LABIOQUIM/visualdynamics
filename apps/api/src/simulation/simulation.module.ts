@@ -18,7 +18,15 @@ import { SimulationService } from "./simulation.service";
         {
           path: join(__dirname, "simulation.processor.js"),
           // Concurrency controls how many sandboxed processes can run at once.
-          concurrency: 1, // Example: run up to 1 job concurrently
+          concurrency: 1,
+          // Prevent stalled jobs from being automatically re-queued.
+          // When the API restarts, any active sandboxed processor continues running
+          // as a separate OS process. Without this setting, BullMQ would move the
+          // stalled job back to "waiting" (default maxStalledCount: 1) and spawn a
+          // second processor for the same simulation, causing two processes to write
+          // to the same files simultaneously. Setting maxStalledCount to 0 makes
+          // stalled jobs immediately move to the "failed" state instead.
+          maxStalledCount: 0,
         },
       ],
     }),
