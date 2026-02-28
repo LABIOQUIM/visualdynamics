@@ -225,6 +225,7 @@ export class SimulationService {
     const acpypeMoleculeType = fileNameLigandITPOriginal
       .replace("_GMX", ".pdb.mol2")
       .replace(".itp", "");
+    assertSafeFilename(acpypeMoleculeType, "acpype molecule type");
 
     const acpypeTemplatePath = join(
       cwd(),
