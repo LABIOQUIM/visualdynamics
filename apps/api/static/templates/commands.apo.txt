@@ -1,6 +1,6 @@
 #topology
 gmx pdb2gmx -f {{fullFileName}} -o {{pdbName}}.gro -p {{pdbName}}.top -ff {{forceField}} -water {{waterModel}} -ignh -missing
-gmx editconf -f {{pdbName}}.gro -c -d {{boxDistance}} -bt {{boxType}} -o
+gmx editconf -f {{pdbName}}.gro -c -d {{boxDistance}} -bt {{boxType}} -o out.gro
 
 #solvate
 gmx solvate -cp out.gro -cs -p {{pdbName}}.top -o {{pdbName}}_box
