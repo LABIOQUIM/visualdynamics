@@ -77,15 +77,16 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
   }
 
   private async onWaiting(jobId: string) {
-    this.logger.log(`Job ${jobId} completed. Running post-steps...`);
+    this.logger.log(`Job ${jobId} is waiting. Updating status to QUEUED...`);
     const job = await this.simulationQueue.getJob(jobId);
     if (!job) return;
 
     const { simulationId } = job.data;
 
-    await prisma.simulation.update({
+    await prisma.simulation.updateMany({
       where: {
         id: simulationId,
+        status: { notIn: ["RUNNING", "COMPLETED", "ERRORED"] },
       },
       data: {
         status: "QUEUED",
