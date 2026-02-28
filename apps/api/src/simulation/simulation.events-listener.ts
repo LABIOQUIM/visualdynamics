@@ -78,9 +78,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
 
   private async onWaiting(jobId: string) {
     try {
-      this.logger.debug(
-        `Job ${jobId} is waiting. Checking for stalled job...`,
-      );
+      this.logger.debug(`Job ${jobId} is waiting. Checking for stalled job...`);
       const job = await this.simulationQueue.getJob(jobId);
       if (!job) return;
 

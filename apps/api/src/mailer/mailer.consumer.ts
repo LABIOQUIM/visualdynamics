@@ -1,0 +1,24 @@
+import { Processor, WorkerHost } from "@nestjs/bullmq";
+import { MailerService } from "@nestjs-modules/mailer";
+import { Job } from "bullmq";
+
+import { MailerBody } from "./mailer.types";
+
+@Processor("mailer")
+export class MailerConsumer extends WorkerHost {
+  constructor(private mailService: MailerService) {
+    super();
+  }
+
+  async process(job: Job<MailerBody>) {
+    const { data } = job;
+
+    await this.mailService.sendMail({
+      to: data.to,
+      from: data.from,
+      subject: data.subject,
+      template: `/templates/${data.template}`,
+      context: data.context,
+    });
+  }
+}

@@ -3,12 +3,7 @@
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Job } from "bullmq";
-import {
-  existsSync,
-  readFileSync,
-  unlinkSync,
-  writeFileSync,
-} from "fs";
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import * as path from "path";
 import { chdir } from "process";
 
@@ -87,10 +82,7 @@ async function terminateProcess(pid: number): Promise<boolean> {
   // whenever either PGID cannot be determined.
   const ownPgid = readProcessGroupId(process.pid);
   const safeToGroupKill =
-    pgid !== null &&
-    pgid > 0 &&
-    ownPgid !== null &&
-    pgid !== ownPgid;
+    pgid !== null && pgid > 0 && ownPgid !== null && pgid !== ownPgid;
 
   const killTarget = (sig: NodeJS.Signals) => {
     if (safeToGroupKill) {
@@ -180,7 +172,9 @@ export default async function (job: Job<SimulateData>): Promise<string> {
           );
         }
         // Small backoff before retrying to avoid a tight spin loop.
-        await new Promise<void>((resolve) => setTimeout(resolve, 50 * lockRetries));
+        await new Promise<void>((resolve) =>
+          setTimeout(resolve, 50 * lockRetries),
+        );
 
         // Lock file exists — read and evaluate its owner.
         let raw: string;
@@ -300,13 +294,18 @@ export default async function (job: Job<SimulateData>): Promise<string> {
     );
     // Throwing an error marks the job as failed and triggers the 'failed' event listener.
     throw new Error(
-      e?.message || `Job ${job.data?.simulationId ?? job.id} failed to run command!`,
+      e?.message ||
+        `Job ${job.data?.simulationId ?? job.id} failed to run command!`,
     );
   } finally {
     // Only remove the lock file when it still contains OUR content. If an
     // orphaned process we replaced runs its own finally block, it must not
     // delete the lock written by the new (current) process.
-    if (pidFilePath !== undefined && myLockContent !== undefined && existsSync(pidFilePath)) {
+    if (
+      pidFilePath !== undefined &&
+      myLockContent !== undefined &&
+      existsSync(pidFilePath)
+    ) {
       try {
         const recorded = readFileSync(pidFilePath, "utf-8").trim();
         if (recorded === myLockContent) {

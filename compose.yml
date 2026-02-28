@@ -8,7 +8,6 @@ services:
     command: ["yarn", "workspace", "api", "start:dev"]
     env_file: .env
     depends_on:
-      - mailer
       - redis
     ports:
       - "3001:3000"
@@ -17,14 +16,6 @@ services:
       - files:/files
       - /usr/local/gromacs:/gromacs
       - /app/node_modules
-    # runtime: nvidia
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [gpu]
 
   web:
     build:
@@ -35,20 +26,9 @@ services:
     command: ["yarn", "workspace", "web", "dev", "--host"]
     ports:
       - "3000:5173"
-    depends_on:
-      - mailer
     volumes:
       - ./:/app
       - /app/node_modules
-
-  mailer:
-    image: murilofuza/simple-mail:0.0.9
-    restart: always
-    env_file: .env
-    ports:
-      - "3002:3000"
-    depends_on:
-      - redis
 
   redis:
     image: redis:alpine

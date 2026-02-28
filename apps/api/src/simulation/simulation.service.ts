@@ -69,13 +69,20 @@ const BOX_DISTANCE_RE = /^\d+(\.\d+)?$/;
 const SAFE_FILENAME_RE = /^[a-zA-Z0-9._-]+$/;
 
 function validateSimulationParams(
-  body: Pick<NewSimulationBody, "forceField" | "waterModel" | "boxType" | "boxDistance">,
+  body: Pick<
+    NewSimulationBody,
+    "forceField" | "waterModel" | "boxType" | "boxDistance"
+  >,
 ): void {
   if (!ALLOWED_FORCE_FIELDS.has(body.forceField)) {
-    throw new BadRequestException(`Unsupported force field: ${body.forceField}`);
+    throw new BadRequestException(
+      `Unsupported force field: ${body.forceField}`,
+    );
   }
   if (!ALLOWED_WATER_MODELS.has(body.waterModel)) {
-    throw new BadRequestException(`Unsupported water model: ${body.waterModel}`);
+    throw new BadRequestException(
+      `Unsupported water model: ${body.waterModel}`,
+    );
   }
   if (!ALLOWED_BOX_TYPES.has(body.boxType)) {
     throw new BadRequestException(`Unsupported box type: ${body.boxType}`);
