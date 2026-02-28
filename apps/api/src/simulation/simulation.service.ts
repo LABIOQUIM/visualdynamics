@@ -256,7 +256,7 @@ export class SimulationService {
     mkdirSync(`/files/${username}/${id}`, { recursive: true });
     writeFileSync(`/files/${username}/${id}/commands.txt`, rendered);
 
-    this.prepareSimulationEnvironment(
+    await this.prepareSimulationEnvironment(
       id,
       fileName,
       fileNameLigandITP,
@@ -318,7 +318,7 @@ export class SimulationService {
     mkdirSync(`/files/${username}/${id}`, { recursive: true });
     writeFileSync(`/files/${username}/${id}/commands.txt`, rendered);
 
-    this.prepareSimulationEnvironment(id, fileName);
+    await this.prepareSimulationEnvironment(id, fileName);
 
     return {
       simulationId: id,

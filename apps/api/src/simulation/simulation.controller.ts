@@ -52,7 +52,7 @@ export class SimulationController {
     @Body() body: NewSimulationBody,
     @Req() request: Request,
   ) {
-    const { filePDB, fileLigandITP, fileLigandPDB } = files;
+    const { filePDB, fileLigandITP, fileLigandPDB } = files ?? {};
 
     if (!filePDB?.[0]) {
       throw new HttpException(
