@@ -3,10 +3,10 @@ import { IconCheck } from "@tabler/icons-react";
 
 import { getAPIClient } from "@/lib/api";
 import { router } from "@/lib/router";
-import type { SimulationSubmitFormValues } from "@/routes/app/submit/-components/FormContext";
+import type { SimulationFormValues } from "@/routes/app/submit/-components/schema";
 
 export async function submitSimulation(
-  values: SimulationSubmitFormValues,
+  values: SimulationFormValues,
   shouldRun?: boolean,
 ) {
   const data = new FormData();
@@ -19,7 +19,7 @@ export async function submitSimulation(
   data.append("forceField", values.forceField);
   data.append("waterModel", values.waterModel);
   data.append("boxType", values.boxType);
-  data.append("boxDistance", values.boxDistance);
+  data.append("boxDistance", String(values.boxDistance));
 
   if (shouldRun) {
     data.append("shouldRun", "true");
