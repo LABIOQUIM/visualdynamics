@@ -9,6 +9,7 @@ __pycache__
 *.hdf5
 
 *.txt
+!apps/api/static/templates/*.txt
 *.a
 
 
