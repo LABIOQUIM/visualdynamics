@@ -74,20 +74,25 @@ function isProcessRunning(pid: number): boolean {
 /**
  * Sends SIGTERM to the process group of `pid` (which also reaches any GROMACS
  * child processes), falling back to a single-process kill if group-signaling
- * fails. Escalates to SIGKILL if the process hasn't exited within 5 s.
- * Returns true when the process is no longer running, false otherwise.
+ * fails or is unsafe. Escalates to SIGKILL if the process hasn't exited
+ * within 5 s. Returns true when the process is no longer running.
  */
 async function terminateProcess(pid: number): Promise<boolean> {
   // Read the actual PGID from /proc so we target the correct process group
   // even when `pid` is not the process group leader.
   const pgid = readProcessGroupId(pid);
+  // Safety: only group-signal when the orphan's PGID differs from our own.
+  // Signaling our own process group would also kill the current sandbox process
+  // and the BullMQ worker. Fallback to single-PID kill in that case.
+  const ownPgid = readProcessGroupId(process.pid);
+  const safeToGroupKill = pgid !== null && pgid !== ownPgid;
 
   const killTarget = (sig: NodeJS.Signals) => {
-    if (pgid !== null) {
+    if (safeToGroupKill) {
       // Negative PGID signals the whole process group, terminating GROMACS
       // child processes alongside the sandboxed Node process.
       try {
-        process.kill(-pgid, sig);
+        process.kill(-(pgid as number), sig);
         return;
       } catch {
         // Fall through to single-process kill.
@@ -153,7 +158,9 @@ export default async function (job: Job<SimulateData>): Promise<string> {
     // atomically acquire a lock file before starting.  Using flag:"wx" means
     // only one process can create the file; every other concurrent starter
     // receives EEXIST and must inspect + resolve the existing owner first.
+    const MAX_LOCK_RETRIES = 10;
     let lockAcquired = false;
+    let lockRetries = 0;
     while (!lockAcquired) {
       try {
         writeFileSync(pidFilePath, myLockContent, { flag: "wx" });
@@ -162,6 +169,14 @@ export default async function (job: Job<SimulateData>): Promise<string> {
         if ((createErr as NodeJS.ErrnoException).code !== "EEXIST") {
           throw createErr;
         }
+        if (lockRetries++ >= MAX_LOCK_RETRIES) {
+          throw new Error(
+            `Failed to acquire simulation lock for ${simulationId} after ${MAX_LOCK_RETRIES} attempts`,
+          );
+        }
+        // Small backoff before retrying to avoid a tight spin loop.
+        await new Promise<void>((resolve) => setTimeout(resolve, 50 * lockRetries));
+
         // Lock file exists — read and evaluate its owner.
         let raw: string;
         try {
@@ -175,15 +190,24 @@ export default async function (job: Job<SimulateData>): Promise<string> {
         const storedStartTime = colonIdx >= 0 ? raw.slice(colonIdx + 1) : "";
         const existingPid = parseInt(pidStr, 10);
 
+        // Helper: remove the stale lock file, propagating unexpected errors.
+        const lockPath = pidFilePath;
+        const removeStale = () => {
+          try {
+            unlinkSync(lockPath);
+          } catch (unlinkErr: unknown) {
+            // ENOENT is fine — another process already removed it.
+            if ((unlinkErr as NodeJS.ErrnoException).code !== "ENOENT") {
+              throw unlinkErr;
+            }
+          }
+        };
+
         if (!Number.isSafeInteger(existingPid) || existingPid <= 0) {
           console.warn(
             `[Sandboxed Process ${process.pid}] Lock file contained invalid PID "${pidStr}" — removing and retrying`,
           );
-          try {
-            unlinkSync(pidFilePath);
-          } catch {
-            // Already gone; the next loop iteration's wx will sort it out.
-          }
+          removeStale();
         } else if (existingPid === process.pid) {
           // We already own the lock (shouldn't normally happen, but be safe).
           lockAcquired = true;
@@ -198,22 +222,14 @@ export default async function (job: Job<SimulateData>): Promise<string> {
               );
             }
             // Process is no longer running — remove stale lock and retry.
-            try {
-              unlinkSync(pidFilePath);
-            } catch {
-              // Already gone.
-            }
+            removeStale();
           } else if (actualStartTime !== storedStartTime) {
             // Start times differ: the PID was reused by an unrelated process.
             // Do NOT kill it; just remove the stale lock and retry.
             console.log(
               `[Sandboxed Process ${process.pid}] PID ${existingPid} in lock file appears to have been reused by an unrelated process — removing stale lock`,
             );
-            try {
-              unlinkSync(pidFilePath);
-            } catch {
-              // Already gone.
-            }
+            removeStale();
           } else {
             // Start times match: this is genuinely the orphaned process.
             const terminated = await terminateProcess(existingPid);
@@ -225,11 +241,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
             console.log(
               `[Sandboxed Process ${process.pid}] Terminated orphaned process ${existingPid} for simulation ${simulationId}`,
             );
-            try {
-              unlinkSync(pidFilePath);
-            } catch {
-              // Already gone.
-            }
+            removeStale();
           }
         }
         // In all non-throwing, non-owned cases the lock file has been removed
