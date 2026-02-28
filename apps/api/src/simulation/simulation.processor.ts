@@ -195,10 +195,18 @@ export default async function (job: Job<SimulateData>): Promise<string> {
         const storedStartTime = colonIdx >= 0 ? raw.slice(colonIdx + 1) : "";
         const existingPid = parseInt(pidStr, 10);
 
-        // Helper: remove the stale lock file, propagating unexpected errors.
+        // Helper: remove the stale lock file only if it still contains the
+        // content we just read (`expectedContent`). This prevents a TOCTOU race
+        // where another process deletes the lock and re-creates it between our
+        // read and the unlink — in that case we must not delete the new owner's lock.
         const lockPath = pidFilePath;
-        const removeStale = () => {
+        const removeStale = (expectedContent: string) => {
           try {
+            const current = readFileSync(lockPath, "utf-8").trim();
+            if (current !== expectedContent) {
+              // Lock was replaced by another process — leave it alone.
+              return;
+            }
             unlinkSync(lockPath);
           } catch (unlinkErr: unknown) {
             // ENOENT is fine — another process already removed it.
@@ -212,7 +220,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
           console.warn(
             `[Sandboxed Process ${process.pid}] Lock file contained invalid PID "${pidStr}" — removing and retrying`,
           );
-          removeStale();
+          removeStale(raw);
         } else if (existingPid === process.pid) {
           // We already own the lock only if the full content matches what we would write.
           // PID reuse across restarts can produce a stale lock whose PID equals ours
@@ -223,7 +231,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
             console.warn(
               `[Sandboxed Process ${process.pid}] Lock file for simulation ${simulationId} has our PID but mismatched content — treating as stale and removing`,
             );
-            removeStale();
+            removeStale(raw);
           }
         } else {
           const actualStartTime = readProcessStartTime(existingPid);
@@ -236,7 +244,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
               );
             }
             // Process is no longer running — remove stale lock and retry.
-            removeStale();
+            removeStale(raw);
           } else if (storedStartTime === "") {
             // Lock file has no start time — cannot safely verify the process
             // identity. Fail closed if the process appears to be running, to
@@ -247,14 +255,14 @@ export default async function (job: Job<SimulateData>): Promise<string> {
               );
             }
             // Process is gone; remove the unverifiable stale lock and retry.
-            removeStale();
+            removeStale(raw);
           } else if (actualStartTime !== storedStartTime) {
             // Start times differ: the PID was reused by an unrelated process.
             // Do NOT kill it; just remove the stale lock and retry.
             console.log(
               `[Sandboxed Process ${process.pid}] PID ${existingPid} in lock file appears to have been reused by an unrelated process — removing stale lock`,
             );
-            removeStale();
+            removeStale(raw);
           } else {
             // Start times match: this is genuinely the orphaned process.
             const terminated = await terminateProcess(existingPid);
@@ -266,7 +274,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
             console.log(
               `[Sandboxed Process ${process.pid}] Terminated orphaned process ${existingPid} for simulation ${simulationId}`,
             );
-            removeStale();
+            removeStale(raw);
           }
         }
         // In all non-throwing, non-owned cases the lock file has been removed
