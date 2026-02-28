@@ -40,6 +40,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     });
 
     // Subscribe to the events.
+    this.queueEvents.on("waiting", ({ jobId }) => this.onWaiting(jobId));
     this.queueEvents.on("active", ({ jobId }) => this.onActive(jobId));
     this.queueEvents.on("completed", ({ jobId }) => this.onCompleted(jobId));
     this.queueEvents.on("failed", ({ jobId, failedReason }) =>
@@ -72,6 +73,37 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         error.stack,
       );
       await job.moveToFailed(error, job.token);
+    }
+  }
+
+  private async onWaiting(jobId: string) {
+    this.logger.log(`Job ${jobId} is waiting. Checking for stalled job...`);
+    const job = await this.simulationQueue.getJob(jobId);
+    if (!job) return;
+
+    const { simulationId } = job.data;
+
+    // Only update to QUEUED if the simulation is currently RUNNING.
+    // This handles the case where the server restarted and BullMQ re-queued a
+    // stalled job. For new submissions, the status is already set to QUEUED
+    // synchronously in addSimulationToQueue before the job is enqueued, so
+    // this will be a no-op.
+    const { count } = await prisma.simulation.updateMany({
+      where: {
+        id: simulationId,
+        status: "RUNNING",
+      },
+      data: {
+        status: "QUEUED",
+        startedAt: null,
+        endedAt: null,
+      },
+    });
+
+    if (count > 0) {
+      this.logger.log(
+        `Job ${jobId} was stalled and re-queued. Reset status to QUEUED.`,
+      );
     }
   }
 
