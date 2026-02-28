@@ -77,7 +77,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
   }
 
   private async onWaiting(jobId: string) {
-    this.logger.log(`Job ${jobId} is waiting. Checking for stalled job...`);
+    this.logger.debug(`Job ${jobId} is waiting. Checking for stalled job...`);
     const job = await this.simulationQueue.getJob(jobId);
     if (!job) return;
 
@@ -97,12 +97,17 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         status: "QUEUED",
         startedAt: null,
         endedAt: null,
+        errorCause: null,
       },
     });
 
     if (count > 0) {
       this.logger.log(
         `Job ${jobId} was stalled and re-queued. Reset status to QUEUED.`,
+      );
+    } else {
+      this.logger.debug(
+        `Job ${jobId} waiting event was a no-op (not in RUNNING state).`,
       );
     }
   }
