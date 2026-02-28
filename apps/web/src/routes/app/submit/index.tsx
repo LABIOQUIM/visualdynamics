@@ -225,7 +225,7 @@ function RouteComponent() {
                           clearable
                           error={fieldState.error?.message}
                           label="Ligand (PDB)"
-                          onChange={onChange}
+                          onChange={(val) => onChange(val ?? undefined)}
                           placeholder="Upload Ligand PDB file"
                           ref={ref}
                           value={value}
@@ -245,7 +245,7 @@ function RouteComponent() {
                           clearable
                           error={fieldState.error?.message}
                           label="Ligand (ITP)"
-                          onChange={onChange}
+                          onChange={(val) => onChange(val ?? undefined)}
                           placeholder="Upload Ligand ITP file"
                           ref={ref}
                           value={value}

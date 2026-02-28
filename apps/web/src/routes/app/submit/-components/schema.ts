@@ -14,8 +14,14 @@ export const simulationSchema = z
         },
         { message: "Invalid PDB file" },
       ),
-    fileLigandPDB: z.instanceof(File).optional(),
-    fileLigandITP: z.instanceof(File).optional(),
+    fileLigandPDB: z.preprocess(
+      (val) => (val === null ? undefined : val),
+      z.instanceof(File).optional(),
+    ),
+    fileLigandITP: z.preprocess(
+      (val) => (val === null ? undefined : val),
+      z.instanceof(File).optional(),
+    ),
     forceField: z.string().min(1, "Force field is required"),
     waterModel: z.string().min(1, "Water model is required"),
     boxType: z.string().min(1, "Box type is required"),
