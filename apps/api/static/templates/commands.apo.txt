@@ -1,0 +1,45 @@
+#topology
+gmx pdb2gmx -f {{fullFileName}} -o {{pdbName}}.gro -p {{pdbName}}.top -ff {{forceField}} -water {{waterModel}} -ignh -missing
+gmx editconf -f {{pdbName}}.gro -c -d {{boxDistance}} -bt {{boxType}} -o
+
+#solvate
+gmx solvate -cp out.gro -cs -p {{pdbName}}.top -o {{pdbName}}_box
+
+#ions
+gmx grompp -f ions.mdp -c {{pdbName}}_box.gro -p {{pdbName}}.top -o {{pdbName}}_charged -maxwarn 2
+echo 'SOL' | gmx genion -s {{pdbName}}_charged.tpr -o {{pdbName}}_charged -p {{pdbName}}.top -neutral
+
+#minimizationsteepdesc
+gmx grompp -f PME_em.mdp -c {{pdbName}}_charged.gro -p {{pdbName}}.top -o {{pdbName}}_charged -maxwarn 2
+gmx mdrun -v -s {{pdbName}}_charged.tpr -deffnm {{pdbName}}_sd_em
+echo '10 0' | gmx energy -f {{pdbName}}_sd_em.edr -o {{pdbName}}_potentialsd.xvg
+grace -nxy {{pdbName}}_potentialsd.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_potentialsd.png
+
+#equilibrationnvt
+gmx grompp -f nvt.mdp -c {{pdbName}}_sd_em.gro -r {{pdbName}}_sd_em.gro -p {{pdbName}}.top -o {{pdbName}}_nvt.tpr -maxwarn 2
+gmx mdrun -v -s {{pdbName}}_nvt.tpr -deffnm {{pdbName}}_nvt
+echo '16 0' | gmx energy -f {{pdbName}}_nvt.edr -o {{pdbName}}_temperature_nvt.xvg
+grace -nxy {{pdbName}}_temperature_nvt.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_temperature_nvt.png
+
+#equilibrationnpt
+gmx grompp -f npt.mdp -c {{pdbName}}_nvt.gro -r {{pdbName}}_nvt.gro -p {{pdbName}}.top -o {{pdbName}}_npt.tpr -maxwarn 2
+gmx mdrun -v -s {{pdbName}}_npt.tpr -deffnm {{pdbName}}_npt
+echo '16 0' | gmx energy -f {{pdbName}}_npt.edr -o {{pdbName}}_temperature_npt.xvg
+grace -nxy {{pdbName}}_temperature_npt.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_temperature_npt.png
+
+#productionmd
+gmx grompp -f md_pr.mdp -c {{pdbName}}_npt.gro -p {{pdbName}}.top -o {{pdbName}}_pr -maxwarn 2
+gmx mdrun -v -s {{pdbName}}_pr.tpr -deffnm {{pdbName}}_pr
+
+#analyzemd
+echo '1 1' | gmx trjconv -s {{pdbName}}_pr.tpr -f {{pdbName}}_pr.xtc -o {{pdbName}}_pr_PBC.xtc -pbc mol -center
+echo '1 1' | gmx trjconv -s {{pdbName}}_pr.tpr -f {{pdbName}}_pr.xtc -o {{pdbName}}_pr_PBC.gro -pbc mol -center -dump 1
+echo '4 4' | gmx rms -s {{pdbName}}_pr.tpr -f {{pdbName}}_pr_PBC.xtc -o {{pdbName}}_rmsd_prod.xvg -tu ns
+grace -nxy {{pdbName}}_rmsd_prod.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_rmsd_prod.png
+echo '1' | gmx gyrate -s {{pdbName}}_pr.tpr -f {{pdbName}}_pr_PBC.xtc -o {{pdbName}}_gyrate.xvg
+grace -nxy {{pdbName}}_gyrate.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_gyrate.png
+echo '1' | gmx rmsf -s {{pdbName}}_pr.tpr -f {{pdbName}}_pr_PBC.xtc -o {{pdbName}}_rmsf_residue.xvg -res
+grace -nxy {{pdbName}}_rmsf_residue.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_rmsf_residue.png
+echo '1' | gmx sasa -s {{pdbName}}_pr.tpr -f {{pdbName}}_pr_PBC.xtc -o {{pdbName}}_solvent_accessible_surface.xvg -or {{pdbName}}_sas_residue.xvg
+grace -nxy {{pdbName}}_solvent_accessible_surface.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_solvent_accessible_surface.png
+grace -nxy {{pdbName}}_sas_residue.xvg -hdevice PNG -hardcopy -printfile ../figures/{{pdbName}}_sas_residue.png
