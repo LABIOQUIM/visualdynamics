@@ -116,23 +116,31 @@ export default async function (job: Job<SimulateData>): Promise<string> {
   // Use console.log for debugging in the sandboxed process.
   console.log(`[Sandboxed Process ${process.pid}] Starting job ${job.id}`);
 
-  const {
-    user: { username },
-    simulationId,
-  } = job.data;
-
-  const folder = path.resolve(`/files/${username}/${simulationId}`);
-  const folderRun = path.resolve(folder, "run");
-  const fileLogPath = path.resolve(folderRun, "logs", "gmx.log");
-  const fileStepPath = path.resolve(folder, "steps.txt");
-  const pidFilePath = path.resolve(folder, "processing.pid");
-
-  // Lock content includes the process start time to guard against PID reuse:
-  // a recycled PID will have a different starttime and will be ignored.
-  const myStartTime = readProcessStartTime(process.pid) ?? "";
-  const myLockContent = `${process.pid}:${myStartTime}`;
+  // Declared outside try so the finally block can always access them for cleanup,
+  // even when job.data is malformed and throws before they are initialised.
+  // Both must be set together: cleanup requires matching lock content with the file path.
+  let pidFilePath: string | undefined;
+  let myLockContent: string | undefined;
 
   try {
+    // All data access and path setup is inside try so that any error here still
+    // reaches the finally block (Prisma disconnect + lock-file cleanup).
+    const {
+      user: { username },
+      simulationId,
+    } = job.data;
+
+    const folder = path.resolve(`/files/${username}/${simulationId}`);
+    const folderRun = path.resolve(folder, "run");
+    const fileLogPath = path.resolve(folderRun, "logs", "gmx.log");
+    const fileStepPath = path.resolve(folder, "steps.txt");
+    pidFilePath = path.resolve(folder, "processing.pid");
+
+    // Lock content includes the process start time to guard against PID reuse:
+    // a recycled PID will have a different starttime and will be ignored.
+    const myStartTime = readProcessStartTime(process.pid) ?? "";
+    myLockContent = `${process.pid}:${myStartTime}`;
+
     // When the API restarts, a previously active sandboxed process becomes an
     // orphan (its IPC channel to the Worker is severed). BullMQ will eventually
     // detect the job as stalled and re-queue it, spawning this new process.
@@ -152,7 +160,14 @@ export default async function (job: Job<SimulateData>): Promise<string> {
       } else if (existingPid !== process.pid) {
         const actualStartTime = readProcessStartTime(existingPid);
         if (actualStartTime === null) {
-          // Process no longer exists — lock is stale, safe to proceed.
+          if (isProcessRunning(existingPid)) {
+            // The process is alive but its /proc entry cannot be read, so we
+            // cannot verify its identity. Fail closed to prevent two writers.
+            throw new Error(
+              `Unable to verify identity of existing process ${existingPid} for simulation ${simulationId} — aborting to avoid concurrent writes`,
+            );
+          }
+          // Process is no longer running — lock is stale, safe to proceed.
         } else if (actualStartTime !== storedStartTime) {
           // Start times differ: the PID was reused by an unrelated process.
           // Do NOT kill it.
@@ -200,7 +215,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
     // Only remove the lock file when it still contains OUR content. If an
     // orphaned process we replaced runs its own finally block, it must not
     // delete the lock written by the new (current) process.
-    if (existsSync(pidFilePath)) {
+    if (pidFilePath !== undefined && myLockContent !== undefined && existsSync(pidFilePath)) {
       try {
         const recorded = readFileSync(pidFilePath, "utf-8").trim();
         if (recorded === myLockContent) {
