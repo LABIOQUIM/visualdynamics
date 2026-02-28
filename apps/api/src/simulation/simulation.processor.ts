@@ -3,7 +3,12 @@
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Job } from "bullmq";
-import { existsSync, readFileSync, unlinkSync, writeFileSync } from "fs";
+import {
+  existsSync,
+  readFileSync,
+  unlinkSync,
+  writeFileSync,
+} from "fs";
 import * as path from "path";
 import { chdir } from "process";
 
@@ -16,6 +21,42 @@ import { SimulateData } from "./simulation.types";
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
+/**
+ * Reads the start time (field 22) from /proc/<pid>/stat. This value is unique
+ * per process incarnation and is used to detect PID reuse: if the start time in
+ * the lock file doesn't match the running process, the PID belongs to an
+ * unrelated process and we must NOT kill it.
+ * Returns null when the file cannot be read (process gone or non-Linux env).
+ */
+function readProcessStartTime(pid: number): string | null {
+  try {
+    const stat = readFileSync(`/proc/${pid}/stat`, "utf-8");
+    // The comm field (field 2) is wrapped in parens and can itself contain
+    // spaces/parens. Parse everything after the LAST ')' to reach the rest.
+    const afterComm = stat.slice(stat.lastIndexOf(")") + 2);
+    // After ')': state(0) ppid(1) pgrp(2) … starttime(19) — 0-indexed
+    return afterComm.split(" ")[19] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Reads the process group ID of `pid` from /proc/<pid>/stat (pgrp, field 5).
+ * Returns null when the file cannot be read.
+ */
+function readProcessGroupId(pid: number): number | null {
+  try {
+    const stat = readFileSync(`/proc/${pid}/stat`, "utf-8");
+    const afterComm = stat.slice(stat.lastIndexOf(")") + 2);
+    // After ')': state(0) ppid(1) pgrp(2) — 0-indexed
+    const pgid = parseInt(afterComm.split(" ")[2], 10);
+    return Number.isSafeInteger(pgid) && pgid > 0 ? pgid : null;
+  } catch {
+    return null;
+  }
+}
+
 function isProcessRunning(pid: number): boolean {
   try {
     process.kill(pid, 0);
@@ -25,20 +66,49 @@ function isProcessRunning(pid: number): boolean {
   }
 }
 
-async function terminateProcess(pid: number): Promise<void> {
-  try {
-    process.kill(pid, "SIGTERM");
-    // Give the process up to 5 s to shut down gracefully before force-killing it.
-    const deadline = Date.now() + 5000;
-    while (isProcessRunning(pid) && Date.now() < deadline) {
-      await new Promise<void>((r) => setTimeout(r, 100));
+/**
+ * Sends SIGTERM to the process group of `pid` (which also reaches any GROMACS
+ * child processes), falling back to a single-process kill if group-signaling
+ * fails. Escalates to SIGKILL if the process hasn't exited within 5 s.
+ * Returns true when the process is no longer running, false otherwise.
+ */
+async function terminateProcess(pid: number): Promise<boolean> {
+  // Read the actual PGID from /proc so we target the correct process group
+  // even when `pid` is not the process group leader.
+  const pgid = readProcessGroupId(pid);
+
+  const killTarget = (sig: NodeJS.Signals) => {
+    if (pgid !== null) {
+      // Negative PGID signals the whole process group, terminating GROMACS
+      // child processes alongside the sandboxed Node process.
+      try {
+        process.kill(-pgid, sig);
+        return;
+      } catch {
+        // Fall through to single-process kill.
+      }
     }
-    if (isProcessRunning(pid)) {
-      process.kill(pid, "SIGKILL");
+    try {
+      process.kill(pid, sig);
+    } catch {
+      // Process already gone.
     }
-  } catch {
-    // Process may have already exited between the check and the kill.
+  };
+
+  killTarget("SIGTERM");
+
+  const deadline = Date.now() + 5000;
+  while (isProcessRunning(pid) && Date.now() < deadline) {
+    await new Promise<void>((r) => setTimeout(r, 100));
   }
+
+  if (isProcessRunning(pid)) {
+    killTarget("SIGKILL");
+    // Give SIGKILL a moment to take effect.
+    await new Promise<void>((r) => setTimeout(r, 500));
+  }
+
+  return !isProcessRunning(pid);
 }
 
 // The default export is an async function that BullMQ will execute.
@@ -57,28 +127,54 @@ export default async function (job: Job<SimulateData>): Promise<string> {
   const fileStepPath = path.resolve(folder, "steps.txt");
   const pidFilePath = path.resolve(folder, "processing.pid");
 
+  // Lock content includes the process start time to guard against PID reuse:
+  // a recycled PID will have a different starttime and will be ignored.
+  const myStartTime = readProcessStartTime(process.pid) ?? "";
+  const myLockContent = `${process.pid}:${myStartTime}`;
+
   try {
     // When the API restarts, a previously active sandboxed process becomes an
     // orphan (its IPC channel to the Worker is severed). BullMQ will eventually
     // detect the job as stalled and re-queue it, spawning this new process.
     // To avoid two processes writing to the same files simultaneously, we check
-    // for a PID file left by the previous run and terminate that process first.
+    // for a lock file left by the previous run and terminate that process first.
     if (existsSync(pidFilePath)) {
-      const rawPid = readFileSync(pidFilePath, "utf-8").trim();
-      const existingPid = parseInt(rawPid, 10);
-      if (isNaN(existingPid)) {
+      const raw = readFileSync(pidFilePath, "utf-8").trim();
+      const colonIdx = raw.indexOf(":");
+      const pidStr = colonIdx >= 0 ? raw.slice(0, colonIdx) : raw;
+      const storedStartTime = colonIdx >= 0 ? raw.slice(colonIdx + 1) : "";
+      const existingPid = parseInt(pidStr, 10);
+
+      if (!Number.isSafeInteger(existingPid) || existingPid <= 0) {
         console.warn(
-          `[Sandboxed Process ${process.pid}] PID file contained non-numeric data: "${rawPid}" — ignoring`,
+          `[Sandboxed Process ${process.pid}] Lock file contained invalid PID "${pidStr}" — ignoring`,
         );
-      } else if (existingPid !== process.pid && isProcessRunning(existingPid)) {
-        await terminateProcess(existingPid);
-        console.log(
-          `[Sandboxed Process ${process.pid}] Terminated orphaned process ${existingPid} for simulation ${simulationId}`,
-        );
+      } else if (existingPid !== process.pid) {
+        const actualStartTime = readProcessStartTime(existingPid);
+        if (actualStartTime === null) {
+          // Process no longer exists — lock is stale, safe to proceed.
+        } else if (actualStartTime !== storedStartTime) {
+          // Start times differ: the PID was reused by an unrelated process.
+          // Do NOT kill it.
+          console.log(
+            `[Sandboxed Process ${process.pid}] PID ${existingPid} in lock file appears to have been reused by an unrelated process — ignoring`,
+          );
+        } else {
+          // Start times match: this is genuinely the orphaned process.
+          const terminated = await terminateProcess(existingPid);
+          if (!terminated) {
+            throw new Error(
+              `Could not terminate orphaned process ${existingPid} — aborting to prevent concurrent writes to simulation ${simulationId}`,
+            );
+          }
+          console.log(
+            `[Sandboxed Process ${process.pid}] Terminated orphaned process ${existingPid} for simulation ${simulationId}`,
+          );
+        }
       }
     }
 
-    writeFileSync(pidFilePath, String(process.pid));
+    writeFileSync(pidFilePath, myLockContent);
 
     const commands = await loadCommands(folder);
 
@@ -101,10 +197,15 @@ export default async function (job: Job<SimulateData>): Promise<string> {
       e?.message || `Job ${job.data.simulationId} failed to run command!`,
     );
   } finally {
-    // Remove the PID file so a clean next run doesn't see a stale entry.
+    // Only remove the lock file when it still contains OUR content. If an
+    // orphaned process we replaced runs its own finally block, it must not
+    // delete the lock written by the new (current) process.
     if (existsSync(pidFilePath)) {
       try {
-        unlinkSync(pidFilePath);
+        const recorded = readFileSync(pidFilePath, "utf-8").trim();
+        if (recorded === myLockContent) {
+          unlinkSync(pidFilePath);
+        }
       } catch {
         // Best-effort cleanup.
       }
