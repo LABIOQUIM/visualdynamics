@@ -1,5 +1,5 @@
 import { InjectQueue } from "@nestjs/bullmq";
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { Queue } from "bullmq";
 import * as ChildProcess from "child_process";
 import * as dirTree from "directory-tree";
@@ -24,6 +24,78 @@ import { renderTemplate } from "../utils/renderTemplate";
 import type { NewSimulationBody } from "./simulation.types";
 
 import { normalizeString } from "@/src/utils/normalizeString";
+
+// Allowlists for GROMACS parameters used in shell command templates.
+const ALLOWED_FORCE_FIELDS = new Set([
+  "amber03",
+  "amber94",
+  "amber96",
+  "amber99",
+  "amber99sb",
+  "amber99sb-ildn",
+  "amberGS",
+  "charmm27",
+  "gromos43a1",
+  "gromos43a2",
+  "gromos45a3",
+  "gromos53a5",
+  "gromos53a6",
+  "gromos54a7",
+  "oplsaa",
+]);
+
+const ALLOWED_WATER_MODELS = new Set([
+  "tip3p",
+  "tip4p",
+  "tip4pew",
+  "tip5p",
+  "spc",
+  "spce",
+  "none",
+]);
+
+const ALLOWED_BOX_TYPES = new Set([
+  "cubic",
+  "dodecahedron",
+  "octahedron",
+  "triclinic",
+]);
+
+/** Matches a positive decimal number, e.g. "1.0", "1.2", "0.5" */
+const BOX_DISTANCE_RE = /^\d+(\.\d+)?$/;
+
+/** Matches safe filenames: alphanumeric, dots, underscores, hyphens only */
+const SAFE_FILENAME_RE = /^[a-zA-Z0-9._-]+$/;
+
+function validateSimulationParams(
+  body: Pick<NewSimulationBody, "forceField" | "waterModel" | "boxType" | "boxDistance">,
+): void {
+  if (!ALLOWED_FORCE_FIELDS.has(body.forceField)) {
+    throw new BadRequestException(`Unsupported force field: ${body.forceField}`);
+  }
+  if (!ALLOWED_WATER_MODELS.has(body.waterModel)) {
+    throw new BadRequestException(`Unsupported water model: ${body.waterModel}`);
+  }
+  if (!ALLOWED_BOX_TYPES.has(body.boxType)) {
+    throw new BadRequestException(`Unsupported box type: ${body.boxType}`);
+  }
+  if (!BOX_DISTANCE_RE.test(body.boxDistance)) {
+    throw new BadRequestException(`Invalid box distance: ${body.boxDistance}`);
+  }
+}
+
+function assertSafeFilename(value: string | undefined, field: string): void {
+  if (!value || !SAFE_FILENAME_RE.test(value)) {
+    throw new BadRequestException(`Unsafe characters in ${field}`);
+  }
+}
+
+/** Splits rendered template text into lines while preserving trailing newlines. */
+function splitPreservingNewlines(text: string): string[] {
+  return text
+    .split(/\r?\n/)
+    .map((line, index, arr) => (index < arr.length - 1 ? line + "\n" : line));
+}
 
 @Injectable()
 export class SimulationService {
@@ -120,6 +192,17 @@ export class SimulationService {
     const [origLigandITPName] = fileNameLigandITPOriginal.split(".");
     const [origLigandPDBName] = fileNameLigandPDBOriginal.split(".");
 
+    validateSimulationParams(body);
+    assertSafeFilename(fullFileName, "PDB file");
+    const ligandITPBasename = fileNameLigandITP.includes("/")
+      ? fileNameLigandITP.split("/")[1]
+      : fileNameLigandITP;
+    const ligandPDBBasename = fileNameLigandPDB.includes("/")
+      ? fileNameLigandPDB.split("/")[1]
+      : fileNameLigandPDB;
+    assertSafeFilename(ligandITPBasename, "ligand ITP file");
+    assertSafeFilename(ligandPDBBasename, "ligand PDB file");
+
     const pdbName = normalizeString(origPDBName);
     const ligandITPName = normalizeString(origLigandITPName);
     const ligandPDBName = normalizeString(origLigandPDBName);
@@ -158,8 +241,8 @@ export class SimulationService {
         waterModel: body.waterModel,
         boxDistance: body.boxDistance,
         boxType: body.boxType,
-        ligandITPFile: fileNameLigandITP.split("/")[1],
-        ligandPDBFile: fileNameLigandPDB.split("/")[1],
+        ligandITPFile: ligandITPBasename,
+        ligandPDBFile: ligandPDBBasename,
         acpypeMoleculeType,
       });
     } catch (err) {
@@ -172,7 +255,7 @@ export class SimulationService {
     writeFileSync(`/files/${username}/${id}/commands.txt`, rendered);
 
     this.prepareSimulationEnvironment(
-      "acpype",
+      id,
       fileName,
       fileNameLigandITP,
       fileNameLigandPDB,
@@ -180,7 +263,7 @@ export class SimulationService {
 
     return {
       simulationId: id,
-      commands: rendered.split(/\r?\n/).filter(Boolean),
+      commands: splitPreservingNewlines(rendered),
     };
   }
 
@@ -191,6 +274,9 @@ export class SimulationService {
   ) {
     const [username, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
+
+    validateSimulationParams(body);
+    assertSafeFilename(fullFileName, "PDB file");
 
     const pdbName = normalizeString(origPDBName);
 
@@ -234,7 +320,7 @@ export class SimulationService {
 
     return {
       simulationId: id,
-      commands: rendered.split(/\r?\n/).filter(Boolean),
+      commands: splitPreservingNewlines(rendered),
     };
   }
 
