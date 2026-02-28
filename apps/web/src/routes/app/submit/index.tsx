@@ -342,10 +342,23 @@ function RouteComponent() {
                       label="Box Distance (nm)"
                       max={1.2}
                       min={0.1}
-                      onChange={onChange}
+                      onChange={(val) => {
+                        if (
+                          val === "" ||
+                          val === null ||
+                          typeof val === "undefined"
+                        ) {
+                          onChange(undefined);
+                        } else if (typeof val === "number") {
+                          onChange(val);
+                        } else {
+                          const parsed = Number(val);
+                          onChange(Number.isNaN(parsed) ? undefined : parsed);
+                        }
+                      }}
                       placeholder="Input a value"
                       step={0.1}
-                      value={value}
+                      value={value ?? undefined}
                     />
                   )}
                 />
