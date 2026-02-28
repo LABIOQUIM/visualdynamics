@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "3dmol": "^2.5.3",
+    "@hookform/resolvers": "^3.10.0",
     "@jsx-email/plugin-inline": "^1.0.1",
     "@jsx-email/plugin-minify": "^1.0.2",
     "@mantine/carousel": "^8.3.8",
@@ -43,9 +44,11 @@
     "nuqs": "^2.8.0",
     "postcss-load-config": "^6.0.1",
     "preact": "^10.27.2",
+    "react-hook-form": "^7.71.2",
     "react-papaparse": "^4.4.0",
     "recharts": "^3.4.1",
-    "tiny-invariant": "^1.3.3"
+    "tiny-invariant": "^1.3.3",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.2",
