@@ -3,6 +3,7 @@ import { BullBoardModule } from "@bull-board/nestjs";
 import { BullModule } from "@nestjs/bullmq";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { ThrottlerModule } from "@nestjs/throttler";
 import { MailerModule as NestMailerModule } from "@nestjs-modules/mailer";
 import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
 import { AuthModule } from "@thallesp/nestjs-better-auth";
@@ -16,6 +17,9 @@ import { SystemInfoModule } from "./systeminfo/systeminfo.module";
   imports: [
     AuthModule.forRoot({ auth }),
     ConfigModule.forRoot(),
+    ThrottlerModule.forRoot({
+      throttlers: [{ ttl: 60000, limit: 100 }],
+    }),
     BullModule.forRoot({
       connection: {
         host: "redis",

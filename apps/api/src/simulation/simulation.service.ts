@@ -12,7 +12,7 @@ import {
   renameSync,
   writeFileSync,
 } from "fs";
-import { join } from "path";
+import { join, resolve as pathResolve, sep as pathSep } from "path";
 import { cwd } from "process";
 
 import { Simulation, SIMULATION_TYPE } from "../generated/prisma/client";
@@ -610,12 +610,19 @@ export class SimulationService {
     return readFileSync(join(runFolderPath, "results.zip"));
   }
 
-  async getUserFile(path: string) {
-    if (!existsSync(path)) {
+  async getUserFile(userPath: string) {
+    const resolvedPath = pathResolve(userPath);
+    const filesRoot = pathResolve("/files");
+
+    if (!resolvedPath.startsWith(filesRoot + pathSep)) {
+      throw new BadRequestException("Invalid file path");
+    }
+
+    if (!existsSync(resolvedPath)) {
       return "no-results";
     }
 
-    return readFileSync(path);
+    return readFileSync(resolvedPath);
   }
 
   async getUserLastSimulationFiles(userName: string) {

@@ -1,6 +1,7 @@
 import { spawn } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
+import { quote } from "shell-quote";
 
 interface ProcessResult {
   pid: number;
@@ -11,7 +12,7 @@ export function runCommand(
   command: string,
   logFile: string,
 ): Promise<ProcessResult> {
-  const args = command.split(/\s+/); // Split command into arguments
+  const args = command.split(/\s+/);
   const shouldUseShell = command.includes(">");
 
   return new Promise((resolve, reject) => {
@@ -24,11 +25,19 @@ export function runCommand(
     });
 
     function tryRunCommand() {
-      const cmd = shouldUseShell ? command : args[0];
-      const otherArgs = shouldUseShell ? [] : args.slice(1);
+      let cmd: string;
+      let otherArgs: string[];
+
+      if (shouldUseShell) {
+        cmd = "/bin/sh";
+        otherArgs = ["-c", quote(args)];
+      } else {
+        cmd = args[0];
+        otherArgs = args.slice(1);
+      }
 
       const process = spawn(cmd, otherArgs, {
-        shell: true,
+        shell: false,
         stdio: ["ignore", "pipe", "pipe"],
       });
 

@@ -203,7 +203,10 @@ export class SimulationController {
   }
 
   @Get("/download/file")
-  async getUserFile(@Req() request: Request, @Query("path") path: string) {
+  async getUserFile(
+    @Session() _session: typeof auth.$Infer.Session,
+    @Query("path") path: string,
+  ) {
     const file = await this.simulationService.getUserFile(path);
 
     if (file === "no-results") {
@@ -267,7 +270,7 @@ export class SimulationController {
   @Get("/downloads/results")
   async getSimulationResults(
     @Session() session: typeof auth.$Infer.Session,
-    @Query("simulationId") simulationId: SIMULATION_TYPE,
+    @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationResults(
       session.user.username,
@@ -283,7 +286,7 @@ export class SimulationController {
 
   @Get("/latest")
   async getLatestSimulations(@Session() session: typeof auth.$Infer.Session) {
-    const data = this.simulationService.getUserLastSimulations(
+    const data = await this.simulationService.getUserLastSimulations(
       session.user.email,
     );
     return data;
@@ -294,7 +297,7 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Param("id") id: string,
   ) {
-    const data = this.simulationService.getLastMacromoleculeFiles(
+    const data = await this.simulationService.getLastMacromoleculeFiles(
       session.user.username,
       id,
     );
@@ -304,7 +307,7 @@ export class SimulationController {
 
   @Get("/queue-info")
   async getQueueInfo() {
-    const data = this.simulationService.getQueueInfo();
+    const data = await this.simulationService.getQueueInfo();
 
     return data;
   }

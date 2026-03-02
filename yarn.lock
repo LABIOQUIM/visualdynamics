@@ -2529,6 +2529,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nestjs/throttler@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "@nestjs/throttler@npm:6.5.0"
+  peerDependencies:
+    "@nestjs/common": ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+    "@nestjs/core": ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+    reflect-metadata: ^0.1.13 || ^0.2.0
+  checksum: 10/defd021d745379d0dd4f3cbb6ddd5117a0da8f41441b7cbb5252cc5d27d0c6bbff79c00d1159821fa44637c0032adbaee9b1e8df130748fb80146c098336b724
+  languageName: node
+  linkType: hard
+
 "@noble/ciphers@npm:^2.0.0":
   version: 2.0.1
   resolution: "@noble/ciphers@npm:2.0.1"
@@ -5452,6 +5463,7 @@ __metadata:
     "@nestjs/schematics": "npm:11.0.9"
     "@nestjs/swagger": "npm:11.2.1"
     "@nestjs/testing": "npm:11.1.9"
+    "@nestjs/throttler": "npm:^6.5.0"
     "@prisma/adapter-pg": "npm:^7.2.0"
     "@prisma/client": "npm:^7.2.0"
     "@thallesp/nestjs-better-auth": "npm:^2.2.2"
@@ -5467,6 +5479,7 @@ __metadata:
     directory-tree: "npm:^3.5.2"
     dotenv: "npm:^17.2.3"
     graphql: "npm:^16.12.0"
+    helmet: "npm:^8.1.0"
     nodemailer: "npm:^8.0.1"
     prisma: "npm:^7.2.0"
     reflect-metadata: "npm:0.2.2"
@@ -9990,6 +10003,13 @@ __metadata:
   bin:
     he: bin/he
   checksum: 10/d09b2243da4e23f53336e8de3093e5c43d2c39f8d0d18817abfa32ce3e9355391b2edb4bb5edc376aea5d4b0b59d6a0482aab4c52bc02ef95751e4b818e847f1
+  languageName: node
+  linkType: hard
+
+"helmet@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "helmet@npm:8.1.0"
+  checksum: 10/262e678d340bb102158f4e6ba1469a7cda1643329a50863f8fe704d5b60d9ebe6ea1e7793ed51224ae464f197dedf2fe8035df278c042e32ebc95b237fa41ad0
   languageName: node
   linkType: hard
 

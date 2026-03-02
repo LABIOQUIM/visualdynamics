@@ -50,6 +50,8 @@ FROM base AS runner
 # COPY apps/api/bin/Mold2 /bin/Mold2
 # RUN chmod +x /bin/Mold2
 
+RUN groupadd --gid 1001 nodejs && useradd --uid 1001 --gid nodejs nestjs
+
 WORKDIR /app
 
 COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
@@ -60,6 +62,10 @@ COPY --from=builder /app/apps/api/static ./apps/api/static
 COPY --from=builder /app/apps/api/.env ./apps/api.env
 COPY apps/api/package.json ./apps/api
 COPY --from=builder /app/packages ./packages
+
+RUN mkdir -p /files && chown -R nestjs:nodejs /files
+
+USER nestjs
 
 EXPOSE 3000
 
