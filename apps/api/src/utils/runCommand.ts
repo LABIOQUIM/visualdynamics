@@ -45,7 +45,7 @@ export function runCommand(
       process.stderr.pipe(logStream);
 
       process.once("close", (code) => {
-        resolve({ pid: process.pid, returncode: code });
+        resolve({ pid: process.pid ?? 0, returncode: code ?? 1 });
       });
     }
   });

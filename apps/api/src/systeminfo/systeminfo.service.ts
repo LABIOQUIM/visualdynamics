@@ -11,6 +11,8 @@ export class SystemInfoService {
     const fs = await fsSize();
     const load = await currentLoad();
 
+    const rootFs = fs.find((b) => b.mount === "/");
+
     return {
       cpu: {
         brand: cpuInfo.brand,
@@ -27,9 +29,9 @@ export class SystemInfoService {
         used: memInfo.used,
       },
       fs: {
-        size: fs.find((b) => b.mount === "/").size,
-        used: fs.find((b) => b.mount === "/").used,
-        available: fs.find((b) => b.mount === "/").available,
+        size: rootFs?.size ?? 0,
+        used: rootFs?.used ?? 0,
+        available: rootFs?.available ?? 0,
       },
     };
   }

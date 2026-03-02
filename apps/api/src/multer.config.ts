@@ -11,14 +11,17 @@ const multerConfig = {
   storage: diskStorage({
     destination: "/files",
     filename: (req, file, cb) => {
+      const username = req.session?.user?.username;
+
+      if (!username) {
+        return cb(new Error("User session not found"), "");
+      }
+
       const extension = path.parse(file.originalname).ext.toLowerCase();
-      const userDir = `/files/${req.session.user.username}`;
+      const userDir = `/files/${username}`;
 
       if (!ALLOWED_EXTENSIONS.has(extension)) {
-        return cb(
-          new Error(`File type not allowed: ${extension}`),
-          null,
-        );
+        return cb(new Error(`File type not allowed: ${extension}`), "");
       }
 
       if (!fs.existsSync(userDir)) {
@@ -30,7 +33,7 @@ const multerConfig = {
           ? "originalMacromolecule"
           : "originalLigand";
 
-      cb(null, `${req.session.user.username}/${filename}${extension}`);
+      cb(null, `${username}/${filename}${extension}`);
     },
   }),
 };

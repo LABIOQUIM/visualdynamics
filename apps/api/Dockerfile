@@ -26,7 +26,7 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json .yarnrc.yml yarn.lock ./
-COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
+COPY .yarn/releases/ ./.yarn/releases/
 COPY apps/api/package.json apps/api/.yarnrc.yml ./apps/api/
 COPY packages ./packages
 RUN yarn install
@@ -38,7 +38,7 @@ RUN yarn install
 FROM base AS builder
 WORKDIR /app
 
-COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
+COPY .yarn/releases/ ./.yarn/releases/
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json .yarnrc.yml yarn.lock .env ./
 COPY apps/api ./apps/api
@@ -54,7 +54,7 @@ RUN groupadd --gid 1001 nodejs && useradd --uid 1001 --gid nodejs nestjs
 
 WORKDIR /app
 
-COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
+COPY .yarn/releases/ ./.yarn/releases/
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json .yarnrc.yml yarn.lock .env ./
 COPY --from=builder /app/apps/api/dist ./apps/api/dist

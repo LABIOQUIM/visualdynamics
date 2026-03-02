@@ -347,7 +347,7 @@ export class SimulationService {
     );
 
     if (jobIndex !== -1) {
-      jobId = jobs[jobIndex].id;
+      jobId = jobs[jobIndex].id ?? "-1";
     }
 
     // Get Job Queue Position
@@ -395,7 +395,10 @@ export class SimulationService {
       logData = readFileData(logFilePath, true);
     }
 
-    let molecules = {
+    let molecules: {
+      macromolecule: string | null;
+      ligand: string | null;
+    } = {
       macromolecule: null,
       ligand: null,
     };

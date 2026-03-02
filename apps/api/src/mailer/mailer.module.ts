@@ -4,7 +4,7 @@ import { BullModule } from "@nestjs/bullmq";
 import { Module } from "@nestjs/common";
 
 import { MailerConsumer } from "./mailer.consumer";
-import { MailerssController } from "./mailer.controller";
+import { MailerController } from "./mailer.controller";
 import { MailerService } from "./mailer.service";
 
 @Module({
@@ -20,7 +20,7 @@ import { MailerService } from "./mailer.service";
       },
     }),
   ],
-  controllers: [MailerssController],
+  controllers: [MailerController],
   providers: [MailerService, MailerConsumer],
 })
 export class MailerModule {}

@@ -27,6 +27,8 @@ import { auth } from "../lib/auth";
 import { SimulationService } from "./simulation.service";
 import type { NewSimulationBody } from "./simulation.types";
 
+type AuthSession = typeof auth.$Infer.Session;
+
 @Controller("simulation")
 export class SimulationController {
   constructor(private simulationService: SimulationService) {}
@@ -99,9 +101,15 @@ export class SimulationController {
     }
 
     if (body.shouldRun && body.shouldRun === "true") {
+      const username = request.session?.user?.username;
+
+      if (!username) {
+        throw new UnauthorizedException("User session not found");
+      }
+
       await this.simulationService.addSimulationToQueue(
         simulationId,
-        request.session.user.username,
+        username,
         body.type,
         body.successEmail,
         body.errorEmail,
@@ -115,11 +123,11 @@ export class SimulationController {
 
   @Get("/")
   async getSimulationInfo(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Query("simulationId") simulationId: string,
   ) {
     const data = await this.simulationService.getSimulationDetails(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -139,7 +147,7 @@ export class SimulationController {
 
   @Get("/current-user")
   async getUserSimulations(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Query("pageSize") pageSize: number = 10,
     @Query("page") page: number = 1,
   ) {
@@ -154,7 +162,7 @@ export class SimulationController {
 
   @Get("/management")
   async getMgmtSimulations(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Query("pageSize") pageSize: number = 10,
     @Query("page") page: number = 1,
   ) {
@@ -173,7 +181,7 @@ export class SimulationController {
 
   @Patch("/update/:id")
   async adminUpdateSimulation(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Param("id") id: string,
     @Body() body: SimulationUpdateInput,
   ) {
@@ -194,9 +202,9 @@ export class SimulationController {
   }
 
   @Get("/files")
-  async getLastSimulationFiles(@Session() session: typeof auth.$Infer.Session) {
+  async getLastSimulationFiles(@Session() session: AuthSession) {
     const data = await this.simulationService.getUserLastSimulationFiles(
-      session.user.username,
+      session.user.username!,
     );
 
     return data;
@@ -204,7 +212,7 @@ export class SimulationController {
 
   @Get("/download/file")
   async getUserFile(
-    @Session() _session: typeof auth.$Infer.Session,
+    @Session() _session: AuthSession,
     @Query("path") path: string,
   ) {
     const file = await this.simulationService.getUserFile(path);
@@ -218,11 +226,11 @@ export class SimulationController {
 
   @Get("/downloads/figures")
   async getSimulationFigures(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationFigures(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -235,11 +243,11 @@ export class SimulationController {
 
   @Get("/downloads/commands")
   async getSimulationCommands(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationCommands(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -252,11 +260,11 @@ export class SimulationController {
 
   @Get("/downloads/logs")
   async getSimulationGromacsLogs(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationGromacsLogs(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -269,11 +277,11 @@ export class SimulationController {
 
   @Get("/downloads/results")
   async getSimulationResults(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationResults(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -285,7 +293,7 @@ export class SimulationController {
   }
 
   @Get("/latest")
-  async getLatestSimulations(@Session() session: typeof auth.$Infer.Session) {
+  async getLatestSimulations(@Session() session: AuthSession) {
     const data = await this.simulationService.getUserLastSimulations(
       session.user.email,
     );
@@ -294,11 +302,11 @@ export class SimulationController {
 
   @Get("/macromolecule/:type")
   async getLatestMacromoleculeFiles(
-    @Session() session: typeof auth.$Infer.Session,
+    @Session() session: AuthSession,
     @Param("id") id: string,
   ) {
     const data = await this.simulationService.getLastMacromoleculeFiles(
-      session.user.username,
+      session.user.username!,
       id,
     );
 
