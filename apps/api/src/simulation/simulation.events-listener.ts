@@ -72,7 +72,9 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         `Failed during pre-step setup for job ${job.id}`,
         error instanceof Error ? error.stack : String(error),
       );
-      await job.moveToFailed(error as Error, job.token!);
+      if (job.token) {
+        await job.moveToFailed(error as Error, job.token);
+      }
     }
   }
 

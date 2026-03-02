@@ -33,6 +33,20 @@ type AuthSession = typeof auth.$Infer.Session;
 export class SimulationController {
   constructor(private simulationService: SimulationService) {}
 
+  /**
+   * Extracts and validates the username from a session guaranteed by @Session().
+   * Throws UnauthorizedException if username is unexpectedly missing.
+   */
+  private getUsername(session: AuthSession): string {
+    const username = session.user.username;
+
+    if (!username) {
+      throw new UnauthorizedException("Session missing username");
+    }
+
+    return username;
+  }
+
   @Post("/submit")
   @UseInterceptors(
     FileFieldsInterceptor(
@@ -127,7 +141,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const data = await this.simulationService.getSimulationDetails(
-      session.user.username!,
+      this.getUsername(session),
       simulationId,
     );
 
@@ -204,7 +218,7 @@ export class SimulationController {
   @Get("/files")
   async getLastSimulationFiles(@Session() session: AuthSession) {
     const data = await this.simulationService.getUserLastSimulationFiles(
-      session.user.username!,
+      this.getUsername(session),
     );
 
     return data;
@@ -230,7 +244,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationFigures(
-      session.user.username!,
+      this.getUsername(session),
       simulationId,
     );
 
@@ -247,7 +261,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationCommands(
-      session.user.username!,
+      this.getUsername(session),
       simulationId,
     );
 
@@ -264,7 +278,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationGromacsLogs(
-      session.user.username!,
+      this.getUsername(session),
       simulationId,
     );
 
@@ -281,7 +295,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationService.getSimulationResults(
-      session.user.username!,
+      this.getUsername(session),
       simulationId,
     );
 
@@ -306,7 +320,7 @@ export class SimulationController {
     @Param("id") id: string,
   ) {
     const data = await this.simulationService.getLastMacromoleculeFiles(
-      session.user.username!,
+      this.getUsername(session),
       id,
     );
 
