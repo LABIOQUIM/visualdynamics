@@ -190,7 +190,11 @@ export class SimulationController {
   async getMDPFiles() {
     const file = await this.simulationService.getMDPFiles();
 
-    return new StreamableFile(file);
+    return new StreamableFile(file.stream, {
+      type: "application/zip",
+      disposition: 'attachment; filename="mdpfiles.zip"',
+      length: file.size,
+    });
   }
 
   @Get("/files")
@@ -210,7 +214,11 @@ export class SimulationController {
       throw new HttpException("no-results", HttpStatus.OK);
     }
 
-    return new StreamableFile(file);
+    return new StreamableFile(file.stream, {
+      type: "application/octet-stream",
+      disposition: "attachment",
+      length: file.size,
+    });
   }
 
   @Get("/downloads/figures")
@@ -227,7 +235,11 @@ export class SimulationController {
       throw new HttpException("no-figures", HttpStatus.OK);
     }
 
-    return new StreamableFile(file);
+    return new StreamableFile(file.stream, {
+      type: "application/zip",
+      disposition: `attachment; filename="figures-${simulationId}.zip"`,
+      length: file.size,
+    });
   }
 
   @Get("/downloads/commands")
@@ -244,7 +256,11 @@ export class SimulationController {
       throw new HttpException("no-commands", HttpStatus.OK);
     }
 
-    return new StreamableFile(file);
+    return new StreamableFile(file.stream, {
+      type: "text/plain",
+      disposition: `attachment; filename="commands-${simulationId}.txt"`,
+      length: file.size,
+    });
   }
 
   @Get("/downloads/logs")
@@ -261,7 +277,11 @@ export class SimulationController {
       throw new HttpException("no-logs", HttpStatus.OK);
     }
 
-    return new StreamableFile(file);
+    return new StreamableFile(file.stream, {
+      type: "text/plain",
+      disposition: `attachment; filename="gmx-${simulationId}.log"`,
+      length: file.size,
+    });
   }
 
   @Get("/downloads/results")
@@ -278,7 +298,11 @@ export class SimulationController {
       throw new HttpException("no-results", HttpStatus.OK);
     }
 
-    return new StreamableFile(file);
+    return new StreamableFile(file.stream, {
+      type: "application/zip",
+      disposition: `attachment; filename="results-${simulationId}.zip"`,
+      length: file.size,
+    });
   }
 
   @Get("/latest")

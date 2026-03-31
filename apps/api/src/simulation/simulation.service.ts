@@ -3,17 +3,21 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { Queue } from "bullmq";
 import * as ChildProcess from "child_process";
 import * as dirTree from "directory-tree";
+import type { ReadStream } from "fs";
 import {
   cpSync,
+  createReadStream,
   existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,
   renameSync,
+  statSync,
   writeFileSync,
 } from "fs";
 import { join } from "path";
 import { cwd } from "process";
+import { promisify } from "util";
 
 import { Simulation, SIMULATION_TYPE } from "../generated/prisma/client";
 import { SimulationUpdateInput } from "../generated/prisma/models";
@@ -22,6 +26,8 @@ import { readFileData } from "../utils/readFileData";
 import { renderTemplate } from "../utils/renderTemplate";
 
 import type { NewSimulationBody } from "./simulation.types";
+
+const execAsync = promisify(ChildProcess.exec);
 
 import { normalizeString } from "@/src/utils/normalizeString";
 
@@ -533,14 +539,15 @@ export class SimulationService {
     return simulations;
   }
 
-  async getSimulationFigures(userName: string, simulationId: string) {
+  async getSimulationFigures(
+    userName: string,
+    simulationId: string,
+  ): Promise<{ stream: ReadStream; size: number } | "no-figures"> {
     const userFolderPath = `/files/${userName}`;
     const runFolderPath = `/files/${userName}/${simulationId}/run`;
     const figuresFolderPath = `${userFolderPath}/${simulationId}/figures`;
 
-    ChildProcess.execSync("cp *.xvg ../figures", {
-      cwd: runFolderPath,
-    });
+    await execAsync("cp *.xvg ../figures", { cwd: runFolderPath });
 
     if (
       !existsSync(figuresFolderPath) ||
@@ -549,28 +556,25 @@ export class SimulationService {
       return "no-figures";
     }
 
-    ChildProcess.execSync("cp *.xvg ../figures", {
-      cwd: runFolderPath,
-    });
+    await execAsync("zip -r figures.zip *", { cwd: figuresFolderPath });
 
-    ChildProcess.execSync("zip -r figures.zip *", {
-      cwd: figuresFolderPath,
-    });
-
-    return readFileSync(join(figuresFolderPath, "figures.zip"));
+    const zipPath = join(figuresFolderPath, "figures.zip");
+    return { stream: createReadStream(zipPath), size: statSync(zipPath).size };
   }
 
-  async getMDPFiles() {
+  async getMDPFiles(): Promise<{ stream: ReadStream; size: number }> {
     const runFolderPath = `${cwd()}/static/mdp`;
 
-    ChildProcess.execSync("zip -r mdpfiles.zip *", {
-      cwd: runFolderPath,
-    });
+    await execAsync("zip -r mdpfiles.zip *", { cwd: runFolderPath });
 
-    return readFileSync(join(runFolderPath, "mdpfiles.zip"));
+    const zipPath = join(runFolderPath, "mdpfiles.zip");
+    return { stream: createReadStream(zipPath), size: statSync(zipPath).size };
   }
 
-  async getSimulationCommands(userName: string, simulationId: string) {
+  async getSimulationCommands(
+    userName: string,
+    simulationId: string,
+  ): Promise<{ stream: ReadStream; size: number } | "no-commands"> {
     const userFolderPath = `/files/${userName}`;
     const commandsFilePath = `${userFolderPath}/${simulationId}/commands.txt`;
 
@@ -578,10 +582,16 @@ export class SimulationService {
       return "no-commands";
     }
 
-    return readFileSync(commandsFilePath);
+    return {
+      stream: createReadStream(commandsFilePath),
+      size: statSync(commandsFilePath).size,
+    };
   }
 
-  async getSimulationGromacsLogs(userName: string, simulationId: string) {
+  async getSimulationGromacsLogs(
+    userName: string,
+    simulationId: string,
+  ): Promise<{ stream: ReadStream; size: number } | "no-logs"> {
     const userFolderPath = `/files/${userName}`;
     const logFilePath = `${userFolderPath}/${simulationId}/run/logs/gmx.log`;
 
@@ -589,10 +599,16 @@ export class SimulationService {
       return "no-logs";
     }
 
-    return readFileSync(logFilePath);
+    return {
+      stream: createReadStream(logFilePath),
+      size: statSync(logFilePath).size,
+    };
   }
 
-  async getSimulationResults(userName: string, simulationId: string) {
+  async getSimulationResults(
+    userName: string,
+    simulationId: string,
+  ): Promise<{ stream: ReadStream; size: number } | "no-results"> {
     const userFolderPath = `/files/${userName}`;
     const runFolderPath = `${userFolderPath}/${simulationId}/run`;
 
@@ -600,22 +616,23 @@ export class SimulationService {
       return "no-results";
     }
 
-    ChildProcess.execSync(
+    await execAsync(
       "zip -r results.zip *_PBC.xtc *_pr.tpr *_npt.gro *_PBC.gro *_pr.edr",
-      {
-        cwd: runFolderPath,
-      },
+      { cwd: runFolderPath },
     );
 
-    return readFileSync(join(runFolderPath, "results.zip"));
+    const zipPath = join(runFolderPath, "results.zip");
+    return { stream: createReadStream(zipPath), size: statSync(zipPath).size };
   }
 
-  async getUserFile(path: string) {
+  async getUserFile(
+    path: string,
+  ): Promise<{ stream: ReadStream; size: number } | "no-results"> {
     if (!existsSync(path)) {
       return "no-results";
     }
 
-    return readFileSync(path);
+    return { stream: createReadStream(path), size: statSync(path).size };
   }
 
   async getUserLastSimulationFiles(userName: string) {

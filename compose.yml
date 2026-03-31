@@ -16,6 +16,13 @@ services:
       - files:/files
       - /usr/local/gromacs:/gromacs
       - /app/node_modules
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all # or all
+              capabilities: [gpu]
 
   web:
     build:

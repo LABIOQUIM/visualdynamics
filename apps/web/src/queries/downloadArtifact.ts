@@ -1,27 +1,42 @@
-import { queryOptions } from "@tanstack/react-query";
+import { authClient } from "@/lib/auth-client";
 
-import { getAPIClient } from "@/lib/api";
+const API_BASE = "http://localhost:3001/v1";
 
 export const fetchArtifact = async (
   target: ArtifactDownloadTarget,
   simulationId: string,
-) => {
-  const api = await getAPIClient();
+  onProgress?: (progress: number) => void,
+): Promise<Blob> => {
+  const session = await authClient.getSession();
+  const token = session.data?.session.token;
 
-  return api
-    .get<ArrayBuffer>(`/simulation/downloads/${target}`, {
-      params: { simulationId },
-      responseType: "arraybuffer",
-    })
-    .then((r) => r.data);
-};
+  const url = `${API_BASE}/simulation/downloads/${target}?simulationId=${encodeURIComponent(simulationId)}`;
 
-export const downloadArtifact = (
-  target: ArtifactDownloadTarget,
-  simulationId: string,
-) =>
-  queryOptions({
-    queryKey: ["artifact", target, simulationId],
-    queryFn: () => fetchArtifact(target, simulationId),
-    enabled: false,
+  const response = await fetch(url, {
+    credentials: "include",
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
+
+  if (!response.ok) {
+    throw new Error(`Download failed: ${response.statusText}`);
+  }
+
+  const contentLength = response.headers.get("Content-Length");
+  const total = contentLength ? parseInt(contentLength, 10) : 0;
+
+  const reader = response.body!.getReader();
+  const chunks: Uint8Array<ArrayBuffer>[] = [];
+  let received = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value as Uint8Array<ArrayBuffer>);
+    received += value.length;
+    if (total > 0 && onProgress) {
+      onProgress((received / total) * 100);
+    }
+  }
+
+  return new Blob(chunks);
+};
