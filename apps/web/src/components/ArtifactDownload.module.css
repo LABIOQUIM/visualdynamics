@@ -1,9 +1,25 @@
 .root {
   overflow: hidden;
   height: 60px;
+  position: relative;
+}
+
+.root::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--fill-width, 0%);
+  background: var(--mantine-primary-color-filled);
+  transition: width 0.2s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .inner {
+  position: relative;
+  z-index: 1;
   justify-content: flex-start;
 }
 
@@ -13,6 +29,34 @@
   @media (min-width: $mantine-breakpoint-md) {
     font-size: calc(var(--mantine-font-size-xl));
   }
+}
+
+.primaryLayer,
+.whiteLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--button-gap, var(--mantine-spacing-xs));
+  padding: 0 var(--button-padding-x, var(--mantine-spacing-sm));
+  font-size: var(--mantine-font-size-lg);
+  pointer-events: none;
+  transition: clip-path 0.2s ease;
+
+  @media (min-width: $mantine-breakpoint-md) {
+    font-size: var(--mantine-font-size-xl);
+  }
+}
+
+.primaryLayer {
+  color: var(--mantine-primary-color-filled);
+  clip-path: inset(0 0 0 var(--fill-width, 0%));
+}
+
+.whiteLayer {
+  color: white;
+  clip-path: inset(0 calc(100% - var(--fill-width, 0%)) 0 0);
 }
 
 .bg_icon {

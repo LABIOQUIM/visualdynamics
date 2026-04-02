@@ -1,7 +1,8 @@
 import classes from "./ArtifactDownload.module.css";
 
-import { useState } from "react";
-import { Button, Progress, Stack } from "@mantine/core";
+import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Button, Loader } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
 
 import { artifactDownload } from "@/lib/constants";
@@ -18,6 +19,7 @@ export function ArtifactDownload({
   simulationId,
   target,
 }: ArtifactDownloadProps) {
+  const rootRef = useRef<HTMLButtonElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const downloadInfo = artifactDownload[target];
@@ -42,26 +44,36 @@ export function ArtifactDownload({
   }
 
   return (
-    <Stack gap={4}>
-      <Button
-        classNames={{
-          root: classes.root,
-          inner: classes.inner,
-          label: classes.label,
-        }}
-        disabled={disabled || isLoading}
-        leftSection={<IconDownload />}
-        loading={isLoading}
-        onClick={handleDownload}
-        rightSection={
-          <downloadInfo.Icon className={classes.bg_icon} size={64} />
-        }
-      >
-        {downloadInfo.label}
-      </Button>
-      {isLoading && progress > 0 && (
-        <Progress animated size="xs" value={progress} />
-      )}
-    </Stack>
+    <Button
+      classNames={{
+        root: classes.root,
+        inner: classes.inner,
+        label: classes.label,
+      }}
+      disabled={disabled}
+      leftSection={!isLoading ? <IconDownload /> : undefined}
+      onClick={handleDownload}
+      ref={rootRef}
+      rightSection={<downloadInfo.Icon className={classes.bg_icon} size={64} />}
+      style={{ "--fill-width": `${progress}%` } as React.CSSProperties}
+      variant={isLoading ? "outline" : "filled"}
+    >
+      {!isLoading && downloadInfo.label}
+      {isLoading &&
+        rootRef.current &&
+        createPortal(
+          <>
+            <span className={classes.primaryLayer}>
+              <Loader size="sm" />
+              {downloadInfo.label}
+            </span>
+            <span className={classes.whiteLayer}>
+              <Loader color="white" size="sm" />
+              {downloadInfo.label}
+            </span>
+          </>,
+          rootRef.current,
+        )}
+    </Button>
   );
 }
