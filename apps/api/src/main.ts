@@ -12,6 +12,7 @@ async function bootstrap(): Promise<void> {
       origin: "http://localhost:3000",
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
       allowedHeaders: "Content-Type, Authorization, Accept",
+      exposedHeaders: "Content-Length",
     },
   });
   app.setGlobalPrefix("v1");
