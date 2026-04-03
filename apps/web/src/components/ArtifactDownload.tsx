@@ -1,7 +1,7 @@
 import classes from "./ArtifactDownload.module.css";
 
 import { useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { createPortal, flushSync } from "react-dom";
 import { Button, Loader } from "@mantine/core";
 import { IconDownload } from "@tabler/icons-react";
 
@@ -28,7 +28,9 @@ export function ArtifactDownload({
     setIsLoading(true);
     setProgress(0);
     try {
-      const blob = await fetchArtifact(target, simulationId, setProgress);
+      const blob = await fetchArtifact(target, simulationId, (p) => {
+        flushSync(() => setProgress(p));
+      });
 
       const filename = downloadInfo.file.split(".");
       const link = document.createElement("a");
