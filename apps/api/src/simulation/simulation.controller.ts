@@ -212,6 +212,18 @@ export class SimulationController {
     return data;
   }
 
+  @Post("/import")
+  async adminImportSimulations(
+    @Session() session: typeof auth.$Infer.Session,
+    @Body() body: { rows: any[] },
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    return this.simulationService.adminImportSimulations(body.rows);
+  }
+
   @Get("/downloads/mdp")
   async getMDPFiles() {
     const file = await this.simulationService.getMDPFiles();

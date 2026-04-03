@@ -29,7 +29,9 @@ import { Route as AppMgmtSettingsRouteImport } from './routes/app/mgmt/settings'
 import { Route as AppMgmtServerRouteImport } from './routes/app/mgmt/server'
 import { Route as AppMgmtToolsIndexRouteImport } from './routes/app/mgmt/tools/index'
 import { Route as AppMgmtToolsUserImporterRouteRouteImport } from './routes/app/mgmt/tools/user-importer/route'
+import { Route as AppMgmtToolsSimulationImporterRouteRouteImport } from './routes/app/mgmt/tools/simulation-importer/route'
 import { Route as AppMgmtToolsUserImporterIndexRouteImport } from './routes/app/mgmt/tools/user-importer/index'
+import { Route as AppMgmtToolsSimulationImporterIndexRouteImport } from './routes/app/mgmt/tools/simulation-importer/index'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
@@ -133,11 +135,23 @@ const AppMgmtToolsUserImporterRouteRoute =
     path: '/tools/user-importer',
     getParentRoute: () => AppMgmtRouteRoute,
   } as any)
+const AppMgmtToolsSimulationImporterRouteRoute =
+  AppMgmtToolsSimulationImporterRouteRouteImport.update({
+    id: '/tools/simulation-importer',
+    path: '/tools/simulation-importer',
+    getParentRoute: () => AppMgmtRouteRoute,
+  } as any)
 const AppMgmtToolsUserImporterIndexRoute =
   AppMgmtToolsUserImporterIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AppMgmtToolsUserImporterRouteRoute,
+  } as any)
+const AppMgmtToolsSimulationImporterIndexRoute =
+  AppMgmtToolsSimulationImporterIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppMgmtToolsSimulationImporterRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -159,8 +173,10 @@ export interface FileRoutesByFullPath {
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
+  '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
 }
 export interface FileRoutesByTo {
@@ -182,6 +198,7 @@ export interface FileRoutesByTo {
   '/app': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
   '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterIndexRoute
 }
 export interface FileRoutesById {
@@ -204,8 +221,10 @@ export interface FileRoutesById {
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/(home)/': typeof ApphomeIndexRoute
   '/app/submit/': typeof AppSubmitIndexRoute
+  '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
 }
 export interface FileRouteTypes {
@@ -229,8 +248,10 @@ export interface FileRouteTypes {
     | '/app/simulations/$simulationId'
     | '/app/'
     | '/app/submit'
+    | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
     | '/app/mgmt/tools'
+    | '/app/mgmt/tools/simulation-importer/'
     | '/app/mgmt/tools/user-importer/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -252,6 +273,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/submit'
     | '/app/mgmt/tools'
+    | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
   id:
     | '__root__'
@@ -273,8 +295,10 @@ export interface FileRouteTypes {
     | '/app/simulations/$simulationId'
     | '/app/(home)/'
     | '/app/submit/'
+    | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
     | '/app/mgmt/tools/'
+    | '/app/mgmt/tools/simulation-importer/'
     | '/app/mgmt/tools/user-importer/'
   fileRoutesById: FileRoutesById
 }
@@ -431,6 +455,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtToolsUserImporterRouteRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
+    '/app/mgmt/tools/simulation-importer': {
+      id: '/app/mgmt/tools/simulation-importer'
+      path: '/tools/simulation-importer'
+      fullPath: '/app/mgmt/tools/simulation-importer'
+      preLoaderRoute: typeof AppMgmtToolsSimulationImporterRouteRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
     '/app/mgmt/tools/user-importer/': {
       id: '/app/mgmt/tools/user-importer/'
       path: '/'
@@ -438,8 +469,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtToolsUserImporterIndexRouteImport
       parentRoute: typeof AppMgmtToolsUserImporterRouteRoute
     }
+    '/app/mgmt/tools/simulation-importer/': {
+      id: '/app/mgmt/tools/simulation-importer/'
+      path: '/'
+      fullPath: '/app/mgmt/tools/simulation-importer/'
+      preLoaderRoute: typeof AppMgmtToolsSimulationImporterIndexRouteImport
+      parentRoute: typeof AppMgmtToolsSimulationImporterRouteRoute
+    }
   }
 }
+
+interface AppMgmtToolsSimulationImporterRouteRouteChildren {
+  AppMgmtToolsSimulationImporterIndexRoute: typeof AppMgmtToolsSimulationImporterIndexRoute
+}
+
+const AppMgmtToolsSimulationImporterRouteRouteChildren: AppMgmtToolsSimulationImporterRouteRouteChildren =
+  {
+    AppMgmtToolsSimulationImporterIndexRoute:
+      AppMgmtToolsSimulationImporterIndexRoute,
+  }
+
+const AppMgmtToolsSimulationImporterRouteRouteWithChildren =
+  AppMgmtToolsSimulationImporterRouteRoute._addFileChildren(
+    AppMgmtToolsSimulationImporterRouteRouteChildren,
+  )
 
 interface AppMgmtToolsUserImporterRouteRouteChildren {
   AppMgmtToolsUserImporterIndexRoute: typeof AppMgmtToolsUserImporterIndexRoute
@@ -460,6 +513,7 @@ interface AppMgmtRouteRouteChildren {
   AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
   AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
   AppMgmtUsersRoute: typeof AppMgmtUsersRoute
+  AppMgmtToolsSimulationImporterRouteRoute: typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   AppMgmtToolsUserImporterRouteRoute: typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   AppMgmtToolsIndexRoute: typeof AppMgmtToolsIndexRoute
 }
@@ -469,6 +523,8 @@ const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
   AppMgmtSettingsRoute: AppMgmtSettingsRoute,
   AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,
   AppMgmtUsersRoute: AppMgmtUsersRoute,
+  AppMgmtToolsSimulationImporterRouteRoute:
+    AppMgmtToolsSimulationImporterRouteRouteWithChildren,
   AppMgmtToolsUserImporterRouteRoute:
     AppMgmtToolsUserImporterRouteRouteWithChildren,
   AppMgmtToolsIndexRoute: AppMgmtToolsIndexRoute,

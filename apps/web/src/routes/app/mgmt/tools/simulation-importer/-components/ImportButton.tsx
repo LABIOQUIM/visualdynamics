@@ -5,25 +5,19 @@ import { createPortal, flushSync } from "react-dom";
 import { Button, Modal, Stack, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
-import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
 import type { MRT_TableInstance } from "mantine-react-table-open";
 
-import type { ImporterUser } from "./Provider";
+import type { ImporterSimulation } from "./Provider";
+import { useSimulationImporter } from "./Provider";
 
-import { authClient } from "@/lib/auth-client";
-import { getMgmtUsers } from "@/queries/getMgmtUsers";
+import { getAPIClient } from "@/lib/api";
 
 type Props = {
-  table: MRT_TableInstance<ImporterUser>;
+  table: MRT_TableInstance<ImporterSimulation>;
 };
 
-function parseDate(val: string) {
-  const d = dayjs(val);
-  return d.isValid() ? val : undefined;
-}
-
 export function ImportButton({ table }: Props) {
+  const { users } = useSimulationImporter();
   const [opened, { open, close }] = useDisclosure(false);
   const [isPending, setPending] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0 });
@@ -32,11 +26,21 @@ export function ImportButton({ table }: Props) {
     errors: string[];
   } | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { refetch } = useQuery(getMgmtUsers({}));
 
   const selectedRows = useMemo(
     () => table.getSelectedRowModel().rows,
     [table.getSelectedRowModel().rows],
+  );
+
+  const unmatchedUsers = useMemo(
+    () => [
+      ...new Set(
+        selectedRows
+          .map((r) => r.original.user_id)
+          .filter((uid) => !users.some((u) => u.id === uid)),
+      ),
+    ],
+    [selectedRows, users],
   );
 
   const fillWidth =
@@ -49,48 +53,43 @@ export function ImportButton({ table }: Props) {
     setResult(null);
     flushSync(() => setProgress({ done: 0, total: rows.length }));
 
-    let imported = 0;
-    const errors: string[] = [];
+    const api = await getAPIClient();
+    let totalImported = 0;
+    const allErrors: string[] = [];
 
-    for (const user of rows) {
+    for (const row of rows) {
+      const matchedUser = users.find((u) => u.id === row.user_id);
+      const enrichedRow = {
+        ...row,
+        user_name: (matchedUser?.user_name ?? row.user_id).toLowerCase(),
+      };
       try {
-        const { error } = await authClient.admin.createUser({
-          email: user.email.trim(),
-          name: user.name.trim(),
-          // @ts-expect-error
-          role: user.role.trim(),
-          data: {
-            username: user.username.trim(),
-            displayUsername: user.username.trim(),
-            createdAt: parseDate(user.createdAt),
-            updatedAt: parseDate(user.updatedAt),
-          },
-        });
+        const res = await api
+          .post<{ imported: number; errors: string[] }>("/simulation/import", {
+            rows: [enrichedRow],
+          })
+          .then((r) => r.data);
 
-        if (error) {
-          errors.push(`${user.username}: ${error.message}`);
-        } else {
-          imported++;
-        }
+        totalImported += res.imported;
+        allErrors.push(...res.errors);
       } catch {
-        errors.push(`${user.username}: request failed`);
+        allErrors.push(`Row ${row.id ?? row.user_id}: request failed`);
       }
 
       flushSync(() => setProgress((p) => ({ ...p, done: p.done + 1 })));
     }
 
-    const res = { imported, errors };
+    const res = { imported: totalImported, errors: allErrors };
     setResult(res);
     setPending(false);
 
     notifications.show({
-      message: `Imported ${res.imported} user(s)${res.errors.length ? `, ${res.errors.length} error(s)` : ""}`,
+      message: `Imported ${res.imported} simulation(s)${res.errors.length ? `, ${res.errors.length} error(s)` : ""}`,
       color: res.errors.length ? "orange" : "green",
     });
 
     table.resetRowSelection();
-    refetch();
-  }, [selectedRows, table, refetch]);
+  }, [selectedRows, table]);
 
   return (
     <>
@@ -100,13 +99,13 @@ export function ImportButton({ table }: Props) {
         closeOnEscape={!isPending}
         onClose={close}
         opened={opened}
-        title="Import Users"
+        title="Import Simulations"
         withCloseButton={!isPending}
       >
         {result ? (
           <Stack>
             <Text>
-              Imported <strong>{result.imported}</strong> user(s).
+              Imported <strong>{result.imported}</strong> simulation(s).
             </Text>
             {result.errors.length > 0 && (
               <Stack gap="xs">
@@ -127,9 +126,25 @@ export function ImportButton({ table }: Props) {
         ) : (
           <Stack>
             <Text>
-              Import <strong>{selectedRows.length}</strong> selected user(s)
-              into the system?
+              Import <strong>{selectedRows.length}</strong> selected
+              simulation(s) into the system?
             </Text>
+            {unmatchedUsers.length > 0 && (
+              <Stack gap="xs">
+                <Text c="orange" fw={600}>
+                  {unmatchedUsers.length} user ID(s) not found in users CSV:
+                </Text>
+                {unmatchedUsers.map((un) => (
+                  <Text c="orange" fz="sm" key={un}>
+                    {un}
+                  </Text>
+                ))}
+                <Text c="dimmed" fz="xs">
+                  These simulations will fail to import if the users do not
+                  exist in the database.
+                </Text>
+              </Stack>
+            )}
             <Button
               classNames={{
                 root: classes.progressButton,

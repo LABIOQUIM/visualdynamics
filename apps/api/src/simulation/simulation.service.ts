@@ -734,6 +734,83 @@ export class SimulationService {
     });
   }
 
+  async adminImportSimulations(
+    rows: Array<{
+      id?: string;
+      user_name: string;
+      molecule_name: string;
+      type: string;
+      status: string;
+      started_at?: string;
+      ended_at?: string;
+      error_cause?: string;
+      created_at?: string;
+      updated_at?: string;
+      ligand_itp_name?: string;
+      ligand_pdb_name?: string;
+    }>,
+  ) {
+    let imported = 0;
+    const errors: string[] = [];
+
+    for (const row of rows) {
+      try {
+        const user = await this.prisma.user.findFirst({
+          where: { username: row.user_name },
+          select: { id: true },
+        });
+
+        if (!user) {
+          errors.push(`User not found: ${row.user_name}`);
+          continue;
+        }
+
+        const existing = row.id
+          ? await this.prisma.simulation.findFirst({ where: { id: row.id } })
+          : null;
+
+        if (existing) {
+          errors.push(`Simulation already exists: ${row.id}`);
+          continue;
+        }
+
+        const ligands =
+          row.ligand_itp_name && row.ligand_pdb_name
+            ? [
+                {
+                  ligandITPName: row.ligand_itp_name,
+                  ligandPDBName: row.ligand_pdb_name,
+                  position: 0,
+                },
+              ]
+            : [];
+
+        await this.prisma.simulation.create({
+          data: {
+            ...(row.id ? { id: row.id } : {}),
+            userId: user.id,
+            moleculeName: row.molecule_name,
+            type: row.type as SIMULATION_TYPE,
+            status: row.status as any,
+            startedAt: row.started_at ? new Date(row.started_at) : null,
+            endedAt: row.ended_at ? new Date(row.ended_at) : null,
+            errorCause: row.error_cause ?? null,
+            createdAt: row.created_at ? new Date(row.created_at) : new Date(),
+            ligands: ligands.length ? { create: ligands } : undefined,
+          },
+        });
+
+        imported++;
+      } catch (err) {
+        errors.push(
+          `Row ${row.id ?? row.molecule_name}: ${err instanceof Error ? err.message : String(err)}`,
+        );
+      }
+    }
+
+    return { imported, errors };
+  }
+
   async getUserLastSimulations(email: string) {
     let simulations: Record<string, unknown> = {};
 

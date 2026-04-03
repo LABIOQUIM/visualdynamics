@@ -1,0 +1,44 @@
+.progressButton {
+  overflow: hidden;
+  position: relative;
+}
+
+.progressButton::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--fill-width, 0%);
+  background: var(--mantine-primary-color-filled);
+  transition: width 0.15s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+.primaryLayer,
+.whiteLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: clip-path 0.15s ease;
+}
+
+.primaryLayer {
+  color: var(--mantine-primary-color-filled);
+  clip-path: inset(0 0 0 var(--fill-width, 0%));
+}
+
+.whiteLayer {
+  color: white;
+  clip-path: inset(0 calc(100% - var(--fill-width, 0%)) 0 0);
+}

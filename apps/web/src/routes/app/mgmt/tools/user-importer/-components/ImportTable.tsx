@@ -1,11 +1,11 @@
 import classes from "./ImportTable.module.css";
 
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   MantineReactTable,
   useMantineReactTable,
 } from "mantine-react-table-open";
-import { useMemo } from "react";
 
 import { ImportButton } from "./ImportButton";
 import { useUserImporter } from "./Provider";
@@ -16,7 +16,7 @@ import { getMgmtUsers } from "@/queries/getMgmtUsers";
 
 export function ImportTable() {
   const { users } = useUserImporter();
-  const { data, isLoading } = useQuery(getMgmtUsers({}));
+  const { data } = useQuery(getMgmtUsers({}));
 
   const finalUsers = useMemo(
     () =>
@@ -40,7 +40,6 @@ export function ImportTable() {
     enableSelectAll: true,
     paginationDisplayMode: "default",
     layoutMode: "grid",
-    state: { isLoading },
     mantinePaginationProps: {
       showRowsPerPage: false,
     },

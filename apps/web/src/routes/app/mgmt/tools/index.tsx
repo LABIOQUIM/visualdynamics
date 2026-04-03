@@ -17,6 +17,11 @@ const tools = [
     label: "User Importer",
     url: "/app/mgmt/tools/user-importer",
   },
+  {
+    icon: IconTableImport,
+    label: "Simulation Importer",
+    url: "/app/mgmt/tools/simulation-importer",
+  },
 ];
 
 function RouteComponent() {
