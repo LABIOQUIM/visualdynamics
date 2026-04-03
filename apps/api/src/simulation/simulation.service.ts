@@ -31,6 +31,7 @@ import { PrismaService } from "../prisma.service";
 import { readFileData } from "../utils/readFileData";
 import { renderTemplate } from "../utils/renderTemplate";
 
+import { getStorageExpiresAt } from "./simulation.cleanup.service";
 import type { NewSimulationBody } from "./simulation.types";
 
 const execAsync = promisify(ChildProcess.exec);
@@ -553,6 +554,7 @@ export class SimulationService {
         id: simulationId,
       },
       select: {
+        id: true,
         errorCause: true,
         createdAt: true,
         moleculeName: true,
@@ -560,6 +562,7 @@ export class SimulationService {
         endedAt: true,
         status: true,
         type: true,
+        storageDeletedAt: true,
         ligands: {
           select: {
             ligandITPName: true,
@@ -583,7 +586,9 @@ export class SimulationService {
       jobId,
       stepData,
       logData,
-      simulation,
+      simulation: simulation
+        ? { ...simulation, storageExpiresAt: getStorageExpiresAt(simulation) }
+        : null,
       molecules,
     };
   }
@@ -607,7 +612,13 @@ export class SimulationService {
       }),
     ]);
 
-    return { records, total };
+    return {
+      records: records.map((r) => ({
+        ...r,
+        storageExpiresAt: getStorageExpiresAt(r),
+      })),
+      total,
+    };
   }
 
   async getMgmtSimulations(id: string, pageSize: number, page: number) {
@@ -629,7 +640,13 @@ export class SimulationService {
       this.prisma.simulation.count(),
     ]);
 
-    return { records, total };
+    return {
+      records: records.map((r) => ({
+        ...r,
+        storageExpiresAt: getStorageExpiresAt(r),
+      })),
+      total,
+    };
   }
 
   async cancelSimulation(

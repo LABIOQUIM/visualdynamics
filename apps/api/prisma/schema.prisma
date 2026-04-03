@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 generator client {
   provider = "prisma-client"
-  output = "../src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -33,21 +33,21 @@ model User {
   name            String  @default("Name not set")
   image           String?
 
-  role      String
-  banned    Boolean
-  banReason String?      @map("ban_reason")
-  banExpires DateTime?   @map("ban_expires")
+  role       String
+  banned     Boolean
+  banReason  String?   @map("ban_reason")
+  banExpires DateTime? @map("ban_expires")
 
   twoFactorEnabled Boolean @map("two_factor_enabled")
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
-  accounts        Account[]
-  sessions        Session[]
-  simulations     Simulation[]
-  passwordResets  UserPasswordReset[]
-  twoFactors TwoFactor[]
+  accounts       Account[]
+  sessions       Session[]
+  simulations    Simulation[]
+  passwordResets UserPasswordReset[]
+  twoFactors     TwoFactor[]
 
   @@index([username])
   @@index([email])
@@ -55,25 +55,26 @@ model User {
 }
 
 model TwoFactor {
-  id String  @id @unique @default(uuid())
-  userId String @map("user_id")
-  secret String
+  id          String @id @unique @default(uuid())
+  userId      String @map("user_id")
+  secret      String
   backupCodes String @map("backup_codes")
 
   user User @relation(fields: [userId], references: [id])
+
   @@map("two_factor")
 }
 
 model Session {
-  id        String   @id
-  userId    String   @map("user_id")
-  token     String   @unique
-  expiresAt DateTime @map("expires_at")
-  ipAddress String? @map("ip_address")
-  impersonatedBy String? @map("impersonated_by")
-  userAgent String? @map("user_agent")
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
+  id             String    @id
+  userId         String    @map("user_id")
+  token          String    @unique
+  expiresAt      DateTime  @map("expires_at")
+  ipAddress      String?   @map("ip_address")
+  impersonatedBy String?   @map("impersonated_by")
+  userAgent      String?   @map("user_agent")
+  createdAt      DateTime  @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
 
   user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 
@@ -81,19 +82,19 @@ model Session {
 }
 
 model Account {
-  id        String   @id
-  userId    String   @map("user_id")
-  accountId String   @map("account_id")
-  providerId String  @map("provider_id")
-  accessToken String? @map("access_token")
-  refreshToken String? @map("refresh_token")
-  accessTokenExpiresAt DateTime? @map("access_token_expires_at")
+  id                    String    @id
+  userId                String    @map("user_id")
+  accountId             String    @map("account_id")
+  providerId            String    @map("provider_id")
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at")
   refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at")
-  scope String? @map("scope")
-  idToken String? @map("id_token")
-  password String? @map("password")
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
+  scope                 String?   @map("scope")
+  idToken               String?   @map("id_token")
+  password              String?   @map("password")
+  createdAt             DateTime  @map("created_at")
+  updatedAt             DateTime? @updatedAt @map("updated_at")
 
   user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 
@@ -101,12 +102,12 @@ model Account {
 }
 
 model Verification {
-  id        String   @id
+  id         String    @id
   identifier String
-  value     String
-  expiresAt DateTime @map("expires_at")
-  createdAt DateTime @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
+  value      String
+  expiresAt  DateTime  @map("expires_at")
+  createdAt  DateTime  @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
 
   @@map("verification")
 }
@@ -140,16 +141,17 @@ enum SIMULATION_STATUS {
 }
 
 model Simulation {
-  id           String            @id @default(uuid())
-  userId       String            @map("user_id")
-  moleculeName String            @map("molecule_name")
-  type         SIMULATION_TYPE
-  startedAt    DateTime?         @map("started_at")
-  endedAt      DateTime?         @map("ended_at")
-  status       SIMULATION_STATUS @default(QUEUED)
-  errorCause   String?           @map("error_cause")
-  createdAt    DateTime          @default(now()) @map("created_at")
-  updatedAt    DateTime?         @updatedAt @map("updated_at")
+  id               String            @id @default(uuid())
+  userId           String            @map("user_id")
+  moleculeName     String            @map("molecule_name")
+  type             SIMULATION_TYPE
+  startedAt        DateTime?         @map("started_at")
+  endedAt          DateTime?         @map("ended_at")
+  status           SIMULATION_STATUS @default(QUEUED)
+  errorCause       String?           @map("error_cause")
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime?         @updatedAt @map("updated_at")
+  storageDeletedAt DateTime?         @map("storage_deleted_at")
 
   user    User               @relation(fields: [userId], references: [id])
   ligands SimulationLigand[]

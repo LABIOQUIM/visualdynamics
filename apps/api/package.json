@@ -25,6 +25,7 @@
     "@nestjs/core": "11.1.9",
     "@nestjs/graphql": "^13.2.0",
     "@nestjs/platform-express": "11.1.9",
+    "@nestjs/schedule": "^6.1.1",
     "@nestjs/swagger": "11.2.1",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",

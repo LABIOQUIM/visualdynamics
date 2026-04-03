@@ -6,6 +6,7 @@ import { join } from "path";
 
 import { PrismaService } from "../prisma.service";
 
+import { SimulationCleanupService } from "./simulation.cleanup.service";
 import { SimulationController } from "./simulation.controller";
 import { SimulationEventsListener } from "./simulation.events-listener";
 import { SimulationService } from "./simulation.service";
@@ -31,6 +32,11 @@ import { SimulationService } from "./simulation.service";
     }),
   ],
   controllers: [SimulationController],
-  providers: [SimulationEventsListener, SimulationService, PrismaService],
+  providers: [
+    SimulationEventsListener,
+    SimulationService,
+    SimulationCleanupService,
+    PrismaService,
+  ],
 })
 export class SimulationModule {}

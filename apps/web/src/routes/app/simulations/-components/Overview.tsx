@@ -1,6 +1,14 @@
 import classes from "./Overview.module.css";
 
-import { Blockquote, Box, Button, Group, SimpleGrid } from "@mantine/core";
+import { useMemo } from "react";
+import {
+  Alert,
+  Blockquote,
+  Box,
+  Button,
+  Group,
+  SimpleGrid,
+} from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import {
   IconAlertSquareRounded,
@@ -8,6 +16,7 @@ import {
   IconAtom2,
   IconAtom2Filled,
   IconBarrierBlockFilled,
+  IconClockOff,
   IconClockPlay,
   IconClockStop,
   IconCloudUpload,
@@ -17,7 +26,6 @@ import {
 } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useMemo } from "react";
 
 import { Loader } from "@/components/Loader";
 import { MetricCard } from "@/components/MetricCard";
@@ -214,6 +222,30 @@ export function Overview({ simulationId }: OverviewProps) {
           Cancel Simulation
         </Button>
       )}
+      {data.simulation.storageDeletedAt ? (
+        <Alert
+          color="gray"
+          icon={<IconClockOff size="1rem" />}
+          title="Storage deleted"
+        >
+          Simulation files were deleted on{" "}
+          {dayjs(data.simulation.storageDeletedAt).format("YYYY-MM-DD")}.
+        </Alert>
+      ) : data.simulation.storageExpiresAt ? (
+        (() => {
+          const expiresAt = dayjs(data.simulation.storageExpiresAt);
+          const daysLeft = expiresAt.diff(dayjs(), "day");
+          return (
+            <Alert
+              color={daysLeft <= 7 ? "orange" : "blue"}
+              icon={<IconClockOff size="1rem" />}
+              title="Storage expires"
+            >
+              {`Simulation files will be automatically deleted on ${expiresAt.format("YYYY-MM-DD")} (${daysLeft} day${daysLeft !== 1 ? "s" : ""} remaining).`}
+            </Alert>
+          );
+        })()
+      ) : null}
       <MetricCard.Root className={classes.underDevelopmentCard}>
         <MetricCard.Icon>
           <IconBarrierBlockFilled size="4rem" />

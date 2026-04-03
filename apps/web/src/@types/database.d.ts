@@ -31,6 +31,8 @@ declare global {
     createdAt: Date;
     updatedAt: Date | null;
     ligands: SimulationLigand[];
+    storageExpiresAt: string | null;
+    storageDeletedAt: string | null;
   };
 
   type SimulationWithUser = Simulation & {
