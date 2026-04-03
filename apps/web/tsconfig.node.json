@@ -6,11 +6,8 @@
     "module": "ESNext",
     "types": ["node"],
     "skipLibCheck": true,
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "react": ["node_modules/preact/compat/"],
-      "react-dom": ["node_modules/preact/compat/"]
+      "@/*": ["./src/*"],
     },
 
     /* Bundler mode */
