@@ -46,7 +46,7 @@ export class SimulationCleanupService {
   constructor(private readonly prisma: PrismaService) {}
 
   /** Runs every hour. Deletes simulation storage folders that are past their expiry date. */
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_HOUR)
   async handleExpiredSimulations() {
     const now = new Date();
 
