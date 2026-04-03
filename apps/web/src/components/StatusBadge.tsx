@@ -1,24 +1,22 @@
-import { Badge, type DefaultMantineColor } from "@mantine/core";
+import classes from "./StatusBadge.module.css";
+
+const labels: Record<Simulation["status"], string> = {
+  CANCELED: "Canceled",
+  COMPLETED: "Completed",
+  ERRORED: "Errored",
+  GENERATED: "Generated",
+  QUEUED: "Queued",
+  RUNNING: "Running",
+};
 
 type StatusBadgeProps = {
   status: Simulation["status"];
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {
-  const colors: {
-    [key in Simulation["status"]]: DefaultMantineColor;
-  } = {
-    CANCELED: "dark",
-    COMPLETED: "green",
-    ERRORED: "red",
-    GENERATED: "teal",
-    QUEUED: "yellow",
-    RUNNING: "blue",
-  };
-
   return (
-    <Badge color={colors[status]} fullWidth variant="light">
-      {status}
-    </Badge>
+    <span className={`${classes.badge} ${classes[status]}`}>
+      {labels[status]}
+    </span>
   );
 }

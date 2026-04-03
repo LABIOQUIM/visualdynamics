@@ -18,6 +18,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { TableDateCell } from "@/components/TableDateCell";
 import { TableDurationCell } from "@/components/TableDurationCell";
+import { TypeBadge } from "@/components/TypeBadge";
 import { getUserSimulations } from "@/queries/getUserSimulations";
 
 export const Route = createFileRoute("/app/(home)/")({
@@ -104,6 +105,7 @@ function RouteComponent() {
       {
         accessorKey: "type",
         header: "Type",
+        Cell: ({ cell }) => <TypeBadge type={cell.getValue<SIMULATION_TYPE>()} />,
       },
       {
         accessorKey: "status",

@@ -1,0 +1,43 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2em 0.65em;
+  border-radius: var(--mantine-radius-sm);
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.QUEUED {
+  background-color: var(--mantine-color-yellow-1);
+  color: var(--mantine-color-yellow-9);
+}
+
+.RUNNING {
+  background-color: var(--mantine-color-blue-1);
+  color: var(--mantine-color-blue-9);
+}
+
+.COMPLETED {
+  background-color: var(--mantine-color-green-1);
+  color: var(--mantine-color-green-9);
+}
+
+.CANCELED {
+  background-color: var(--mantine-color-dark-1);
+  color: var(--mantine-color-dark-9);
+}
+
+.ERRORED {
+  background-color: var(--mantine-color-red-1);
+  color: var(--mantine-color-red-9);
+}
+
+.GENERATED {
+  background-color: var(--mantine-color-teal-1);
+  color: var(--mantine-color-teal-9);
+}

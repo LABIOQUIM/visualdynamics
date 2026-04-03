@@ -30,6 +30,7 @@ import dayjs from "dayjs";
 import { Loader } from "@/components/Loader";
 import { MetricCard } from "@/components/MetricCard";
 import { StatusBadge } from "@/components/StatusBadge";
+import { TypeBadge } from "@/components/TypeBadge";
 import { cancelSimulation } from "@/mutations/cancelSimulation";
 import { getSimulation } from "@/queries/getSimulation";
 
@@ -109,10 +110,7 @@ export function Overview({ simulationId }: OverviewProps) {
         value: <StatusBadge status={data.simulation.status} />,
         icon: IconStatusChange,
         label1: "Proccess",
-        value1:
-          data.simulation.type === "apo"
-            ? "Free Protein"
-            : "Protein-Ligand Complex",
+        value1: <TypeBadge type={data.simulation.type} />,
         icon1: IconClockPlay,
         label2: "Submitted At",
         value2: dayjs(data.simulation.createdAt).format("YYYY-MM-DD HH:mm:ss"),

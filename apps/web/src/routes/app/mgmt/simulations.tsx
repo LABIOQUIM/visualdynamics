@@ -28,6 +28,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { TableDateCell } from "@/components/TableDateCell";
 import { TableDurationCell } from "@/components/TableDurationCell";
 import { TableTextCell } from "@/components/TableTextCell";
+import { TypeBadge } from "@/components/TypeBadge";
 import { getAPIClient } from "@/lib/api";
 import { getMgmtSimulations } from "@/queries/getMgmtSimulations";
 
@@ -172,7 +173,7 @@ function RouteComponent() {
         accessorKey: "type",
         header: "Type",
         enableEditing: false,
-        Cell: TableTextCell,
+        Cell: ({ cell }) => <TypeBadge type={cell.getValue<SIMULATION_TYPE>()} />,
       },
       {
         accessorKey: "status",
