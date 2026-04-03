@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";

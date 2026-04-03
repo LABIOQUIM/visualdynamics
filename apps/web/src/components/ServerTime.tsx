@@ -2,7 +2,7 @@ import classes from "./ServerTime.module.css";
 
 import { Box, em, Text, Title } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { useEffect, useState } from "preact/compat";
+import { useEffect, useState } from "react";
 
 import { dateFormatMobileWithSecs, dateFormatWithSecs } from "@/lib/utils";
 

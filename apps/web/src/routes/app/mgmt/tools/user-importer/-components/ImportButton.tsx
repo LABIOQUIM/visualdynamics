@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { useQuery } from "@tanstack/react-query";
 import type { MRT_TableInstance } from "mantine-react-table-open";
-import { useCallback, useMemo, useState } from "preact/hooks";
+import { useCallback, useMemo, useState } from "react";
 
 import type { ImporterUser } from "./Provider";
 

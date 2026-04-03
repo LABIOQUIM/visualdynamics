@@ -16,7 +16,7 @@ import {
   IconTools,
   IconUsers,
 } from "@tabler/icons-react";
-import { useMemo } from "preact/hooks";
+import { useMemo } from "react";
 
 import { Section } from "./Section";
 import { User } from "./User";

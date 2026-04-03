@@ -4,7 +4,7 @@ import { usePapaParse } from "react-papaparse";
 import { Button, Group, Text } from "@mantine/core";
 import { Dropzone, type FileWithPath, MIME_TYPES } from "@mantine/dropzone";
 import { IconCloudUpload, IconDownload, IconX } from "@tabler/icons-react";
-import { useCallback, useRef } from "preact/hooks";
+import { useCallback, useRef } from "react";
 
 import { type ImporterUser, useUserImporter } from "./Provider";
 

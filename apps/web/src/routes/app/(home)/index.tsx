@@ -11,7 +11,7 @@ import {
   type MRT_PaginationState,
   useMantineReactTable,
 } from "mantine-react-table-open";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 
 import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";

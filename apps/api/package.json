@@ -29,7 +29,6 @@
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@thallesp/nestjs-better-auth": "^2.2.2",
-    "axios": "^1.13.2",
     "better-auth": "^1.4.17",
     "bullmq": "^5.63.2",
     "directory-tree": "^3.5.2",

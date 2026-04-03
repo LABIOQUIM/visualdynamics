@@ -15,7 +15,7 @@ import {
 } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { useMemo } from "preact/hooks";
+import { useMemo } from "react";
 
 import { Loader } from "@/components/Loader";
 import { MetricCard } from "@/components/MetricCard";

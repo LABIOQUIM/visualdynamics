@@ -5,7 +5,7 @@ import {
   MantineReactTable,
   useMantineReactTable,
 } from "mantine-react-table-open";
-import { useMemo } from "preact/hooks";
+import { useMemo } from "react";
 
 import { ImportButton } from "./ImportButton";
 import { useUserImporter } from "./Provider";

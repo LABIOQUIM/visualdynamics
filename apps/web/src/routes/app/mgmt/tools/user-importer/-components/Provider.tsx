@@ -1,6 +1,5 @@
-import { createContext } from "preact";
-import type { Dispatch, PropsWithChildren } from "preact/compat";
-import { type StateUpdater, useContext, useMemo, useState } from "preact/hooks";
+import { createContext, useContext, useMemo, useState } from "react";
+import type { Dispatch, PropsWithChildren, SetStateAction } from "react";
 
 export type ImporterUser = {
   createdAt: string;
@@ -13,7 +12,7 @@ export type ImporterUser = {
 
 type ContextProps = {
   users: ImporterUser[];
-  setUsers: Dispatch<StateUpdater<ImporterUser[]>>;
+  setUsers: Dispatch<SetStateAction<ImporterUser[]>>;
 };
 
 const ImporterContext = createContext<ContextProps>({

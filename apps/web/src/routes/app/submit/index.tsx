@@ -21,7 +21,7 @@ import {
   IconPlayerPlay,
 } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState } from "react";
 
 import {
   allForceFields,

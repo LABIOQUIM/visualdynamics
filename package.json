@@ -33,8 +33,5 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "8.46.4"
   },
-  "version": "4.3.0-next.8",
-  "dependencies": {
-    "argon2": "^0.44.0"
-  }
+  "version": "4.3.0-next.8"
 }
