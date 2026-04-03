@@ -28,8 +28,8 @@
     "@nestjs/swagger": "11.2.1",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
-    "@thallesp/nestjs-better-auth": "^2.2.2",
-    "better-auth": "^1.4.17",
+    "@thallesp/nestjs-better-auth": "^2.5.3",
+    "better-auth": "^1.5.6",
     "bullmq": "^5.63.2",
     "directory-tree": "^3.5.2",
     "graphql": "^16.12.0",
@@ -44,6 +44,7 @@
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.9",
     "@nestjs/testing": "11.1.9",
+    "@opentelemetry/api": "^1.9.1",
     "@types/express": "5.0.5",
     "@types/jest": "30.0.0",
     "@types/multer": "2.0.0",
@@ -56,6 +57,7 @@
     "ts-loader": "9.5.4",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
+    "type-fest": "^5.5.0",
     "typescript": "5.9.3"
   }
 }

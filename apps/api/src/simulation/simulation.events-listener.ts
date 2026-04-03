@@ -70,9 +70,12 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       this.logger.error(
         `Failed during pre-step setup for job ${job.id}`,
-        error.stack,
+        error instanceof Error ? error.stack : String(error),
       );
-      await job.moveToFailed(error, job.token);
+      await job.moveToFailed(
+        error instanceof Error ? error : new Error(String(error)),
+        job.token,
+      );
     }
   }
 
@@ -155,9 +158,12 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     const job = await this.simulationQueue.getJob(jobId);
     if (!job) return;
 
-    await prisma.simulation.update({
+    // Do not overwrite a CANCELED status — the job may have been killed as
+    // part of an intentional cancellation and BullMQ fires "failed" afterward.
+    const { count } = await prisma.simulation.updateMany({
       where: {
         id: job.data.simulationId,
+        status: { not: "CANCELED" },
       },
       data: {
         status: "ERRORED",
@@ -165,5 +171,11 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
         errorCause: failedReason,
       },
     });
+
+    if (count === 0) {
+      this.logger.debug(
+        `Job ${jobId} failed event skipped — simulation is already CANCELED.`,
+      );
+    }
   }
 }

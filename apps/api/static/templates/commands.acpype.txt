@@ -3,11 +3,7 @@ grep 'ATOM  ' {{fullFileName}} > Protein.pdb
 gmx pdb2gmx -f Protein.pdb -o {{pdbName}}_livre.pdb -p {{pdbName}}_livre.top -ff {{forceField}} -water {{waterModel}} -ignh -missing
 
 #break
-grep -h ATOM {{pdbName}}_livre.pdb {{ligandPDBFile}} | tee {{pdbName}}_complx.pdb > /dev/null
-cat {{ligandITPFile}} | sed -n '/atomtypes/,/^ *$/{{/\n\n/d;p}}' > ligand_atomtypes.txt
-cat {{pdbName}}_livre.top | sed '/forcefield.itp"/a#include "{{ligandITPFile}}"' > {{pdbName}}1_complx.top
-cat {{pdbName}}1_complx.top | sed '/forcefield.itp/r ligand_atomtypes.txt' > {{pdbName}}_complx.top
-echo "{{acpypeMoleculeType}}         1" >> {{pdbName}}_complx.top
+{{ligandComplexCommands}}
 gmx editconf -f {{pdbName}}_complx.pdb -c -d {{boxDistance}} -bt {{boxType}} -o {{pdbName}}_complx.pdb
 
 #solvate

@@ -4,6 +4,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, twoFactor, username } from "better-auth/plugins";
+import type { UndefinedOnPartialDeep } from "type-fest";
 
 import { PrismaClient } from "../generated/prisma/client";
 
@@ -27,5 +28,9 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
-  plugins: [admin(), twoFactor(), username()],
+  plugins: [
+    admin() as UndefinedOnPartialDeep<ReturnType<typeof admin>>,
+    twoFactor() as UndefinedOnPartialDeep<ReturnType<typeof twoFactor>>,
+    username() as UndefinedOnPartialDeep<ReturnType<typeof username>>,
+  ],
 });

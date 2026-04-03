@@ -1,8 +1,14 @@
 import { InjectQueue } from "@nestjs/bullmq";
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { Queue } from "bullmq";
 import * as ChildProcess from "child_process";
-import * as dirTree from "directory-tree";
+import dirTree from "directory-tree";
 import type { ReadStream } from "fs";
 import {
   cpSync,
@@ -19,7 +25,7 @@ import { join } from "path";
 import { cwd } from "process";
 import { promisify } from "util";
 
-import { Simulation, SIMULATION_TYPE } from "../generated/prisma/client";
+import { SIMULATION_TYPE } from "../generated/prisma/client";
 import { SimulationUpdateInput } from "../generated/prisma/models";
 import { PrismaService } from "../prisma.service";
 import { readFileData } from "../utils/readFileData";
@@ -111,6 +117,103 @@ function splitPreservingNewlines(text: string): string[] {
     .map((line, index, arr) => (index < arr.length - 1 ? line + "\n" : line));
 }
 
+/**
+ * Generates the shell commands block for the #break section of the ACPYPE
+ * template when there are N ligands. Using `{{pdbName}}` as a pass-through
+ * placeholder so renderTemplate can resolve it afterwards.
+ */
+function buildLigandComplexCommands(
+  ligands: Array<{
+    itpBasename: string;
+    pdbBasename: string;
+    acpypeMoleculeType: string;
+  }>,
+): string {
+  const pdbFiles = ligands.map((l) => l.pdbBasename).join(" ");
+
+  // Build atomtypes.txt: first ligand creates, rest append.
+  // Extract only the [ atomtypes ] block from each ITP.
+  const atomtypesLines = ligands
+    .map(
+      (l, i) =>
+        `awk '/^\\[ *atomtypes/{in_at=1} /^\\[/ && !/atomtypes/{in_at=0} in_at{print}' ${l.itpBasename} ${i === 0 ? ">" : ">>"} ligand_atomtypes.txt`,
+    )
+    .join("\n");
+
+  // Deduplicate after all appends: keep one [ atomtypes ] directive, one copy
+  // of each comment line, and the first definition of each atom type name.
+  // This prevents GROMACS from rejecting "defined twice" atom type errors when
+  // multiple ligands share GAFF/GAFF2 atom types.
+  const deduplicateAtomtypes =
+    "awk '/^\\[ *atomtypes/{if(!dir++) print; next}" +
+    " /^;/{if(!cmt[$0]++) print; next}" +
+    " NF && !seen[$1]++{print}'" +
+    " ligand_atomtypes.txt > ligand_atomtypes_dedup.txt" +
+    " && mv ligand_atomtypes_dedup.txt ligand_atomtypes.txt";
+
+  // Create stripped copies of each ITP without their [ atomtypes ] block.
+  // GROMACS requires [ atomtypes ] to appear before any [ moleculetype ].
+  // When multiple ligands are included, the second ITP's [ atomtypes ] would
+  // come after the first ITP's [ moleculetype ], causing an "Invalid order"
+  // error. The consolidated atomtypes are already injected via
+  // ligand_atomtypes.txt right after the forcefield include.
+  //
+  // Additionally, GROMACS rejects a moleculetype that is defined more than
+  // once. When two input ligands share the same moleculetype name (e.g. two
+  // copies of the same ligand), the ITP is only included once in the topology
+  // and the count in the [ molecules ] section is incremented accordingly.
+  const molTypeCounts = new Map<string, number>();
+  const uniqueByMolType = new Map<
+    string,
+    { itpBasename: string; pdbBasename: string; acpypeMoleculeType: string }
+  >();
+  for (const l of ligands) {
+    molTypeCounts.set(
+      l.acpypeMoleculeType,
+      (molTypeCounts.get(l.acpypeMoleculeType) ?? 0) + 1,
+    );
+    if (!uniqueByMolType.has(l.acpypeMoleculeType)) {
+      uniqueByMolType.set(l.acpypeMoleculeType, l);
+    }
+  }
+  const uniqueLigands = [...uniqueByMolType.values()];
+
+  const strippedBasenames = uniqueLigands.map((l) =>
+    l.itpBasename.replace(/\.itp$/i, "_noat.itp"),
+  );
+  const stripLines = uniqueLigands
+    .map(
+      (l, i) =>
+        `awk '/^\\[ *atomtypes/{in_at=1} /^\\[/ && !/atomtypes/{in_at=0} !in_at{print}' ${l.itpBasename} > ${strippedBasenames[i]}`,
+    )
+    .join("\n");
+
+  // Build the piped sed commands to include each stripped ITP in the topology.
+  const includeExprs = strippedBasenames
+    .map((b) => `-e '/forcefield.itp"/a\\#include "${b}"'`)
+    .join(" ");
+
+  const topologyLine = `cat {{pdbName}}_livre.top | sed ${includeExprs} | sed '/forcefield.itp/r ligand_atomtypes.txt' > {{pdbName}}_complx.top`;
+
+  // Add molecule type entries — use the count so duplicate ligands appear as
+  // e.g. "Pol647.pdb.mol2   2" instead of two separate lines.
+  const moleculeTypeLines = [...molTypeCounts.entries()]
+    .map(
+      ([molType, count]) =>
+        `echo "${molType}         ${count}" >> {{pdbName}}_complx.top`,
+    )
+    .join("\n");
+
+  return [
+    `grep -h ATOM {{pdbName}}_livre.pdb ${pdbFiles} | tee {{pdbName}}_complx.pdb > /dev/null`,
+    atomtypesLines,
+    deduplicateAtomtypes,
+    stripLines,
+    topologyLine,
+    moleculeTypeLines,
+  ].join("\n");
+}
+
 @Injectable()
 export class SimulationService {
   constructor(
@@ -121,8 +224,7 @@ export class SimulationService {
   async prepareSimulationEnvironment(
     id: string,
     fileName: string,
-    fileNameLigandITP?: string,
-    fileNameLigandPDB?: string,
+    ligandFiles?: Array<{ itp: string; pdb: string }>,
   ) {
     const [userName, fullFileName] = fileName.split("/");
 
@@ -138,22 +240,30 @@ export class SimulationService {
       `/files/${userName}/${id}/run/${fullFileName}`,
     );
 
-    // Move ligand ITP to *run* folder
-    if (fileNameLigandITP) {
-      const [, fullFileNameLigandITP] = fileNameLigandITP.split("/");
-      renameSync(
-        `/files/${userName}/${fullFileNameLigandITP}`,
-        `/files/${userName}/${id}/run/${fullFileNameLigandITP}`,
-      );
-    }
+    // Move each ligand file pair to *run* folder
+    if (ligandFiles) {
+      for (const { itp, pdb } of ligandFiles) {
+        const itpBasename = itp.split("/").pop()!;
+        const pdbBasename = pdb.split("/").pop()!;
+        renameSync(
+          `/files/${userName}/${itpBasename}`,
+          `/files/${userName}/${id}/run/${itpBasename}`,
+        );
+        renameSync(
+          `/files/${userName}/${pdbBasename}`,
+          `/files/${userName}/${id}/run/${pdbBasename}`,
+        );
+      }
 
-    // Move ligand PDB to *run* folder
-    if (fileNameLigandPDB) {
-      const [, fullFileNameLigandPDB] = fileNameLigandPDB.split("/");
-      renameSync(
-        `/files/${userName}/${fullFileNameLigandPDB}`,
-        `/files/${userName}/${id}/run/${fullFileNameLigandPDB}`,
-      );
+      // Copy the first ligand PDB as the canonical viewer file
+      if (ligandFiles.length > 0) {
+        const firstPDBBasename = ligandFiles[0].pdb.split("/").pop()!;
+        const firstPDBExt = firstPDBBasename.split(".").pop()!;
+        cpSync(
+          `/files/${userName}/${id}/run/${firstPDBBasename}`,
+          `/files/${userName}/${id}/run/originalLigand.${firstPDBExt}`,
+        );
+      }
     }
 
     // Copy all MDP files needed to run a simulation into folder
@@ -195,51 +305,76 @@ export class SimulationService {
   async newACPYPESimulation(
     fileName: string,
     fileNameOriginal: string,
-    fileNameLigandITP: string,
-    fileNameLigandITPOriginal: string,
-    fileNameLigandPDB: string,
-    fileNameLigandPDBOriginal: string,
+    ligandFiles: Array<{
+      fileNameITP: string;
+      fileNameITPOriginal: string;
+      fileNamePDB: string;
+      fileNamePDBOriginal: string;
+    }>,
     body: NewSimulationBody,
   ) {
     const [username, fullFileName] = fileName.split("/");
     const [origPDBName] = fileNameOriginal.split(".");
-    const [origLigandITPName] = fileNameLigandITPOriginal.split(".");
-    const [origLigandPDBName] = fileNameLigandPDBOriginal.split(".");
 
     validateSimulationParams(body);
     assertSafeFilename(fullFileName, "PDB file");
-    const ligandITPBasename = fileNameLigandITP.includes("/")
-      ? fileNameLigandITP.split("/")[1]
-      : fileNameLigandITP;
-    const ligandPDBBasename = fileNameLigandPDB.includes("/")
-      ? fileNameLigandPDB.split("/")[1]
-      : fileNameLigandPDB;
-    assertSafeFilename(ligandITPBasename, "ligand ITP file");
-    assertSafeFilename(ligandPDBBasename, "ligand PDB file");
 
     const pdbName = normalizeString(origPDBName);
-    const ligandITPName = normalizeString(origLigandITPName);
-    const ligandPDBName = normalizeString(origLigandPDBName);
+
+    // Validate and normalize each ligand
+    const processedLigands = ligandFiles.map((lf, index) => {
+      const itpBasename = lf.fileNameITP.includes("/")
+        ? lf.fileNameITP.split("/")[1]
+        : lf.fileNameITP;
+      const pdbBasename = lf.fileNamePDB.includes("/")
+        ? lf.fileNamePDB.split("/")[1]
+        : lf.fileNamePDB;
+
+      assertSafeFilename(itpBasename, `ligand ITP file [${index}]`);
+      assertSafeFilename(pdbBasename, `ligand PDB file [${index}]`);
+
+      const [origLigandITPName] = lf.fileNameITPOriginal.split(".");
+      const [origLigandPDBName] = lf.fileNamePDBOriginal.split(".");
+
+      const ligandITPName = normalizeString(origLigandITPName);
+      const ligandPDBName = normalizeString(origLigandPDBName);
+
+      const acpypeMoleculeType = lf.fileNameITPOriginal
+        .replace("_GMX", ".pdb.mol2")
+        .replace(".itp", "");
+      assertSafeFilename(acpypeMoleculeType, `acpype molecule type [${index}]`);
+
+      return {
+        itpBasename,
+        pdbBasename,
+        ligandITPName,
+        ligandPDBName,
+        acpypeMoleculeType,
+        filePathITP: lf.fileNameITP,
+        filePathPDB: lf.fileNamePDB,
+      };
+    });
 
     const { id } = await this.prisma.simulation.create({
       data: {
         moleculeName: pdbName,
-        ligandITPName,
-        ligandPDBName,
         status: "GENERATED",
         type: "acpype",
         user: {
-          connect: {
-            username,
-          },
+          connect: { username },
+        },
+        ligands: {
+          create: processedLigands.map((l, i) => ({
+            ligandITPName: l.ligandITPName,
+            ligandPDBName: l.ligandPDBName,
+            position: i,
+          })),
         },
       },
     });
 
-    const acpypeMoleculeType = fileNameLigandITPOriginal
-      .replace("_GMX", ".pdb.mol2")
-      .replace(".itp", "");
-    assertSafeFilename(acpypeMoleculeType, "acpype molecule type");
+    // Build the multi-ligand block for the template
+    const ligandComplexCommands = buildLigandComplexCommands(processedLigands);
 
     const acpypeTemplatePath = join(
       cwd(),
@@ -250,19 +385,17 @@ export class SimulationService {
     let rendered: string;
     try {
       rendered = renderTemplate(readFileSync(acpypeTemplatePath, "utf-8"), {
+        ligandComplexCommands,
         fullFileName,
         pdbName,
         forceField: body.forceField,
         waterModel: body.waterModel,
         boxDistance: body.boxDistance,
         boxType: body.boxType,
-        ligandITPFile: ligandITPBasename,
-        ligandPDBFile: ligandPDBBasename,
-        acpypeMoleculeType,
       });
     } catch (err) {
       throw new Error(
-        `Failed to load ACPYPE command template: ${err?.message}`,
+        `Failed to load ACPYPE command template: ${err instanceof Error ? err.message : String(err)}`,
       );
     }
 
@@ -272,8 +405,7 @@ export class SimulationService {
     await this.prepareSimulationEnvironment(
       id,
       fileName,
-      fileNameLigandITP,
-      fileNameLigandPDB,
+      processedLigands.map((l) => ({ itp: l.filePathITP, pdb: l.filePathPDB })),
     );
 
     return {
@@ -325,7 +457,9 @@ export class SimulationService {
         boxType: body.boxType,
       });
     } catch (err) {
-      throw new Error(`Failed to load APO command template: ${err?.message}`);
+      throw new Error(
+        `Failed to load APO command template: ${err instanceof Error ? err.message : String(err)}`,
+      );
     }
 
     mkdirSync(`/files/${username}/${id}`, { recursive: true });
@@ -422,12 +556,18 @@ export class SimulationService {
         errorCause: true,
         createdAt: true,
         moleculeName: true,
-        ligandITPName: true,
-        ligandPDBName: true,
         startedAt: true,
         endedAt: true,
         status: true,
         type: true,
+        ligands: {
+          select: {
+            ligandITPName: true,
+            ligandPDBName: true,
+            position: true,
+          },
+          orderBy: { position: "asc" },
+        },
         user: {
           select: {
             username: true,
@@ -492,6 +632,82 @@ export class SimulationService {
     return { records, total };
   }
 
+  async cancelSimulation(
+    simulationId: string,
+    requestUserId: string,
+    isAdmin: boolean,
+  ) {
+    const simulation = await this.prisma.simulation.findUnique({
+      where: { id: simulationId },
+      include: { user: true },
+    });
+
+    if (!simulation) {
+      throw new NotFoundException("Simulation not found");
+    }
+
+    if (!isAdmin && simulation.userId !== requestUserId) {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    if (simulation.status !== "QUEUED" && simulation.status !== "RUNNING") {
+      throw new ConflictException(
+        `Simulation cannot be canceled in status "${simulation.status}"`,
+      );
+    }
+
+    // If the job is running, kill the sandboxed processor process.
+    if (simulation.status === "RUNNING") {
+      const pidFilePath = `/files/${simulation.user.username}/${simulationId}/processing.pid`;
+      if (existsSync(pidFilePath)) {
+        try {
+          const raw = readFileSync(pidFilePath, "utf-8").trim();
+          const colonIdx = raw.indexOf(":");
+          const pidStr = colonIdx >= 0 ? raw.slice(0, colonIdx) : raw;
+          const pid = parseInt(pidStr, 10);
+          if (Number.isSafeInteger(pid) && pid > 0) {
+            // Try to signal the process group; fall back to single-PID kill.
+            const pgidRaw = readFileSync(`/proc/${pid}/stat`, "utf-8");
+            const afterComm = pgidRaw.slice(pgidRaw.lastIndexOf(")") + 2);
+            const pgid = parseInt(afterComm.split(" ")[2], 10);
+            const ownStat = readFileSync(`/proc/${process.pid}/stat`, "utf-8");
+            const ownAfterComm = ownStat.slice(ownStat.lastIndexOf(")") + 2);
+            const ownPgid = parseInt(ownAfterComm.split(" ")[2], 10);
+            if (Number.isSafeInteger(pgid) && pgid > 0 && pgid !== ownPgid) {
+              try {
+                process.kill(-pgid, "SIGTERM");
+              } catch {
+                process.kill(pid, "SIGTERM");
+              }
+            } else {
+              process.kill(pid, "SIGTERM");
+            }
+          }
+        } catch {
+          // PID file unreadable or process already gone — proceed to DB update.
+        }
+      }
+    }
+
+    // Remove the job from the BullMQ queue (no-op if it was already processed).
+    const jobs = await this.simulationQueue.getJobs([
+      "waiting",
+      "active",
+      "delayed",
+    ]);
+    const job = jobs.find((j) => j.data.simulationId === simulationId);
+    if (job) {
+      await job.remove();
+    }
+
+    await this.prisma.simulation.update({
+      where: { id: simulationId },
+      data: { status: "CANCELED", endedAt: new Date() },
+    });
+
+    return { status: "canceled" };
+  }
+
   async adminUpdateSimulation(id: string, body: SimulationUpdateInput) {
     const { id: _id, ...data } = body;
 
@@ -502,7 +718,7 @@ export class SimulationService {
   }
 
   async getUserLastSimulations(email: string) {
-    let simulations: { [key: string]: Omit<Simulation, "updatedAt"> } = {};
+    let simulations: Record<string, unknown> = {};
 
     for (const type of ["acpype", "apo"] satisfies SIMULATION_TYPE[]) {
       const data = await this.prisma.simulation.findFirst({
@@ -517,13 +733,19 @@ export class SimulationService {
           endedAt: true,
           errorCause: true,
           id: true,
-          ligandITPName: true,
-          ligandPDBName: true,
           moleculeName: true,
           startedAt: true,
           status: true,
           type: true,
           userId: true,
+          ligands: {
+            select: {
+              ligandITPName: true,
+              ligandPDBName: true,
+              position: true,
+            },
+            orderBy: { position: "asc" },
+          },
         },
         orderBy: {
           createdAt: "desc",

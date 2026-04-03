@@ -1,8 +1,9 @@
 import classes from "./index.module.css";
 
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  ActionIcon,
   Blockquote,
   Box,
   Button,
@@ -19,6 +20,8 @@ import {
   IconDownload,
   IconInfoCircle,
   IconPlayerPlay,
+  IconPlus,
+  IconTrash,
 } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
@@ -50,7 +53,7 @@ function RouteComponent() {
     macromolecule: "",
   });
 
-  const { control, handleSubmit, setValue } = useForm<SimulationFormValues>({
+  const { control, handleSubmit, setValue, formState } = useForm<SimulationFormValues>({
     resolver: zodResolver(simulationSchema),
     defaultValues: {
       type: "apo",
@@ -58,12 +61,16 @@ function RouteComponent() {
       waterModel: "",
       boxType: "",
       boxDistance: 0.1,
+      ligands: [],
     },
   });
 
+  const { fields: ligandFields, append: appendLigand, remove: removeLigand } =
+    useFieldArray({ control, name: "ligands" });
+
   const simulationType = useWatch({ control, name: "type" });
   const filePDB = useWatch({ control, name: "filePDB" });
-  const fileLigandPDB = useWatch({ control, name: "fileLigandPDB" });
+  const firstLigandPDB = useWatch({ control, name: "ligands.0.filePDB" });
 
   const showLigandFields = simulationType === "acpype";
   const forceFields =
@@ -89,16 +96,16 @@ function RouteComponent() {
     }
   }, [filePDB]);
 
-  // Update 3D viewer when ligand PDB file changes
+  // Update 3D viewer when first ligand PDB file changes
   useEffect(() => {
-    if (fileLigandPDB instanceof File) {
-      fileLigandPDB.text().then((text) => {
+    if (firstLigandPDB instanceof File) {
+      firstLigandPDB.text().then((text) => {
         setFiles((prev) => ({ ...prev, ligandPdb: text }));
       });
     } else {
       setFiles((prev) => ({ ...prev, ligandPdb: undefined }));
     }
-  }, [fileLigandPDB]);
+  }, [firstLigandPDB]);
 
   function renderSelectOption(data: Record<string, string>, value: string) {
     return (
@@ -184,48 +191,92 @@ function RouteComponent() {
                   )}
                 />
                 {showLigandFields && (
-                  <Group grow>
-                    <Controller
-                      control={control}
-                      name="fileLigandPDB"
-                      render={({
-                        field: { value, onChange, ref },
-                        fieldState,
-                      }) => (
-                        <FileInput
-                          accept=".pdb"
-                          clearable
-                          error={fieldState.error?.message}
-                          label="Ligand (PDB)"
-                          onChange={(val) => onChange(val ?? undefined)}
-                          placeholder="Upload Ligand PDB file"
-                          ref={ref}
-                          value={value}
-                          withAsterisk
-                        />
-                      )}
-                    />
-                    <Controller
-                      control={control}
-                      name="fileLigandITP"
-                      render={({
-                        field: { value, onChange, ref },
-                        fieldState,
-                      }) => (
-                        <FileInput
-                          accept=".itp"
-                          clearable
-                          error={fieldState.error?.message}
-                          label="Ligand (ITP)"
-                          onChange={(val) => onChange(val ?? undefined)}
-                          placeholder="Upload Ligand ITP file"
-                          ref={ref}
-                          value={value}
-                          withAsterisk
-                        />
-                      )}
-                    />
-                  </Group>
+                  <Box>
+                    <Group justify="space-between" mb="xs">
+                      <Text fw={500} size="sm">
+                        Ligands
+                      </Text>
+                      <Button
+                        leftSection={<IconPlus size={14} />}
+                        onClick={() =>
+                          appendLigand({
+                            filePDB: undefined as unknown as File,
+                            fileITP: undefined as unknown as File,
+                          })
+                        }
+                        size="xs"
+                        variant="light"
+                      >
+                        Add Ligand
+                      </Button>
+                    </Group>
+                    {formState.errors.ligands?.message && (
+                      <Text c="red" mb="xs" size="sm">
+                        {formState.errors.ligands.message as string}
+                      </Text>
+                    )}
+                    <Stack gap="xs">
+                      {ligandFields.map((field, index) => (
+                        <Box key={field.id}>
+                          <Group justify="space-between" mb={4}>
+                            <Text fw={500} size="sm">
+                              Ligand {index + 1}
+                            </Text>
+                            <ActionIcon
+                              color="red"
+                              onClick={() => removeLigand(index)}
+                              size="sm"
+                              variant="subtle"
+                            >
+                              <IconTrash size={14} />
+                            </ActionIcon>
+                          </Group>
+                          <Group grow>
+                            <Controller
+                              control={control}
+                              name={`ligands.${index}.filePDB`}
+                              render={({
+                                field: { value, onChange, ref },
+                                fieldState,
+                              }) => (
+                                <FileInput
+                                  accept=".pdb"
+                                  clearable
+                                  error={fieldState.error?.message}
+                                  label="Ligand (PDB)"
+                                  onChange={(val) => onChange(val ?? undefined)}
+                                  placeholder="Upload Ligand PDB file"
+                                  ref={ref}
+                                  value={value}
+                                  withAsterisk
+                                />
+                              )}
+                            />
+                            <Controller
+                              control={control}
+                              name={`ligands.${index}.fileITP`}
+                              render={({
+                                field: { value, onChange, ref },
+                                fieldState,
+                              }) => (
+                                <FileInput
+                                  accept=".itp"
+                                  clearable
+                                  error={fieldState.error?.message}
+                                  label="Ligand (ITP)"
+                                  onChange={(val) => onChange(val ?? undefined)}
+                                  placeholder="Upload Ligand ITP file"
+                                  ref={ref}
+                                  value={value}
+                                  withAsterisk
+                                />
+                              )}
+                            />
+                          </Group>
+                        </Box>
+                      ))}
+                    </Stack>
+                  </Box>
                 )}
               </Stack>
             </Box>

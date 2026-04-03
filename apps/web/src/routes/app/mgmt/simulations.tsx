@@ -1,5 +1,6 @@
 import classes from "./simulations.module.css";
 
+import { useState } from "react";
 import { ActionIcon, Stack, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import {
@@ -20,7 +21,6 @@ import {
   type MRT_TableOptions,
   useMantineReactTable,
 } from "mantine-react-table-open";
-import { useState } from "react";
 
 import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";

@@ -294,7 +294,7 @@ export default async function (job: Job<SimulateData>): Promise<string> {
     );
     // Throwing an error marks the job as failed and triggers the 'failed' event listener.
     throw new Error(
-      e?.message ||
+      (e instanceof Error ? e.message : undefined) ||
         `Job ${job.data?.simulationId ?? job.id} failed to run command!`,
     );
   } finally {

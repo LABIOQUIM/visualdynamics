@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+const ligandPairSchema = z.object({
+  filePDB: z.instanceof(File, { message: "Ligand PDB file is required" }),
+  fileITP: z.instanceof(File, { message: "Ligand ITP file is required" }),
+});
+
 export const simulationSchema = z
   .object({
     type: z.enum(["apo", "acpype"] as const, {
@@ -14,14 +19,7 @@ export const simulationSchema = z
         },
         { message: "Invalid PDB file" },
       ),
-    fileLigandPDB: z.preprocess(
-      (val) => (val === null ? undefined : val),
-      z.instanceof(File).optional(),
-    ),
-    fileLigandITP: z.preprocess(
-      (val) => (val === null ? undefined : val),
-      z.instanceof(File).optional(),
-    ),
+    ligands: z.array(ligandPairSchema).optional(),
     forceField: z.string().min(1, "Force field is required"),
     waterModel: z.string().min(1, "Water model is required"),
     boxType: z.string().min(1, "Box type is required"),
@@ -35,18 +33,11 @@ export const simulationSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.type === "acpype") {
-      if (!data.fileLigandPDB) {
+      if (!data.ligands || data.ligands.length === 0) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "Ligand PDB file is required",
-          path: ["fileLigandPDB"],
-        });
-      }
-      if (!data.fileLigandITP) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Ligand ITP file is required",
-          path: ["fileLigandITP"],
+          message: "At least one ligand is required",
+          path: ["ligands"],
         });
       }
     }

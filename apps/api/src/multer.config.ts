@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
@@ -15,10 +16,7 @@ const multerConfig = {
       const userDir = `/files/${req.session.user.username}`;
 
       if (!ALLOWED_EXTENSIONS.has(extension)) {
-        return cb(
-          new Error(`File type not allowed: ${extension}`),
-          null,
-        );
+        return cb(new Error(`File type not allowed: ${extension}`), null);
       }
 
       if (!fs.existsSync(userDir)) {
@@ -28,7 +26,7 @@ const multerConfig = {
       const filename =
         file.fieldname === "filePDB"
           ? "originalMacromolecule"
-          : "originalLigand";
+          : `ligand_${randomUUID()}`;
 
       cb(null, `${req.session.user.username}/${filename}${extension}`);
     },

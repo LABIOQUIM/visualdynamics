@@ -13,12 +13,16 @@ declare global {
 
   type StepState = "done" | "inprogress" | "waiting";
 
+  type SimulationLigand = {
+    ligandITPName: string;
+    ligandPDBName: string;
+    position: number;
+  };
+
   type Simulation = {
     id: string;
     userId: string;
     moleculeName: string;
-    ligandITPName: string | null;
-    ligandPDBName: string | null;
     type: SIMULATION_TYPE;
     startedAt: Date | null;
     endedAt: Date | null;
@@ -26,6 +30,7 @@ declare global {
     errorCause: string | null;
     createdAt: Date;
     updatedAt: Date | null;
+    ligands: SimulationLigand[];
   };
 
   type SimulationWithUser = Simulation & {

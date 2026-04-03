@@ -17,12 +17,12 @@ import {
 } from "@nestjs/common";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { Session } from "@thallesp/nestjs-better-auth";
-import { Express, Request } from "express";
-import multerConfig from "src/multer.config";
+import { Request } from "express";
 
 import { SIMULATION_TYPE } from "../generated/prisma/client";
 import { SimulationUpdateInput } from "../generated/prisma/models";
 import { auth } from "../lib/auth";
+import multerConfig from "../multer.config";
 
 import { SimulationService } from "./simulation.service";
 import type { NewSimulationBody } from "./simulation.types";
@@ -36,8 +36,8 @@ export class SimulationController {
     FileFieldsInterceptor(
       [
         { name: "filePDB", maxCount: 1 },
-        { name: "fileLigandITP", maxCount: 1 },
-        { name: "fileLigandPDB", maxCount: 1 },
+        { name: "fileLigandITP", maxCount: 20 },
+        { name: "fileLigandPDB", maxCount: 20 },
       ],
       multerConfig,
     ),
@@ -72,21 +72,35 @@ export class SimulationController {
     let commands: string[];
 
     if (body.type === "acpype") {
-      if (!fileLigandITP?.[0] || !fileLigandPDB?.[0]) {
+      const itpFiles = fileLigandITP ?? [];
+      const pdbFiles = fileLigandPDB ?? [];
+
+      if (itpFiles.length === 0 || pdbFiles.length === 0) {
         throw new HttpException(
           { status: "missing-ligand-files" },
           HttpStatus.BAD_REQUEST,
         );
       }
 
+      if (itpFiles.length !== pdbFiles.length) {
+        throw new HttpException(
+          { status: "ligand-files-count-mismatch" },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const ligandFiles = itpFiles.map((itpFile, i) => ({
+        fileNameITP: itpFile.filename,
+        fileNameITPOriginal: itpFile.originalname,
+        fileNamePDB: pdbFiles[i].filename,
+        fileNamePDBOriginal: pdbFiles[i].originalname,
+      }));
+
       ({ simulationId, commands } =
         await this.simulationService.newACPYPESimulation(
           filePDB[0].filename,
           filePDB[0].originalname,
-          fileLigandITP[0].filename,
-          fileLigandITP[0].originalname,
-          fileLigandPDB[0].filename,
-          fileLigandPDB[0].originalname,
+          ligandFiles,
           body,
         ));
     } else {
@@ -169,6 +183,18 @@ export class SimulationController {
     );
 
     return data;
+  }
+
+  @Post("/cancel/:id")
+  async cancelSimulation(
+    @Session() session: typeof auth.$Infer.Session,
+    @Param("id") id: string,
+  ) {
+    return this.simulationService.cancelSimulation(
+      id,
+      session.user.id,
+      session.user.role === "admin",
+    );
   }
 
   @Patch("/update/:id")

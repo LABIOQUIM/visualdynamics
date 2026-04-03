@@ -140,25 +140,36 @@ enum SIMULATION_STATUS {
 }
 
 model Simulation {
-  id            String            @id @default(uuid())
-  userId        String            @map("user_id")
-  moleculeName  String            @map("molecule_name")
-  ligandITPName String?           @map("ligand_itp_name")
-  ligandPDBName String?           @map("ligand_pdb_name")
-  type          SIMULATION_TYPE
-  startedAt     DateTime?         @map("started_at")
-  endedAt       DateTime?         @map("ended_at")
-  status        SIMULATION_STATUS @default(QUEUED)
-  errorCause    String?           @map("error_cause")
-  createdAt     DateTime          @default(now()) @map("created_at")
-  updatedAt     DateTime?         @updatedAt @map("updated_at")
+  id           String            @id @default(uuid())
+  userId       String            @map("user_id")
+  moleculeName String            @map("molecule_name")
+  type         SIMULATION_TYPE
+  startedAt    DateTime?         @map("started_at")
+  endedAt      DateTime?         @map("ended_at")
+  status       SIMULATION_STATUS @default(QUEUED)
+  errorCause   String?           @map("error_cause")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime?         @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id])
+  user    User               @relation(fields: [userId], references: [id])
+  ligands SimulationLigand[]
 
   @@index([userId])
   @@index([moleculeName])
-  @@index([ligandITPName])
-  @@index([ligandPDBName])
   @@index([type])
   @@map("simulation")
+}
+
+model SimulationLigand {
+  id            String   @id @default(uuid())
+  simulationId  String   @map("simulation_id")
+  ligandITPName String   @map("ligand_itp_name")
+  ligandPDBName String   @map("ligand_pdb_name")
+  position      Int      @default(0)
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  simulation Simulation @relation(fields: [simulationId], references: [id])
+
+  @@index([simulationId])
+  @@map("simulation_ligand")
 }

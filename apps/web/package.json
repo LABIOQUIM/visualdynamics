@@ -34,11 +34,11 @@
     "@tiptap/pm": "^3.22.1",
     "@tiptap/react": "^3.22.1",
     "@tiptap/starter-kit": "^3.22.1",
-    "better-auth": "^1.4.17",
+    "better-auth": "^1.5.6",
     "dayjs": "^1.11.19",
     "embla-carousel": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
-    "mantine-react-table-open": "^8.0.4",
+    "mantine-react-table-open": "https://github.com/CareHarmony/mantine-react-table-ch",
     "motion": "^12.23.24",
     "nuqs": "^2.8.0",
     "postcss-load-config": "^6.0.1",
@@ -51,6 +51,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@opentelemetry/api": "^1.9.1",
     "@tanstack/router-plugin": "^1.136.6",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",

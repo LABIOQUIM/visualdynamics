@@ -12,9 +12,11 @@ export async function submitSimulation(
   const data = new FormData();
   data.append("type", values.type);
   data.append("filePDB", values.filePDB);
-  if (values.type !== "apo") {
-    data.append("fileLigandITP", values.fileLigandITP!);
-    data.append("fileLigandPDB", values.fileLigandPDB!);
+  if (values.type !== "apo" && values.ligands) {
+    for (const ligand of values.ligands) {
+      data.append("fileLigandITP", ligand.fileITP);
+      data.append("fileLigandPDB", ligand.filePDB);
+    }
   }
   data.append("forceField", values.forceField);
   data.append("waterModel", values.waterModel);
@@ -35,12 +37,10 @@ export async function submitSimulation(
     let filename = values.type;
     filename += `-${values.filePDB.name.split(".")[0]}`;
 
-    if (values.fileLigandITP) {
-      filename += `-${values.fileLigandITP.name.split(".")[0]}`;
-    }
-
-    if (values.fileLigandPDB) {
-      filename += `-${values.fileLigandPDB.name.split(".")[0]}`;
+    if (values.ligands) {
+      for (const ligand of values.ligands) {
+        filename += `-${ligand.fileITP.name.split(".")[0]}`;
+      }
     }
 
     filename += "-commands.txt";

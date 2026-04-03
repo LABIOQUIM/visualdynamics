@@ -1,6 +1,7 @@
 import classes from "./Overview.module.css";
 
-import { Blockquote, Box, Group, SimpleGrid } from "@mantine/core";
+import { Blockquote, Box, Button, Group, SimpleGrid } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import {
   IconAlertSquareRounded,
   IconAtom,
@@ -12,14 +13,16 @@ import {
   IconCloudUpload,
   IconHourglassHigh,
   IconStatusChange,
+  IconX,
 } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useMemo } from "react";
 
 import { Loader } from "@/components/Loader";
 import { MetricCard } from "@/components/MetricCard";
 import { StatusBadge } from "@/components/StatusBadge";
+import { cancelSimulation } from "@/mutations/cancelSimulation";
 import { getSimulation } from "@/queries/getSimulation";
 
 type OverviewProps = {
@@ -27,7 +30,35 @@ type OverviewProps = {
 };
 
 export function Overview({ simulationId }: OverviewProps) {
+  const queryClient = useQueryClient();
   const { data } = useQuery(getSimulation(simulationId));
+
+  const { mutate: cancel, isPending: isCanceling } = useMutation({
+    mutationFn: () => cancelSimulation(simulationId),
+    onSuccess: () => {
+      notifications.show({
+        title: "Simulation canceled",
+        message: "The simulation has been successfully canceled.",
+        color: "orange",
+        withBorder: true,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["simulation", simulationId],
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Failed to cancel",
+        message: "Could not cancel the simulation. Please try again.",
+        color: "red",
+        withBorder: true,
+      });
+    },
+  });
+
+  const canCancel =
+    data?.simulation.status === "QUEUED" ||
+    data?.simulation.status === "RUNNING";
 
   const info = useMemo(() => {
     if (!data) {
@@ -83,11 +114,17 @@ export function Overview({ simulationId }: OverviewProps) {
         label: "Macromolecule",
         value: data.simulation.moleculeName,
         icon: IconAtom,
-        label1: "Ligand ITP",
-        value1: data.simulation.ligandITPName || "N/A",
+        label1: "Ligands (ITP)",
+        value1:
+          data.simulation.ligands.length > 0
+            ? data.simulation.ligands.map((l) => l.ligandITPName).join(", ")
+            : "N/A",
         icon1: IconAtom2,
-        label2: "Ligand PDB",
-        value2: data.simulation.ligandPDBName || "N/A",
+        label2: "Ligands (PDB)",
+        value2:
+          data.simulation.ligands.length > 0
+            ? data.simulation.ligands.map((l) => l.ligandPDBName).join(", ")
+            : "N/A",
         icon2: IconAtom2Filled,
       },
       {
@@ -165,6 +202,17 @@ export function Overview({ simulationId }: OverviewProps) {
         <Blockquote color="red" icon={<IconAlertSquareRounded />}>
           <strong>Error Cause:</strong> {data.simulation.errorCause}
         </Blockquote>
+      )}
+      {canCancel && (
+        <Button
+          color="red"
+          leftSection={<IconX size="1rem" />}
+          loading={isCanceling}
+          onClick={() => cancel()}
+          variant="light"
+        >
+          Cancel Simulation
+        </Button>
       )}
       <MetricCard.Root className={classes.underDevelopmentCard}>
         <MetricCard.Icon>
