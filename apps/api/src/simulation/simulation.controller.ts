@@ -24,12 +24,18 @@ import { SimulationUpdateInput } from "../generated/prisma/models";
 import { auth } from "../lib/auth";
 import multerConfig from "../multer.config";
 
+import { SimulationCreationService } from "./simulation.creation.service";
+import { SimulationFileService } from "./simulation.file.service";
 import { SimulationService } from "./simulation.service";
 import type { NewSimulationBody } from "./simulation.types";
 
 @Controller("simulation")
 export class SimulationController {
-  constructor(private simulationService: SimulationService) {}
+  constructor(
+    private simulationService: SimulationService,
+    private simulationCreationService: SimulationCreationService,
+    private simulationFileService: SimulationFileService,
+  ) {}
 
   @Post("/submit")
   @UseInterceptors(
@@ -97,7 +103,7 @@ export class SimulationController {
       }));
 
       ({ simulationId, commands } =
-        await this.simulationService.newACPYPESimulation(
+        await this.simulationCreationService.newACPYPESimulation(
           filePDB[0].filename,
           filePDB[0].originalname,
           ligandFiles,
@@ -105,7 +111,7 @@ export class SimulationController {
         ));
     } else {
       ({ simulationId, commands } =
-        await this.simulationService.newAPOSimulation(
+        await this.simulationCreationService.newAPOSimulation(
           filePDB[0].filename,
           filePDB[0].originalname,
           body,
@@ -113,7 +119,7 @@ export class SimulationController {
     }
 
     if (body.shouldRun && body.shouldRun === "true") {
-      await this.simulationService.addSimulationToQueue(
+      await this.simulationCreationService.addSimulationToQueue(
         simulationId,
         request.session.user.username,
         body.type,
@@ -226,7 +232,7 @@ export class SimulationController {
 
   @Get("/downloads/mdp")
   async getMDPFiles() {
-    const file = await this.simulationService.getMDPFiles();
+    const file = await this.simulationFileService.getMDPFiles();
 
     return new StreamableFile(file.stream, {
       type: "application/zip",
@@ -235,18 +241,9 @@ export class SimulationController {
     });
   }
 
-  @Get("/files")
-  async getLastSimulationFiles(@Session() session: typeof auth.$Infer.Session) {
-    const data = await this.simulationService.getUserLastSimulationFiles(
-      session.user.username,
-    );
-
-    return data;
-  }
-
   @Get("/download/file")
   async getUserFile(@Req() request: Request, @Query("path") path: string) {
-    const file = await this.simulationService.getUserFile(path);
+    const file = await this.simulationFileService.getUserFile(path);
 
     if (file === "no-results") {
       throw new HttpException("no-results", HttpStatus.OK);
@@ -264,7 +261,7 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: string,
   ) {
-    const file = await this.simulationService.getSimulationFigures(
+    const file = await this.simulationFileService.getSimulationFigures(
       session.user.username,
       simulationId,
     );
@@ -285,7 +282,7 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: string,
   ) {
-    const file = await this.simulationService.getSimulationCommands(
+    const file = await this.simulationFileService.getSimulationCommands(
       session.user.username,
       simulationId,
     );
@@ -306,7 +303,7 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: string,
   ) {
-    const file = await this.simulationService.getSimulationGromacsLogs(
+    const file = await this.simulationFileService.getSimulationGromacsLogs(
       session.user.username,
       simulationId,
     );
@@ -327,7 +324,7 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: SIMULATION_TYPE,
   ) {
-    const file = await this.simulationService.getSimulationResults(
+    const file = await this.simulationFileService.getSimulationResults(
       session.user.username,
       simulationId,
     );
@@ -341,27 +338,6 @@ export class SimulationController {
       disposition: `attachment; filename="results-${simulationId}.zip"`,
       length: file.size,
     });
-  }
-
-  @Get("/latest")
-  async getLatestSimulations(@Session() session: typeof auth.$Infer.Session) {
-    const data = this.simulationService.getUserLastSimulations(
-      session.user.email,
-    );
-    return data;
-  }
-
-  @Get("/macromolecule/:type")
-  async getLatestMacromoleculeFiles(
-    @Session() session: typeof auth.$Infer.Session,
-    @Param("id") id: string,
-  ) {
-    const data = this.simulationService.getLastMacromoleculeFiles(
-      session.user.username,
-      id,
-    );
-
-    return data;
   }
 
   @Get("/queue-info")

@@ -8,7 +8,9 @@ import { PrismaService } from "../prisma.service";
 
 import { SimulationCleanupService } from "./simulation.cleanup.service";
 import { SimulationController } from "./simulation.controller";
+import { SimulationCreationService } from "./simulation.creation.service";
 import { SimulationEventsListener } from "./simulation.events-listener";
+import { SimulationFileService } from "./simulation.file.service";
 import { SimulationService } from "./simulation.service";
 
 @Module({
@@ -35,6 +37,8 @@ import { SimulationService } from "./simulation.service";
   providers: [
     SimulationEventsListener,
     SimulationService,
+    SimulationCreationService,
+    SimulationFileService,
     SimulationCleanupService,
     PrismaService,
   ],
