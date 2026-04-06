@@ -11,7 +11,7 @@ declare global {
     simulation: Simulation;
     molecules: {
       macromolecule: string;
-      ligand: string;
+      ligands: string[];
     };
   };
 }

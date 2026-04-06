@@ -111,7 +111,7 @@ function buildLigandComplexCommands(
   const atomtypesLines = ligands
     .map(
       (l, i) =>
-        `awk '/^\\[ *atomtypes/{in_at=1} /^\\[/ && !/atomtypes/{in_at=0} in_at{print}' ${l.itpBasename} ${i === 0 ? ">" : ">>"} ligand_atomtypes.txt`,
+        `awk '/^;?[ ]*\\[ *atomtypes/{in_at=1; print "[ atomtypes ]"; next} /^\\[/ && !/atomtypes/{in_at=0} in_at{print}' ${l.itpBasename} ${i === 0 ? ">" : ">>"} ligand_atomtypes.txt`,
     )
     .join("\n");
 
@@ -159,7 +159,7 @@ function buildLigandComplexCommands(
   const stripLines = uniqueLigands
     .map(
       (l, i) =>
-        `awk '/^\\[ *atomtypes/{in_at=1} /^\\[/ && !/atomtypes/{in_at=0} !in_at{print}' ${l.itpBasename} > ${strippedBasenames[i]}`,
+        `awk '/^;?[ ]*\\[ *atomtypes/{in_at=1} /^\\[/ && !/atomtypes/{in_at=0} !in_at{print}' ${l.itpBasename} > ${strippedBasenames[i]}`,
     )
     .join("\n");
 
@@ -230,13 +230,13 @@ export class SimulationCreationService {
         );
       }
 
-      // Copy the first ligand PDB as the canonical viewer file
-      if (ligandFiles.length > 0) {
-        const firstPDBBasename = ligandFiles[0].pdb.split("/").pop()!;
-        const firstPDBExt = firstPDBBasename.split(".").pop()!;
+      // Copy each ligand PDB as a canonical viewer file: originalLigand_0.pdb, originalLigand_1.pdb, …
+      for (let i = 0; i < ligandFiles.length; i++) {
+        const pdbBasename = ligandFiles[i].pdb.split("/").pop()!;
+        const pdbExt = pdbBasename.split(".").pop()!;
         cpSync(
-          `/files/${userName}/${id}/run/${firstPDBBasename}`,
-          `/files/${userName}/${id}/run/originalLigand.${firstPDBExt}`,
+          `/files/${userName}/${id}/run/${pdbBasename}`,
+          `/files/${userName}/${id}/run/originalLigand_${i}.${pdbExt}`,
         );
       }
     }

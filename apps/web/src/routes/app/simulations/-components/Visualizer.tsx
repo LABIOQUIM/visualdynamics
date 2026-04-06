@@ -43,7 +43,7 @@ export function Visualizer({ simulationId }: VisualizerProps) {
     <MolViewer
       macromolecules={{
         macromolecule: data.molecules.macromolecule,
-        ligandPdb: data.molecules.ligand,
+        ligandPdbs: data.molecules.ligands.length > 0 ? data.molecules.ligands : undefined,
       }}
     />
   );

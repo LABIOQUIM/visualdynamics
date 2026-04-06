@@ -24,7 +24,7 @@ export function MolViewer({ macromolecules }: Props) {
 
     // Load the macromolecule structure
     const macromolecule = macromolecules.macromolecule;
-    const ligandPdb = macromolecules.ligandPdb;
+    const ligandPdbs = macromolecules.ligandPdbs;
 
     if (macromolecule) {
       viewer.addModel(macromolecule, "pdb", {
@@ -32,9 +32,11 @@ export function MolViewer({ macromolecules }: Props) {
       });
     }
 
-    if (ligandPdb) {
-      viewer.addModel(ligandPdb, "pdb", {
-        style: { stick: {} },
+    if (ligandPdbs) {
+      ligandPdbs.forEach((ligandPdb) => {
+        viewer.addModel(ligandPdb, "pdb", {
+          style: { stick: {} },
+        });
       });
     }
 

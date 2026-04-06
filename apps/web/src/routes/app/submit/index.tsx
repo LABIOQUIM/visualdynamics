@@ -70,7 +70,7 @@ function RouteComponent() {
 
   const simulationType = useWatch({ control, name: "type" });
   const filePDB = useWatch({ control, name: "filePDB" });
-  const firstLigandPDB = useWatch({ control, name: "ligands.0.filePDB" });
+  const allLigandPDBs = useWatch({ control, name: "ligands" });
 
   const showLigandFields = simulationType === "acpype";
   const forceFields =
@@ -96,16 +96,21 @@ function RouteComponent() {
     }
   }, [filePDB]);
 
-  // Update 3D viewer when first ligand PDB file changes
+  // Update 3D viewer when any ligand PDB file changes
   useEffect(() => {
-    if (firstLigandPDB instanceof File) {
-      firstLigandPDB.text().then((text) => {
-        setFiles((prev) => ({ ...prev, ligandPdb: text }));
-      });
-    } else {
-      setFiles((prev) => ({ ...prev, ligandPdb: undefined }));
+    const ligandFiles = (allLigandPDBs ?? [])
+      .map((l) => l?.filePDB)
+      .filter((f): f is File => f instanceof File);
+
+    if (ligandFiles.length === 0) {
+      setFiles((prev) => ({ ...prev, ligandPdbs: undefined }));
+      return;
     }
-  }, [firstLigandPDB]);
+
+    Promise.all(ligandFiles.map((f) => f.text())).then((texts) => {
+      setFiles((prev) => ({ ...prev, ligandPdbs: texts }));
+    });
+  }, [allLigandPDBs]);
 
   function renderSelectOption(data: Record<string, string>, value: string) {
     return (

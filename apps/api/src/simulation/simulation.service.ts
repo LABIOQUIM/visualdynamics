@@ -64,7 +64,6 @@ export class SimulationService {
     const simulationFolderPath = `${userFolderPath}/${simulationId}`;
     const logFilePath = `${simulationFolderPath}/run/logs/gmx.log`;
     const molFilePath = `${simulationFolderPath}/run/originalMacromolecule.pdb`;
-    const ligFilePath = `${simulationFolderPath}/run/originalLigand.pdb`;
     const stepFilePath = `${simulationFolderPath}/steps.txt`;
 
     let isStored = false;
@@ -84,17 +83,10 @@ export class SimulationService {
       logData = readFileData(logFilePath, true);
     }
 
-    let molecules = {
-      macromolecule: null,
-      ligand: null,
-    };
+    let macromolecule: string | null = null;
 
     if (existsSync(molFilePath)) {
-      molecules.macromolecule = readFileData(molFilePath, false).join("\n");
-    }
-
-    if (existsSync(ligFilePath)) {
-      molecules.ligand = readFileData(ligFilePath, false).join("\n");
+      macromolecule = readFileData(molFilePath, false).join("\n");
     }
 
     const simulation = await this.prisma.simulation.findFirst({
@@ -126,6 +118,26 @@ export class SimulationService {
         },
       },
     });
+
+    // Read all canonical ligand PDB files ordered by position
+    const ligandPdbContents: string[] = [];
+    const ligandRecords = simulation?.ligands ?? [];
+
+    for (const ligandRecord of ligandRecords) {
+      const canonicalPath = `${simulationFolderPath}/run/originalLigand_${ligandRecord.position}.pdb`;
+      // Backward-compat: fall back to originalLigand.pdb for the first ligand
+      const fallbackPath = `${simulationFolderPath}/run/originalLigand.pdb`;
+      if (existsSync(canonicalPath)) {
+        ligandPdbContents.push(readFileData(canonicalPath, false).join("\n"));
+      } else if (ligandRecord.position === 0 && existsSync(fallbackPath)) {
+        ligandPdbContents.push(readFileData(fallbackPath, false).join("\n"));
+      }
+    }
+
+    const molecules = {
+      macromolecule,
+      ligands: ligandPdbContents,
+    };
 
     return {
       isActive,
