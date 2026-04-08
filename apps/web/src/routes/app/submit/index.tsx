@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Blockquote, Stack } from "@mantine/core";
-import { useFlag } from "@openfeature/react-sdk";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -46,9 +45,6 @@ function RouteComponent() {
   const simulationType = useWatch({ control, name: "type" });
   const filePDB = useWatch({ control, name: "filePDB" });
   const ligands = useWatch({ control, name: "ligands" });
-  const { value: maxLigands } = useFlag("simulation-max-ligands", 20);
-  const { value: submissionEnabled } = useFlag("simulation-submission", true);
-
   const files = useSimulationViewer(filePDB, ligands);
   const isAcpype = simulationType === "acpype";
   const forceFields = isAcpype ? allForceFields.acpype : allForceFields.apo;
@@ -75,7 +71,6 @@ function RouteComponent() {
                   control={control}
                   formState={formState}
                   isAcpype={isAcpype}
-                  maxLigands={maxLigands}
                 />
               </SectionContainer>
               <ParametersSection control={control} forceFields={forceFields} />
@@ -85,7 +80,6 @@ function RouteComponent() {
               onDownloadCommands={handleSubmit((v) =>
                 submitSimulation(v, false),
               )}
-              submissionEnabled={submissionEnabled}
               submitClassName={classes.formSubmitButton}
             />
           </div>

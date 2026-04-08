@@ -1,21 +1,22 @@
 import { Button } from "@mantine/core";
+import { useFlag } from "@openfeature/react-sdk";
 import { IconDownload, IconPlayerPlay } from "@tabler/icons-react";
 
 import { downloadMdpFiles } from "@/mutations/downloadMdpFiles";
 
 interface Props {
   onDownloadCommands: () => void;
-  submissionEnabled: boolean;
   submitClassName: string;
   containerClassName: string;
 }
 
 export function FormActions({
   onDownloadCommands,
-  submissionEnabled,
   submitClassName,
   containerClassName,
 }: Props) {
+  const { value: submissionEnabled } = useFlag("simulation-submission", true);
+
   return (
     <div className={containerClassName}>
       <Button

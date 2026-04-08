@@ -5,6 +5,7 @@ import type {
   Provider,
   ResolutionDetails,
 } from "@openfeature/web-sdk";
+import { ProviderEvents } from "@openfeature/web-sdk";
 
 interface FlagConfig {
   type: string;
@@ -117,7 +118,17 @@ export class ApiFeatureFlagProvider implements Provider {
       });
 
       if (response.ok) {
-        this.flags = (await response.json()) as FlagStore;
+        const newFlags = (await response.json()) as FlagStore;
+        const changedKeys = Object.keys(newFlags).filter(
+          (key) =>
+            JSON.stringify(newFlags[key]) !== JSON.stringify(this.flags[key]),
+        );
+        this.flags = newFlags;
+        if (changedKeys.length > 0) {
+          this.events?.emit(ProviderEvents.ConfigurationChanged, {
+            flagsChanged: changedKeys,
+          });
+        }
       }
     } catch {
       // Silently fail — use cached/default values

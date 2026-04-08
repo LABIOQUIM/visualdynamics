@@ -1,4 +1,4 @@
-import { Controller, type Control, type FormState } from "react-hook-form";
+import { type Control, Controller, type FormState } from "react-hook-form";
 import { FileInput, Stack } from "@mantine/core";
 
 import { LigandFields } from "./LigandFields";
@@ -7,11 +7,10 @@ import type { SimulationFormValues } from "./schema";
 interface Props {
   control: Control<SimulationFormValues>;
   formState: FormState<SimulationFormValues>;
-  maxLigands: number;
   isAcpype: boolean;
 }
 
-export function FilesSection({ control, formState, maxLigands, isAcpype }: Props) {
+export function FilesSection({ control, formState, isAcpype }: Props) {
   return (
     <Stack gap="xs">
       <Controller
@@ -32,13 +31,7 @@ export function FilesSection({ control, formState, maxLigands, isAcpype }: Props
           />
         )}
       />
-      {isAcpype && (
-        <LigandFields
-          control={control}
-          formState={formState}
-          maxLigands={maxLigands}
-        />
-      )}
+      {isAcpype && <LigandFields control={control} formState={formState} />}
     </Stack>
   );
 }

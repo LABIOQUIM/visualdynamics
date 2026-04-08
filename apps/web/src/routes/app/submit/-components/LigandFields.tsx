@@ -16,6 +16,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import { useFlag } from "@openfeature/react-sdk";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 
 import type { SimulationFormValues } from "./schema";
@@ -23,10 +24,10 @@ import type { SimulationFormValues } from "./schema";
 interface Props {
   control: Control<SimulationFormValues>;
   formState: FormState<SimulationFormValues>;
-  maxLigands: number;
 }
 
-export function LigandFields({ control, formState, maxLigands }: Props) {
+export function LigandFields({ control, formState }: Props) {
+  const { value: maxLigands } = useFlag("simulation-max-ligands", 20);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "ligands",
