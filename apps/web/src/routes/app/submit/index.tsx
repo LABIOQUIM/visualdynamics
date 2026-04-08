@@ -1,5 +1,6 @@
 import classes from "./index.module.css";
 
+import { useEffect, useState } from "react";
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -10,11 +11,13 @@ import {
   FileInput,
   Group,
   NumberInput,
+  Paper,
   Select,
   Stack,
   Text,
   Title,
 } from "@mantine/core";
+import { useFlag } from "@openfeature/react-sdk";
 import {
   IconChevronDown,
   IconDownload,
@@ -24,7 +27,6 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 
 import {
   allForceFields,
@@ -53,26 +55,33 @@ function RouteComponent() {
     macromolecule: "",
   });
 
-  const { control, handleSubmit, setValue, formState } = useForm<SimulationFormValues>({
-    resolver: zodResolver(simulationSchema),
-    defaultValues: {
-      type: "apo",
-      forceField: "",
-      waterModel: "",
-      boxType: "",
-      boxDistance: 0.1,
-      ligands: [],
-    },
-  });
+  const { control, handleSubmit, setValue, formState } =
+    useForm<SimulationFormValues>({
+      resolver: zodResolver(simulationSchema),
+      defaultValues: {
+        type: "apo",
+        forceField: "",
+        waterModel: "",
+        boxType: "",
+        boxDistance: 0.1,
+        ligands: [],
+      },
+    });
 
-  const { fields: ligandFields, append: appendLigand, remove: removeLigand } =
-    useFieldArray({ control, name: "ligands" });
+  const {
+    fields: ligandFields,
+    append: appendLigand,
+    remove: removeLigand,
+  } = useFieldArray({ control, name: "ligands" });
 
   const simulationType = useWatch({ control, name: "type" });
   const filePDB = useWatch({ control, name: "filePDB" });
   const allLigandPDBs = useWatch({ control, name: "ligands" });
 
+  const { value: maxLigands } = useFlag("simulation-max-ligands", 20);
+
   const showLigandFields = simulationType === "acpype";
+  const atLigandLimit = ligandFields.length >= maxLigands;
   const forceFields =
     simulationType === "acpype" ? allForceFields.acpype : allForceFields.apo;
 
@@ -84,6 +93,16 @@ function RouteComponent() {
   useEffect(() => {
     setValue("forceField", "");
   }, [simulationType, setValue]);
+
+  // Auto-add the first ligand when switching to ACPYPE
+  useEffect(() => {
+    if (simulationType === "acpype" && ligandFields.length === 0) {
+      appendLigand({
+        filePDB: undefined as unknown as File,
+        fileITP: undefined as unknown as File,
+      });
+    }
+  }, [simulationType, ligandFields.length, appendLigand]);
 
   // Update 3D viewer when protein PDB file changes
   useEffect(() => {
@@ -150,29 +169,36 @@ function RouteComponent() {
       <Heading title="Submit Simulation" />
       <form className={classes.form} onSubmit={onRunSimulation}>
         <div className={classes.layout}>
-          <Stack className={classes.formColumn} gap="md">
-            <Controller
-              control={control}
-              name="type"
-              render={({ field, fieldState }) => (
-                <Select
-                  data={Object.keys(simulationTypes)}
-                  error={fieldState.error?.message}
-                  label="Simulation Type"
-                  onChange={field.onChange}
-                  placeholder="Select a simulation type"
-                  renderOption={({ option }) =>
-                    renderSelectOption(simulationTypes, option.value)
-                  }
-                  rightSection={<IconChevronDown />}
-                  searchable
-                  styles={selectDropdownStyles}
-                  value={field.value}
-                  withScrollArea={false}
-                />
-              )}
-            />
+          <Stack className={classes.formColumn} gap="lg">
+            {/* Simulation Type */}
+            <Box>
+              <Title mb="xs" order={5}>
+                Simulation
+              </Title>
+              <Controller
+                control={control}
+                name="type"
+                render={({ field, fieldState }) => (
+                  <Select
+                    data={Object.keys(simulationTypes)}
+                    error={fieldState.error?.message}
+                    label="Type"
+                    onChange={field.onChange}
+                    placeholder="Select a simulation type"
+                    renderOption={({ option }) =>
+                      renderSelectOption(simulationTypes, option.value)
+                    }
+                    rightSection={<IconChevronDown />}
+                    searchable
+                    styles={selectDropdownStyles}
+                    value={field.value}
+                    withScrollArea={false}
+                  />
+                )}
+              />
+            </Box>
 
+            {/* Files */}
             <Box>
               <Title mb="xs" order={5}>
                 Files
@@ -185,10 +211,11 @@ function RouteComponent() {
                     <FileInput
                       accept=".pdb"
                       clearable
+                      description="PDB format"
                       error={fieldState.error?.message}
-                      label="Protein (PDB)"
+                      label="Protein"
                       onChange={onChange}
-                      placeholder="Upload Protein PDB file"
+                      placeholder="Upload protein PDB file"
                       ref={ref}
                       value={value}
                       withAsterisk
@@ -197,33 +224,45 @@ function RouteComponent() {
                 />
                 {showLigandFields && (
                   <Box>
-                    <Group justify="space-between" mb="xs">
-                      <Text fw={500} size="sm">
-                        Ligands
-                      </Text>
-                      <Button
-                        leftSection={<IconPlus size={14} />}
-                        onClick={() =>
-                          appendLigand({
-                            filePDB: undefined as unknown as File,
-                            fileITP: undefined as unknown as File,
-                          })
-                        }
-                        size="xs"
-                        variant="light"
-                      >
-                        Add Ligand
-                      </Button>
+                    <Group align="center" justify="space-between" mb="xs">
+                      <Title order={6}>Ligands</Title>
+                      <Group gap="xs">
+                        {/* Counter — always rendered to avoid layout shift */}
+                        <Text
+                          c={atLigandLimit ? "orange" : "dimmed"}
+                          size="xs"
+                          style={{
+                            visibility:
+                              ligandFields.length > 0 ? "visible" : "hidden",
+                          }}
+                        >
+                          {ligandFields.length}/{maxLigands}
+                        </Text>
+                        <Button
+                          disabled={atLigandLimit}
+                          leftSection={<IconPlus size={14} />}
+                          onClick={() =>
+                            appendLigand({
+                              filePDB: undefined as unknown as File,
+                              fileITP: undefined as unknown as File,
+                            })
+                          }
+                          size="xs"
+                          variant="light"
+                        >
+                          Add Ligand
+                        </Button>
+                      </Group>
                     </Group>
                     {formState.errors.ligands?.message && (
                       <Text c="red" mb="xs" size="sm">
                         {formState.errors.ligands.message as string}
                       </Text>
                     )}
-                    <Stack gap="xs">
+                    <Stack gap="sm">
                       {ligandFields.map((field, index) => (
-                        <Box key={field.id}>
-                          <Group justify="space-between" mb={4}>
+                        <Paper key={field.id} p="sm" radius="sm" withBorder>
+                          <Group justify="space-between" mb="xs">
                             <Text fw={500} size="sm">
                               Ligand {index + 1}
                             </Text>
@@ -247,10 +286,11 @@ function RouteComponent() {
                                 <FileInput
                                   accept=".pdb"
                                   clearable
+                                  description="PDB format"
                                   error={fieldState.error?.message}
-                                  label="Ligand (PDB)"
+                                  label="Structure"
                                   onChange={(val) => onChange(val ?? undefined)}
-                                  placeholder="Upload Ligand PDB file"
+                                  placeholder="Upload ligand PDB file"
                                   ref={ref}
                                   value={value}
                                   withAsterisk
@@ -267,10 +307,11 @@ function RouteComponent() {
                                 <FileInput
                                   accept=".itp"
                                   clearable
+                                  description="ITP format"
                                   error={fieldState.error?.message}
-                                  label="Ligand (ITP)"
+                                  label="Topology"
                                   onChange={(val) => onChange(val ?? undefined)}
-                                  placeholder="Upload Ligand ITP file"
+                                  placeholder="Upload ligand ITP file"
                                   ref={ref}
                                   value={value}
                                   withAsterisk
@@ -278,7 +319,7 @@ function RouteComponent() {
                               )}
                             />
                           </Group>
-                        </Box>
+                        </Paper>
                       ))}
                     </Stack>
                   </Box>
@@ -286,6 +327,7 @@ function RouteComponent() {
               </Stack>
             </Box>
 
+            {/* Parameters */}
             <Box>
               <Title mb="xs" order={5}>
                 Parameters
@@ -368,9 +410,10 @@ function RouteComponent() {
                         {...field}
                         allowNegative={false}
                         decimalScale={1}
+                        description="Range: 0.1 – 1.2 nm"
                         error={fieldState.error?.message}
                         fixedDecimalScale
-                        label="Box Distance (nm)"
+                        label="Box Distance"
                         max={1.2}
                         min={0.1}
                         onChange={(val) => {
@@ -387,7 +430,7 @@ function RouteComponent() {
                             onChange(Number.isNaN(parsed) ? undefined : parsed);
                           }
                         }}
-                        placeholder="Input a value"
+                        placeholder="0.1"
                         step={0.1}
                         value={value ?? undefined}
                       />

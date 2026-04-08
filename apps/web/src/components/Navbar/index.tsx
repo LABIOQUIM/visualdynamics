@@ -5,6 +5,7 @@ import {
   IconAutomation,
   IconBrandGithub,
   IconExternalLink,
+  IconFlag,
   IconInfoCircle,
   IconListNumbers,
   IconMail,
@@ -96,6 +97,11 @@ const adminSection: NavSection = {
       label: "Tools",
       icon: IconTools,
       href: "/app/mgmt/tools",
+    },
+    {
+      label: "Feature Flags",
+      icon: IconFlag,
+      href: "/app/mgmt/feature-flags",
     },
     {
       label: "Settings",

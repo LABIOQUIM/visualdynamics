@@ -175,3 +175,24 @@ model SimulationLigand {
   @@index([simulationId])
   @@map("simulation_ligand")
 }
+
+enum FEATURE_FLAG_TYPE {
+  BOOLEAN
+  STRING
+  NUMBER
+}
+
+model FeatureFlag {
+  id             String            @id @default(uuid())
+  key            String            @unique
+  type           FEATURE_FLAG_TYPE @default(BOOLEAN)
+  enabled        Boolean           @default(true)
+  defaultVariant String            @map("default_variant")
+  variants       Json
+  description    String?
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime?         @updatedAt @map("updated_at")
+
+  @@index([key])
+  @@map("feature_flag")
+}

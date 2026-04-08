@@ -3004,6 +3004,53 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openfeature/core@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "@openfeature/core@npm:1.9.2"
+  checksum: 10/935736b2a3d199fcf85068c40f87ea4db108a475982562851d016a36e00898a9ae37ba90fe4562c6952d1951c7dc9b0ee2d35dceaf3be489e0d27eff2c395663
+  languageName: node
+  linkType: hard
+
+"@openfeature/nestjs-sdk@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "@openfeature/nestjs-sdk@npm:0.2.5"
+  peerDependencies:
+    "@nestjs/common": ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+    "@nestjs/core": ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0
+    "@openfeature/server-sdk": ^1.17.1
+    rxjs: ^6.0.0 || ^7.0.0 || 8.0.0
+  checksum: 10/dd5054012df973746064065e5baa85130b22f258d8b46165943b24f7827f9fa82dd65301f169c5850aa84161c39a1b3d58e0f68855fd7bc642dfbca0213479f2
+  languageName: node
+  linkType: hard
+
+"@openfeature/react-sdk@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@openfeature/react-sdk@npm:1.2.1"
+  peerDependencies:
+    "@openfeature/web-sdk": ^1.5.0
+    react: ">=16.8.0"
+  checksum: 10/a85242e8e57540b05bce91e8deaeccac5de8da3f2ff8246bdbfe03350397c614fc7248b6018264016644837d2b47c6e34695a8ac334880251ead03ec8428263c
+  languageName: node
+  linkType: hard
+
+"@openfeature/server-sdk@npm:^1.20.2":
+  version: 1.20.2
+  resolution: "@openfeature/server-sdk@npm:1.20.2"
+  peerDependencies:
+    "@openfeature/core": ^1.9.2
+  checksum: 10/817ed2ce4e74b6f2aee46054251631a9bf7a6a6c8ced153c6dea5b562e971b7a89e0a967c6d3a8d39214f637bf7bd088dd8fbced145d6ab4b4c1964caa50f3b5
+  languageName: node
+  linkType: hard
+
+"@openfeature/web-sdk@npm:^1.7.3":
+  version: 1.7.3
+  resolution: "@openfeature/web-sdk@npm:1.7.3"
+  peerDependencies:
+    "@openfeature/core": ^1.9.2
+  checksum: 10/0789b251e2354d898ba5d1b4548ab10eee3474b508e756722431d2b3d66916e5da9e7996a78f02e7cbc9e5534e891931c6fed2dac07f6f60bb42c2c3f6a0487b
+  languageName: node
+  linkType: hard
+
 "@opentelemetry/api@npm:^1.9.1":
   version: 1.9.1
   resolution: "@opentelemetry/api@npm:1.9.1"
@@ -5460,6 +5507,9 @@ __metadata:
     "@nestjs/schematics": "npm:11.0.9"
     "@nestjs/swagger": "npm:11.2.1"
     "@nestjs/testing": "npm:11.1.9"
+    "@openfeature/core": "npm:^1.9.2"
+    "@openfeature/nestjs-sdk": "npm:^0.2.5"
+    "@openfeature/server-sdk": "npm:^1.20.2"
     "@opentelemetry/api": "npm:^1.9.1"
     "@prisma/adapter-pg": "npm:^7.2.0"
     "@prisma/client": "npm:^7.2.0"
@@ -18622,6 +18672,9 @@ __metadata:
     "@mantine/spotlight": "npm:^9.0.0"
     "@mantine/tiptap": "npm:^9.0.0"
     "@melloware/react-logviewer": "npm:^6.3.5"
+    "@openfeature/core": "npm:^1.9.2"
+    "@openfeature/react-sdk": "npm:^1.2.1"
+    "@openfeature/web-sdk": "npm:^1.7.3"
     "@opentelemetry/api": "npm:^1.9.1"
     "@tabler/icons-react": "npm:^3.35.0"
     "@tanstack/react-query": "npm:^5.90.10"

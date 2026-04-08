@@ -19,6 +19,8 @@ import { FileFieldsInterceptor } from "@nestjs/platform-express";
 import { Session } from "@thallesp/nestjs-better-auth";
 import { Request } from "express";
 
+import { OpenFeature } from "@openfeature/server-sdk";
+
 import { SIMULATION_TYPE } from "../generated/prisma/client";
 import { SimulationUpdateInput } from "../generated/prisma/models";
 import { auth } from "../lib/auth";
@@ -91,6 +93,19 @@ export class SimulationController {
       if (itpFiles.length !== pdbFiles.length) {
         throw new HttpException(
           { status: "ligand-files-count-mismatch" },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const flagClient = OpenFeature.getClient();
+      const maxLigands = await flagClient.getNumberValue(
+        "simulation-max-ligands",
+        20,
+      );
+
+      if (itpFiles.length > maxLigands) {
+        throw new HttpException(
+          { status: "too-many-ligands", max: maxLigands },
           HttpStatus.BAD_REQUEST,
         );
       }

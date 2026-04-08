@@ -27,6 +27,7 @@ import { Route as AppMgmtUsersRouteImport } from './routes/app/mgmt/users'
 import { Route as AppMgmtSimulationsRouteImport } from './routes/app/mgmt/simulations'
 import { Route as AppMgmtSettingsRouteImport } from './routes/app/mgmt/settings'
 import { Route as AppMgmtServerRouteImport } from './routes/app/mgmt/server'
+import { Route as AppMgmtFeatureFlagsRouteImport } from './routes/app/mgmt/feature-flags'
 import { Route as AppMgmtToolsIndexRouteImport } from './routes/app/mgmt/tools/index'
 import { Route as AppMgmtToolsUserImporterRouteRouteImport } from './routes/app/mgmt/tools/user-importer/route'
 import { Route as AppMgmtToolsSimulationImporterRouteRouteImport } from './routes/app/mgmt/tools/simulation-importer/route'
@@ -124,6 +125,11 @@ const AppMgmtServerRoute = AppMgmtServerRouteImport.update({
   path: '/server',
   getParentRoute: () => AppMgmtRouteRoute,
 } as any)
+const AppMgmtFeatureFlagsRoute = AppMgmtFeatureFlagsRouteImport.update({
+  id: '/feature-flags',
+  path: '/feature-flags',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
 const AppMgmtToolsIndexRoute = AppMgmtToolsIndexRouteImport.update({
   id: '/tools/',
   path: '/tools/',
@@ -166,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
+  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsRoute
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
@@ -190,6 +197,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
+  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsRoute
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/(home)/': typeof homeIndexRoute
+  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsRoute
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
@@ -241,6 +250,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
+    | '/app/mgmt/feature-flags'
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
@@ -265,6 +275,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
+    | '/app/mgmt/feature-flags'
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/(home)/'
+    | '/app/mgmt/feature-flags'
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
@@ -441,6 +453,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtServerRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
+    '/app/mgmt/feature-flags': {
+      id: '/app/mgmt/feature-flags'
+      path: '/feature-flags'
+      fullPath: '/app/mgmt/feature-flags'
+      preLoaderRoute: typeof AppMgmtFeatureFlagsRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
     '/app/mgmt/tools/': {
       id: '/app/mgmt/tools/'
       path: '/tools'
@@ -509,6 +528,7 @@ const AppMgmtToolsUserImporterRouteRouteWithChildren =
   )
 
 interface AppMgmtRouteRouteChildren {
+  AppMgmtFeatureFlagsRoute: typeof AppMgmtFeatureFlagsRoute
   AppMgmtServerRoute: typeof AppMgmtServerRoute
   AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
   AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
@@ -519,6 +539,7 @@ interface AppMgmtRouteRouteChildren {
 }
 
 const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
+  AppMgmtFeatureFlagsRoute: AppMgmtFeatureFlagsRoute,
   AppMgmtServerRoute: AppMgmtServerRoute,
   AppMgmtSettingsRoute: AppMgmtSettingsRoute,
   AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,

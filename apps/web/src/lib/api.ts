@@ -84,5 +84,18 @@ export async function getAPIClient() {
       const data = (await response.json()) as T;
       return { data };
     },
+
+    delete: async <T = unknown>(path: string): Promise<{ data: T }> => {
+      const response = await fetch(`${BASE_URL}${path}`, {
+        method: "DELETE",
+        headers: { Authorization: authHeader },
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const data = (await response.json()) as T;
+      return { data };
+    },
   };
 }
