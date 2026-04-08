@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .layout {
@@ -9,24 +11,39 @@
   grid-template-columns: 1fr;
   gap: var(--mantine-spacing-md);
   flex: 1;
-  padding-bottom: var(--mantine-spacing-md);
+  min-height: 0;
+  overflow: hidden;
 
   @media (min-width: $mantine-breakpoint-xl) {
     grid-template-columns: 1fr 1fr;
-    padding-bottom: unset;
   }
 }
 
 .formColumn {
   min-width: 0;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.formScrollArea {
+  flex: 1;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  min-height: 0;
+  padding-right: var(--mantine-spacing-xs);
+  padding-bottom: var(--mantine-spacing-md);
 }
 
 .formButtons {
-  margin-top: auto;
+  flex-shrink: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--mantine-spacing-md);
+  padding-top: var(--mantine-spacing-md);
+  border-top: 1px solid var(--mantine-color-default-border);
 }
 
 .formSubmitButton {

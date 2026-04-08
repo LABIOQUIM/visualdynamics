@@ -1,8 +1,8 @@
 import classes from "./PageLayout.module.css";
 
+import type { PropsWithChildren } from "react";
 import { Box, type BoxProps } from "@mantine/core";
 import clsx from "clsx";
-import type { PropsWithChildren } from "react";
 
 export function PageLayout({
   children,

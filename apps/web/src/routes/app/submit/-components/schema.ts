@@ -10,15 +10,13 @@ export const simulationSchema = z
     type: z.enum(["apo", "acpype"] as const, {
       required_error: "Simulation type is required",
     }),
-    filePDB: z
-      .instanceof(File, { message: "PDB file is required" })
-      .refine(
-        async (file) => {
-          const text = await file.text();
-          return text.includes("ATOM") || text.includes("HETATM");
-        },
-        { message: "Invalid PDB file" },
-      ),
+    filePDB: z.instanceof(File, { message: "PDB file is required" }).refine(
+      async (file) => {
+        const text = await file.text();
+        return text.includes("ATOM") || text.includes("HETATM");
+      },
+      { message: "Invalid PDB file" },
+    ),
     ligands: z.array(ligandPairSchema).optional(),
     forceField: z.string().min(1, "Force field is required"),
     waterModel: z.string().min(1, "Water model is required"),
