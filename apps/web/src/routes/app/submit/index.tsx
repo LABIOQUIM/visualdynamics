@@ -47,6 +47,7 @@ function RouteComponent() {
   const filePDB = useWatch({ control, name: "filePDB" });
   const ligands = useWatch({ control, name: "ligands" });
   const { value: maxLigands } = useFlag("simulation-max-ligands", 20);
+  const { value: submissionEnabled } = useFlag("simulation-submission", true);
 
   const files = useSimulationViewer(filePDB, ligands);
   const isAcpype = simulationType === "acpype";
@@ -84,6 +85,7 @@ function RouteComponent() {
               onDownloadCommands={handleSubmit((v) =>
                 submitSimulation(v, false),
               )}
+              submissionEnabled={submissionEnabled}
               submitClassName={classes.formSubmitButton}
             />
           </div>

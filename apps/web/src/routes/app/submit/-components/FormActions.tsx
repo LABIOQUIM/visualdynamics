@@ -5,11 +5,17 @@ import { downloadMdpFiles } from "@/mutations/downloadMdpFiles";
 
 interface Props {
   onDownloadCommands: () => void;
+  submissionEnabled: boolean;
   submitClassName: string;
   containerClassName: string;
 }
 
-export function FormActions({ onDownloadCommands, submitClassName, containerClassName }: Props) {
+export function FormActions({
+  onDownloadCommands,
+  submissionEnabled,
+  submitClassName,
+  containerClassName,
+}: Props) {
   return (
     <div className={containerClassName}>
       <Button
@@ -30,6 +36,7 @@ export function FormActions({ onDownloadCommands, submitClassName, containerClas
       </Button>
       <Button
         className={submitClassName}
+        disabled={!submissionEnabled}
         leftSection={<IconPlayerPlay size={16} />}
         type="submit"
       >

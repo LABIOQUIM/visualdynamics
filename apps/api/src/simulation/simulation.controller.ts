@@ -16,10 +16,9 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { FileFieldsInterceptor } from "@nestjs/platform-express";
+import { OpenFeature } from "@openfeature/server-sdk";
 import { Session } from "@thallesp/nestjs-better-auth";
 import { Request } from "express";
-
-import { OpenFeature } from "@openfeature/server-sdk";
 
 import { SIMULATION_TYPE } from "../generated/prisma/client";
 import { SimulationUpdateInput } from "../generated/prisma/models";
@@ -62,6 +61,19 @@ export class SimulationController {
   ) {
     const { filePDB, fileLigandITP, fileLigandPDB } = files ?? {};
 
+    const flagClient = OpenFeature.getClient();
+    const submissionEnabled = await flagClient.getBooleanValue(
+      "simulation-submission",
+      true,
+    );
+
+    if (!submissionEnabled) {
+      throw new HttpException(
+        { status: "submission-disabled" },
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
+
     if (!filePDB?.[0]) {
       throw new HttpException(
         { status: "no-pdb-file" },
@@ -97,7 +109,6 @@ export class SimulationController {
         );
       }
 
-      const flagClient = OpenFeature.getClient();
       const maxLigands = await flagClient.getNumberValue(
         "simulation-max-ligands",
         20,
