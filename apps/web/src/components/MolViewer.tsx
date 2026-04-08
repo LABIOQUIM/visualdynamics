@@ -43,7 +43,23 @@ export function MolViewer({ macromolecules }: Props) {
     viewer.zoomTo();
     viewer.render();
 
+    const container = viewerRef.current;
+
+    function handleWheel(e: WheelEvent) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      // Invert 3Dmol's default: scroll up = zoom in, scroll down = zoom out
+      const factor = e.deltaY < 0 ? 1.1 : 0.9;
+      viewer.zoom(factor, 0);
+    }
+
+    container.addEventListener("wheel", handleWheel, {
+      capture: true,
+      passive: false,
+    });
+
     return () => {
+      container.removeEventListener("wheel", handleWheel, { capture: true });
       viewer.removeAllModels();
       viewer.clear();
     };
