@@ -1,8 +1,8 @@
-import { type Control, Controller } from "react-hook-form";
+import { type Control, Controller, useWatch } from "react-hook-form";
 import { Box, Group, NumberInput, Select, Stack, Text } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 
-import { boxTypes, waterModels } from "./constants";
+import { allForceFields, boxTypes, waterModels } from "./constants";
 import type { SimulationFormValues } from "./schema";
 import { SectionContainer } from "./SectionContainer";
 
@@ -23,10 +23,12 @@ function renderOption(data: Record<string, string>, value: string) {
 
 interface Props {
   control: Control<SimulationFormValues>;
-  forceFields: Record<string, string>;
 }
 
-export function ParametersSection({ control, forceFields }: Props) {
+export function ParametersSection({ control }: Props) {
+  const simulationType = useWatch({ control, name: "type" });
+  const isAcpype = simulationType === "acpype";
+  const forceFields = isAcpype ? allForceFields.acpype : allForceFields.apo;
   return (
     <SectionContainer title="Parameters">
       <Stack gap="xs">

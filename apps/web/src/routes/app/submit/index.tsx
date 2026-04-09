@@ -1,13 +1,11 @@
 import classes from "./index.module.css";
 
-import { useEffect } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Blockquote, Stack } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { allForceFields } from "./-components/constants";
 import { FilesSection } from "./-components/FilesSection";
 import { FormActions } from "./-components/FormActions";
 import { ParametersSection } from "./-components/ParametersSection";
@@ -16,11 +14,10 @@ import {
   simulationSchema,
 } from "./-components/schema";
 import { SectionContainer } from "./-components/SectionContainer";
+import { SimulationMolViewer } from "./-components/SimulationMolViewer";
 import { SimulationTypeSelector } from "./-components/SimulationTypeSelector";
-import { useSimulationViewer } from "./-components/useSimulationViewer";
 
 import { Heading } from "@/components/Heading";
-import { MolViewer } from "@/components/MolViewer";
 import { PageLayout } from "@/components/PageLayout";
 import { submitSimulation } from "@/mutations/submitSimulation";
 
@@ -29,7 +26,7 @@ export const Route = createFileRoute("/app/submit/")({
 });
 
 function RouteComponent() {
-  const { control, handleSubmit, setValue, formState } =
+  const { control, handleSubmit, resetField, formState } =
     useForm<SimulationFormValues>({
       resolver: zodResolver(simulationSchema),
       defaultValues: {
@@ -42,17 +39,6 @@ function RouteComponent() {
       },
     });
 
-  const simulationType = useWatch({ control, name: "type" });
-  const filePDB = useWatch({ control, name: "filePDB" });
-  const ligands = useWatch({ control, name: "ligands" });
-  const files = useSimulationViewer(filePDB, ligands);
-  const isAcpype = simulationType === "acpype";
-  const forceFields = isAcpype ? allForceFields.acpype : allForceFields.apo;
-
-  useEffect(() => {
-    setValue("forceField", "");
-  }, [simulationType, setValue]);
-
   return (
     <PageLayout>
       <Heading title="Submit Simulation" />
@@ -64,16 +50,15 @@ function RouteComponent() {
           <div className={classes.formColumn}>
             <Stack className={classes.formScrollArea} gap="lg">
               <SectionContainer title="Simulation Type">
-                <SimulationTypeSelector control={control} />
-              </SectionContainer>
-              <SectionContainer title="Files">
-                <FilesSection
+                <SimulationTypeSelector
                   control={control}
-                  formState={formState}
-                  isAcpype={isAcpype}
+                  onTypeChange={() => resetField("forceField")}
                 />
               </SectionContainer>
-              <ParametersSection control={control} forceFields={forceFields} />
+              <SectionContainer title="Files">
+                <FilesSection control={control} formState={formState} />
+              </SectionContainer>
+              <ParametersSection control={control} />
             </Stack>
             <FormActions
               containerClassName={classes.formButtons}
@@ -85,7 +70,7 @@ function RouteComponent() {
           </div>
 
           <div className={classes.viewerColumn}>
-            <MolViewer macromolecules={files} />
+            <SimulationMolViewer control={control} />
             <Blockquote color="blue" icon={<IconInfoCircle />}>
               Simulation time is fixed at 5ns. Contact{" "}
               <a href="mailto:fernando.zanchi@fiocruz.br">

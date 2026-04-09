@@ -1,4 +1,9 @@
-import { type Control, Controller, type FormState } from "react-hook-form";
+import {
+  type Control,
+  Controller,
+  type FormState,
+  useWatch,
+} from "react-hook-form";
 import { FileInput, Stack } from "@mantine/core";
 
 import { LigandFields } from "./LigandFields";
@@ -7,10 +12,11 @@ import type { SimulationFormValues } from "./schema";
 interface Props {
   control: Control<SimulationFormValues>;
   formState: FormState<SimulationFormValues>;
-  isAcpype: boolean;
 }
 
-export function FilesSection({ control, formState, isAcpype }: Props) {
+export function FilesSection({ control, formState }: Props) {
+  const simulationType = useWatch({ control, name: "type" });
+  const isAcpype = simulationType === "acpype";
   return (
     <Stack gap="xs">
       <Controller
