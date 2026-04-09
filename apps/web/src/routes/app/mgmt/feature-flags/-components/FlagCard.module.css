@@ -1,0 +1,11 @@
+.key {
+  min-width: 0;
+}
+
+.badge {
+  overflow: visible;
+}
+
+.actions {
+  justify-content: flex-end;
+}

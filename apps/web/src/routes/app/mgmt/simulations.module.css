@@ -17,8 +17,3 @@
   display: flex;
   justify-content: space-between;
 }
-
-.actionsContainer {
-  display: flex;
-  justify-content: flex-end;
-}

@@ -27,8 +27,10 @@ import { Route as AppMgmtUsersRouteImport } from './routes/app/mgmt/users'
 import { Route as AppMgmtSimulationsRouteImport } from './routes/app/mgmt/simulations'
 import { Route as AppMgmtSettingsRouteImport } from './routes/app/mgmt/settings'
 import { Route as AppMgmtServerRouteImport } from './routes/app/mgmt/server'
-import { Route as AppMgmtFeatureFlagsRouteImport } from './routes/app/mgmt/feature-flags'
 import { Route as AppMgmtToolsIndexRouteImport } from './routes/app/mgmt/tools/index'
+import { Route as AppMgmtFeatureFlagsIndexRouteImport } from './routes/app/mgmt/feature-flags/index'
+import { Route as AppMgmtFeatureFlagsNewRouteImport } from './routes/app/mgmt/feature-flags/new'
+import { Route as AppMgmtFeatureFlagsKeyRouteImport } from './routes/app/mgmt/feature-flags/$key'
 import { Route as AppMgmtToolsUserImporterRouteRouteImport } from './routes/app/mgmt/tools/user-importer/route'
 import { Route as AppMgmtToolsSimulationImporterRouteRouteImport } from './routes/app/mgmt/tools/simulation-importer/route'
 import { Route as AppMgmtToolsUserImporterIndexRouteImport } from './routes/app/mgmt/tools/user-importer/index'
@@ -125,14 +127,25 @@ const AppMgmtServerRoute = AppMgmtServerRouteImport.update({
   path: '/server',
   getParentRoute: () => AppMgmtRouteRoute,
 } as any)
-const AppMgmtFeatureFlagsRoute = AppMgmtFeatureFlagsRouteImport.update({
-  id: '/feature-flags',
-  path: '/feature-flags',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
 const AppMgmtToolsIndexRoute = AppMgmtToolsIndexRouteImport.update({
   id: '/tools/',
   path: '/tools/',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtFeatureFlagsIndexRoute =
+  AppMgmtFeatureFlagsIndexRouteImport.update({
+    id: '/feature-flags/',
+    path: '/feature-flags/',
+    getParentRoute: () => AppMgmtRouteRoute,
+  } as any)
+const AppMgmtFeatureFlagsNewRoute = AppMgmtFeatureFlagsNewRouteImport.update({
+  id: '/feature-flags/new',
+  path: '/feature-flags/new',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtFeatureFlagsKeyRoute = AppMgmtFeatureFlagsKeyRouteImport.update({
+  id: '/feature-flags/$key',
+  path: '/feature-flags/$key',
   getParentRoute: () => AppMgmtRouteRoute,
 } as any)
 const AppMgmtToolsUserImporterRouteRoute =
@@ -172,7 +185,6 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
-  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsRoute
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
@@ -182,6 +194,9 @@ export interface FileRoutesByFullPath {
   '/app/submit': typeof AppSubmitIndexRoute
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
+  '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
+  '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
+  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsIndexRoute
   '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
   '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
@@ -197,7 +212,6 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
-  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsRoute
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
@@ -205,6 +219,9 @@ export interface FileRoutesByTo {
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
+  '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
+  '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
+  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsIndexRoute
   '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterIndexRoute
@@ -222,7 +239,6 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/(home)/': typeof homeIndexRoute
-  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsRoute
   '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
@@ -232,6 +248,9 @@ export interface FileRoutesById {
   '/app/submit/': typeof AppSubmitIndexRoute
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
+  '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
+  '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
+  '/app/mgmt/feature-flags/': typeof AppMgmtFeatureFlagsIndexRoute
   '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
   '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
@@ -250,7 +269,6 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
-    | '/app/mgmt/feature-flags'
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
@@ -260,6 +278,9 @@ export interface FileRouteTypes {
     | '/app/submit'
     | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
+    | '/app/mgmt/feature-flags/$key'
+    | '/app/mgmt/feature-flags/new'
+    | '/app/mgmt/feature-flags'
     | '/app/mgmt/tools'
     | '/app/mgmt/tools/simulation-importer/'
     | '/app/mgmt/tools/user-importer/'
@@ -275,7 +296,6 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
-    | '/app/mgmt/feature-flags'
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
@@ -283,6 +303,9 @@ export interface FileRouteTypes {
     | '/app/simulations/$simulationId'
     | '/app'
     | '/app/submit'
+    | '/app/mgmt/feature-flags/$key'
+    | '/app/mgmt/feature-flags/new'
+    | '/app/mgmt/feature-flags'
     | '/app/mgmt/tools'
     | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
@@ -299,7 +322,6 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/(home)/'
-    | '/app/mgmt/feature-flags'
     | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
@@ -309,6 +331,9 @@ export interface FileRouteTypes {
     | '/app/submit/'
     | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
+    | '/app/mgmt/feature-flags/$key'
+    | '/app/mgmt/feature-flags/new'
+    | '/app/mgmt/feature-flags/'
     | '/app/mgmt/tools/'
     | '/app/mgmt/tools/simulation-importer/'
     | '/app/mgmt/tools/user-importer/'
@@ -453,18 +478,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtServerRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
-    '/app/mgmt/feature-flags': {
-      id: '/app/mgmt/feature-flags'
-      path: '/feature-flags'
-      fullPath: '/app/mgmt/feature-flags'
-      preLoaderRoute: typeof AppMgmtFeatureFlagsRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
-    }
     '/app/mgmt/tools/': {
       id: '/app/mgmt/tools/'
       path: '/tools'
       fullPath: '/app/mgmt/tools'
       preLoaderRoute: typeof AppMgmtToolsIndexRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/feature-flags/': {
+      id: '/app/mgmt/feature-flags/'
+      path: '/feature-flags'
+      fullPath: '/app/mgmt/feature-flags'
+      preLoaderRoute: typeof AppMgmtFeatureFlagsIndexRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/feature-flags/new': {
+      id: '/app/mgmt/feature-flags/new'
+      path: '/feature-flags/new'
+      fullPath: '/app/mgmt/feature-flags/new'
+      preLoaderRoute: typeof AppMgmtFeatureFlagsNewRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/feature-flags/$key': {
+      id: '/app/mgmt/feature-flags/$key'
+      path: '/feature-flags/$key'
+      fullPath: '/app/mgmt/feature-flags/$key'
+      preLoaderRoute: typeof AppMgmtFeatureFlagsKeyRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
     '/app/mgmt/tools/user-importer': {
@@ -528,18 +567,19 @@ const AppMgmtToolsUserImporterRouteRouteWithChildren =
   )
 
 interface AppMgmtRouteRouteChildren {
-  AppMgmtFeatureFlagsRoute: typeof AppMgmtFeatureFlagsRoute
   AppMgmtServerRoute: typeof AppMgmtServerRoute
   AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
   AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
   AppMgmtUsersRoute: typeof AppMgmtUsersRoute
   AppMgmtToolsSimulationImporterRouteRoute: typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   AppMgmtToolsUserImporterRouteRoute: typeof AppMgmtToolsUserImporterRouteRouteWithChildren
+  AppMgmtFeatureFlagsKeyRoute: typeof AppMgmtFeatureFlagsKeyRoute
+  AppMgmtFeatureFlagsNewRoute: typeof AppMgmtFeatureFlagsNewRoute
+  AppMgmtFeatureFlagsIndexRoute: typeof AppMgmtFeatureFlagsIndexRoute
   AppMgmtToolsIndexRoute: typeof AppMgmtToolsIndexRoute
 }
 
 const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
-  AppMgmtFeatureFlagsRoute: AppMgmtFeatureFlagsRoute,
   AppMgmtServerRoute: AppMgmtServerRoute,
   AppMgmtSettingsRoute: AppMgmtSettingsRoute,
   AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,
@@ -548,6 +588,9 @@ const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
     AppMgmtToolsSimulationImporterRouteRouteWithChildren,
   AppMgmtToolsUserImporterRouteRoute:
     AppMgmtToolsUserImporterRouteRouteWithChildren,
+  AppMgmtFeatureFlagsKeyRoute: AppMgmtFeatureFlagsKeyRoute,
+  AppMgmtFeatureFlagsNewRoute: AppMgmtFeatureFlagsNewRoute,
+  AppMgmtFeatureFlagsIndexRoute: AppMgmtFeatureFlagsIndexRoute,
   AppMgmtToolsIndexRoute: AppMgmtToolsIndexRoute,
 }
 
