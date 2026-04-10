@@ -27,7 +27,7 @@ interface Props {
 }
 
 export function LigandFields({ control, formState }: Props) {
-  const { value: maxLigands } = useFlag("simulation-max-ligands", 20);
+  const { value: maxLigands } = useFlag("simulation-max-ligands", 1);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "ligands",

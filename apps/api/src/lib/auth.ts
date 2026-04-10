@@ -3,6 +3,7 @@ import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { APIError, createAuthMiddleware } from "better-auth/api";
 import { admin, twoFactor, username } from "better-auth/plugins";
 import type { UndefinedOnPartialDeep } from "type-fest";
 
@@ -28,6 +29,30 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      if (ctx.path !== "/sign-up/email") {
+        return;
+      }
+
+      const flag = await prisma.featureFlag.findUnique({
+        where: { key: "signups-enabled" },
+      });
+
+      // Most limiting default: if the flag doesn't exist, is disabled, or
+      // its active variant is not explicitly `true`, block sign-ups.
+      const signsEnabled =
+        flag?.enabled === true &&
+        (flag.variants as Record<string, unknown>)?.[flag.defaultVariant] ===
+          true;
+
+      if (!signsEnabled) {
+        throw new APIError("FORBIDDEN", {
+          message: "Sign ups are currently disabled.",
+        });
+      }
+    }),
+  },
   plugins: [
     admin() as UndefinedOnPartialDeep<ReturnType<typeof admin>>,
     twoFactor() as UndefinedOnPartialDeep<ReturnType<typeof twoFactor>>,

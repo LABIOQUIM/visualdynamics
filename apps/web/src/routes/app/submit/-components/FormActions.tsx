@@ -15,7 +15,7 @@ export function FormActions({
   submitClassName,
   containerClassName,
 }: Props) {
-  const { value: submissionEnabled } = useFlag("simulation-submission", true);
+  const { value: submissionEnabled } = useFlag("simulation-submission", false);
 
   return (
     <div className={containerClassName}>

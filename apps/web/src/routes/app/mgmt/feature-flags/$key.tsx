@@ -13,6 +13,20 @@ export const Route = createFileRoute("/app/mgmt/feature-flags/$key")({
   component: RouteComponent,
 });
 
+function buildVariantsRecord(
+  variants: FlagFormValues["variants"],
+  type: FlagFormValues["type"],
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const { variantKey, variantValue } of variants) {
+    if (!variantKey.trim()) continue;
+    if (type === "BOOLEAN") result[variantKey] = variantValue === "true";
+    else if (type === "NUMBER") result[variantKey] = Number(variantValue);
+    else result[variantKey] = variantValue;
+  }
+  return result;
+}
+
 function RouteComponent() {
   const { key } = Route.useParams();
   const navigate = useNavigate();
@@ -23,11 +37,15 @@ function RouteComponent() {
 
   if (!flag) return null;
 
+  const variantEntries: FlagFormValues["variants"] = Object.entries(
+    flag.variants ?? {},
+  ).map(([k, v]) => ({ variantKey: k, variantValue: String(v) }));
+
   function handleSubmit(values: FlagFormValues) {
     const input: UpdateFeatureFlagInput = {
       enabled: values.enabled,
       defaultVariant: values.defaultVariant,
-      variants: JSON.parse(values.variants) as Record<string, unknown>,
+      variants: buildVariantsRecord(values.variants, values.type),
       description: values.description || undefined,
     };
 
@@ -47,7 +65,7 @@ function RouteComponent() {
           type: flag.type,
           enabled: flag.enabled,
           defaultVariant: flag.defaultVariant,
-          variants: JSON.stringify(flag.variants, null, 2),
+          variants: variantEntries,
           description: flag.description ?? "",
         }}
         isLoading={updateMutation.isPending}

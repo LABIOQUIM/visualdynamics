@@ -1,5 +1,6 @@
 import classes from "./register.module.css";
 
+import { useState } from "react";
 import {
   Anchor,
   Box,
@@ -9,8 +10,8 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useFlag } from "@openfeature/react-sdk";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
 
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/auth/register")({
 });
 
 function RouteComponent() {
+  const { value: signupsEnabled } = useFlag("signups-enabled", false);
   const [status, setStatus] = useState<FormSubmissionStatus>();
   const { getInputProps, onSubmit } = useForm<RegisterFormInputs>({
     initialValues: {
@@ -74,53 +76,73 @@ function RouteComponent() {
     <>
       <Heading title="Register" />
 
-      <Box
-        className={classes.formContainer}
-        component="form"
-        onSubmit={onSubmit(doRegister)}
-      >
-        {status && status.status !== "loading" && <Alert status={status} />}
-        <TextInput
-          disabled={status?.status === "loading"}
-          label="Name"
-          placeholder="e.g.: John Meyer"
-          withAsterisk
-          {...getInputProps("name")}
-        />
-        <TextInput
-          disabled={status?.status === "loading"}
-          label="Username"
-          placeholder="e.g.: johnmeyer"
-          withAsterisk
-          {...getInputProps("username")}
-        />
-        <TextInput
-          disabled={status?.status === "loading"}
-          label="Email"
-          placeholder="e.g.: john@doe.com"
-          withAsterisk
-          {...getInputProps("email")}
-        />
-        <PasswordInput
-          disabled={status?.status === "loading"}
-          label="Password"
-          placeholder="******"
-          type="password"
-          withAsterisk
-          {...getInputProps("password")}
-        />
+      {!signupsEnabled ? (
+        <>
+          <Alert
+            status={{
+              status: "error",
+              title: "Sign ups are currently disabled.",
+              message: "Please check back later or contact an administrator.",
+            }}
+          />
+          <Text ta="center">
+            Already have an account?{" "}
+            <Anchor component={Link} fw={500} to="/auth/login">
+              Login
+            </Anchor>
+          </Text>
+        </>
+      ) : (
+        <>
+          <Box
+            className={classes.formContainer}
+            component="form"
+            onSubmit={onSubmit(doRegister)}
+          >
+            {status && status.status !== "loading" && <Alert status={status} />}
+            <TextInput
+              disabled={status?.status === "loading"}
+              label="Name"
+              placeholder="e.g.: John Meyer"
+              withAsterisk
+              {...getInputProps("name")}
+            />
+            <TextInput
+              disabled={status?.status === "loading"}
+              label="Username"
+              placeholder="e.g.: johnmeyer"
+              withAsterisk
+              {...getInputProps("username")}
+            />
+            <TextInput
+              disabled={status?.status === "loading"}
+              label="Email"
+              placeholder="e.g.: john@doe.com"
+              withAsterisk
+              {...getInputProps("email")}
+            />
+            <PasswordInput
+              disabled={status?.status === "loading"}
+              label="Password"
+              placeholder="******"
+              type="password"
+              withAsterisk
+              {...getInputProps("password")}
+            />
 
-        <Button loading={status?.status === "loading"} type="submit">
-          Register
-        </Button>
-      </Box>
+            <Button loading={status?.status === "loading"} type="submit">
+              Register
+            </Button>
+          </Box>
 
-      <Text ta="center">
-        Already have an account?{" "}
-        <Anchor component={Link} fw={500} to="/auth/login">
-          Login
-        </Anchor>
-      </Text>
+          <Text ta="center">
+            Already have an account?{" "}
+            <Anchor component={Link} fw={500} to="/auth/login">
+              Login
+            </Anchor>
+          </Text>
+        </>
+      )}
     </>
   );
 }

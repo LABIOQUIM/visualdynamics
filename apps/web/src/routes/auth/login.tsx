@@ -1,5 +1,6 @@
 import classes from "./login.module.css";
 
+import { useState } from "react";
 import {
   Anchor,
   Box,
@@ -9,8 +10,8 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useFlag } from "@openfeature/react-sdk";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/auth/login")({
 
 function RouteComponent() {
   const navigate = useNavigate({ from: "/auth/login" });
+  const { value: signupsEnabled } = useFlag("signups-enabled", false);
 
   const [status, setStatus] = useState<FormSubmissionStatus>();
   const { getInputProps, onSubmit } = useForm<FormInputs>({
@@ -131,9 +133,15 @@ function RouteComponent() {
 
       <Text ta="center">
         Don&apos;t have an account?{" "}
-        <Anchor component={Link} fw={500} to="/auth/register">
-          Register
-        </Anchor>
+        {signupsEnabled ? (
+          <Anchor component={Link} fw={500} to="/auth/register">
+            Register
+          </Anchor>
+        ) : (
+          <Text c="dimmed" component="span" fw={500}>
+            Sign ups are currently disabled.
+          </Text>
+        )}
       </Text>
     </>
   );
