@@ -31,20 +31,59 @@ export const auth = betterAuth({
   }),
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
+      // ── Maintenance mode: block non-admin sign-ins ────────────────────────
+      if (ctx.path === "/sign-in/email" || ctx.path === "/sign-in/username") {
+        const maintenanceFlag = await prisma.featureFlag.findUnique({
+          where: { key: "maintenance-mode" },
+        });
+
+        const maintenanceOn =
+          maintenanceFlag?.enabled === true &&
+          (maintenanceFlag.variants as Record<string, unknown>)?.[
+            maintenanceFlag.defaultVariant
+          ] === true;
+
+        if (maintenanceOn) {
+          // Look up the user attempting to sign in to check their role.
+          const identifier =
+            ctx.path === "/sign-in/email"
+              ? await prisma.user.findUnique({
+                  where: {
+                    email: (ctx.body as { email?: string })?.email ?? "",
+                  },
+                  select: { role: true },
+                })
+              : await prisma.user.findUnique({
+                  where: {
+                    username:
+                      (ctx.body as { username?: string })?.username ?? "",
+                  },
+                  select: { role: true },
+                });
+
+          if (identifier?.role !== "admin") {
+            throw new APIError("FORBIDDEN", {
+              message:
+                "The system is currently under maintenance. Only administrators can sign in.",
+            });
+          }
+        }
+      }
+
+      // ── Sign-ups: block when flag disabled ────────────────────────────────
       if (ctx.path !== "/sign-up/email") {
         return;
       }
 
-      const flag = await prisma.featureFlag.findUnique({
+      const signupsFlag = await prisma.featureFlag.findUnique({
         where: { key: "signups-enabled" },
       });
 
-      // Most limiting default: if the flag doesn't exist, is disabled, or
-      // its active variant is not explicitly `true`, block sign-ups.
       const signsEnabled =
-        flag?.enabled === true &&
-        (flag.variants as Record<string, unknown>)?.[flag.defaultVariant] ===
-          true;
+        signupsFlag?.enabled === true &&
+        (signupsFlag.variants as Record<string, unknown>)?.[
+          signupsFlag.defaultVariant
+        ] === true;
 
       if (!signsEnabled) {
         throw new APIError("FORBIDDEN", {

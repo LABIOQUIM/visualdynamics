@@ -9,7 +9,7 @@ import {
   Post,
   UnauthorizedException,
 } from "@nestjs/common";
-import { Session } from "@thallesp/nestjs-better-auth";
+import { AllowAnonymous, Session } from "@thallesp/nestjs-better-auth";
 
 import type { FEATURE_FLAG_TYPE, Prisma } from "../generated/prisma/client";
 import { auth } from "../lib/auth";
@@ -24,6 +24,7 @@ export class FeatureFlagController {
    * Public endpoint: returns all enabled flags for client consumption.
    * No auth required so the frontend can bootstrap flags before login.
    */
+  @AllowAnonymous()
   @Get("/client")
   async getClientFlags() {
     return this.featureFlagService.getAllFlagsForClient();

@@ -29,6 +29,7 @@ export const Route = createFileRoute("/auth/login")({
 function RouteComponent() {
   const navigate = useNavigate({ from: "/auth/login" });
   const { value: signupsEnabled } = useFlag("signups-enabled", false);
+  const { value: maintenanceMode } = useFlag("maintenance-mode", true);
 
   const [status, setStatus] = useState<FormSubmissionStatus>();
   const { getInputProps, onSubmit } = useForm<FormInputs>({
@@ -85,6 +86,19 @@ function RouteComponent() {
   }
 
   function RenderAlert() {
+    if (maintenanceMode) {
+      return (
+        <Alert
+          status={{
+            status: "error",
+            title: "System under maintenance",
+            message:
+              "Only administrators can sign in at this time. Please check back later.",
+          }}
+        />
+      );
+    }
+
     if (status && status.status !== "loading") {
       return <Alert status={status} />;
     }

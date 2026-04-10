@@ -1,9 +1,24 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
 .key {
   min-width: 0;
 }
 
-.badge {
-  overflow: visible;
+.variantKey {
+  font-size: var(--mantine-font-size-xs);
+  flex-shrink: 0;
+}
+
+.variantValue {
+  font-size: var(--mantine-font-size-xs);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
 }
 
 .actions {

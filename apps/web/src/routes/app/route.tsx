@@ -2,8 +2,10 @@ import "mantine-react-table-open/styles.css";
 import "@mantine/dropzone/styles.css";
 import classes from "./route.module.css";
 
+import { useEffect } from "react";
 import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { OpenFeature, useFlag } from "@openfeature/react-sdk";
 import {
   createFileRoute,
   Outlet,
@@ -26,6 +28,15 @@ export const Route = createFileRoute("/app")({
         },
       });
     }
+
+    const maintenance = OpenFeature.getClient().getBooleanValue(
+      "maintenance-mode",
+      true,
+    );
+
+    if (maintenance && context.auth.user.role !== "admin") {
+      throw redirect({ to: "/auth/login" });
+    }
   },
   component: RouteComponent,
 });
@@ -33,13 +44,21 @@ export const Route = createFileRoute("/app")({
 function RouteComponent() {
   const navigate = useNavigate({ from: "/app" });
   const { data } = authClient.useSession();
+  const { value: maintenanceMode } = useFlag("maintenance-mode", true);
+
+  const isNonAdminDuringMaintenance =
+    maintenanceMode && data?.user.role !== "admin";
+
+  useEffect(() => {
+    if (isNonAdminDuringMaintenance) {
+      void authClient.signOut().then(() => navigate({ to: "/auth/login" }));
+    }
+  }, [isNonAdminDuringMaintenance, navigate]);
 
   const [opened, { toggle }] = useDisclosure();
 
-  if (!data) {
-    navigate({ to: "/auth/login" });
-
-    return "test";
+  if (!data || isNonAdminDuringMaintenance) {
+    return null;
   }
 
   return (
