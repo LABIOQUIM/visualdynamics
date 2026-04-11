@@ -3,6 +3,8 @@ import { BullBoardModule } from "@bull-board/nestjs";
 import { BullModule } from "@nestjs/bullmq";
 import { Module } from "@nestjs/common";
 
+import { PrismaService } from "../prisma.service";
+
 import { MailerConsumer } from "./mailer.consumer";
 import { MailerssController } from "./mailer.controller";
 import { MailerService } from "./mailer.service";
@@ -21,6 +23,6 @@ import { MailerService } from "./mailer.service";
     }),
   ],
   controllers: [MailerssController],
-  providers: [MailerService, MailerConsumer],
+  providers: [MailerService, MailerConsumer, PrismaService],
 })
 export class MailerModule {}

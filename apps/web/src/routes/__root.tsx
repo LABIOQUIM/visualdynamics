@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
-import { NuqsAdapter } from "nuqs/adapters/tanstack-router";
 
 import { authClient } from "@/lib/auth-client";
 
@@ -24,9 +23,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 });
 
 function RootComponent() {
-  return (
-    <NuqsAdapter>
-      <Outlet />
-    </NuqsAdapter>
-  );
+  return <Outlet />;
 }

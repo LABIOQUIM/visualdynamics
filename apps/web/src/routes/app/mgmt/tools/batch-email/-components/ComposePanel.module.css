@@ -1,0 +1,46 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.editorWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+
+.editor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  /*
+   * Fixed height breakdown (all values subtracted from 100dvh):
+   *   var(--mantine-spacing-md) * 7:
+   *     *2  PageLayout height formula (parent padding)
+   *     *1  PageLayout flex gap (Heading → Grid)
+   *     *2  Paper p="md" (top + bottom)
+   *     *2  Stack default gap-md × 2 gaps (3 children)
+   *   60px  app header
+   *   40px  Heading (ActionIcon size=lg)
+   *   62px  TextInput (label ≈26px + input 36px)
+   *   26px  "Body" Text label (≈22px) + editorWrapper gap (4px)
+   *   42px  RichTextEditor toolbar
+   *   36px  Send button (Button size=sm default)
+   */
+  height: calc(100dvh - 260px - var(--mantine-spacing-md) * 7);
+  overflow-y: scroll;
+  
+}

@@ -33,8 +33,10 @@ import { Route as AppMgmtFeatureFlagsNewRouteImport } from './routes/app/mgmt/fe
 import { Route as AppMgmtFeatureFlagsKeyRouteImport } from './routes/app/mgmt/feature-flags/$key'
 import { Route as AppMgmtToolsUserImporterRouteRouteImport } from './routes/app/mgmt/tools/user-importer/route'
 import { Route as AppMgmtToolsSimulationImporterRouteRouteImport } from './routes/app/mgmt/tools/simulation-importer/route'
+import { Route as AppMgmtToolsBatchEmailRouteRouteImport } from './routes/app/mgmt/tools/batch-email/route'
 import { Route as AppMgmtToolsUserImporterIndexRouteImport } from './routes/app/mgmt/tools/user-importer/index'
 import { Route as AppMgmtToolsSimulationImporterIndexRouteImport } from './routes/app/mgmt/tools/simulation-importer/index'
+import { Route as AppMgmtToolsBatchEmailIndexRouteImport } from './routes/app/mgmt/tools/batch-email/index'
 
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
@@ -160,6 +162,12 @@ const AppMgmtToolsSimulationImporterRouteRoute =
     path: '/tools/simulation-importer',
     getParentRoute: () => AppMgmtRouteRoute,
   } as any)
+const AppMgmtToolsBatchEmailRouteRoute =
+  AppMgmtToolsBatchEmailRouteRouteImport.update({
+    id: '/tools/batch-email',
+    path: '/tools/batch-email',
+    getParentRoute: () => AppMgmtRouteRoute,
+  } as any)
 const AppMgmtToolsUserImporterIndexRoute =
   AppMgmtToolsUserImporterIndexRouteImport.update({
     id: '/',
@@ -171,6 +179,12 @@ const AppMgmtToolsSimulationImporterIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => AppMgmtToolsSimulationImporterRouteRoute,
+  } as any)
+const AppMgmtToolsBatchEmailIndexRoute =
+  AppMgmtToolsBatchEmailIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppMgmtToolsBatchEmailRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -192,12 +206,14 @@ export interface FileRoutesByFullPath {
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/': typeof ApphomeIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
+  '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
   '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
   '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsIndexRoute
   '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/batch-email/': typeof AppMgmtToolsBatchEmailIndexRoute
   '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
 }
@@ -223,6 +239,7 @@ export interface FileRoutesByTo {
   '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
   '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsIndexRoute
   '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailIndexRoute
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterIndexRoute
 }
@@ -246,12 +263,14 @@ export interface FileRoutesById {
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/(home)/': typeof ApphomeIndexRoute
   '/app/submit/': typeof AppSubmitIndexRoute
+  '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
   '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
   '/app/mgmt/feature-flags/': typeof AppMgmtFeatureFlagsIndexRoute
   '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/tools/batch-email/': typeof AppMgmtToolsBatchEmailIndexRoute
   '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
 }
@@ -276,12 +295,14 @@ export interface FileRouteTypes {
     | '/app/simulations/$simulationId'
     | '/app/'
     | '/app/submit'
+    | '/app/mgmt/tools/batch-email'
     | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
     | '/app/mgmt/feature-flags/$key'
     | '/app/mgmt/feature-flags/new'
     | '/app/mgmt/feature-flags'
     | '/app/mgmt/tools'
+    | '/app/mgmt/tools/batch-email/'
     | '/app/mgmt/tools/simulation-importer/'
     | '/app/mgmt/tools/user-importer/'
   fileRoutesByTo: FileRoutesByTo
@@ -307,6 +328,7 @@ export interface FileRouteTypes {
     | '/app/mgmt/feature-flags/new'
     | '/app/mgmt/feature-flags'
     | '/app/mgmt/tools'
+    | '/app/mgmt/tools/batch-email'
     | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
   id:
@@ -329,12 +351,14 @@ export interface FileRouteTypes {
     | '/app/simulations/$simulationId'
     | '/app/(home)/'
     | '/app/submit/'
+    | '/app/mgmt/tools/batch-email'
     | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
     | '/app/mgmt/feature-flags/$key'
     | '/app/mgmt/feature-flags/new'
     | '/app/mgmt/feature-flags/'
     | '/app/mgmt/tools/'
+    | '/app/mgmt/tools/batch-email/'
     | '/app/mgmt/tools/simulation-importer/'
     | '/app/mgmt/tools/user-importer/'
   fileRoutesById: FileRoutesById
@@ -520,6 +544,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtToolsSimulationImporterRouteRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
+    '/app/mgmt/tools/batch-email': {
+      id: '/app/mgmt/tools/batch-email'
+      path: '/tools/batch-email'
+      fullPath: '/app/mgmt/tools/batch-email'
+      preLoaderRoute: typeof AppMgmtToolsBatchEmailRouteRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
     '/app/mgmt/tools/user-importer/': {
       id: '/app/mgmt/tools/user-importer/'
       path: '/'
@@ -534,8 +565,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtToolsSimulationImporterIndexRouteImport
       parentRoute: typeof AppMgmtToolsSimulationImporterRouteRoute
     }
+    '/app/mgmt/tools/batch-email/': {
+      id: '/app/mgmt/tools/batch-email/'
+      path: '/'
+      fullPath: '/app/mgmt/tools/batch-email/'
+      preLoaderRoute: typeof AppMgmtToolsBatchEmailIndexRouteImport
+      parentRoute: typeof AppMgmtToolsBatchEmailRouteRoute
+    }
   }
 }
+
+interface AppMgmtToolsBatchEmailRouteRouteChildren {
+  AppMgmtToolsBatchEmailIndexRoute: typeof AppMgmtToolsBatchEmailIndexRoute
+}
+
+const AppMgmtToolsBatchEmailRouteRouteChildren: AppMgmtToolsBatchEmailRouteRouteChildren =
+  {
+    AppMgmtToolsBatchEmailIndexRoute: AppMgmtToolsBatchEmailIndexRoute,
+  }
+
+const AppMgmtToolsBatchEmailRouteRouteWithChildren =
+  AppMgmtToolsBatchEmailRouteRoute._addFileChildren(
+    AppMgmtToolsBatchEmailRouteRouteChildren,
+  )
 
 interface AppMgmtToolsSimulationImporterRouteRouteChildren {
   AppMgmtToolsSimulationImporterIndexRoute: typeof AppMgmtToolsSimulationImporterIndexRoute
@@ -571,6 +623,7 @@ interface AppMgmtRouteRouteChildren {
   AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
   AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
   AppMgmtUsersRoute: typeof AppMgmtUsersRoute
+  AppMgmtToolsBatchEmailRouteRoute: typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
   AppMgmtToolsSimulationImporterRouteRoute: typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   AppMgmtToolsUserImporterRouteRoute: typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   AppMgmtFeatureFlagsKeyRoute: typeof AppMgmtFeatureFlagsKeyRoute
@@ -584,6 +637,8 @@ const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
   AppMgmtSettingsRoute: AppMgmtSettingsRoute,
   AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,
   AppMgmtUsersRoute: AppMgmtUsersRoute,
+  AppMgmtToolsBatchEmailRouteRoute:
+    AppMgmtToolsBatchEmailRouteRouteWithChildren,
   AppMgmtToolsSimulationImporterRouteRoute:
     AppMgmtToolsSimulationImporterRouteRouteWithChildren,
   AppMgmtToolsUserImporterRouteRoute:
