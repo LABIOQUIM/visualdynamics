@@ -10,12 +10,7 @@ import StarterKit from "@tiptap/starter-kit";
 
 import { getAPIClient } from "@/lib/api";
 
-interface ComposePanelProps {
-  onSuccess: () => void;
-  selected: Set<string>;
-}
-
-export function ComposePanel({ onSuccess, selected }: ComposePanelProps) {
+export function ComposePanel() {
   const [subject, setSubject] = useState("");
   const [subjectError, setSubjectError] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
@@ -38,15 +33,6 @@ export function ComposePanel({ onSuccess, selected }: ComposePanelProps) {
     const html = editor?.getHTML() ?? "";
     const bodyEmpty = !editor?.getText().trim();
 
-    if (selected.size === 0) {
-      notifications.show({
-        color: "orange",
-        message: "Select at least one recipient.",
-        withBorder: true,
-      });
-      valid = false;
-    }
-
     if (bodyEmpty) {
       notifications.show({
         color: "orange",
@@ -61,22 +47,20 @@ export function ComposePanel({ onSuccess, selected }: ComposePanelProps) {
     setIsSending(true);
     try {
       const api = await getAPIClient();
-      await api.post("/mailer/batch", {
+      const { data } = await api.post<{ queued: number }>("/mailer/batch", {
         html,
         subject,
-        to: Array.from(selected),
       });
 
       notifications.show({
         color: "green",
         icon: <IconCheck size={16} />,
-        message: `${selected.size} email${selected.size !== 1 ? "s" : ""} queued successfully.`,
+        message: `${data.queued} email${data.queued !== 1 ? "s" : ""} queued successfully.`,
         withBorder: true,
       });
 
       setSubject("");
       editor?.commands.clearContent();
-      onSuccess();
     } catch (e) {
       notifications.show({
         color: "red",
@@ -111,29 +95,48 @@ export function ComposePanel({ onSuccess, selected }: ComposePanelProps) {
             }}
             editor={editor}
           >
-            <RichTextEditor.Toolbar sticky>
+            <RichTextEditor.Toolbar variant="subtle">
               <RichTextEditor.ControlsGroup>
                 <RichTextEditor.Bold />
                 <RichTextEditor.Italic />
+                <RichTextEditor.Underline />
                 <RichTextEditor.Strikethrough />
+                <RichTextEditor.ClearFormatting />
+                <RichTextEditor.Highlight />
+                <RichTextEditor.Code />
               </RichTextEditor.ControlsGroup>
+
               <RichTextEditor.ControlsGroup>
                 <RichTextEditor.H1 />
                 <RichTextEditor.H2 />
                 <RichTextEditor.H3 />
+                <RichTextEditor.H4 />
               </RichTextEditor.ControlsGroup>
+
               <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Blockquote />
+                <RichTextEditor.Hr />
                 <RichTextEditor.BulletList />
                 <RichTextEditor.OrderedList />
+                <RichTextEditor.Subscript />
+                <RichTextEditor.Superscript />
               </RichTextEditor.ControlsGroup>
+
               <RichTextEditor.ControlsGroup>
                 <RichTextEditor.Link />
                 <RichTextEditor.Unlink />
               </RichTextEditor.ControlsGroup>
+
               <RichTextEditor.ControlsGroup>
-                <RichTextEditor.Blockquote />
-                <RichTextEditor.Code />
-                <RichTextEditor.Hr />
+                <RichTextEditor.AlignLeft />
+                <RichTextEditor.AlignCenter />
+                <RichTextEditor.AlignJustify />
+                <RichTextEditor.AlignRight />
+              </RichTextEditor.ControlsGroup>
+
+              <RichTextEditor.ControlsGroup>
+                <RichTextEditor.Undo />
+                <RichTextEditor.Redo />
               </RichTextEditor.ControlsGroup>
             </RichTextEditor.Toolbar>
 
@@ -143,12 +146,11 @@ export function ComposePanel({ onSuccess, selected }: ComposePanelProps) {
 
         <Group>
           <Button
-            disabled={selected.size === 0}
             leftSection={<IconMailForward size={16} />}
             loading={isSending}
             onClick={handleSend}
           >
-            Send to {selected.size} recipient{selected.size !== 1 ? "s" : ""}
+            Send to all users
           </Button>
         </Group>
       </Stack>

@@ -40,22 +40,25 @@ export class MailerssController {
   async sendBatchMail(
     @Body()
     data: {
-      to: string[];
       subject: string;
       html: string;
     },
     @Session() _session: typeof auth.$Infer.Session,
   ) {
-    const from = process.env.SMTP_USER ?? "noreply@localhost";
-    for (const recipient of data.to) {
+    const users = await this.prisma.user.findMany({
+      select: { email: true },
+    });
+
+    const from = process.env.SMTP_FROM ?? "noreply@localhost";
+    for (const user of users) {
       await this.mailService.sendMail({
         from,
-        to: recipient,
+        to: user.email,
         subject: data.subject,
         html: data.html,
       });
     }
 
-    return { queued: data.to.length };
+    return { queued: users.length };
   }
 }

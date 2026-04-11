@@ -1,5 +1,6 @@
 import classes from "./users.module.css";
 
+import { useState } from "react";
 import { Stack, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
@@ -15,7 +16,6 @@ import {
   type MRT_TableOptions,
   useMantineReactTable,
 } from "mantine-react-table-open";
-import { useState } from "react";
 
 import { TableRoleCell } from "./-components/TableRoleCell";
 
