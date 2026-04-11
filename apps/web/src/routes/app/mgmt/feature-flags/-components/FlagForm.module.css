@@ -1,1 +1,25 @@
-/* layout is handled by Mantine Grid */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mantine-spacing-md);
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+.variantRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--mantine-spacing-xs);
+  align-items: center;
+}
+
+.variantHeader {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: var(--mantine-spacing-xs);
+}

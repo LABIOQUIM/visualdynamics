@@ -1,8 +1,9 @@
+import classes from "./FlagForm.module.css";
+
 import {
   ActionIcon,
   Badge,
   Button,
-  Grid,
   Group,
   NumberInput,
   Paper,
@@ -65,6 +66,43 @@ interface FlagFormProps {
   submitLabel?: string;
 }
 
+interface VariantValueInputProps {
+  type: FlagFormValues["type"];
+  entry: VariantEntry;
+  onChange: (value: string) => void;
+}
+
+function VariantValueInput({ type, entry, onChange }: VariantValueInputProps) {
+  if (type === "BOOLEAN") {
+    return (
+      <Switch
+        checked={entry.variantValue === "true"}
+        label={entry.variantValue === "true" ? "true" : "false"}
+        onChange={(e) => onChange(e.currentTarget.checked ? "true" : "false")}
+      />
+    );
+  }
+
+  if (type === "NUMBER") {
+    const numVal = Number(entry.variantValue);
+    return (
+      <NumberInput
+        onChange={(v) => onChange(String(v))}
+        placeholder="0"
+        value={Number.isNaN(numVal) ? "" : numVal}
+      />
+    );
+  }
+
+  return (
+    <TextInput
+      onChange={(e) => onChange(e.currentTarget.value)}
+      placeholder="value"
+      value={entry.variantValue}
+    />
+  );
+}
+
 export function FlagForm({
   initialValues,
   disabledFields = [],
@@ -96,15 +134,17 @@ export function FlagForm({
     new Map(
       values.variants
         .filter((e) => e.variantKey.trim())
-        .map((e) => [e.variantKey, { value: e.variantKey, label: e.variantKey }]),
+        .map((e) => [
+          e.variantKey,
+          { value: e.variantKey, label: e.variantKey },
+        ]),
     ).values(),
   );
 
   function addVariant() {
-    const defaultVal = values.type === "BOOLEAN" ? "true" : "";
     form.insertListItem("variants", {
       variantKey: "",
-      variantValue: defaultVal,
+      variantValue: values.type === "BOOLEAN" ? "true" : "",
     });
   }
 
@@ -112,151 +152,116 @@ export function FlagForm({
     form.removeListItem("variants", index);
   }
 
-  function renderValueInput(index: number, entry: VariantEntry) {
-    if (values.type === "BOOLEAN") {
-      return (
-        <Switch
-          checked={entry.variantValue === "true"}
-          label={entry.variantValue === "true" ? "true" : "false"}
-          onChange={(e) =>
-            form.setFieldValue(
-              `variants.${index}.variantValue`,
-              e.currentTarget.checked ? "true" : "false",
-            )
-          }
-        />
-      );
-    }
-
-    if (values.type === "NUMBER") {
-      const numVal = Number(entry.variantValue);
-      return (
-        <NumberInput
-          placeholder="0"
-          value={Number.isNaN(numVal) ? "" : numVal}
-          onChange={(v) =>
-            form.setFieldValue(`variants.${index}.variantValue`, String(v))
-          }
-        />
-      );
-    }
-
-    return (
-      <TextInput
-        placeholder="value"
-        {...form.getInputProps(`variants.${index}.variantValue`)}
-      />
-    );
-  }
-
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
-      <Grid gutter="xl">
-        {/* LEFT: Variants */}
-        <Grid.Col span={{ base: 12, md: 7 }}>
-          <Paper h="100%" p="md" withBorder>
-            <Stack>
-              <Group justify="space-between">
-                <Title order={5}>Variants</Title>
-                <Badge color={FLAG_TYPE_COLORS[values.type] ?? "gray"} variant="light">
-                  {values.type}
-                </Badge>
-              </Group>
-
-              {values.variants.length > 0 && (
-                <Group gap="xs" wrap="nowrap">
-                  <Text c="dimmed" size="xs" style={{ flex: 1 }}>
-                    Key
-                  </Text>
-                  <Text c="dimmed" size="xs" style={{ flex: 1 }}>
-                    Value
-                  </Text>
-                  <div style={{ width: 28 }} />
-                </Group>
-              )}
-
-              {values.variants.length === 0 && (
-                <Text c="dimmed" size="sm">
-                  No variants yet. Add one below.
-                </Text>
-              )}
-
-              {values.variants.map((entry, index) => (
-                <Group align="center" gap="xs" key={index} wrap="nowrap">
-                  <TextInput
-                    error={
-                      form.errors[`variants.${index}.variantKey`] as
-                        | string
-                        | undefined
-                    }
-                    placeholder="variant-key"
-                    style={{ flex: 1 }}
-                    {...form.getInputProps(`variants.${index}.variantKey`)}
-                  />
-                  <div style={{ flex: 1 }}>{renderValueInput(index, entry)}</div>
-                  <ActionIcon
-                    color="red"
-                    onClick={() => removeVariant(index)}
-                    variant="subtle"
-                  >
-                    <IconTrash size={14} />
-                  </ActionIcon>
-                </Group>
-              ))}
-
-              <Button
-                leftSection={<IconPlus size={14} />}
-                onClick={addVariant}
-                size="sm"
+      <div className={classes.grid}>
+        <Paper p="md" withBorder>
+          <Stack>
+            <Group justify="space-between">
+              <Title order={5}>Variants</Title>
+              <Badge
+                color={FLAG_TYPE_COLORS[values.type] ?? "gray"}
                 variant="light"
               >
-                Add Variant
-              </Button>
-            </Stack>
-          </Paper>
-        </Grid.Col>
-
-        {/* RIGHT: Settings */}
-        <Grid.Col span={{ base: 12, md: 5 }}>
-          <Stack>
-            <TextInput
-              disabled={disabledFields.includes("key")}
-              label="Key"
-              placeholder="my-feature-flag"
-              {...form.getInputProps("key")}
-            />
-            <Select
-              data={FLAG_TYPE_OPTIONS}
-              disabled={disabledFields.includes("type")}
-              label="Type"
-              {...form.getInputProps("type")}
-            />
-            <Select
-              data={variantKeyOptions}
-              label="Default Variant"
-              placeholder="Select a variant"
-              {...form.getInputProps("defaultVariant")}
-            />
-            <Switch
-              label="Enabled"
-              {...form.getInputProps("enabled", { type: "checkbox" })}
-            />
-            <TextInput
-              label="Description"
-              placeholder="Optional description"
-              {...form.getInputProps("description")}
-            />
-            <Group mt="md">
-              <Button loading={isLoading} type="submit">
-                {submitLabel}
-              </Button>
-              <Button onClick={onCancel} variant="subtle">
-                Cancel
-              </Button>
+                {values.type}
+              </Badge>
             </Group>
+
+            {values.variants.length === 0 ? (
+              <Text c="dimmed" size="sm">
+                No variants yet. Add one below.
+              </Text>
+            ) : (
+              <>
+                <div className={classes.variantHeader}>
+                  <Text c="dimmed" size="xs">
+                    Key
+                  </Text>
+                  <Text c="dimmed" size="xs">
+                    Value
+                  </Text>
+                  <div />
+                </div>
+
+                {values.variants.map((entry, index) => (
+                  <div className={classes.variantRow} key={index}>
+                    <TextInput
+                      error={
+                        form.errors[`variants.${index}.variantKey`] as
+                          | string
+                          | undefined
+                      }
+                      placeholder="variant-key"
+                      {...form.getInputProps(`variants.${index}.variantKey`)}
+                    />
+                    <VariantValueInput
+                      entry={entry}
+                      onChange={(v) =>
+                        form.setFieldValue(`variants.${index}.variantValue`, v)
+                      }
+                      type={values.type}
+                    />
+                    <ActionIcon
+                      color="red"
+                      onClick={() => removeVariant(index)}
+                      variant="subtle"
+                    >
+                      <IconTrash size={14} />
+                    </ActionIcon>
+                  </div>
+                ))}
+              </>
+            )}
+
+            <Button
+              leftSection={<IconPlus size={14} />}
+              onClick={addVariant}
+              size="sm"
+              variant="light"
+            >
+              Add Variant
+            </Button>
           </Stack>
-        </Grid.Col>
-      </Grid>
+        </Paper>
+
+        <Stack>
+          <TextInput
+            disabled={disabledFields.includes("key")}
+            label="Key"
+            placeholder="my-feature-flag"
+            {...form.getInputProps("key")}
+          />
+          <Select
+            data={FLAG_TYPE_OPTIONS}
+            disabled={disabledFields.includes("type")}
+            label="Type"
+            {...form.getInputProps("type")}
+          />
+          <Select
+            data={variantKeyOptions}
+            label="Default Variant"
+            placeholder="Select a variant"
+            {...form.getInputProps("defaultVariant")}
+          />
+          <Switch
+            label="Enabled"
+            {...form.getInputProps("enabled", { type: "checkbox" })}
+          />
+          <TextInput
+            label="Description"
+            placeholder="Optional description"
+            {...form.getInputProps("description")}
+          />
+          <Group mt="md">
+            <Button loading={isLoading} type="submit">
+              {submitLabel}
+            </Button>
+            <Button onClick={onCancel} variant="subtle">
+              Cancel
+            </Button>
+          </Group>
+        </Stack>
+      </div>
     </form>
   );
 }

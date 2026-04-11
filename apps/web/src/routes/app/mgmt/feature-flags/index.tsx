@@ -1,6 +1,7 @@
+import classes from "./feature-flags.module.css";
+
 import { useMemo, useState } from "react";
 import { Group, Pagination, Select, Text, TextInput } from "@mantine/core";
-import classes from "./feature-flags.module.css";
 import { useDebouncedValue } from "@mantine/hooks";
 import { IconPlus, IconSearch } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
@@ -45,7 +46,10 @@ function RouteComponent() {
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const safePage = Math.min(page, totalPages);
-  const paginated = filtered.slice((safePage - 1) * pageSize, safePage * pageSize);
+  const paginated = filtered.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize,
+  );
 
   function handleSearch(q: string) {
     setSearch(q);
@@ -92,11 +96,16 @@ function RouteComponent() {
 
       {filtered.length === 0 ? (
         <Text c="dimmed">
-          {search ? "No flags match your search." : "No feature flags configured yet."}
+          {search
+            ? "No flags match your search."
+            : "No feature flags configured yet."}
         </Text>
       ) : (
         <>
-          <div className={classes.grid} style={{ marginBottom: 'var(--mantine-spacing-md)' }}>
+          <div
+            className={classes.grid}
+            style={{ marginBottom: "var(--mantine-spacing-md)" }}
+          >
             {paginated.map((flag) => (
               <FlagCard
                 flag={flag}

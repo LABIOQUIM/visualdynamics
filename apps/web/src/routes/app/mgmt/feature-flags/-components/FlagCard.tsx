@@ -1,6 +1,14 @@
 import classes from "./FlagCard.module.css";
 
-import { ActionIcon, Badge, Card, Code, Group, Stack, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Badge,
+  Card,
+  Code,
+  Group,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 
 import { ActionIconLink } from "@/components/RouterComponents";
@@ -58,9 +66,13 @@ export function FlagCard({ flag, onDelete, isDeleting }: FlagCardProps) {
 
         {/* Default variant */}
         <Group gap="xs" wrap="nowrap">
-          <Text c="dimmed" size="xs" style={{ flexShrink: 0 }}>Default:</Text>
+          <Text c="dimmed" size="xs" style={{ flexShrink: 0 }}>
+            Default:
+          </Text>
           <Code className={classes.variantKey}>{flag.defaultVariant}</Code>
-          <Text c="dimmed" size="xs">→</Text>
+          <Text c="dimmed" size="xs">
+            →
+          </Text>
           <Code className={classes.variantValue}>
             {JSON.stringify(flag.variants?.[flag.defaultVariant])}
           </Code>
