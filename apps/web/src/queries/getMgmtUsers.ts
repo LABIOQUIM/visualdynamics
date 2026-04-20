@@ -6,6 +6,7 @@ import type {
 } from "mantine-react-table-open";
 
 import { authClient } from "@/lib/auth-client";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 
 type Props = {
   pagination?: MRT_PaginationState;
@@ -51,6 +52,6 @@ export const fetchMgmtUsers = async ({
 
 export const getMgmtUsers = ({ pagination, columnFilters, sorting }: Props) =>
   queryOptions({
-    queryKey: ["mgmt-users", pagination, columnFilters, sorting],
+    queryKey: QUERY_KEYS.mgmtUsers(pagination, columnFilters, sorting),
     queryFn: () => fetchMgmtUsers({ pagination, columnFilters, sorting }),
   });

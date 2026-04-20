@@ -2,6 +2,17 @@ import styles from "./InteractiveParticles.module.css";
 
 import { useEffect, useRef, useState } from "react";
 
+function throttleRaf<T extends (...args: never[]) => void>(fn: T): T {
+  let rafId: ReturnType<typeof requestAnimationFrame> | null = null;
+  return ((...args: Parameters<T>) => {
+    if (rafId !== null) return;
+    rafId = requestAnimationFrame(() => {
+      fn(...args);
+      rafId = null;
+    });
+  }) as T;
+}
+
 const NUM_PARTICLES = 200; // Adjust for performance and desired density
 
 interface ParticleState {
@@ -38,7 +49,7 @@ export function InteractiveParticles() {
   }, []);
 
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
+    const handleMouseMove = throttleRaf((event: MouseEvent) => {
       if (!containerRef.current) return;
 
       const centerX = window.innerWidth / 2;
@@ -53,7 +64,7 @@ export function InteractiveParticles() {
           dy: -(mouseY - centerY) * p.sensitivity,
         })),
       );
-    };
+    });
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => {

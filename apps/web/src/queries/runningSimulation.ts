@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { getAPIClient } from "@/lib/api";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 
 export type RunningSimulation =
   | {
@@ -26,10 +27,10 @@ export const fetchRunningSimulation = async (simulationId: string) => {
 
 export const runningSimulationQuery = (simulationId: string) =>
   queryOptions({
-    queryKey: ["running-simulation", simulationId],
+    queryKey: QUERY_KEYS.runningSimulation(simulationId),
     queryFn: () => fetchRunningSimulation(simulationId),
     staleTime: 10000, // 10 seconds
     refetchOnWindowFocus: true,
     refetchInterval: 10000, // 10 seconds
-    refetchIntervalInBackground: true,
+    refetchIntervalInBackground: false,
   });

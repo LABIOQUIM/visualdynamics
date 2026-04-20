@@ -2,6 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 import type { MRT_PaginationState } from "mantine-react-table-open";
 
 import { getAPIClient } from "@/lib/api";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 
 export type UserSimulations = {
   records: SimulationWithUser[];
@@ -25,6 +26,6 @@ export const getMgmtSimulations = (
   props: MRT_PaginationState = { pageIndex: 1, pageSize: 10 },
 ) =>
   queryOptions({
-    queryKey: ["mgmt-simulations", props],
+    queryKey: QUERY_KEYS.mgmtSimulations(props),
     queryFn: () => fetchMgmtSimulations(props.pageSize, props.pageIndex),
   });

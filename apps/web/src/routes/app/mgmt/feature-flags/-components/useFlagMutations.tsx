@@ -9,6 +9,7 @@ import {
   updateFeatureFlag,
   type UpdateFeatureFlagInput,
 } from "@/mutations/featureFlags";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 
 function notify(message: string, success: boolean) {
   notifications.show({
@@ -22,7 +23,7 @@ function notify(message: string, success: boolean) {
 export function useFlagMutations() {
   const queryClient = useQueryClient();
   const invalidate = () =>
-    queryClient.invalidateQueries({ queryKey: ["feature-flags"] });
+    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.featureFlags() });
 
   const createMutation = useMutation({
     mutationFn: (data: CreateFeatureFlagInput) => createFeatureFlag(data),

@@ -1,4 +1,4 @@
-import classes from "./simulations.module.css";
+import classes from "./-components/adminTable.module.css";
 
 import { useState } from "react";
 import { ActionIcon, Stack, Title } from "@mantine/core";
@@ -36,29 +36,26 @@ export const Route = createFileRoute("/app/mgmt/simulations")({
   component: RouteComponent,
 });
 
+function durationAccessorFn(row: SimulationWithUser) {
+  if (row.startedAt && row.endedAt) {
+    const start = dayjs(row.startedAt);
+    const end = dayjs(row.endedAt);
+    return dayjs.duration(end.diff(start));
+  }
+  return "—";
+}
+
+function StatusCell({ cell }: { cell: MRT_Cell<SimulationWithUser> }) {
+  const status = cell.getValue<Simulation["status"]>();
+  return <StatusBadge status={status} />;
+}
+
 function RouteComponent() {
   const [pagination, onPaginationChange] = useState<MRT_PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
   const { data, isLoading } = useQuery(getMgmtSimulations(pagination));
-
-  function DurationAggregationFn(row: SimulationWithUser) {
-    if (row.startedAt && row.endedAt) {
-      const start = dayjs(row.startedAt);
-      const end = dayjs(row.endedAt);
-      const duration = dayjs.duration(end.diff(start));
-      return duration;
-    }
-
-    return "—";
-  }
-
-  function StatusCell({ cell }: { cell: MRT_Cell<SimulationWithUser> }) {
-    const status = cell.getValue<Simulation["status"]>();
-
-    return <StatusBadge status={status} />;
-  }
 
   const onEditingRowSave: MRT_TableOptions<SimulationWithUser>["onEditingRowSave"] =
     async ({ values, table, row }) => {
@@ -190,7 +187,7 @@ function RouteComponent() {
         id: "duration",
         header: "Duration",
         Edit: () => null,
-        accessorFn: DurationAggregationFn,
+        accessorFn: durationAccessorFn,
         Cell: TableDurationCell,
       },
       {

@@ -205,14 +205,14 @@ export interface FileRoutesByFullPath {
   '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/': typeof ApphomeIndexRoute
-  '/app/submit': typeof AppSubmitIndexRoute
+  '/app/submit/': typeof AppSubmitIndexRoute
   '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
   '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
-  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsIndexRoute
-  '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
+  '/app/mgmt/feature-flags/': typeof AppMgmtFeatureFlagsIndexRoute
+  '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
   '/app/mgmt/tools/batch-email/': typeof AppMgmtToolsBatchEmailIndexRoute
   '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
   '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
@@ -294,14 +294,14 @@ export interface FileRouteTypes {
     | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app/'
-    | '/app/submit'
+    | '/app/submit/'
     | '/app/mgmt/tools/batch-email'
     | '/app/mgmt/tools/simulation-importer'
     | '/app/mgmt/tools/user-importer'
     | '/app/mgmt/feature-flags/$key'
     | '/app/mgmt/feature-flags/new'
-    | '/app/mgmt/feature-flags'
-    | '/app/mgmt/tools'
+    | '/app/mgmt/feature-flags/'
+    | '/app/mgmt/tools/'
     | '/app/mgmt/tools/batch-email/'
     | '/app/mgmt/tools/simulation-importer/'
     | '/app/mgmt/tools/user-importer/'
@@ -456,7 +456,7 @@ declare module '@tanstack/react-router' {
     '/app/submit/': {
       id: '/app/submit/'
       path: '/submit'
-      fullPath: '/app/submit'
+      fullPath: '/app/submit/'
       preLoaderRoute: typeof AppSubmitIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
@@ -505,14 +505,14 @@ declare module '@tanstack/react-router' {
     '/app/mgmt/tools/': {
       id: '/app/mgmt/tools/'
       path: '/tools'
-      fullPath: '/app/mgmt/tools'
+      fullPath: '/app/mgmt/tools/'
       preLoaderRoute: typeof AppMgmtToolsIndexRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
     '/app/mgmt/feature-flags/': {
       id: '/app/mgmt/feature-flags/'
       path: '/feature-flags'
-      fullPath: '/app/mgmt/feature-flags'
+      fullPath: '/app/mgmt/feature-flags/'
       preLoaderRoute: typeof AppMgmtFeatureFlagsIndexRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }

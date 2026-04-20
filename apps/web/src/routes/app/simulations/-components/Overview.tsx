@@ -1,6 +1,5 @@
 import classes from "./Overview.module.css";
 
-import { useMemo } from "react";
 import {
   Alert,
   Blockquote,
@@ -12,16 +11,8 @@ import {
 import { notifications } from "@mantine/notifications";
 import {
   IconAlertSquareRounded,
-  IconAtom,
-  IconAtom2,
-  IconAtom2Filled,
   IconBarrierBlockFilled,
   IconClockOff,
-  IconClockPlay,
-  IconClockStop,
-  IconCloudUpload,
-  IconHourglassHigh,
-  IconStatusChange,
   IconX,
 } from "@tabler/icons-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -29,10 +20,11 @@ import dayjs from "dayjs";
 
 import { Loader } from "@/components/Loader";
 import { MetricCard } from "@/components/MetricCard";
-import { StatusBadge } from "@/components/StatusBadge";
-import { TypeBadge } from "@/components/TypeBadge";
 import { cancelSimulation } from "@/mutations/cancelSimulation";
 import { getSimulation } from "@/queries/getSimulation";
+import { QUERY_KEYS } from "@/lib/queryKeys";
+
+import { useSimulationMetrics } from "./useSimulationMetrics";
 
 type OverviewProps = {
   simulationId: string;
@@ -52,7 +44,7 @@ export function Overview({ simulationId }: OverviewProps) {
         withBorder: true,
       });
       queryClient.invalidateQueries({
-        queryKey: ["simulation", simulationId],
+        queryKey: QUERY_KEYS.simulation(simulationId),
       });
     },
     onError: () => {
@@ -69,83 +61,7 @@ export function Overview({ simulationId }: OverviewProps) {
     data?.simulation.status === "QUEUED" ||
     data?.simulation.status === "RUNNING";
 
-  const info = useMemo(() => {
-    if (!data) {
-      return [];
-    }
-
-    let durationText = "—";
-
-    if (data.simulation.startedAt && data.simulation.endedAt) {
-      const start = dayjs(data.simulation.startedAt);
-      const end = dayjs(data.simulation.endedAt);
-      const duration = dayjs.duration(end.diff(start));
-
-      const hours = Math.floor(duration.asHours());
-      const minutes = duration.minutes();
-      const seconds = duration.seconds();
-
-      durationText = `${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    let startedAtText = "—";
-
-    if (data.simulation.startedAt) {
-      const start = dayjs(data.simulation.startedAt);
-
-      startedAtText = start.format("YYYY-MM-DD HH:mm:ss");
-    }
-
-    let endedAtText = "—";
-
-    if (data.simulation.endedAt) {
-      const start = dayjs(data.simulation.endedAt);
-
-      endedAtText = start.format("YYYY-MM-DD HH:mm:ss");
-    }
-
-    return [
-      {
-        label: "Status",
-        value: <StatusBadge status={data.simulation.status} />,
-        icon: IconStatusChange,
-        label1: "Proccess",
-        value1: <TypeBadge type={data.simulation.type} />,
-        icon1: IconClockPlay,
-        label2: "Submitted At",
-        value2: dayjs(data.simulation.createdAt).format("YYYY-MM-DD HH:mm:ss"),
-        icon2: IconCloudUpload,
-      },
-      {
-        label: "Macromolecule",
-        value: data.simulation.moleculeName,
-        icon: IconAtom,
-        label1: "Ligands (ITP)",
-        value1:
-          data.simulation.ligands.length > 0
-            ? data.simulation.ligands.map((l) => l.ligandITPName).join(", ")
-            : "N/A",
-        icon1: IconAtom2,
-        label2: "Ligands (PDB)",
-        value2:
-          data.simulation.ligands.length > 0
-            ? data.simulation.ligands.map((l) => l.ligandPDBName).join(", ")
-            : "N/A",
-        icon2: IconAtom2Filled,
-      },
-      {
-        label: "Duration",
-        value: durationText,
-        icon: IconHourglassHigh,
-        label1: "Started At",
-        value1: startedAtText,
-        icon1: IconClockPlay,
-        label2: "Ended At",
-        value2: endedAtText,
-        icon2: IconClockStop,
-      },
-    ];
-  }, [data]);
+  const info = useSimulationMetrics(data);
 
   if (!data) {
     return <Loader />;

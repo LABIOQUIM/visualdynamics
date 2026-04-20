@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { getAPIClient } from "@/lib/api";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 
 export type FeatureFlag = {
   id: string;
@@ -21,6 +22,6 @@ export const fetchFeatureFlags = async () => {
 
 export const getFeatureFlags = () =>
   queryOptions({
-    queryKey: ["feature-flags"],
+    queryKey: QUERY_KEYS.featureFlags(),
     queryFn: fetchFeatureFlags,
   });

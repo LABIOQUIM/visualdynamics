@@ -1,4 +1,4 @@
-import classes from "./users.module.css";
+import classes from "./-components/adminTable.module.css";
 
 import { useState } from "react";
 import { Stack, Title } from "@mantine/core";

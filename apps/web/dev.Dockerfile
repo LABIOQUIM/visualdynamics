@@ -49,6 +49,8 @@ ARG HOST_GID=1000
 
 WORKDIR /app
 
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+
 # Recreate or reuse group/user in runtime (so the numeric UID has a name when needed).
 RUN set -eux; \
   EXISTING_USER="$(awk -F: -v UID=${HOST_UID} '$3==UID {print $1; exit}' /etc/passwd || true)"; \

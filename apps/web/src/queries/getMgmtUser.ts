@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { authClient } from "@/lib/auth-client";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 
 export const fetchMgmtUser = async (userId: string) => {
   const { data, error } = await authClient.admin.getUser({
@@ -18,6 +19,6 @@ export const fetchMgmtUser = async (userId: string) => {
 
 export const getMgmtUser = (userId: string) =>
   queryOptions({
-    queryKey: ["mgmt-user", userId],
+    queryKey: QUERY_KEYS.mgmtUser(userId),
     queryFn: () => fetchMgmtUser(userId),
   });
