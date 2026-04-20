@@ -4,7 +4,6 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
-import type { BetterAuthPlugin } from "better-auth";
 import { admin, twoFactor, username } from "better-auth/plugins";
 
 import { PrismaClient } from "../generated/prisma/client";
@@ -92,9 +91,6 @@ export const auth = betterAuth({
       }
     }),
   },
-  plugins: [
-    admin() as unknown as BetterAuthPlugin,
-    twoFactor() as unknown as BetterAuthPlugin,
-    username() as unknown as BetterAuthPlugin,
-  ],
+  // @ts-ignore better-auth plugin init() return type variance mismatch (version-dependent)
+  plugins: [admin(), twoFactor(), username()],
 });

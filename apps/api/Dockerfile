@@ -22,7 +22,8 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/api/package.json apps/api/prisma.config.ts ./apps/api/
 COPY apps/api/prisma/schema.prisma ./apps/api/prisma/
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter api exec prisma generate
+RUN DB_USER=x DB_PASS=x DB_HOST=x DB_PORT=5432 DB_DATABASE=x \
+    pnpm --filter api exec prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
