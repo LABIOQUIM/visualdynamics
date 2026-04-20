@@ -11,14 +11,15 @@ ARG HOST_GID=1000
 
 WORKDIR /app
 
-# Copy Yarn metadata + lockfile and workspace package.json files so resolution is consistent.
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+
+# Copy pnpm metadata + lockfile and workspace package.json files so resolution is consistent.
 # Adjust the workspace paths if your monorepo has other locations (packages/* etc).
-COPY package.json .yarnrc.yml yarn.lock ./
-COPY .yarn/releases/yarn-4.11.0.cjs ./.yarn/releases/
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/web/package.json ./apps/web/
 COPY apps/api/package.json ./apps/api/
 
-# Create (or reuse) a user/group for the requested UID/GID and run yarn as that user.
+# Create (or reuse) a user/group for the requested UID/GID and run pnpm as that user.
 # The script reuses existing UID/GID if present in /etc/passwd or /etc/group to avoid "gid in use" errors.
 RUN set -eux; \
   EXISTING_USER="$(awk -F: -v UID=${HOST_UID} '$3==UID {print $1; exit}' /etc/passwd || true)"; \
@@ -36,8 +37,8 @@ RUN set -eux; \
   fi; \
   chown -R "${APP_USER}:${APP_GROUP}" /app; \
   echo "Using user ${APP_USER} (UID ${HOST_UID}) and group ${APP_GROUP} (GID ${HOST_GID})"; \
-  # Run yarn via the bundled release to avoid global corepack requirements. Use immutable install so lockfile mismatches fail early.
-  su -s /bin/sh "$APP_USER" -c 'node ./.yarn/releases/yarn-4.11.0.cjs install --immutable --inline-builds'
+  # Run pnpm install as the correct user. Use --frozen-lockfile so lockfile mismatches fail early.
+  su -s /bin/sh "$APP_USER" -c 'pnpm install --frozen-lockfile'
 
 # --------------------
 # runner stage: runtime

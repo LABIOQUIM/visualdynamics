@@ -24,43 +24,36 @@ FROM base AS deps
 # RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+
 # Install dependencies based on the preferred package manager
-COPY package.json .yarnrc.yml yarn.lock ./
-COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
-COPY apps/api/package.json apps/api/.yarnrc.yml ./apps/api/
-COPY packages ./packages
-RUN yarn install
-RUN yarn workspace database generate
-RUN yarn workspace database build
-RUN yarn install
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY apps/api/package.json ./apps/api/
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter api exec prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 
-COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
-COPY --from=deps /app/node_modules ./node_modules
-COPY package.json .yarnrc.yml yarn.lock .env ./
-COPY apps/api ./apps/api
-COPY --from=deps /app/packages ./packages
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 
-RUN yarn workspace api build
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc .env ./
+COPY apps/api ./apps/api
+
+RUN pnpm --filter api build
 
 FROM base AS runner
-# COPY apps/api/bin/Mold2 /bin/Mold2
-# RUN chmod +x /bin/Mold2
-
 WORKDIR /app
 
-COPY .yarn/releases/yarn-4.0.1.cjs ./.yarn/releases/
 COPY --from=deps /app/node_modules ./node_modules
-COPY package.json .yarnrc.yml yarn.lock .env ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc .env ./
 COPY --from=builder /app/apps/api/dist ./apps/api/dist
 COPY --from=builder /app/apps/api/static ./apps/api/static
 COPY --from=builder /app/apps/api/.env ./apps/api.env
-COPY apps/api/package.json ./apps/api
-COPY --from=builder /app/packages ./packages
+COPY apps/api/package.json ./apps/api/
 
 EXPOSE 3000
 
-CMD ["yarn", "workspace", "api", "start:prod"]
+CMD ["pnpm", "--filter", "api", "start:prod"]

@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: apps/api/dev.Dockerfile
     restart: always
-    command: ["yarn", "workspace", "api", "start:dev"]
+    command: ["pnpm", "--filter", "api", "start:dev"]
     env_file: .env
     depends_on:
       - redis
@@ -30,7 +30,7 @@ services:
       dockerfile: apps/web/dev.Dockerfile
     restart: always
     image: visualdynamics/web:dev
-    command: ["yarn", "workspace", "web", "dev", "--host"]
+    command: ["pnpm", "--filter", "web", "dev", "--", "--host"]
     ports:
       - "3000:5173"
     volumes:

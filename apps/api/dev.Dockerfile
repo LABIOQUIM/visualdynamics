@@ -42,13 +42,14 @@ FROM base AS deps
 # RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
+
 # Install dependencies based on the preferred package manager
-COPY package.json .yarnrc.yml yarn.lock ./
-COPY .yarn/releases/yarn-4.11.0.cjs ./.yarn/releases/
-COPY apps/api/package.json apps/api/.yarnrc.yml apps/api/prisma.config.ts .env ./apps/api/
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY apps/api/package.json apps/api/prisma.config.ts .env ./apps/api/
 COPY apps/api/prisma/schema.prisma ./apps/api/prisma/
-RUN yarn install
-RUN yarn workspace api prisma generate
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter api exec prisma generate
 
 # Rebuild the source code only when needed
 FROM nvidia/cuda:13.1.0-runtime-ubuntu24.04 AS builder
@@ -71,7 +72,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN apt-get install -y --no-install-recommends nodejs
 RUN npm install -g corepack
 RUN corepack enable
-RUN corepack prepare yarn@4.11.0 --activate
+RUN corepack prepare pnpm@10.33.0 --activate
 RUN rm -rf /var/lib/apt/lists/*
 
 COPY --from=deps /app/node_modules ./node_modules

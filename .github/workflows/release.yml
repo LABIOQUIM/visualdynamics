@@ -19,16 +19,21 @@ jobs:
       - name: Setup Repo
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - name: Install Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'yarn'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
 
       - name: Semantic release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn semantic-release
+        run: pnpm exec semantic-release

@@ -70,7 +70,7 @@ module.exports = {
     [
       "@semantic-release/git",
       {
-        assets: ["apps/api/package.json", "apps/web/package.json", "package.json", "yarn.lock", "CHANGELOG.md"],
+        assets: ["apps/api/package.json", "apps/web/package.json", "package.json", "pnpm-lock.yaml", "CHANGELOG.md"],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}", // eslint-disable-line
       },

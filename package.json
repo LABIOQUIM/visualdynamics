@@ -1,13 +1,17 @@
 {
   "name": "visualdynamics",
-  "packageManager": "yarn@4.11.0",
+  "packageManager": "pnpm@10.33.0",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ],
-  "scripts": {
-    "prepare": "husky install",
-    "commitlint": "commitlint --edit"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@nestjs/core",
+      "@parcel/watcher",
+      "@prisma/engines",
+      "@scarf/scarf",
+      "esbuild",
+      "msgpackr-extract",
+      "prisma"
+    ]
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^20.0.0",

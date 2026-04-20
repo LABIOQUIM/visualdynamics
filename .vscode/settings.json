@@ -40,7 +40,7 @@
     { "text": "Always include scope (e.g., api, ui, auth)." },
     { "text": "For additional details, use a well-structured body section." },
     { "text": "Use bullet points (*) for clarity." },
-    { "text": "Ignore ANY changes from the yarn.lock files" },
+    { "text": "Ignore ANY changes from the pnpm-lock.yaml files" },
     { "text": "All files inside .vscode folder are VSCode configuration files, so chore, not documentation" }
   ]
 }
