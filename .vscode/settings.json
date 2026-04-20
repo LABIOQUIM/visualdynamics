@@ -1,7 +1,8 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+    "source.fixAll": "always"
   },
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "[prisma]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "Prisma.prisma"
@@ -18,29 +19,26 @@
     "**/*.less",
     "node_modules/@mantine/core/styles.css"
   ],
-  "python.languageServer": "Jedi",
-  "github.copilot.editor.enableAutoCompletions": false,
   "github.copilot.renameSuggestions.triggerAutomatically": false,
   "github.copilot.editor.enableCodeActions": false,
   "github.copilot.chat.codeGeneration.useInstructionFiles": false,
-  "github.copilot.chat.edits.suggestRelatedFilesForTests": false,
-  "github.copilot.chat.edits.suggestRelatedFilesFromGitHistory": false,
-  "github.copilot.chat.fixTestFailure.enabled": false,
   "github.copilot.chat.useProjectTemplates": false,
   "github.copilot.chat.reviewSelection.enabled": false,
-  "github.copilot.chat.startDebugging.enabled": false,
   "github.copilot.chat.setupTests.enabled": false,
-  "chat.commandCenter.enabled": false,
   "github.copilot.chat.copilotDebugCommand.enabled": false,
   "github.copilot.chat.commitMessageGeneration.instructions": [
     { "text": "Use conventional commit format: type(scope): description." },
     { "text": "Use imperative mood: 'Add feature' not 'Added feature'." },
     { "text": "Keep subject line under 50 characters." },
-    { "text": "Use types: feat, fix, docs, style, refactor, perf, test, chore, ci." },
+    {
+      "text": "Use types: feat, fix, docs, style, refactor, perf, test, chore, ci."
+    },
     { "text": "Always include scope (e.g., api, ui, auth)." },
     { "text": "For additional details, use a well-structured body section." },
     { "text": "Use bullet points (*) for clarity." },
     { "text": "Ignore ANY changes from the pnpm-lock.yaml files" },
-    { "text": "All files inside .vscode folder are VSCode configuration files, so chore, not documentation" }
+    {
+      "text": "All files inside .vscode folder are VSCode configuration files, so chore, not documentation"
+    }
   ]
 }

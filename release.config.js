@@ -20,9 +20,13 @@ module.exports = {
       {
         replacements: [
           {
-            files: ["package.json", "apps/api/package.json", "apps/web/package.json"],
-            from: "\"version\": \".*\"", // eslint-disable-line
-            to: "\"version\": \"${nextRelease.version}\"", // eslint-disable-line
+            files: [
+              "package.json",
+              "apps/api/package.json",
+              "apps/web/package.json",
+            ],
+            from: '"version": ".*"', // eslint-disable-line
+            to: '"version": "${nextRelease.version}"', // eslint-disable-line
           },
         ],
       },
@@ -70,7 +74,13 @@ module.exports = {
     [
       "@semantic-release/git",
       {
-        assets: ["apps/api/package.json", "apps/web/package.json", "package.json", "pnpm-lock.yaml", "CHANGELOG.md"],
+        assets: [
+          "apps/api/package.json",
+          "apps/web/package.json",
+          "package.json",
+          "pnpm-lock.yaml",
+          "CHANGELOG.md",
+        ],
         message:
           "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}", // eslint-disable-line
       },

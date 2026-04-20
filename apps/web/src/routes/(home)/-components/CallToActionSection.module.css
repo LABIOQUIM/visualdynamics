@@ -9,7 +9,10 @@
   /* Optional: Add a very subtle pattern for texture if desired, ensure it's light */
   /* background-image: url('/images/light-molecular-pattern.svg'); */
   /* background-blend-mode: overlay; */
-  background-color: rgba(var(--mantine-color-white-rgb), 0.75); /* Slightly transparent white */
+  background-color: rgba(
+    var(--mantine-color-white-rgb),
+    0.75
+  ); /* Slightly transparent white */
   backdrop-filter: blur(2px);
 }
 
@@ -22,7 +25,7 @@
 }
 
 .title {
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: clamp(2rem, 4.5vw, 2.8rem); /* Powerful CTA title */
   color: var(--mantine-color-black);
   margin-bottom: var(--mantine-spacing-md);
@@ -37,7 +40,7 @@
 
 .button {
   /* Inheriting from Hero's primary button for consistency */
-  composes: ctaButtonPrimary from './HeroSection.module.css';
+  composes: ctaButtonPrimary from "./HeroSection.module.css";
   /* Override if specific changes needed for this CTA button */
   padding: var(--mantine-spacing-lg) var(--mantine-spacing-xl); /* Larger button */
   font-size: var(--mantine-font-size-lg);

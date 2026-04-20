@@ -1,10 +1,7 @@
 ---
 name: Feedback
 about: Provide valuable feedback to shape whats next in LABIOQUIM
-title: ''
+title: ""
 labels: feedback
-assignees: ''
-
+assignees: ""
 ---
-
-

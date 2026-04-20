@@ -1,5 +1,10 @@
 import React from "react";
-import { ActionIcon, type ActionIconProps, Button, type ButtonProps } from "@mantine/core";
+import {
+  ActionIcon,
+  type ActionIconProps,
+  Button,
+  type ButtonProps,
+} from "@mantine/core";
 import { createLink, type LinkProps } from "@tanstack/react-router";
 
 const ActionIconLinkComponent = React.forwardRef<

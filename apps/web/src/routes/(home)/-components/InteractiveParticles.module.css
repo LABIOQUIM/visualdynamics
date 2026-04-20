@@ -20,16 +20,20 @@
   will-change: transform, opacity; */
   /* Light particles, subtle against a light background */
   background-color: #51cf66;
-  transition: transform 0.2s ease-out, opacity 0.5s ease-in-out;
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.5s ease-in-out;
   will-change: transform, opacity;
-/* Subtle glow, less intense for light theme */
-  box-shadow: 0 0 8px rgba(var(--mantine-color-blue-2-rgb), 0.2),
+  /* Subtle glow, less intense for light theme */
+  box-shadow:
+    0 0 8px rgba(var(--mantine-color-blue-2-rgb), 0.2),
     0 0 16px rgba(var(--mantine-color-blue-3-rgb), 0.15);
 }
 
 /* Optional: Add variety with slightly different light colors */
 .particleType1 {
   background-color: rgba(var(--mantine-color-gray-3-rgb), 0.3);
-  box-shadow: 0 0 4px rgba(var(--mantine-color-gray-2-rgb), 0.2),
+  box-shadow:
+    0 0 4px rgba(var(--mantine-color-gray-2-rgb), 0.2),
     0 0 8px rgba(var(--mantine-color-gray-3-rgb), 0.15);
 }

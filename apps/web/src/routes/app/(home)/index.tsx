@@ -105,7 +105,9 @@ function RouteComponent() {
       {
         accessorKey: "type",
         header: "Type",
-        Cell: ({ cell }) => <TypeBadge type={cell.getValue<SIMULATION_TYPE>()} />,
+        Cell: ({ cell }) => (
+          <TypeBadge type={cell.getValue<SIMULATION_TYPE>()} />
+        ),
       },
       {
         accessorKey: "status",

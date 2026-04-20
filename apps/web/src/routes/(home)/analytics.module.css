@@ -6,7 +6,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   font-weight: 700;
   color: var(--mantine-color-black);

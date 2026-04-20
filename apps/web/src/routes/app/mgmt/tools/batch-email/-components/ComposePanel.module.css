@@ -18,7 +18,6 @@
   overflow: hidden;
 }
 
-
 .editor {
   flex: 1;
   display: flex;
@@ -42,5 +41,4 @@
    */
   height: calc(100dvh - 260px - var(--mantine-spacing-md) * 7);
   overflow-y: scroll;
-  
 }

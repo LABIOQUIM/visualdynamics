@@ -14,7 +14,7 @@ services:
     env_file: .env
     networks:
       - traefik
-    depends_on: 
+    depends_on:
       - redis
 
   redis:
@@ -72,7 +72,7 @@ services:
       - "--providers.docker.network=traefik"
       - "--providers.docker.exposedByDefault=false"
 
-      - "--certificatesresolvers.letsencrypt.acme.email=labioquim@fiocruz.br"  # replace with your email
+      - "--certificatesresolvers.letsencrypt.acme.email=labioquim@fiocruz.br" # replace with your email
       - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"

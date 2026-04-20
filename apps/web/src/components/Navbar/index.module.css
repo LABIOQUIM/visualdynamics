@@ -15,8 +15,12 @@
 .searchCode {
   font-weight: 700;
   font-size: rem(10px);
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
-  border: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
+  background-color: light-dark(
+    var(--mantine-color-gray-0),
+    var(--mantine-color-dark-7)
+  );
+  border: rem(1px) solid
+    light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-7));
 }
 
 .mainLinks {
@@ -43,7 +47,10 @@
   width: 100%;
 
   &:hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    background-color: light-dark(
+      var(--mantine-color-gray-0),
+      var(--mantine-color-dark-6)
+    );
     color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
   }
 }
@@ -77,7 +84,10 @@
   color: var(--mantine-color-red-5);
 
   &:hover {
-    background-color: light-dark(var(--mantine-color-red-1), var(--mantine-color-dark-6));
+    background-color: light-dark(
+      var(--mantine-color-red-1),
+      var(--mantine-color-dark-6)
+    );
     color: var(--mantine-color-red-7);
   }
 }

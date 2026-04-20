@@ -1,7 +1,10 @@
 .demoSection {
   padding-top: calc(var(--mantine-spacing-xl) * 2);
   padding-bottom: calc(var(--mantine-spacing-xl) * 2);
-  background-color: rgba(var(--mantine-color-white-rgb), 0.75); /* Slightly transparent white */
+  background-color: rgba(
+    var(--mantine-color-white-rgb),
+    0.75
+  ); /* Slightly transparent white */
   backdrop-filter: blur(2px);
   position: relative;
   z-index: 3;
@@ -15,7 +18,7 @@
   padding-right: var(--mantine-spacing-md);
 }
 .sectionTitle {
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: clamp(2.2rem, 5vw, 3.2rem);
   font-weight: 700;
   color: var(--mantine-color-black);
@@ -47,7 +50,9 @@
 .playIcon {
   color: var(--mantine-color-blue-6); /* Primary color play icon */
   opacity: 0.8;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 .videoPlaceholder:hover .playIcon {
   opacity: 1;

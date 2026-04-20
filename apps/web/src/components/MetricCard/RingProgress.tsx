@@ -10,7 +10,8 @@ import {
 import { match } from "@/utilities/match";
 
 interface MetricRingProgressProps
-  extends Omit<RingProgressProps, "label" | "rootColor">,
+  extends
+    Omit<RingProgressProps, "label" | "rootColor">,
     ElementProps<"div", keyof RingProgressProps> {
   label?: string;
   labelProps?: Omit<TextProps, "ta" | "fw">;

@@ -8,7 +8,7 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"]
     },
 
     /* Bundler mode */

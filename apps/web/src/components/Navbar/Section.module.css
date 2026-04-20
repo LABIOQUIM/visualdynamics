@@ -40,7 +40,7 @@
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
   width: 100%;
 
-  transition: all linear .2s;
+  transition: all linear 0.2s;
 
   &:hover {
     background-color: var(--mantine-color-gray-1);

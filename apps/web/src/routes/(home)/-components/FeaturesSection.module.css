@@ -1,12 +1,15 @@
 .featuresSection {
   padding-top: calc(var(--mantine-spacing-xl) * 1.5); /* Consistent padding */
   padding-bottom: calc(var(--mantine-spacing-xl) * 2);
-  background-color: rgba(var(--mantine-color-white-rgb), 0.75); /* Slightly transparent white */
+  background-color: rgba(
+    var(--mantine-color-white-rgb),
+    0.75
+  ); /* Slightly transparent white */
   backdrop-filter: blur(2px);
 }
 
 .sectionTitle {
-  font-family: 'Lexend', sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: clamp(2.2rem, 5vw, 3.2rem); /* Adjusted size */
   font-weight: 700;
   color: var(--mantine-color-black);

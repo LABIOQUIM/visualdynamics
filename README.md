@@ -29,16 +29,13 @@ Note: The repo uses workspace packages under `apps/*`. Install dependencies from
 ## Quick start (development)
 
 1. Clone the repository and install dependencies
-
    - From the project root:
-   `yarn install`
+     `yarn install`
 
 2. Set up environment variables
-
    - Create and edit `apps/api/.env` (see [Environment configuration](#environment-configuration) below).
 
 3. Start services
-
    - Start the services in development mode with Docker:
      `docker compose up -d --build`
 
@@ -107,7 +104,7 @@ Tip: If you change migrations, re-build or run migration commands inside the `ap
   - If you get workspace or plugin resolution errors, run `yarn install` from the repo root again.
 
 - Prisma / DB:
-- - Commonly, host running services are reachable through the IP `172.17.0.1` in Docker containers, so this will probably need to be your `DB_HOST`. 
+- - Commonly, host running services are reachable through the IP `172.17.0.1` in Docker containers, so this will probably need to be your `DB_HOST`.
   - Confirm the other `DB_` variables are correct and the DB is reachable.
   - Run `npx prisma generate` after pulling changes that modify the Prisma schema.
 

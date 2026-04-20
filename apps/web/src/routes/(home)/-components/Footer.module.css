@@ -1,7 +1,10 @@
 .footer {
   padding: var(--mantine-spacing-sm) var(--mantine-spacing-xl);
   /* border-top: 1px solid var(--mantine-color-gray-2); */
-  background-color: rgba(var(--mantine-color-white-rgb), 0.75); /* Slightly transparent white */
+  background-color: rgba(
+    var(--mantine-color-white-rgb),
+    0.75
+  ); /* Slightly transparent white */
   backdrop-filter: blur(2px);
   text-align: center;
   position: relative;
@@ -16,7 +19,8 @@
   align-items: center;
   gap: var(--mantine-spacing-md);
 }
-@media (min-width: 768px) { /* Mantine sm breakpoint */
+@media (min-width: 768px) {
+  /* Mantine sm breakpoint */
   .innerFooter {
     flex-direction: row;
     justify-content: space-between;

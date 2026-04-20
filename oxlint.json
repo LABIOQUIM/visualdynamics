@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/crates/oxc_linter/schemas/oxlintrc.json",
+  "plugins": ["react", "typescript", "import", "unicorn"],
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
+  "globals": {
+    "React": "readonly"
+  },
+  "ignorePatterns": ["dist", "node_modules", "apps/web/src/routeTree.gen.ts"],
+  "rules": {
+    "no-unused-vars": "off",
+    "typescript/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrors": "none"
+      }
+    ],
+    "typescript/no-explicit-any": "off",
+    "typescript/explicit-module-boundary-types": "off",
+    "typescript/no-non-null-assertion": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "import/order": "warn"
+  }
+}
