@@ -5,7 +5,6 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { admin, twoFactor, username } from "better-auth/plugins";
-import type { UndefinedOnPartialDeep } from "type-fest";
 
 import { PrismaClient } from "../generated/prisma/client";
 
@@ -93,8 +92,8 @@ export const auth = betterAuth({
     }),
   },
   plugins: [
-    admin() as UndefinedOnPartialDeep<ReturnType<typeof admin>>,
-    twoFactor() as UndefinedOnPartialDeep<ReturnType<typeof twoFactor>>,
-    username() as UndefinedOnPartialDeep<ReturnType<typeof username>>,
+    admin(),
+    twoFactor(),
+    username(),
   ],
 });

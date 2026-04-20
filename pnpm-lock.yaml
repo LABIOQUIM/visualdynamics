@@ -131,6 +131,9 @@ importers:
       systeminformation:
         specifier: ^5.27.11
         version: 5.31.5
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@nestjs/cli':
         specifier: 11.0.10

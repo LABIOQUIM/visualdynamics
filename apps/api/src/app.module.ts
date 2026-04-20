@@ -5,7 +5,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { ScheduleModule } from "@nestjs/schedule";
 import { MailerModule as NestMailerModule } from "@nestjs-modules/mailer";
-import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter";
+import { HandlebarsAdapter } from "@nestjs-modules/mailer/adapters/handlebars.adapter";
 import { AuthModule } from "@thallesp/nestjs-better-auth";
 
 import { FeatureFlagModule } from "./feature-flag/feature-flag.module";
