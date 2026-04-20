@@ -9,7 +9,7 @@ async function bootstrap(): Promise<void> {
     bodyParser: false,
     cors: {
       credentials: true,
-      origin: "http://localhost:3000",
+      origin: process.env.WEB_URL ?? "http://localhost:3000",
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
       allowedHeaders: "Content-Type, Authorization, Accept",
       exposedHeaders: "Content-Length",

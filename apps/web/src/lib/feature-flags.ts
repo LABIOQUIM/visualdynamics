@@ -16,7 +16,7 @@ interface FlagConfig {
 
 type FlagStore = Record<string, FlagConfig>;
 
-const API_BASE_URL = "http://localhost:3001/v1";
+const API_BASE_URL = `${window.__ENV__.API_URL}/v1`;
 
 export class ApiFeatureFlagProvider implements Provider {
   readonly metadata = { name: "api-feature-flag" } as const;

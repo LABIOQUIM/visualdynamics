@@ -43,7 +43,7 @@ services:
     restart: always
     networks:
       - traefik
-    image: labioquim/website:latest
+    image: visualdynamics/web:latest
     depends_on:
       - mailer
 
@@ -58,6 +58,7 @@ services:
     image: visualdynamics/api:latest
     volumes:
       - visualdynamics:/files
+      - /usr/local/gromacs:/gromacs
     depends_on:
       - mailer
       - redis

@@ -21,8 +21,8 @@ import { SystemInfoModule } from "./systeminfo/systeminfo.module";
     ScheduleModule.forRoot(),
     BullModule.forRoot({
       connection: {
-        host: "redis",
-        port: 6379,
+        host: process.env.REDIS_HOST ?? "redis",
+        port: Number(process.env.REDIS_PORT ?? 6379),
       },
       defaultJobOptions: {
         // attempts: 1,

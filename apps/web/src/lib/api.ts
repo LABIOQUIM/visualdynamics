@@ -1,6 +1,6 @@
 import { authClient } from "./auth-client";
 
-const BASE_URL = "http://localhost:3001/v1";
+const BASE_URL = `${window.__ENV__.API_URL}/v1`;
 
 type GetOptions = {
   params?: Record<string, string | number | boolean | undefined>;

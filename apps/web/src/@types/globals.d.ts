@@ -6,6 +6,12 @@ export {}; // This makes the file a module
 declare global {
   declare const __VERSION__: string;
 
+  interface Window {
+    __ENV__: {
+      API_URL: string;
+    };
+  }
+
   type ArtifactDownloadTarget = keyof typeof artifactDownload;
 
   type AuthState = {
