@@ -1,8 +1,8 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll": "always"
+    "source.fixAll.oxc": "always",
+    "source.format.oxc": "always"
   },
-  "editor.defaultFormatter": "oxc.oxc-vscode",
   "[prisma]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "Prisma.prisma"

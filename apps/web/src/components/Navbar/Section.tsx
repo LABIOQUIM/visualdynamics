@@ -30,9 +30,8 @@ export function Section({ section, toggle }: Props) {
             component={Link}
             key={link.label}
             onClick={toggle}
-            rel={link.external ? "noopener noreferrer" : undefined}
-            target={link.external ? "_blank" : undefined}
-            to={section.disabled ? "#" : link.href}
+            {...(link.external ? { rel: "noopener noreferrer", target: "_blank" } : {})}
+            to={section.disabled ? "#" : (link.href ?? "#")}
           >
             <div className={classes.linkInnerContainer}>
               <link.icon className={classes.linkIcon} size={16} stroke={1.5} />

@@ -1,22 +1,4 @@
 services:
-  mailer:
-    image: murilofuza/simple-mail:0.0.9
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mailer.rule=Host(`visualdynamics.fiocruz.br`) && PathPrefix(`/dashboard`)"
-      - "traefik.http.routers.mailer.service=mailer"
-      - "traefik.http.services.mailer.loadbalancer.server.port=3000"
-      - "traefik.http.routers.mailer.tls=true"
-      - "traefik.http.routers.mailer.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.mailer.tls.domains[0].main=visualdynamics.fiocruz.br"
-      - "traefik.http.routers.mailer.entryPoints=websecure"
-    restart: always
-    env_file: .env
-    networks:
-      - traefik
-    depends_on:
-      - redis
-
   redis:
     image: redis:alpine
     command: redis-server --maxmemory-policy noeviction
@@ -30,6 +12,8 @@ services:
     build:
       context: .
       dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:5173"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`visualdynamics.fiocruz.br`)"
@@ -44,26 +28,25 @@ services:
     networks:
       - traefik
     image: visualdynamics/web:latest
-    depends_on:
-      - mailer
 
   api:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
     env_file: .env
+    ports:
+      - "3001:3000"
     restart: always
     networks:
       - traefik
     image: visualdynamics/api:latest
     volumes:
-      - visualdynamics:/files
+      - data:/files
       - /usr/local/gromacs:/gromacs
     depends_on:
-      - mailer
       - redis
 
-  proxy:
+  traefik:
     restart: always
     image: traefik
     command:
@@ -95,9 +78,7 @@ services:
       - "443:443"
 
 volumes:
-  visualdynamics:
-    driver: nfsvol
-  database:
+  data:
     driver: nfsvol
   redis:
     driver: nfsvol

@@ -9,9 +9,9 @@ import { authClient } from "@/lib/auth-client";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 
 type Props = {
-  pagination?: MRT_PaginationState;
-  columnFilters?: MRT_ColumnFiltersState;
-  sorting?: MRT_SortingState;
+  pagination?: MRT_PaginationState | undefined;
+  columnFilters?: MRT_ColumnFiltersState | undefined;
+  sorting?: MRT_SortingState | undefined;
 };
 
 export const fetchMgmtUsers = async ({

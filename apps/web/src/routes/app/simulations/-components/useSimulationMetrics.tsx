@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import dayjs from "dayjs";
 
-import type { IconType } from "@tabler/icons-react";
+import type { Icon } from "@tabler/icons-react";
 import {
   IconAtom,
   IconAtom2,
@@ -19,13 +19,13 @@ import { TypeBadge } from "@/components/TypeBadge";
 export type MetricRow = {
   label: string;
   value: React.ReactNode;
-  icon: IconType;
+  icon: Icon;
   label1: string;
   value1: React.ReactNode;
-  icon1: IconType;
+  icon1: Icon;
   label2: string;
   value2: React.ReactNode;
-  icon2: IconType;
+  icon2: Icon;
 };
 
 export function useSimulationMetrics(

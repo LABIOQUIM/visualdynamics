@@ -88,7 +88,7 @@ function RouteComponent() {
     onSortingChange,
     paginationDisplayMode: "default",
     state: { columnFilters, isLoading, pagination, sorting },
-    rowCount: data?.total,
+    rowCount: data?.total ?? 0,
     layoutMode: "grid",
     renderEditRowModalContent: ({ table, row, internalEditComponents }) => (
       <Stack>

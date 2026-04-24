@@ -9,13 +9,22 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useFlag } from "@openfeature/react-sdk";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";
 import { authClient } from "@/lib/auth-client";
+
+const schema = z.object({
+  email: z.string().min(8, "Invalid email"),
+  name: z.string().min(2, "Please enter your last name"),
+  password: z.string().min(6, "Your password must have more than 5 characters"),
+  username: z.string().min(4, "Your username must have more than 3 characters"),
+});
 
 export const Route = createFileRoute("/auth/register")({
   component: RouteComponent,
@@ -24,27 +33,11 @@ export const Route = createFileRoute("/auth/register")({
 function RouteComponent() {
   const { value: signupsEnabled } = useFlag("signups-enabled", false);
   const [status, setStatus] = useState<FormSubmissionStatus>();
-  const { getInputProps, onSubmit } = useForm<RegisterFormInputs>({
-    initialValues: {
-      email: "",
-      name: "",
-      password: "",
-      username: "",
-    },
-    validate: {
-      email: (value) => (value.length < 8 ? "Invalid email" : null),
-      name: (value) =>
-        value.length < 2 ? "Please enter your last name" : null,
-      password: (value) =>
-        value.length < 6
-          ? "Your password must have mor than 5 characters"
-          : null,
-      username: (value) =>
-        value.length < 4
-          ? "Your username must have more than 3 characters"
-          : null,
-    },
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormInputs>({ resolver: zodResolver(schema) });
 
   async function doRegister(form: RegisterFormInputs) {
     setStatus({ status: "loading" });
@@ -97,37 +90,41 @@ function RouteComponent() {
           <Box
             className={classes.formContainer}
             component="form"
-            onSubmit={onSubmit(doRegister)}
+            onSubmit={handleSubmit(doRegister)}
           >
             {status && status.status !== "loading" && <Alert status={status} />}
             <TextInput
               disabled={status?.status === "loading"}
+              error={errors.name?.message}
               label="Name"
               placeholder="e.g.: John Meyer"
               withAsterisk
-              {...getInputProps("name")}
+              {...register("name")}
             />
             <TextInput
               disabled={status?.status === "loading"}
+              error={errors.username?.message}
               label="Username"
               placeholder="e.g.: johnmeyer"
               withAsterisk
-              {...getInputProps("username")}
+              {...register("username")}
             />
             <TextInput
               disabled={status?.status === "loading"}
+              error={errors.email?.message}
               label="Email"
               placeholder="e.g.: john@doe.com"
               withAsterisk
-              {...getInputProps("email")}
+              {...register("email")}
             />
             <PasswordInput
               disabled={status?.status === "loading"}
+              error={errors.password?.message}
               label="Password"
               placeholder="******"
               type="password"
               withAsterisk
-              {...getInputProps("password")}
+              {...register("password")}
             />
 
             <Button loading={status?.status === "loading"} type="submit">

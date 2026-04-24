@@ -70,7 +70,7 @@ function RouteComponent() {
     onPaginationChange,
     paginationDisplayMode: "default",
     state: { isLoading, pagination },
-    rowCount: data?.total,
+    rowCount: data?.total ?? 0,
     layoutMode: "grid",
     mantinePaginationProps: {
       showRowsPerPage: false,

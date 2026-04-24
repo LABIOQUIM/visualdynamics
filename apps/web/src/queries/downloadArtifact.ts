@@ -24,7 +24,8 @@ export const fetchArtifact = async (
   const contentLength = response.headers.get("Content-Length");
   const total = contentLength ? parseInt(contentLength, 10) : 0;
 
-  const reader = response.body!.getReader();
+  if (!response.body) throw new Error("No response body");
+  const reader = response.body.getReader();
   const chunks: Uint8Array<ArrayBuffer>[] = [];
   let received = 0;
 

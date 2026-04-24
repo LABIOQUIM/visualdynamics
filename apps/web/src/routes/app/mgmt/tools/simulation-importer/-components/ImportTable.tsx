@@ -143,7 +143,7 @@ export function ImportTable() {
           type="file"
         />
         <Button
-          color={users.length > 0 ? "green" : undefined}
+          {...(users.length > 0 ? { color: "green" } : {})}
           onClick={() => usersInputRef.current?.click()}
           variant="light"
         >

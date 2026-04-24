@@ -24,7 +24,7 @@ const prisma = new PrismaClient({ adapter });
 @Injectable()
 export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(SimulationEventsListener.name);
-  private queueEvents: QueueEvents;
+  private queueEvents!: QueueEvents;
 
   // Inject the queue to get connection options and fetch job data.
   constructor(
@@ -74,7 +74,7 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
       );
       await job.moveToFailed(
         error instanceof Error ? error : new Error(String(error)),
-        job.token,
+        job.token!,
       );
     }
   }

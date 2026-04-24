@@ -19,7 +19,10 @@ export class MailerConsumer extends WorkerHost {
       subject: data.subject,
       ...(data.html
         ? { html: data.html }
-        : { template: `/templates/${data.template}`, context: data.context }),
+        : {
+            template: `/templates/${data.template}`,
+            ...(data.context ? { context: data.context } : {}),
+          }),
     });
   }
 }

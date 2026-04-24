@@ -46,7 +46,7 @@ function RouteComponent() {
       enabled: values.enabled,
       defaultVariant: values.defaultVariant,
       variants: buildVariantsRecord(values.variants, values.type),
-      description: values.description || undefined,
+      ...(values.description ? { description: values.description } : {}),
     };
 
     updateMutation.mutate(

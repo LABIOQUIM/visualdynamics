@@ -91,6 +91,5 @@ export const auth = betterAuth({
       }
     }),
   },
-  // @ts-ignore better-auth plugin init() return type variance mismatch (version-dependent)
   plugins: [admin(), twoFactor(), username()],
 });

@@ -9,18 +9,22 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useFlag } from "@openfeature/react-sdk";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";
 import { authClient } from "@/lib/auth-client";
 
-type FormInputs = {
-  identifier: string;
-  password: string;
-};
+const schema = z.object({
+  identifier: z.string().min(4, "Your email and username both have more than 3 characters"),
+  password: z.string().min(6, "The password can't be less than 6 characters"),
+});
+
+type FormInputs = z.infer<typeof schema>;
 
 export const Route = createFileRoute("/auth/login")({
   component: RouteComponent,
@@ -32,22 +36,11 @@ function RouteComponent() {
   const { value: maintenanceMode } = useFlag("maintenance-mode", true);
 
   const [status, setStatus] = useState<FormSubmissionStatus>();
-  const { getInputProps, onSubmit } = useForm<FormInputs>({
-    initialValues: {
-      identifier: "",
-      password: "",
-    },
-    validate: {
-      identifier: (value) =>
-        value.length < 4
-          ? "Your email and username both have more than 3 characters"
-          : null,
-      password: (value) =>
-        value.length < 5
-          ? "The password can't be less than 6 characters"
-          : null,
-    },
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>({ resolver: zodResolver(schema) });
 
   async function doLogin({ identifier, password }: FormInputs) {
     setStatus({ status: "loading" });
@@ -122,22 +115,24 @@ function RouteComponent() {
       <Box
         className={classes.formContainer}
         component="form"
-        onSubmit={onSubmit(doLogin)}
+        onSubmit={handleSubmit(doLogin)}
       >
         <RenderAlert />
         <TextInput
           data-autofocus
           disabled={status?.status === "loading"}
+          error={errors.identifier?.message}
           label="Email or Username"
           withAsterisk
-          {...getInputProps("identifier")}
+          {...register("identifier")}
         />
         <PasswordInput
           disabled={status?.status === "loading"}
+          error={errors.password?.message}
           label="Password"
           type="password"
           withAsterisk
-          {...getInputProps("password")}
+          {...register("password")}
         />
 
         <Button loading={status?.status === "loading"} type="submit">

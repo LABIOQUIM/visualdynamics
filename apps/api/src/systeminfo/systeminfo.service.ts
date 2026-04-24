@@ -26,11 +26,11 @@ export class SystemInfoService {
         total: memInfo.total,
         used: memInfo.used,
       },
-      fs: {
-        size: fs.find((b) => b.mount === "/").size,
-        used: fs.find((b) => b.mount === "/").used,
-        available: fs.find((b) => b.mount === "/").available,
-      },
+      fs: (() => {
+        const rootFs = fs.find((b) => b.mount === "/");
+        if (!rootFs) throw new Error("Root filesystem not found");
+        return { size: rootFs.size, used: rootFs.used, available: rootFs.available };
+      })(),
     };
   }
 }

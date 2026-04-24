@@ -2,7 +2,7 @@ import classes from "./MolViewer.module.css";
 
 import { useEffect, useRef } from "react";
 import { IconCircleOff } from "@tabler/icons-react";
-import Viewer from "3dmol";
+import * as NGL from "ngl";
 
 import type { LatestMacromolecules } from "@/queries/latestMacromolecules";
 
@@ -18,50 +18,47 @@ export function MolViewer({ macromolecules }: Props) {
       return;
     }
 
-    const viewer = Viewer.createViewer(viewerRef.current, {
+    let mounted = true;
+
+    const stage = new NGL.Stage(viewerRef.current, {
       backgroundColor: "#f8f9fa",
     });
 
-    // Load the macromolecule structure
     const macromolecule = macromolecules.macromolecule;
     const ligandPdbs = macromolecules.ligandPdbs;
 
+    const loadPromises: Promise<void | NGL.Component>[] = [];
+
     if (macromolecule) {
-      viewer.addModel(macromolecule, "pdb", {
-        style: { cartoon: { color: "spectrum" } },
-      });
+      const blob = new Blob([macromolecule], { type: "text/plain" });
+      loadPromises.push(
+        stage.loadFile(blob, { ext: "pdb" }).then((comp) => {
+          if (!mounted || !comp) return;
+          comp.addRepresentation("cartoon", { colorScheme: "chainindex" });
+        }),
+      );
     }
 
     if (ligandPdbs) {
-      ligandPdbs.forEach((ligandPdb) => {
-        viewer.addModel(ligandPdb, "pdb", {
-          style: { stick: {} },
-        });
-      });
+      for (const ligandPdb of ligandPdbs) {
+        const blob = new Blob([ligandPdb], { type: "text/plain" });
+        loadPromises.push(
+          stage.loadFile(blob, { ext: "pdb" }).then((comp) => {
+            if (!mounted || !comp) return;
+            comp.addRepresentation("ball+stick", {});
+          }),
+        );
+      }
     }
 
-    viewer.zoomTo();
-    viewer.render();
-
-    const container = viewerRef.current;
-
-    function handleWheel(e: WheelEvent) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      // Invert 3Dmol's default: scroll up = zoom in, scroll down = zoom out
-      const factor = e.deltaY < 0 ? 1.1 : 0.9;
-      viewer.zoom(factor, 0);
-    }
-
-    container.addEventListener("wheel", handleWheel, {
-      capture: true,
-      passive: false,
+    void Promise.all(loadPromises).then(() => {
+      if (!mounted) return;
+      stage.autoView();
     });
 
     return () => {
-      container.removeEventListener("wheel", handleWheel, { capture: true });
-      viewer.removeAllModels();
-      viewer.clear();
+      mounted = false;
+      stage.dispose();
     };
   }, [macromolecules]);
 
@@ -82,3 +79,5 @@ export function MolViewer({ macromolecules }: Props) {
 
   return <div className={classes.viewerContainer} ref={viewerRef} />;
 }
+
+export default MolViewer;

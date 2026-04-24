@@ -31,7 +31,7 @@ export async function submitSimulation(
 
   const api = await getAPIClient();
 
-  const response = await api.post(`/simulation/submit`, data);
+  const response = await api.post<{ commands: string[] }>(`/simulation/submit`, data);
 
   if (!shouldRun) {
     let filename = values.type;

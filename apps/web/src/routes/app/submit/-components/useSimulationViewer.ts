@@ -28,7 +28,7 @@ export function useSimulationViewer(
       .filter((f): f is File => f instanceof File);
 
     if (ligandFiles.length === 0) {
-      setFiles((prev) => ({ ...prev, ligandPdbs: undefined }));
+      setFiles(({ ligandPdbs: _lp, ...rest }) => rest);
       return;
     }
 

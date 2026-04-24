@@ -108,12 +108,12 @@ export function LigandFields({ control, formState }: Props) {
                     accept=".pdb"
                     clearable
                     description="PDB format"
-                    error={fieldState.error?.message}
+                    {...(fieldState.error?.message ? { error: fieldState.error.message } : {})}
                     label="Structure"
                     onChange={(val) => onChange(val ?? undefined)}
                     placeholder="Upload ligand PDB file"
                     ref={ref}
-                    value={value}
+                    value={value ?? null}
                     withAsterisk
                   />
                 )}
@@ -126,12 +126,12 @@ export function LigandFields({ control, formState }: Props) {
                     accept=".itp"
                     clearable
                     description="ITP format"
-                    error={fieldState.error?.message}
+                    {...(fieldState.error?.message ? { error: fieldState.error.message } : {})}
                     label="Topology"
                     onChange={(val) => onChange(val ?? undefined)}
                     placeholder="Upload ligand ITP file"
                     ref={ref}
-                    value={value}
+                    value={value ?? null}
                     withAsterisk
                   />
                 )}

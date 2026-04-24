@@ -52,8 +52,8 @@ export function ArtifactDownload({
         inner: classes.inner,
         label: classes.label,
       }}
-      disabled={disabled}
-      leftSection={!isLoading ? <IconDownload /> : undefined}
+      {...(disabled !== undefined ? { disabled } : {})}
+      {...(!isLoading ? { leftSection: <IconDownload /> } : {})}
       onClick={handleDownload}
       ref={rootRef}
       rightSection={<downloadInfo.Icon className={classes.bg_icon} size={64} />}

@@ -86,11 +86,11 @@ function CsvDropzone({
       </Dropzone>
       <Button
         className={classes.control}
-        color={buttonColor}
+        {...(buttonColor !== undefined ? { color: buttonColor } : {})}
         onClick={() => openRef.current?.()}
         radius="xl"
         size="md"
-        variant={buttonVariant}
+        {...(buttonVariant !== undefined ? { variant: buttonVariant } : {})}
       >
         {buttonLabel}
       </Button>
@@ -102,8 +102,8 @@ export function DropFileButton() {
   const { readString } = usePapaParse();
   const { simulations, setSimulations, users, setUsers } =
     useSimulationImporter();
-  const simOpenRef = useRef<() => void>(null);
-  const usersOpenRef = useRef<() => void>(null);
+  const simOpenRef = useRef<() => void>(null!);
+  const usersOpenRef = useRef<() => void>(null!);
 
   const onDropSimulations = useCallback(async (files: FileWithPath[]) => {
     if (!files.length) return;
@@ -159,7 +159,7 @@ export function DropFileButton() {
       />
       <CsvDropzone
         ariaLabel="Drop users CSV"
-        buttonColor={users.length > 0 ? "green" : undefined}
+        {...(users.length > 0 ? { buttonColor: "green" } : {})}
         buttonLabel={
           users.length > 0 ? `${users.length} users — reload` : "Select users file"
         }

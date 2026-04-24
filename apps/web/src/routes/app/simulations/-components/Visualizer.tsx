@@ -5,7 +5,7 @@ import { IconCloudOff, IconFolderOff } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 
 import { Loader } from "@/components/Loader";
-import { MolViewer } from "@/components/MolViewer";
+import { LazyMolViewer } from "@/components/LazyMolViewer";
 import { getSimulation } from "@/queries/getSimulation";
 
 type VisualizerProps = {
@@ -40,13 +40,12 @@ export function Visualizer({ simulationId }: VisualizerProps) {
   }
 
   return (
-    <MolViewer
+    <LazyMolViewer
       macromolecules={{
         macromolecule: data.molecules.macromolecule,
-        ligandPdbs:
-          data.molecules.ligands.length > 0
-            ? data.molecules.ligands
-            : undefined,
+        ...(data.molecules.ligands.length > 0
+          ? { ligandPdbs: data.molecules.ligands }
+          : {}),
       }}
     />
   );

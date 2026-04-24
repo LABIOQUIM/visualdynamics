@@ -13,8 +13,10 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
+import { z } from "zod";
 
 import { type CreateFeatureFlagInput } from "@/mutations/featureFlags";
 
@@ -46,6 +48,41 @@ export interface FlagFormValues {
   description: string;
 }
 
+const variantSchema = z.object({
+  variantKey: z.string(),
+  variantValue: z.string(),
+});
+
+const schema = z
+  .object({
+    key: z.string().min(1, "Key is required"),
+    type: z.enum(["BOOLEAN", "STRING", "NUMBER"] as const),
+    enabled: z.boolean(),
+    defaultVariant: z.string(),
+    variants: z.array(variantSchema),
+    description: z.string(),
+  })
+  .superRefine((data, ctx) => {
+    const seen = new Set<string>();
+    data.variants.forEach((v, i) => {
+      if (!v.variantKey.trim()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Key is required",
+          path: ["variants", i, "variantKey"],
+        });
+      } else if (seen.has(v.variantKey)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Variant keys must be unique",
+          path: ["variants", i, "variantKey"],
+        });
+      } else {
+        seen.add(v.variantKey);
+      }
+    });
+  });
+
 const DEFAULT_VALUES: FlagFormValues = {
   key: "",
   type: "BOOLEAN",
@@ -75,28 +112,24 @@ export function FlagForm({
   onCancel,
   submitLabel = "Save",
 }: FlagFormProps) {
-  const form = useForm<FlagFormValues>({
-    initialValues: { ...DEFAULT_VALUES, ...initialValues },
-    validate: {
-      key: (v) => (!v.trim() ? "Key is required" : null),
-      variants: {
-        variantKey: (v: string, values: FlagFormValues, path: string) => {
-          if (!v.trim()) return "Key is required";
-          const index = Number(path.split(".")[1]);
-          const isDuplicate = values.variants.some(
-            (e, i) => i !== index && e.variantKey === v,
-          );
-          return isDuplicate ? "Variant keys must be unique" : null;
-        },
-      },
-    },
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FlagFormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { ...DEFAULT_VALUES, ...initialValues },
   });
 
-  const { values } = form;
+  const { fields, append, remove } = useFieldArray({ control, name: "variants" });
+
+  const currentType = useWatch({ control, name: "type" });
+  const currentVariants = useWatch({ control, name: "variants" });
 
   const variantKeyOptions = Array.from(
     new Map(
-      values.variants
+      (currentVariants ?? [])
         .filter((e) => e.variantKey.trim())
         .map((e) => [
           e.variantKey,
@@ -106,32 +139,28 @@ export function FlagForm({
   );
 
   function addVariant() {
-    form.insertListItem("variants", {
+    append({
       variantKey: "",
-      variantValue: values.type === "BOOLEAN" ? "true" : "",
+      variantValue: currentType === "BOOLEAN" ? "true" : "",
     });
   }
 
-  function removeVariant(index: number) {
-    form.removeListItem("variants", index);
-  }
-
   return (
-    <form onSubmit={form.onSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.grid}>
         <Paper p="md" withBorder>
           <Stack>
             <Group justify="space-between">
               <Title order={5}>Variants</Title>
               <Badge
-                color={FLAG_TYPE_COLORS[values.type] ?? "gray"}
+                color={FLAG_TYPE_COLORS[currentType] ?? "gray"}
                 variant="light"
               >
-                {values.type}
+                {currentType}
               </Badge>
             </Group>
 
-            {values.variants.length === 0 ? (
+            {fields.length === 0 ? (
               <Text c="dimmed" size="sm">
                 No variants yet. Add one below.
               </Text>
@@ -147,27 +176,27 @@ export function FlagForm({
                   <div />
                 </div>
 
-                {values.variants.map((entry, index) => (
-                  <div className={classes.variantRow} key={index}>
+                {fields.map((field, index) => (
+                  <div className={classes.variantRow} key={field.id}>
                     <TextInput
-                      error={
-                        form.errors[`variants.${index}.variantKey`] as
-                          | string
-                          | undefined
-                      }
+                      error={errors.variants?.[index]?.variantKey?.message}
                       placeholder="variant-key"
-                      {...form.getInputProps(`variants.${index}.variantKey`)}
+                      {...register(`variants.${index}.variantKey`)}
                     />
-                    <VariantValueInput
-                      entry={entry}
-                      onChange={(v) =>
-                        form.setFieldValue(`variants.${index}.variantValue`, v)
-                      }
-                      type={values.type}
+                    <Controller
+                      control={control}
+                      name={`variants.${index}.variantValue`}
+                      render={({ field: { value, onChange } }) => (
+                        <VariantValueInput
+                          entry={{ ...field, variantValue: value }}
+                          onChange={onChange}
+                          type={currentType}
+                        />
+                      )}
                     />
                     <ActionIcon
                       color="red"
-                      onClick={() => removeVariant(index)}
+                      onClick={() => remove(index)}
                       variant="subtle"
                     >
                       <IconTrash size={14} />
@@ -191,30 +220,52 @@ export function FlagForm({
         <Stack>
           <TextInput
             disabled={disabledFields.includes("key")}
+            error={errors.key?.message}
             label="Key"
             placeholder="my-feature-flag"
-            {...form.getInputProps("key")}
+            {...register("key")}
           />
-          <Select
-            data={FLAG_TYPE_OPTIONS}
-            disabled={disabledFields.includes("type")}
-            label="Type"
-            {...form.getInputProps("type")}
+          <Controller
+            control={control}
+            name="type"
+            render={({ field: { value, onChange } }) => (
+              <Select
+                data={FLAG_TYPE_OPTIONS}
+                disabled={disabledFields.includes("type")}
+                label="Type"
+                onChange={onChange}
+                value={value}
+              />
+            )}
           />
-          <Select
-            data={variantKeyOptions}
-            label="Default Variant"
-            placeholder="Select a variant"
-            {...form.getInputProps("defaultVariant")}
+          <Controller
+            control={control}
+            name="defaultVariant"
+            render={({ field: { value, onChange } }) => (
+              <Select
+                data={variantKeyOptions}
+                label="Default Variant"
+                onChange={onChange}
+                placeholder="Select a variant"
+                value={value}
+              />
+            )}
           />
-          <Switch
-            label="Enabled"
-            {...form.getInputProps("enabled", { type: "checkbox" })}
+          <Controller
+            control={control}
+            name="enabled"
+            render={({ field: { value, onChange } }) => (
+              <Switch
+                checked={value}
+                label="Enabled"
+                onChange={(e) => onChange(e.currentTarget.checked)}
+              />
+            )}
           />
           <TextInput
             label="Description"
             placeholder="Optional description"
-            {...form.getInputProps("description")}
+            {...register("description")}
           />
           <Group mt="md">
             <Button loading={isLoading} type="submit">

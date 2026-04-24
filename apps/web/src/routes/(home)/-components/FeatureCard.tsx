@@ -7,7 +7,7 @@ interface FeatureCardProps {
   icon: React.ReactNode; // Expect a Tabler Icon component
   title: string;
   description: string;
-  soon?: boolean;
+  soon?: boolean | undefined;
 }
 
 export function FeatureCard({

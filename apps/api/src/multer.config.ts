@@ -13,10 +13,15 @@ const multerConfig = {
     destination: "/files",
     filename: (req, file, cb) => {
       const extension = path.parse(file.originalname).ext.toLowerCase();
+
+      if (!req.session?.user) {
+        return cb(new Error("Unauthorized"), "");
+      }
+
       const userDir = `/files/${req.session.user.username}`;
 
       if (!ALLOWED_EXTENSIONS.has(extension)) {
-        return cb(new Error(`File type not allowed: ${extension}`), null);
+        return cb(new Error(`File type not allowed: ${extension}`), "");
       }
 
       if (!fs.existsSync(userDir)) {

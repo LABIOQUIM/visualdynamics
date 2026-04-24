@@ -147,7 +147,7 @@ export class SimulationController {
     if (body.shouldRun && body.shouldRun === "true") {
       await this.simulationCreationService.addSimulationToQueue(
         simulationId,
-        request.session.user.username,
+        request.session!.user.username!,
         body.type,
         body.successEmail,
         body.errorEmail,
@@ -165,7 +165,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const data = await this.simulationService.getSimulationDetails(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -174,6 +174,7 @@ export class SimulationController {
     }
 
     if (
+      data.simulation &&
       data.simulation.user.username !== session.user.username &&
       session.user.role !== "admin"
     ) {
@@ -288,7 +289,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationFileService.getSimulationFigures(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -309,7 +310,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationFileService.getSimulationCommands(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -330,7 +331,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: string,
   ) {
     const file = await this.simulationFileService.getSimulationGromacsLogs(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 
@@ -351,7 +352,7 @@ export class SimulationController {
     @Query("simulationId") simulationId: SIMULATION_TYPE,
   ) {
     const file = await this.simulationFileService.getSimulationResults(
-      session.user.username,
+      session.user.username!,
       simulationId,
     );
 

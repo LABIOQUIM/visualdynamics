@@ -7,9 +7,7 @@ const ligandPairSchema = z.object({
 
 export const simulationSchema = z
   .object({
-    type: z.enum(["apo", "acpype"] as const, {
-      required_error: "Simulation type is required",
-    }),
+    type: z.enum(["apo", "acpype"] as const),
     filePDB: z.instanceof(File, { message: "PDB file is required" }).refine(
       async (file) => {
         const text = await file.text();
@@ -22,10 +20,7 @@ export const simulationSchema = z
     waterModel: z.string().min(1, "Water model is required"),
     boxType: z.string().min(1, "Box type is required"),
     boxDistance: z
-      .number({
-        required_error: "Box distance is required",
-        invalid_type_error: "Box distance is required",
-      })
+      .number({ error: "Box distance is required" })
       .min(0.1, "Minimum is 0.1 nm")
       .max(1.2, "Maximum is 1.2 nm"),
   })

@@ -100,7 +100,7 @@ function RouteComponent() {
         size: 120, //make actions column wider
       },
     },
-    rowCount: data?.total,
+    rowCount: data?.total ?? 0,
     layoutMode: "grid",
     renderEditRowModalContent: ({ table, row, internalEditComponents }) => (
       <Stack>

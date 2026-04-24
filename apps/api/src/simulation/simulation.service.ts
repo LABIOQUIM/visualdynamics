@@ -36,7 +36,7 @@ export class SimulationService {
     );
 
     if (jobIndex !== -1) {
-      jobId = jobs[jobIndex].id;
+      jobId = jobs[jobIndex].id ?? "-1";
     }
 
     // Get Job Queue Position
@@ -356,7 +356,7 @@ export class SimulationService {
             endedAt: row.ended_at ? new Date(row.ended_at) : null,
             errorCause: row.error_cause ?? null,
             createdAt: row.created_at ? new Date(row.created_at) : new Date(),
-            ligands: ligands.length ? { create: ligands } : undefined,
+            ...(ligands.length ? { ligands: { create: ligands } } : {}),
           },
         });
 
