@@ -59,6 +59,14 @@ export function MolViewer({ macromolecules }: Props) {
     return () => {
       mounted = false;
       stage.dispose();
+      // NGL.dispose() releases WebGL resources but does NOT remove its DOM
+      // elements (wrapper div + canvas). Without manual cleanup, each remount
+      // accumulates stale canvases inside the container: they appear side-by-side
+      // in the flex row and the stale canvas height poisons getBoundingClientRect
+      // for the next Stage constructor call.
+      if (viewerRef.current) {
+        viewerRef.current.replaceChildren();
+      }
     };
   }, [macromolecules]);
 
