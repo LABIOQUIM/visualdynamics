@@ -13,7 +13,7 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile
     ports:
-      - "3000:5173"
+      - "3000:3000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=Host(`visualdynamics.fiocruz.br`)"
