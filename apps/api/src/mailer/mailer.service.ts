@@ -2,7 +2,7 @@ import { InjectQueue } from "@nestjs/bullmq";
 import { Injectable } from "@nestjs/common";
 import { Queue } from "bullmq";
 
-import { MailerBody } from "./mailer.types";
+import { MailerBody } from "./mailer.types.js";
 
 @Injectable()
 export class MailerService {

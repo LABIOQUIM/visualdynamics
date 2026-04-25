@@ -6,7 +6,7 @@ import type {
   ResolutionDetails,
 } from "@openfeature/server-sdk";
 
-import type { PrismaService } from "../prisma.service";
+import type { PrismaService } from "../prisma.service.js";
 
 interface FlagRow {
   key: string;

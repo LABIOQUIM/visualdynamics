@@ -7,11 +7,11 @@ import { existsSync, readFileSync, unlinkSync, writeFileSync } from "fs";
 import * as path from "path";
 import { chdir } from "process";
 
-import { PrismaClient } from "../generated/prisma/client";
-import { executeCommands } from "../utils/executeCommands"; // Adjust path if needed
-import { loadCommands } from "../utils/loadCommands"; // Adjust path if needed
+import { PrismaClient } from "../generated/prisma/client.js";
+import { executeCommands } from "../utils/executeCommands.js";
+import { loadCommands } from "../utils/loadCommands.js";
 
-import { SimulateData } from "./simulation.types";
+import { SimulateData } from "./simulation.types.js";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });

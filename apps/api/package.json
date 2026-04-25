@@ -5,13 +5,15 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "format": "oxfmt src",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main.js",
+    "generate": "prisma generate && node scripts/fix-prisma-imports.mjs",
     "lint": "oxlint --fix src"
   },
   "dependencies": {

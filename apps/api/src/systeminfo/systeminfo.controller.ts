@@ -1,6 +1,6 @@
 import { Controller, Get } from "@nestjs/common";
 
-import { SystemInfoService } from "./systeminfo.service";
+import { SystemInfoService } from "./systeminfo.service.js";
 
 @Controller("systemInfo")
 export class SystemInfoController {

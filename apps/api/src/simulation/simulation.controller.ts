@@ -20,15 +20,15 @@ import { OpenFeature } from "@openfeature/server-sdk";
 import { Session } from "@thallesp/nestjs-better-auth";
 import { Request } from "express";
 
-import { SIMULATION_TYPE } from "../generated/prisma/client";
-import { SimulationUpdateInput } from "../generated/prisma/models";
-import { auth } from "../lib/auth";
-import multerConfig from "../multer.config";
+import { SIMULATION_TYPE } from "../generated/prisma/client.js";
+import { SimulationUpdateInput } from "../generated/prisma/models.js";
+import { auth } from "../lib/auth.js";
+import multerConfig from "../multer.config.js";
 
-import { SimulationCreationService } from "./simulation.creation.service";
-import { SimulationFileService } from "./simulation.file.service";
-import { SimulationService } from "./simulation.service";
-import type { NewSimulationBody } from "./simulation.types";
+import { SimulationCreationService } from "./simulation.creation.service.js";
+import { SimulationFileService } from "./simulation.file.service.js";
+import { SimulationService } from "./simulation.service.js";
+import type { NewSimulationBody } from "./simulation.types.js";
 
 @Controller("simulation")
 export class SimulationController {

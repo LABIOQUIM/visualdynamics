@@ -21,9 +21,10 @@ RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/api/package.json apps/api/prisma.config.ts ./apps/api/
 COPY apps/api/prisma/schema.prisma ./apps/api/prisma/
+COPY apps/api/scripts ./apps/api/scripts/
 RUN pnpm install --frozen-lockfile
 RUN DB_USER=x DB_PASS=x DB_HOST=x DB_PORT=5432 DB_DATABASE=x \
-    pnpm --filter api exec prisma generate
+    pnpm --filter api run generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -44,11 +45,13 @@ WORKDIR /app
 ENV PATH="${PATH}:/gromacs/bin"
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY package.json pnpm-workspace.yaml ./
 COPY --from=builder /app/apps/api/dist ./apps/api/dist
 COPY --from=builder /app/apps/api/static ./apps/api/static
 COPY apps/api/package.json ./apps/api/
 
+WORKDIR /app/apps/api
+
 EXPOSE 3000
 
-CMD ["pnpm", "--filter", "api", "start:prod"]
+CMD ["node", "dist/src/main.js"]

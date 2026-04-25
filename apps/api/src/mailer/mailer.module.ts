@@ -3,11 +3,11 @@ import { BullBoardModule } from "@bull-board/nestjs";
 import { BullModule } from "@nestjs/bullmq";
 import { Module } from "@nestjs/common";
 
-import { PrismaService } from "../prisma.service";
+import { PrismaService } from "../prisma.service.js";
 
-import { MailerConsumer } from "./mailer.consumer";
-import { MailerssController } from "./mailer.controller";
-import { MailerService } from "./mailer.service";
+import { MailerConsumer } from "./mailer.consumer.js";
+import { MailerssController } from "./mailer.controller.js";
+import { MailerService } from "./mailer.service.js";
 
 @Module({
   imports: [

@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { Roles, Session } from "@thallesp/nestjs-better-auth";
 
-import { auth } from "../lib/auth";
-import { PrismaService } from "../prisma.service";
+import { auth } from "../lib/auth.js";
+import { PrismaService } from "../prisma.service.js";
 
-import { MailerService } from "./mailer.service";
-import { MailerBody } from "./mailer.types";
+import { MailerService } from "./mailer.service.js";
+import { MailerBody } from "./mailer.types.js";
 
 @Controller("mailer")
 @Roles(["admin"])

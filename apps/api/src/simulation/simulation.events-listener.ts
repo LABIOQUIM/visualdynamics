@@ -8,7 +8,7 @@ import {
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Queue, QueueEvents } from "bullmq";
 
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "../generated/prisma/client.js";
 
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;

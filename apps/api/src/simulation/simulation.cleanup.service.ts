@@ -3,7 +3,7 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import { existsSync, rmSync } from "fs";
 import { join } from "path";
 
-import { PrismaService } from "../prisma.service";
+import { PrismaService } from "../prisma.service.js";
 
 export const STORAGE_RETENTION_DAYS = 30;
 

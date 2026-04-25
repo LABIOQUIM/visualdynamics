@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
 
-import { runCommand } from "./runCommand";
+import { runCommand } from "./runCommand.js";
 
 export async function executeCommands(
   commands: string[],

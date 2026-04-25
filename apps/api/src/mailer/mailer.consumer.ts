@@ -2,7 +2,7 @@ import { Processor, WorkerHost } from "@nestjs/bullmq";
 import { MailerService } from "@nestjs-modules/mailer";
 import { Job } from "bullmq";
 
-import { MailerBody } from "./mailer.types";
+import { MailerBody } from "./mailer.types.js";
 
 @Processor("mailer")
 export class MailerConsumer extends WorkerHost {

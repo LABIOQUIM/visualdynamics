@@ -5,12 +5,12 @@ import { cpSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "fs";
 import { join } from "path";
 import { cwd } from "process";
 
-import { SIMULATION_TYPE } from "../generated/prisma/client";
-import { PrismaService } from "../prisma.service";
-import { normalizeString } from "../utils/normalizeString";
-import { renderTemplate } from "../utils/renderTemplate";
+import { SIMULATION_TYPE } from "../generated/prisma/client.js";
+import { PrismaService } from "../prisma.service.js";
+import { normalizeString } from "../utils/normalizeString.js";
+import { renderTemplate } from "../utils/renderTemplate.js";
 
-import type { NewSimulationBody } from "./simulation.types";
+import type { NewSimulationBody } from "./simulation.types.js";
 
 // Allowlists for GROMACS parameters used in shell command templates.
 const ALLOWED_FORCE_FIELDS = new Set([

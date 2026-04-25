@@ -1,4 +1,4 @@
-import { SIMULATION_TYPE, User } from "../generated/prisma/client";
+import { SIMULATION_TYPE, User } from "../generated/prisma/client.js";
 
 export interface NewSimulationBody {
   type: SIMULATION_TYPE;

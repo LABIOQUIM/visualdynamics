@@ -8,12 +8,12 @@ import {
 import { Queue } from "bullmq";
 import { existsSync, readFileSync } from "fs";
 
-import { SIMULATION_TYPE } from "../generated/prisma/client";
-import { SimulationUpdateInput } from "../generated/prisma/models";
-import { PrismaService } from "../prisma.service";
-import { readFileData } from "../utils/readFileData";
+import { SIMULATION_TYPE } from "../generated/prisma/client.js";
+import { SimulationUpdateInput } from "../generated/prisma/models.js";
+import { PrismaService } from "../prisma.service.js";
+import { readFileData } from "../utils/readFileData.js";
 
-import { getStorageExpiresAt } from "./simulation.cleanup.service";
+import { getStorageExpiresAt } from "./simulation.cleanup.service.js";
 
 @Injectable()
 export class SimulationService {

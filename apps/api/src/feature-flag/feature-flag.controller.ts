@@ -11,10 +11,10 @@ import {
 } from "@nestjs/common";
 import { AllowAnonymous, Session } from "@thallesp/nestjs-better-auth";
 
-import type { FEATURE_FLAG_TYPE, Prisma } from "../generated/prisma/client";
-import { auth } from "../lib/auth";
+import type { FEATURE_FLAG_TYPE, Prisma } from "../generated/prisma/client.js";
+import { auth } from "../lib/auth.js";
 
-import { FeatureFlagService } from "./feature-flag.service";
+import { FeatureFlagService } from "./feature-flag.service.js";
 
 @Controller("feature-flags")
 export class FeatureFlagController {
