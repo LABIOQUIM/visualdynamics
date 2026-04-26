@@ -3,6 +3,8 @@ services:
     image: redis:alpine
     command: redis-server --maxmemory-policy noeviction
     restart: always
+    networks:
+      - traefik
     volumes:
       - redis:/data
 

@@ -21,7 +21,7 @@ const prisma = new PrismaClient({ adapter });
 
 export const auth = betterAuth({
   basePath: "/auth",
-  trustedOrigins: [process.env.WEB_URL ?? "http://localhost:3000"],
+  trustedOrigins: [process.env.APP_URL ?? "http://localhost:3000"],
   emailAndPassword: {
     enabled: true,
   },
