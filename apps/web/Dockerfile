@@ -26,9 +26,12 @@ WORKDIR /usr/share/caddy
 COPY --from=builder /app/apps/web/dist ./
 COPY apps/web/Caddyfile /etc/caddy/Caddyfile
 COPY apps/web/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh \
+    && addgroup -S appgroup \
+    && adduser -S -u 1001 -G appgroup appuser \
+    && chown -R appuser:appgroup /usr/share/caddy /data /config
 
-USER caddy
+USER appuser
 
 EXPOSE 3000
 
