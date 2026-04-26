@@ -1,7 +1,7 @@
 import classes from "../index.module.css";
 
 import { type Control, Controller } from "react-hook-form";
-import { Group, Radio, Text } from "@mantine/core";
+import { Radio, Text } from "@mantine/core";
 
 import type { SimulationFormValues } from "./schema";
 
@@ -36,7 +36,7 @@ export function SimulationTypeSelector({ control, onTypeChange }: Props) {
           }}
           value={field.value}
         >
-          <Group grow>
+          <div className={classes.radioGroup}>
             {options.map(({ value, label, description }) => (
               <Radio.Card
                 className={classes.radioRoot}
@@ -45,7 +45,7 @@ export function SimulationTypeSelector({ control, onTypeChange }: Props) {
                 value={value}
                 withBorder
               >
-                <Group gap="sm" wrap="nowrap">
+                <div className={classes.radioContent}>
                   <Radio.Indicator />
                   <div>
                     <Text fw={500} size="sm">
@@ -55,10 +55,10 @@ export function SimulationTypeSelector({ control, onTypeChange }: Props) {
                       {description}
                     </Text>
                   </div>
-                </Group>
+                </div>
               </Radio.Card>
             ))}
-          </Group>
+          </div>
         </Radio.Group>
       )}
     />

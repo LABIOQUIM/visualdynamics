@@ -1,3 +1,5 @@
+import classes from "../index.module.css";
+
 import { useEffect, useRef } from "react";
 import {
   type Control,
@@ -99,7 +101,7 @@ export function LigandFields({ control, formState }: Props) {
                 <IconTrash size={14} />
               </ActionIcon>
             </Group>
-            <Group grow>
+            <div className={classes.fieldGrid}>
               <Controller
                 control={control}
                 name={`ligands.${index}.filePDB`}
@@ -136,7 +138,7 @@ export function LigandFields({ control, formState }: Props) {
                   />
                 )}
               />
-            </Group>
+            </div>
           </Paper>
         ))}
       </Stack>

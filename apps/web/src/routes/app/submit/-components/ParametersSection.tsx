@@ -1,5 +1,7 @@
+import classes from "../index.module.css";
+
 import { type Control, Controller, useWatch } from "react-hook-form";
-import { Box, Group, NumberInput, Select, Stack, Text } from "@mantine/core";
+import { Box, NumberInput, Select, Stack, Text } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 
 import { allForceFields, boxTypes, waterModels } from "./constants";
@@ -32,7 +34,7 @@ export function ParametersSection({ control }: Props) {
   return (
     <SectionContainer title="Parameters">
       <Stack gap="xs">
-        <Group grow>
+        <div className={classes.fieldGrid}>
           <Controller
             control={control}
             name="forceField"
@@ -75,8 +77,8 @@ export function ParametersSection({ control }: Props) {
               />
             )}
           />
-        </Group>
-        <Group grow>
+        </div>
+        <div className={classes.fieldGrid}>
           <Controller
             control={control}
             name="boxType"
@@ -127,7 +129,7 @@ export function ParametersSection({ control }: Props) {
               />
             )}
           />
-        </Group>
+        </div>
       </Stack>
     </SectionContainer>
   );

@@ -40,7 +40,7 @@ function RouteComponent() {
     });
 
   return (
-    <PageLayout>
+    <PageLayout className={classes.pageLayout}>
       <Heading title="Submit Simulation" />
       <form
         className={classes.form}

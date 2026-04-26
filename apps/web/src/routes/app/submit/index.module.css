@@ -1,20 +1,40 @@
+.pageLayout {
+  height: auto !important;
+  max-height: none !important;
+  min-height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2);
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2) !important;
+    max-height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2) !important;
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
+  gap: var(--mantine-spacing-md);
+  min-height: auto;
+  overflow: visible;
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    flex: 1;
+    gap: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 .layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--mantine-spacing-md);
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
+  min-height: auto;
+  overflow: visible;
 
   @media (min-width: $mantine-breakpoint-xl) {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -24,30 +44,48 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
+  min-height: auto;
+  overflow: visible;
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    min-height: 0;
+    overflow: hidden;
+  }
 }
 
 .formScrollArea {
-  flex: 1;
-  overflow-y: scroll;
-  scrollbar-gutter: stable;
-  min-height: 0;
-  padding-right: var(--mantine-spacing-xs);
+  overflow: visible;
+  min-height: auto;
   padding-bottom: var(--mantine-spacing-md);
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    flex: 1;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    min-height: 0;
+    padding-right: var(--mantine-spacing-xs);
+  }
 }
 
 .formButtons {
   flex-shrink: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--mantine-spacing-md);
   padding-top: var(--mantine-spacing-md);
   border-top: 1px solid var(--mantine-color-default-border);
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .formSubmitButton {
-  grid-column: span 2;
+  grid-column: auto;
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    grid-column: span 2;
+  }
 }
 
 .viewerColumn {
@@ -60,6 +98,16 @@
   @media (min-width: $mantine-breakpoint-xl) {
     position: sticky;
     top: calc(var(--mantine-spacing-xl) * 2.5);
+  }
+}
+
+.radioGroup {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mantine-spacing-md);
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -80,5 +128,21 @@
     @mixin dark {
       background-color: var(--mantine-color-dark-6);
     }
+  }
+}
+
+.radioContent {
+  display: flex;
+  gap: var(--mantine-spacing-sm);
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--mantine-spacing-xs);
+
+  @media (min-width: $mantine-breakpoint-xl) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--mantine-spacing-md);
   }
 }
