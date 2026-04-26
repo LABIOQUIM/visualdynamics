@@ -1,55 +1,18 @@
-# FROM nvidia/cuda:12.8.1-devel-ubuntu24.04 AS base
 FROM node:lts-trixie-slim AS base
-# FROM nvidia/cuda:13.1.1-base-ubuntu24.04 AS base
 LABEL authors="ivopr"
-
-# ENV GMX_ENABLE_DIRECT_GPU_COMM=1
-
-# RUN apt-get update
-# RUN apt-get install curl gpg procps openssl tar gcc g++ make grace zip -y
-# RUN mkdir -p /etc/apt/keyrings
-# RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-# RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
-# RUN apt-get update && apt-get install -y nodejs
-# RUN corepack enable && corepack prepare yarn@4.0.1 --activate
-#
-# RUN apk add --no-cache nodejs npm yarn libc6-compat
-# RUN apt-get update
-# RUN apt-get install -y nodejs npm
-# RUN npm install -g corepack
-# RUN corepack enable
-# RUN corepack prepare yarn@4.11.0 --activate
-
-# RUN curl -OL https://github.com/Kitware/CMake/releases/download/v4.0.1/cmake-4.0.1-linux-x86_64.sh
-# RUN chmod +x cmake-4.0.1-linux-x86_64.sh
-# RUN ./cmake-4.0.1-linux-x86_64.sh --skip-license --prefix=/usr/
-
-# WORKDIR /gromacsbuild
-
-# RUN curl -O https://ftp.gromacs.org/gromacs/gromacs-2025.1.tar.gz
-# RUN tar xfz gromacs-2025.1.tar.gz
-# RUN cd gromacs-2025.1 && mkdir build
-# WORKDIR /gromacsbuild/gromacs-2025.1/build
-# # -DGMX_GPU=CUDA
-# RUN cmake .. -DGMX_DOUBLE=off -DGMX_GPU=CUDA -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=on
-# RUN make -j4
-# RUN make install
-# ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:/usr/local/lib:$LD_LIBRARY_PATH"
 
 # Install dependencies only when needed
 FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-# RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 
 # Install dependencies based on the preferred package manager
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
-COPY apps/api/package.json apps/api/prisma.config.ts .env ./apps/api/
+COPY apps/api/package.json apps/api/prisma.config.ts ./apps/api/
 COPY apps/api/prisma/schema.prisma ./apps/api/prisma/
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter api exec prisma generate
+RUN DB_USER=x DB_PASS=x DB_HOST=x DB_PORT=5432 DB_DATABASE=x pnpm --filter api exec prisma generate
 
 # Rebuild the source code only when needed
 FROM nvidia/cuda:13.1.0-runtime-ubuntu24.04 AS builder

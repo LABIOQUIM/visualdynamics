@@ -28,6 +28,8 @@ COPY apps/web/Caddyfile /etc/caddy/Caddyfile
 COPY apps/web/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+USER caddy
+
 EXPOSE 3000
 
 ENTRYPOINT ["/entrypoint.sh"]

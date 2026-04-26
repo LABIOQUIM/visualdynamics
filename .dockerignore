@@ -7,3 +7,6 @@ files
 node_modules
 VDFiles
 generated
+.env
+.env.*
+!.env.example

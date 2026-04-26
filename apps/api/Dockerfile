@@ -52,6 +52,10 @@ COPY apps/api/package.json ./apps/api/
 
 WORKDIR /app/apps/api
 
+RUN addgroup --system --gid 1001 appgroup && \
+    adduser --system --uid 1001 --ingroup appgroup appuser
+USER appuser
+
 EXPOSE 3000
 
 CMD ["node", "dist/src/main.js"]
