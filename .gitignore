@@ -4,7 +4,7 @@ report.txt
 .plausible.env
 clickhouse
 __pycache__
-
+.codex
 *.h5
 *.hdf5
 

@@ -40,6 +40,7 @@ services:
     networks:
       - traefik
     volumes:
+      # The backing path for this volume must be owned by or writable to UID:GID 1001:1001.
       - data:/files
       - /usr/local/gromacs:/gromacs
     depends_on:
@@ -75,6 +76,7 @@ services:
 
 volumes:
   data:
+    # Existing NFS-backed volumes may need a one-time host-side ownership fix to 1001:1001.
     driver: nfsvol
   redis:
     driver: nfsvol

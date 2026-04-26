@@ -51,17 +51,19 @@ COPY --from=builder /app/apps/api/static ./apps/api/static
 COPY apps/api/package.json ./apps/api/
 
 # Copy entrypoint script
-COPY --chown=1001:1001 entrypoint.sh /entrypoint.sh
+COPY --chown=1001:1001 apps/api/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 WORKDIR /app/apps/api
 
 RUN addgroup --system --gid 1001 appgroup && \
-    adduser --system --uid 1001 --ingroup appgroup appuser
+    adduser --system --uid 1001 --ingroup appgroup appuser && \
+    mkdir -p /files && \
+    chown 1001:1001 /files && \
+    chmod 0775 /files
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Switch to appuser after permissions are fixed by entrypoint
 USER appuser
 
 EXPOSE 3000
