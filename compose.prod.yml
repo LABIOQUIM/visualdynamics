@@ -19,6 +19,8 @@ services:
       - "traefik.http.routers.web.tls.certresolver=letsencrypt"
       - "traefik.http.routers.web.tls.domains[0].main=visualdynamics.ivopr.com.br"
       - "traefik.http.routers.web.entryPoints=websecure"
+    networks:
+      - traefik
 
   api:
     image: ghcr.io/labioquim/visualdynamics-api:beta
@@ -33,6 +35,8 @@ services:
       - "traefik.http.routers.api.tls.certresolver=letsencrypt"
       - "traefik.http.routers.api.tls.domains[0].main=api.visualdynamics.ivopr.com.br"
       - "traefik.http.routers.api.entryPoints=websecure"
+    networks:
+      - traefik
     volumes:
       - data:/files
       - /usr/local/gromacs:/gromacs
@@ -50,18 +54,19 @@ services:
       - "--providers.docker.exposedByDefault=false"
 
       - "--certificatesresolvers.letsencrypt.acme.email=labioquim@fiocruz.br" # replace with your email
-      - "--certificatesresolvers.letsencrypt.acme.storage=acme/acme.json"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.delaybeforecheck=0"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
 
       - "--entryPoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--entryPoints.web.http.redirections.entryPoint.to=websecure"
       - "--entryPoints.web.http.redirections.entryPoint.scheme=https"
       - "--entryPoints.web.http.redirections.entrypoint.permanent=true"
+    networks:
+      - traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./acme.json:/acme.json
     ports:
       - "80:80"
       - "443:443"
@@ -71,3 +76,6 @@ volumes:
     driver: nfsvol
   redis:
     driver: nfsvol
+
+networks:
+  traefik:
