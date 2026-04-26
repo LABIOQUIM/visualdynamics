@@ -59,10 +59,10 @@ WORKDIR /app/apps/api
 RUN addgroup --system --gid 1001 appgroup && \
     adduser --system --uid 1001 --ingroup appgroup appuser
 
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Switch to appuser after permissions are fixed by entrypoint
 USER appuser
-
-ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 3000
 
