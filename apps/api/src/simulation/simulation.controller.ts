@@ -30,6 +30,10 @@ import { SimulationFileService } from "./simulation.file.service.js";
 import { SimulationService } from "./simulation.service.js";
 import type { NewSimulationBody } from "./simulation.types.js";
 
+type SessionRequest = Request & {
+  session?: typeof auth.$Infer.Session;
+};
+
 @Controller("simulation")
 export class SimulationController {
   constructor(
@@ -57,7 +61,7 @@ export class SimulationController {
       fileLigandPDB?: Express.Multer.File[];
     },
     @Body() body: NewSimulationBody,
-    @Req() request: Request,
+    @Req() request: SessionRequest,
   ) {
     const { filePDB, fileLigandITP, fileLigandPDB } = files ?? {};
 
@@ -166,19 +170,12 @@ export class SimulationController {
   ) {
     const data = await this.simulationService.getSimulationDetails(
       session.user.username!,
+      session.user.role === "admin",
       simulationId,
     );
 
     if (!data) {
       throw new NotFoundException("Simulation not found");
-    }
-
-    if (
-      data.simulation &&
-      data.simulation.user.username !== session.user.username &&
-      session.user.role !== "admin"
-    ) {
-      throw new UnauthorizedException("Unauthorized");
     }
 
     return data;
@@ -269,7 +266,7 @@ export class SimulationController {
   }
 
   @Get("/download/file")
-  async getUserFile(@Req() request: Request, @Query("path") path: string) {
+  async getUserFile(@Query("path") path: string) {
     const file = await this.simulationFileService.getUserFile(path);
 
     if (file === "no-results") {
@@ -288,8 +285,19 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: string,
   ) {
+    const ownerUsername =
+      await this.simulationService.getSimulationOwnerUsername(
+        simulationId,
+        session.user.username!,
+        session.user.role === "admin",
+      );
+
+    if (!ownerUsername) {
+      throw new NotFoundException("Simulation not found");
+    }
+
     const file = await this.simulationFileService.getSimulationFigures(
-      session.user.username!,
+      ownerUsername,
       simulationId,
     );
 
@@ -309,8 +317,19 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: string,
   ) {
+    const ownerUsername =
+      await this.simulationService.getSimulationOwnerUsername(
+        simulationId,
+        session.user.username!,
+        session.user.role === "admin",
+      );
+
+    if (!ownerUsername) {
+      throw new NotFoundException("Simulation not found");
+    }
+
     const file = await this.simulationFileService.getSimulationCommands(
-      session.user.username!,
+      ownerUsername,
       simulationId,
     );
 
@@ -330,8 +349,19 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: string,
   ) {
+    const ownerUsername =
+      await this.simulationService.getSimulationOwnerUsername(
+        simulationId,
+        session.user.username!,
+        session.user.role === "admin",
+      );
+
+    if (!ownerUsername) {
+      throw new NotFoundException("Simulation not found");
+    }
+
     const file = await this.simulationFileService.getSimulationGromacsLogs(
-      session.user.username!,
+      ownerUsername,
       simulationId,
     );
 
@@ -351,8 +381,19 @@ export class SimulationController {
     @Session() session: typeof auth.$Infer.Session,
     @Query("simulationId") simulationId: SIMULATION_TYPE,
   ) {
+    const ownerUsername =
+      await this.simulationService.getSimulationOwnerUsername(
+        simulationId,
+        session.user.username!,
+        session.user.role === "admin",
+      );
+
+    if (!ownerUsername) {
+      throw new NotFoundException("Simulation not found");
+    }
+
     const file = await this.simulationFileService.getSimulationResults(
-      session.user.username!,
+      ownerUsername,
       simulationId,
     );
 

@@ -13,6 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main.js",
+    "test": "node --loader ts-node/esm --test test/simulation-access.test.ts",
     "generate": "prisma generate && node scripts/fix-prisma-imports.mjs",
     "lint": "oxlint --fix src"
   },

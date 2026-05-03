@@ -15,6 +15,31 @@ import { readFileData } from "../utils/readFileData.js";
 
 import { getStorageExpiresAt } from "./simulation.cleanup.service.js";
 
+const simulationDetailsSelect = {
+  id: true,
+  errorCause: true,
+  createdAt: true,
+  moleculeName: true,
+  startedAt: true,
+  endedAt: true,
+  status: true,
+  type: true,
+  storageDeletedAt: true,
+  ligands: {
+    select: {
+      ligandITPName: true,
+      ligandPDBName: true,
+      position: true,
+    },
+    orderBy: { position: "asc" },
+  },
+  user: {
+    select: {
+      username: true,
+    },
+  },
+} as const;
+
 @Injectable()
 export class SimulationService {
   constructor(
@@ -22,8 +47,77 @@ export class SimulationService {
     private prisma: PrismaService,
   ) {}
 
-  async getSimulationDetails(username: string, simulationId: string) {
-    const userFolderPath = `/files/${username}`;
+  protected getSimulationStoragePaths(username: string, simulationId: string) {
+    const simulationFolderPath = `/files/${username}/${simulationId}`;
+
+    return {
+      simulationFolderPath,
+      logFilePath: `${simulationFolderPath}/run/logs/gmx.log`,
+      molFilePath: `${simulationFolderPath}/run/originalMacromolecule.pdb`,
+      stepFilePath: `${simulationFolderPath}/steps.txt`,
+    };
+  }
+
+  protected pathExists(path: string) {
+    return existsSync(path);
+  }
+
+  protected readStoredFile(path: string, preserveWhitespace: boolean) {
+    return readFileData(path, preserveWhitespace);
+  }
+
+  private async getReadableSimulation(
+    simulationId: string,
+    requestUsername: string,
+    isAdmin: boolean,
+  ) {
+    const simulation = await this.prisma.simulation.findFirst({
+      where: {
+        id: simulationId,
+      },
+      select: simulationDetailsSelect,
+    });
+
+    if (!simulation) {
+      return null;
+    }
+
+    if (!isAdmin && simulation.user.username !== requestUsername) {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    return simulation;
+  }
+
+  async getSimulationOwnerUsername(
+    simulationId: string,
+    requestUsername: string,
+    isAdmin: boolean,
+  ) {
+    const simulation = await this.getReadableSimulation(
+      simulationId,
+      requestUsername,
+      isAdmin,
+    );
+
+    return simulation?.user.username ?? null;
+  }
+
+  async getSimulationDetails(
+    requestUsername: string,
+    isAdmin: boolean,
+    simulationId: string,
+  ) {
+    const simulation = await this.getReadableSimulation(
+      simulationId,
+      requestUsername,
+      isAdmin,
+    );
+
+    if (!simulation) {
+      return null;
+    }
+
     const jobs = await this.simulationQueue.getJobs();
     const waitingJobs = await this.simulationQueue.getJobs(["waiting"]);
     const activeJobs = await this.simulationQueue.getJobs(["active"]);
@@ -61,76 +155,48 @@ export class SimulationService {
       isActive = true;
     }
 
-    const simulationFolderPath = `${userFolderPath}/${simulationId}`;
-    const logFilePath = `${simulationFolderPath}/run/logs/gmx.log`;
-    const molFilePath = `${simulationFolderPath}/run/originalMacromolecule.pdb`;
-    const stepFilePath = `${simulationFolderPath}/steps.txt`;
+    const { simulationFolderPath, logFilePath, molFilePath, stepFilePath } =
+      this.getSimulationStoragePaths(simulation.user.username, simulationId);
 
     let isStored = false;
 
-    if (existsSync(simulationFolderPath)) {
+    if (this.pathExists(simulationFolderPath)) {
       isStored = true;
     }
 
     let stepData: string[] = [];
     let logData: string[] = [];
 
-    if (existsSync(stepFilePath)) {
-      stepData = readFileData(stepFilePath, false);
+    if (this.pathExists(stepFilePath)) {
+      stepData = this.readStoredFile(stepFilePath, false);
     }
 
-    if (existsSync(logFilePath)) {
-      logData = readFileData(logFilePath, true);
+    if (this.pathExists(logFilePath)) {
+      logData = this.readStoredFile(logFilePath, true);
     }
 
     let macromolecule: string | null = null;
 
-    if (existsSync(molFilePath)) {
-      macromolecule = readFileData(molFilePath, false).join("\n");
+    if (this.pathExists(molFilePath)) {
+      macromolecule = this.readStoredFile(molFilePath, false).join("\n");
     }
-
-    const simulation = await this.prisma.simulation.findFirst({
-      where: {
-        id: simulationId,
-      },
-      select: {
-        id: true,
-        errorCause: true,
-        createdAt: true,
-        moleculeName: true,
-        startedAt: true,
-        endedAt: true,
-        status: true,
-        type: true,
-        storageDeletedAt: true,
-        ligands: {
-          select: {
-            ligandITPName: true,
-            ligandPDBName: true,
-            position: true,
-          },
-          orderBy: { position: "asc" },
-        },
-        user: {
-          select: {
-            username: true,
-          },
-        },
-      },
-    });
 
     // Read all canonical ligand PDB files ordered by position
     const ligandPdbContents: string[] = [];
-    const ligandRecords = simulation?.ligands ?? [];
+    const ligandRecords = simulation.ligands ?? [];
 
     for (const ligandRecord of ligandRecords) {
       const canonicalPath = `${simulationFolderPath}/run/originalLigand_${ligandRecord.position}.pdb`;
       // Backward-compat: fall back to originalLigand.pdb for the first ligand
       const fallbackPath = `${simulationFolderPath}/run/originalLigand.pdb`;
-      if (existsSync(canonicalPath)) {
-        ligandPdbContents.push(readFileData(canonicalPath, false).join("\n"));
-      } else if (ligandRecord.position === 0 && existsSync(fallbackPath)) {
-        ligandPdbContents.push(readFileData(fallbackPath, false).join("\n"));
+      if (this.pathExists(canonicalPath)) {
+        ligandPdbContents.push(
+          this.readStoredFile(canonicalPath, false).join("\n"),
+        );
+      } else if (ligandRecord.position === 0 && this.pathExists(fallbackPath)) {
+        ligandPdbContents.push(
+          this.readStoredFile(fallbackPath, false).join("\n"),
+        );
       }
     }
 
@@ -146,9 +212,10 @@ export class SimulationService {
       jobId,
       stepData,
       logData,
-      simulation: simulation
-        ? { ...simulation, storageExpiresAt: getStorageExpiresAt(simulation) }
-        : null,
+      simulation: {
+        ...simulation,
+        storageExpiresAt: getStorageExpiresAt(simulation),
+      },
       molecules,
     };
   }

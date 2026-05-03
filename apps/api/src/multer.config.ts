@@ -1,9 +1,17 @@
 import { randomUUID } from "crypto";
+import type { Request } from "express";
 import * as fs from "fs";
 import { diskStorage } from "multer";
 import * as path from "path";
 
 const ALLOWED_EXTENSIONS = new Set([".pdb", ".itp"]);
+type SessionRequest = Request & {
+  session?: {
+    user?: {
+      username?: string | null;
+    };
+  };
+};
 
 const multerConfig = {
   limits: {
@@ -11,7 +19,7 @@ const multerConfig = {
   },
   storage: diskStorage({
     destination: "/files",
-    filename: (req, file, cb) => {
+    filename: (req: SessionRequest, file, cb) => {
       const extension = path.parse(file.originalname).ext.toLowerCase();
 
       if (!req.session?.user) {
