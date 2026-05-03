@@ -13,7 +13,11 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main.js",
-    "test": "node --loader ts-node/esm --test test/simulation-access.test.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:integration": "vitest run --config vitest.integration.config.ts --passWithNoTests",
     "generate": "prisma generate && node scripts/fix-prisma-imports.mjs",
     "lint": "oxlint --fix src"
   },
@@ -54,11 +58,11 @@
     "@nestjs/testing": "11.1.19",
     "@opentelemetry/api": "^1.9.1",
     "@types/express": "5.0.6",
-    "@types/jest": "30.0.0",
     "@types/multer": "2.1.0",
     "@types/node": "^25",
     "@types/nodemailer": "^8.0.0",
     "@types/shell-quote": "1.7.5",
+    "@vitest/coverage-v8": "^4.1.5",
     "dotenv": "^17.4.2",
     "prisma": "^7.7.0",
     "source-map-support": "0.5.21",
@@ -66,6 +70,8 @@
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "type-fest": "^5.6.0",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.5"
   }
 }

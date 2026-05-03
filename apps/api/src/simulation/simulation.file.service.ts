@@ -6,6 +6,8 @@ import { join } from "path";
 import { cwd } from "process";
 import { promisify } from "util";
 
+import { getFilesRoot } from "../utils/filesRoot.js";
+
 const execAsync = promisify(ChildProcess.exec);
 
 @Injectable()
@@ -14,8 +16,8 @@ export class SimulationFileService {
     userName: string,
     simulationId: string,
   ): Promise<{ stream: ReadStream; size: number } | "no-figures"> {
-    const userFolderPath = `/files/${userName}`;
-    const runFolderPath = `/files/${userName}/${simulationId}/run`;
+    const userFolderPath = `${getFilesRoot()}/${userName}`;
+    const runFolderPath = `${getFilesRoot()}/${userName}/${simulationId}/run`;
     const figuresFolderPath = `${userFolderPath}/${simulationId}/figures`;
 
     await execAsync("cp *.xvg ../figures", { cwd: runFolderPath });
@@ -46,7 +48,7 @@ export class SimulationFileService {
     userName: string,
     simulationId: string,
   ): Promise<{ stream: ReadStream; size: number } | "no-commands"> {
-    const userFolderPath = `/files/${userName}`;
+    const userFolderPath = `${getFilesRoot()}/${userName}`;
     const commandsFilePath = `${userFolderPath}/${simulationId}/commands.txt`;
 
     if (!existsSync(commandsFilePath)) {
@@ -63,7 +65,7 @@ export class SimulationFileService {
     userName: string,
     simulationId: string,
   ): Promise<{ stream: ReadStream; size: number } | "no-logs"> {
-    const userFolderPath = `/files/${userName}`;
+    const userFolderPath = `${getFilesRoot()}/${userName}`;
     const logFilePath = `${userFolderPath}/${simulationId}/run/logs/gmx.log`;
 
     if (!existsSync(logFilePath)) {
@@ -80,7 +82,7 @@ export class SimulationFileService {
     userName: string,
     simulationId: string,
   ): Promise<{ stream: ReadStream; size: number } | "no-results"> {
-    const userFolderPath = `/files/${userName}`;
+    const userFolderPath = `${getFilesRoot()}/${userName}`;
     const runFolderPath = `${userFolderPath}/${simulationId}/run`;
 
     if (!existsSync(runFolderPath) || readdirSync(runFolderPath).length <= 0) {

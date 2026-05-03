@@ -11,9 +11,19 @@ import { existsSync, readFileSync } from "fs";
 import { SIMULATION_TYPE } from "../generated/prisma/client.js";
 import { SimulationUpdateInput } from "../generated/prisma/models.js";
 import { PrismaService } from "../prisma.service.js";
+import { getFilesRoot } from "../utils/filesRoot.js";
 import { readFileData } from "../utils/readFileData.js";
 
 import { getStorageExpiresAt } from "./simulation.cleanup.service.js";
+import {
+  buildImportedLigands,
+  buildSimulationStoragePaths,
+  getSimulationQueueState,
+  parseSimulationProcessPid,
+  readSimulationStoredArtifacts,
+  terminateSimulationProcess,
+  withStorageExpiry,
+} from "./simulation.service.helpers.js";
 
 const simulationDetailsSelect = {
   id: true,
@@ -48,14 +58,7 @@ export class SimulationService {
   ) {}
 
   protected getSimulationStoragePaths(username: string, simulationId: string) {
-    const simulationFolderPath = `/files/${username}/${simulationId}`;
-
-    return {
-      simulationFolderPath,
-      logFilePath: `${simulationFolderPath}/run/logs/gmx.log`,
-      molFilePath: `${simulationFolderPath}/run/originalMacromolecule.pdb`,
-      stepFilePath: `${simulationFolderPath}/steps.txt`,
-    };
+    return buildSimulationStoragePaths(getFilesRoot(), username, simulationId);
   }
 
   protected pathExists(path: string) {
@@ -121,89 +124,25 @@ export class SimulationService {
     const jobs = await this.simulationQueue.getJobs();
     const waitingJobs = await this.simulationQueue.getJobs(["waiting"]);
     const activeJobs = await this.simulationQueue.getJobs(["active"]);
-
-    // Get Job ID
-    let jobId = "-1";
-
-    const jobIndex = jobs.findIndex(
-      (job) => job.data.simulationId === simulationId,
+    const { jobId, queuePosition, isActive } = getSimulationQueueState(
+      simulationId,
+      jobs,
+      waitingJobs,
+      activeJobs,
     );
 
-    if (jobIndex !== -1) {
-      jobId = jobs[jobIndex].id ?? "-1";
-    }
-
-    // Get Job Queue Position
-    let queuePosition = -1;
-
-    const waitingJobIndex = waitingJobs.findIndex(
-      (job) => job.data.simulationId === simulationId,
+    const storagePaths = this.getSimulationStoragePaths(
+      simulation.user.username,
+      simulationId,
     );
-
-    if (waitingJobIndex !== -1) {
-      queuePosition = waitingJobs.length - waitingJobIndex;
-    }
-
-    // Get Job Status
-    let isActive = false;
-
-    const activeJobIndex = activeJobs.findIndex(
-      (job) => job.data.simulationId === simulationId,
-    );
-
-    if (activeJobIndex !== -1) {
-      isActive = true;
-    }
-
-    const { simulationFolderPath, logFilePath, molFilePath, stepFilePath } =
-      this.getSimulationStoragePaths(simulation.user.username, simulationId);
-
-    let isStored = false;
-
-    if (this.pathExists(simulationFolderPath)) {
-      isStored = true;
-    }
-
-    let stepData: string[] = [];
-    let logData: string[] = [];
-
-    if (this.pathExists(stepFilePath)) {
-      stepData = this.readStoredFile(stepFilePath, false);
-    }
-
-    if (this.pathExists(logFilePath)) {
-      logData = this.readStoredFile(logFilePath, true);
-    }
-
-    let macromolecule: string | null = null;
-
-    if (this.pathExists(molFilePath)) {
-      macromolecule = this.readStoredFile(molFilePath, false).join("\n");
-    }
-
-    // Read all canonical ligand PDB files ordered by position
-    const ligandPdbContents: string[] = [];
-    const ligandRecords = simulation.ligands ?? [];
-
-    for (const ligandRecord of ligandRecords) {
-      const canonicalPath = `${simulationFolderPath}/run/originalLigand_${ligandRecord.position}.pdb`;
-      // Backward-compat: fall back to originalLigand.pdb for the first ligand
-      const fallbackPath = `${simulationFolderPath}/run/originalLigand.pdb`;
-      if (this.pathExists(canonicalPath)) {
-        ligandPdbContents.push(
-          this.readStoredFile(canonicalPath, false).join("\n"),
-        );
-      } else if (ligandRecord.position === 0 && this.pathExists(fallbackPath)) {
-        ligandPdbContents.push(
-          this.readStoredFile(fallbackPath, false).join("\n"),
-        );
-      }
-    }
-
-    const molecules = {
-      macromolecule,
-      ligands: ligandPdbContents,
-    };
+    const { isStored, stepData, logData, molecules } =
+      readSimulationStoredArtifacts(
+        storagePaths,
+        simulation.ligands ?? [],
+        (path) => this.pathExists(path),
+        (path, preserveWhitespace) =>
+          this.readStoredFile(path, preserveWhitespace),
+      );
 
     return {
       isActive,
@@ -212,10 +151,7 @@ export class SimulationService {
       jobId,
       stepData,
       logData,
-      simulation: {
-        ...simulation,
-        storageExpiresAt: getStorageExpiresAt(simulation),
-      },
+      simulation: withStorageExpiry(simulation, getStorageExpiresAt),
       molecules,
     };
   }
@@ -240,10 +176,7 @@ export class SimulationService {
     ]);
 
     return {
-      records: records.map((r) => ({
-        ...r,
-        storageExpiresAt: getStorageExpiresAt(r),
-      })),
+      records: records.map((r) => withStorageExpiry(r, getStorageExpiresAt)),
       total,
     };
   }
@@ -268,10 +201,7 @@ export class SimulationService {
     ]);
 
     return {
-      records: records.map((r) => ({
-        ...r,
-        storageExpiresAt: getStorageExpiresAt(r),
-      })),
+      records: records.map((r) => withStorageExpiry(r, getStorageExpiresAt)),
       total,
     };
   }
@@ -305,27 +235,16 @@ export class SimulationService {
       const pidFilePath = `/files/${simulation.user.username}/${simulationId}/processing.pid`;
       if (existsSync(pidFilePath)) {
         try {
-          const raw = readFileSync(pidFilePath, "utf-8").trim();
-          const colonIdx = raw.indexOf(":");
-          const pidStr = colonIdx >= 0 ? raw.slice(0, colonIdx) : raw;
-          const pid = parseInt(pidStr, 10);
-          if (Number.isSafeInteger(pid) && pid > 0) {
-            // Try to signal the process group; fall back to single-PID kill.
-            const pgidRaw = readFileSync(`/proc/${pid}/stat`, "utf-8");
-            const afterComm = pgidRaw.slice(pgidRaw.lastIndexOf(")") + 2);
-            const pgid = parseInt(afterComm.split(" ")[2], 10);
-            const ownStat = readFileSync(`/proc/${process.pid}/stat`, "utf-8");
-            const ownAfterComm = ownStat.slice(ownStat.lastIndexOf(")") + 2);
-            const ownPgid = parseInt(ownAfterComm.split(" ")[2], 10);
-            if (Number.isSafeInteger(pgid) && pgid > 0 && pgid !== ownPgid) {
-              try {
-                process.kill(-pgid, "SIGTERM");
-              } catch {
-                process.kill(pid, "SIGTERM");
-              }
-            } else {
-              process.kill(pid, "SIGTERM");
-            }
+          const pid = parseSimulationProcessPid(
+            readFileSync(pidFilePath, "utf-8"),
+          );
+          if (pid !== null) {
+            terminateSimulationProcess(
+              pid,
+              process.pid,
+              (targetPid) => readFileSync(`/proc/${targetPid}/stat`, "utf-8"),
+              (targetPid, signal) => process.kill(targetPid, signal),
+            );
           }
         } catch {
           // PID file unreadable or process already gone — proceed to DB update.
@@ -401,16 +320,7 @@ export class SimulationService {
           continue;
         }
 
-        const ligands =
-          row.ligand_itp_name && row.ligand_pdb_name
-            ? [
-                {
-                  ligandITPName: row.ligand_itp_name,
-                  ligandPDBName: row.ligand_pdb_name,
-                  position: 0,
-                },
-              ]
-            : [];
+        const ligands = buildImportedLigands(row);
 
         await this.prisma.simulation.create({
           data: {

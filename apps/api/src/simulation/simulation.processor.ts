@@ -23,7 +23,7 @@ const prisma = new PrismaClient({ adapter });
  * unrelated process and we must NOT kill it.
  * Returns null when the file cannot be read (process gone or non-Linux env).
  */
-function readProcessStartTime(pid: number): string | null {
+export function readProcessStartTime(pid: number): string | null {
   try {
     const stat = readFileSync(`/proc/${pid}/stat`, "utf-8");
     // The comm field (field 2) is wrapped in parens and can itself contain
@@ -40,7 +40,7 @@ function readProcessStartTime(pid: number): string | null {
  * Reads the process group ID of `pid` from /proc/<pid>/stat (pgrp, field 5).
  * Returns null when the file cannot be read.
  */
-function readProcessGroupId(pid: number): number | null {
+export function readProcessGroupId(pid: number): number | null {
   try {
     const stat = readFileSync(`/proc/${pid}/stat`, "utf-8");
     const afterComm = stat.slice(stat.lastIndexOf(")") + 2);
@@ -52,7 +52,7 @@ function readProcessGroupId(pid: number): number | null {
   }
 }
 
-function isProcessRunning(pid: number): boolean {
+export function isProcessRunning(pid: number): boolean {
   try {
     process.kill(pid, 0);
     return true;
@@ -72,7 +72,7 @@ function isProcessRunning(pid: number): boolean {
  * fails or is unsafe. Escalates to SIGKILL if the process hasn't exited
  * within 5 s. Returns true when the process is no longer running.
  */
-async function terminateProcess(pid: number): Promise<boolean> {
+export async function terminateProcess(pid: number): Promise<boolean> {
   // Read the actual PGID from /proc so we target the correct process group
   // even when `pid` is not the process group leader.
   const pgid = readProcessGroupId(pid);

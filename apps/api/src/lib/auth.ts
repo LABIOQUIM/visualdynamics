@@ -60,7 +60,8 @@ export const auth = betterAuth({
                   select: { role: true },
                 });
 
-          if (identifier?.role !== "admin") {
+          const role = identifier?.role;
+          if (role!== "admin") {
             throw new APIError("FORBIDDEN", {
               message:
                 "The system is currently under maintenance. Only administrators can sign in.",
