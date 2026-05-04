@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+const realSetTimeout = globalThis.setTimeout;
+
 const {
   prismaPg,
   disconnect,
@@ -127,6 +129,17 @@ function procStat(startTime: string, pgid = 3456) {
   return `999 (node process) ${tail.join(" ")}`;
 }
 
+function invokeTimeoutImmediately(
+  callback: Parameters<typeof setTimeout>[0],
+  _delay?: Parameters<typeof setTimeout>[1],
+  ...args: Parameters<typeof setTimeout> extends [unknown, unknown?, ...infer Rest]
+    ? Rest
+    : never
+): ReturnType<typeof setTimeout> {
+  callback(...args);
+  return realSetTimeout(() => {}, 0);
+}
+
 describe("simulation.processor", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -144,10 +157,7 @@ describe("simulation.processor", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(process, "kill").mockImplementation(() => true);
     vi.spyOn(Date, "now").mockImplementation(() => 0);
-    vi.spyOn(globalThis, "setTimeout").mockImplementation(((fn: () => void) => {
-      fn();
-      return 0 as never;
-    }) as typeof setTimeout);
+    vi.spyOn(globalThis, "setTimeout").mockImplementation(invokeTimeoutImmediately);
   });
 
   it("reads process metadata helpers and process-running states", async () => {
@@ -200,10 +210,7 @@ describe("simulation.processor", () => {
     vi.clearAllMocks();
     vi.spyOn(process, "kill").mockImplementation(() => true);
     vi.spyOn(Date, "now").mockImplementation(() => 0);
-    vi.spyOn(globalThis, "setTimeout").mockImplementation(((fn: () => void) => {
-      fn();
-      return 0 as never;
-    }) as typeof setTimeout);
+    vi.spyOn(globalThis, "setTimeout").mockImplementation(invokeTimeoutImmediately);
     readOverrides.set(`/proc/${process.pid}/stat`, procStat("12345", 9999));
     readOverrides.set("/proc/201/stat", procStat("2001", 3001));
     vi.mocked(process.kill)
@@ -229,10 +236,7 @@ describe("simulation.processor", () => {
     vi.spyOn(process, "kill").mockImplementation(() => true);
     const nowValues = [0, 0, 6000];
     vi.spyOn(Date, "now").mockImplementation(() => nowValues.shift() ?? 6000);
-    vi.spyOn(globalThis, "setTimeout").mockImplementation(((fn: () => void) => {
-      fn();
-      return 0 as never;
-    }) as typeof setTimeout);
+    vi.spyOn(globalThis, "setTimeout").mockImplementation(invokeTimeoutImmediately);
     readOverrides.set(`/proc/${process.pid}/stat`, procStat("12345", 4000));
     readOverrides.set("/proc/202/stat", procStat("2002", 4000));
     vi.mocked(process.kill)
