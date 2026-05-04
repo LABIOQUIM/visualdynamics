@@ -4,17 +4,24 @@ const {
   createReadStream,
   existsSync,
   readdirSync,
+  rmSync,
   statSync,
   execAsync,
   cwd,
+  tmpdir,
   getFilesRoot,
 } = vi.hoisted(() => ({
-  createReadStream: vi.fn((path: string) => ({ path })),
+  createReadStream: vi.fn((path: string) => ({
+    path,
+    on: vi.fn(),
+  })),
   existsSync: vi.fn(),
   readdirSync: vi.fn(),
+  rmSync: vi.fn(),
   statSync: vi.fn(),
   execAsync: vi.fn(),
   cwd: vi.fn(() => "/repo"),
+  tmpdir: vi.fn(() => "/tmp"),
   getFilesRoot: vi.fn(() => "/files-root"),
 }));
 
@@ -22,6 +29,7 @@ vi.mock("fs", () => ({
   createReadStream,
   existsSync,
   readdirSync,
+  rmSync,
   statSync,
 }));
 
@@ -39,6 +47,10 @@ vi.mock("util", async (importOriginal) => {
 
 vi.mock("process", () => ({
   cwd,
+}));
+
+vi.mock("os", () => ({
+  tmpdir,
 }));
 
 vi.mock("../utils/filesRoot.js", () => ({
@@ -68,7 +80,9 @@ describe("SimulationFileService", () => {
     );
     await expect(service.getSimulationFigures("owner", "sim")).resolves.toEqual(
       {
-        stream: { path: "/files-root/owner/sim/figures/figures.zip" },
+        stream: expect.objectContaining({
+          path: "/files-root/owner/sim/figures/figures.zip",
+        }),
         size: 12,
       },
     );
@@ -85,14 +99,20 @@ describe("SimulationFileService", () => {
     const service = new SimulationFileService();
     statSync.mockReturnValue({ size: 15 });
     execAsync.mockResolvedValue(undefined);
+    vi.spyOn(Date, "now").mockReturnValue(6789);
 
     await expect(service.getMDPFiles()).resolves.toEqual({
-      stream: { path: "/repo/static/mdp/mdpfiles.zip" },
+      stream: expect.objectContaining({
+        path: expect.stringMatching(/^\/tmp\/mdpfiles-\d+-6789\.zip$/),
+      }),
       size: 15,
     });
-    expect(execAsync).toHaveBeenCalledWith("zip -r mdpfiles.zip *", {
-      cwd: "/repo/static/mdp",
-    });
+    expect(execAsync).toHaveBeenCalledWith(
+      expect.stringMatching(/^zip -r \/tmp\/mdpfiles-\d+-6789\.zip \*\.mdp$/),
+      {
+        cwd: "/repo/static/mdp",
+      },
+    );
   });
 
   it("returns commands, logs, results, and arbitrary files when present", async () => {
@@ -105,23 +125,29 @@ describe("SimulationFileService", () => {
     await expect(
       service.getSimulationCommands("owner", "sim"),
     ).resolves.toEqual({
-      stream: { path: "/files-root/owner/sim/commands.txt" },
+      stream: expect.objectContaining({
+        path: "/files-root/owner/sim/commands.txt",
+      }),
       size: 20,
     });
     await expect(
       service.getSimulationGromacsLogs("owner", "sim"),
     ).resolves.toEqual({
-      stream: { path: "/files-root/owner/sim/run/logs/gmx.log" },
+      stream: expect.objectContaining({
+        path: "/files-root/owner/sim/run/logs/gmx.log",
+      }),
       size: 20,
     });
     await expect(service.getSimulationResults("owner", "sim")).resolves.toEqual(
       {
-        stream: { path: "/files-root/owner/sim/run/results.zip" },
+        stream: expect.objectContaining({
+          path: "/files-root/owner/sim/run/results.zip",
+        }),
         size: 20,
       },
     );
     await expect(service.getUserFile("/tmp/file")).resolves.toEqual({
-      stream: { path: "/tmp/file" },
+      stream: expect.objectContaining({ path: "/tmp/file" }),
       size: 20,
     });
   });

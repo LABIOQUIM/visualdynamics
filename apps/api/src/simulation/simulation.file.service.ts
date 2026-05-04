@@ -1,8 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import * as ChildProcess from "child_process";
 import type { ReadStream } from "fs";
-import { createReadStream, existsSync, readdirSync, statSync } from "fs";
+import {
+  createReadStream,
+  existsSync,
+  readdirSync,
+  rmSync,
+  statSync,
+} from "fs";
 import { join } from "path";
+import { tmpdir } from "os";
 import { cwd } from "process";
 import { promisify } from "util";
 
@@ -36,12 +43,20 @@ export class SimulationFileService {
   }
 
   async getMDPFiles(): Promise<{ stream: ReadStream; size: number }> {
-    const runFolderPath = `${cwd()}/static/mdp`;
+    const sourceFolderPath = `${cwd()}/static/mdp`;
+    const zipPath = join(
+      tmpdir(),
+      `mdpfiles-${process.pid}-${Date.now()}.zip`,
+    );
 
-    await execAsync("zip -r mdpfiles.zip *", { cwd: runFolderPath });
+    await execAsync(`zip -r ${zipPath} *.mdp`, { cwd: sourceFolderPath });
 
-    const zipPath = join(runFolderPath, "mdpfiles.zip");
-    return { stream: createReadStream(zipPath), size: statSync(zipPath).size };
+    const stream = createReadStream(zipPath);
+    const cleanup = () => rmSync(zipPath, { force: true });
+    stream.on("close", cleanup);
+    stream.on("error", cleanup);
+
+    return { stream, size: statSync(zipPath).size };
   }
 
   async getSimulationCommands(
