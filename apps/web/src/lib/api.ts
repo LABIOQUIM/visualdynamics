@@ -5,6 +5,7 @@ const BASE_URL = `${window.__ENV__.API_URL}/v1`;
 type GetOptions = {
   params?: Record<string, string | number | boolean | undefined>;
   responseType?: "arraybuffer";
+  onDownloadProgress?: (progress: number) => void;
 };
 
 export async function getAPIClient() {
@@ -33,7 +34,38 @@ export async function getAPIClient() {
         throw new Error(`${response.status} ${response.statusText}`);
       }
       if (options.responseType === "arraybuffer") {
-        const data = (await response.arrayBuffer()) as unknown as T;
+        if (!options.onDownloadProgress || !response.body) {
+          const data = (await response.arrayBuffer()) as unknown as T;
+          return { data };
+        }
+
+        const contentLength = response.headers.get("Content-Length");
+        const total = contentLength ? parseInt(contentLength, 10) : 0;
+        const reader = response.body.getReader();
+        const chunks: ArrayBuffer[] = [];
+        let received = 0;
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            break;
+          }
+          chunks.push(value.slice().buffer as ArrayBuffer);
+          received += value.length;
+          if (total > 0) {
+            options.onDownloadProgress((received / total) * 100);
+          }
+        }
+
+        const merged = new Uint8Array(received);
+        let offset = 0;
+        for (const chunk of chunks) {
+          const bytes = new Uint8Array(chunk);
+          merged.set(bytes, offset);
+          offset += bytes.byteLength;
+        }
+
+        const data = merged.buffer as unknown as T;
         return { data };
       }
       const data = (await response.json()) as T;

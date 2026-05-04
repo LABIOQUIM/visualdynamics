@@ -37,8 +37,10 @@ export function ArtifactDownload({
       link.download = `${filename[0]}-${simulationId}.${filename[1]}`;
       const blobUrl = window.URL.createObjectURL(blob);
       link.href = blobUrl;
+      document.body.appendChild(link);
       link.click();
-      window.URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
     } finally {
       setIsLoading(false);
       setProgress(0);
