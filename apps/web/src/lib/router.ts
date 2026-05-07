@@ -1,17 +1,27 @@
 import { QueryClient } from "@tanstack/react-query";
-import { createRouter } from "@tanstack/react-router";
+import { createRouter, type RouterHistory } from "@tanstack/react-router";
 
 import { routeTree } from "@/routeTree.gen";
 
-export const queryClient = new QueryClient();
+export function createAppRouter(history?: RouterHistory) {
+  const queryClient = new QueryClient();
 
-export const router = createRouter({
-  routeTree,
-  defaultPreload: "intent",
-  defaultPreloadStaleTime: 0,
-  scrollRestoration: true,
-  context: {
-    auth: null,
+  const router = createRouter({
+    routeTree,
+    defaultPreload: "intent",
+    defaultPreloadStaleTime: 0,
+    scrollRestoration: true,
+    ...(history ? { history } : {}),
+    context: {
+      auth: null,
+      queryClient,
+    },
+  });
+
+  return {
     queryClient,
-  },
-});
+    router,
+  };
+}
+
+export const { router, queryClient } = createAppRouter();

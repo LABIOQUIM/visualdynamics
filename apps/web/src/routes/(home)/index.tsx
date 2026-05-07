@@ -6,7 +6,10 @@ import { LanderFeaturesSection } from "./-components/FeaturesSection";
 import { LanderHeroSection } from "./-components/HeroSection";
 import { LanderLayout } from "./-components/Layout";
 
+import { HOME_SEO } from "@/lib/seo";
+
 export const Route = createFileRoute("/(home)/")({
+  head: () => HOME_SEO,
   component: HomeComponent,
 });
 

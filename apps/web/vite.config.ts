@@ -1,6 +1,7 @@
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import seoFiles from "vite-plugin-seo-files";
 import { defineConfig, type Plugin } from "vite";
 
 import pkg from "./package.json" with { type: "json" };
@@ -18,7 +19,7 @@ function envConfigPlugin(): Plugin {
   };
 }
 
-export default defineConfig(async () => ({
+export default defineConfig(async ({ isSsrBuild }) => ({
   server: {
     host: "0.0.0.0", // Expose to the network
     watch: {
@@ -40,6 +41,13 @@ export default defineConfig(async () => ({
       autoCodeSplitting: true,
     }),
     react(),
+    !isSsrBuild &&
+      seoFiles({
+        siteUrl:
+          process.env.VITE_SITE_URL ?? "https://visualdynamics.ivopr.com.br",
+        routesFile: "src/routes-list.js",
+        disallow: ["/app", "/auth"],
+      }),
     envConfigPlugin(),
   ]
 }));

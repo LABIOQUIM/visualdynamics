@@ -18,6 +18,7 @@ import { z } from "zod";
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";
 import { authClient } from "@/lib/auth-client";
+import { LOGIN_SEO } from "@/lib/seo";
 
 const schema = z.object({
   identifier: z.string().min(4, "Your email and username both have more than 3 characters"),
@@ -27,6 +28,7 @@ const schema = z.object({
 type FormInputs = z.infer<typeof schema>;
 
 export const Route = createFileRoute("/auth/login")({
+  head: () => LOGIN_SEO,
   component: RouteComponent,
 });
 
