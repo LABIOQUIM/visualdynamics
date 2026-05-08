@@ -1,6 +1,9 @@
 import { authClient } from "./auth-client";
+import { getPublicApiUrl } from "./env";
 
-const BASE_URL = `${window.__ENV__.API_URL}/v1`;
+function getAPIBaseUrl() {
+  return `${getPublicApiUrl()}/v1`;
+}
 
 type GetOptions = {
   params?: Record<string, string | number | boolean | undefined>;
@@ -17,7 +20,7 @@ export async function getAPIClient() {
       path: string,
       options: GetOptions = {},
     ): Promise<{ data: T }> => {
-      const url = new URL(`${BASE_URL}${path}`);
+      const url = new URL(`${getAPIBaseUrl()}${path}`);
       if (options.params) {
         for (const [key, value] of Object.entries(options.params)) {
           if (value !== undefined) {
@@ -84,7 +87,7 @@ export async function getAPIClient() {
         headers["Content-Type"] = "application/json";
         requestBody = JSON.stringify(body);
       }
-      const response = await fetch(`${BASE_URL}${path}`, {
+      const response = await fetch(`${getAPIBaseUrl()}${path}`, {
         method: "POST",
         headers,
         credentials: "include",
@@ -101,7 +104,7 @@ export async function getAPIClient() {
       path: string,
       body: Record<string, unknown>,
     ): Promise<{ data: T }> => {
-      const response = await fetch(`${BASE_URL}${path}`, {
+      const response = await fetch(`${getAPIBaseUrl()}${path}`, {
         method: "PATCH",
         headers: {
           Authorization: authHeader,
@@ -118,7 +121,7 @@ export async function getAPIClient() {
     },
 
     delete: async <T = unknown>(path: string): Promise<{ data: T }> => {
-      const response = await fetch(`${BASE_URL}${path}`, {
+      const response = await fetch(`${getAPIBaseUrl()}${path}`, {
         method: "DELETE",
         headers: { Authorization: authHeader },
         credentials: "include",

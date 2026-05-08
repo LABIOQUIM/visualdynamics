@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Blockquote, Stack } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import { FilesSection } from "./-components/FilesSection";
 import { FormActions } from "./-components/FormActions";
@@ -26,6 +26,7 @@ export const Route = createFileRoute("/app/submit/")({
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const { control, handleSubmit, resetField, formState } =
     useForm<SimulationFormValues>({
       resolver: zodResolver(simulationSchema),
@@ -44,7 +45,7 @@ function RouteComponent() {
       <Heading title="Submit Simulation" />
       <form
         className={classes.form}
-        onSubmit={handleSubmit((v) => submitSimulation(v, true))}
+        onSubmit={handleSubmit((v) => submitSimulation(v, navigate, true))}
       >
         <div className={classes.layout}>
           <div className={classes.formColumn}>
@@ -63,7 +64,7 @@ function RouteComponent() {
             <FormActions
               containerClassName={classes.formButtons}
               onDownloadCommands={handleSubmit((v) =>
-                submitSimulation(v, false),
+                submitSimulation(v, navigate, false),
               )}
               submitClassName={classes.formSubmitButton}
             />

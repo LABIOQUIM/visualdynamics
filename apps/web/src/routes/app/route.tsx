@@ -19,8 +19,11 @@ import { ServerTime } from "@/components/ServerTime";
 import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/app")({
-  beforeLoad: ({ context, location }) => {
-    if (!context.auth) {
+  beforeLoad: async ({ location }) => {
+    const session = await authClient.getSession();
+    const auth = session.data;
+
+    if (!auth) {
       throw redirect({
         to: "/auth/login",
         search: {
@@ -34,7 +37,7 @@ export const Route = createFileRoute("/app")({
       true,
     );
 
-    if (maintenance && context.auth.user.role !== "admin") {
+    if (maintenance && auth.user.role !== "admin") {
       throw redirect({ to: "/auth/login" });
     }
   },

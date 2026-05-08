@@ -12,8 +12,10 @@ import VISUAL_DYNAMICS_LOGO from "@/assets/visualdynamics.svg";
 import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/auth")({
-  beforeLoad: ({ context }) => {
-    if (context.auth) {
+  beforeLoad: async () => {
+    const session = await authClient.getSession();
+
+    if (session.data) {
       throw redirect({
         to: "/app",
       });

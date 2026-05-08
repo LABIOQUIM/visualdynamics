@@ -5,6 +5,7 @@
   "pnpm": {
     "overrides": {
       "zod": "4.3.6",
+      "@tanstack/start-plugin-core>zod": "^3.24.2",
       "@tanstack/router-generator>zod": "^3.24.2",
       "@tanstack/router-plugin>zod": "^3.24.2"
     },

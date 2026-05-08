@@ -10,7 +10,6 @@
     "lint": "oxlint --fix src"
   },
   "dependencies": {
-    "ngl": "^2.3.0",
     "@hookform/resolvers": "^5.2.2",
     "@mantine/charts": "^9.1.0",
     "@mantine/core": "^9.1.0",
@@ -25,7 +24,8 @@
     "@openfeature/web-sdk": "^1.7.3",
     "@tabler/icons-react": "^3.41.1",
     "@tanstack/react-query": "^5.99.2",
-    "@tanstack/react-router": "^1.168.23",
+    "@tanstack/react-router": "^1.169.2",
+    "@tanstack/react-start": "^1.167.65",
     "@tiptap/extension-link": "^3.22.4",
     "@tiptap/pm": "^3.22.4",
     "@tiptap/react": "^3.22.4",
@@ -33,6 +33,7 @@
     "better-auth": "^1.6.6",
     "dayjs": "^1.11.20",
     "mantine-react-table-open": "https://github.com/CareHarmony/mantine-react-table-ch",
+    "ngl": "^2.3.0",
     "nuqs": "^2.8.9",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
@@ -44,7 +45,6 @@
   },
   "devDependencies": {
     "@opentelemetry/api": "^1.9.1",
-    "@tanstack/router-plugin": "^1.167.22",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

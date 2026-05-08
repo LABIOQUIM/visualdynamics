@@ -1,27 +1,86 @@
 import "./__root.module.css";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
+import "@mantine/tiptap/styles.css";
 
+import type { ReactNode } from "react";
 import type { QueryClient } from "@tanstack/react-query";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+import { OpenFeature, OpenFeatureProvider } from "@openfeature/react-sdk";
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet,
+  Scripts,
+} from "@tanstack/react-router";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 
-import { authClient } from "@/lib/auth-client";
+import { ApiFeatureFlagProvider } from "@/lib/feature-flags";
+import { theme } from "@/theme";
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
 type RouterContext = {
-  auth: typeof authClient.$Infer.Session | null;
   queryClient: QueryClient;
 };
 
+OpenFeature.setProvider(new ApiFeatureFlagProvider());
+
 export const Route = createRootRouteWithContext<RouterContext>()({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+      { title: "Visual Dynamics" },
+    ],
+    links: [{ rel: "icon", type: "image/svg+xml", href: "/vite.svg" }],
+  }),
   component: RootComponent,
 });
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <RootDocument>
+      <RootProviders>
+        <Outlet />
+      </RootProviders>
+    </RootDocument>
+  );
+}
+
+function RootProviders({ children }: Readonly<{ children: ReactNode }>) {
+  const { queryClient } = Route.useRouteContext();
+
+  return (
+    <MantineProvider theme={theme}>
+      <Notifications />
+      <OpenFeatureProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </OpenFeatureProvider>
+    </MantineProvider>
+  );
+}
+
+function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
+  return (
+    <html lang="en">
+      <head>
+        <HeadContent />
+        <script src="/env-config.js" />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
+    </html>
+  );
 }

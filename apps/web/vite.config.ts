@@ -1,4 +1,4 @@
-import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { defineConfig, type Plugin } from "vite";
@@ -6,13 +6,25 @@ import { defineConfig, type Plugin } from "vite";
 import pkg from "./package.json" with { type: "json" };
 
 function envConfigPlugin(): Plugin {
+  function sendEnvConfig(res: {
+    setHeader: (name: string, value: string) => void;
+    end: (body: string) => void;
+  }) {
+    const apiUrl = process.env.API_URL ?? "http://localhost:3001";
+    res.setHeader("Content-Type", "application/javascript");
+    res.end(`window.__ENV__ = { API_URL: "${apiUrl}" };`);
+  }
+
   return {
     name: "env-config",
     configureServer(server) {
       server.middlewares.use("/env-config.js", (_req, res) => {
-        const apiUrl = process.env.API_URL ?? "http://localhost:3001";
-        res.setHeader("Content-Type", "application/javascript");
-        res.end(`window.__ENV__ = { API_URL: "${apiUrl}" };`);
+        sendEnvConfig(res);
+      });
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use("/env-config.js", (_req, res) => {
+        sendEnvConfig(res);
       });
     },
   };
@@ -35,11 +47,12 @@ export default defineConfig(async () => ({
     __VERSION__: `"${pkg.version}"`,
   },
   plugins: [
-    tanstackRouter({
-      target: "react",
-      autoCodeSplitting: true,
+    tanstackStart({
+      spa: {
+        enabled: true,
+      },
     }),
     react(),
     envConfigPlugin(),
-  ]
+  ],
 }));

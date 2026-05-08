@@ -7,6 +7,8 @@ import type {
 } from "@openfeature/web-sdk";
 import { ProviderEvents } from "@openfeature/web-sdk";
 
+import { getPublicApiUrl } from "./env";
+
 interface FlagConfig {
   type: string;
   defaultVariant: string;
@@ -16,7 +18,9 @@ interface FlagConfig {
 
 type FlagStore = Record<string, FlagConfig>;
 
-const API_BASE_URL = `${window.__ENV__.API_URL}/v1`;
+function getAPIBaseUrl() {
+  return `${getPublicApiUrl()}/v1`;
+}
 
 export class ApiFeatureFlagProvider implements Provider {
   readonly metadata = { name: "api-feature-flag" } as const;
@@ -27,6 +31,10 @@ export class ApiFeatureFlagProvider implements Provider {
   private pollInterval: ReturnType<typeof setInterval> | null = null;
 
   async initialize(): Promise<void> {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     await this.fetchFlags();
     // Poll every 60s for flag updates
     this.pollInterval = setInterval(() => this.fetchFlags(), 60_000);
@@ -113,7 +121,7 @@ export class ApiFeatureFlagProvider implements Provider {
 
   private async fetchFlags(): Promise<void> {
     try {
-      const response = await fetch(`${API_BASE_URL}/feature-flags/client`, {
+      const response = await fetch(`${getAPIBaseUrl()}/feature-flags/client`, {
         credentials: "include",
       });
 

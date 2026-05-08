@@ -1,12 +1,13 @@
 import { notifications } from "@mantine/notifications";
 import { IconCheck } from "@tabler/icons-react";
+import type { NavigateFn } from "@tanstack/react-router";
 
 import { getAPIClient } from "@/lib/api";
-import { router } from "@/lib/router";
 import type { SimulationFormValues } from "@/routes/app/submit/-components/schema";
 
 export async function submitSimulation(
   values: SimulationFormValues,
+  navigate: NavigateFn,
   shouldRun?: boolean,
 ) {
   const data = new FormData();
@@ -31,7 +32,10 @@ export async function submitSimulation(
 
   const api = await getAPIClient();
 
-  const response = await api.post<{ commands: string[] }>(`/simulation/submit`, data);
+  const response = await api.post<{ commands: string[] }>(
+    `/simulation/submit`,
+    data,
+  );
 
   if (!shouldRun) {
     let filename = values.type;
@@ -78,7 +82,7 @@ export async function submitSimulation(
       withBorder: true,
     });
 
-    router.navigate({ to: "/app", search: { type: values.type, tab: "run" } });
+    navigate({ to: "/app", search: { type: values.type, tab: "run" } });
 
     return;
   }

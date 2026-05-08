@@ -23,7 +23,7 @@ RUN pnpm --filter web build
 FROM caddy:alpine AS runner
 WORKDIR /usr/share/caddy
 
-COPY --from=builder /app/apps/web/dist ./
+COPY --from=builder /app/apps/web/dist/client ./
 COPY apps/web/Caddyfile /etc/caddy/Caddyfile
 COPY apps/web/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh \
