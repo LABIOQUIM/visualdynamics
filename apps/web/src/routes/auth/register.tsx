@@ -18,7 +18,6 @@ import { z } from "zod";
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";
 import { authClient } from "@/lib/auth-client";
-import { REGISTER_SEO } from "@/lib/seo";
 
 const schema = z.object({
   email: z.string().min(8, "Invalid email"),
@@ -28,7 +27,6 @@ const schema = z.object({
 });
 
 export const Route = createFileRoute("/auth/register")({
-  head: () => REGISTER_SEO,
   component: RouteComponent,
 });
 

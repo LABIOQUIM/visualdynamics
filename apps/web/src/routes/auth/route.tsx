@@ -10,7 +10,6 @@ import {
 
 import VISUAL_DYNAMICS_LOGO from "@/assets/visualdynamics.svg";
 import { authClient } from "@/lib/auth-client";
-import { AUTH_SEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/auth")({
   beforeLoad: ({ context }) => {
@@ -20,7 +19,6 @@ export const Route = createFileRoute("/auth")({
       });
     }
   },
-  head: () => AUTH_SEO,
   component: RouteComponent,
 });
 

@@ -21,9 +21,6 @@ export function LanderHeader() {
           {/* Mantine Group for spacing items is fine */}
           <nav className={styles.navLinks}>
             <Link className={styles.navLink} to="/">
-              Home
-            </Link>
-            <Link className={styles.navLink} to="/about">
               About
             </Link>
             <Link className={styles.navLink} to="/guides">

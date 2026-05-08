@@ -17,7 +17,6 @@ import { Logo } from "@/components/Logo";
 import { Navbar } from "@/components/Navbar";
 import { ServerTime } from "@/components/ServerTime";
 import { authClient } from "@/lib/auth-client";
-import { APP_SEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/app")({
   beforeLoad: ({ context, location }) => {
@@ -39,7 +38,6 @@ export const Route = createFileRoute("/app")({
       throw redirect({ to: "/auth/login" });
     }
   },
-  head: () => APP_SEO,
   component: RouteComponent,
 });
 

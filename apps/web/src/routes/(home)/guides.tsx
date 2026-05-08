@@ -8,7 +8,6 @@ import { LanderLayout } from "./-components/Layout";
 
 import { Heading } from "@/components/Heading";
 import { YouTubePlayer } from "@/components/YoutubePlayer";
-import { GUIDES_SEO } from "@/lib/seo";
 
 const simulationVideos = [
   {
@@ -34,14 +33,13 @@ const simulationVideos = [
 ];
 
 export const Route = createFileRoute("/(home)/guides")({
-  head: () => GUIDES_SEO,
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
     <LanderLayout>
-      <Heading centered order={1} title="Guides" />
+      <Heading centered title="Guides" />
       <Box className={classes.videosContainer}>
         {simulationVideos.map((video) => (
           <YouTubePlayer

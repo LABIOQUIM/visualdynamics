@@ -10,15 +10,9 @@ interface HeadingProps {
   title: string;
   rightElement?: React.ReactNode;
   centered?: boolean;
-  order?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
-export function Heading({
-  centered,
-  order = 2,
-  rightElement,
-  title,
-}: HeadingProps) {
+export function Heading({ centered, rightElement, title }: HeadingProps) {
   const router = useRouter();
   const canGoBack = useCanGoBack();
   const pathname = useLocation({
@@ -37,7 +31,7 @@ export function Heading({
           <IconArrowLeft className={classes.icon} />
         </ActionIcon>
       )}
-      <Title order={order}>{title}</Title>
+      <Title order={2}>{title}</Title>
       {rightElement ? (
         <div className={classes.rightElementContainer}>{rightElement}</div>
       ) : null}

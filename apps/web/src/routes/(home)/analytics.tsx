@@ -7,17 +7,15 @@ import { LanderCallToActionSection } from "./-components/CallToActionSection";
 import { LanderLayout } from "./-components/Layout";
 
 import { Heading } from "@/components/Heading";
-import { ANALYTICS_SEO } from "@/lib/seo";
 
 export const Route = createFileRoute("/(home)/analytics")({
-  head: () => ANALYTICS_SEO,
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
     <LanderLayout>
-      <Heading centered order={1} title="Analytics" />
+      <Heading centered title="Analytics" />
       <AspectRatio className={classes.analyticsContainer} ratio={16 / 9}>
         <iframe
           className={classes.analyticsIframe}
