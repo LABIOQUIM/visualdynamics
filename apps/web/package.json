@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "start": "node ./server/index.mjs",
     "preview": "vite preview",
     "lint": "oxlint --fix src"
   },

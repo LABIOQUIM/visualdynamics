@@ -8,6 +8,8 @@ import { LanderLayout } from "./-components/Layout";
 
 import { Heading } from "@/components/Heading";
 import { YouTubePlayer } from "@/components/YoutubePlayer";
+import { buildSeoHead, DEFAULT_SITE_URL } from "@/lib/seo";
+import { loadRuntimeSeoData } from "@/lib/seo.runtime";
 
 const simulationVideos = [
   {
@@ -33,6 +35,16 @@ const simulationVideos = [
 ];
 
 export const Route = createFileRoute("/(home)/guides")({
+  loader: () => loadRuntimeSeoData(),
+  head: ({ loaderData }) =>
+    buildSeoHead({
+      title: "Simulation Guides",
+      description:
+        "Watch step-by-step video guides for Visual Dynamics simulation setup, ACPYPE workflows, APO simulations, and result downloads.",
+      path: "/guides",
+      index: true,
+      siteUrl: loaderData?.siteUrl ?? DEFAULT_SITE_URL,
+    }),
   component: RouteComponent,
 });
 
@@ -44,6 +56,7 @@ function RouteComponent() {
         {simulationVideos.map((video) => (
           <YouTubePlayer
             key={video.videoId}
+            title={video.title}
             uniquePlayerIdSuffix={video.suffix}
             videoId={video.videoId}
           />

@@ -7,8 +7,20 @@ import { LanderCallToActionSection } from "./-components/CallToActionSection";
 import { LanderLayout } from "./-components/Layout";
 
 import { Heading } from "@/components/Heading";
+import { buildSeoHead, DEFAULT_SITE_URL } from "@/lib/seo";
+import { loadRuntimeSeoData } from "@/lib/seo.runtime";
 
 export const Route = createFileRoute("/(home)/analytics")({
+  loader: () => loadRuntimeSeoData(),
+  head: ({ loaderData }) =>
+    buildSeoHead({
+      title: "Platform Analytics",
+      description:
+        "Review public analytics and adoption metrics for the Visual Dynamics molecular dynamics platform.",
+      path: "/analytics",
+      index: true,
+      siteUrl: loaderData?.siteUrl ?? DEFAULT_SITE_URL,
+    }),
   component: RouteComponent,
 });
 

@@ -27,26 +27,31 @@ interface ParticleState {
   dy: number;
 }
 
-export function InteractiveParticles() {
-  const [particles, setParticles] = useState<ParticleState[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
+function createParticle(index: number): ParticleState {
+  const seed = index + 1;
+  const random = (offset: number) => {
+    const value = Math.sin(seed * 999 + offset * 777) * 10000;
 
-  useEffect(() => {
-    const newParticles: ParticleState[] = [];
-    for (let i = 0; i < NUM_PARTICLES; i++) {
-      newParticles.push({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: 1 + Math.random() * 10, // Small, subtle particles
-        opacity: 0.1 + Math.random() * 0.8,
-        sensitivity: 0.005 + Math.random() * 0.05,
-        dx: 0,
-        dy: 0,
-      });
-    }
-    setParticles(newParticles);
-  }, []);
+    return value - Math.floor(value);
+  };
+
+  return {
+    id: index,
+    x: random(1) * 100,
+    y: random(2) * 100,
+    size: 1 + random(3) * 10,
+    opacity: 0.1 + random(4) * 0.8,
+    sensitivity: 0.005 + random(5) * 0.05,
+    dx: 0,
+    dy: 0,
+  };
+}
+
+export function InteractiveParticles() {
+  const [particles, setParticles] = useState<ParticleState[]>(() =>
+    Array.from({ length: NUM_PARTICLES }, (_, index) => createParticle(index)),
+  );
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleMouseMove = throttleRaf((event: MouseEvent) => {

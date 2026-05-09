@@ -12,6 +12,7 @@ import VISUAL_DYNAMICS_LOGO from "@/assets/visualdynamics.svg";
 import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/auth")({
+  ssr: false,
   beforeLoad: async () => {
     const session = await authClient.getSession();
 

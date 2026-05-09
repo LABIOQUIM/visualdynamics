@@ -20,16 +20,20 @@ COPY apps/api/package.json ./apps/api/
 
 RUN pnpm --filter web build
 
-FROM caddy:alpine AS runner
-WORKDIR /usr/share/caddy
+FROM node:lts-alpine AS runner
+WORKDIR /app
 
-COPY --from=builder /app/apps/web/dist/client ./
+RUN apk add --no-cache caddy
+
+COPY --from=builder /app/apps/web/dist ./dist
 COPY apps/web/Caddyfile /etc/caddy/Caddyfile
 COPY apps/web/entrypoint.sh /entrypoint.sh
+COPY apps/web/server ./server
 RUN chmod +x /entrypoint.sh \
+    && mkdir -p /data /config /app/dist/client \
     && addgroup -S appgroup \
     && adduser -S -u 1001 -G appgroup appuser \
-    && chown -R appuser:appgroup /usr/share/caddy /data /config
+    && chown -R appuser:appgroup /app /data /config /etc/caddy
 
 USER appuser
 

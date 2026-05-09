@@ -21,6 +21,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 
 import { ApiFeatureFlagProvider } from "@/lib/feature-flags";
+import {
+  DEFAULT_OG_IMAGE_PATH,
+  DEFAULT_SEO_DESCRIPTION,
+  SITE_NAME,
+} from "@/lib/seo";
 import { theme } from "@/theme";
 
 dayjs.extend(duration);
@@ -35,12 +40,19 @@ OpenFeature.setProvider(new ApiFeatureFlagProvider());
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
+    title: SITE_NAME,
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-      { title: "Visual Dynamics" },
+      { name: "description", content: DEFAULT_SEO_DESCRIPTION },
+      { name: "robots", content: "noindex, nofollow" },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: DEFAULT_OG_IMAGE_PATH },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: DEFAULT_OG_IMAGE_PATH },
     ],
-    links: [{ rel: "icon", type: "image/svg+xml", href: "/vite.svg" }],
+    links: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
   }),
   component: RootComponent,
 });

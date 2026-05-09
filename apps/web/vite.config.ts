@@ -49,7 +49,7 @@ export default defineConfig(async () => ({
   plugins: [
     tanstackStart({
       spa: {
-        enabled: true,
+        enabled: false,
       },
     }),
     react(),

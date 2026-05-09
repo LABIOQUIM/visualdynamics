@@ -19,6 +19,7 @@ import { ServerTime } from "@/components/ServerTime";
 import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/app")({
+  ssr: false,
   beforeLoad: async ({ location }) => {
     const session = await authClient.getSession();
     const auth = session.data;

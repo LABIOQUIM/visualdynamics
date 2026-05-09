@@ -1,5 +1,17 @@
 :3000 {
-	root * /usr/share/caddy
-	try_files {path} {path}/index.html /_shell.html
-	file_server
+	root * /app/dist/client
+
+	@static {
+		path /assets/* /favicon.svg /og-default.svg
+	}
+	handle @static {
+		file_server
+	}
+
+	handle {
+		reverse_proxy 127.0.0.1:{$SSR_PORT:3001} {
+			header_up X-Forwarded-Host {host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
 }
