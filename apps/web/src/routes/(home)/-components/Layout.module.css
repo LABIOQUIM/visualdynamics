@@ -5,7 +5,6 @@
   background-color: var(--mantine-color-white);
   position: relative;
   z-index: 1;
-  overflow-x: hidden;
 }
 
 .mainContent {

@@ -2,8 +2,8 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.77);
+  backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--mantine-primary-color-1);
   padding-left: var(--mantine-spacing-xl);
   padding-right: var(--mantine-spacing-xl);
