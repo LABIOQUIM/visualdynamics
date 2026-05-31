@@ -3,8 +3,8 @@ import type { CSSProperties } from "react";
 const splashStyle: CSSProperties = {
   alignItems: "center",
   background:
-    "radial-gradient(circle at top left, rgba(34, 139, 230, 0.18), transparent 30%), linear-gradient(180deg, #f7fbff 0%, #ffffff 58%, #eef7fb 100%)",
-  color: "#092f4a",
+    "radial-gradient(circle at top left, rgba(77, 183, 33, 0.18), transparent 30%), linear-gradient(180deg, #f4fbf7 0%, #ffffff 58%, #ecf7ee 100%)",
+  color: "#0a2f1a",
   display: "flex",
   flexDirection: "column",
   gap: "16px",
@@ -25,7 +25,7 @@ const brandStyle: CSSProperties = {
 };
 
 const messageStyle: CSSProperties = {
-  color: "#0f5c82",
+  color: "#0f6b2a",
   fontFamily: "Inter, system-ui, sans-serif",
   fontSize: "1rem",
   fontWeight: 700,
@@ -41,7 +41,7 @@ const barsStyle: CSSProperties = {
 
 const barStyle: CSSProperties = {
   animation: "visualdynamics-first-load-pulse 0.8s ease-in-out infinite alternate",
-  backgroundColor: "#228be6",
+  backgroundColor: "#4DB721",
   borderRadius: "999px",
   display: "block",
   height: "20px",
