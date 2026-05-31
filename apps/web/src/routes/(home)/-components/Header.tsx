@@ -1,10 +1,11 @@
 import styles from "./Header.module.css";
 
-import { Box, Group } from "@mantine/core"; // Group for layout, Box for semantic header
+import { Box, Group } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 
 import VISUAL_DYNAMICS_LOGO from "@/assets/visualdynamics.svg";
+import { DownloadCenter } from "@/components/DownloadCenter";
 
 export function LanderHeader() {
   return (
@@ -18,18 +19,15 @@ export function LanderHeader() {
           />
         </Link>
         <Group>
-          {/* Mantine Group for spacing items is fine */}
           <nav className={styles.navLinks}>
-            <Link className={styles.navLink} to="/">
-              About
-            </Link>
             <Link className={styles.navLink} to="/guides">
               Guides
             </Link>
           </nav>
+          <DownloadCenter />
           <Link className={styles.launchButton} to="/auth/login">
-            <IconPlayerPlay size={22} />
-            Launch App
+            <IconPlayerPlay size={18} />
+            <span className={styles.launchLabel}>Launch App</span>
           </Link>
         </Group>
       </div>

@@ -2,13 +2,9 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(
-    var(--mantine-color-white-rgb),
-    0.75
-  ); /* Slightly transparent white */
-  backdrop-filter: blur(2px);
-  /* A very subtle border to distinguish from content on scroll */
-  /* border-bottom: 1px solid var(--mantine-color-gray-2); */
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--mantine-color-blue-1);
   padding-left: var(--mantine-spacing-xl);
   padding-right: var(--mantine-spacing-xl);
   height: 70px;
@@ -25,23 +21,21 @@
 }
 
 .logoImage {
-  height: 58px;
+  height: 50px;
   width: auto;
-  margin: auto;
 }
 
 .navLinks {
   display: flex;
-  /* Using CSS gap, ensure browser support or use margins */
   gap: var(--mantine-spacing-md);
 }
 
 .navLink {
   text-decoration: none;
-  color: var(--mantine-color-gray-7); /* Dark gray for good readability */
+  color: var(--mantine-color-gray-7);
   padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
   border-radius: var(--mantine-radius-sm);
-  font-weight: 500; /* Use Inter's 500 weight */
+  font-weight: 600;
   font-size: var(--mantine-font-size-sm);
   transition:
     background-color 0.2s ease,
@@ -49,32 +43,69 @@
 }
 
 .navLink:hover {
-  background-color: var(
-    --mantine-color-blue-0
-  ); /* Very light blue accent background */
-  color: var(--mantine-color-blue-7); /* Darker blue on hover */
+  background-color: var(--mantine-color-blue-0);
+  color: var(--mantine-color-blue-7);
 }
 
 .launchButton {
   display: flex;
   flex-direction: row;
   gap: var(--mantine-spacing-xs);
-  background-color: var(--mantine-color-blue-6); /* Primary button color */
+  background-color: var(--mantine-color-blue-6);
   color: var(--mantine-color-white);
-  font-weight: 500; /* Inter 500 */
+  font-weight: 600;
   font-size: var(--mantine-font-size-sm);
   padding: var(--mantine-spacing-sm) var(--mantine-spacing-lg);
-  border-radius: var(--mantine-radius-md);
+  border-radius: 8px;
   text-decoration: none;
   transition:
     background-color 0.2s ease,
     transform 0.1s ease,
     box-shadow 0.2s ease;
-  box-shadow: 0 2px 5px rgba(var(--mantine-color-black-rgb), 0.05); /* Subtle shadow */
+  box-shadow: 0 6px 16px rgba(var(--mantine-color-blue-6-rgb), 0.2);
 }
 
 .launchButton:hover {
-  background-color: var(--mantine-color-blue-7); /* Darken on hover */
+  background-color: var(--mantine-color-blue-7);
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(var(--mantine-color-black-rgb), 0.08);
+  box-shadow: 0 10px 20px rgba(var(--mantine-color-blue-7-rgb), 0.18);
+}
+
+@media (max-width: 48rem) {
+  .header {
+    padding-left: var(--mantine-spacing-sm);
+    padding-right: var(--mantine-spacing-sm);
+    height: auto;
+    min-height: 56px;
+  }
+
+  .innerHeader {
+    padding-top: var(--mantine-spacing-xs);
+    padding-bottom: var(--mantine-spacing-xs);
+    gap: 4px;
+  }
+
+  .logoImage {
+    height: 32px;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .launchButton {
+    padding: 6px 10px;
+    font-size: var(--mantine-font-size-xs);
+    gap: 4px;
+  }
+}
+
+@media (max-width: 30rem) {
+  .launchButton {
+    padding: 6px 8px;
+  }
+
+  .launchLabel {
+    display: none;
+  }
 }

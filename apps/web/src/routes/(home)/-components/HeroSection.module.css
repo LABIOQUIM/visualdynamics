@@ -3,61 +3,99 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
   position: relative;
-  padding: var(--mantine-spacing-xl) var(--mantine-spacing-md);
-  background-color: rgba(
-    var(--mantine-color-white-rgb),
-    0.75
-  ); /* Slightly transparent white */
-  backdrop-filter: blur(2px);
-  /* Optional: A very subtle gradient at the top if particles are too distracting */
-  /* background: linear-gradient(to bottom, rgba(var(--mantine-color-white-rgb),0.3) 0%, transparent 20%); */
+  background-color: var(--mantine-color-white);
+  overflow: hidden;
+  padding: calc(var(--mantine-spacing-xl) * 2.4) clamp(1rem, 2.4vw, 1.8rem);
 }
 
-.heroContainer {
-  max-width: var(--mantine-container-width-md);
+.container {
+  max-width: 72rem;
   margin-left: auto;
   margin-right: auto;
   position: relative;
   z-index: 3;
+  width: 100%;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(21, 170, 191, 0.18);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.82);
+  padding: 0.55rem 0.95rem;
+  margin-bottom: var(--mantine-spacing-lg);
+  color: var(--mantine-color-blue-7);
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
 .title {
   font-family: "Lexend", sans-serif;
-  font-size: clamp(2.8rem, 6vw, 4.2rem);
+  font-size: clamp(3rem, 6vw, 5rem);
   font-weight: 700;
-  color: var(--mantine-color-black); /* Strong black for title */
-  line-height: 1.15;
-  margin-bottom: var(--mantine-spacing-lg); /* Increased margin */
-  /* No text-shadow for cleaner light theme, or a very subtle one */
-  /* text-shadow: 0 1px 2px rgba(var(--mantine-color-gray-4-rgb), 0.2); */
+  max-width: 880px;
+  color: var(--mantine-color-black);
+  line-height: 1.02;
+  margin: 0 auto var(--mantine-spacing-lg);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .subtitle {
-  font-size: clamp(1.1rem, 2.5vw, 1.35rem); /* Slightly larger base */
-  color: var(--mantine-color-gray-7); /* Dark gray for readability */
+  font-size: clamp(1.08rem, 2.1vw, 1.3rem);
+  color: var(--mantine-color-gray-7);
   line-height: 1.7;
-  margin-bottom: calc(
-    var(--mantine-spacing-xl) * 1.5
-  ); /* More space for buttons */
-  max-width: 620px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto calc(var(--mantine-spacing-xl) * 1.3);
+  max-width: 700px;
+}
+
+.signalGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--mantine-spacing-md);
+  max-width: 920px;
+  margin: 0 auto calc(var(--mantine-spacing-xl) * 1.35);
+}
+
+.signalItem {
+  border: 1px solid rgba(21, 170, 191, 0.15);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 18px 40px rgba(9, 52, 59, 0.06);
+  padding: var(--mantine-spacing-lg);
+}
+
+.signalLabel {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--mantine-color-gray-6);
+  font-size: 0.83rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.signalItem strong {
+  color: var(--mantine-color-black);
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .buttonsGroup {
   display: flex;
-  gap: var(--mantine-spacing-lg);
-  justify-content: center;
+  gap: var(--mantine-spacing-md);
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .ctaButton {
-  padding: var(--mantine-spacing-md) var(--mantine-spacing-xl);
-  border-radius: var(--mantine-radius-md); /* Standard radius */
-  font-size: var(--mantine-font-size-md); /* Standard size */
-  font-weight: 500; /* Inter 500 */
+  padding: 0.95rem 1.25rem;
+  border-radius: 8px;
+  font-size: var(--mantine-font-size-md);
+  font-weight: 600;
   text-decoration: none;
   transition:
     transform 0.2s ease,
@@ -71,29 +109,61 @@
   gap: var(--mantine-spacing-sm);
 }
 
-.ctaButtonPrimary {
+.ctaPrimary {
   composes: ctaButton;
   background-color: var(--mantine-color-blue-6);
   color: var(--mantine-color-white);
-  box-shadow: 0 3px 10px rgba(var(--mantine-color-blue-6-rgb), 0.2);
-}
-.ctaButtonPrimary:hover {
-  background-color: var(--mantine-color-blue-7);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(var(--mantine-color-blue-7-rgb), 0.25);
+  box-shadow: 0 12px 28px rgba(var(--mantine-color-blue-6-rgb), 0.22);
 }
 
-.ctaButtonSecondary {
-  composes: ctaButton;
-  background-color: transparent;
-  color: var(--mantine-color-blue-7); /* Darker blue for text */
-  border-color: var(--mantine-color-blue-5); /* Primary color border */
-  box-shadow: 0 2px 5px rgba(var(--mantine-color-black-rgb), 0.03);
-}
-.ctaButtonSecondary:hover {
-  background-color: var(--mantine-color-blue-0); /* Very light blue bg */
-  border-color: var(--mantine-color-blue-6);
-  color: var(--mantine-color-blue-8);
+.ctaPrimary:hover {
+  background-color: var(--mantine-color-blue-7);
   transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(var(--mantine-color-black-rgb), 0.05);
+  box-shadow: 0 18px 34px rgba(var(--mantine-color-blue-7-rgb), 0.22);
+}
+
+.ctaSecondary {
+  composes: ctaButton;
+  background-color: rgba(255, 255, 255, 0.78);
+  color: var(--mantine-color-blue-7);
+  border-color: var(--mantine-color-blue-3);
+}
+
+.ctaSecondary:hover {
+  background-color: var(--mantine-color-blue-0);
+  border-color: var(--mantine-color-blue-5);
+  transform: translateY(-2px);
+}
+
+.ctaTertiary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+  color: var(--mantine-color-blue-7);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.ctaTertiary:hover {
+  color: var(--mantine-color-blue-9);
+}
+
+@media (max-width: 62rem) {
+  .signalGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 40rem) {
+  .hero {
+    padding-top: calc(var(--mantine-spacing-xl) * 1.8);
+    padding-bottom: calc(var(--mantine-spacing-xl) * 1.6);
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+  }
+
+  .title {
+    font-size: clamp(2.1rem, 10vw, 2.9rem);
+    line-height: 1.08;
+  }
 }

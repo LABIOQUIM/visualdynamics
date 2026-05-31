@@ -4,7 +4,7 @@ import React from "react";
 import { Badge } from "@mantine/core";
 
 interface FeatureCardProps {
-  icon: React.ReactNode; // Expect a Tabler Icon component
+  icon: React.ReactNode;
   title: string;
   description: string;
   soon?: boolean | undefined;
@@ -17,12 +17,8 @@ export function FeatureCard({
   soon,
 }: FeatureCardProps) {
   return (
-    // Using Paper as a semantic container, styling via CSS Module
     <div className={styles.card}>
-      <div className={styles.iconWrapper}>
-        {/* Icon is passed as a child, already sized */}
-        {icon}
-      </div>
+      <div className={styles.iconWrapper}>{icon}</div>
       <div className={styles.titleWrapper}>
         <h3 className={styles.title}>{title}</h3>
         {soon && <Badge size="xs">soon</Badge>}

@@ -1,47 +1,84 @@
 .ctaSection {
-  padding-top: calc(var(--mantine-spacing-xl) * 2.5); /* Generous padding */
+  padding-top: calc(var(--mantine-spacing-xl) * 2.5);
   padding-bottom: calc(var(--mantine-spacing-xl) * 2.5);
-  text-align: center;
   position: relative;
   z-index: 3;
-  /* Light, inviting background - perhaps a very subtle primary tint or a clean light gray */
-  /* background-color: var(--mantine-color-blue-0); */
-  /* Optional: Add a very subtle pattern for texture if desired, ensure it's light */
-  /* background-image: url('/images/light-molecular-pattern.svg'); */
-  /* background-blend-mode: overlay; */
-  background-color: rgba(
-    var(--mantine-color-white-rgb),
-    0.75
-  ); /* Slightly transparent white */
-  backdrop-filter: blur(2px);
+  background-color: var(--mantine-color-blue-9);
 }
 
 .ctaContainer {
-  max-width: var(--mantine-container-width-sm);
+  max-width: 62rem;
   margin-left: auto;
   margin-right: auto;
-  padding-left: var(--mantine-spacing-md);
-  padding-right: var(--mantine-spacing-md);
+  padding-left: clamp(1rem, 2.4vw, 1.8rem);
+  padding-right: clamp(1rem, 2.4vw, 1.8rem);
+}
+
+.eyebrow {
+  display: inline-flex;
+  margin-bottom: var(--mantine-spacing-md);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .title {
   font-family: "Lexend", sans-serif;
-  font-size: clamp(2rem, 4.5vw, 2.8rem); /* Powerful CTA title */
-  color: var(--mantine-color-black);
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  color: var(--mantine-color-white);
   margin-bottom: var(--mantine-spacing-md);
 }
 
 .description {
-  color: var(--mantine-color-gray-7);
+  color: rgba(255, 255, 255, 0.82);
   font-size: var(--mantine-font-size-lg);
   margin-bottom: var(--mantine-spacing-xl);
   line-height: 1.65;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-md);
+  flex-wrap: wrap;
+}
+
 .button {
-  /* Inheriting from Hero's primary button for consistency */
-  composes: ctaButtonPrimary from "./HeroSection.module.css";
-  /* Override if specific changes needed for this CTA button */
-  padding: var(--mantine-spacing-lg) var(--mantine-spacing-xl); /* Larger button */
-  font-size: var(--mantine-font-size-lg);
+  padding: 1rem 1.35rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  background-color: var(--mantine-color-white);
+  color: var(--mantine-color-blue-9);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 40rem) {
+  .actions {
+    align-items: stretch;
+  }
+
+  .button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ctaContainer {
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+  }
 }

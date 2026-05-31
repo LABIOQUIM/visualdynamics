@@ -1,34 +1,31 @@
 .card {
   background-color: var(--mantine-color-white);
-  /* More defined border for light theme */
   border: 1px solid var(--mantine-color-gray-2);
-  border-radius: var(--mantine-radius-lg); /* Larger radius */
+  border-radius: 8px;
   padding: var(--mantine-spacing-xl);
-  text-align: center;
+  text-align: left;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease,
     border-color 0.3s ease;
   position: relative;
-  overflow: hidden; /* For any decorative elements */
-  /* Subtle shadow for depth */
-  box-shadow: 0 4px 15px rgba(var(--mantine-color-gray-4-rgb), 0.05);
+  overflow: hidden;
+  box-shadow: 0 10px 26px rgba(var(--mantine-color-gray-3-rgb), 0.08);
 }
 
 .card:hover {
-  transform: translateY(-6px); /* Slightly less movement */
-  box-shadow: 0 8px 25px rgba(var(--mantine-color-gray-4-rgb), 0.1);
-  border-color: var(--mantine-color-blue-4); /* Accent border on hover */
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(var(--mantine-color-gray-3-rgb), 0.12);
+  border-color: var(--mantine-color-blue-3);
 }
 
-/* Optional: Subtle top border highlight on hover instead of full glow */
 .card::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 3px; /* Thinner highlight */
+  height: 3px;
   background: linear-gradient(
     90deg,
     var(--mantine-color-blue-5),
@@ -48,34 +45,31 @@
 
 .iconWrapper {
   display: inline-flex;
-  padding: var(--mantine-spacing-lg); /* Slightly larger padding */
-  border-radius: var(--mantine-radius-md); /* Rounded square */
-  /* Background could be a light primary tint */
+  padding: var(--mantine-spacing-md);
+  border-radius: 8px;
   background-color: var(--mantine-color-blue-0);
-  /* Icon color is primary */
-  color: var(--mantine-color-blue-6);
+  color: var(--mantine-color-blue-7);
   margin-bottom: var(--mantine-spacing-lg);
-  /* No heavy shadow on icon wrapper for cleaner light look */
 }
 
 .titleWrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: calc(var(--mantine-spacing-xs) / 2);
 }
 
 .title {
-  font-size: var(--mantine-font-size-lg); /* Slightly smaller for light */
-  font-weight: 600; /* Lexend 600 */
+  font-size: 1.08rem;
+  font-weight: 600;
   font-family: "Lexend", sans-serif;
   color: var(--mantine-color-black);
-  margin-bottom: var(--mantine-spacing-xs); /* Less margin */
+  margin-bottom: var(--mantine-spacing-xs);
 }
 
 .description {
-  font-size: var(--mantine-font-size-sm); /* Smaller for light */
+  font-size: var(--mantine-font-size-sm);
   color: var(--mantine-color-gray-7);
   line-height: 1.65;
-  min-height: 60px;
+  min-height: 72px;
 }

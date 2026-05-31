@@ -5,6 +5,7 @@ import { LanderCallToActionSection } from "./-components/CallToActionSection";
 import { LanderFeaturesSection } from "./-components/FeaturesSection";
 import { LanderHeroSection } from "./-components/HeroSection";
 import { LanderLayout } from "./-components/Layout";
+import { LanderPapersSection } from "./-components/PapersSection";
 
 import { buildSeoHead, DEFAULT_SITE_URL } from "@/lib/seo";
 import { loadRuntimeSeoData } from "@/lib/seo.runtime";
@@ -28,10 +29,9 @@ function HomeComponent() {
     <LanderLayout>
       <LanderHeroSection />
       <LanderFeaturesSection />
-      {/* <LanderDemoSection /> */}
+      <LanderPapersSection />
       <LanderBackingSection />
       <LanderCallToActionSection />
-      {/* Add other sections as needed */}
     </LanderLayout>
   );
 }

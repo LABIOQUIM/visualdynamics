@@ -1,12 +1,79 @@
-.backersWrapper {
-  max-width: var(--mantine-breakpoint-lg);
-  margin: 0 auto;
+.section {
+  padding-top: calc(var(--mantine-spacing-xl) * 2);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 2);
+  background-color: var(--mantine-color-blue-0);
+}
+
+.container {
+  max-width: 70rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 2.4vw, 1.8rem);
+  padding-right: clamp(1rem, 2.4vw, 1.8rem);
+}
+
+.intro {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: calc(var(--mantine-spacing-xl) * 1.2);
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  margin-bottom: var(--mantine-spacing-md);
+  color: var(--mantine-color-blue-7);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.intro h2 {
+  margin: 0 0 var(--mantine-spacing-md);
+  font-family: "Lexend", sans-serif;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  line-height: 1.12;
+  color: var(--mantine-color-black);
+}
+
+.intro p {
+  margin: 0;
+  line-height: 1.75;
+  color: var(--mantine-color-gray-7);
+}
+
+.backerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mantine-spacing-sm);
+  min-height: 168px;
+  padding: var(--mantine-spacing-lg);
+  border: 1px solid var(--mantine-color-gray-2);
+  border-radius: 8px;
+  background-color: var(--mantine-color-white);
 }
 
 .backerImage {
   width: 100%;
-  height: 100%;
+  height: 92px;
   object-fit: contain;
-  max-height: auto;
+  max-height: 100%;
   margin: auto;
+}
+
+.backerName {
+  color: var(--mantine-color-gray-7);
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 600;
+}
+
+@media (max-width: 40rem) {
+  .container {
+    padding-left: var(--mantine-spacing-md);
+    padding-right: var(--mantine-spacing-md);
+  }
 }
