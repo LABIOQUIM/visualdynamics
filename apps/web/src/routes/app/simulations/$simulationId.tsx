@@ -26,7 +26,7 @@ function RouteComponent() {
   }
 
   return (
-    <PageLayout>
+    <PageLayout title={data.simulation.moleculeName}>
       <Tabs
         classNames={{
           root: classes.tabsContainer,

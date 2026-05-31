@@ -18,6 +18,9 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
 COPY apps/web ./apps/web
 COPY apps/api/package.json ./apps/api/
 
+ARG VITE_API_BASE_URL=/api
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
 RUN pnpm --filter web build
 
 FROM node:lts-alpine AS runner
@@ -28,9 +31,8 @@ RUN apk add --no-cache caddy
 COPY --from=builder /app/apps/web/dist ./dist
 COPY apps/web/Caddyfile /etc/caddy/Caddyfile
 COPY apps/web/entrypoint.sh /entrypoint.sh
-COPY apps/web/server ./server
 RUN chmod +x /entrypoint.sh \
-    && mkdir -p /data /config /app/dist/client \
+    && mkdir -p /data /config /app/dist \
     && addgroup -S appgroup \
     && adduser -S -u 1001 -G appgroup appuser \
     && chown -R appuser:appgroup /app /data /config /etc/caddy

@@ -1,40 +1,22 @@
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig } from "vite";
 
 import pkg from "./package.json" with { type: "json" };
 
-function envConfigPlugin(): Plugin {
-  function sendEnvConfig(res: {
-    setHeader: (name: string, value: string) => void;
-    end: (body: string) => void;
-  }) {
-    const apiUrl = process.env.API_URL ?? "http://localhost:3001";
-    res.setHeader("Content-Type", "application/javascript");
-    res.end(`window.__ENV__ = { API_URL: "${apiUrl}" };`);
-  }
-
-  return {
-    name: "env-config",
-    configureServer(server) {
-      server.middlewares.use("/env-config.js", (_req, res) => {
-        sendEnvConfig(res);
-      });
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use("/env-config.js", (_req, res) => {
-        sendEnvConfig(res);
-      });
-    },
-  };
-}
-
-export default defineConfig(async () => ({
+export default defineConfig({
   server: {
-    host: "0.0.0.0", // Expose to the network
+    host: "0.0.0.0",
+    proxy: {
+      "/api": {
+        target: process.env.VITE_API_PROXY_TARGET ?? "http://localhost:2000",
+        changeOrigin: true,
+        rewrite: (requestPath: string) => requestPath.replace(/^\/api/, ""),
+      },
+    },
     watch: {
-      usePolling: true, // Force polling for file changes
+      usePolling: true,
     },
   },
   resolve: {
@@ -46,13 +28,5 @@ export default defineConfig(async () => ({
     global: "window",
     __VERSION__: `"${pkg.version}"`,
   },
-  plugins: [
-    tanstackStart({
-      spa: {
-        enabled: false,
-      },
-    }),
-    react(),
-    envConfigPlugin(),
-  ],
-}));
+  plugins: [tanstackRouter(), react()],
+});

@@ -1,0 +1,52 @@
+.shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(10, 84, 120, 0.08), transparent 36%),
+    var(--mantine-color-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.panel {
+  width: min(100%, 760px);
+  border-color: color-mix(in srgb, var(--mantine-primary-color-filled), transparent 72%);
+  box-shadow: var(--mantine-shadow-sm);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.logoImage {
+  height: 52px;
+  width: auto;
+}
+
+.icon {
+  flex: 0 0 auto;
+}
+
+.details {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 48em) {
+  .shell {
+    align-items: stretch;
+  }
+
+  .panel {
+    display: flex;
+    align-items: center;
+  }
+
+  .logoImage {
+    height: 44px;
+  }
+}

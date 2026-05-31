@@ -414,4 +414,24 @@ export class SimulationController {
 
     return data;
   }
+
+  @Get("/admin/queue")
+  async getQueueDiagnostics(
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("waitingPage") waitingPage: string | undefined,
+    @Query("activePage") activePage: string | undefined,
+    @Query("failedPage") failedPage: string | undefined,
+    @Query("queuedPage") queuedPage: string | undefined,
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    return this.simulationService.getQueueDiagnostics({
+      waitingPage: waitingPage === undefined ? undefined : Number(waitingPage),
+      activePage: activePage === undefined ? undefined : Number(activePage),
+      failedPage: failedPage === undefined ? undefined : Number(failedPage),
+      queuedPage: queuedPage === undefined ? undefined : Number(queuedPage),
+    });
+  }
 }

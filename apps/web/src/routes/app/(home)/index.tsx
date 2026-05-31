@@ -13,7 +13,6 @@ import {
 } from "mantine-react-table-open";
 import { useState } from "react";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { TableDateCell } from "@/components/TableDateCell";
@@ -139,8 +138,7 @@ function RouteComponent() {
   });
 
   return (
-    <PageLayout>
-      <Heading title="My Simulations" />
+    <PageLayout title="My Simulations">
       <MantineReactTable table={table} />
     </PageLayout>
   );

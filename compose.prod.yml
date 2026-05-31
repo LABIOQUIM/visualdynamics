@@ -1,7 +1,7 @@
 services:
   redis:
     image: redis:alpine
-    command: redis-server --maxmemory-policy noeviction
+    command: redis-server --maxmemory-policy noeviction --appendonly yes --appendfsync everysec
     restart: always
     networks:
       - traefik

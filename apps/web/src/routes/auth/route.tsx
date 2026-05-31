@@ -10,13 +10,13 @@ import {
 
 import VISUAL_DYNAMICS_LOGO from "@/assets/visualdynamics.svg";
 import { authClient } from "@/lib/auth-client";
+import { hasCompleteAuthSession } from "@/lib/auth-session";
 
 export const Route = createFileRoute("/auth")({
-  ssr: false,
   beforeLoad: async () => {
     const session = await authClient.getSession();
 
-    if (session.data) {
+    if (hasCompleteAuthSession(session.data)) {
       throw redirect({
         to: "/app",
       });
@@ -29,7 +29,7 @@ function RouteComponent() {
   const navigate = useNavigate({ from: "/auth" });
   const { data } = authClient.useSession();
 
-  if (data) {
+  if (hasCompleteAuthSession(data)) {
     navigate({ to: "/app" });
 
     return (

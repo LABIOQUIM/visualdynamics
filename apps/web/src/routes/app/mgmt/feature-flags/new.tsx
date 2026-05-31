@@ -3,7 +3,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { FlagForm, type FlagFormValues } from "./-components/FlagForm";
 import { useFlagMutations } from "./-components/useFlagMutations";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 import { type CreateFeatureFlagInput } from "@/mutations/featureFlags";
 
@@ -45,8 +44,7 @@ function RouteComponent() {
   }
 
   return (
-    <PageLayout>
-      <Heading title="New Feature Flag" />
+    <PageLayout title="New Feature Flag">
       <FlagForm
         isLoading={createMutation.isPending}
         onCancel={() => void navigate({ to: "/app/mgmt/feature-flags" })}

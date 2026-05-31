@@ -22,7 +22,6 @@ import {
   useMantineReactTable,
 } from "mantine-react-table-open";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { TableDateCell } from "@/components/TableDateCell";
@@ -104,7 +103,7 @@ function RouteComponent() {
     layoutMode: "grid",
     renderEditRowModalContent: ({ table, row, internalEditComponents }) => (
       <Stack>
-        <Title order={3}>Edit User</Title>
+        <Title order={3}>Edit Simulation</Title>
         {internalEditComponents}
         <MRT_EditActionButtons row={row} table={table} variant="text" />
       </Stack>
@@ -212,8 +211,7 @@ function RouteComponent() {
   });
 
   return (
-    <PageLayout>
-      <Heading title="Simulations" />
+    <PageLayout title="Simulations">
       <MantineReactTable table={table} />
     </PageLayout>
   );

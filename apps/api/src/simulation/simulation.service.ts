@@ -5,7 +5,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from "@nestjs/common";
-import { Queue } from "bullmq";
+import { Job, Queue } from "bullmq";
 import { existsSync, readFileSync } from "fs";
 
 import { SIMULATION_TYPE } from "../generated/prisma/client.js";
@@ -24,6 +24,72 @@ import {
   terminateSimulationProcess,
   withStorageExpiry,
 } from "./simulation.service.helpers.js";
+import type {
+  QueuedSimulationDiagnostic,
+  SimulationQueueDiagnostics,
+  SimulationQueueDiagnosticsPagination,
+  SimulationQueueJobSummary,
+} from "./simulation.types.js";
+
+const QUEUE_DIAGNOSTICS_PAGE_SIZE = 5;
+
+function normalizeQueuePage(page: number | undefined) {
+  return Number.isInteger(page) && page && page > 0 ? page : 0;
+}
+
+function getQueuePageBounds(page: number | undefined) {
+  const normalizedPage = normalizeQueuePage(page);
+  const start = normalizedPage * QUEUE_DIAGNOSTICS_PAGE_SIZE;
+
+  return {
+    start,
+    end: start + QUEUE_DIAGNOSTICS_PAGE_SIZE - 1,
+  };
+}
+
+function getSimulationIdFromJob(job: Job) {
+  if (
+    typeof job.data === "object" &&
+    job.data !== null &&
+    "simulationId" in job.data &&
+    typeof job.data.simulationId === "string"
+  ) {
+    return job.data.simulationId;
+  }
+
+  return null;
+}
+
+function getUsernameFromJob(job: Job) {
+  if (
+    typeof job.data === "object" &&
+    job.data !== null &&
+    "user" in job.data &&
+    typeof job.data.user === "object" &&
+    job.data.user !== null &&
+    "username" in job.data.user &&
+    typeof job.data.user.username === "string"
+  ) {
+    return job.data.user.username;
+  }
+
+  return null;
+}
+
+async function mapQueueJob(job: Job): Promise<SimulationQueueJobSummary> {
+  return {
+    id: job.id,
+    username: getUsernameFromJob(job),
+    name: job.name,
+    state: await job.getState(),
+    simulationId: getSimulationIdFromJob(job),
+    attemptsMade: job.attemptsMade,
+    failedReason: job.failedReason ?? null,
+    timestamp: job.timestamp,
+    processedOn: job.processedOn,
+    finishedOn: job.finishedOn,
+  };
+}
 
 const simulationDetailsSelect = {
   id: true,
@@ -346,6 +412,153 @@ export class SimulationService {
     }
 
     return { imported, errors };
+  }
+
+  private async addQueueJobUsernames(jobs: SimulationQueueJobSummary[]) {
+    const missingUsernameSimulationIds = jobs
+      .filter((job) => !job.username)
+      .map((job) => job.simulationId)
+      .filter((simulationId): simulationId is string => typeof simulationId === "string");
+
+    if (missingUsernameSimulationIds.length === 0) {
+      return jobs;
+    }
+
+    const simulations = await this.prisma.simulation.findMany({
+      where: {
+        id: {
+          in: missingUsernameSimulationIds,
+        },
+      },
+      select: {
+        id: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+      },
+    });
+
+    const usernamesBySimulationId = new Map(
+      simulations.map((simulation) => [simulation.id, simulation.user.username]),
+    );
+
+    return jobs.map((job) => ({
+      ...job,
+      username:
+        job.username ??
+        (job.simulationId ? (usernamesBySimulationId.get(job.simulationId) ?? null) : null),
+    }));
+  }
+
+  async getQueueDiagnostics(
+    pagination: SimulationQueueDiagnosticsPagination = {},
+  ): Promise<SimulationQueueDiagnostics> {
+    const waitingPage = getQueuePageBounds(pagination.waitingPage);
+    const activePage = getQueuePageBounds(pagination.activePage);
+    const failedPage = getQueuePageBounds(pagination.failedPage);
+    const queuedPage = getQueuePageBounds(pagination.queuedPage);
+
+    const [
+      counts,
+      paused,
+      workerCount,
+      waitingJobs,
+      activeJobs,
+      failedJobs,
+      queuedSimulations,
+      queuedSimulationsTotal,
+      jobsForQueuedSimulationState,
+    ] = await Promise.all([
+      this.simulationQueue.getJobCounts(),
+      this.simulationQueue.isPaused(),
+      this.simulationQueue.getWorkersCount(),
+      this.simulationQueue.getJobs("waiting", waitingPage.start, waitingPage.end, false),
+      this.simulationQueue.getJobs("active", activePage.start, activePage.end, false),
+      this.simulationQueue.getJobs("failed", failedPage.start, failedPage.end, false),
+      this.prisma.simulation.findMany({
+        where: { status: "QUEUED" },
+        orderBy: { createdAt: "desc" },
+        skip: queuedPage.start,
+        take: QUEUE_DIAGNOSTICS_PAGE_SIZE,
+        select: {
+          id: true,
+          moleculeName: true,
+          type: true,
+          errorCause: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      }),
+      this.prisma.simulation.count({
+        where: { status: "QUEUED" },
+      }),
+      this.simulationQueue.getJobs(["active", "delayed", "failed", "paused", "waiting"]),
+    ]);
+
+    const [mappedWaitingJobs, mappedActiveJobs, mappedFailedJobs] = await Promise.all([
+      Promise.all(waitingJobs.map((job) => mapQueueJob(job))).then((jobs) =>
+        this.addQueueJobUsernames(jobs),
+      ),
+      Promise.all(activeJobs.map((job) => mapQueueJob(job))).then((jobs) =>
+        this.addQueueJobUsernames(jobs),
+      ),
+      Promise.all(failedJobs.map((job) => mapQueueJob(job))).then((jobs) =>
+        this.addQueueJobUsernames(jobs),
+      ),
+    ]);
+
+    const jobsBySimulationId = new Map(
+      jobsForQueuedSimulationState
+        .map((job) => [getSimulationIdFromJob(job), job] as const)
+        .filter((entry): entry is readonly [string, Job] => typeof entry[0] === "string"),
+    );
+
+    return {
+      counts,
+      paused,
+      workerCount,
+      recentJobs: {
+        waiting: {
+          records: mappedWaitingJobs,
+          total: counts.waiting ?? 0,
+        },
+        active: {
+          records: mappedActiveJobs,
+          total: counts.active ?? 0,
+        },
+        failed: {
+          records: mappedFailedJobs,
+          total: counts.failed ?? 0,
+        },
+      },
+      queuedSimulations: {
+        records: await Promise.all(
+          queuedSimulations.map(async (simulation): Promise<QueuedSimulationDiagnostic> => {
+            const queueJob = jobsBySimulationId.get(simulation.id);
+
+            return {
+              id: simulation.id,
+              username: simulation.user.username,
+              moleculeName: simulation.moleculeName,
+              type: simulation.type,
+              jobId: queueJob?.id ? String(queueJob.id) : null,
+              redisState: queueJob?.id ? await queueJob.getState() : null,
+              errorCause: simulation.errorCause,
+              createdAt: simulation.createdAt,
+              updatedAt: simulation.updatedAt,
+            };
+          }),
+        ),
+        total: queuedSimulationsTotal,
+      },
+    };
   }
 
   async getQueueInfo() {

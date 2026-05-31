@@ -10,7 +10,7 @@ services:
     depends_on:
       - redis
     ports:
-      - "3001:3000"
+      - "2000:3000"
     volumes:
       - ./:/app
       - files:/files
@@ -28,18 +28,19 @@ services:
     build:
       context: .
       dockerfile: apps/web/dev.Dockerfile
+    env_file: .env
     restart: always
     image: visualdynamics/web:dev
     command: ["pnpm", "--filter", "web", "dev", "--", "--host"]
     ports:
-      - "3000:5173"
+      - "1000:5173"
     volumes:
       - ./:/app
       - /app/node_modules
 
   redis:
     image: redis:alpine
-    command: redis-server --maxmemory-policy noeviction
+    command: redis-server --maxmemory-policy noeviction --appendonly yes --appendfsync everysec
     restart: always
     volumes:
       - redis:/data

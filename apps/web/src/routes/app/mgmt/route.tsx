@@ -1,15 +1,16 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { authClient } from "@/lib/auth-client";
+import { isAdminSession } from "@/lib/auth-session";
 
 export const Route = createFileRoute("/app/mgmt")({
-  ssr: false,
   beforeLoad: async ({ location }) => {
     const session = await authClient.getSession();
 
-    if (session.data?.user.role !== "admin") {
+    if (!isAdminSession(session.data)) {
       throw redirect({
         to: "/app",
+        replace: true,
         search: {
           redirect: location.href,
         },

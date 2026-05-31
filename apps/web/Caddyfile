@@ -1,17 +1,15 @@
 :3000 {
-	root * /app/dist/client
+	root * /app/dist
 
 	@static {
-		path /assets/* /favicon.svg /og-default.svg
+		path /assets/* /favicon.svg /og-default.svg /robots.txt /sitemap.xml
 	}
 	handle @static {
 		file_server
 	}
 
 	handle {
-		reverse_proxy 127.0.0.1:{$SSR_PORT:3001} {
-			header_up X-Forwarded-Host {host}
-			header_up X-Forwarded-Proto {scheme}
-		}
+		try_files {path} {path}/index.html /index.html
+		file_server
 	}
 }

@@ -10,7 +10,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { FlagCard } from "./-components/FlagCard";
 import { useFlagMutations } from "./-components/useFlagMutations";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 import { ButtonLink } from "@/components/RouterComponents";
 import { getFeatureFlags } from "@/queries/getFeatureFlags";
@@ -63,20 +62,18 @@ function RouteComponent() {
   }
 
   return (
-    <PageLayout>
-      <Heading
-        rightElement={
-          <ButtonLink
-            leftSection={<IconPlus size={16} />}
-            size="sm"
-            to="/app/mgmt/feature-flags/new"
-          >
-            New Flag
-          </ButtonLink>
-        }
-        title="Feature Flags"
-      />
-
+    <PageLayout
+      rightElement={
+        <ButtonLink
+          leftSection={<IconPlus size={16} />}
+          size="sm"
+          to="/app/mgmt/feature-flags/new"
+        >
+          New Flag
+        </ButtonLink>
+      }
+      title="Feature Flags"
+    >
       <Group mb="md">
         <TextInput
           leftSection={<IconSearch size={14} />}

@@ -1,0 +1,66 @@
+.metricsGrid,
+.jobsGrid {
+  display: grid;
+  gap: var(--mantine-spacing-md);
+}
+
+.metricsGrid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.jobsGrid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr));
+  align-items: start;
+  min-width: 0;
+}
+
+.jobsGrid > * {
+  min-width: 0;
+}
+
+.panel,
+.section {
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-color-body);
+}
+
+.panel {
+  display: flex;
+  min-height: 116px;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: space-between;
+  padding: var(--mantine-spacing-md);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-md);
+}
+
+.metricValue {
+  overflow-wrap: anywhere;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.progress {
+  margin-top: var(--mantine-spacing-xs);
+}
+
+.loading {
+  display: flex;
+  min-height: 240px;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 48em) {
+  .jobsGrid {
+    grid-template-columns: 1fr;
+  }
+}

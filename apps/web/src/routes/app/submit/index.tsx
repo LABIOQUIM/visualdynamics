@@ -17,7 +17,6 @@ import { SectionContainer } from "./-components/SectionContainer";
 import { SimulationMolViewer } from "./-components/SimulationMolViewer";
 import { SimulationTypeSelector } from "./-components/SimulationTypeSelector";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 import { submitSimulation } from "@/mutations/submitSimulation";
 
@@ -41,8 +40,7 @@ function RouteComponent() {
     });
 
   return (
-    <PageLayout className={classes.pageLayout}>
-      <Heading title="Submit Simulation" />
+    <PageLayout className={classes.pageLayout} title="Submit Simulation">
       <form
         className={classes.form}
         onSubmit={handleSubmit((v) => submitSimulation(v, navigate, true))}

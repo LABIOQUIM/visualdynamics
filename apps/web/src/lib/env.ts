@@ -1,15 +1,5 @@
-function readProcessEnv(name: string) {
-  const globalWithProcess = globalThis as {
-    process?: { env?: Record<string, string | undefined> };
-  };
-
-  return globalWithProcess.process?.env?.[name];
-}
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "/api";
 
 export function getPublicApiUrl() {
-  if (typeof window !== "undefined") {
-    return window.__ENV__?.API_URL ?? "http://localhost:3001";
-  }
-
-  return readProcessEnv("API_URL") ?? "http://localhost:3001";
+  return API_BASE_URL;
 }

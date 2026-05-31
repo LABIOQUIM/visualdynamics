@@ -1,0 +1,64 @@
+.queueSummary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-sm);
+  padding: var(--mantine-spacing-md);
+  border: 1px solid var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-color-body);
+}
+
+.header {
+  min-height: 32px;
+}
+
+.queueGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--mantine-spacing-sm);
+  min-width: 0;
+}
+
+.workerPanel {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(100px, max-content) minmax(0, 1fr);
+  gap: var(--mantine-spacing-md);
+  align-items: center;
+  min-width: 0;
+  padding: var(--mantine-spacing-sm) 0;
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+
+.workerValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.workerDetails {
+  min-width: 0;
+}
+
+.countItem {
+  min-width: 0;
+  padding: var(--mantine-spacing-xs) 0;
+  border-bottom: 1px solid var(--mantine-color-default-border);
+}
+
+.countLabel {
+  overflow-wrap: anywhere;
+}
+
+.countValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 36em) {
+  .workerPanel {
+    grid-template-columns: 1fr;
+    gap: var(--mantine-spacing-xs);
+  }
+}

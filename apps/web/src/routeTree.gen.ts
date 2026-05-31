@@ -9,8 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as homeIndexRouteImport } from './routes/(home)/index'
@@ -23,13 +21,14 @@ import { Route as homeAnalyticsRouteImport } from './routes/(home)/analytics'
 import { Route as homeAboutRouteImport } from './routes/(home)/about'
 import { Route as AppMgmtRouteRouteImport } from './routes/app/mgmt/route'
 import { Route as AppSubmitIndexRouteImport } from './routes/app/submit/index'
+import { Route as AppMgmtIndexRouteImport } from './routes/app/mgmt/index'
 import { Route as ApphomeIndexRouteImport } from './routes/app/(home)/index'
 import { Route as AppSimulationsSimulationIdRouteImport } from './routes/app/simulations/$simulationId'
 import { Route as AppMgmtUsersRouteImport } from './routes/app/mgmt/users'
 import { Route as AppMgmtSimulationsRouteImport } from './routes/app/mgmt/simulations'
 import { Route as AppMgmtSettingsRouteImport } from './routes/app/mgmt/settings'
-import { Route as AppMgmtServerRouteImport } from './routes/app/mgmt/server'
 import { Route as AppMgmtToolsIndexRouteImport } from './routes/app/mgmt/tools/index'
+import { Route as AppMgmtServerIndexRouteImport } from './routes/app/mgmt/server/index'
 import { Route as AppMgmtFeatureFlagsIndexRouteImport } from './routes/app/mgmt/feature-flags/index'
 import { Route as AppMgmtFeatureFlagsNewRouteImport } from './routes/app/mgmt/feature-flags/new'
 import { Route as AppMgmtFeatureFlagsKeyRouteImport } from './routes/app/mgmt/feature-flags/$key'
@@ -40,16 +39,6 @@ import { Route as AppMgmtToolsUserImporterIndexRouteImport } from './routes/app/
 import { Route as AppMgmtToolsSimulationImporterIndexRouteImport } from './routes/app/mgmt/tools/simulation-importer/index'
 import { Route as AppMgmtToolsBatchEmailIndexRouteImport } from './routes/app/mgmt/tools/batch-email/index'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
-  id: '/robots.txt',
-  path: '/robots.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -110,6 +99,11 @@ const AppSubmitIndexRoute = AppSubmitIndexRouteImport.update({
   path: '/submit/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppMgmtIndexRoute = AppMgmtIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
 const ApphomeIndexRoute = ApphomeIndexRouteImport.update({
   id: '/(home)/',
   path: '/',
@@ -136,14 +130,14 @@ const AppMgmtSettingsRoute = AppMgmtSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppMgmtRouteRoute,
 } as any)
-const AppMgmtServerRoute = AppMgmtServerRouteImport.update({
-  id: '/server',
-  path: '/server',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
 const AppMgmtToolsIndexRoute = AppMgmtToolsIndexRouteImport.update({
   id: '/tools/',
   path: '/tools/',
+  getParentRoute: () => AppMgmtRouteRoute,
+} as any)
+const AppMgmtServerIndexRoute = AppMgmtServerIndexRouteImport.update({
+  id: '/server/',
+  path: '/server/',
   getParentRoute: () => AppMgmtRouteRoute,
 } as any)
 const AppMgmtFeatureFlagsIndexRoute =
@@ -202,8 +196,6 @@ const AppMgmtToolsBatchEmailIndexRoute =
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
-  '/robots.txt': typeof RobotsDottxtRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
   '/about': typeof homeAboutRoute
   '/analytics': typeof homeAnalyticsRoute
@@ -213,12 +205,12 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
-  '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
   '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/': typeof ApphomeIndexRoute
+  '/app/mgmt/': typeof AppMgmtIndexRoute
   '/app/submit/': typeof AppSubmitIndexRoute
   '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
@@ -226,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
   '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
   '/app/mgmt/feature-flags/': typeof AppMgmtFeatureFlagsIndexRoute
+  '/app/mgmt/server/': typeof AppMgmtServerIndexRoute
   '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
   '/app/mgmt/tools/batch-email/': typeof AppMgmtToolsBatchEmailIndexRoute
   '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
@@ -233,9 +226,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRouteRouteWithChildren
-  '/robots.txt': typeof RobotsDottxtRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
   '/about': typeof homeAboutRoute
   '/analytics': typeof homeAnalyticsRoute
   '/guides': typeof homeGuidesRoute
@@ -244,16 +234,17 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/': typeof homeIndexRoute
-  '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
   '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app': typeof ApphomeIndexRoute
+  '/app/mgmt': typeof AppMgmtIndexRoute
   '/app/submit': typeof AppSubmitIndexRoute
   '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
   '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
   '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsIndexRoute
+  '/app/mgmt/server': typeof AppMgmtServerIndexRoute
   '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
   '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailIndexRoute
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterIndexRoute
@@ -263,8 +254,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
-  '/robots.txt': typeof RobotsDottxtRoute
-  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
   '/(home)/about': typeof homeAboutRoute
   '/(home)/analytics': typeof homeAnalyticsRoute
@@ -274,12 +263,12 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/(home)/': typeof homeIndexRoute
-  '/app/mgmt/server': typeof AppMgmtServerRoute
   '/app/mgmt/settings': typeof AppMgmtSettingsRoute
   '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
   '/app/mgmt/users': typeof AppMgmtUsersRoute
   '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
   '/app/(home)/': typeof ApphomeIndexRoute
+  '/app/mgmt/': typeof AppMgmtIndexRoute
   '/app/submit/': typeof AppSubmitIndexRoute
   '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
   '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
@@ -287,6 +276,7 @@ export interface FileRoutesById {
   '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
   '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
   '/app/mgmt/feature-flags/': typeof AppMgmtFeatureFlagsIndexRoute
+  '/app/mgmt/server/': typeof AppMgmtServerIndexRoute
   '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
   '/app/mgmt/tools/batch-email/': typeof AppMgmtToolsBatchEmailIndexRoute
   '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
@@ -297,8 +287,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/app'
     | '/auth'
-    | '/robots.txt'
-    | '/sitemap.xml'
     | '/app/mgmt'
     | '/about'
     | '/analytics'
@@ -308,12 +296,12 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
-    | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
     | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app/'
+    | '/app/mgmt/'
     | '/app/submit/'
     | '/app/mgmt/tools/batch-email'
     | '/app/mgmt/tools/simulation-importer'
@@ -321,6 +309,7 @@ export interface FileRouteTypes {
     | '/app/mgmt/feature-flags/$key'
     | '/app/mgmt/feature-flags/new'
     | '/app/mgmt/feature-flags/'
+    | '/app/mgmt/server/'
     | '/app/mgmt/tools/'
     | '/app/mgmt/tools/batch-email/'
     | '/app/mgmt/tools/simulation-importer/'
@@ -328,9 +317,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
-    | '/robots.txt'
-    | '/sitemap.xml'
-    | '/app/mgmt'
     | '/about'
     | '/analytics'
     | '/guides'
@@ -339,16 +325,17 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/'
-    | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
     | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app'
+    | '/app/mgmt'
     | '/app/submit'
     | '/app/mgmt/feature-flags/$key'
     | '/app/mgmt/feature-flags/new'
     | '/app/mgmt/feature-flags'
+    | '/app/mgmt/server'
     | '/app/mgmt/tools'
     | '/app/mgmt/tools/batch-email'
     | '/app/mgmt/tools/simulation-importer'
@@ -357,8 +344,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/app'
     | '/auth'
-    | '/robots.txt'
-    | '/sitemap.xml'
     | '/app/mgmt'
     | '/(home)/about'
     | '/(home)/analytics'
@@ -368,12 +353,12 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/register'
     | '/(home)/'
-    | '/app/mgmt/server'
     | '/app/mgmt/settings'
     | '/app/mgmt/simulations'
     | '/app/mgmt/users'
     | '/app/simulations/$simulationId'
     | '/app/(home)/'
+    | '/app/mgmt/'
     | '/app/submit/'
     | '/app/mgmt/tools/batch-email'
     | '/app/mgmt/tools/simulation-importer'
@@ -381,6 +366,7 @@ export interface FileRouteTypes {
     | '/app/mgmt/feature-flags/$key'
     | '/app/mgmt/feature-flags/new'
     | '/app/mgmt/feature-flags/'
+    | '/app/mgmt/server/'
     | '/app/mgmt/tools/'
     | '/app/mgmt/tools/batch-email/'
     | '/app/mgmt/tools/simulation-importer/'
@@ -390,8 +376,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   AppRouteRoute: typeof AppRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  RobotsDottxtRoute: typeof RobotsDottxtRoute
-  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   homeAboutRoute: typeof homeAboutRoute
   homeAnalyticsRoute: typeof homeAnalyticsRoute
   homeGuidesRoute: typeof homeGuidesRoute
@@ -402,20 +386,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/robots.txt': {
-      id: '/robots.txt'
-      path: '/robots.txt'
-      fullPath: '/robots.txt'
-      preLoaderRoute: typeof RobotsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -500,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSubmitIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/mgmt/': {
+      id: '/app/mgmt/'
+      path: '/'
+      fullPath: '/app/mgmt/'
+      preLoaderRoute: typeof AppMgmtIndexRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
     '/app/(home)/': {
       id: '/app/(home)/'
       path: '/'
@@ -535,18 +512,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMgmtSettingsRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
-    '/app/mgmt/server': {
-      id: '/app/mgmt/server'
-      path: '/server'
-      fullPath: '/app/mgmt/server'
-      preLoaderRoute: typeof AppMgmtServerRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
-    }
     '/app/mgmt/tools/': {
       id: '/app/mgmt/tools/'
       path: '/tools'
       fullPath: '/app/mgmt/tools/'
       preLoaderRoute: typeof AppMgmtToolsIndexRouteImport
+      parentRoute: typeof AppMgmtRouteRoute
+    }
+    '/app/mgmt/server/': {
+      id: '/app/mgmt/server/'
+      path: '/server'
+      fullPath: '/app/mgmt/server/'
+      preLoaderRoute: typeof AppMgmtServerIndexRouteImport
       parentRoute: typeof AppMgmtRouteRoute
     }
     '/app/mgmt/feature-flags/': {
@@ -659,24 +636,25 @@ const AppMgmtToolsUserImporterRouteRouteWithChildren =
   )
 
 interface AppMgmtRouteRouteChildren {
-  AppMgmtServerRoute: typeof AppMgmtServerRoute
   AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
   AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
   AppMgmtUsersRoute: typeof AppMgmtUsersRoute
+  AppMgmtIndexRoute: typeof AppMgmtIndexRoute
   AppMgmtToolsBatchEmailRouteRoute: typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
   AppMgmtToolsSimulationImporterRouteRoute: typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
   AppMgmtToolsUserImporterRouteRoute: typeof AppMgmtToolsUserImporterRouteRouteWithChildren
   AppMgmtFeatureFlagsKeyRoute: typeof AppMgmtFeatureFlagsKeyRoute
   AppMgmtFeatureFlagsNewRoute: typeof AppMgmtFeatureFlagsNewRoute
   AppMgmtFeatureFlagsIndexRoute: typeof AppMgmtFeatureFlagsIndexRoute
+  AppMgmtServerIndexRoute: typeof AppMgmtServerIndexRoute
   AppMgmtToolsIndexRoute: typeof AppMgmtToolsIndexRoute
 }
 
 const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
-  AppMgmtServerRoute: AppMgmtServerRoute,
   AppMgmtSettingsRoute: AppMgmtSettingsRoute,
   AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,
   AppMgmtUsersRoute: AppMgmtUsersRoute,
+  AppMgmtIndexRoute: AppMgmtIndexRoute,
   AppMgmtToolsBatchEmailRouteRoute:
     AppMgmtToolsBatchEmailRouteRouteWithChildren,
   AppMgmtToolsSimulationImporterRouteRoute:
@@ -686,6 +664,7 @@ const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
   AppMgmtFeatureFlagsKeyRoute: AppMgmtFeatureFlagsKeyRoute,
   AppMgmtFeatureFlagsNewRoute: AppMgmtFeatureFlagsNewRoute,
   AppMgmtFeatureFlagsIndexRoute: AppMgmtFeatureFlagsIndexRoute,
+  AppMgmtServerIndexRoute: AppMgmtServerIndexRoute,
   AppMgmtToolsIndexRoute: AppMgmtToolsIndexRoute,
 }
 
@@ -728,8 +707,6 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   AppRouteRoute: AppRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
-  RobotsDottxtRoute: RobotsDottxtRoute,
-  SitemapDotxmlRoute: SitemapDotxmlRoute,
   homeAboutRoute: homeAboutRoute,
   homeAnalyticsRoute: homeAnalyticsRoute,
   homeGuidesRoute: homeGuidesRoute,
@@ -740,12 +717,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

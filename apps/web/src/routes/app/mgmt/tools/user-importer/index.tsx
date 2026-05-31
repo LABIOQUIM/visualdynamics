@@ -4,7 +4,6 @@ import { DropFileButton } from "./-components/DropFileButton";
 import { ImportTable } from "./-components/ImportTable";
 import { useUserImporter } from "./-components/Provider";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 
 export const Route = createFileRoute("/app/mgmt/tools/user-importer/")({
@@ -15,9 +14,7 @@ function RouteComponent() {
   const { users } = useUserImporter();
 
   return (
-    <PageLayout>
-      <Heading title="User Importer" />
-
+    <PageLayout title="User Importer">
       {users.length > 0 ? <ImportTable /> : <DropFileButton />}
     </PageLayout>
   );

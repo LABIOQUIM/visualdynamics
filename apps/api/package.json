@@ -19,6 +19,7 @@
     "test:coverage": "vitest run --coverage",
     "test:integration": "vitest run --config vitest.integration.config.ts --passWithNoTests",
     "generate": "prisma generate && node scripts/fix-prisma-imports.mjs",
+    "seed": "node --loader ts-node/esm ./scripts/seed.ts",
     "lint": "oxlint --fix src"
   },
   "dependencies": {

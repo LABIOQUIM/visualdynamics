@@ -4,7 +4,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { FlagForm, type FlagFormValues } from "./-components/FlagForm";
 import { useFlagMutations } from "./-components/useFlagMutations";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 import { type UpdateFeatureFlagInput } from "@/mutations/featureFlags";
 import { getFeatureFlags } from "@/queries/getFeatureFlags";
@@ -56,8 +55,7 @@ function RouteComponent() {
   }
 
   return (
-    <PageLayout>
-      <Heading title={`Edit: ${flag.key}`} />
+    <PageLayout title={`Edit: ${flag.key}`}>
       <FlagForm
         disabledFields={["key", "type"]}
         initialValues={{

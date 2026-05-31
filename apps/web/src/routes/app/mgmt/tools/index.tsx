@@ -8,7 +8,6 @@ import {
 } from "@tabler/icons-react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
-import { Heading } from "@/components/Heading";
 import { PageLayout } from "@/components/PageLayout";
 
 export const Route = createFileRoute("/app/mgmt/tools/")({
@@ -38,8 +37,7 @@ const tools = [
 
 function RouteComponent() {
   return (
-    <PageLayout>
-      <Heading title="Management Tools" />
+    <PageLayout title="Management Tools">
       <div className={classes.grid}>
         {tools.map(({ icon: Icon, label, description, url }) => (
           <Link className={classes.card} key={label} to={url}>

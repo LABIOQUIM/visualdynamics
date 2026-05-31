@@ -6,63 +6,66 @@ import { useEffect } from "react";
 import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { OpenFeature, useFlag } from "@openfeature/react-sdk";
-import {
-  createFileRoute,
-  Outlet,
-  redirect,
-  useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect, useNavigate } from "@tanstack/react-router";
 
+import { FirstLoadShell } from "@/components/FirstLoadShell";
 import { Logo } from "@/components/Logo";
 import { Navbar } from "@/components/Navbar";
 import { ServerTime } from "@/components/ServerTime";
 import { authClient } from "@/lib/auth-client";
+import { hasCompleteAuthSession, isAdminSession } from "@/lib/auth-session";
 
 export const Route = createFileRoute("/app")({
-  ssr: false,
   beforeLoad: async ({ location }) => {
     const session = await authClient.getSession();
     const auth = session.data;
 
-    if (!auth) {
+    if (!hasCompleteAuthSession(auth)) {
       throw redirect({
         to: "/auth/login",
+        replace: true,
         search: {
           redirect: location.href,
         },
       });
     }
 
-    const maintenance = OpenFeature.getClient().getBooleanValue(
-      "maintenance-mode",
-      true,
-    );
+    const maintenance = OpenFeature.getClient().getBooleanValue("maintenance-mode", false);
 
-    if (maintenance && auth.user.role !== "admin") {
-      throw redirect({ to: "/auth/login" });
+    if (maintenance && !isAdminSession(auth)) {
+      await authClient.signOut();
+      throw redirect({ to: "/auth/login", replace: true });
     }
   },
+  pendingComponent: FirstLoadShell,
+  pendingMs: 0,
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const navigate = useNavigate({ from: "/app" });
-  const { data } = authClient.useSession();
-  const { value: maintenanceMode } = useFlag("maintenance-mode", true);
-
-  const isNonAdminDuringMaintenance =
-    maintenanceMode && data?.user.role !== "admin";
-
-  useEffect(() => {
-    if (isNonAdminDuringMaintenance) {
-      void authClient.signOut().then(() => navigate({ to: "/auth/login" }));
-    }
-  }, [isNonAdminDuringMaintenance, navigate]);
+  const { data, isPending } = authClient.useSession();
+  const { value: maintenanceMode } = useFlag("maintenance-mode", false);
 
   const [opened, { toggle }] = useDisclosure();
+  const hasCompleteSession = hasCompleteAuthSession(data);
+  const isNonAdminDuringMaintenance = maintenanceMode && !isAdminSession(data);
 
-  if (!data || isNonAdminDuringMaintenance) {
-    return null;
+  useEffect(() => {
+    if (isPending) return;
+
+    if (!hasCompleteSession) {
+      void navigate({ to: "/auth/login", replace: true });
+      return;
+    }
+
+    if (isNonAdminDuringMaintenance) {
+      void authClient.signOut().finally(() => navigate({ to: "/auth/login", replace: true }));
+    }
+  }, [hasCompleteSession, isNonAdminDuringMaintenance, isPending, navigate]);
+
+  if (isPending || !hasCompleteSession || isNonAdminDuringMaintenance) {
+    return <FirstLoadShell />;
   }
 
   return (
@@ -78,21 +81,15 @@ function RouteComponent() {
         breakpoint: "sm",
         collapsed: { mobile: !opened },
       }}
-      padding="md"
+      padding={0}
     >
       <AppShell.Header>
         <Group align="center" h="100%" justify="space-between" px="md" w="100%">
           <Group flex={1}>
-            <Burger
-              hiddenFrom="sm"
-              onClick={toggle}
-              opened={opened}
-              size="sm"
-            />
+            <Burger hiddenFrom="sm" onClick={toggle} opened={opened} size="sm" />
             <Logo />
           </Group>
           <Group>
-            {/*<SystemsStatus />*/}
             <ServerTime />
           </Group>
         </Group>

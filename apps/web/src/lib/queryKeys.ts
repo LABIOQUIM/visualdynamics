@@ -19,4 +19,18 @@ export const QUERY_KEYS = {
   ) => ["mgmt-users", pagination, columnFilters, sorting] as const,
   mgmtUser: (userId: string) => ["mgmt-user", userId] as const,
   featureFlags: () => ["feature-flags"] as const,
+  systemInfo: () => ["system-info"] as const,
+  simulationQueueDiagnostics: (
+    waitingPage: number,
+    activePage: number,
+    failedPage: number,
+    queuedPage: number,
+  ) =>
+    [
+      "simulation-queue-diagnostics",
+      waitingPage,
+      activePage,
+      failedPage,
+      queuedPage,
+    ] as const,
 } as const;

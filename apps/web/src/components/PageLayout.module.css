@@ -1,8 +1,68 @@
+.root {
+  display: flex;
+  flex: 1 1 0;
+  box-sizing: border-box;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.heading {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  border-bottom: 1px solid var(--mantine-color-default-border);
+  background: var(--mantine-color-body);
+}
+
+.breadcrumbs {
+  min-height: 22px;
+}
+
+.breadcrumbLink,
+.breadcrumbCurrent {
+  line-height: 1.4;
+}
+
+.breadcrumbContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.breadcrumbIcon {
+  flex: 0 0 auto;
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+
+  &[data-centered="true"] {
+    justify-content: center;
+  }
+}
+
+.rightElementContainer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
 .container {
   display: flex;
-  height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2);
-  max-height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2);
+  flex: 1 1 0;
+  box-sizing: border-box;
   flex-direction: column;
   gap: var(--mantine-spacing-md);
+  min-width: 0;
+  min-height: 0;
   width: 100%;
+  padding: var(--mantine-spacing-md);
+  overflow-y: auto;
 }
