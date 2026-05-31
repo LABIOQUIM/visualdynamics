@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: row;
   gap: var(--mantine-spacing-xs);
+  min-width: 0;
 }
 
 .step_icon_container {
   height: 24px;
   width: 24px;
+  flex-shrink: 0;
 }

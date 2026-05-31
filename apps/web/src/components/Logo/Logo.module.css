@@ -6,6 +6,17 @@
   user-select: none;
 }
 
+.logoImg {
+  height: 48px;
+  width: auto;
+}
+
+@media (max-width: 30rem) {
+  .logoImg {
+    height: 28px;
+  }
+}
+
 .title {
   font-size: var(--mantine-font-size-xl);
 }

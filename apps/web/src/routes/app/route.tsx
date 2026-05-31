@@ -6,8 +6,14 @@ import { useEffect } from "react";
 import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { OpenFeature, useFlag } from "@openfeature/react-sdk";
-import { createFileRoute, Outlet, redirect, useNavigate } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Outlet,
+  redirect,
+  useNavigate,
+} from "@tanstack/react-router";
 
+import { DownloadCenter } from "@/components/DownloadCenter";
 import { FirstLoadShell } from "@/components/FirstLoadShell";
 import { Logo } from "@/components/Logo";
 import { Navbar } from "@/components/Navbar";
@@ -30,7 +36,10 @@ export const Route = createFileRoute("/app")({
       });
     }
 
-    const maintenance = OpenFeature.getClient().getBooleanValue("maintenance-mode", false);
+    const maintenance = OpenFeature.getClient().getBooleanValue(
+      "maintenance-mode",
+      false,
+    );
 
     if (maintenance && !isAdminSession(auth)) {
       await authClient.signOut();
@@ -60,7 +69,9 @@ function RouteComponent() {
     }
 
     if (isNonAdminDuringMaintenance) {
-      void authClient.signOut().finally(() => navigate({ to: "/auth/login", replace: true }));
+      void authClient
+        .signOut()
+        .finally(() => navigate({ to: "/auth/login", replace: true }));
     }
   }, [hasCompleteSession, isNonAdminDuringMaintenance, isPending, navigate]);
 
@@ -84,12 +95,24 @@ function RouteComponent() {
       padding={0}
     >
       <AppShell.Header>
-        <Group align="center" h="100%" justify="space-between" px="md" w="100%">
+        <Group
+          align="center"
+          h="100%"
+          justify="space-between"
+          px={{ base: "sm", sm: "md" }}
+          w="100%"
+        >
           <Group flex={1}>
-            <Burger hiddenFrom="sm" onClick={toggle} opened={opened} size="sm" />
+            <Burger
+              hiddenFrom="sm"
+              onClick={toggle}
+              opened={opened}
+              size="sm"
+            />
             <Logo />
           </Group>
           <Group>
+            <DownloadCenter />
             <ServerTime />
           </Group>
         </Group>

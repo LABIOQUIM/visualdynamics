@@ -1,27 +1,32 @@
 import classes from "./ServerTime.module.css";
 
-import { Box, em, Text, Title } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
+import { ActionIcon, Popover, Text, Title } from "@mantine/core";
+import { IconClock } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
-import { dateFormatMobileWithSecs, dateFormatWithSecs } from "@/lib/utils";
+import { dateFormatWithSecs } from "@/lib/utils";
 
 export function ServerTime() {
-  const isMobile = useMediaQuery(`(max-width: ${em(750)})`);
   const [serverTime, updateServerTime] = useState<Date>(new Date());
 
   useEffect(() => {
-    setTimeout(() => updateServerTime(new Date()), 1000);
+    const id = setTimeout(() => updateServerTime(new Date()), 1000);
+    return () => clearTimeout(id);
   }, [serverTime]);
 
   return (
-    <Box className={classes.container}>
-      {!isMobile && <Title order={4}>Server Time:</Title>}
-      <Text>
-        {isMobile
-          ? dateFormatMobileWithSecs(serverTime)
-          : dateFormatWithSecs(serverTime)}
-      </Text>
-    </Box>
+    <Popover position="bottom-end" shadow="md" width={260}>
+      <Popover.Target>
+        <ActionIcon color="gray" size="lg" variant="subtle">
+          <IconClock size={18} />
+        </ActionIcon>
+      </Popover.Target>
+      <Popover.Dropdown className={classes.dropdown}>
+        <Title order={6} mb={4}>
+          Server time
+        </Title>
+        <Text>{dateFormatWithSecs(serverTime)}</Text>
+      </Popover.Dropdown>
+    </Popover>
   );
 }

@@ -3,6 +3,14 @@
   flex: 1;
   grid-template-columns: 1fr 3fr;
   gap: var(--mantine-spacing-md);
+  min-width: 0;
+}
+
+@media (max-width: 48rem) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 }
 
 .noLogsContainer {

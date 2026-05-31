@@ -5,6 +5,12 @@
   gap: var(--mantine-spacing-md);
 }
 
+@media (max-width: 62rem) {
+  .downloadContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
 .noDownloadContainer {
   align-items: center;
   display: flex;

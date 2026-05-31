@@ -10,16 +10,14 @@ interface Props {
 }
 
 export function Logo({ size = "normal" }: Props) {
-  const height = {
-    normal: 48,
-    large: 96,
-  };
+  const isLarge = size === "large";
   return (
     <Box className={classes.container} component={Link} to="/">
       <img
         alt=""
+        className={isLarge ? undefined : classes.logoImg}
         src={LogoImage}
-        style={{ height: height[size], width: "auto" }}
+        style={isLarge ? { height: 96, width: "auto" } : undefined}
       />
     </Box>
   );

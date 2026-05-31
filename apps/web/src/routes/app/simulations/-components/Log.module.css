@@ -3,17 +3,58 @@
   flex-direction: column;
   flex: 1;
   width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .logContainer {
   display: flex;
   flex: 1 1 0;
   flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.logContainer :global([class*="searchInput"]) {
+  min-width: 0;
+  flex: 1;
+}
+
+.logContainer :global([class*="searchBar"]) {
+  padding: 6px;
+  gap: 4px;
+}
+
+.logContainer :global([class*="button"]) {
+  margin-right: 4px;
+}
+
+.logContainer :global([class*="lineNumber"]) {
+  width: 32px !important;
+  min-width: 24px !important;
+  margin-left: 4px;
+  margin-right: 6px;
+  padding-right: 4px;
+  font-size: 10px;
+}
+
+.logContainer :global([class*="lineGutter"]) {
+  min-width: 12px;
+  padding-right: 2px;
 }
 
 .containerTitle {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: baseline;
+  gap: var(--mantine-spacing-xs);
+  min-width: 0;
+}
+
+.containerTitle > :last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

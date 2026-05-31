@@ -1,6 +1,4 @@
-.container {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  gap: var(--mantine-spacing-xs);
+.dropdown {
+  text-align: center;
+  padding: var(--mantine-spacing-md);
 }
