@@ -44,7 +44,7 @@
 }
 
 .link:hover {
-  color: var(--mantine-color-blue-6);
+  color: var(--mantine-primary-color-6);
 }
 
 .socialIconLink {
@@ -53,5 +53,5 @@
 }
 
 .socialIconLink:hover {
-  color: var(--mantine-color-blue-6);
+  color: var(--mantine-primary-color-6);
 }

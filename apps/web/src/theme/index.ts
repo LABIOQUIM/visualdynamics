@@ -1,4 +1,5 @@
 import { createTheme } from "@mantine/core";
+import { generateColors } from "@mantine/colors-generator";
 
 import components from "./overrides";
 
@@ -6,6 +7,10 @@ export const theme = createTheme({
   components,
   cursorType: "pointer",
   fontFamily: "Inter, sans-serif",
+  primaryColor: "amazongreen",
+  colors: {
+    amazongreen: generateColors("#4DB721"),
+  },
   breakpoints: {
     xs: "30em",
     sm: "40em",

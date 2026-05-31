@@ -23,7 +23,7 @@
 .eyebrow {
   display: inline-flex;
   margin-bottom: var(--mantine-spacing-md);
-  color: var(--mantine-color-blue-7);
+  color: var(--mantine-primary-color-7);
   font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -63,11 +63,11 @@
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 16px 32px rgba(var(--mantine-color-gray-3-rgb), 0.12);
-  border-color: var(--mantine-color-blue-3);
+  border-color: var(--mantine-primary-color-3);
 }
 
 .cardIcon {
-  color: var(--mantine-color-blue-6);
+  color: var(--mantine-primary-color-6);
   margin-bottom: var(--mantine-spacing-md);
 }
 
@@ -83,7 +83,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--mantine-color-blue-7);
+  color: var(--mantine-primary-color-7);
   font-family: "Lexend", sans-serif;
 }
 
@@ -134,6 +134,6 @@
 }
 
 .doiLink:hover {
-  color: var(--mantine-color-blue-7);
-  background-color: var(--mantine-color-blue-0);
+  color: var(--mantine-primary-color-7);
+  background-color: var(--mantine-primary-color-0);
 }

@@ -16,7 +16,7 @@
 .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 32px rgba(var(--mantine-color-gray-3-rgb), 0.12);
-  border-color: var(--mantine-color-blue-3);
+  border-color: var(--mantine-primary-color-3);
 }
 
 .card::before {
@@ -28,8 +28,8 @@
   height: 3px;
   background: linear-gradient(
     90deg,
-    var(--mantine-color-blue-5),
-    var(--mantine-color-cyan-5)
+    var(--mantine-primary-color-7),
+    var(--mantine-primary-color-3)
   );
   opacity: 0;
   transform: scaleX(0.5);
@@ -47,8 +47,8 @@
   display: inline-flex;
   padding: var(--mantine-spacing-md);
   border-radius: 8px;
-  background-color: var(--mantine-color-blue-0);
-  color: var(--mantine-color-blue-7);
+  background-color: var(--mantine-primary-color-0);
+  color: var(--mantine-primary-color-7);
   margin-bottom: var(--mantine-spacing-lg);
 }
 

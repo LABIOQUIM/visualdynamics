@@ -1,7 +1,7 @@
 .section {
   padding-top: calc(var(--mantine-spacing-xl) * 2);
   padding-bottom: calc(var(--mantine-spacing-xl) * 2);
-  background-color: var(--mantine-color-blue-0);
+  background-color: var(--mantine-primary-color-0);
 }
 
 .container {
@@ -23,7 +23,7 @@
 .eyebrow {
   display: inline-flex;
   margin-bottom: var(--mantine-spacing-md);
-  color: var(--mantine-color-blue-7);
+  color: var(--mantine-primary-color-7);
   font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;

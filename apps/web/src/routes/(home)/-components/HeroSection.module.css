@@ -22,12 +22,12 @@
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(21, 170, 191, 0.18);
+  border: 1px solid rgba(var(--mantine-primary-color-6-rgb), 0.18);
   border-radius: 999px;
   background-color: rgba(255, 255, 255, 0.82);
   padding: 0.55rem 0.95rem;
   margin-bottom: var(--mantine-spacing-lg);
-  color: var(--mantine-color-blue-7);
+  color: var(--mantine-primary-color-7);
   font-size: 0.88rem;
   font-weight: 700;
 }
@@ -61,7 +61,7 @@
 }
 
 .signalItem {
-  border: 1px solid rgba(21, 170, 191, 0.15);
+  border: 1px solid rgba(var(--mantine-primary-color-6-rgb), 0.15);
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 18px 40px rgba(9, 52, 59, 0.06);
@@ -111,27 +111,27 @@
 
 .ctaPrimary {
   composes: ctaButton;
-  background-color: var(--mantine-color-blue-6);
+  background-color: var(--mantine-primary-color-6);
   color: var(--mantine-color-white);
-  box-shadow: 0 12px 28px rgba(var(--mantine-color-blue-6-rgb), 0.22);
+  box-shadow: 0 12px 28px rgba(var(--mantine-primary-color-6-rgb), 0.22);
 }
 
 .ctaPrimary:hover {
-  background-color: var(--mantine-color-blue-7);
+  background-color: var(--mantine-primary-color-7);
   transform: translateY(-2px);
-  box-shadow: 0 18px 34px rgba(var(--mantine-color-blue-7-rgb), 0.22);
+  box-shadow: 0 18px 34px rgba(var(--mantine-primary-color-7-rgb), 0.22);
 }
 
 .ctaSecondary {
   composes: ctaButton;
   background-color: rgba(255, 255, 255, 0.78);
-  color: var(--mantine-color-blue-7);
-  border-color: var(--mantine-color-blue-3);
+  color: var(--mantine-primary-color-7);
+  border-color: var(--mantine-primary-color-3);
 }
 
 .ctaSecondary:hover {
-  background-color: var(--mantine-color-blue-0);
-  border-color: var(--mantine-color-blue-5);
+  background-color: var(--mantine-primary-color-0);
+  border-color: var(--mantine-primary-color-5);
   transform: translateY(-2px);
 }
 
@@ -139,13 +139,13 @@
   display: inline-flex;
   align-items: center;
   gap: var(--mantine-spacing-xs);
-  color: var(--mantine-color-blue-7);
+  color: var(--mantine-primary-color-7);
   text-decoration: none;
   font-weight: 700;
 }
 
 .ctaTertiary:hover {
-  color: var(--mantine-color-blue-9);
+  color: var(--mantine-primary-color-9);
 }
 
 @media (max-width: 62rem) {

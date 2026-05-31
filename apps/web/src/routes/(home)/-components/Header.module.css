@@ -4,7 +4,7 @@
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--mantine-color-blue-1);
+  border-bottom: 1px solid var(--mantine-primary-color-1);
   padding-left: var(--mantine-spacing-xl);
   padding-right: var(--mantine-spacing-xl);
   height: 70px;
@@ -43,15 +43,15 @@
 }
 
 .navLink:hover {
-  background-color: var(--mantine-color-blue-0);
-  color: var(--mantine-color-blue-7);
+  background-color: var(--mantine-primary-color-0);
+  color: var(--mantine-primary-color-7);
 }
 
 .launchButton {
   display: flex;
   flex-direction: row;
   gap: var(--mantine-spacing-xs);
-  background-color: var(--mantine-color-blue-6);
+  background-color: var(--mantine-primary-color-6);
   color: var(--mantine-color-white);
   font-weight: 600;
   font-size: var(--mantine-font-size-sm);
@@ -62,13 +62,13 @@
     background-color 0.2s ease,
     transform 0.1s ease,
     box-shadow 0.2s ease;
-  box-shadow: 0 6px 16px rgba(var(--mantine-color-blue-6-rgb), 0.2);
+  box-shadow: 0 6px 16px rgba(var(--mantine-primary-color-6-rgb), 0.2);
 }
 
 .launchButton:hover {
-  background-color: var(--mantine-color-blue-7);
+  background-color: var(--mantine-primary-color-7);
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(var(--mantine-color-blue-7-rgb), 0.18);
+  box-shadow: 0 10px 20px rgba(var(--mantine-primary-color-7-rgb), 0.18);
 }
 
 @media (max-width: 48rem) {

@@ -16,7 +16,7 @@ const featuresData = [
   {
     icon: <IconEye size={30} />,
     title: "3D Visualization",
-    soon: true,
+    soon: false,
     description:
       "Explore molecular structures and trajectories in 3D via NGL Viewer.",
   },

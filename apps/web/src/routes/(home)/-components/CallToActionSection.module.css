@@ -3,7 +3,7 @@
   padding-bottom: calc(var(--mantine-spacing-xl) * 2.5);
   position: relative;
   z-index: 3;
-  background-color: var(--mantine-color-blue-9);
+  background-color: var(--mantine-primary-color-9);
 }
 
 .ctaContainer {
@@ -55,7 +55,7 @@
   align-items: center;
   gap: var(--mantine-spacing-sm);
   background-color: var(--mantine-color-white);
-  color: var(--mantine-color-blue-9);
+  color: var(--mantine-primary-color-9);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
   transition:
     transform 0.2s ease,

@@ -5,7 +5,6 @@ import { IconPlayerPlay } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 
 import VISUAL_DYNAMICS_LOGO from "@/assets/visualdynamics.svg";
-import { DownloadCenter } from "@/components/DownloadCenter";
 
 export function LanderHeader() {
   return (
@@ -24,7 +23,6 @@ export function LanderHeader() {
               Guides
             </Link>
           </nav>
-          <DownloadCenter />
           <Link className={styles.launchButton} to="/auth/login">
             <IconPlayerPlay size={18} />
             <span className={styles.launchLabel}>Launch App</span>
