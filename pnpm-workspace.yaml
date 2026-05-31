@@ -1,2 +1,5 @@
 packages:
   - "apps/*"
+
+shamefullyHoist: true
+nodeLinker: hoisted
