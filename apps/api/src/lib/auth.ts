@@ -21,7 +21,7 @@ const prisma = new PrismaClient({ adapter });
 
 export const auth = betterAuth({
   basePath: "/auth",
-  trustedOrigins: [process.env.APP_URL ?? "http://localhost:3000"],
+  trustedOrigins: [process.env.SITE_URL ?? "http://localhost:3000"],
   emailAndPassword: {
     enabled: true,
   },
@@ -61,7 +61,7 @@ export const auth = betterAuth({
                 });
 
           const role = identifier?.role;
-          if (role!== "admin") {
+          if (role !== "admin") {
             throw new APIError("FORBIDDEN", {
               message:
                 "The system is currently under maintenance. Only administrators can sign in.",
