@@ -33,6 +33,7 @@ WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
 
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/api/node_modules ./apps/api/node_modules
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/api ./apps/api
 COPY --from=deps /app/apps/api/src/generated ./apps/api/src/generated
