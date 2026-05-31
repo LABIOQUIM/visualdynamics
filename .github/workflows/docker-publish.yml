@@ -63,6 +63,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
+      - name: Set API URL
+        id: api-url
+        if: matrix.app == 'web'
+        run: |
+          if [[ "${{ steps.tag.outputs.prerelease }}" == "true" ]]; then
+            echo "value=${{ vars.VITE_API_BASE_URL_HMG }}" >> $GITHUB_OUTPUT
+          else
+            echo "value=${{ vars.VITE_API_BASE_URL }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
@@ -71,6 +81,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${{ matrix.app == 'web' && format('VITE_API_BASE_URL={0}', steps.api-url.outputs.value) || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           provenance: false
