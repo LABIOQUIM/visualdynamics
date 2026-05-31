@@ -1,10 +1,15 @@
 import { authClient } from "./auth-client";
 import { getPublicApiUrl } from "./env";
 
+export interface DownloadProgress {
+  loaded: number;
+  total: number;
+}
+
 type GetOptions = {
   params?: Record<string, string | number | boolean | undefined>;
   responseType?: "arraybuffer";
-  onDownloadProgress?: (progress: number) => void;
+  onDownloadProgress?: (progress: DownloadProgress) => void;
 };
 
 export type SerializableJson =
@@ -29,7 +34,8 @@ function getAPIBaseUrl() {
 }
 
 function createApiUrl(path: string, params?: GetOptions["params"]) {
-  const origin = typeof window === "undefined" ? "http://localhost" : window.location.origin;
+  const origin =
+    typeof window === "undefined" ? "http://localhost" : window.location.origin;
   const url = new URL(`${getAPIBaseUrl()}${path}`, origin);
 
   if (params) {
@@ -45,9 +51,12 @@ function createApiUrl(path: string, params?: GetOptions["params"]) {
 
 function getApiConnectionError(error: unknown) {
   const apiUrl = getAPIBaseUrl();
-  const message = error instanceof Error && error.message ? error.message : "fetch failed";
+  const message =
+    error instanceof Error && error.message ? error.message : "fetch failed";
 
-  return new Error(`Could not reach the Visual Dynamics API at ${apiUrl}. ${message}`);
+  return new Error(
+    `Could not reach the Visual Dynamics API at ${apiUrl}. ${message}`,
+  );
 }
 
 async function readResponsePayload(response: Response) {
@@ -79,7 +88,11 @@ function extractErrorMessage(payload: unknown, response: Response) {
   return `${response.status} ${response.statusText}`;
 }
 
-async function fetchApi<T>(path: string, init: RequestInit, params?: GetOptions["params"]) {
+async function fetchApi<T>(
+  path: string,
+  init: RequestInit,
+  params?: GetOptions["params"],
+) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), API_REQUEST_TIMEOUT_MS);
 
@@ -120,7 +133,10 @@ export async function getAPIClient() {
       return { data };
     },
 
-    get: async <T = unknown>(path: string, options: GetOptions = {}): Promise<{ data: T }> => {
+    get: async <T = unknown>(
+      path: string,
+      options: GetOptions = {},
+    ): Promise<{ data: T }> => {
       const response = await fetch(createApiUrl(path, options.params), {
         method: "GET",
         headers: authHeader ? { Authorization: authHeader } : {},
@@ -150,9 +166,7 @@ export async function getAPIClient() {
 
           chunks.push(value.slice().buffer as ArrayBuffer);
           received += value.length;
-          if (total > 0) {
-            options.onDownloadProgress((received / total) * 100);
-          }
+          options.onDownloadProgress({ loaded: received, total });
         }
 
         const merged = new Uint8Array(received);
@@ -189,7 +203,9 @@ export async function getAPIClient() {
       path: string,
       body: FormData | Record<string, unknown>,
     ): Promise<{ data: T }> => {
-      const headers: Record<string, string> = authHeader ? { Authorization: authHeader } : {};
+      const headers: Record<string, string> = authHeader
+        ? { Authorization: authHeader }
+        : {};
       let requestBody: BodyInit;
 
       if (body instanceof FormData) {
