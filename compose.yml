@@ -21,7 +21,7 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: all # or all
+              count: all
               capabilities: [gpu]
 
   web:

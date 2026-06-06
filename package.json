@@ -2,23 +2,6 @@
   "name": "visualdynamics",
   "packageManager": "pnpm@10.33.0",
   "private": true,
-  "pnpm": {
-    "overrides": {
-      "zod": "4.3.6",
-      "@tanstack/start-plugin-core>zod": "^3.24.2",
-      "@tanstack/router-generator>zod": "^3.24.2",
-      "@tanstack/router-plugin>zod": "^3.24.2"
-    },
-    "onlyBuiltDependencies": [
-      "@nestjs/core",
-      "@parcel/watcher",
-      "@prisma/engines",
-      "@scarf/scarf",
-      "esbuild",
-      "msgpackr-extract",
-      "prisma"
-    ]
-  },
   "scripts": {
     "lint": "oxlint .",
     "format": "oxfmt",

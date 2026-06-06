@@ -15,7 +15,7 @@ RUN pnpm install --frozen-lockfile
 RUN DB_USER=x DB_PASS=x DB_HOST=x DB_PORT=5432 DB_DATABASE=x pnpm --filter api exec prisma generate
 
 # Rebuild the source code only when needed
-FROM nvidia/cuda:13.1.0-runtime-ubuntu24.04 AS builder
+FROM nvidia/cuda:13.3.0-runtime-ubuntu26.04 AS builder
 WORKDIR /app
 
 ENV PATH="${PATH}:/gromacs/bin"
@@ -31,7 +31,8 @@ RUN apt-get install -y --no-install-recommends \
       git \
       grace \
       zip
-  RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
+
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
 RUN apt-get install -y --no-install-recommends nodejs
 RUN npm install -g corepack
 RUN corepack enable
