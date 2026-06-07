@@ -23,9 +23,6 @@ type FormValues = z.infer<typeof schema>;
 
 export const Route = createFileRoute("/_protected/admin/users/$userId/")({
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Edit User",
-  },
 });
 
 function RouteComponent() {
