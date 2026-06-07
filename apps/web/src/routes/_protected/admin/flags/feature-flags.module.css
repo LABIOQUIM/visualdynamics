@@ -1,5 +1,0 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: var(--mantine-spacing-md);
-}

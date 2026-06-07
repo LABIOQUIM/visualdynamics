@@ -1,24 +1,15 @@
 import classes from "./-components/adminTable.module.css";
 
 import { useState } from "react";
-import { ActionIcon, Stack, Title } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import {
-  IconCheck,
-  IconDotsVertical,
-  IconEdit,
-  IconEye,
-  IconX,
-} from "@tabler/icons-react";
+import { ActionIcon } from "@mantine/core";
+import { IconDotsVertical, IconEdit, IconEye } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import {
   MantineReactTable,
   type MRT_Cell,
-  MRT_EditActionButtons,
   type MRT_PaginationState,
-  type MRT_TableOptions,
   useMantineReactTable,
 } from "mantine-react-table-open";
 
@@ -28,7 +19,6 @@ import { TableDateCell } from "@/components/TableDateCell";
 import { TableDurationCell } from "@/components/TableDurationCell";
 import { TableTextCell } from "@/components/TableTextCell";
 import { TypeBadge } from "@/components/TypeBadge";
-import { getAPIClient } from "@/lib/api";
 import { getMgmtSimulations } from "@/queries/getMgmtSimulations";
 
 export const Route = createFileRoute("/_protected/admin/simulations")({
@@ -59,33 +49,6 @@ function RouteComponent() {
   });
   const { data, isLoading } = useQuery(getMgmtSimulations(pagination));
 
-  const onEditingRowSave: MRT_TableOptions<SimulationWithUser>["onEditingRowSave"] =
-    async ({ values, table, row }) => {
-      const api = await getAPIClient();
-
-      try {
-        await api.patch(`/simulation/update/${row.id}`, {
-          status: values.status,
-        });
-
-        notifications.show({
-          message: "Simulation updated successfully",
-          color: "green",
-          icon: <IconCheck />,
-          withBorder: true,
-        });
-      } catch {
-        notifications.show({
-          message: "Failed to update simulation",
-          color: "red",
-          icon: <IconX />,
-          withBorder: true,
-        });
-      }
-
-      table.setEditingRow(null);
-    };
-
   const table = useMantineReactTable({
     data: data?.records || [],
     enablePagination: true,
@@ -95,7 +58,6 @@ function RouteComponent() {
     getRowId: (row) => row.id,
     enableEditing: true,
     onPaginationChange,
-    onEditingRowSave,
     state: { isLoading, pagination },
     displayColumnDefOptions: {
       "mrt-row-actions": {
@@ -104,13 +66,6 @@ function RouteComponent() {
     },
     rowCount: data?.total ?? 0,
     layoutMode: "grid",
-    renderEditRowModalContent: ({ table, row, internalEditComponents }) => (
-      <Stack>
-        <Title order={3}>Edit Simulation</Title>
-        {internalEditComponents}
-        <MRT_EditActionButtons row={row} table={table} variant="text" />
-      </Stack>
-    ),
     renderRowActions: ({ row, table }) => (
       <ActionIcon.Group>
         <Link
