@@ -24,15 +24,17 @@ import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/adm
 import { Route as ProtectedSubmitIndexRouteImport } from './routes/_protected/submit/index'
 import { Route as ProtectedSimulationsIndexRouteImport } from './routes/_protected/simulations/index'
 import { Route as ProtectedSimulationsSimulationIdRouteImport } from './routes/_protected/simulations/$simulationId'
-import { Route as ProtectedAdminSimulationsRouteImport } from './routes/_protected/admin/simulations'
 import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
 import { Route as ProtectedAdminUsersRouteRouteImport } from './routes/_protected/admin/users/route'
 import { Route as ProtectedAdminToolsRouteRouteImport } from './routes/_protected/admin/tools/route'
+import { Route as ProtectedAdminSimulationsRouteRouteImport } from './routes/_protected/admin/simulations/route'
 import { Route as ProtectedAdminFlagsRouteRouteImport } from './routes/_protected/admin/flags/route'
 import { Route as ProtectedAdminUsersIndexRouteImport } from './routes/_protected/admin/users/index'
 import { Route as ProtectedAdminToolsIndexRouteImport } from './routes/_protected/admin/tools/index'
+import { Route as ProtectedAdminSimulationsIndexRouteImport } from './routes/_protected/admin/simulations/index'
 import { Route as ProtectedAdminServerIndexRouteImport } from './routes/_protected/admin/server/index'
 import { Route as ProtectedAdminFlagsIndexRouteImport } from './routes/_protected/admin/flags/index'
+import { Route as ProtectedAdminSimulationsSimulationIdRouteImport } from './routes/_protected/admin/simulations/$simulationId'
 import { Route as ProtectedAdminFlagsNewRouteImport } from './routes/_protected/admin/flags/new'
 import { Route as ProtectedAdminFlagsKeyRouteImport } from './routes/_protected/admin/flags/$key'
 import { Route as ProtectedAdminUsersUserIdRouteRouteImport } from './routes/_protected/admin/users/$userId/route'
@@ -121,12 +123,6 @@ const ProtectedSimulationsSimulationIdRoute =
     path: '/$simulationId',
     getParentRoute: () => ProtectedSimulationsRouteRoute,
   } as any)
-const ProtectedAdminSimulationsRoute =
-  ProtectedAdminSimulationsRouteImport.update({
-    id: '/simulations',
-    path: '/simulations',
-    getParentRoute: () => ProtectedAdminRouteRoute,
-  } as any)
 const ProtectedAdminSettingsRoute = ProtectedAdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -142,6 +138,12 @@ const ProtectedAdminToolsRouteRoute =
   ProtectedAdminToolsRouteRouteImport.update({
     id: '/tools',
     path: '/tools',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminSimulationsRouteRoute =
+  ProtectedAdminSimulationsRouteRouteImport.update({
+    id: '/simulations',
+    path: '/simulations',
     getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
 const ProtectedAdminFlagsRouteRoute =
@@ -162,6 +164,12 @@ const ProtectedAdminToolsIndexRoute =
     path: '/',
     getParentRoute: () => ProtectedAdminToolsRouteRoute,
   } as any)
+const ProtectedAdminSimulationsIndexRoute =
+  ProtectedAdminSimulationsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ProtectedAdminSimulationsRouteRoute,
+  } as any)
 const ProtectedAdminServerIndexRoute =
   ProtectedAdminServerIndexRouteImport.update({
     id: '/server/',
@@ -173,6 +181,12 @@ const ProtectedAdminFlagsIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => ProtectedAdminFlagsRouteRoute,
+  } as any)
+const ProtectedAdminSimulationsSimulationIdRoute =
+  ProtectedAdminSimulationsSimulationIdRouteImport.update({
+    id: '/$simulationId',
+    path: '/$simulationId',
+    getParentRoute: () => ProtectedAdminSimulationsRouteRoute,
   } as any)
 const ProtectedAdminFlagsNewRoute = ProtectedAdminFlagsNewRouteImport.update({
   id: '/new',
@@ -251,10 +265,10 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PublicPrivacyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/admin/flags': typeof ProtectedAdminFlagsRouteRouteWithChildren
+  '/admin/simulations': typeof ProtectedAdminSimulationsRouteRouteWithChildren
   '/admin/tools': typeof ProtectedAdminToolsRouteRouteWithChildren
   '/admin/users': typeof ProtectedAdminUsersRouteRouteWithChildren
   '/admin/settings': typeof ProtectedAdminSettingsRoute
-  '/admin/simulations': typeof ProtectedAdminSimulationsRoute
   '/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
   '/simulations/': typeof ProtectedSimulationsIndexRoute
   '/submit/': typeof ProtectedSubmitIndexRoute
@@ -264,8 +278,10 @@ export interface FileRoutesByFullPath {
   '/admin/users/$userId': typeof ProtectedAdminUsersUserIdRouteRouteWithChildren
   '/admin/flags/$key': typeof ProtectedAdminFlagsKeyRoute
   '/admin/flags/new': typeof ProtectedAdminFlagsNewRoute
+  '/admin/simulations/$simulationId': typeof ProtectedAdminSimulationsSimulationIdRoute
   '/admin/flags/': typeof ProtectedAdminFlagsIndexRoute
   '/admin/server/': typeof ProtectedAdminServerIndexRoute
+  '/admin/simulations/': typeof ProtectedAdminSimulationsIndexRoute
   '/admin/tools/': typeof ProtectedAdminToolsIndexRoute
   '/admin/users/': typeof ProtectedAdminUsersIndexRoute
   '/admin/tools/batch-email/': typeof ProtectedAdminToolsBatchEmailIndexRoute
@@ -285,14 +301,15 @@ export interface FileRoutesByTo {
   '/privacy': typeof PublicPrivacyRoute
   '/terms-of-service': typeof PublicTermsOfServiceRoute
   '/admin/settings': typeof ProtectedAdminSettingsRoute
-  '/admin/simulations': typeof ProtectedAdminSimulationsRoute
   '/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
   '/simulations': typeof ProtectedSimulationsIndexRoute
   '/submit': typeof ProtectedSubmitIndexRoute
   '/admin/flags/$key': typeof ProtectedAdminFlagsKeyRoute
   '/admin/flags/new': typeof ProtectedAdminFlagsNewRoute
+  '/admin/simulations/$simulationId': typeof ProtectedAdminSimulationsSimulationIdRoute
   '/admin/flags': typeof ProtectedAdminFlagsIndexRoute
   '/admin/server': typeof ProtectedAdminServerIndexRoute
+  '/admin/simulations': typeof ProtectedAdminSimulationsIndexRoute
   '/admin/tools': typeof ProtectedAdminToolsIndexRoute
   '/admin/users': typeof ProtectedAdminUsersIndexRoute
   '/admin/tools/batch-email': typeof ProtectedAdminToolsBatchEmailIndexRoute
@@ -316,10 +333,10 @@ export interface FileRoutesById {
   '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
   '/_public/': typeof PublicIndexRoute
   '/_protected/admin/flags': typeof ProtectedAdminFlagsRouteRouteWithChildren
+  '/_protected/admin/simulations': typeof ProtectedAdminSimulationsRouteRouteWithChildren
   '/_protected/admin/tools': typeof ProtectedAdminToolsRouteRouteWithChildren
   '/_protected/admin/users': typeof ProtectedAdminUsersRouteRouteWithChildren
   '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
-  '/_protected/admin/simulations': typeof ProtectedAdminSimulationsRoute
   '/_protected/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
   '/_protected/simulations/': typeof ProtectedSimulationsIndexRoute
   '/_protected/submit/': typeof ProtectedSubmitIndexRoute
@@ -329,8 +346,10 @@ export interface FileRoutesById {
   '/_protected/admin/users/$userId': typeof ProtectedAdminUsersUserIdRouteRouteWithChildren
   '/_protected/admin/flags/$key': typeof ProtectedAdminFlagsKeyRoute
   '/_protected/admin/flags/new': typeof ProtectedAdminFlagsNewRoute
+  '/_protected/admin/simulations/$simulationId': typeof ProtectedAdminSimulationsSimulationIdRoute
   '/_protected/admin/flags/': typeof ProtectedAdminFlagsIndexRoute
   '/_protected/admin/server/': typeof ProtectedAdminServerIndexRoute
+  '/_protected/admin/simulations/': typeof ProtectedAdminSimulationsIndexRoute
   '/_protected/admin/tools/': typeof ProtectedAdminToolsIndexRoute
   '/_protected/admin/users/': typeof ProtectedAdminUsersIndexRoute
   '/_protected/admin/tools/batch-email/': typeof ProtectedAdminToolsBatchEmailIndexRoute
@@ -353,10 +372,10 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms-of-service'
     | '/admin/flags'
+    | '/admin/simulations'
     | '/admin/tools'
     | '/admin/users'
     | '/admin/settings'
-    | '/admin/simulations'
     | '/simulations/$simulationId'
     | '/simulations/'
     | '/submit/'
@@ -366,8 +385,10 @@ export interface FileRouteTypes {
     | '/admin/users/$userId'
     | '/admin/flags/$key'
     | '/admin/flags/new'
+    | '/admin/simulations/$simulationId'
     | '/admin/flags/'
     | '/admin/server/'
+    | '/admin/simulations/'
     | '/admin/tools/'
     | '/admin/users/'
     | '/admin/tools/batch-email/'
@@ -387,14 +408,15 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/terms-of-service'
     | '/admin/settings'
-    | '/admin/simulations'
     | '/simulations/$simulationId'
     | '/simulations'
     | '/submit'
     | '/admin/flags/$key'
     | '/admin/flags/new'
+    | '/admin/simulations/$simulationId'
     | '/admin/flags'
     | '/admin/server'
+    | '/admin/simulations'
     | '/admin/tools'
     | '/admin/users'
     | '/admin/tools/batch-email'
@@ -417,10 +439,10 @@ export interface FileRouteTypes {
     | '/_public/terms-of-service'
     | '/_public/'
     | '/_protected/admin/flags'
+    | '/_protected/admin/simulations'
     | '/_protected/admin/tools'
     | '/_protected/admin/users'
     | '/_protected/admin/settings'
-    | '/_protected/admin/simulations'
     | '/_protected/simulations/$simulationId'
     | '/_protected/simulations/'
     | '/_protected/submit/'
@@ -430,8 +452,10 @@ export interface FileRouteTypes {
     | '/_protected/admin/users/$userId'
     | '/_protected/admin/flags/$key'
     | '/_protected/admin/flags/new'
+    | '/_protected/admin/simulations/$simulationId'
     | '/_protected/admin/flags/'
     | '/_protected/admin/server/'
+    | '/_protected/admin/simulations/'
     | '/_protected/admin/tools/'
     | '/_protected/admin/users/'
     | '/_protected/admin/tools/batch-email/'
@@ -559,13 +583,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSimulationsSimulationIdRouteImport
       parentRoute: typeof ProtectedSimulationsRouteRoute
     }
-    '/_protected/admin/simulations': {
-      id: '/_protected/admin/simulations'
-      path: '/simulations'
-      fullPath: '/admin/simulations'
-      preLoaderRoute: typeof ProtectedAdminSimulationsRouteImport
-      parentRoute: typeof ProtectedAdminRouteRoute
-    }
     '/_protected/admin/settings': {
       id: '/_protected/admin/settings'
       path: '/settings'
@@ -585,6 +602,13 @@ declare module '@tanstack/react-router' {
       path: '/tools'
       fullPath: '/admin/tools'
       preLoaderRoute: typeof ProtectedAdminToolsRouteRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/simulations': {
+      id: '/_protected/admin/simulations'
+      path: '/simulations'
+      fullPath: '/admin/simulations'
+      preLoaderRoute: typeof ProtectedAdminSimulationsRouteRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
     }
     '/_protected/admin/flags': {
@@ -608,6 +632,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAdminToolsIndexRouteImport
       parentRoute: typeof ProtectedAdminToolsRouteRoute
     }
+    '/_protected/admin/simulations/': {
+      id: '/_protected/admin/simulations/'
+      path: '/'
+      fullPath: '/admin/simulations/'
+      preLoaderRoute: typeof ProtectedAdminSimulationsIndexRouteImport
+      parentRoute: typeof ProtectedAdminSimulationsRouteRoute
+    }
     '/_protected/admin/server/': {
       id: '/_protected/admin/server/'
       path: '/server'
@@ -621,6 +652,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/flags/'
       preLoaderRoute: typeof ProtectedAdminFlagsIndexRouteImport
       parentRoute: typeof ProtectedAdminFlagsRouteRoute
+    }
+    '/_protected/admin/simulations/$simulationId': {
+      id: '/_protected/admin/simulations/$simulationId'
+      path: '/$simulationId'
+      fullPath: '/admin/simulations/$simulationId'
+      preLoaderRoute: typeof ProtectedAdminSimulationsSimulationIdRouteImport
+      parentRoute: typeof ProtectedAdminSimulationsRouteRoute
     }
     '/_protected/admin/flags/new': {
       id: '/_protected/admin/flags/new'
@@ -734,6 +772,23 @@ const ProtectedAdminFlagsRouteRouteWithChildren =
     ProtectedAdminFlagsRouteRouteChildren,
   )
 
+interface ProtectedAdminSimulationsRouteRouteChildren {
+  ProtectedAdminSimulationsSimulationIdRoute: typeof ProtectedAdminSimulationsSimulationIdRoute
+  ProtectedAdminSimulationsIndexRoute: typeof ProtectedAdminSimulationsIndexRoute
+}
+
+const ProtectedAdminSimulationsRouteRouteChildren: ProtectedAdminSimulationsRouteRouteChildren =
+  {
+    ProtectedAdminSimulationsSimulationIdRoute:
+      ProtectedAdminSimulationsSimulationIdRoute,
+    ProtectedAdminSimulationsIndexRoute: ProtectedAdminSimulationsIndexRoute,
+  }
+
+const ProtectedAdminSimulationsRouteRouteWithChildren =
+  ProtectedAdminSimulationsRouteRoute._addFileChildren(
+    ProtectedAdminSimulationsRouteRouteChildren,
+  )
+
 interface ProtectedAdminToolsBatchEmailRouteRouteChildren {
   ProtectedAdminToolsBatchEmailIndexRoute: typeof ProtectedAdminToolsBatchEmailIndexRoute
 }
@@ -838,19 +893,20 @@ const ProtectedAdminUsersRouteRouteWithChildren =
 
 interface ProtectedAdminRouteRouteChildren {
   ProtectedAdminFlagsRouteRoute: typeof ProtectedAdminFlagsRouteRouteWithChildren
+  ProtectedAdminSimulationsRouteRoute: typeof ProtectedAdminSimulationsRouteRouteWithChildren
   ProtectedAdminToolsRouteRoute: typeof ProtectedAdminToolsRouteRouteWithChildren
   ProtectedAdminUsersRouteRoute: typeof ProtectedAdminUsersRouteRouteWithChildren
   ProtectedAdminSettingsRoute: typeof ProtectedAdminSettingsRoute
-  ProtectedAdminSimulationsRoute: typeof ProtectedAdminSimulationsRoute
   ProtectedAdminServerIndexRoute: typeof ProtectedAdminServerIndexRoute
 }
 
 const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
   ProtectedAdminFlagsRouteRoute: ProtectedAdminFlagsRouteRouteWithChildren,
+  ProtectedAdminSimulationsRouteRoute:
+    ProtectedAdminSimulationsRouteRouteWithChildren,
   ProtectedAdminToolsRouteRoute: ProtectedAdminToolsRouteRouteWithChildren,
   ProtectedAdminUsersRouteRoute: ProtectedAdminUsersRouteRouteWithChildren,
   ProtectedAdminSettingsRoute: ProtectedAdminSettingsRoute,
-  ProtectedAdminSimulationsRoute: ProtectedAdminSimulationsRoute,
   ProtectedAdminServerIndexRoute: ProtectedAdminServerIndexRoute,
 }
 

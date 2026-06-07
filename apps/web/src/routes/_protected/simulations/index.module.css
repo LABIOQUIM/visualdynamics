@@ -2,18 +2,96 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  border: 1px solid var(--mantine-color-default-border);
+  box-shadow: none;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.topToolbar {
+  border-bottom: 1px solid var(--mantine-color-default-border);
+  min-height: 40px;
+  padding: 0 var(--mantine-spacing-sm);
+}
+
+.bottomToolbar {
+  border-top: 1px solid var(--mantine-color-default-border);
+  min-height: 40px;
+  padding: 0 var(--mantine-spacing-sm);
 }
 
 .tableContainer {
   flex: 1 1 0;
 }
 
-.tableHead {
-  border: 0 0 1px 0 solid var(--mantine-color-default-border);
+.headRow,
+.bodyRow,
+.headCell,
+.bodyCell {
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
 }
 
-.tableHeadCell {
-  background-color: darken(var(--mantine-color-body), 0.025);
+.headCell,
+.bodyCell {
+  border-right: 1px solid var(--mantine-color-default-border);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.headCell :global(.mrt-table-head-cell-content),
+.headCell :global(.mrt-table-head-cell-labels),
+.headCell :global(.mrt-table-head-cell-content-wrapper) {
+  width: 100%;
+  height: 100%;
+}
+
+.headCell :global(.mrt-table-head-cell-labels),
+.headCell :global(.mrt-table-head-cell-content-wrapper) {
+  flex: 1 1 auto;
+}
+
+.headCell:last-child,
+.bodyCell:last-child {
+  border-right: 0;
+}
+
+.emptyState {
   display: flex;
-  justify-content: space-between;
+  height: 44px;
+  min-height: 44px;
+  align-items: center;
+  padding: 0 var(--mantine-spacing-sm);
+}
+
+.emptyTableBody {
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+}
+
+.emptyTableBody :global(.mrt-table-body-row),
+.emptyTableBody :global(.mrt-table-body-cell) {
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+}
+
+.emptyTableBody :global(.mrt-table-body-cell) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 44px;
+  color: var(--mantine-color-dimmed);
+}
+
+.pagination {
+  margin-left: auto;
 }

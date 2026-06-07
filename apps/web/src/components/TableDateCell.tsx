@@ -14,5 +14,5 @@ export function TableDateCell({ cell }: { cell: MRT_Cell<any> }) {
     return "—";
   }
 
-  return date.format("YYYY-MM-DD HH:mm:ss");
+  return date.format("YYYY-MM-DD HH:mm");
 }

@@ -1,16 +1,20 @@
-import classes from "./index.module.css";
+import classes from "../-components/adminTable.module.css";
 
+import { useState } from "react";
+import { type ReactNode } from "react";
 import { ActionIcon, Group, Text, Tooltip } from "@mantine/core";
 import {
   IconAtom,
   IconClock,
   IconDots,
+  IconEdit,
   IconEye,
   IconPlayerPlay,
   IconPlayerStop,
   IconSend,
   IconStatusChange,
   IconTag,
+  IconUser,
 } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -22,16 +26,16 @@ import {
   MRT_TablePagination,
   useMantineReactTable,
 } from "mantine-react-table-open";
-import { type ReactNode, useState } from "react";
 
 import { PageLayout } from "@/components/PageLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { TableDateCell } from "@/components/TableDateCell";
 import { TableDurationCell } from "@/components/TableDurationCell";
+import { TableTextCell } from "@/components/TableTextCell";
 import { TypeBadge } from "@/components/TypeBadge";
-import { getUserSimulations } from "@/queries/getUserSimulations";
+import { getMgmtSimulations } from "@/queries/getMgmtSimulations";
 
-export const Route = createFileRoute("/_protected/simulations/")({
+export const Route = createFileRoute("/_protected/admin/simulations/")({
   component: RouteComponent,
 });
 
@@ -62,40 +66,33 @@ function getPaginationRange(
   return `${from}-${to} of ${total}`;
 }
 
+function durationAccessorFn(row: SimulationWithUser) {
+  if (row.startedAt && row.endedAt) {
+    const start = dayjs(row.startedAt);
+    const end = dayjs(row.endedAt);
+    return dayjs.duration(end.diff(start));
+  }
+  return "—";
+}
+
+function StatusCell({ cell }: { cell: MRT_Cell<SimulationWithUser> }) {
+  const status = cell.getValue<Simulation["status"]>();
+  return <StatusBadge status={status} />;
+}
+
 function RouteComponent() {
   const [pagination, onPaginationChange] = useState<MRT_PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
-  const { data, isLoading } = useQuery(getUserSimulations(pagination));
-
-  function DurationAggregationFn(row: Simulation) {
-    if (row.startedAt && row.endedAt) {
-      const start = dayjs(row.startedAt);
-      const end = dayjs(row.endedAt);
-      const duration = dayjs.duration(end.diff(start));
-      return duration;
-    }
-
-    return "—";
-  }
-
-  function StatusCell({ cell }: { cell: MRT_Cell<Simulation> }) {
-    const status = cell.getValue<Simulation["status"]>();
-
-    return <StatusBadge status={status} />;
-  }
+  const { data, isLoading } = useQuery(getMgmtSimulations(pagination));
 
   const table = useMantineReactTable({
     data: data?.records || [],
     enableColumnActions: false,
-    enableDensityToggle: false,
-    enableFullScreenToggle: false,
     enableGlobalFilter: true,
-    enableHiding: false,
     enablePagination: true,
     enableRowActions: true,
-    enableSorting: true,
     enableStickyHeader: true,
     enableTopToolbar: true,
     getRowId: (row) => row.id,
@@ -112,7 +109,7 @@ function RouteComponent() {
             <IconDots size={16} />
           </HeaderIcon>
         ),
-        size: 48,
+        size: 96,
       },
     },
     rowCount: data?.total ?? 0,
@@ -168,14 +165,24 @@ function RouteComponent() {
       </Text>
     ),
     renderRowActions: ({ row }) => (
-      <Link
-        params={{ simulationId: row.original.id }}
-        to="/simulations/$simulationId"
-      >
-        <ActionIcon size="lg" variant="subtle">
-          <IconEye />
-        </ActionIcon>
-      </Link>
+      <ActionIcon.Group>
+        <Link
+          params={{ simulationId: row.original.id }}
+          to="/simulations/$simulationId"
+        >
+          <ActionIcon size="lg" variant="subtle">
+            <IconEye />
+          </ActionIcon>
+        </Link>
+        <Link
+          params={{ simulationId: row.original.id }}
+          to="/admin/simulations/$simulationId"
+        >
+          <ActionIcon size="lg" variant="subtle">
+            <IconEdit />
+          </ActionIcon>
+        </Link>
+      </ActionIcon.Group>
     ),
     columns: [
       {
@@ -187,6 +194,18 @@ function RouteComponent() {
           </HeaderIcon>
         ),
         size: 160,
+        Cell: TableTextCell,
+      },
+      {
+        accessorKey: "user.username",
+        header: "Username",
+        Header: (
+          <HeaderIcon label="Username">
+            <IconUser size={16} />
+          </HeaderIcon>
+        ),
+        size: 140,
+        Cell: TableTextCell,
       },
       {
         accessorKey: "type",
@@ -223,7 +242,7 @@ function RouteComponent() {
           </HeaderIcon>
         ),
         size: 100,
-        accessorFn: DurationAggregationFn,
+        accessorFn: durationAccessorFn,
         Cell: TableDurationCell,
       },
       {
@@ -263,7 +282,7 @@ function RouteComponent() {
   });
 
   return (
-    <PageLayout title="My Simulations">
+    <PageLayout title="Simulations">
       <MantineReactTable table={table} />
     </PageLayout>
   );
