@@ -72,9 +72,15 @@ export function Download({ simulationId }: DownloadProps) {
               )}
               <ArtifactDownload
                 disabled={
-                  target.key !== "commands"
-                    ? !["COMPLETED"].includes(data.simulation.status)
-                    : false
+                  target.key === "commands"
+                    ? false
+                    : target.key === "figures"
+                      ? data.simulation.status !== "COMPLETED"
+                      : target.key === "logs"
+                        ? !["COMPLETED", "ERRORED", "CANCELED"].includes(
+                            data.simulation.status,
+                          )
+                        : data.simulation.status !== "COMPLETED"
                 }
                 simulationId={simulationId}
                 target={target.key}
