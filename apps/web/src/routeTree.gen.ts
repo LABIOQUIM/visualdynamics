@@ -9,49 +9,74 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthRouteRouteImport } from './routes/auth/route'
-import { Route as AppRouteRouteImport } from './routes/app/route'
-import { Route as homeIndexRouteImport } from './routes/(home)/index'
-import { Route as AuthRegisterRouteImport } from './routes/auth/register'
-import { Route as AuthLoginRouteImport } from './routes/auth/login'
-import { Route as homeTermsOfServiceRouteImport } from './routes/(home)/terms-of-service'
-import { Route as homePrivacyRouteImport } from './routes/(home)/privacy'
-import { Route as homeGuidesRouteImport } from './routes/(home)/guides'
-import { Route as homeAnalyticsRouteImport } from './routes/(home)/analytics'
-import { Route as homeAboutRouteImport } from './routes/(home)/about'
-import { Route as AppMgmtRouteRouteImport } from './routes/app/mgmt/route'
-import { Route as AppSubmitIndexRouteImport } from './routes/app/submit/index'
-import { Route as AppMgmtIndexRouteImport } from './routes/app/mgmt/index'
-import { Route as ApphomeIndexRouteImport } from './routes/app/(home)/index'
-import { Route as AppSimulationsSimulationIdRouteImport } from './routes/app/simulations/$simulationId'
-import { Route as AppMgmtUsersRouteImport } from './routes/app/mgmt/users'
-import { Route as AppMgmtSimulationsRouteImport } from './routes/app/mgmt/simulations'
-import { Route as AppMgmtSettingsRouteImport } from './routes/app/mgmt/settings'
-import { Route as AppMgmtToolsIndexRouteImport } from './routes/app/mgmt/tools/index'
-import { Route as AppMgmtServerIndexRouteImport } from './routes/app/mgmt/server/index'
-import { Route as AppMgmtFeatureFlagsIndexRouteImport } from './routes/app/mgmt/feature-flags/index'
-import { Route as AppMgmtFeatureFlagsNewRouteImport } from './routes/app/mgmt/feature-flags/new'
-import { Route as AppMgmtFeatureFlagsKeyRouteImport } from './routes/app/mgmt/feature-flags/$key'
-import { Route as AppMgmtToolsUserImporterRouteRouteImport } from './routes/app/mgmt/tools/user-importer/route'
-import { Route as AppMgmtToolsSimulationImporterRouteRouteImport } from './routes/app/mgmt/tools/simulation-importer/route'
-import { Route as AppMgmtToolsBatchEmailRouteRouteImport } from './routes/app/mgmt/tools/batch-email/route'
-import { Route as AppMgmtToolsUserImporterIndexRouteImport } from './routes/app/mgmt/tools/user-importer/index'
-import { Route as AppMgmtToolsSimulationImporterIndexRouteImport } from './routes/app/mgmt/tools/simulation-importer/index'
-import { Route as AppMgmtToolsBatchEmailIndexRouteImport } from './routes/app/mgmt/tools/batch-email/index'
+import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
+import { Route as AuthRouteRouteImport } from './routes/_auth/route'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicTermsOfServiceRouteImport } from './routes/_public/terms-of-service'
+import { Route as PublicPrivacyRouteImport } from './routes/_public/privacy'
+import { Route as PublicGuidesRouteImport } from './routes/_public/guides'
+import { Route as PublicAnalyticsRouteImport } from './routes/_public/analytics'
+import { Route as PublicAboutRouteImport } from './routes/_public/about'
+import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
+import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
+import { Route as ProtectedSubmitIndexRouteImport } from './routes/_protected/submit/index'
+import { Route as ProtectedSimulationsIndexRouteImport } from './routes/_protected/simulations/index'
+import { Route as ProtectedSimulationsSimulationIdRouteImport } from './routes/_protected/simulations/$simulationId'
+import { Route as ProtectedAdminSimulationsRouteImport } from './routes/_protected/admin/simulations'
+import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
+import { Route as ProtectedAdminUsersIndexRouteImport } from './routes/_protected/admin/users/index'
+import { Route as ProtectedAdminToolsIndexRouteImport } from './routes/_protected/admin/tools/index'
+import { Route as ProtectedAdminServerIndexRouteImport } from './routes/_protected/admin/server/index'
+import { Route as ProtectedAdminFlagsIndexRouteImport } from './routes/_protected/admin/flags/index'
+import { Route as ProtectedAdminFlagsNewRouteImport } from './routes/_protected/admin/flags/new'
+import { Route as ProtectedAdminFlagsKeyRouteImport } from './routes/_protected/admin/flags/$key'
+import { Route as ProtectedAdminUsersUserIdRouteRouteImport } from './routes/_protected/admin/users/$userId/route'
+import { Route as ProtectedAdminToolsUserImporterRouteRouteImport } from './routes/_protected/admin/tools/user-importer/route'
+import { Route as ProtectedAdminToolsSimulationImporterRouteRouteImport } from './routes/_protected/admin/tools/simulation-importer/route'
+import { Route as ProtectedAdminToolsBatchEmailRouteRouteImport } from './routes/_protected/admin/tools/batch-email/route'
+import { Route as ProtectedAdminUsersUserIdIndexRouteImport } from './routes/_protected/admin/users/$userId/index'
+import { Route as ProtectedAdminToolsUserImporterIndexRouteImport } from './routes/_protected/admin/tools/user-importer/index'
+import { Route as ProtectedAdminToolsSimulationImporterIndexRouteImport } from './routes/_protected/admin/tools/simulation-importer/index'
+import { Route as ProtectedAdminToolsBatchEmailIndexRouteImport } from './routes/_protected/admin/tools/batch-email/index'
+import { Route as ProtectedAdminUsersUserIdFolderIndexRouteImport } from './routes/_protected/admin/users/$userId/folder/index'
 
+const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppRouteRoute = AppRouteRouteImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homeIndexRoute = homeIndexRouteImport.update({
-  id: '/(home)/',
+const PublicIndexRoute = PublicIndexRouteImport.update({
+  id: '/_public/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicTermsOfServiceRoute = PublicTermsOfServiceRouteImport.update({
+  id: '/_public/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicPrivacyRoute = PublicPrivacyRouteImport.update({
+  id: '/_public/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicGuidesRoute = PublicGuidesRouteImport.update({
+  id: '/_public/guides',
+  path: '/guides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicAnalyticsRoute = PublicAnalyticsRouteImport.update({
+  id: '/_public/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicAboutRoute = PublicAboutRouteImport.update({
+  id: '/_public/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
@@ -64,631 +89,546 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const homeTermsOfServiceRoute = homeTermsOfServiceRouteImport.update({
-  id: '/(home)/terms-of-service',
-  path: '/terms-of-service',
-  getParentRoute: () => rootRouteImport,
+const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => ProtectedRouteRoute,
 } as any)
-const homePrivacyRoute = homePrivacyRouteImport.update({
-  id: '/(home)/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homeGuidesRoute = homeGuidesRouteImport.update({
-  id: '/(home)/guides',
-  path: '/guides',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homeAnalyticsRoute = homeAnalyticsRouteImport.update({
-  id: '/(home)/analytics',
-  path: '/analytics',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homeAboutRoute = homeAboutRouteImport.update({
-  id: '/(home)/about',
-  path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppMgmtRouteRoute = AppMgmtRouteRouteImport.update({
-  id: '/mgmt',
-  path: '/mgmt',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppSubmitIndexRoute = AppSubmitIndexRouteImport.update({
+const ProtectedSubmitIndexRoute = ProtectedSubmitIndexRouteImport.update({
   id: '/submit/',
   path: '/submit/',
-  getParentRoute: () => AppRouteRoute,
+  getParentRoute: () => ProtectedRouteRoute,
 } as any)
-const AppMgmtIndexRoute = AppMgmtIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
-const ApphomeIndexRoute = ApphomeIndexRouteImport.update({
-  id: '/(home)/',
-  path: '/',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppSimulationsSimulationIdRoute =
-  AppSimulationsSimulationIdRouteImport.update({
+const ProtectedSimulationsIndexRoute =
+  ProtectedSimulationsIndexRouteImport.update({
+    id: '/simulations/',
+    path: '/simulations/',
+    getParentRoute: () => ProtectedRouteRoute,
+  } as any)
+const ProtectedSimulationsSimulationIdRoute =
+  ProtectedSimulationsSimulationIdRouteImport.update({
     id: '/simulations/$simulationId',
     path: '/simulations/$simulationId',
-    getParentRoute: () => AppRouteRoute,
+    getParentRoute: () => ProtectedRouteRoute,
   } as any)
-const AppMgmtUsersRoute = AppMgmtUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
-const AppMgmtSimulationsRoute = AppMgmtSimulationsRouteImport.update({
-  id: '/simulations',
-  path: '/simulations',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
-const AppMgmtSettingsRoute = AppMgmtSettingsRouteImport.update({
+const ProtectedAdminSimulationsRoute =
+  ProtectedAdminSimulationsRouteImport.update({
+    id: '/simulations',
+    path: '/simulations',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminSettingsRoute = ProtectedAdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => AppMgmtRouteRoute,
+  getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
-const AppMgmtToolsIndexRoute = AppMgmtToolsIndexRouteImport.update({
-  id: '/tools/',
-  path: '/tools/',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
-const AppMgmtServerIndexRoute = AppMgmtServerIndexRouteImport.update({
-  id: '/server/',
-  path: '/server/',
-  getParentRoute: () => AppMgmtRouteRoute,
-} as any)
-const AppMgmtFeatureFlagsIndexRoute =
-  AppMgmtFeatureFlagsIndexRouteImport.update({
-    id: '/feature-flags/',
-    path: '/feature-flags/',
-    getParentRoute: () => AppMgmtRouteRoute,
+const ProtectedAdminUsersIndexRoute =
+  ProtectedAdminUsersIndexRouteImport.update({
+    id: '/users/',
+    path: '/users/',
+    getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
-const AppMgmtFeatureFlagsNewRoute = AppMgmtFeatureFlagsNewRouteImport.update({
-  id: '/feature-flags/new',
-  path: '/feature-flags/new',
-  getParentRoute: () => AppMgmtRouteRoute,
+const ProtectedAdminToolsIndexRoute =
+  ProtectedAdminToolsIndexRouteImport.update({
+    id: '/tools/',
+    path: '/tools/',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminServerIndexRoute =
+  ProtectedAdminServerIndexRouteImport.update({
+    id: '/server/',
+    path: '/server/',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminFlagsIndexRoute =
+  ProtectedAdminFlagsIndexRouteImport.update({
+    id: '/flags/',
+    path: '/flags/',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminFlagsNewRoute = ProtectedAdminFlagsNewRouteImport.update({
+  id: '/flags/new',
+  path: '/flags/new',
+  getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
-const AppMgmtFeatureFlagsKeyRoute = AppMgmtFeatureFlagsKeyRouteImport.update({
-  id: '/feature-flags/$key',
-  path: '/feature-flags/$key',
-  getParentRoute: () => AppMgmtRouteRoute,
+const ProtectedAdminFlagsKeyRoute = ProtectedAdminFlagsKeyRouteImport.update({
+  id: '/flags/$key',
+  path: '/flags/$key',
+  getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
-const AppMgmtToolsUserImporterRouteRoute =
-  AppMgmtToolsUserImporterRouteRouteImport.update({
+const ProtectedAdminUsersUserIdRouteRoute =
+  ProtectedAdminUsersUserIdRouteRouteImport.update({
+    id: '/users/$userId',
+    path: '/users/$userId',
+    getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedAdminToolsUserImporterRouteRoute =
+  ProtectedAdminToolsUserImporterRouteRouteImport.update({
     id: '/tools/user-importer',
     path: '/tools/user-importer',
-    getParentRoute: () => AppMgmtRouteRoute,
+    getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
-const AppMgmtToolsSimulationImporterRouteRoute =
-  AppMgmtToolsSimulationImporterRouteRouteImport.update({
+const ProtectedAdminToolsSimulationImporterRouteRoute =
+  ProtectedAdminToolsSimulationImporterRouteRouteImport.update({
     id: '/tools/simulation-importer',
     path: '/tools/simulation-importer',
-    getParentRoute: () => AppMgmtRouteRoute,
+    getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
-const AppMgmtToolsBatchEmailRouteRoute =
-  AppMgmtToolsBatchEmailRouteRouteImport.update({
+const ProtectedAdminToolsBatchEmailRouteRoute =
+  ProtectedAdminToolsBatchEmailRouteRouteImport.update({
     id: '/tools/batch-email',
     path: '/tools/batch-email',
-    getParentRoute: () => AppMgmtRouteRoute,
+    getParentRoute: () => ProtectedAdminRouteRoute,
   } as any)
-const AppMgmtToolsUserImporterIndexRoute =
-  AppMgmtToolsUserImporterIndexRouteImport.update({
+const ProtectedAdminUsersUserIdIndexRoute =
+  ProtectedAdminUsersUserIdIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => AppMgmtToolsUserImporterRouteRoute,
+    getParentRoute: () => ProtectedAdminUsersUserIdRouteRoute,
   } as any)
-const AppMgmtToolsSimulationImporterIndexRoute =
-  AppMgmtToolsSimulationImporterIndexRouteImport.update({
+const ProtectedAdminToolsUserImporterIndexRoute =
+  ProtectedAdminToolsUserImporterIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => AppMgmtToolsSimulationImporterRouteRoute,
+    getParentRoute: () => ProtectedAdminToolsUserImporterRouteRoute,
   } as any)
-const AppMgmtToolsBatchEmailIndexRoute =
-  AppMgmtToolsBatchEmailIndexRouteImport.update({
+const ProtectedAdminToolsSimulationImporterIndexRoute =
+  ProtectedAdminToolsSimulationImporterIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => AppMgmtToolsBatchEmailRouteRoute,
+    getParentRoute: () => ProtectedAdminToolsSimulationImporterRouteRoute,
+  } as any)
+const ProtectedAdminToolsBatchEmailIndexRoute =
+  ProtectedAdminToolsBatchEmailIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ProtectedAdminToolsBatchEmailRouteRoute,
+  } as any)
+const ProtectedAdminUsersUserIdFolderIndexRoute =
+  ProtectedAdminUsersUserIdFolderIndexRouteImport.update({
+    id: '/folder/',
+    path: '/folder/',
+    getParentRoute: () => ProtectedAdminUsersUserIdRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/app': typeof AppRouteRouteWithChildren
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
-  '/about': typeof homeAboutRoute
-  '/analytics': typeof homeAnalyticsRoute
-  '/guides': typeof homeGuidesRoute
-  '/privacy': typeof homePrivacyRoute
-  '/terms-of-service': typeof homeTermsOfServiceRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/': typeof homeIndexRoute
-  '/app/mgmt/settings': typeof AppMgmtSettingsRoute
-  '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
-  '/app/mgmt/users': typeof AppMgmtUsersRoute
-  '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
-  '/app/': typeof ApphomeIndexRoute
-  '/app/mgmt/': typeof AppMgmtIndexRoute
-  '/app/submit/': typeof AppSubmitIndexRoute
-  '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
-  '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
-  '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
-  '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
-  '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
-  '/app/mgmt/feature-flags/': typeof AppMgmtFeatureFlagsIndexRoute
-  '/app/mgmt/server/': typeof AppMgmtServerIndexRoute
-  '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
-  '/app/mgmt/tools/batch-email/': typeof AppMgmtToolsBatchEmailIndexRoute
-  '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
-  '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
+  '/': typeof PublicIndexRoute
+  '/admin': typeof ProtectedAdminRouteRouteWithChildren
+  '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
+  '/about': typeof PublicAboutRoute
+  '/analytics': typeof PublicAnalyticsRoute
+  '/guides': typeof PublicGuidesRoute
+  '/privacy': typeof PublicPrivacyRoute
+  '/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/admin/simulations': typeof ProtectedAdminSimulationsRoute
+  '/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
+  '/simulations/': typeof ProtectedSimulationsIndexRoute
+  '/submit/': typeof ProtectedSubmitIndexRoute
+  '/admin/tools/batch-email': typeof ProtectedAdminToolsBatchEmailRouteRouteWithChildren
+  '/admin/tools/simulation-importer': typeof ProtectedAdminToolsSimulationImporterRouteRouteWithChildren
+  '/admin/tools/user-importer': typeof ProtectedAdminToolsUserImporterRouteRouteWithChildren
+  '/admin/users/$userId': typeof ProtectedAdminUsersUserIdRouteRouteWithChildren
+  '/admin/flags/$key': typeof ProtectedAdminFlagsKeyRoute
+  '/admin/flags/new': typeof ProtectedAdminFlagsNewRoute
+  '/admin/flags/': typeof ProtectedAdminFlagsIndexRoute
+  '/admin/server/': typeof ProtectedAdminServerIndexRoute
+  '/admin/tools/': typeof ProtectedAdminToolsIndexRoute
+  '/admin/users/': typeof ProtectedAdminUsersIndexRoute
+  '/admin/tools/batch-email/': typeof ProtectedAdminToolsBatchEmailIndexRoute
+  '/admin/tools/simulation-importer/': typeof ProtectedAdminToolsSimulationImporterIndexRoute
+  '/admin/tools/user-importer/': typeof ProtectedAdminToolsUserImporterIndexRoute
+  '/admin/users/$userId/': typeof ProtectedAdminUsersUserIdIndexRoute
+  '/admin/users/$userId/folder/': typeof ProtectedAdminUsersUserIdFolderIndexRoute
 }
 export interface FileRoutesByTo {
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/about': typeof homeAboutRoute
-  '/analytics': typeof homeAnalyticsRoute
-  '/guides': typeof homeGuidesRoute
-  '/privacy': typeof homePrivacyRoute
-  '/terms-of-service': typeof homeTermsOfServiceRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/': typeof homeIndexRoute
-  '/app/mgmt/settings': typeof AppMgmtSettingsRoute
-  '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
-  '/app/mgmt/users': typeof AppMgmtUsersRoute
-  '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
-  '/app': typeof ApphomeIndexRoute
-  '/app/mgmt': typeof AppMgmtIndexRoute
-  '/app/submit': typeof AppSubmitIndexRoute
-  '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
-  '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
-  '/app/mgmt/feature-flags': typeof AppMgmtFeatureFlagsIndexRoute
-  '/app/mgmt/server': typeof AppMgmtServerIndexRoute
-  '/app/mgmt/tools': typeof AppMgmtToolsIndexRoute
-  '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailIndexRoute
-  '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterIndexRoute
-  '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterIndexRoute
+  '/': typeof PublicIndexRoute
+  '/admin': typeof ProtectedAdminRouteRouteWithChildren
+  '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
+  '/about': typeof PublicAboutRoute
+  '/analytics': typeof PublicAnalyticsRoute
+  '/guides': typeof PublicGuidesRoute
+  '/privacy': typeof PublicPrivacyRoute
+  '/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/admin/simulations': typeof ProtectedAdminSimulationsRoute
+  '/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
+  '/simulations': typeof ProtectedSimulationsIndexRoute
+  '/submit': typeof ProtectedSubmitIndexRoute
+  '/admin/flags/$key': typeof ProtectedAdminFlagsKeyRoute
+  '/admin/flags/new': typeof ProtectedAdminFlagsNewRoute
+  '/admin/flags': typeof ProtectedAdminFlagsIndexRoute
+  '/admin/server': typeof ProtectedAdminServerIndexRoute
+  '/admin/tools': typeof ProtectedAdminToolsIndexRoute
+  '/admin/users': typeof ProtectedAdminUsersIndexRoute
+  '/admin/tools/batch-email': typeof ProtectedAdminToolsBatchEmailIndexRoute
+  '/admin/tools/simulation-importer': typeof ProtectedAdminToolsSimulationImporterIndexRoute
+  '/admin/tools/user-importer': typeof ProtectedAdminToolsUserImporterIndexRoute
+  '/admin/users/$userId': typeof ProtectedAdminUsersUserIdIndexRoute
+  '/admin/users/$userId/folder': typeof ProtectedAdminUsersUserIdFolderIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/app': typeof AppRouteRouteWithChildren
-  '/auth': typeof AuthRouteRouteWithChildren
-  '/app/mgmt': typeof AppMgmtRouteRouteWithChildren
-  '/(home)/about': typeof homeAboutRoute
-  '/(home)/analytics': typeof homeAnalyticsRoute
-  '/(home)/guides': typeof homeGuidesRoute
-  '/(home)/privacy': typeof homePrivacyRoute
-  '/(home)/terms-of-service': typeof homeTermsOfServiceRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/register': typeof AuthRegisterRoute
-  '/(home)/': typeof homeIndexRoute
-  '/app/mgmt/settings': typeof AppMgmtSettingsRoute
-  '/app/mgmt/simulations': typeof AppMgmtSimulationsRoute
-  '/app/mgmt/users': typeof AppMgmtUsersRoute
-  '/app/simulations/$simulationId': typeof AppSimulationsSimulationIdRoute
-  '/app/(home)/': typeof ApphomeIndexRoute
-  '/app/mgmt/': typeof AppMgmtIndexRoute
-  '/app/submit/': typeof AppSubmitIndexRoute
-  '/app/mgmt/tools/batch-email': typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
-  '/app/mgmt/tools/simulation-importer': typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
-  '/app/mgmt/tools/user-importer': typeof AppMgmtToolsUserImporterRouteRouteWithChildren
-  '/app/mgmt/feature-flags/$key': typeof AppMgmtFeatureFlagsKeyRoute
-  '/app/mgmt/feature-flags/new': typeof AppMgmtFeatureFlagsNewRoute
-  '/app/mgmt/feature-flags/': typeof AppMgmtFeatureFlagsIndexRoute
-  '/app/mgmt/server/': typeof AppMgmtServerIndexRoute
-  '/app/mgmt/tools/': typeof AppMgmtToolsIndexRoute
-  '/app/mgmt/tools/batch-email/': typeof AppMgmtToolsBatchEmailIndexRoute
-  '/app/mgmt/tools/simulation-importer/': typeof AppMgmtToolsSimulationImporterIndexRoute
-  '/app/mgmt/tools/user-importer/': typeof AppMgmtToolsUserImporterIndexRoute
+  '/_auth': typeof AuthRouteRouteWithChildren
+  '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
+  '/_auth/login': typeof AuthLoginRoute
+  '/_auth/register': typeof AuthRegisterRoute
+  '/_public/about': typeof PublicAboutRoute
+  '/_public/analytics': typeof PublicAnalyticsRoute
+  '/_public/guides': typeof PublicGuidesRoute
+  '/_public/privacy': typeof PublicPrivacyRoute
+  '/_public/terms-of-service': typeof PublicTermsOfServiceRoute
+  '/_public/': typeof PublicIndexRoute
+  '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
+  '/_protected/admin/simulations': typeof ProtectedAdminSimulationsRoute
+  '/_protected/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
+  '/_protected/simulations/': typeof ProtectedSimulationsIndexRoute
+  '/_protected/submit/': typeof ProtectedSubmitIndexRoute
+  '/_protected/admin/tools/batch-email': typeof ProtectedAdminToolsBatchEmailRouteRouteWithChildren
+  '/_protected/admin/tools/simulation-importer': typeof ProtectedAdminToolsSimulationImporterRouteRouteWithChildren
+  '/_protected/admin/tools/user-importer': typeof ProtectedAdminToolsUserImporterRouteRouteWithChildren
+  '/_protected/admin/users/$userId': typeof ProtectedAdminUsersUserIdRouteRouteWithChildren
+  '/_protected/admin/flags/$key': typeof ProtectedAdminFlagsKeyRoute
+  '/_protected/admin/flags/new': typeof ProtectedAdminFlagsNewRoute
+  '/_protected/admin/flags/': typeof ProtectedAdminFlagsIndexRoute
+  '/_protected/admin/server/': typeof ProtectedAdminServerIndexRoute
+  '/_protected/admin/tools/': typeof ProtectedAdminToolsIndexRoute
+  '/_protected/admin/users/': typeof ProtectedAdminUsersIndexRoute
+  '/_protected/admin/tools/batch-email/': typeof ProtectedAdminToolsBatchEmailIndexRoute
+  '/_protected/admin/tools/simulation-importer/': typeof ProtectedAdminToolsSimulationImporterIndexRoute
+  '/_protected/admin/tools/user-importer/': typeof ProtectedAdminToolsUserImporterIndexRoute
+  '/_protected/admin/users/$userId/': typeof ProtectedAdminUsersUserIdIndexRoute
+  '/_protected/admin/users/$userId/folder/': typeof ProtectedAdminUsersUserIdFolderIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/app'
-    | '/auth'
-    | '/app/mgmt'
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/register'
     | '/about'
     | '/analytics'
     | '/guides'
     | '/privacy'
     | '/terms-of-service'
-    | '/auth/login'
-    | '/auth/register'
-    | '/'
-    | '/app/mgmt/settings'
-    | '/app/mgmt/simulations'
-    | '/app/mgmt/users'
-    | '/app/simulations/$simulationId'
-    | '/app/'
-    | '/app/mgmt/'
-    | '/app/submit/'
-    | '/app/mgmt/tools/batch-email'
-    | '/app/mgmt/tools/simulation-importer'
-    | '/app/mgmt/tools/user-importer'
-    | '/app/mgmt/feature-flags/$key'
-    | '/app/mgmt/feature-flags/new'
-    | '/app/mgmt/feature-flags/'
-    | '/app/mgmt/server/'
-    | '/app/mgmt/tools/'
-    | '/app/mgmt/tools/batch-email/'
-    | '/app/mgmt/tools/simulation-importer/'
-    | '/app/mgmt/tools/user-importer/'
+    | '/admin/settings'
+    | '/admin/simulations'
+    | '/simulations/$simulationId'
+    | '/simulations/'
+    | '/submit/'
+    | '/admin/tools/batch-email'
+    | '/admin/tools/simulation-importer'
+    | '/admin/tools/user-importer'
+    | '/admin/users/$userId'
+    | '/admin/flags/$key'
+    | '/admin/flags/new'
+    | '/admin/flags/'
+    | '/admin/server/'
+    | '/admin/tools/'
+    | '/admin/users/'
+    | '/admin/tools/batch-email/'
+    | '/admin/tools/simulation-importer/'
+    | '/admin/tools/user-importer/'
+    | '/admin/users/$userId/'
+    | '/admin/users/$userId/folder/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/auth'
+    | '/'
+    | '/admin'
+    | '/login'
+    | '/register'
     | '/about'
     | '/analytics'
     | '/guides'
     | '/privacy'
     | '/terms-of-service'
-    | '/auth/login'
-    | '/auth/register'
-    | '/'
-    | '/app/mgmt/settings'
-    | '/app/mgmt/simulations'
-    | '/app/mgmt/users'
-    | '/app/simulations/$simulationId'
-    | '/app'
-    | '/app/mgmt'
-    | '/app/submit'
-    | '/app/mgmt/feature-flags/$key'
-    | '/app/mgmt/feature-flags/new'
-    | '/app/mgmt/feature-flags'
-    | '/app/mgmt/server'
-    | '/app/mgmt/tools'
-    | '/app/mgmt/tools/batch-email'
-    | '/app/mgmt/tools/simulation-importer'
-    | '/app/mgmt/tools/user-importer'
+    | '/admin/settings'
+    | '/admin/simulations'
+    | '/simulations/$simulationId'
+    | '/simulations'
+    | '/submit'
+    | '/admin/flags/$key'
+    | '/admin/flags/new'
+    | '/admin/flags'
+    | '/admin/server'
+    | '/admin/tools'
+    | '/admin/users'
+    | '/admin/tools/batch-email'
+    | '/admin/tools/simulation-importer'
+    | '/admin/tools/user-importer'
+    | '/admin/users/$userId'
+    | '/admin/users/$userId/folder'
   id:
     | '__root__'
-    | '/app'
-    | '/auth'
-    | '/app/mgmt'
-    | '/(home)/about'
-    | '/(home)/analytics'
-    | '/(home)/guides'
-    | '/(home)/privacy'
-    | '/(home)/terms-of-service'
-    | '/auth/login'
-    | '/auth/register'
-    | '/(home)/'
-    | '/app/mgmt/settings'
-    | '/app/mgmt/simulations'
-    | '/app/mgmt/users'
-    | '/app/simulations/$simulationId'
-    | '/app/(home)/'
-    | '/app/mgmt/'
-    | '/app/submit/'
-    | '/app/mgmt/tools/batch-email'
-    | '/app/mgmt/tools/simulation-importer'
-    | '/app/mgmt/tools/user-importer'
-    | '/app/mgmt/feature-flags/$key'
-    | '/app/mgmt/feature-flags/new'
-    | '/app/mgmt/feature-flags/'
-    | '/app/mgmt/server/'
-    | '/app/mgmt/tools/'
-    | '/app/mgmt/tools/batch-email/'
-    | '/app/mgmt/tools/simulation-importer/'
-    | '/app/mgmt/tools/user-importer/'
+    | '/_auth'
+    | '/_protected'
+    | '/_protected/admin'
+    | '/_auth/login'
+    | '/_auth/register'
+    | '/_public/about'
+    | '/_public/analytics'
+    | '/_public/guides'
+    | '/_public/privacy'
+    | '/_public/terms-of-service'
+    | '/_public/'
+    | '/_protected/admin/settings'
+    | '/_protected/admin/simulations'
+    | '/_protected/simulations/$simulationId'
+    | '/_protected/simulations/'
+    | '/_protected/submit/'
+    | '/_protected/admin/tools/batch-email'
+    | '/_protected/admin/tools/simulation-importer'
+    | '/_protected/admin/tools/user-importer'
+    | '/_protected/admin/users/$userId'
+    | '/_protected/admin/flags/$key'
+    | '/_protected/admin/flags/new'
+    | '/_protected/admin/flags/'
+    | '/_protected/admin/server/'
+    | '/_protected/admin/tools/'
+    | '/_protected/admin/users/'
+    | '/_protected/admin/tools/batch-email/'
+    | '/_protected/admin/tools/simulation-importer/'
+    | '/_protected/admin/tools/user-importer/'
+    | '/_protected/admin/users/$userId/'
+    | '/_protected/admin/users/$userId/folder/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AppRouteRoute: typeof AppRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  homeAboutRoute: typeof homeAboutRoute
-  homeAnalyticsRoute: typeof homeAnalyticsRoute
-  homeGuidesRoute: typeof homeGuidesRoute
-  homePrivacyRoute: typeof homePrivacyRoute
-  homeTermsOfServiceRoute: typeof homeTermsOfServiceRoute
-  homeIndexRoute: typeof homeIndexRoute
+  ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  PublicAboutRoute: typeof PublicAboutRoute
+  PublicAnalyticsRoute: typeof PublicAnalyticsRoute
+  PublicGuidesRoute: typeof PublicGuidesRoute
+  PublicPrivacyRoute: typeof PublicPrivacyRoute
+  PublicTermsOfServiceRoute: typeof PublicTermsOfServiceRoute
+  PublicIndexRoute: typeof PublicIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/': {
-      id: '/(home)/'
+    '/_public/': {
+      id: '/_public/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof homeIndexRouteImport
+      preLoaderRoute: typeof PublicIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/register': {
-      id: '/auth/register'
+    '/_public/terms-of-service': {
+      id: '/_public/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof PublicTermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/privacy': {
+      id: '/_public/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PublicPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/guides': {
+      id: '/_public/guides'
+      path: '/guides'
+      fullPath: '/guides'
+      preLoaderRoute: typeof PublicGuidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/analytics': {
+      id: '/_public/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof PublicAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth/register': {
+      id: '/_auth/register'
       path: '/register'
-      fullPath: '/auth/register'
+      fullPath: '/register'
       preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/auth/login': {
-      id: '/auth/login'
+    '/_auth/login': {
+      id: '/_auth/login'
       path: '/login'
-      fullPath: '/auth/login'
+      fullPath: '/login'
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/(home)/terms-of-service': {
-      id: '/(home)/terms-of-service'
-      path: '/terms-of-service'
-      fullPath: '/terms-of-service'
-      preLoaderRoute: typeof homeTermsOfServiceRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_protected/admin': {
+      id: '/_protected/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof ProtectedAdminRouteRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
-    '/(home)/privacy': {
-      id: '/(home)/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof homePrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/guides': {
-      id: '/(home)/guides'
-      path: '/guides'
-      fullPath: '/guides'
-      preLoaderRoute: typeof homeGuidesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/analytics': {
-      id: '/(home)/analytics'
-      path: '/analytics'
-      fullPath: '/analytics'
-      preLoaderRoute: typeof homeAnalyticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/about': {
-      id: '/(home)/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof homeAboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app/mgmt': {
-      id: '/app/mgmt'
-      path: '/mgmt'
-      fullPath: '/app/mgmt'
-      preLoaderRoute: typeof AppMgmtRouteRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/submit/': {
-      id: '/app/submit/'
+    '/_protected/submit/': {
+      id: '/_protected/submit/'
       path: '/submit'
-      fullPath: '/app/submit/'
-      preLoaderRoute: typeof AppSubmitIndexRouteImport
-      parentRoute: typeof AppRouteRoute
+      fullPath: '/submit/'
+      preLoaderRoute: typeof ProtectedSubmitIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
-    '/app/mgmt/': {
-      id: '/app/mgmt/'
-      path: '/'
-      fullPath: '/app/mgmt/'
-      preLoaderRoute: typeof AppMgmtIndexRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
-    }
-    '/app/(home)/': {
-      id: '/app/(home)/'
-      path: '/'
-      fullPath: '/app/'
-      preLoaderRoute: typeof ApphomeIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/simulations/$simulationId': {
-      id: '/app/simulations/$simulationId'
-      path: '/simulations/$simulationId'
-      fullPath: '/app/simulations/$simulationId'
-      preLoaderRoute: typeof AppSimulationsSimulationIdRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/mgmt/users': {
-      id: '/app/mgmt/users'
-      path: '/users'
-      fullPath: '/app/mgmt/users'
-      preLoaderRoute: typeof AppMgmtUsersRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
-    }
-    '/app/mgmt/simulations': {
-      id: '/app/mgmt/simulations'
+    '/_protected/simulations/': {
+      id: '/_protected/simulations/'
       path: '/simulations'
-      fullPath: '/app/mgmt/simulations'
-      preLoaderRoute: typeof AppMgmtSimulationsRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+      fullPath: '/simulations/'
+      preLoaderRoute: typeof ProtectedSimulationsIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
-    '/app/mgmt/settings': {
-      id: '/app/mgmt/settings'
+    '/_protected/simulations/$simulationId': {
+      id: '/_protected/simulations/$simulationId'
+      path: '/simulations/$simulationId'
+      fullPath: '/simulations/$simulationId'
+      preLoaderRoute: typeof ProtectedSimulationsSimulationIdRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
+    '/_protected/admin/simulations': {
+      id: '/_protected/admin/simulations'
+      path: '/simulations'
+      fullPath: '/admin/simulations'
+      preLoaderRoute: typeof ProtectedAdminSimulationsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/settings': {
+      id: '/_protected/admin/settings'
       path: '/settings'
-      fullPath: '/app/mgmt/settings'
-      preLoaderRoute: typeof AppMgmtSettingsRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof ProtectedAdminSettingsRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/tools/': {
-      id: '/app/mgmt/tools/'
+    '/_protected/admin/users/': {
+      id: '/_protected/admin/users/'
+      path: '/users'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof ProtectedAdminUsersIndexRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/tools/': {
+      id: '/_protected/admin/tools/'
       path: '/tools'
-      fullPath: '/app/mgmt/tools/'
-      preLoaderRoute: typeof AppMgmtToolsIndexRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+      fullPath: '/admin/tools/'
+      preLoaderRoute: typeof ProtectedAdminToolsIndexRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/server/': {
-      id: '/app/mgmt/server/'
+    '/_protected/admin/server/': {
+      id: '/_protected/admin/server/'
       path: '/server'
-      fullPath: '/app/mgmt/server/'
-      preLoaderRoute: typeof AppMgmtServerIndexRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+      fullPath: '/admin/server/'
+      preLoaderRoute: typeof ProtectedAdminServerIndexRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/feature-flags/': {
-      id: '/app/mgmt/feature-flags/'
-      path: '/feature-flags'
-      fullPath: '/app/mgmt/feature-flags/'
-      preLoaderRoute: typeof AppMgmtFeatureFlagsIndexRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+    '/_protected/admin/flags/': {
+      id: '/_protected/admin/flags/'
+      path: '/flags'
+      fullPath: '/admin/flags/'
+      preLoaderRoute: typeof ProtectedAdminFlagsIndexRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/feature-flags/new': {
-      id: '/app/mgmt/feature-flags/new'
-      path: '/feature-flags/new'
-      fullPath: '/app/mgmt/feature-flags/new'
-      preLoaderRoute: typeof AppMgmtFeatureFlagsNewRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+    '/_protected/admin/flags/new': {
+      id: '/_protected/admin/flags/new'
+      path: '/flags/new'
+      fullPath: '/admin/flags/new'
+      preLoaderRoute: typeof ProtectedAdminFlagsNewRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/feature-flags/$key': {
-      id: '/app/mgmt/feature-flags/$key'
-      path: '/feature-flags/$key'
-      fullPath: '/app/mgmt/feature-flags/$key'
-      preLoaderRoute: typeof AppMgmtFeatureFlagsKeyRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+    '/_protected/admin/flags/$key': {
+      id: '/_protected/admin/flags/$key'
+      path: '/flags/$key'
+      fullPath: '/admin/flags/$key'
+      preLoaderRoute: typeof ProtectedAdminFlagsKeyRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/tools/user-importer': {
-      id: '/app/mgmt/tools/user-importer'
+    '/_protected/admin/users/$userId': {
+      id: '/_protected/admin/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/admin/users/$userId'
+      preLoaderRoute: typeof ProtectedAdminUsersUserIdRouteRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/admin/tools/user-importer': {
+      id: '/_protected/admin/tools/user-importer'
       path: '/tools/user-importer'
-      fullPath: '/app/mgmt/tools/user-importer'
-      preLoaderRoute: typeof AppMgmtToolsUserImporterRouteRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+      fullPath: '/admin/tools/user-importer'
+      preLoaderRoute: typeof ProtectedAdminToolsUserImporterRouteRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/tools/simulation-importer': {
-      id: '/app/mgmt/tools/simulation-importer'
+    '/_protected/admin/tools/simulation-importer': {
+      id: '/_protected/admin/tools/simulation-importer'
       path: '/tools/simulation-importer'
-      fullPath: '/app/mgmt/tools/simulation-importer'
-      preLoaderRoute: typeof AppMgmtToolsSimulationImporterRouteRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+      fullPath: '/admin/tools/simulation-importer'
+      preLoaderRoute: typeof ProtectedAdminToolsSimulationImporterRouteRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/tools/batch-email': {
-      id: '/app/mgmt/tools/batch-email'
+    '/_protected/admin/tools/batch-email': {
+      id: '/_protected/admin/tools/batch-email'
       path: '/tools/batch-email'
-      fullPath: '/app/mgmt/tools/batch-email'
-      preLoaderRoute: typeof AppMgmtToolsBatchEmailRouteRouteImport
-      parentRoute: typeof AppMgmtRouteRoute
+      fullPath: '/admin/tools/batch-email'
+      preLoaderRoute: typeof ProtectedAdminToolsBatchEmailRouteRouteImport
+      parentRoute: typeof ProtectedAdminRouteRoute
     }
-    '/app/mgmt/tools/user-importer/': {
-      id: '/app/mgmt/tools/user-importer/'
+    '/_protected/admin/users/$userId/': {
+      id: '/_protected/admin/users/$userId/'
       path: '/'
-      fullPath: '/app/mgmt/tools/user-importer/'
-      preLoaderRoute: typeof AppMgmtToolsUserImporterIndexRouteImport
-      parentRoute: typeof AppMgmtToolsUserImporterRouteRoute
+      fullPath: '/admin/users/$userId/'
+      preLoaderRoute: typeof ProtectedAdminUsersUserIdIndexRouteImport
+      parentRoute: typeof ProtectedAdminUsersUserIdRouteRoute
     }
-    '/app/mgmt/tools/simulation-importer/': {
-      id: '/app/mgmt/tools/simulation-importer/'
+    '/_protected/admin/tools/user-importer/': {
+      id: '/_protected/admin/tools/user-importer/'
       path: '/'
-      fullPath: '/app/mgmt/tools/simulation-importer/'
-      preLoaderRoute: typeof AppMgmtToolsSimulationImporterIndexRouteImport
-      parentRoute: typeof AppMgmtToolsSimulationImporterRouteRoute
+      fullPath: '/admin/tools/user-importer/'
+      preLoaderRoute: typeof ProtectedAdminToolsUserImporterIndexRouteImport
+      parentRoute: typeof ProtectedAdminToolsUserImporterRouteRoute
     }
-    '/app/mgmt/tools/batch-email/': {
-      id: '/app/mgmt/tools/batch-email/'
+    '/_protected/admin/tools/simulation-importer/': {
+      id: '/_protected/admin/tools/simulation-importer/'
       path: '/'
-      fullPath: '/app/mgmt/tools/batch-email/'
-      preLoaderRoute: typeof AppMgmtToolsBatchEmailIndexRouteImport
-      parentRoute: typeof AppMgmtToolsBatchEmailRouteRoute
+      fullPath: '/admin/tools/simulation-importer/'
+      preLoaderRoute: typeof ProtectedAdminToolsSimulationImporterIndexRouteImport
+      parentRoute: typeof ProtectedAdminToolsSimulationImporterRouteRoute
+    }
+    '/_protected/admin/tools/batch-email/': {
+      id: '/_protected/admin/tools/batch-email/'
+      path: '/'
+      fullPath: '/admin/tools/batch-email/'
+      preLoaderRoute: typeof ProtectedAdminToolsBatchEmailIndexRouteImport
+      parentRoute: typeof ProtectedAdminToolsBatchEmailRouteRoute
+    }
+    '/_protected/admin/users/$userId/folder/': {
+      id: '/_protected/admin/users/$userId/folder/'
+      path: '/folder'
+      fullPath: '/admin/users/$userId/folder/'
+      preLoaderRoute: typeof ProtectedAdminUsersUserIdFolderIndexRouteImport
+      parentRoute: typeof ProtectedAdminUsersUserIdRouteRoute
     }
   }
 }
-
-interface AppMgmtToolsBatchEmailRouteRouteChildren {
-  AppMgmtToolsBatchEmailIndexRoute: typeof AppMgmtToolsBatchEmailIndexRoute
-}
-
-const AppMgmtToolsBatchEmailRouteRouteChildren: AppMgmtToolsBatchEmailRouteRouteChildren =
-  {
-    AppMgmtToolsBatchEmailIndexRoute: AppMgmtToolsBatchEmailIndexRoute,
-  }
-
-const AppMgmtToolsBatchEmailRouteRouteWithChildren =
-  AppMgmtToolsBatchEmailRouteRoute._addFileChildren(
-    AppMgmtToolsBatchEmailRouteRouteChildren,
-  )
-
-interface AppMgmtToolsSimulationImporterRouteRouteChildren {
-  AppMgmtToolsSimulationImporterIndexRoute: typeof AppMgmtToolsSimulationImporterIndexRoute
-}
-
-const AppMgmtToolsSimulationImporterRouteRouteChildren: AppMgmtToolsSimulationImporterRouteRouteChildren =
-  {
-    AppMgmtToolsSimulationImporterIndexRoute:
-      AppMgmtToolsSimulationImporterIndexRoute,
-  }
-
-const AppMgmtToolsSimulationImporterRouteRouteWithChildren =
-  AppMgmtToolsSimulationImporterRouteRoute._addFileChildren(
-    AppMgmtToolsSimulationImporterRouteRouteChildren,
-  )
-
-interface AppMgmtToolsUserImporterRouteRouteChildren {
-  AppMgmtToolsUserImporterIndexRoute: typeof AppMgmtToolsUserImporterIndexRoute
-}
-
-const AppMgmtToolsUserImporterRouteRouteChildren: AppMgmtToolsUserImporterRouteRouteChildren =
-  {
-    AppMgmtToolsUserImporterIndexRoute: AppMgmtToolsUserImporterIndexRoute,
-  }
-
-const AppMgmtToolsUserImporterRouteRouteWithChildren =
-  AppMgmtToolsUserImporterRouteRoute._addFileChildren(
-    AppMgmtToolsUserImporterRouteRouteChildren,
-  )
-
-interface AppMgmtRouteRouteChildren {
-  AppMgmtSettingsRoute: typeof AppMgmtSettingsRoute
-  AppMgmtSimulationsRoute: typeof AppMgmtSimulationsRoute
-  AppMgmtUsersRoute: typeof AppMgmtUsersRoute
-  AppMgmtIndexRoute: typeof AppMgmtIndexRoute
-  AppMgmtToolsBatchEmailRouteRoute: typeof AppMgmtToolsBatchEmailRouteRouteWithChildren
-  AppMgmtToolsSimulationImporterRouteRoute: typeof AppMgmtToolsSimulationImporterRouteRouteWithChildren
-  AppMgmtToolsUserImporterRouteRoute: typeof AppMgmtToolsUserImporterRouteRouteWithChildren
-  AppMgmtFeatureFlagsKeyRoute: typeof AppMgmtFeatureFlagsKeyRoute
-  AppMgmtFeatureFlagsNewRoute: typeof AppMgmtFeatureFlagsNewRoute
-  AppMgmtFeatureFlagsIndexRoute: typeof AppMgmtFeatureFlagsIndexRoute
-  AppMgmtServerIndexRoute: typeof AppMgmtServerIndexRoute
-  AppMgmtToolsIndexRoute: typeof AppMgmtToolsIndexRoute
-}
-
-const AppMgmtRouteRouteChildren: AppMgmtRouteRouteChildren = {
-  AppMgmtSettingsRoute: AppMgmtSettingsRoute,
-  AppMgmtSimulationsRoute: AppMgmtSimulationsRoute,
-  AppMgmtUsersRoute: AppMgmtUsersRoute,
-  AppMgmtIndexRoute: AppMgmtIndexRoute,
-  AppMgmtToolsBatchEmailRouteRoute:
-    AppMgmtToolsBatchEmailRouteRouteWithChildren,
-  AppMgmtToolsSimulationImporterRouteRoute:
-    AppMgmtToolsSimulationImporterRouteRouteWithChildren,
-  AppMgmtToolsUserImporterRouteRoute:
-    AppMgmtToolsUserImporterRouteRouteWithChildren,
-  AppMgmtFeatureFlagsKeyRoute: AppMgmtFeatureFlagsKeyRoute,
-  AppMgmtFeatureFlagsNewRoute: AppMgmtFeatureFlagsNewRoute,
-  AppMgmtFeatureFlagsIndexRoute: AppMgmtFeatureFlagsIndexRoute,
-  AppMgmtServerIndexRoute: AppMgmtServerIndexRoute,
-  AppMgmtToolsIndexRoute: AppMgmtToolsIndexRoute,
-}
-
-const AppMgmtRouteRouteWithChildren = AppMgmtRouteRoute._addFileChildren(
-  AppMgmtRouteRouteChildren,
-)
-
-interface AppRouteRouteChildren {
-  AppMgmtRouteRoute: typeof AppMgmtRouteRouteWithChildren
-  AppSimulationsSimulationIdRoute: typeof AppSimulationsSimulationIdRoute
-  ApphomeIndexRoute: typeof ApphomeIndexRoute
-  AppSubmitIndexRoute: typeof AppSubmitIndexRoute
-}
-
-const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppMgmtRouteRoute: AppMgmtRouteRouteWithChildren,
-  AppSimulationsSimulationIdRoute: AppSimulationsSimulationIdRoute,
-  ApphomeIndexRoute: ApphomeIndexRoute,
-  AppSubmitIndexRoute: AppSubmitIndexRoute,
-}
-
-const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
-  AppRouteRouteChildren,
-)
 
 interface AuthRouteRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
@@ -704,15 +644,132 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface ProtectedAdminToolsBatchEmailRouteRouteChildren {
+  ProtectedAdminToolsBatchEmailIndexRoute: typeof ProtectedAdminToolsBatchEmailIndexRoute
+}
+
+const ProtectedAdminToolsBatchEmailRouteRouteChildren: ProtectedAdminToolsBatchEmailRouteRouteChildren =
+  {
+    ProtectedAdminToolsBatchEmailIndexRoute:
+      ProtectedAdminToolsBatchEmailIndexRoute,
+  }
+
+const ProtectedAdminToolsBatchEmailRouteRouteWithChildren =
+  ProtectedAdminToolsBatchEmailRouteRoute._addFileChildren(
+    ProtectedAdminToolsBatchEmailRouteRouteChildren,
+  )
+
+interface ProtectedAdminToolsSimulationImporterRouteRouteChildren {
+  ProtectedAdminToolsSimulationImporterIndexRoute: typeof ProtectedAdminToolsSimulationImporterIndexRoute
+}
+
+const ProtectedAdminToolsSimulationImporterRouteRouteChildren: ProtectedAdminToolsSimulationImporterRouteRouteChildren =
+  {
+    ProtectedAdminToolsSimulationImporterIndexRoute:
+      ProtectedAdminToolsSimulationImporterIndexRoute,
+  }
+
+const ProtectedAdminToolsSimulationImporterRouteRouteWithChildren =
+  ProtectedAdminToolsSimulationImporterRouteRoute._addFileChildren(
+    ProtectedAdminToolsSimulationImporterRouteRouteChildren,
+  )
+
+interface ProtectedAdminToolsUserImporterRouteRouteChildren {
+  ProtectedAdminToolsUserImporterIndexRoute: typeof ProtectedAdminToolsUserImporterIndexRoute
+}
+
+const ProtectedAdminToolsUserImporterRouteRouteChildren: ProtectedAdminToolsUserImporterRouteRouteChildren =
+  {
+    ProtectedAdminToolsUserImporterIndexRoute:
+      ProtectedAdminToolsUserImporterIndexRoute,
+  }
+
+const ProtectedAdminToolsUserImporterRouteRouteWithChildren =
+  ProtectedAdminToolsUserImporterRouteRoute._addFileChildren(
+    ProtectedAdminToolsUserImporterRouteRouteChildren,
+  )
+
+interface ProtectedAdminUsersUserIdRouteRouteChildren {
+  ProtectedAdminUsersUserIdIndexRoute: typeof ProtectedAdminUsersUserIdIndexRoute
+  ProtectedAdminUsersUserIdFolderIndexRoute: typeof ProtectedAdminUsersUserIdFolderIndexRoute
+}
+
+const ProtectedAdminUsersUserIdRouteRouteChildren: ProtectedAdminUsersUserIdRouteRouteChildren =
+  {
+    ProtectedAdminUsersUserIdIndexRoute: ProtectedAdminUsersUserIdIndexRoute,
+    ProtectedAdminUsersUserIdFolderIndexRoute:
+      ProtectedAdminUsersUserIdFolderIndexRoute,
+  }
+
+const ProtectedAdminUsersUserIdRouteRouteWithChildren =
+  ProtectedAdminUsersUserIdRouteRoute._addFileChildren(
+    ProtectedAdminUsersUserIdRouteRouteChildren,
+  )
+
+interface ProtectedAdminRouteRouteChildren {
+  ProtectedAdminSettingsRoute: typeof ProtectedAdminSettingsRoute
+  ProtectedAdminSimulationsRoute: typeof ProtectedAdminSimulationsRoute
+  ProtectedAdminToolsBatchEmailRouteRoute: typeof ProtectedAdminToolsBatchEmailRouteRouteWithChildren
+  ProtectedAdminToolsSimulationImporterRouteRoute: typeof ProtectedAdminToolsSimulationImporterRouteRouteWithChildren
+  ProtectedAdminToolsUserImporterRouteRoute: typeof ProtectedAdminToolsUserImporterRouteRouteWithChildren
+  ProtectedAdminUsersUserIdRouteRoute: typeof ProtectedAdminUsersUserIdRouteRouteWithChildren
+  ProtectedAdminFlagsKeyRoute: typeof ProtectedAdminFlagsKeyRoute
+  ProtectedAdminFlagsNewRoute: typeof ProtectedAdminFlagsNewRoute
+  ProtectedAdminFlagsIndexRoute: typeof ProtectedAdminFlagsIndexRoute
+  ProtectedAdminServerIndexRoute: typeof ProtectedAdminServerIndexRoute
+  ProtectedAdminToolsIndexRoute: typeof ProtectedAdminToolsIndexRoute
+  ProtectedAdminUsersIndexRoute: typeof ProtectedAdminUsersIndexRoute
+}
+
+const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
+  ProtectedAdminSettingsRoute: ProtectedAdminSettingsRoute,
+  ProtectedAdminSimulationsRoute: ProtectedAdminSimulationsRoute,
+  ProtectedAdminToolsBatchEmailRouteRoute:
+    ProtectedAdminToolsBatchEmailRouteRouteWithChildren,
+  ProtectedAdminToolsSimulationImporterRouteRoute:
+    ProtectedAdminToolsSimulationImporterRouteRouteWithChildren,
+  ProtectedAdminToolsUserImporterRouteRoute:
+    ProtectedAdminToolsUserImporterRouteRouteWithChildren,
+  ProtectedAdminUsersUserIdRouteRoute:
+    ProtectedAdminUsersUserIdRouteRouteWithChildren,
+  ProtectedAdminFlagsKeyRoute: ProtectedAdminFlagsKeyRoute,
+  ProtectedAdminFlagsNewRoute: ProtectedAdminFlagsNewRoute,
+  ProtectedAdminFlagsIndexRoute: ProtectedAdminFlagsIndexRoute,
+  ProtectedAdminServerIndexRoute: ProtectedAdminServerIndexRoute,
+  ProtectedAdminToolsIndexRoute: ProtectedAdminToolsIndexRoute,
+  ProtectedAdminUsersIndexRoute: ProtectedAdminUsersIndexRoute,
+}
+
+const ProtectedAdminRouteRouteWithChildren =
+  ProtectedAdminRouteRoute._addFileChildren(ProtectedAdminRouteRouteChildren)
+
+interface ProtectedRouteRouteChildren {
+  ProtectedAdminRouteRoute: typeof ProtectedAdminRouteRouteWithChildren
+  ProtectedSimulationsSimulationIdRoute: typeof ProtectedSimulationsSimulationIdRoute
+  ProtectedSimulationsIndexRoute: typeof ProtectedSimulationsIndexRoute
+  ProtectedSubmitIndexRoute: typeof ProtectedSubmitIndexRoute
+}
+
+const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedAdminRouteRoute: ProtectedAdminRouteRouteWithChildren,
+  ProtectedSimulationsSimulationIdRoute: ProtectedSimulationsSimulationIdRoute,
+  ProtectedSimulationsIndexRoute: ProtectedSimulationsIndexRoute,
+  ProtectedSubmitIndexRoute: ProtectedSubmitIndexRoute,
+}
+
+const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
+  ProtectedRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  AppRouteRoute: AppRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
-  homeAboutRoute: homeAboutRoute,
-  homeAnalyticsRoute: homeAnalyticsRoute,
-  homeGuidesRoute: homeGuidesRoute,
-  homePrivacyRoute: homePrivacyRoute,
-  homeTermsOfServiceRoute: homeTermsOfServiceRoute,
-  homeIndexRoute: homeIndexRoute,
+  ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  PublicAboutRoute: PublicAboutRoute,
+  PublicAnalyticsRoute: PublicAnalyticsRoute,
+  PublicGuidesRoute: PublicGuidesRoute,
+  PublicPrivacyRoute: PublicPrivacyRoute,
+  PublicTermsOfServiceRoute: PublicTermsOfServiceRoute,
+  PublicIndexRoute: PublicIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

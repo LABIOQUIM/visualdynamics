@@ -33,12 +33,12 @@ const sections: NavSection[] = [
       {
         icon: IconAutomation,
         label: "My Simulations",
-        href: "/app",
+        href: "/simulations",
       },
       {
         icon: IconPlus,
         label: "New Simulation",
-        href: "/app/submit",
+        href: "/submit",
       },
     ],
   },
@@ -71,68 +71,68 @@ const adminSections: NavSection[] = [
     title: "Admin",
     links: [
       {
-        href: "/app/mgmt",
+        href: "/admin",
         icon: IconServerSpark,
         label: "Operations",
         children: [
           {
             label: "Users",
             icon: IconUsers,
-            href: "/app/mgmt/users",
+            href: "/admin/users",
           },
           {
             label: "Simulations",
             icon: IconAutomation,
-            href: "/app/mgmt/simulations",
+            href: "/admin/simulations",
           },
           {
             label: "Server Statistics",
             icon: IconServerSpark,
-            href: "/app/mgmt/server",
+            href: "/admin/server",
           },
         ],
       },
       {
-        href: "/app/mgmt",
+        href: "/admin",
         icon: IconSettings,
         label: "Configuration",
         children: [
           {
             label: "Feature Flags",
             icon: IconFlag,
-            href: "/app/mgmt/feature-flags",
+            href: "/admin/flags",
           },
           {
             label: "Settings",
             icon: IconSettings,
-            href: "/app/mgmt/settings",
+            href: "/admin/settings",
           },
         ],
       },
       {
         label: "Tools",
         icon: IconTools,
-        href: "/app/mgmt/tools",
+        href: "/admin/tools",
         children: [
           {
             label: "All Tools",
             icon: IconTools,
-            href: "/app/mgmt/tools",
+            href: "/admin/tools",
           },
           {
             label: "Simulation Importer",
             icon: IconTableImport,
-            href: "/app/mgmt/tools/simulation-importer",
+            href: "/admin/tools/simulation-importer",
           },
           {
             label: "User Importer",
             icon: IconTableImport,
-            href: "/app/mgmt/tools/user-importer",
+            href: "/admin/tools/user-importer",
           },
           {
             label: "Batch Email",
             icon: IconMailForward,
-            href: "/app/mgmt/tools/batch-email",
+            href: "/admin/tools/batch-email",
           },
         ],
       },
@@ -158,7 +158,10 @@ interface Props {
 export function Navbar({ toggle }: Props) {
   const { data } = authClient.useSession();
 
-  const finalSections = useMemo(() => getFinalSections(data?.user?.role === "admin"), [data]);
+  const finalSections = useMemo(
+    () => getFinalSections(data?.user?.role === "admin"),
+    [data],
+  );
 
   const mainLinks = finalSections.map((section) => (
     <Section key={section.title} section={section} toggle={toggle} />

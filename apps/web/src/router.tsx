@@ -7,10 +7,16 @@ import { routeTree } from "@/routeTree.gen";
 function isSessionInvalidError(error: unknown) {
   const message = error instanceof Error ? error.message : String(error);
 
-  return /\b401\b/i.test(message) || /\b(unauthenticated|unauthorized)\b/i.test(message);
+  return (
+    /\b401\b/i.test(message) ||
+    /\b(unauthenticated|unauthorized)\b/i.test(message)
+  );
 }
 
-async function handleUnauthorizedQueryError(queryClient: QueryClient, error: unknown) {
+async function handleUnauthorizedQueryError(
+  queryClient: QueryClient,
+  error: unknown,
+) {
   if (typeof window === "undefined" || !isSessionInvalidError(error)) {
     return;
   }
@@ -64,5 +70,8 @@ export function getRouter(options: GetRouterOptions = {}) {
 declare module "@tanstack/react-router" {
   interface Register {
     router: ReturnType<typeof getRouter>;
+  }
+  interface StaticDataRouteOption {
+    breadcrumb?: BreadcrumbValue;
   }
 }

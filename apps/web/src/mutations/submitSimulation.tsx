@@ -3,7 +3,7 @@ import { IconCheck } from "@tabler/icons-react";
 import type { NavigateFn } from "@tanstack/react-router";
 
 import { getAPIClient } from "@/lib/api";
-import type { SimulationFormValues } from "@/routes/app/submit/-components/schema";
+import type { SimulationFormValues } from "@/routes/_protected/submit/-components/schema";
 
 export async function submitSimulation(
   values: SimulationFormValues,
@@ -82,7 +82,7 @@ export async function submitSimulation(
       withBorder: true,
     });
 
-    navigate({ to: "/app", search: { type: values.type, tab: "run" } });
+    navigate({ to: "/simulations", search: { type: values.type, tab: "run" } });
 
     return;
   }

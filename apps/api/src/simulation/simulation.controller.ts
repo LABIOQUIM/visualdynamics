@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -25,6 +26,7 @@ import { SimulationUpdateInput } from "../generated/prisma/models.js";
 import { auth } from "../lib/auth.js";
 import multerConfig from "../multer.config.js";
 
+import { PrismaService } from "../prisma.service.js";
 import { SimulationCreationService } from "./simulation.creation.service.js";
 import { SimulationFileService } from "./simulation.file.service.js";
 import { SimulationService } from "./simulation.service.js";
@@ -40,6 +42,7 @@ export class SimulationController {
     private simulationService: SimulationService,
     private simulationCreationService: SimulationCreationService,
     private simulationFileService: SimulationFileService,
+    private prismaService: PrismaService,
   ) {}
 
   @Post("/submit")
@@ -252,6 +255,112 @@ export class SimulationController {
     }
 
     return this.simulationService.adminImportSimulations(body.rows);
+  }
+
+  @Post("/admin/clean-user-folder")
+  async cleanUserFolder(
+    @Session() session: typeof auth.$Infer.Session,
+    @Body() body: { userId: string },
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: body.userId },
+      select: { username: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    await this.simulationFileService.cleanUserFolder(user.username);
+
+    return { success: true };
+  }
+
+  @Get("/admin/list-user-folder")
+  async listUserFolder(
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("userId") userId: string,
+    @Query("path") path = "",
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: { username: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    return this.simulationFileService.listUserFolder(user.username, path);
+  }
+
+  @Delete("/admin/delete-user-file")
+  async deleteUserFile(
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("userId") userId: string,
+    @Query("path") path: string,
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: { username: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    return this.simulationFileService.deleteUserFolderItem(
+      user.username,
+      path,
+    );
+  }
+
+  @Get("/admin/download-user-file")
+  async downloadUserFile(
+    @Session() session: typeof auth.$Infer.Session,
+    @Query("userId") userId: string,
+    @Query("path") path: string,
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: { username: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+
+    const file = this.simulationFileService.downloadUserFile(
+      user.username,
+      path,
+    );
+
+    if (file === "no-results") {
+      throw new NotFoundException("File not found");
+    }
+
+    const fileName = path.split("/").pop() ?? "download";
+    return new StreamableFile(file.stream, {
+      type: "application/octet-stream",
+      disposition: `attachment; filename="${fileName}"`,
+      length: file.size,
+    });
   }
 
   @Get("/downloads/mdp")

@@ -20,5 +20,11 @@ export default defineConfig({
   define: {
     __VERSION__: `"${pkg.version}"`,
   },
-  plugins: [tanstackRouter(), react()],
+  plugins: [
+    tanstackRouter({
+      target: "react",
+      autoCodeSplitting: true,
+    }),
+    react(),
+  ],
 });

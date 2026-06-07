@@ -14,7 +14,12 @@ import {
   buildSitemapXml,
 } from "@/lib/seo";
 
-export { DEFAULT_SITE_URL, PUBLIC_INDEXABLE_PATHS, buildRobotsTxt, buildSitemapXml };
+export {
+  DEFAULT_SITE_URL,
+  PUBLIC_INDEXABLE_PATHS,
+  buildRobotsTxt,
+  buildSitemapXml,
+};
 
 export async function renderPublicRoute(pathname: string) {
   const history = createMemoryHistory({ initialEntries: [pathname] });

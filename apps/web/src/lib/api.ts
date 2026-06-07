@@ -124,11 +124,18 @@ export async function getAPIClient() {
   const authHeader = token ? `Bearer ${token}` : "";
 
   return {
-    delete: async <T = unknown>(path: string): Promise<{ data: T }> => {
-      const data = await fetchApi<T>(path, {
-        method: "DELETE",
-        headers: authHeader ? { Authorization: authHeader } : {},
-      });
+    delete: async <T = unknown>(
+      path: string,
+      options: GetOptions = {},
+    ): Promise<{ data: T }> => {
+      const data = await fetchApi<T>(
+        path,
+        {
+          method: "DELETE",
+          headers: authHeader ? { Authorization: authHeader } : {},
+        },
+        options.params,
+      );
 
       return { data };
     },

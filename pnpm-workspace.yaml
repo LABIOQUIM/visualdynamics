@@ -1,5 +1,13 @@
 packages:
   - "apps/*"
+allowBuilds:
+  '@nestjs/core': true
+  '@prisma/engines': true
+  '@scarf/scarf': true
+  esbuild: true
+  msgpackr-extract: true
+  prisma: true
+nodeLinker: hoisted
 
 onlyBuild:
   "@nestjs/core": true
@@ -11,4 +19,3 @@ onlyBuild:
   "prisma": true
 
 shamefullyHoist: true
-nodeLinker: hoisted

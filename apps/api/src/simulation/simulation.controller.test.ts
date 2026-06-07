@@ -23,6 +23,7 @@ vi.mock("@openfeature/server-sdk", () => ({
 }));
 
 import { SIMULATION_TYPE } from "../generated/prisma/enums.js";
+import { PrismaService } from "../prisma.service.js";
 import { createSession } from "../test-utils/session.js";
 
 import { SimulationCreationService } from "./simulation.creation.service.js";
@@ -34,10 +35,12 @@ function createModule({
   simulationService = {},
   creationService = {},
   fileService = {},
+  prismaService = {},
 }: {
   simulationService?: Partial<SimulationService>;
   creationService?: Partial<SimulationCreationService>;
   fileService?: Partial<SimulationFileService>;
+  prismaService?: Partial<PrismaService>;
 } = {}) {
   return Test.createTestingModule({
     controllers: [SimulationController],
@@ -45,6 +48,7 @@ function createModule({
       { provide: SimulationService, useValue: simulationService },
       { provide: SimulationCreationService, useValue: creationService },
       { provide: SimulationFileService, useValue: fileService },
+      { provide: PrismaService, useValue: prismaService },
     ],
   }).compile();
 }

@@ -18,6 +18,8 @@ export const QUERY_KEYS = {
     sorting?: MRT_SortingState,
   ) => ["mgmt-users", pagination, columnFilters, sorting] as const,
   mgmtUser: (userId: string) => ["mgmt-user", userId] as const,
+  mgmtUserFolder: (userId: string, path: string) =>
+    ["mgmt-user-folder", userId, path] as const,
   featureFlags: () => ["feature-flags"] as const,
   systemInfo: () => ["system-info"] as const,
   simulationQueueDiagnostics: (
