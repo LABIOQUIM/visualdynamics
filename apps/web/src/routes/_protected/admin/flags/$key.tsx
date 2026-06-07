@@ -10,6 +10,14 @@ import { getFeatureFlags } from "@/queries/getFeatureFlags";
 
 export const Route = createFileRoute("/_protected/admin/flags/$key")({
   component: RouteComponent,
+  loader: async ({ params, context }) => {
+    const flags = await context.queryClient.ensureQueryData(getFeatureFlags());
+    const flag = flags.find((f) => f.key === params.key);
+    return { key: flag?.key };
+  },
+  staticData: {
+    breadcrumb: ({ loaderData }) => loaderData?.key ?? "...",
+  },
 });
 
 function buildVariantsRecord(

@@ -26,13 +26,24 @@ import {
 
 export const Route = createFileRoute("/_protected/admin/server/")({
   component: RouteComponent,
+  staticData: {
+    breadcrumb: "Server Statistics",
+  },
 });
 
 function RouteComponent() {
-  const [waitingPagination, setWaitingPagination] = useState(getInitialQueuePagination);
-  const [activePagination, setActivePagination] = useState(getInitialQueuePagination);
-  const [failedPagination, setFailedPagination] = useState(getInitialQueuePagination);
-  const [queuedPagination, setQueuedPagination] = useState(getInitialQueuePagination);
+  const [waitingPagination, setWaitingPagination] = useState(
+    getInitialQueuePagination,
+  );
+  const [activePagination, setActivePagination] = useState(
+    getInitialQueuePagination,
+  );
+  const [failedPagination, setFailedPagination] = useState(
+    getInitialQueuePagination,
+  );
+  const [queuedPagination, setQueuedPagination] = useState(
+    getInitialQueuePagination,
+  );
   const queuePagination = useMemo<SimulationQueueDiagnosticsPagination>(
     () => ({
       waitingPage: waitingPagination.pageIndex,
@@ -48,7 +59,9 @@ function RouteComponent() {
     ],
   );
   const systemInfo = useQuery(getSystemInfo());
-  const queueDiagnostics = useQuery(getSimulationQueueDiagnostics(queuePagination));
+  const queueDiagnostics = useQuery(
+    getSimulationQueueDiagnostics(queuePagination),
+  );
   const queueData = queueDiagnostics.data;
   const queuedSimulationJobs = useMemo<PaginatedRecords<JobTableRecord>>(
     () => ({
@@ -69,7 +82,11 @@ function RouteComponent() {
   return (
     <PageLayout title="Server Statistics">
       {(systemInfo.isError || queueDiagnostics.isError) && (
-        <Alert color="red" title="Unable to load server diagnostics" variant="light">
+        <Alert
+          color="red"
+          title="Unable to load server diagnostics"
+          variant="light"
+        >
           {systemInfo.error instanceof Error
             ? systemInfo.error.message
             : queueDiagnostics.error instanceof Error
@@ -92,7 +109,9 @@ function RouteComponent() {
               isFetching={queueDiagnostics.isFetching}
               isLoading={queueDiagnostics.isLoading}
               jobs={queueData?.recentJobs.waiting ?? { records: [], total: 0 }}
-              onPaginationChange={(updater) => setQueuePagination(setWaitingPagination, updater)}
+              onPaginationChange={(updater) =>
+                setQueuePagination(setWaitingPagination, updater)
+              }
               pagination={waitingPagination}
               title="Waiting Jobs"
             />
@@ -100,7 +119,9 @@ function RouteComponent() {
               isFetching={queueDiagnostics.isFetching}
               isLoading={queueDiagnostics.isLoading}
               jobs={queueData?.recentJobs.active ?? { records: [], total: 0 }}
-              onPaginationChange={(updater) => setQueuePagination(setActivePagination, updater)}
+              onPaginationChange={(updater) =>
+                setQueuePagination(setActivePagination, updater)
+              }
               pagination={activePagination}
               title="Active Jobs"
             />
@@ -108,7 +129,9 @@ function RouteComponent() {
               isFetching={queueDiagnostics.isFetching}
               isLoading={queueDiagnostics.isLoading}
               jobs={queueData?.recentJobs.failed ?? { records: [], total: 0 }}
-              onPaginationChange={(updater) => setQueuePagination(setFailedPagination, updater)}
+              onPaginationChange={(updater) =>
+                setQueuePagination(setFailedPagination, updater)
+              }
               pagination={failedPagination}
               title="Failed Jobs"
             />
@@ -118,7 +141,9 @@ function RouteComponent() {
               isFetching={queueDiagnostics.isFetching}
               isLoading={queueDiagnostics.isLoading}
               onRequeue={undefined}
-              onPaginationChange={(updater) => setQueuePagination(setQueuedPagination, updater)}
+              onPaginationChange={(updater) =>
+                setQueuePagination(setQueuedPagination, updater)
+              }
               pagination={queuedPagination}
               requeueingSubmissionId={undefined}
               title="Queued Simulations"

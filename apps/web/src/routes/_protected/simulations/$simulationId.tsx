@@ -14,6 +14,15 @@ import { getSimulation } from "@/queries/getSimulation";
 
 export const Route = createFileRoute("/_protected/simulations/$simulationId")({
   component: RouteComponent,
+  loader: async ({ params, context }) => {
+    const data = await context.queryClient.ensureQueryData(
+      getSimulation(params.simulationId),
+    );
+    return { moleculeName: data.simulation.moleculeName };
+  },
+  staticData: {
+    breadcrumb: ({ loaderData }) => loaderData?.moleculeName ?? "...",
+  },
 });
 
 function RouteComponent() {

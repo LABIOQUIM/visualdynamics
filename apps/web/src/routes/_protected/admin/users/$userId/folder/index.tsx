@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_protected/admin/users/$userId/folder/")(
     validateSearch: searchSchema,
     component: RouteComponent,
     staticData: {
-      breadcrumb: "Folder",
+      breadcrumb: "File Manager",
     },
   },
 );

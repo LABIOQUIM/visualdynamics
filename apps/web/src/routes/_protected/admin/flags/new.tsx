@@ -8,6 +8,9 @@ import { type CreateFeatureFlagInput } from "@/mutations/featureFlags";
 
 export const Route = createFileRoute("/_protected/admin/flags/new")({
   component: RouteComponent,
+  staticData: {
+    breadcrumb: "Create",
+  },
 });
 
 function buildVariantsRecord(

@@ -19,7 +19,7 @@ export const Route = createFileRoute("/_protected/admin")({
   },
   component: RouteComponent,
   staticData: {
-    breadcrumb: "Admin",
+    breadcrumb: "Administration",
   },
 });
 

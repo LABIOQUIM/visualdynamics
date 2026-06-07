@@ -33,6 +33,9 @@ import { getMgmtSimulations } from "@/queries/getMgmtSimulations";
 
 export const Route = createFileRoute("/_protected/admin/simulations")({
   component: RouteComponent,
+  staticData: {
+    breadcrumb: "Simulations",
+  },
 });
 
 function durationAccessorFn(row: SimulationWithUser) {

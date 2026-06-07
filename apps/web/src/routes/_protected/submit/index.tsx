@@ -22,6 +22,9 @@ import { submitSimulation } from "@/mutations/submitSimulation";
 
 export const Route = createFileRoute("/_protected/submit/")({
   component: RouteComponent,
+  staticData: {
+    breadcrumb: "Submit New Simulation",
+  },
 });
 
 function RouteComponent() {

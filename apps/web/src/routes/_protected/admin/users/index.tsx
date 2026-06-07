@@ -22,9 +22,6 @@ import { getMgmtUsers } from "@/queries/getMgmtUsers";
 
 export const Route = createFileRoute("/_protected/admin/users/")({
   component: RouteComponent,
-  staticData: {
-    breadcrumb: "Users",
-  },
 });
 
 function RouteComponent() {

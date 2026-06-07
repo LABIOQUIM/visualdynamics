@@ -4,6 +4,9 @@ import { PageLayout } from "@/components/PageLayout";
 
 export const Route = createFileRoute("/_protected/admin/settings")({
   component: RouteComponent,
+  staticData: {
+    breadcrumb: "Settings",
+  },
 });
 
 function RouteComponent() {

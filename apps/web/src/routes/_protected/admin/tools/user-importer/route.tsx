@@ -4,6 +4,9 @@ import { UserImporterProvider } from "./-components/Provider";
 
 export const Route = createFileRoute("/_protected/admin/tools/user-importer")({
   component: RouteComponent,
+  staticData: {
+    breadcrumb: "User Importer",
+  },
 });
 
 function RouteComponent() {
