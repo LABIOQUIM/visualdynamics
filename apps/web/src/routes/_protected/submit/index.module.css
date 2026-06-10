@@ -1,12 +1,5 @@
 .pageLayout {
-  height: auto !important;
-  max-height: none !important;
-  min-height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2);
-
-  @media (min-width: $mantine-breakpoint-xl) {
-    height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2) !important;
-    max-height: calc(100dvh - 60px - var(--mantine-spacing-md) * 2) !important;
-  }
+  flex: 1 1 0;
 }
 
 .form {

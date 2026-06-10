@@ -23,11 +23,10 @@ function buildTitle(title?: string) {
 }
 
 export function buildCanonicalUrl(path: string, siteUrl: string) {
-  const normalizedPath = path === "/" ? "/" : `/${path.replace(/^\/+|\/+$/g, "")}`;
+  const normalizedPath =
+    path === "/" ? "/" : `/${path.replace(/^\/+|\/+$/g, "")}`;
 
-  return normalizedPath === "/"
-    ? `${siteUrl}/`
-    : `${siteUrl}${normalizedPath}`;
+  return normalizedPath === "/" ? `${siteUrl}/` : `${siteUrl}${normalizedPath}`;
 }
 
 export function buildSeoHead({
