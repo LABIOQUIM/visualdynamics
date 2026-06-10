@@ -6,5 +6,6 @@ export async function unbanUser(userId: string): Promise<UserWithRole> {
 
   if (error) throw error;
 
+  // @ts-expect-error Some error happening with better-auth plugin typings
   return data;
 }

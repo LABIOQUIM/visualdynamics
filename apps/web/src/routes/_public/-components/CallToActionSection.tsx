@@ -15,7 +15,7 @@ export function LanderCallToActionSection() {
           dynamics simulations directly in your browser.
         </p>
         <div className={styles.actions}>
-          <Link className={styles.button} to="/auth/login">
+          <Link className={styles.button} to="/login">
             <IconPlayerPlay size={20} />
             Launch Visual Dynamics
           </Link>
