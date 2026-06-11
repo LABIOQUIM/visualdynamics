@@ -12,7 +12,6 @@ import { renderTemplate } from "../utils/renderTemplate.js";
 
 import type { NewSimulationBody } from "./simulation.types.js";
 
-// Allowlists for GROMACS parameters used in shell command templates.
 const ALLOWED_FORCE_FIELDS = new Set([
   "amber03",
   "amber94",
@@ -49,10 +48,7 @@ const ALLOWED_BOX_TYPES = new Set([
   "triclinic",
 ]);
 
-/** Matches a positive decimal number, e.g. "1.0", "1.2", "0.5" */
 const BOX_DISTANCE_RE = /^\d+(\.\d+)?$/;
-
-/** Matches safe filenames: alphanumeric, dots, underscores, hyphens only */
 const SAFE_FILENAME_RE = /^[a-zA-Z0-9._-]+$/;
 
 function validateSimulationParams(
@@ -85,18 +81,12 @@ function assertSafeFilename(value: string | undefined, field: string): void {
   }
 }
 
-/** Splits rendered template text into lines while preserving trailing newlines. */
 function splitPreservingNewlines(text: string): string[] {
   return text
     .split(/\r?\n/)
     .map((line, index, arr) => (index < arr.length - 1 ? line + "\n" : line));
 }
 
-/**
- * Generates the shell commands block for the #break section of the ACPYPE
- * template when there are N ligands. Using `{{pdbName}}` as a pass-through
- * placeholder so renderTemplate can resolve it afterwards.
- */
 function buildLigandComplexCommands(
   ligands: Array<{
     itpBasename: string;
@@ -106,8 +96,6 @@ function buildLigandComplexCommands(
 ): string {
   const pdbFiles = ligands.map((l) => l.pdbBasename).join(" ");
 
-  // Build atomtypes.txt: first ligand creates, rest append.
-  // Extract only the [ atomtypes ] block from each ITP.
   const atomtypesLines = ligands
     .map(
       (l, i) =>
@@ -115,10 +103,6 @@ function buildLigandComplexCommands(
     )
     .join("\n");
 
-  // Deduplicate after all appends: keep one [ atomtypes ] directive, one copy
-  // of each comment line, and the first definition of each atom type name.
-  // This prevents GROMACS from rejecting "defined twice" atom type errors when
-  // multiple ligands share GAFF/GAFF2 atom types.
   const deduplicateAtomtypes =
     "awk '/^\\[ *atomtypes/{if(!dir++) print; next}" +
     " /^;/{if(!cmt[$0]++) print; next}" +
@@ -126,17 +110,6 @@ function buildLigandComplexCommands(
     " ligand_atomtypes.txt > ligand_atomtypes_dedup.txt" +
     " && mv ligand_atomtypes_dedup.txt ligand_atomtypes.txt";
 
-  // Create stripped copies of each ITP without their [ atomtypes ] block.
-  // GROMACS requires [ atomtypes ] to appear before any [ moleculetype ].
-  // When multiple ligands are included, the second ITP's [ atomtypes ] would
-  // come after the first ITP's [ moleculetype ], causing an "Invalid order"
-  // error. The consolidated atomtypes are already injected via
-  // ligand_atomtypes.txt right after the forcefield include.
-  //
-  // Additionally, GROMACS rejects a moleculetype that is defined more than
-  // once. When two input ligands share the same moleculetype name (e.g. two
-  // copies of the same ligand), the ITP is only included once in the topology
-  // and the count in the [ molecules ] section is incremented accordingly.
   const molTypeCounts = new Map<string, number>();
   const uniqueByMolType = new Map<
     string,
@@ -163,15 +136,12 @@ function buildLigandComplexCommands(
     )
     .join("\n");
 
-  // Build the piped sed commands to include each stripped ITP in the topology.
   const includeExprs = strippedBasenames
     .map((b) => `-e '/forcefield.itp"/a\\#include "${b}"'`)
     .join(" ");
 
   const topologyLine = `cat {{pdbName}}_livre.top | sed ${includeExprs} | sed '/forcefield.itp/r ligand_atomtypes.txt' > {{pdbName}}_complx.top`;
 
-  // Add molecule type entries — use the count so duplicate ligands appear as
-  // e.g. "Pol647.pdb.mol2   2" instead of two separate lines.
   const moleculeTypeLines = [...molTypeCounts.entries()]
     .map(
       ([molType, count]) =>
@@ -203,19 +173,16 @@ export class SimulationCreationService {
   ) {
     const [userName, fullFileName] = fileName.split("/");
 
-    // Make *run* and *figures* directories
     mkdirSync(`/files/${userName}/${id}/run/logs`, {
       recursive: true,
     });
     mkdirSync(`/files/${userName}/${id}/figures`);
 
-    // Move main molecule to *run* folder
     renameSync(
       `/files/${userName}/${fullFileName}`,
       `/files/${userName}/${id}/run/${fullFileName}`,
     );
 
-    // Move each ligand file pair to *run* folder
     if (ligandFiles) {
       for (const { itp, pdb } of ligandFiles) {
         const itpBasename = itp.split("/").pop()!;
@@ -230,7 +197,6 @@ export class SimulationCreationService {
         );
       }
 
-      // Copy each ligand PDB as a canonical viewer file: originalLigand_0.pdb, originalLigand_1.pdb, …
       for (let i = 0; i < ligandFiles.length; i++) {
         const pdbBasename = ligandFiles[i].pdb.split("/").pop()!;
         const pdbExt = pdbBasename.split(".").pop()!;
@@ -241,7 +207,6 @@ export class SimulationCreationService {
       }
     }
 
-    // Copy all MDP files needed to run a simulation into folder
     cpSync(`${cwd()}/static/mdp`, `/files/${userName}/${id}/run`, {
       recursive: true,
     });

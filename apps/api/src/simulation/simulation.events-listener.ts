@@ -26,20 +26,27 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(SimulationEventsListener.name);
   private queueEvents!: QueueEvents;
 
-  // Inject the queue to get connection options and fetch job data.
   constructor(
     @InjectQueue("simulation") private readonly simulationQueue: Queue,
   ) {}
 
-  // onModuleInit is the NestJS hook to start the listener when the app starts.
   onModuleInit() {
-    // Manually create a QueueEvents instance.
-    // It uses the same connection options as the queue.
+    const connection = {
+      host: process.env.REDIS_HOST ?? "redis",
+      port: Number(process.env.REDIS_PORT ?? 6379),
+    };
+
     this.queueEvents = new QueueEvents(this.simulationQueue.name, {
-      connection: this.simulationQueue.opts.connection,
+      connection,
     });
 
-    // Subscribe to the events.
+    this.queueEvents.on("error", (error) => {
+      this.logger.error(
+        'QueueEvents connection error for the "simulation" queue',
+        error instanceof Error ? error.stack : String(error),
+      );
+    });
+
     this.queueEvents.on("waiting", ({ jobId }) => this.onWaiting(jobId));
     this.queueEvents.on("active", ({ jobId }) => this.onActive(jobId));
     this.queueEvents.on("completed", ({ jobId }) => this.onCompleted(jobId));
@@ -52,7 +59,6 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     );
   }
 
-  // onModuleDestroy is the NestJS hook to clean up when the app shuts down.
   async onModuleDestroy() {
     await this.queueEvents.close();
   }

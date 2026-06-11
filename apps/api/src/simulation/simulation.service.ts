@@ -312,13 +312,10 @@ export class SimulationService {
               (targetPid, signal) => process.kill(targetPid, signal),
             );
           }
-        } catch {
-          // PID file unreadable or process already gone — proceed to DB update.
-        }
+        } catch {}
       }
     }
 
-    // Remove the job from the BullMQ queue (no-op if it was already processed).
     const jobs = await this.simulationQueue.getJobs([
       "waiting",
       "active",
@@ -564,7 +561,6 @@ export class SimulationService {
   async getQueueInfo() {
     const active = await this.simulationQueue.getActiveCount();
     const failed = await this.simulationQueue.getFailedCount();
-    // const paused = await this.simulationQueue.getPausedCount();
     const paused = 0;
     const delayed = await this.simulationQueue.getDelayedCount();
     const waiting = await this.simulationQueue.getWaitingCount();

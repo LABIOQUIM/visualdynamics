@@ -7,12 +7,6 @@ import { PrismaService } from "../prisma.service.js";
 
 export const STORAGE_RETENTION_DAYS = 30;
 
-/**
- * Returns the date after which storage for a simulation is deleted.
- * - GENERATED: 30 days after createdAt
- * - All other terminal states (COMPLETED, ERRORED, CANCELED): 30 days after endedAt
- * - Non-terminal states (QUEUED, RUNNING): no expiry yet
- */
 export function getStorageExpiresAt(simulation: {
   status: string;
   createdAt: Date;
@@ -35,7 +29,6 @@ export function getStorageExpiresAt(simulation: {
     return d;
   }
 
-  // QUEUED / RUNNING — not yet expired
   return null;
 }
 
@@ -45,7 +38,6 @@ export class SimulationCleanupService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  /** Runs every hour. Deletes simulation storage folders that are past their expiry date. */
   @Cron(CronExpression.EVERY_HOUR)
   async handleExpiredSimulations() {
     const now = new Date();

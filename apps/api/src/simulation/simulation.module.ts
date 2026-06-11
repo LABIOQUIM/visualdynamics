@@ -23,13 +23,12 @@ const __dirname = fileURLToPath(new URL(".", import.meta.url));
       processors: [
         {
           path: join(__dirname, "simulation.processor.js"),
-          // Concurrency controls how many sandboxed processes can run at once.
           concurrency: 1,
         },
       ],
     }),
     BullBoardModule.forFeature({
-      adapter: BullMQAdapter, // or use BullAdapter if you're using bull instead of bullMQ
+      adapter: BullMQAdapter,
       name: "simulation",
       options: {
         description: "The Simulation Queue runs all the simulations submitted.",
