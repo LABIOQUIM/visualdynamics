@@ -2,6 +2,8 @@ import { spawn } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 
+import { terminateProcess } from "./process.js";
+
 interface ProcessResult {
   pid: number;
   returncode: number;
@@ -10,8 +12,10 @@ interface ProcessResult {
 export function runCommand(
   command: string,
   logFile: string,
+  signal?: AbortSignal,
+  cwd?: string,
 ): Promise<ProcessResult> {
-  const args = command.split(/\s+/); // Split command into arguments
+  const args = command.split(/\s+/);
   const shouldUseShell = command.includes(">");
 
   return new Promise((resolve, reject) => {
@@ -27,16 +31,37 @@ export function runCommand(
       const cmd = shouldUseShell ? command : args[0];
       const otherArgs = shouldUseShell ? [] : args.slice(1);
 
-      const process = spawn(cmd, otherArgs, {
+      const child = spawn(cmd, otherArgs, {
         shell: true,
         stdio: ["ignore", "pipe", "pipe"],
+        cwd,
       });
 
-      process.stdout.pipe(logStream);
-      process.stderr.pipe(logStream);
+      if (signal) {
+        if (signal.aborted) {
+          child.kill("SIGKILL");
+          reject(new Error("Simulation cancelled"));
+          return;
+        }
 
-      process.once("close", (code) => {
-        resolve({ pid: process.pid ?? -1, returncode: code ?? -1 });
+        const onAbort = () => {
+          child.kill("SIGKILL");
+          if (child.pid !== undefined) {
+            terminateProcess(child.pid);
+          }
+        };
+
+        signal.addEventListener("abort", onAbort, { once: true });
+      }
+
+      child.stdout.pipe(logStream);
+      child.stderr.pipe(logStream);
+
+      child.once("close", (code) => {
+        if (signal) {
+          signal.removeEventListener("abort", () => {});
+        }
+        resolve({ pid: child.pid ?? -1, returncode: code ?? -1 });
       });
     }
   });

@@ -40,7 +40,7 @@ describe("executeCommands", () => {
       "# step two\n",
     );
     expect(runCommand).toHaveBeenCalledTimes(1);
-    expect(runCommand).toHaveBeenCalledWith("gmx mdrun", "/tmp/log.txt");
+    expect(runCommand).toHaveBeenCalledWith("gmx mdrun", "/tmp/log.txt", undefined, undefined);
   });
 
   it("throws when a command exits with a non-zero return code", async () => {

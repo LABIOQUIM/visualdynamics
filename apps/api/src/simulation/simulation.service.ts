@@ -6,7 +6,7 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { Job, Queue } from "bullmq";
-import { existsSync, readFileSync } from "fs";
+import { existsSync } from "fs";
 
 import { SIMULATION_TYPE } from "../generated/prisma/client.js";
 import { SimulationUpdateInput } from "../generated/prisma/models.js";
@@ -14,14 +14,13 @@ import { PrismaService } from "../prisma.service.js";
 import { getFilesRoot } from "../utils/filesRoot.js";
 import { readFileData } from "../utils/readFileData.js";
 
+import { SimulationConsumer } from "./simulation.consumer.js";
 import { getStorageExpiresAt } from "./simulation.cleanup.service.js";
 import {
   buildImportedLigands,
   buildSimulationStoragePaths,
   getSimulationQueueState,
-  parseSimulationProcessPid,
   readSimulationStoredArtifacts,
-  terminateSimulationProcess,
   withStorageExpiry,
 } from "./simulation.service.helpers.js";
 import type {
@@ -120,6 +119,7 @@ const simulationDetailsSelect = {
 export class SimulationService {
   constructor(
     @InjectQueue("simulation") private simulationQueue: Queue,
+    private simulationConsumer: SimulationConsumer,
     private prisma: PrismaService,
   ) {}
 
@@ -296,29 +296,19 @@ export class SimulationService {
       );
     }
 
-    // If the job is running, kill the sandboxed processor process.
     if (simulation.status === "RUNNING") {
-      const pidFilePath = `/files/${simulation.user.username}/${simulationId}/processing.pid`;
-      if (existsSync(pidFilePath)) {
-        try {
-          const pid = parseSimulationProcessPid(
-            readFileSync(pidFilePath, "utf-8"),
-          );
-          if (pid !== null) {
-            terminateSimulationProcess(
-              pid,
-              process.pid,
-              (targetPid) => readFileSync(`/proc/${targetPid}/stat`, "utf-8"),
-              (targetPid, signal) => process.kill(targetPid, signal),
-            );
-          }
-        } catch {}
-      }
+      // Mark CANCELED before cancelling so onFailed won't overwrite it.
+      await this.prisma.simulation.update({
+        where: { id: simulationId },
+        data: { status: "CANCELED", endedAt: new Date() },
+      });
+      this.simulationConsumer.cancel(simulationId);
+      return { status: "canceled" };
     }
 
+    // QUEUED jobs aren't locked — safe to remove.
     const jobs = await this.simulationQueue.getJobs([
       "waiting",
-      "active",
       "delayed",
     ]);
     const job = jobs.find((j) => j.data.simulationId === simulationId);

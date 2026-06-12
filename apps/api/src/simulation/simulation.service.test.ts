@@ -77,18 +77,24 @@ class ExposedSimulationService extends SimulationService {
   }
 }
 
+function createConsumerStub() {
+  return { cancel: vi.fn() };
+}
+
 function createService(
   simulation: ReturnType<typeof createSimulationRecord> | null = null,
   queueOverrides: Record<string, any> = {},
 ) {
   const prisma = createPrismaStub();
   const queue = createQueueStub(queueOverrides);
+  const consumer = createConsumerStub();
   prisma.simulation.findFirst.mockResolvedValue(simulation);
 
   return {
     prisma,
     queue,
-    service: new TestSimulationService(queue as any, prisma as any),
+    consumer,
+    service: new TestSimulationService(queue as any, consumer as any, prisma as any),
   };
 }
 
@@ -222,7 +228,7 @@ describe("SimulationService", () => {
   });
 
   it("cancels queued simulations and running simulations with jobs", async () => {
-    const { prisma, queue, service } = createService();
+    const { prisma, queue, consumer, service } = createService();
     prisma.simulation.findUnique
       .mockResolvedValueOnce({
         id: "sim-1",
@@ -237,19 +243,9 @@ describe("SimulationService", () => {
         user: { username: "owner" },
       });
     const remove = vi.fn().mockResolvedValue(undefined);
-    queue.getJobs
-      .mockResolvedValueOnce([{ data: { simulationId: "sim-1" }, remove }])
-      .mockResolvedValueOnce([{ data: { simulationId: "sim-2" }, remove }]);
-    fsExistsSync.mockReturnValue(true);
-    fsReadFileSync.mockImplementation((path: string) => {
-      if (path === "/files/owner/sim-2/processing.pid") {
-        return "123:lock";
-      }
-      if (path === "/proc/123/stat") {
-        return "123 (node) S 0 777 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
-      }
-      return "999 (node) S 0 888 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
-    });
+    queue.getJobs.mockResolvedValueOnce([
+      { data: { simulationId: "sim-1" }, remove },
+    ]);
 
     await expect(
       service.cancelSimulation("sim-1", "user-1", false),
@@ -258,8 +254,8 @@ describe("SimulationService", () => {
       service.cancelSimulation("sim-2", "user-1", false),
     ).resolves.toEqual({ status: "canceled" });
 
-    expect(remove).toHaveBeenCalledTimes(2);
-    expect(process.kill).toHaveBeenCalledWith(-777, "SIGTERM");
+    expect(remove).toHaveBeenCalledTimes(1);
+    expect(consumer.cancel).toHaveBeenCalledWith("sim-2");
     expect(prisma.simulation.update).toHaveBeenCalledTimes(2);
   });
 
@@ -286,10 +282,6 @@ describe("SimulationService", () => {
         user: { username: "owner" },
       });
     queue.getJobs.mockResolvedValue([]);
-    fsExistsSync.mockReturnValue(true);
-    fsReadFileSync.mockImplementation(() => {
-      throw new Error("gone");
-    });
 
     await expect(
       service.cancelSimulation("sim-missing", "user-1", false),
@@ -309,8 +301,8 @@ describe("SimulationService", () => {
     });
   });
 
-  it("cancels running simulations when no pid file exists", async () => {
-    const { prisma, queue, service } = createService();
+  it("cancels running simulations when no consumer tracking exists", async () => {
+    const { prisma, queue, consumer, service } = createService();
     prisma.simulation.findUnique.mockResolvedValueOnce({
       id: "sim-3",
       userId: "user-1",
@@ -318,12 +310,11 @@ describe("SimulationService", () => {
       user: { username: "owner" },
     });
     queue.getJobs.mockResolvedValue([]);
-    fsExistsSync.mockReturnValue(false);
 
     await expect(
       service.cancelSimulation("sim-3", "user-1", false),
     ).resolves.toEqual({ status: "canceled" });
-    expect(fsReadFileSync).not.toHaveBeenCalled();
+    expect(consumer.cancel).toHaveBeenCalledWith("sim-3");
   });
 
   it("updates simulations without writing the body id field", async () => {
@@ -465,7 +456,7 @@ describe("SimulationService", () => {
   it("uses filesystem wrapper methods and storage path builder", () => {
     const prisma = createPrismaStub();
     const queue = createQueueStub();
-    const service = new ExposedSimulationService(queue as any, prisma as any);
+    const service = new ExposedSimulationService(queue as any, createConsumerStub() as any, prisma as any);
     fsExistsSync.mockReturnValueOnce(true);
     readFileDataMock.mockReturnValueOnce(["stored"]);
 

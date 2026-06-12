@@ -57,13 +57,6 @@ RUN chmod +x /entrypoint.sh
 
 WORKDIR /app/apps/api
 
-# BullMQ sandbox runner path fix for ESM.
-# module.filename and __filename are undefined in ESM, so BullMQ's Worker
-# falls back to process.cwd() + dist/cjs/classes/main.js, missing the
-# node_modules/bullmq/ prefix.
-RUN mkdir -p dist/cjs/classes && \
-    cp /app/node_modules/bullmq/dist/cjs/classes/main.js dist/cjs/classes/main.js
-
 RUN addgroup --system --gid 1001 appgroup && \
     adduser --system --uid 1001 --ingroup appgroup appuser && \
     mkdir -p /files && \
