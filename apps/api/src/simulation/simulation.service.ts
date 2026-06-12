@@ -313,11 +313,19 @@ export class SimulationService {
           }
         } catch {}
       }
+
+      // Mark CANCELED before the killed process triggers onFailed.
+      await this.prisma.simulation.update({
+        where: { id: simulationId },
+        data: { status: "CANCELED", endedAt: new Date() },
+      });
+
+      return { status: "canceled" };
     }
 
+    // QUEUED jobs aren't locked — safe to remove.
     const jobs = await this.simulationQueue.getJobs([
       "waiting",
-      "active",
       "delayed",
     ]);
     const job = jobs.find((j) => j.data.simulationId === simulationId);

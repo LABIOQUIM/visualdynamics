@@ -237,11 +237,9 @@ describe("SimulationService", () => {
         user: { username: "owner" },
       });
     const remove = vi.fn().mockResolvedValue(undefined);
-    queue.getJobs
-      .mockResolvedValueOnce([
-        { data: { simulationId: "sim-1" }, remove },
-      ])
-      .mockResolvedValueOnce([]);
+    queue.getJobs.mockResolvedValueOnce([
+      { data: { simulationId: "sim-1" }, remove },
+    ]);
 
     await expect(
       service.cancelSimulation("sim-1", "user-1", false),
@@ -297,14 +295,13 @@ describe("SimulationService", () => {
   });
 
   it("cancels running simulations when no pid file exists", async () => {
-    const { prisma, queue, service } = createService();
+    const { prisma, service } = createService();
     prisma.simulation.findUnique.mockResolvedValueOnce({
       id: "sim-3",
       userId: "user-1",
       status: "RUNNING",
       user: { username: "owner" },
     });
-    queue.getJobs.mockResolvedValue([]);
 
     await expect(
       service.cancelSimulation("sim-3", "user-1", false),
