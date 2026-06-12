@@ -12,6 +12,7 @@ import { SIMULATION_TYPE } from "../generated/prisma/client.js";
 import { SimulationUpdateInput } from "../generated/prisma/models.js";
 import { PrismaService } from "../prisma.service.js";
 import { getFilesRoot } from "../utils/filesRoot.js";
+import { terminateProcess } from "../utils/process.js";
 import { readFileData } from "../utils/readFileData.js";
 
 import { getStorageExpiresAt } from "./simulation.cleanup.service.js";
@@ -21,7 +22,6 @@ import {
   getSimulationQueueState,
   parseSimulationProcessPid,
   readSimulationStoredArtifacts,
-  terminateSimulationProcess,
   withStorageExpiry,
 } from "./simulation.service.helpers.js";
 import type {
@@ -304,12 +304,7 @@ export class SimulationService {
             readFileSync(pidFilePath, "utf-8"),
           );
           if (pid !== null) {
-            terminateSimulationProcess(
-              pid,
-              process.pid,
-              (targetPid) => readFileSync(`/proc/${targetPid}/stat`, "utf-8"),
-              (targetPid, signal) => process.kill(targetPid, signal),
-            );
+            await terminateProcess(pid);
           }
         } catch {}
       }
