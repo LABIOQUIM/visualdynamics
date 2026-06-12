@@ -18,7 +18,7 @@ export function Log({ logs }: LogProps) {
       return { trimmed: logs, skipped: 0 };
     }
     return {
-      trimmed: logs.slice(-MAX_LOG_LINES),
+      trimmed: logs.slice(0, MAX_LOG_LINES),
       skipped: logs.length - MAX_LOG_LINES,
     };
   }, [logs]);
