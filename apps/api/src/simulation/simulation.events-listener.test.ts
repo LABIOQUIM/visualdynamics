@@ -111,7 +111,7 @@ describe("SimulationEventsListener", () => {
     expect(queueEventsCtor).toHaveBeenCalledWith("simulation", {
       connection: { host: "redis", port: 6379 },
     });
-    expect(queueEventsOn).toHaveBeenCalledTimes(4);
+    expect(queueEventsOn).toHaveBeenCalledTimes(5);
     expect(queueEventsClose).toHaveBeenCalled();
     expect(onWaitingSpy).toHaveBeenCalledWith("job-waiting");
     expect(onActiveSpy).toHaveBeenCalledWith("job-active");

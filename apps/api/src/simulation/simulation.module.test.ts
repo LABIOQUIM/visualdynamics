@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from "vitest";
 
 const registerQueue = vi.fn(() => "queue-registration");
 const forFeature = vi.fn(() => "board-feature");
-class MockSimulationConsumer {}
 class MockSimulationController {}
 class MockSimulationEventsListener {}
 class MockSimulationService {}
@@ -30,10 +29,6 @@ vi.mock("@bull-board/nestjs", () => ({
 
 vi.mock("@bull-board/api/bullMQAdapter", () => ({
   BullMQAdapter: class BullMQAdapter {},
-}));
-
-vi.mock("./simulation.consumer.js", () => ({
-  SimulationConsumer: MockSimulationConsumer,
 }));
 
 vi.mock("./simulation.controller.js", () => ({
@@ -74,6 +69,12 @@ describe("SimulationModule", () => {
 
     expect(registerQueue).toHaveBeenCalledWith({
       name: "simulation",
+      processors: [
+        {
+          path: expect.stringContaining("simulation.processor.js"),
+          concurrency: 1,
+        },
+      ],
     });
     expect(forFeature).toHaveBeenCalledWith({
       adapter: expect.any(Function),
@@ -89,7 +90,6 @@ describe("SimulationModule", () => {
     expect(
       Reflect.getMetadata(MODULE_METADATA.PROVIDERS, SimulationModule),
     ).toEqual([
-      MockSimulationConsumer,
       MockSimulationEventsListener,
       MockSimulationService,
       MockSimulationCreationService,
