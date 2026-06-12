@@ -1,0 +1,54 @@
+services:
+  redis:
+    image: redis:alpine
+    command: redis-server --maxmemory-policy noeviction --appendonly yes --appendfsync everysec
+    restart: always
+    networks:
+      - visualdynamics
+    volumes:
+      - redis-data:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    env_file: .env.local
+    restart: always
+    depends_on:
+      - redis
+    networks:
+      - visualdynamics
+    ports:
+      - "3000:3000"
+    volumes:
+      - files-data:/files
+      - /usr/local/gromacs:/gromacs:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:3000
+    env_file: .env.local
+    restart: always
+    depends_on:
+      - api
+    networks:
+      - visualdynamics
+    ports:
+      - "8080:3000"
+
+networks:
+  visualdynamics:
+
+volumes:
+  redis-data:
+  files-data:
