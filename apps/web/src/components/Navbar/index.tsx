@@ -38,7 +38,7 @@ const sections: NavSection[] = [
       {
         icon: IconPlus,
         label: "New Simulation",
-        href: "/submit",
+        href: "/simulations/submit",
       },
     ],
   },

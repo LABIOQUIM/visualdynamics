@@ -31,7 +31,7 @@ import { useFlag } from "@openfeature/react-sdk";
 import { Button } from "@mantine/core";
 import { downloadMdpFiles } from "@/mutations/downloadMdpFiles";
 
-export const Route = createFileRoute("/_protected/submit/")({
+export const Route = createFileRoute("/_protected/simulations/submit/")({
   component: RouteComponent,
   staticData: {
     breadcrumb: "Submit New Simulation",
