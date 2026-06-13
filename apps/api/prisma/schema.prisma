@@ -40,6 +40,8 @@ model User {
 
   twoFactorEnabled Boolean @map("two_factor_enabled")
 
+  requirePasswordChange Boolean @default(false) @map("require_password_change")
+
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 

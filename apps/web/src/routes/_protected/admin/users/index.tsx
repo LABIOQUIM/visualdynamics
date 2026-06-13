@@ -1,7 +1,15 @@
 import classes from "../-components/adminTable.module.css";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {
+  Button,
+  Group,
+  Modal,
+  Stack,
+} from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconCheck, IconKey, IconX } from "@tabler/icons-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   MantineReactTable,
@@ -18,6 +26,8 @@ import { PageLayout } from "@/components/PageLayout";
 import { TableBooleanCell } from "@/components/TableBooleanCell";
 import { TableDateCell } from "@/components/TableDateCell";
 import { TableTextCell } from "@/components/TableTextCell";
+import { Alert } from "@/components/Alert";
+import { forcePasswordResetAll } from "@/mutations/forcePasswordResetAll";
 import { getMgmtUsers } from "@/queries/getMgmtUsers";
 
 export const Route = createFileRoute("/_protected/admin/users/")({
@@ -32,10 +42,41 @@ function RouteComponent() {
   const [columnFilters, onColumnFiltersChange] =
     useState<MRT_ColumnFiltersState>([]);
   const [sorting, onSortingChange] = useState<MRT_SortingState>([]);
+  const [resetAllModalOpen, setResetAllModalOpen] = useState(false);
+  const [resetAllLoading, setResetAllLoading] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const { data, isLoading } = useQuery(
     getMgmtUsers({ pagination, columnFilters, sorting }),
   );
+
+  async function handleForcePasswordResetAll() {
+    setResetAllLoading(true);
+    try {
+      const result = await forcePasswordResetAll();
+      setResetAllModalOpen(false);
+      void queryClient.invalidateQueries({ queryKey: ["mgmt-users"] });
+      notifications.show({
+        message: `Password reset required for ${result.affected} non-admin users. All sessions revoked.`,
+        color: "green",
+        icon: <IconCheck />,
+        withBorder: true,
+      });
+    } catch (err) {
+      notifications.show({
+        message:
+          err instanceof Error
+            ? err.message
+            : "Failed to force password reset on all users",
+        color: "red",
+        icon: <IconX />,
+        withBorder: true,
+      });
+    } finally {
+      setResetAllLoading(false);
+    }
+  }
 
   const table = useMantineReactTable({
     data: data?.users || [],
@@ -139,7 +180,52 @@ function RouteComponent() {
   });
 
   return (
-    <PageLayout title="Users">
+    <PageLayout
+      rightElement={
+        <Button
+          color="violet"
+          leftSection={<IconKey size={18} />}
+          onClick={() => setResetAllModalOpen(true)}
+          size="sm"
+        >
+          Force reset all
+        </Button>
+      }
+      title="Users"
+    >
+      <Modal
+        centered
+        onClose={() => setResetAllModalOpen(false)}
+        opened={resetAllModalOpen}
+        title="Force password reset on all users?"
+      >
+        <Stack>
+          <Alert
+            status={{
+              status: "warning",
+              title: "This action cannot be undone",
+              message:
+                "All non-admin users will be required to reset their password on next sign-in. All active sessions will be revoked immediately. Admins are not affected.",
+            }}
+          />
+          <Group justify="flex-end">
+            <Button
+              color="gray"
+              onClick={() => setResetAllModalOpen(false)}
+              variant="subtle"
+            >
+              Cancel
+            </Button>
+            <Button
+              color="red"
+              loading={resetAllLoading}
+              onClick={() => void handleForcePasswordResetAll()}
+            >
+              Reset all passwords
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
       <MantineReactTable table={table} />
     </PageLayout>
   );

@@ -62,10 +62,15 @@ function RouteComponent() {
       },
       onError: ({ error }) => {
         console.log(error);
+        const isPasswordResetRequired = error.message?.includes(
+          "password must be reset",
+        );
         setStatus({
           status: "error",
-          title: "Login failed",
-          message: error.message,
+          title: isPasswordResetRequired
+            ? "Password reset required"
+            : "Login failed",
+          message: isPasswordResetRequired ? `${error.message}` : error.message,
         });
       },
     };

@@ -39,6 +39,12 @@ export const auth = betterAuth({
       });
     },
     revokeSessionsOnPasswordReset: true,
+    onPasswordReset: async ({ user }) => {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { requirePasswordChange: false },
+      });
+    },
   },
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -82,6 +88,30 @@ export const auth = betterAuth({
                 "The system is currently under maintenance. Only administrators can sign in.",
             });
           }
+        }
+
+        // ── Force password change: block sign-in when flag is set ──────────
+        const signInUser =
+          ctx.path === "/sign-in/email"
+            ? await prisma.user.findUnique({
+                where: {
+                  email: (ctx.body as { email?: string })?.email ?? "",
+                },
+                select: { requirePasswordChange: true },
+              })
+            : await prisma.user.findUnique({
+                where: {
+                  username:
+                    (ctx.body as { username?: string })?.username ?? "",
+                },
+                select: { requirePasswordChange: true },
+              });
+
+        if (signInUser?.requirePasswordChange) {
+          throw new APIError("UNAUTHORIZED", {
+            message:
+              "Your password must be reset before you can sign in. Please use the forgot password option below.",
+          });
         }
       }
 

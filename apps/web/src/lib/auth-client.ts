@@ -22,5 +22,6 @@ declare module "better-auth/plugins" {
     banned: boolean | null;
     banReason?: (string | null) | undefined;
     banExpires?: (Date | null) | undefined;
+    requirePasswordChange?: boolean;
   }
 }

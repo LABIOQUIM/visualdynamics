@@ -9,6 +9,7 @@ import { HandlebarsAdapter } from "@nestjs-modules/mailer/adapters/handlebars.ad
 import { AuthModule } from "@thallesp/nestjs-better-auth";
 
 import { FeatureFlagModule } from "./feature-flag/feature-flag.module.js";
+import { AdminModule } from "./admin/admin.module.js";
 import { auth } from "./lib/auth.js";
 import { MailerModule } from "./mailer/mailer.module.js";
 import { SimulationModule } from "./simulation/simulation.module.js";
@@ -58,6 +59,7 @@ import { SystemInfoModule } from "./systeminfo/systeminfo.module.js";
     SimulationModule,
     SystemInfoModule,
     FeatureFlagModule,
+    AdminModule,
   ],
 })
 export class AppModule {}
