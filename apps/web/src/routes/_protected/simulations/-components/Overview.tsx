@@ -1,15 +1,7 @@
 import classes from "./Overview.module.css";
 
-import {
-  Alert,
-  Box,
-  Group,
-  SimpleGrid,
-  Text,
-} from "@mantine/core";
-import {
-  IconClockOff,
-} from "@tabler/icons-react";
+import { Alert, Box, Group, SimpleGrid, Text } from "@mantine/core";
+import { IconClockOff } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
@@ -124,7 +116,11 @@ export function Overview({ simulationId }: OverviewProps) {
 
         return (
           <Box className={classes.stateBlock}>
-            <Group mb={status === "ERRORED" && data.simulation.errorCause ? "xs" : undefined}>
+            <Group
+              mb={
+                status === "ERRORED" && data.simulation.errorCause ? "xs" : "md"
+              }
+            >
               <StatusBadge status={status} />
               <Text size="sm" fw={500}>
                 {messages[status]}

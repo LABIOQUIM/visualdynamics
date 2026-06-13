@@ -33,6 +33,10 @@
   max-height: 44px;
 }
 
+.headCell {
+  border-top: 1px solid var(--mantine-color-default-border);
+}
+
 .headCell,
 .bodyCell {
   border-right: 1px solid var(--mantine-color-default-border);
