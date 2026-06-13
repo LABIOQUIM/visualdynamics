@@ -46,12 +46,7 @@ function RouteComponent() {
         <Tabs.List style={{ overflowX: "auto", flexWrap: "nowrap" }}>
           <Tabs.Tab value="overview">Overview</Tabs.Tab>
           <Tabs.Tab value="run">Run</Tabs.Tab>
-          <Tabs.Tab
-            disabled={data.simulation.status === "RUNNING"}
-            value="3d-vis"
-          >
-            3D Visualizer
-          </Tabs.Tab>
+          <Tabs.Tab value="3d-vis">3D Visualizer</Tabs.Tab>
           <Tabs.Tab value="downloads">Downloads</Tabs.Tab>
           <Tabs.Tab className={classes.jobIdTab} disabled value="job-id">
             Job ID: {data.jobId}
