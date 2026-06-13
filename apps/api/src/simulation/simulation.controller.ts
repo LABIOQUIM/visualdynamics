@@ -230,6 +230,18 @@ export class SimulationController {
     );
   }
 
+  @Post("/admin/retry/:id")
+  async retrySimulation(
+    @Session() session: typeof auth.$Infer.Session,
+    @Param("id") id: string,
+  ) {
+    if (session.user.role !== "admin") {
+      throw new UnauthorizedException("Unauthorized");
+    }
+
+    return this.simulationService.retrySimulation(id);
+  }
+
   @Patch("/update/:id")
   async adminUpdateSimulation(
     @Session() session: typeof auth.$Infer.Session,

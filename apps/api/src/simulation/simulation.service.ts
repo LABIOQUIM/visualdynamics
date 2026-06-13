@@ -336,6 +336,53 @@ export class SimulationService {
     return { status: "canceled" };
   }
 
+  async retrySimulation(simulationId: string) {
+    const simulation = await this.prisma.simulation.findUnique({
+      where: { id: simulationId },
+      include: { user: true },
+    });
+
+    if (!simulation) {
+      throw new NotFoundException("Simulation not found");
+    }
+
+    if (
+      simulation.status !== "ERRORED" &&
+      simulation.status !== "CANCELED"
+    ) {
+      throw new ConflictException(
+        `Only errored or canceled simulations can be retried (current status: "${simulation.status}")`,
+      );
+    }
+
+    await this.prisma.simulation.update({
+      where: { id: simulationId },
+      data: {
+        status: "QUEUED",
+        errorCause: null,
+        endedAt: null,
+        startedAt: null,
+      },
+    });
+
+    await this.simulationQueue.add(
+      "simulation",
+      {
+        simulationId: simulation.id,
+        user: simulation.user,
+        type: simulation.type,
+        successEmail: "",
+        errorEmail: "",
+      },
+      {
+        attempts: 3,
+        backoff: { type: "exponential", delay: 5000 },
+      },
+    );
+
+    return { status: "queued" };
+  }
+
   async adminUpdateSimulation(id: string, body: SimulationUpdateInput) {
     const { id: _id, ...data } = body;
 

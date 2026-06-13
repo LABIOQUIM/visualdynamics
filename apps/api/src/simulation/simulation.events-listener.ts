@@ -164,6 +164,16 @@ export class SimulationEventsListener implements OnModuleInit, OnModuleDestroy {
     const job = await this.simulationQueue.getJob(jobId);
     if (!job) return;
 
+    // If the job has remaining retry attempts, let BullMQ retry it
+    // automatically. We only mark the simulation as ERRORED on the final
+    // failure (all attempts exhausted).
+    if (job.attemptsMade < (job.opts.attempts ?? 1)) {
+      this.logger.log(
+        `Job ${jobId} failed (attempt ${job.attemptsMade}/${job.opts.attempts}). Retrying...`,
+      );
+      return;
+    }
+
     // Do not overwrite a CANCELED status — the job may have been killed as
     // part of an intentional cancellation and BullMQ fires "failed" afterward.
     const { count } = await prisma.simulation.updateMany({

@@ -239,6 +239,9 @@ export class SimulationCreationService {
       type,
       successEmail,
       errorEmail,
+    }, {
+      attempts: 3,
+      backoff: { type: "exponential", delay: 5000 },
     });
   }
 
