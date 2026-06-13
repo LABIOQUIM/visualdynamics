@@ -2,27 +2,21 @@ import classes from "./Overview.module.css";
 
 import {
   Alert,
-  Blockquote,
   Box,
-  Button,
   Group,
   SimpleGrid,
+  Text,
 } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
 import {
-  IconAlertSquareRounded,
-  IconBarrierBlockFilled,
   IconClockOff,
-  IconX,
 } from "@tabler/icons-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
 import { Loader } from "@/components/Loader";
 import { MetricCard } from "@/components/MetricCard";
-import { cancelSimulation } from "@/mutations/cancelSimulation";
+import { StatusBadge } from "@/components/StatusBadge";
 import { getSimulation } from "@/queries/getSimulation";
-import { QUERY_KEYS } from "@/lib/queryKeys";
 
 import { useSimulationMetrics } from "./useSimulationMetrics";
 
@@ -31,35 +25,7 @@ type OverviewProps = {
 };
 
 export function Overview({ simulationId }: OverviewProps) {
-  const queryClient = useQueryClient();
   const { data } = useQuery(getSimulation(simulationId));
-
-  const { mutate: cancel, isPending: isCanceling } = useMutation({
-    mutationFn: () => cancelSimulation(simulationId),
-    onSuccess: () => {
-      notifications.show({
-        title: "Simulation canceled",
-        message: "The simulation has been successfully canceled.",
-        color: "orange",
-        withBorder: true,
-      });
-      queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.simulation(simulationId),
-      });
-    },
-    onError: () => {
-      notifications.show({
-        title: "Failed to cancel",
-        message: "Could not cancel the simulation. Please try again.",
-        color: "red",
-        withBorder: true,
-      });
-    },
-  });
-
-  const canCancel =
-    data?.simulation.status === "QUEUED" ||
-    data?.simulation.status === "RUNNING";
 
   const info = useSimulationMetrics(data);
 
@@ -120,22 +86,6 @@ export function Overview({ simulationId }: OverviewProps) {
           ),
         )}
       </Box>
-      {data?.simulation.errorCause && (
-        <Blockquote color="red" icon={<IconAlertSquareRounded />}>
-          <strong>Error Cause:</strong> {data.simulation.errorCause}
-        </Blockquote>
-      )}
-      {canCancel && (
-        <Button
-          color="red"
-          leftSection={<IconX size="1rem" />}
-          loading={isCanceling}
-          onClick={() => cancel()}
-          variant="light"
-        >
-          Cancel Simulation
-        </Button>
-      )}
       {data.simulation.storageDeletedAt ? (
         <Alert
           color="gray"
@@ -160,15 +110,44 @@ export function Overview({ simulationId }: OverviewProps) {
           );
         })()
       ) : null}
-      <MetricCard.Root className={classes.underDevelopmentCard}>
-        <MetricCard.Icon>
-          <IconBarrierBlockFilled size="4rem" />
-        </MetricCard.Icon>
-        <MetricCard.TextEmphasis>
-          Under development: More detailed metrics and visualizations coming
-          soon!
-        </MetricCard.TextEmphasis>
-      </MetricCard.Root>
+      {(() => {
+        const status = data.simulation.status;
+        const messages: Record<Simulation["status"], string> = {
+          QUEUED: `Your simulation is in the queue (position: ${data.queuePosition})`,
+          RUNNING: "Your simulation is currently running",
+          COMPLETED: "Simulation completed successfully",
+          ERRORED: "This simulation encountered an error during execution",
+          CANCELED: "This simulation was canceled",
+          GENERATED:
+            "This simulation has been created but has not been queued for execution yet",
+        };
+
+        return (
+          <Box className={classes.stateBlock}>
+            <Group mb={status === "ERRORED" && data.simulation.errorCause ? "xs" : undefined}>
+              <StatusBadge status={status} />
+              <Text size="sm" fw={500}>
+                {messages[status]}
+              </Text>
+            </Group>
+            {(status === "QUEUED" || status === "RUNNING") && (
+              <Text size="sm" c="dimmed">
+                Check the Run tab for more detailed information
+              </Text>
+            )}
+            {status === "COMPLETED" && (
+              <Text size="sm" c="dimmed">
+                Download your results on the Downloads tab
+              </Text>
+            )}
+            {status === "ERRORED" && data.simulation.errorCause && (
+              <Text size="sm" c="dimmed">
+                {data.simulation.errorCause}
+              </Text>
+            )}
+          </Box>
+        );
+      })()}
     </>
   );
 }

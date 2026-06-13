@@ -11,11 +11,11 @@
   }
 }
 
-.underDevelopmentCard {
+.stateBlock {
   align-items: center;
   display: flex;
-  flex-direction: column;
   flex: 1;
-  gap: var(--mantine-spacing-md);
+  flex-direction: column;
   justify-content: center;
+  gap: var(--mantine-spacing-xs);
 }
