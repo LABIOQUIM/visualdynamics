@@ -17,8 +17,10 @@ import { Route as PublicPrivacyRouteImport } from './routes/_public/privacy'
 import { Route as PublicGuidesRouteImport } from './routes/_public/guides'
 import { Route as PublicAnalyticsRouteImport } from './routes/_public/analytics'
 import { Route as PublicAboutRouteImport } from './routes/_public/about'
+import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as ProtectedSubmitRouteRouteImport } from './routes/_protected/submit/route'
 import { Route as ProtectedSimulationsRouteRouteImport } from './routes/_protected/simulations/route'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
@@ -86,6 +88,11 @@ const PublicAboutRoute = PublicAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -94,6 +101,11 @@ const AuthRegisterRoute = AuthRegisterRouteImport.update({
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 const ProtectedSubmitRouteRoute = ProtectedSubmitRouteRouteImport.update({
@@ -264,8 +276,10 @@ export interface FileRoutesByFullPath {
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/simulations': typeof ProtectedSimulationsRouteRouteWithChildren
   '/submit': typeof ProtectedSubmitRouteRouteWithChildren
+  '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/reset-password': typeof AuthResetPasswordRoute
   '/about': typeof PublicAboutRoute
   '/analytics': typeof PublicAnalyticsRoute
   '/guides': typeof PublicGuidesRoute
@@ -300,8 +314,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
+  '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
+  '/reset-password': typeof AuthResetPasswordRoute
   '/about': typeof PublicAboutRoute
   '/analytics': typeof PublicAnalyticsRoute
   '/guides': typeof PublicGuidesRoute
@@ -332,8 +348,10 @@ export interface FileRoutesById {
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/_protected/simulations': typeof ProtectedSimulationsRouteRouteWithChildren
   '/_protected/submit': typeof ProtectedSubmitRouteRouteWithChildren
+  '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
+  '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_public/about': typeof PublicAboutRoute
   '/_public/analytics': typeof PublicAnalyticsRoute
   '/_public/guides': typeof PublicGuidesRoute
@@ -373,8 +391,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/simulations'
     | '/submit'
+    | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/about'
     | '/analytics'
     | '/guides'
@@ -409,8 +429,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/about'
     | '/analytics'
     | '/guides'
@@ -440,8 +462,10 @@ export interface FileRouteTypes {
     | '/_protected/admin'
     | '/_protected/simulations'
     | '/_protected/submit'
+    | '/_auth/forgot-password'
     | '/_auth/login'
     | '/_auth/register'
+    | '/_auth/reset-password'
     | '/_public/about'
     | '/_public/analytics'
     | '/_public/guides'
@@ -544,6 +568,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/reset-password': {
+      id: '/_auth/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/_auth/register': {
       id: '/_auth/register'
       path: '/register'
@@ -556,6 +587,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/_auth/forgot-password': {
+      id: '/_auth/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/_protected/submit': {
@@ -758,13 +796,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteRouteChildren {
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
+  AuthResetPasswordRoute: AuthResetPasswordRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(

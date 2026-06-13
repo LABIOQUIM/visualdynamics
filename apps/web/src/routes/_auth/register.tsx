@@ -18,11 +18,12 @@ import { z } from "zod";
 import { Alert } from "@/components/Alert";
 import { Heading } from "@/components/Heading";
 import { authClient } from "@/lib/auth-client";
+import { passwordSchema } from "@/lib/password-validation";
 
 const schema = z.object({
   email: z.string().min(8, "Invalid email"),
   name: z.string().min(2, "Please enter your last name"),
-  password: z.string().min(6, "Your password must have more than 5 characters"),
+  password: passwordSchema,
   username: z.string().min(4, "Your username must have more than 3 characters"),
 });
 

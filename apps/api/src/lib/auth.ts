@@ -7,6 +7,7 @@ import { APIError, createAuthMiddleware } from "better-auth/api";
 import { admin, twoFactor, username } from "better-auth/plugins";
 
 import { PrismaClient } from "../generated/prisma/client.js";
+import { sendEmail } from "./email.js";
 
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
@@ -24,6 +25,20 @@ export const auth = betterAuth({
   trustedOrigins: [process.env.SITE_URL ?? "http://localhost:3000"],
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: 8,
+    sendResetPassword: async ({ user, url }) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Reset your password — Visual Dynamics",
+        html: `<p>Hello ${user.name},</p>
+<p>You requested a password reset. Click the link below to set a new password:</p>
+<p><a href="${url}" style="display:inline-block;padding:12px 24px;background-color:#228be6;color:#fff;text-decoration:none;border-radius:4px">Reset password</a></p>
+<p>Or copy and paste this URL into your browser:</p>
+<p>${url}</p>
+<p>This link will expire in 1 hour. If you did not request this, you can safely ignore this email.</p>`,
+      });
+    },
+    revokeSessionsOnPasswordReset: true,
   },
   database: prismaAdapter(prisma, {
     provider: "postgresql",

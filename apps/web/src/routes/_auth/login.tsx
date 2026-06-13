@@ -154,6 +154,12 @@ function RouteComponent() {
           </Text>
         )}
       </Text>
+
+      <Text ta="center">
+        <Anchor component={Link} fw={500} to="/forgot-password">
+          Forgot password?
+        </Anchor>
+      </Text>
     </>
   );
 }
