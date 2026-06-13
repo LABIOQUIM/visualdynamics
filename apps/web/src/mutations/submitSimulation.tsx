@@ -1,5 +1,5 @@
 import { getAPIClient } from "@/lib/api";
-import type { SimulationFormValues } from "@/routes/_protected/submit/-components/schema";
+import type { SimulationFormValues } from "@/routes/_protected/simulations/submit/-components/schema";
 
 export async function submitSimulation(
   values: SimulationFormValues,
