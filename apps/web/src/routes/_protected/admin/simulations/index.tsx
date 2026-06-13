@@ -137,7 +137,7 @@ function RouteComponent() {
             <IconDots size={16} />
           </HeaderIcon>
         ),
-        size: 96,
+        size: 128,
       },
     },
     rowCount: data?.total ?? 0,
@@ -194,8 +194,7 @@ function RouteComponent() {
     ),
     renderRowActions: ({ row }) => {
       const canRetry =
-        row.original.status === "ERRORED" ||
-        row.original.status === "CANCELED";
+        row.original.status === "ERRORED" || row.original.status === "CANCELED";
 
       return (
         <ActionIcon.Group>
