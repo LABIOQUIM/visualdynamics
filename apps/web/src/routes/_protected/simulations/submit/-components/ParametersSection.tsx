@@ -110,7 +110,7 @@ export function ParametersSection({ control }: Props) {
                 decimalScale={1}
                 error={fieldState.error?.message}
                 fixedDecimalScale
-                label="Box Distance"
+                label="Box Distance (nm)"
                 max={1.2}
                 min={0.1}
                 onChange={(val) => {

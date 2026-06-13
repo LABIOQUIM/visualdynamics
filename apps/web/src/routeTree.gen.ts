@@ -21,17 +21,17 @@ import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-pass
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
-import { Route as ProtectedSubmitRouteRouteImport } from './routes/_protected/submit/route'
 import { Route as ProtectedSimulationsRouteRouteImport } from './routes/_protected/simulations/route'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
-import { Route as ProtectedSubmitIndexRouteImport } from './routes/_protected/submit/index'
 import { Route as ProtectedSimulationsIndexRouteImport } from './routes/_protected/simulations/index'
 import { Route as ProtectedSimulationsSimulationIdRouteImport } from './routes/_protected/simulations/$simulationId'
 import { Route as ProtectedAdminSettingsRouteImport } from './routes/_protected/admin/settings'
+import { Route as ProtectedSimulationsSubmitRouteRouteImport } from './routes/_protected/simulations/submit/route'
 import { Route as ProtectedAdminUsersRouteRouteImport } from './routes/_protected/admin/users/route'
 import { Route as ProtectedAdminToolsRouteRouteImport } from './routes/_protected/admin/tools/route'
 import { Route as ProtectedAdminSimulationsRouteRouteImport } from './routes/_protected/admin/simulations/route'
 import { Route as ProtectedAdminFlagsRouteRouteImport } from './routes/_protected/admin/flags/route'
+import { Route as ProtectedSimulationsSubmitIndexRouteImport } from './routes/_protected/simulations/submit/index'
 import { Route as ProtectedAdminUsersIndexRouteImport } from './routes/_protected/admin/users/index'
 import { Route as ProtectedAdminToolsIndexRouteImport } from './routes/_protected/admin/tools/index'
 import { Route as ProtectedAdminSimulationsIndexRouteImport } from './routes/_protected/admin/simulations/index'
@@ -108,11 +108,6 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const ProtectedSubmitRouteRoute = ProtectedSubmitRouteRouteImport.update({
-  id: '/submit',
-  path: '/submit',
-  getParentRoute: () => ProtectedRouteRoute,
-} as any)
 const ProtectedSimulationsRouteRoute =
   ProtectedSimulationsRouteRouteImport.update({
     id: '/simulations',
@@ -123,11 +118,6 @@ const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
   id: '/admin',
   path: '/admin',
   getParentRoute: () => ProtectedRouteRoute,
-} as any)
-const ProtectedSubmitIndexRoute = ProtectedSubmitIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProtectedSubmitRouteRoute,
 } as any)
 const ProtectedSimulationsIndexRoute =
   ProtectedSimulationsIndexRouteImport.update({
@@ -146,6 +136,12 @@ const ProtectedAdminSettingsRoute = ProtectedAdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => ProtectedAdminRouteRoute,
 } as any)
+const ProtectedSimulationsSubmitRouteRoute =
+  ProtectedSimulationsSubmitRouteRouteImport.update({
+    id: '/submit',
+    path: '/submit',
+    getParentRoute: () => ProtectedSimulationsRouteRoute,
+  } as any)
 const ProtectedAdminUsersRouteRoute =
   ProtectedAdminUsersRouteRouteImport.update({
     id: '/users',
@@ -169,6 +165,12 @@ const ProtectedAdminFlagsRouteRoute =
     id: '/flags',
     path: '/flags',
     getParentRoute: () => ProtectedAdminRouteRoute,
+  } as any)
+const ProtectedSimulationsSubmitIndexRoute =
+  ProtectedSimulationsSubmitIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ProtectedSimulationsSubmitRouteRoute,
   } as any)
 const ProtectedAdminUsersIndexRoute =
   ProtectedAdminUsersIndexRouteImport.update({
@@ -275,7 +277,6 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/simulations': typeof ProtectedSimulationsRouteRouteWithChildren
-  '/submit': typeof ProtectedSubmitRouteRouteWithChildren
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
@@ -289,10 +290,10 @@ export interface FileRoutesByFullPath {
   '/admin/simulations': typeof ProtectedAdminSimulationsRouteRouteWithChildren
   '/admin/tools': typeof ProtectedAdminToolsRouteRouteWithChildren
   '/admin/users': typeof ProtectedAdminUsersRouteRouteWithChildren
+  '/simulations/submit': typeof ProtectedSimulationsSubmitRouteRouteWithChildren
   '/admin/settings': typeof ProtectedAdminSettingsRoute
   '/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
   '/simulations/': typeof ProtectedSimulationsIndexRoute
-  '/submit/': typeof ProtectedSubmitIndexRoute
   '/admin/tools/batch-email': typeof ProtectedAdminToolsBatchEmailRouteRouteWithChildren
   '/admin/tools/simulation-importer': typeof ProtectedAdminToolsSimulationImporterRouteRouteWithChildren
   '/admin/tools/user-importer': typeof ProtectedAdminToolsUserImporterRouteRouteWithChildren
@@ -305,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/admin/simulations/': typeof ProtectedAdminSimulationsIndexRoute
   '/admin/tools/': typeof ProtectedAdminToolsIndexRoute
   '/admin/users/': typeof ProtectedAdminUsersIndexRoute
+  '/simulations/submit/': typeof ProtectedSimulationsSubmitIndexRoute
   '/admin/tools/batch-email/': typeof ProtectedAdminToolsBatchEmailIndexRoute
   '/admin/tools/simulation-importer/': typeof ProtectedAdminToolsSimulationImporterIndexRoute
   '/admin/tools/user-importer/': typeof ProtectedAdminToolsUserImporterIndexRoute
@@ -326,7 +328,6 @@ export interface FileRoutesByTo {
   '/admin/settings': typeof ProtectedAdminSettingsRoute
   '/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
   '/simulations': typeof ProtectedSimulationsIndexRoute
-  '/submit': typeof ProtectedSubmitIndexRoute
   '/admin/flags/$key': typeof ProtectedAdminFlagsKeyRoute
   '/admin/flags/new': typeof ProtectedAdminFlagsNewRoute
   '/admin/simulations/$simulationId': typeof ProtectedAdminSimulationsSimulationIdRoute
@@ -335,6 +336,7 @@ export interface FileRoutesByTo {
   '/admin/simulations': typeof ProtectedAdminSimulationsIndexRoute
   '/admin/tools': typeof ProtectedAdminToolsIndexRoute
   '/admin/users': typeof ProtectedAdminUsersIndexRoute
+  '/simulations/submit': typeof ProtectedSimulationsSubmitIndexRoute
   '/admin/tools/batch-email': typeof ProtectedAdminToolsBatchEmailIndexRoute
   '/admin/tools/simulation-importer': typeof ProtectedAdminToolsSimulationImporterIndexRoute
   '/admin/tools/user-importer': typeof ProtectedAdminToolsUserImporterIndexRoute
@@ -347,7 +349,6 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteRouteWithChildren
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/_protected/simulations': typeof ProtectedSimulationsRouteRouteWithChildren
-  '/_protected/submit': typeof ProtectedSubmitRouteRouteWithChildren
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
@@ -362,10 +363,10 @@ export interface FileRoutesById {
   '/_protected/admin/simulations': typeof ProtectedAdminSimulationsRouteRouteWithChildren
   '/_protected/admin/tools': typeof ProtectedAdminToolsRouteRouteWithChildren
   '/_protected/admin/users': typeof ProtectedAdminUsersRouteRouteWithChildren
+  '/_protected/simulations/submit': typeof ProtectedSimulationsSubmitRouteRouteWithChildren
   '/_protected/admin/settings': typeof ProtectedAdminSettingsRoute
   '/_protected/simulations/$simulationId': typeof ProtectedSimulationsSimulationIdRoute
   '/_protected/simulations/': typeof ProtectedSimulationsIndexRoute
-  '/_protected/submit/': typeof ProtectedSubmitIndexRoute
   '/_protected/admin/tools/batch-email': typeof ProtectedAdminToolsBatchEmailRouteRouteWithChildren
   '/_protected/admin/tools/simulation-importer': typeof ProtectedAdminToolsSimulationImporterRouteRouteWithChildren
   '/_protected/admin/tools/user-importer': typeof ProtectedAdminToolsUserImporterRouteRouteWithChildren
@@ -378,6 +379,7 @@ export interface FileRoutesById {
   '/_protected/admin/simulations/': typeof ProtectedAdminSimulationsIndexRoute
   '/_protected/admin/tools/': typeof ProtectedAdminToolsIndexRoute
   '/_protected/admin/users/': typeof ProtectedAdminUsersIndexRoute
+  '/_protected/simulations/submit/': typeof ProtectedSimulationsSubmitIndexRoute
   '/_protected/admin/tools/batch-email/': typeof ProtectedAdminToolsBatchEmailIndexRoute
   '/_protected/admin/tools/simulation-importer/': typeof ProtectedAdminToolsSimulationImporterIndexRoute
   '/_protected/admin/tools/user-importer/': typeof ProtectedAdminToolsUserImporterIndexRoute
@@ -390,7 +392,6 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/simulations'
-    | '/submit'
     | '/forgot-password'
     | '/login'
     | '/register'
@@ -404,10 +405,10 @@ export interface FileRouteTypes {
     | '/admin/simulations'
     | '/admin/tools'
     | '/admin/users'
+    | '/simulations/submit'
     | '/admin/settings'
     | '/simulations/$simulationId'
     | '/simulations/'
-    | '/submit/'
     | '/admin/tools/batch-email'
     | '/admin/tools/simulation-importer'
     | '/admin/tools/user-importer'
@@ -420,6 +421,7 @@ export interface FileRouteTypes {
     | '/admin/simulations/'
     | '/admin/tools/'
     | '/admin/users/'
+    | '/simulations/submit/'
     | '/admin/tools/batch-email/'
     | '/admin/tools/simulation-importer/'
     | '/admin/tools/user-importer/'
@@ -441,7 +443,6 @@ export interface FileRouteTypes {
     | '/admin/settings'
     | '/simulations/$simulationId'
     | '/simulations'
-    | '/submit'
     | '/admin/flags/$key'
     | '/admin/flags/new'
     | '/admin/simulations/$simulationId'
@@ -450,6 +451,7 @@ export interface FileRouteTypes {
     | '/admin/simulations'
     | '/admin/tools'
     | '/admin/users'
+    | '/simulations/submit'
     | '/admin/tools/batch-email'
     | '/admin/tools/simulation-importer'
     | '/admin/tools/user-importer'
@@ -461,7 +463,6 @@ export interface FileRouteTypes {
     | '/_protected'
     | '/_protected/admin'
     | '/_protected/simulations'
-    | '/_protected/submit'
     | '/_auth/forgot-password'
     | '/_auth/login'
     | '/_auth/register'
@@ -476,10 +477,10 @@ export interface FileRouteTypes {
     | '/_protected/admin/simulations'
     | '/_protected/admin/tools'
     | '/_protected/admin/users'
+    | '/_protected/simulations/submit'
     | '/_protected/admin/settings'
     | '/_protected/simulations/$simulationId'
     | '/_protected/simulations/'
-    | '/_protected/submit/'
     | '/_protected/admin/tools/batch-email'
     | '/_protected/admin/tools/simulation-importer'
     | '/_protected/admin/tools/user-importer'
@@ -492,6 +493,7 @@ export interface FileRouteTypes {
     | '/_protected/admin/simulations/'
     | '/_protected/admin/tools/'
     | '/_protected/admin/users/'
+    | '/_protected/simulations/submit/'
     | '/_protected/admin/tools/batch-email/'
     | '/_protected/admin/tools/simulation-importer/'
     | '/_protected/admin/tools/user-importer/'
@@ -596,13 +598,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/_protected/submit': {
-      id: '/_protected/submit'
-      path: '/submit'
-      fullPath: '/submit'
-      preLoaderRoute: typeof ProtectedSubmitRouteRouteImport
-      parentRoute: typeof ProtectedRouteRoute
-    }
     '/_protected/simulations': {
       id: '/_protected/simulations'
       path: '/simulations'
@@ -616,13 +611,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin'
       preLoaderRoute: typeof ProtectedAdminRouteRouteImport
       parentRoute: typeof ProtectedRouteRoute
-    }
-    '/_protected/submit/': {
-      id: '/_protected/submit/'
-      path: '/'
-      fullPath: '/submit/'
-      preLoaderRoute: typeof ProtectedSubmitIndexRouteImport
-      parentRoute: typeof ProtectedSubmitRouteRoute
     }
     '/_protected/simulations/': {
       id: '/_protected/simulations/'
@@ -644,6 +632,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/settings'
       preLoaderRoute: typeof ProtectedAdminSettingsRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/simulations/submit': {
+      id: '/_protected/simulations/submit'
+      path: '/submit'
+      fullPath: '/simulations/submit'
+      preLoaderRoute: typeof ProtectedSimulationsSubmitRouteRouteImport
+      parentRoute: typeof ProtectedSimulationsRouteRoute
     }
     '/_protected/admin/users': {
       id: '/_protected/admin/users'
@@ -672,6 +667,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/flags'
       preLoaderRoute: typeof ProtectedAdminFlagsRouteRouteImport
       parentRoute: typeof ProtectedAdminRouteRoute
+    }
+    '/_protected/simulations/submit/': {
+      id: '/_protected/simulations/submit/'
+      path: '/'
+      fullPath: '/simulations/submit/'
+      preLoaderRoute: typeof ProtectedSimulationsSubmitIndexRouteImport
+      parentRoute: typeof ProtectedSimulationsSubmitRouteRoute
     }
     '/_protected/admin/users/': {
       id: '/_protected/admin/users/'
@@ -972,13 +974,30 @@ const ProtectedAdminRouteRouteChildren: ProtectedAdminRouteRouteChildren = {
 const ProtectedAdminRouteRouteWithChildren =
   ProtectedAdminRouteRoute._addFileChildren(ProtectedAdminRouteRouteChildren)
 
+interface ProtectedSimulationsSubmitRouteRouteChildren {
+  ProtectedSimulationsSubmitIndexRoute: typeof ProtectedSimulationsSubmitIndexRoute
+}
+
+const ProtectedSimulationsSubmitRouteRouteChildren: ProtectedSimulationsSubmitRouteRouteChildren =
+  {
+    ProtectedSimulationsSubmitIndexRoute: ProtectedSimulationsSubmitIndexRoute,
+  }
+
+const ProtectedSimulationsSubmitRouteRouteWithChildren =
+  ProtectedSimulationsSubmitRouteRoute._addFileChildren(
+    ProtectedSimulationsSubmitRouteRouteChildren,
+  )
+
 interface ProtectedSimulationsRouteRouteChildren {
+  ProtectedSimulationsSubmitRouteRoute: typeof ProtectedSimulationsSubmitRouteRouteWithChildren
   ProtectedSimulationsSimulationIdRoute: typeof ProtectedSimulationsSimulationIdRoute
   ProtectedSimulationsIndexRoute: typeof ProtectedSimulationsIndexRoute
 }
 
 const ProtectedSimulationsRouteRouteChildren: ProtectedSimulationsRouteRouteChildren =
   {
+    ProtectedSimulationsSubmitRouteRoute:
+      ProtectedSimulationsSubmitRouteRouteWithChildren,
     ProtectedSimulationsSimulationIdRoute:
       ProtectedSimulationsSimulationIdRoute,
     ProtectedSimulationsIndexRoute: ProtectedSimulationsIndexRoute,
@@ -989,27 +1008,14 @@ const ProtectedSimulationsRouteRouteWithChildren =
     ProtectedSimulationsRouteRouteChildren,
   )
 
-interface ProtectedSubmitRouteRouteChildren {
-  ProtectedSubmitIndexRoute: typeof ProtectedSubmitIndexRoute
-}
-
-const ProtectedSubmitRouteRouteChildren: ProtectedSubmitRouteRouteChildren = {
-  ProtectedSubmitIndexRoute: ProtectedSubmitIndexRoute,
-}
-
-const ProtectedSubmitRouteRouteWithChildren =
-  ProtectedSubmitRouteRoute._addFileChildren(ProtectedSubmitRouteRouteChildren)
-
 interface ProtectedRouteRouteChildren {
   ProtectedAdminRouteRoute: typeof ProtectedAdminRouteRouteWithChildren
   ProtectedSimulationsRouteRoute: typeof ProtectedSimulationsRouteRouteWithChildren
-  ProtectedSubmitRouteRoute: typeof ProtectedSubmitRouteRouteWithChildren
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedAdminRouteRoute: ProtectedAdminRouteRouteWithChildren,
   ProtectedSimulationsRouteRoute: ProtectedSimulationsRouteRouteWithChildren,
-  ProtectedSubmitRouteRoute: ProtectedSubmitRouteRouteWithChildren,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
