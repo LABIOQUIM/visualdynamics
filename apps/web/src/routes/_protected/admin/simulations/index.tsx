@@ -3,6 +3,7 @@ import classes from "../-components/adminTable.module.css";
 import { useState } from "react";
 import { type ReactNode } from "react";
 import { ActionIcon, Group, Text, Tooltip } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import {
   IconAtom,
   IconClock,
@@ -11,12 +12,13 @@ import {
   IconEye,
   IconPlayerPlay,
   IconPlayerStop,
+  IconRefresh,
   IconSend,
   IconStatusChange,
   IconTag,
   IconUser,
 } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import {
@@ -33,6 +35,8 @@ import { TableDateCell } from "@/components/TableDateCell";
 import { TableDurationCell } from "@/components/TableDurationCell";
 import { TableTextCell } from "@/components/TableTextCell";
 import { TypeBadge } from "@/components/TypeBadge";
+import { QUERY_KEYS } from "@/lib/queryKeys";
+import { retrySimulation } from "@/mutations/retrySimulation";
 import { getMgmtSimulations } from "@/queries/getMgmtSimulations";
 
 export const Route = createFileRoute("/_protected/admin/simulations/")({
@@ -81,11 +85,35 @@ function StatusCell({ cell }: { cell: MRT_Cell<SimulationWithUser> }) {
 }
 
 function RouteComponent() {
+  const queryClient = useQueryClient();
   const [pagination, onPaginationChange] = useState<MRT_PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
   const { data, isLoading } = useQuery(getMgmtSimulations(pagination));
+
+  const { mutate: retry, isPending: isRetrying } = useMutation({
+    mutationFn: (simulationId: string) => retrySimulation(simulationId),
+    onSuccess: ({ status }) => {
+      notifications.show({
+        title: "Simulation retried",
+        message: `Simulation has been ${status}.`,
+        color: "green",
+        withBorder: true,
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.mgmtSimulations(pagination),
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: "Failed to retry",
+        message: "Could not retry the simulation. Please try again.",
+        color: "red",
+        withBorder: true,
+      });
+    },
+  });
 
   const table = useMantineReactTable({
     data: data?.records || [],
@@ -164,26 +192,42 @@ function RouteComponent() {
         No simulations found.
       </Text>
     ),
-    renderRowActions: ({ row }) => (
-      <ActionIcon.Group>
-        <Link
-          params={{ simulationId: row.original.id }}
-          to="/simulations/$simulationId"
-        >
-          <ActionIcon size="lg" variant="subtle">
-            <IconEye />
-          </ActionIcon>
-        </Link>
-        <Link
-          params={{ simulationId: row.original.id }}
-          to="/admin/simulations/$simulationId"
-        >
-          <ActionIcon size="lg" variant="subtle">
-            <IconEdit />
-          </ActionIcon>
-        </Link>
-      </ActionIcon.Group>
-    ),
+    renderRowActions: ({ row }) => {
+      const canRetry =
+        row.original.status === "ERRORED" ||
+        row.original.status === "CANCELED";
+
+      return (
+        <ActionIcon.Group>
+          <Link
+            params={{ simulationId: row.original.id }}
+            to="/simulations/$simulationId"
+          >
+            <ActionIcon size="lg" variant="subtle">
+              <IconEye />
+            </ActionIcon>
+          </Link>
+          <Link
+            params={{ simulationId: row.original.id }}
+            to="/admin/simulations/$simulationId"
+          >
+            <ActionIcon size="lg" variant="subtle">
+              <IconEdit />
+            </ActionIcon>
+          </Link>
+          {canRetry && (
+            <ActionIcon
+              loading={isRetrying}
+              onClick={() => retry(row.original.id)}
+              size="lg"
+              variant="subtle"
+            >
+              <IconRefresh />
+            </ActionIcon>
+          )}
+        </ActionIcon.Group>
+      );
+    },
     columns: [
       {
         accessorKey: "moleculeName",
