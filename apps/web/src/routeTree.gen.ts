@@ -19,6 +19,7 @@ import { Route as PublicAnalyticsRouteImport } from './routes/_public/analytics'
 import { Route as PublicAboutRouteImport } from './routes/_public/about'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as ProtectedSubmitRouteRouteImport } from './routes/_protected/submit/route'
 import { Route as ProtectedSimulationsRouteRouteImport } from './routes/_protected/simulations/route'
 import { Route as ProtectedAdminRouteRouteImport } from './routes/_protected/admin/route'
 import { Route as ProtectedSubmitIndexRouteImport } from './routes/_protected/submit/index'
@@ -95,6 +96,11 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const ProtectedSubmitRouteRoute = ProtectedSubmitRouteRouteImport.update({
+  id: '/submit',
+  path: '/submit',
+  getParentRoute: () => ProtectedRouteRoute,
+} as any)
 const ProtectedSimulationsRouteRoute =
   ProtectedSimulationsRouteRouteImport.update({
     id: '/simulations',
@@ -107,9 +113,9 @@ const ProtectedAdminRouteRoute = ProtectedAdminRouteRouteImport.update({
   getParentRoute: () => ProtectedRouteRoute,
 } as any)
 const ProtectedSubmitIndexRoute = ProtectedSubmitIndexRouteImport.update({
-  id: '/submit/',
-  path: '/submit/',
-  getParentRoute: () => ProtectedRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProtectedSubmitRouteRoute,
 } as any)
 const ProtectedSimulationsIndexRoute =
   ProtectedSimulationsIndexRouteImport.update({
@@ -257,6 +263,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
   '/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/simulations': typeof ProtectedSimulationsRouteRouteWithChildren
+  '/submit': typeof ProtectedSubmitRouteRouteWithChildren
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/about': typeof PublicAboutRoute
@@ -324,6 +331,7 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteRouteWithChildren
   '/_protected/admin': typeof ProtectedAdminRouteRouteWithChildren
   '/_protected/simulations': typeof ProtectedSimulationsRouteRouteWithChildren
+  '/_protected/submit': typeof ProtectedSubmitRouteRouteWithChildren
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_public/about': typeof PublicAboutRoute
@@ -364,6 +372,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/simulations'
+    | '/submit'
     | '/login'
     | '/register'
     | '/about'
@@ -430,6 +439,7 @@ export interface FileRouteTypes {
     | '/_protected'
     | '/_protected/admin'
     | '/_protected/simulations'
+    | '/_protected/submit'
     | '/_auth/login'
     | '/_auth/register'
     | '/_public/about'
@@ -548,6 +558,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/_protected/submit': {
+      id: '/_protected/submit'
+      path: '/submit'
+      fullPath: '/submit'
+      preLoaderRoute: typeof ProtectedSubmitRouteRouteImport
+      parentRoute: typeof ProtectedRouteRoute
+    }
     '/_protected/simulations': {
       id: '/_protected/simulations'
       path: '/simulations'
@@ -564,10 +581,10 @@ declare module '@tanstack/react-router' {
     }
     '/_protected/submit/': {
       id: '/_protected/submit/'
-      path: '/submit'
+      path: '/'
       fullPath: '/submit/'
       preLoaderRoute: typeof ProtectedSubmitIndexRouteImport
-      parentRoute: typeof ProtectedRouteRoute
+      parentRoute: typeof ProtectedSubmitRouteRoute
     }
     '/_protected/simulations/': {
       id: '/_protected/simulations/'
@@ -930,16 +947,27 @@ const ProtectedSimulationsRouteRouteWithChildren =
     ProtectedSimulationsRouteRouteChildren,
   )
 
+interface ProtectedSubmitRouteRouteChildren {
+  ProtectedSubmitIndexRoute: typeof ProtectedSubmitIndexRoute
+}
+
+const ProtectedSubmitRouteRouteChildren: ProtectedSubmitRouteRouteChildren = {
+  ProtectedSubmitIndexRoute: ProtectedSubmitIndexRoute,
+}
+
+const ProtectedSubmitRouteRouteWithChildren =
+  ProtectedSubmitRouteRoute._addFileChildren(ProtectedSubmitRouteRouteChildren)
+
 interface ProtectedRouteRouteChildren {
   ProtectedAdminRouteRoute: typeof ProtectedAdminRouteRouteWithChildren
   ProtectedSimulationsRouteRoute: typeof ProtectedSimulationsRouteRouteWithChildren
-  ProtectedSubmitIndexRoute: typeof ProtectedSubmitIndexRoute
+  ProtectedSubmitRouteRoute: typeof ProtectedSubmitRouteRouteWithChildren
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedAdminRouteRoute: ProtectedAdminRouteRouteWithChildren,
   ProtectedSimulationsRouteRoute: ProtectedSimulationsRouteRouteWithChildren,
-  ProtectedSubmitIndexRoute: ProtectedSubmitIndexRoute,
+  ProtectedSubmitRouteRoute: ProtectedSubmitRouteRouteWithChildren,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
