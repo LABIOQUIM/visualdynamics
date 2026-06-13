@@ -26,7 +26,6 @@ services:
       dockerfile: apps/web/Dockerfile
       args:
         VITE_API_BASE_URL: http://192.168.1.99:2000
-    env_file: .env
     restart: always
     ports:
       - "1000:3000"
