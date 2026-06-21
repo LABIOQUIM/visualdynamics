@@ -9,21 +9,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum SYSTEM_MODE {
-  ACTIVE
-  MAINTENANCE
-  DOWN
-}
-
-model Settings {
-  systemId   String      @id @map("system_id")
-  systemMode SYSTEM_MODE @map("system_mode")
-  createdAt  DateTime    @default(now()) @map("created_at")
-  updatedAt  DateTime?   @updatedAt @map("updated_at")
-
-  @@map("settings")
-}
-
 model User {
   id              String  @id @unique @default(uuid())
   username        String  @unique
