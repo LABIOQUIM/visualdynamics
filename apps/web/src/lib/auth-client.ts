@@ -5,11 +5,10 @@ import {
 } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 
-import { getPublicApiUrl } from "./env";
 import type { User } from "better-auth";
 
 export const authClient = createAuthClient({
-  baseURL: `${getPublicApiUrl()}/auth`,
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/auth`,
   plugins: [twoFactorClient(), usernameClient(), adminClient()],
 });
 

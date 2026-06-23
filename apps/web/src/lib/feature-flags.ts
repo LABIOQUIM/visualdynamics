@@ -7,7 +7,6 @@ import type {
 } from "@openfeature/web-sdk";
 import { ProviderEvents } from "@openfeature/web-sdk";
 
-import { getPublicApiUrl } from "./env";
 
 interface FlagConfig {
   type: string;
@@ -17,10 +16,6 @@ interface FlagConfig {
 }
 
 type FlagStore = Record<string, FlagConfig>;
-
-function getAPIBaseUrl() {
-  return `${getPublicApiUrl()}/v1`;
-}
 
 export class ApiFeatureFlagProvider implements Provider {
   readonly metadata = { name: "api-feature-flag" } as const;
@@ -121,7 +116,7 @@ export class ApiFeatureFlagProvider implements Provider {
 
   private async fetchFlags(): Promise<void> {
     try {
-      const response = await fetch(`${getAPIBaseUrl()}/feature-flags/client`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/v1/feature-flags/client`, {
         credentials: "include",
       });
 

@@ -1,5 +1,4 @@
 import { authClient } from "./auth-client";
-import { getPublicApiUrl } from "./env";
 
 export interface DownloadProgress {
   loaded: number;
@@ -30,7 +29,7 @@ export interface FlagConfig {
 const API_REQUEST_TIMEOUT_MS = 8000;
 
 function getAPIBaseUrl() {
-  return `${getPublicApiUrl()}/v1`;
+  return `${import.meta.env.VITE_API_BASE_URL}/v1`;
 }
 
 function createApiUrl(path: string, params?: GetOptions["params"]) {
