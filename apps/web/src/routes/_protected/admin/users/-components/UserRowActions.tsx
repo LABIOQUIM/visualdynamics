@@ -10,13 +10,13 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
 import type { MRT_Row } from "mantine-react-table-open";
 import type { UserWithRole } from "better-auth/plugins";
 
 import { banUser } from "@/mutations/banUser";
 import { forcePasswordReset } from "@/mutations/forcePasswordReset";
 import { unbanUser } from "@/mutations/unbanUser";
+import { ActionIconLink } from "@/components/RouterComponents";
 
 interface UserRowActionsProps {
   row: MRT_Row<UserWithRole>;
@@ -90,11 +90,14 @@ export function UserRowActions({ row }: UserRowActionsProps) {
     <Stack gap={0}>
       <ActionIcon.Group>
         <Tooltip label="Edit user">
-          <Link params={{ userId: row.original.id }} to="/admin/users/$userId">
-            <ActionIcon size="lg" variant="subtle">
-              <IconEdit />
-            </ActionIcon>
-          </Link>
+          <ActionIconLink
+            params={{ userId: row.original.id }}
+            to="/admin/users/$userId"
+            size="lg"
+            variant="subtle"
+          >
+            <IconEdit />
+          </ActionIconLink>
         </Tooltip>
         {row.original.banned ? (
           <Tooltip label="Unban user">
@@ -123,18 +126,16 @@ export function UserRowActions({ row }: UserRowActionsProps) {
             </ActionIcon>
           </Tooltip>
         )}
-      </ActionIcon.Group>
-      <ActionIcon.Group>
         <Tooltip label="Open user folder">
-          <Link
+          <ActionIconLink
             params={{ userId: row.original.id }}
             search={{ path: undefined }}
             to="/admin/users/$userId/folder"
+            size="lg"
+            variant="subtle"
           >
-            <ActionIcon size="lg" variant="subtle">
-              <IconFolder />
-            </ActionIcon>
-          </Link>
+            <IconFolder />
+          </ActionIconLink>
         </Tooltip>
         <Tooltip label="Force password reset">
           <ActionIcon

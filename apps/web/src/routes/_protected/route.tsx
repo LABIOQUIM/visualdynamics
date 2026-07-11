@@ -3,7 +3,7 @@ import "@mantine/dropzone/styles.css";
 import classes from "./route.module.css";
 
 import { useEffect } from "react";
-import { AppShell, Burger, Group } from "@mantine/core";
+import { ActionIcon, AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { OpenFeature, useFlag } from "@openfeature/react-sdk";
 import {
@@ -111,10 +111,10 @@ function RouteComponent() {
             />
             <Logo />
           </Group>
-          <Group>
+          <ActionIcon.Group>
             <DownloadCenter />
             <ServerTime />
-          </Group>
+          </ActionIcon.Group>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar px="md">

@@ -1,6 +1,6 @@
 import classes from "./index.module.css";
 
-import { ActionIcon, Box, Text } from "@mantine/core";
+import { ActionIcon, Box, Text, Tooltip } from "@mantine/core";
 import {
   IconAutomation,
   IconBrandGithub,
@@ -102,11 +102,6 @@ const adminSections: NavSection[] = [
             icon: IconFlag,
             href: "/admin/flags",
           },
-          {
-            label: "Settings",
-            icon: IconSettings,
-            href: "/admin/settings",
-          },
         ],
       },
       {
@@ -172,36 +167,44 @@ export function Navbar({ toggle }: Props) {
       <Box className={classes.section} display="flex">
         <Box className={classes.topLinks}>
           <Box className={classes.topLinksIcons}>
-            <ActionIcon
-              component="a"
-              href="https://github.com/labioquim/visualdynamics"
-              rel="noreferrer"
-              target="_blank"
-              title="Visual Dynamics on GitHub"
-              variant="light"
-            >
-              <IconBrandGithub />
-            </ActionIcon>
-            <ActionIcon
-              component="a"
-              href="https://github.com/LABIOQUIM/visualdynamics/issues/new?template=bug_report.md"
-              rel="noreferrer"
-              target="_blank"
-              title="Report a Bug"
-              variant="light"
-            >
-              <IconSpider />
-            </ActionIcon>
-            <ActionIcon
-              component="a"
-              href="mailto:visualdynamics@fiocruz.br"
-              rel="noreferrer"
-              target="_blank"
-              title="LABIOQUIM Support Email"
-              variant="light"
-            >
-              <IconMail />
-            </ActionIcon>
+            <ActionIcon.Group>
+              <Tooltip label="Visual Dynamics on GitHub">
+                <ActionIcon
+                  component="a"
+                  href="https://github.com/labioquim/visualdynamics"
+                  rel="noreferrer"
+                  target="_blank"
+                  variant="light"
+                  size="lg"
+                >
+                  <IconBrandGithub />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Report a Bug">
+                <ActionIcon
+                  component="a"
+                  href="https://github.com/LABIOQUIM/visualdynamics/issues/new?template=bug_report.md"
+                  rel="noreferrer"
+                  target="_blank"
+                  variant="light"
+                  size="lg"
+                >
+                  <IconSpider />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="LABIOQUIM Support Email">
+                <ActionIcon
+                  component="a"
+                  href="mailto:visualdynamics@fiocruz.br"
+                  rel="noreferrer"
+                  target="_blank"
+                  variant="light"
+                  size="lg"
+                >
+                  <IconMail />
+                </ActionIcon>
+              </Tooltip>
+            </ActionIcon.Group>
           </Box>
           <Text className={classes.versionText}>v{__VERSION__}</Text>
         </Box>
