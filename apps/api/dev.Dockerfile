@@ -18,6 +18,9 @@ RUN DB_USER=x DB_PASS=x DB_HOST=x DB_PORT=5432 DB_DATABASE=x pnpm --filter api e
 FROM nvidia/cuda:13.3.0-runtime-ubuntu26.04 AS builder
 WORKDIR /app
 
+ENV GMX_MAXBACKUP=-1
+ENV GMX_NO_QUOTES=1
+ENV GMX_MAXCONSTRWARN=-1
 ENV PATH="${PATH}:/gromacs/bin"
 
 RUN apt-get update

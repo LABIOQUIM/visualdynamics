@@ -43,6 +43,9 @@ RUN pnpm --filter api build
 FROM base AS runner
 WORKDIR /app
 
+ENV GMX_MAXBACKUP=-1
+ENV GMX_MAXCONSTRWARN=-1
+
 ENV PATH="${PATH}:/gromacs/bin"
 
 COPY --from=deps /app/node_modules ./node_modules
