@@ -82,6 +82,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: ${{ matrix.app == 'web' && format('VITE_API_BASE_URL={0}', steps.api-url.outputs.value) || '' }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          no-cache: true
           provenance: false
