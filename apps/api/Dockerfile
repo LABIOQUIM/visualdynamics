@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       make \
       grace \
       zip \
+      libgomp1 \
   && rm -rf /var/lib/apt/lists/*
 
 FROM base AS deps
