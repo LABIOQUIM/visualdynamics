@@ -46,6 +46,18 @@ RUN pnpm --filter api build
 FROM base AS runner
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y \
+      procps \
+      openssl \
+      curl \
+      tar \
+      grace \
+      zip \
+      libomp5 \
+      libblas3 \
+      liblapack3 \
+  && rm -rf /var/lib/apt/lists/*
+
 ENV GMX_MAXBACKUP=-1
 ENV GMX_MAXCONSTRWARN=-1
 
