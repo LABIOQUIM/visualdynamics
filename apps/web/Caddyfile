@@ -1,15 +1,23 @@
 :3000 {
-	root * /app/dist
+    root * /app/dist
 
-	@static {
-		path /assets/* /favicon.svg /og-default.svg /robots.txt /sitemap.xml
-	}
-	handle @static {
-		file_server
-	}
+    # 1. ADD THIS: Ignore /api paths so Caddy doesn't touch them
+    handle /api/* {
+        # This effectively stops Caddy from processing these requests
+        # and lets the request pass through or return 404 if not found.
+    }
 
-	handle {
-		try_files {path} {path}/index.html /index.html
-		file_server
-	}
+    # 2. Existing static file handling
+    @static {
+        path /assets/* /favicon.svg /og-default.svg /robots.txt /sitemap.xml
+    }
+    handle @static {
+        file_server
+    }
+
+    # 3. Existing SPA handling
+    handle {
+        try_files {path} {path}/index.html /index.html
+        file_server
+    }
 }
