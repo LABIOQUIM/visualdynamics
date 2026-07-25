@@ -1,4 +1,4 @@
-FROM node:lts-bullseye-slim AS base
+FROM node:lts-trixie-slim AS base
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       procps \
@@ -10,19 +10,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       make \
       grace \
       zip \
-      libgomp1 \
       libomp5 \
+      libblas3 \
+      liblapack3 \
   && rm -rf /var/lib/apt/lists/*
 
-RUN if [ -f /usr/lib/x86_64-linux-gnu/libomp.so ]; then \
-        ln -sf /usr/lib/x86_64-linux-gnu/libomp.so /usr/lib/x86_64-linux-gnu/libomp.so.5; \
-    elif [ -f /usr/lib/x86_64-linux-gnu/libomp.so.5 ]; then \
-        echo "libomp.so.5 já está presente"; \
-    else \
-        # Procura qualquer libomp.so.* existente e cria o link para .5
-        find /usr/lib -name "libomp.so.*" -exec ln -sf {} /usr/lib/x86_64-linux-gnu/libomp.so.5 \; ; \
-    fi
-    
 FROM base AS deps
 WORKDIR /app
 
