@@ -14,6 +14,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libomp5 \
   && rm -rf /var/lib/apt/lists/*
 
+RUN if [ -f /usr/lib/x86_64-linux-gnu/libomp.so ]; then \
+        ln -sf /usr/lib/x86_64-linux-gnu/libomp.so /usr/lib/x86_64-linux-gnu/libomp.so.5; \
+    elif [ -f /usr/lib/x86_64-linux-gnu/libomp.so.5 ]; then \
+        echo "libomp.so.5 já está presente"; \
+    else \
+        # Procura qualquer libomp.so.* existente e cria o link para .5
+        find /usr/lib -name "libomp.so.*" -exec ln -sf {} /usr/lib/x86_64-linux-gnu/libomp.so.5 \; ; \
+    fi
+    
 FROM base AS deps
 WORKDIR /app
 
