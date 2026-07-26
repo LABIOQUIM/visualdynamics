@@ -21,12 +21,17 @@ const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
   basePath: "/auth",
   trustedOrigins: [process.env.SITE_URL ?? "http://localhost:3000"],
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
     sendResetPassword: async ({ user, url }) => {
+      if (process.env.NODE_ENV === "production") {
+        const u = new URL(url);
+        url = `${u.origin}/api${u.pathname}${u.search}`;
+      }
       await sendEmail({
         to: user.email,
         subject: "Reset your password — Visual Dynamics",

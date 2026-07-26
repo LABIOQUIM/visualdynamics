@@ -81,7 +81,7 @@ function RouteComponent() {
           />
           <Text ta="center">
             Already have an account?{" "}
-            <Anchor component={Link} fw={500} to="/auth/login">
+            <Anchor component={Link} fw={500} to="/login">
               Login
             </Anchor>
           </Text>
@@ -135,7 +135,7 @@ function RouteComponent() {
 
           <Text ta="center">
             Already have an account?{" "}
-            <Anchor component={Link} fw={500} to="/auth/login">
+            <Anchor component={Link} fw={500} to="/login">
               Login
             </Anchor>
           </Text>
