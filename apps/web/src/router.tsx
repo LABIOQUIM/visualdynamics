@@ -27,7 +27,7 @@ async function handleUnauthorizedQueryError(
     try {
       await authClient.signOut();
     } finally {
-      window.location.replace("/auth/login");
+      window.location.replace("/login");
     }
   }
 }

@@ -150,7 +150,7 @@ function RouteComponent() {
       <Text ta="center">
         Don&apos;t have an account?{" "}
         {signupsEnabled ? (
-          <Anchor component={Link} fw={500} to="/auth/register">
+          <Anchor component={Link} fw={500} to="/register">
             Register
           </Anchor>
         ) : (
