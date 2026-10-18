@@ -21,5 +21,18 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/client.tsx"></script>
+    <!-- Google Analytics (production host only) -->
+    <script>
+      if (location.hostname === "visualdynamics.ivopr.com.br") {
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=G-02198VT7VC";
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag("js", new Date());
+        gtag("config", "G-02198VT7VC");
+      }
+    </script>
   </body>
 </html>
