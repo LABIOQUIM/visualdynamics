@@ -127,6 +127,7 @@ function RouteComponent() {
     initialState: {
       showGlobalFilter: true,
     },
+    manualPagination: true,
     onPaginationChange,
     paginationDisplayMode: "pages",
     state: { isLoading, pagination },
