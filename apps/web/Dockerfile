@@ -1,4 +1,4 @@
-FROM node:lts-trixie-slim AS deps
+FROM node:24-trixie-slim AS deps
 WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
@@ -8,7 +8,7 @@ COPY apps/web/package.json ./apps/web/
 COPY apps/api/package.json ./apps/api/
 RUN pnpm install --frozen-lockfile
 
-FROM node:lts-trixie-slim AS builder
+FROM node:24-trixie-slim AS builder
 WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@10.33.0 --activate
@@ -24,7 +24,7 @@ ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 
 RUN pnpm --filter web build
 
-FROM node:lts-alpine AS runner
+FROM node:24-alpine AS runner
 WORKDIR /app
 
 RUN apk add --no-cache caddy
