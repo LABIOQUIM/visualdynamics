@@ -27,6 +27,7 @@ import { auth } from "../lib/auth.js";
 import multerConfig from "../multer.config.js";
 
 import { PrismaService } from "../prisma.service.js";
+import { assertNoActiveSimulation } from "./activeSimulationGuard.js";
 import { SimulationCreationService } from "./simulation.creation.service.js";
 import { SimulationFileService } from "./simulation.file.service.js";
 import { SimulationService } from "./simulation.service.js";
@@ -92,6 +93,14 @@ export class SimulationController {
       throw new HttpException(
         { status: "invalid-simulation-type" },
         HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // fast reject before creating records; claimQueueSlot is the race-proof check
+    if (body.shouldRun === "true") {
+      await assertNoActiveSimulation(
+        this.prismaService,
+        request.session!.user.id,
       );
     }
 

@@ -99,6 +99,9 @@ describe("SimulationCreationService", () => {
       findFirst: vi.fn().mockResolvedValue({ id: "u1" }),
     };
     prisma.simulation.update.mockResolvedValue(undefined);
+    prisma.simulation.count = vi.fn().mockResolvedValue(0);
+    prisma.$queryRaw = vi.fn().mockResolvedValue([{ locked: true }]);
+    prisma.$transaction = vi.fn((cb: any) => cb(prisma));
     const queue = createQueueStub({
       add: vi.fn().mockResolvedValue(undefined) as any,
     }) as any;
@@ -118,6 +121,9 @@ describe("SimulationCreationService", () => {
       type: "apo",
       successEmail: "ok",
       errorEmail: "err",
+    }, {
+      attempts: 3,
+      backoff: { type: "exponential", delay: 5000 },
     });
   });
 
