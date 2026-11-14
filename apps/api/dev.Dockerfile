@@ -1,4 +1,4 @@
-FROM node:lts-trixie-slim AS base
+FROM node:24-trixie-slim AS base
 LABEL authors="ivopr"
 
 # Install dependencies only when needed
