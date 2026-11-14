@@ -35,7 +35,7 @@ function createModule({
   simulationService = {},
   creationService = {},
   fileService = {},
-  prismaService = {},
+  prismaService = { simulation: { count: vi.fn().mockResolvedValue(0) } } as any,
 }: {
   simulationService?: Partial<SimulationService>;
   creationService?: Partial<SimulationCreationService>;

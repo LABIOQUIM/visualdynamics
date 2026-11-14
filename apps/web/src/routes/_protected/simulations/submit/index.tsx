@@ -103,6 +103,14 @@ function RouteComponent() {
         });
       }
     },
+    onError: (error) => {
+      notifications.show({
+        title: "Submission rejected",
+        message: error.message,
+        color: "red",
+        withBorder: true,
+      });
+    },
   });
 
   const commandsMutation = useMutation({
@@ -134,7 +142,9 @@ function RouteComponent() {
     <PageLayout className={classes.pageLayout} title="Submit Simulation">
       <form
         className={classes.form}
-        onSubmit={handleSubmit((v) => runMutation.mutate(v))}
+        onSubmit={handleSubmit((v) => {
+          if (!runMutation.isPending) runMutation.mutate(v);
+        })}
       >
         <div className={classes.layout}>
           <div className={classes.formColumn}>

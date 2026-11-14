@@ -1,7 +1,14 @@
 import { InjectQueue } from "@nestjs/bullmq";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { Queue } from "bullmq";
-import { cpSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "fs";
+import {
+  cpSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from "fs";
 import { join } from "path";
 import { cwd } from "process";
 
@@ -10,6 +17,7 @@ import { PrismaService } from "../prisma.service.js";
 import { normalizeString } from "../utils/normalizeString.js";
 import { renderTemplate } from "../utils/renderTemplate.js";
 
+import { claimQueueSlot } from "./activeSimulationGuard.js";
 import type { NewSimulationBody } from "./simulation.types.js";
 
 const ALLOWED_FORCE_FIELDS = new Set([
@@ -225,14 +233,19 @@ export class SimulationCreationService {
       },
     });
 
-    await this.prisma.simulation.update({
-      where: {
-        id: simulationId,
-      },
-      data: {
-        status: "QUEUED",
-      },
-    });
+    try {
+      await claimQueueSlot(this.prisma, user!.id, simulationId);
+    } catch (e) {
+      // rejected submission is discarded entirely
+      await this.prisma.simulation
+        .delete({ where: { id: simulationId } })
+        .catch(() => undefined);
+      rmSync(`/files/${username}/${simulationId}`, {
+        recursive: true,
+        force: true,
+      });
+      throw e;
+    }
     await this.simulationQueue.add("simulation", {
       simulationId,
       user,

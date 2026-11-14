@@ -15,6 +15,7 @@ import { getFilesRoot } from "../utils/filesRoot.js";
 import { terminateProcess } from "../utils/process.js";
 import { readFileData } from "../utils/readFileData.js";
 
+import { claimQueueSlot } from "./activeSimulationGuard.js";
 import { getStorageExpiresAt } from "./simulation.cleanup.service.js";
 import {
   buildImportedLigands,
@@ -355,14 +356,10 @@ export class SimulationService {
       );
     }
 
-    await this.prisma.simulation.update({
-      where: { id: simulationId },
-      data: {
-        status: "QUEUED",
-        errorCause: null,
-        endedAt: null,
-        startedAt: null,
-      },
+    await claimQueueSlot(this.prisma, simulation.userId, simulationId, {
+      errorCause: null,
+      endedAt: null,
+      startedAt: null,
     });
 
     await this.simulationQueue.add(
